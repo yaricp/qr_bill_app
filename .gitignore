@@ -37,6 +37,7 @@ nosetests.xml
 src/.idea
 
 venv/
+venv3/
 files/
 /.eric6project/
 *.e4p

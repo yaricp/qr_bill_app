@@ -9,6 +9,7 @@ from telegram import (InlineQueryResultArticle, InputTextMessageContent,
 
 from config import *
 
+CUR_DIR = os.path.dirname(os.path.realpath(__file__))
 
 def is_allowed_user():
     def wrap(f):
@@ -81,10 +82,20 @@ def new_msg(bot, update):
             #print("reply_photo for group")
     elif update.message.photo:
         #print("Photo")
-        photo_file = update.message.photo[-1].get_file()
-        update.message.reply_photo(
-            photo=photo_file.file_id, 
-            caption=update.message.caption, 
+        photo_file_id = update.message.photo[-1].file_id
+        print('photo_file_id: ',photo_file_id)
+  
+        foto = bot.getFile(photo_file_id)
+        print('foto',foto)
+        new_file = bot.get_file(foto.file_id)
+        new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
+        print('CUR_DIR: ',os.path.join(CUR_DIR,'venv','bin'))
+        os.system(os.path.join(CUR_DIR,'venv','bin')+'/python qr_scanner.py')
+        with open(os.path.join(PATH_TEMP_FILES,'text.data'),'r') as res_file:
+            result_text = res_file.read()
+        os.remove(os.path.join(PATH_TEMP_FILES,'text.data'))
+        update.message.reply_text(
+            text=result_text, 
             reply_markup=keyboard)
     elif update.message.video:
         update.message.reply_video(video=update.message.video,

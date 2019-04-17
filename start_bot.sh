@@ -1,5 +1,5 @@
 #!/bin/bash
 work_dir=$PWD
-BOTCMD=$work_dir'/venv/bin/python3 '$work_dir'/main.py'
+BOTCMD=$work_dir'/venv3/bin/python '$work_dir'/main.py'
 $BOTCMD
 #pgrep -f "$BOTCMD" &>/dev/null || $BOTCMD

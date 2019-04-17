@@ -18,7 +18,7 @@ if development:
 def main():
 
     updater = Updater(TOKEN, request_kwargs=REQUEST_KWARGS)
-    #print(REQUEST_KWARGS)
+    print(REQUEST_KWARGS)
     dispatcher = updater.dispatcher
 
     start_handler = CommandHandler('start', start)
