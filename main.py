@@ -20,24 +20,14 @@ def main():
     updater = Updater(TOKEN, request_kwargs=REQUEST_KWARGS)
     #print(REQUEST_KWARGS)
     dispatcher = updater.dispatcher
-    
 
     start_handler = CommandHandler('start', start)
     dispatcher.add_handler(start_handler)
     
-    
     new_msg_handler = MessageHandler(Filters.all, new_msg)
-    #print("new message handler")
     dispatcher.add_handler(new_msg_handler)
 
     updater.dispatcher.add_handler(CallbackQueryHandler(button))
-
-#    caps_handler = CommandHandler('caps', caps, pass_args=True)
-#    print("caps")
-#    dispatcher.add_handler(caps_handler)
-#
-#    inline_caps_handler = InlineQueryHandler(inline_caps)
-#    dispatcher.add_handler(inline_caps_handler)
 
     updater.start_polling()
 

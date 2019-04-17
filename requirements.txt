@@ -1,5 +1,5 @@
 python-telegram-bot==10.1.0
 pypng
-#zbar
 pillow
 qrtools
+PySocks

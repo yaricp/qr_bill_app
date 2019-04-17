@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 import pickle
-import emoji
+#import emoji
 import time, datetime
 
 from telegram import (InlineQueryResultArticle, InputTextMessageContent,
                       InlineKeyboardMarkup, InlineKeyboardButton, 
                       InputMediaPhoto)
 
-
-import facebook_bot as fb
 from config import *
 
 
@@ -31,9 +29,9 @@ def is_allowed_user():
 
 def get_buttons(target, data='like:0,dislike:0', count_like=0, count_dislike=0):
     
-    buttons_post = [[InlineKeyboardButton(  emoji.emojize(':thumbs_up: ')+str(count_like), 
+    buttons_post = [[InlineKeyboardButton(  str(count_like), 
                                             callback_data=data+',like'),
-                    InlineKeyboardButton(   emoji.emojize(':thumbs_down: ')+str(count_dislike), 
+                    InlineKeyboardButton(   str(count_dislike), 
                                             callback_data=data+',dis')],
                     ]
     #[InlineKeyboardButton("comments", callback_data="comments")]]
