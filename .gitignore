@@ -42,3 +42,4 @@ files/
 /.eric6project/
 *.e4p
 *.pickle
+*.db

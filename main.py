@@ -6,7 +6,7 @@ from telegram.ext import MessageHandler, Filters
 #from telegram.ext import InlineQueryHandler
 from telegram.ext import CallbackQueryHandler
 
-from handlers import start, new_msg, button
+from handlers import new_category, new_msg, button
 
 from config import *
 
@@ -21,8 +21,8 @@ def main():
     print(REQUEST_KWARGS)
     dispatcher = updater.dispatcher
 
-    start_handler = CommandHandler('start', start)
-    dispatcher.add_handler(start_handler)
+    new_category_handler = CommandHandler('new_category', new_category)
+    dispatcher.add_handler(new_category_handler)
     
     new_msg_handler = MessageHandler(Filters.all, new_msg)
     dispatcher.add_handler(new_msg_handler)

@@ -8,6 +8,7 @@ from telegram import (InlineQueryResultArticle, InputTextMessageContent,
                       InputMediaPhoto)
 
 from config import *
+from db_models import *
 
 CUR_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -28,19 +29,16 @@ def is_allowed_user():
     return wrap
 
 
-def get_buttons(target, data='like:0,dislike:0', count_like=0, count_dislike=0):
+def get_category():
     
-    buttons_post = [[InlineKeyboardButton(  str(count_like), 
-                                            callback_data=data+',like'),
-                    InlineKeyboardButton(   str(count_dislike), 
-                                            callback_data=data+',dis')],
-                    ]
-    #[InlineKeyboardButton("comments", callback_data="comments")]]
+    categories = Category.select()
     
-    
-    buttons_channel = [[InlineKeyboardButton(channel_name, 
-                        callback_data=channel_name) for channel_name in CHANNELS]]
-    buttons = buttons_post if target == 'post' else buttons_channel
+    buttons = []
+    for category in categories:
+        buttons.append(
+            InlineKeyboardButton(  
+                category.name, 
+                callback_data=category.id))
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
 
@@ -49,22 +47,22 @@ def error(bot, update, error_msg):
     module_logger.warning('Update caused error "%s"', error)
 
 
-
 @is_allowed_user()
-def start(bot, update):
-
-    keyboard = get_buttons()
-    update.message.reply_text('Hello! I am bot of sibecodome. It is smart home!',
-                              reply_markup=keyboard)
-
+def new_category(bot, update):
+    res = ''
+    cat = Category(name=update.message.text.replace('/new_category ', ''))
+    try:
+        cat.save()
+        res = 'Ok!'
+    except:
+        res = 'error!'
+    update.message.reply_text(res)
+    
 
 @is_allowed_user()
 def new_msg(bot, update):
-    #print("Start New MSG")
-    #print("Update.message.photo: ", update.message.photo)
-    keyboard = get_buttons('channel')
+    keyboard = get_category()
     if update.message.media_group_id:
-        #print('MediaGroup')
         flag_send = False
         photo_file_id = update.message.photo[-1].get_file().file_id
         if not os.path.exists('files/'+update.message.media_group_id+'.txt'):
@@ -81,15 +79,10 @@ def new_msg(bot, update):
                 reply_markup=keyboard)
             #print("reply_photo for group")
     elif update.message.photo:
-        #print("Photo")
         photo_file_id = update.message.photo[-1].file_id
-        print('photo_file_id: ',photo_file_id)
-  
         foto = bot.getFile(photo_file_id)
-        print('foto',foto)
         new_file = bot.get_file(foto.file_id)
         new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
-        print('CUR_DIR: ',os.path.join(CUR_DIR,'venv','bin'))
         os.system(os.path.join(CUR_DIR,'venv','bin')+'/python qr_scanner.py')
         with open(os.path.join(PATH_TEMP_FILES,'text.data'),'r') as res_file:
             result_text = res_file.read()
@@ -97,46 +90,11 @@ def new_msg(bot, update):
         update.message.reply_text(
             text=result_text, 
             reply_markup=keyboard)
-    elif update.message.video:
-        update.message.reply_video(video=update.message.video,
-                              reply_markup=keyboard)
     else:
         update.message.reply_text(text=update.message.text,
                               reply_markup=keyboard)
-    #print("reply")
-
-def get_like_dislike(data):
-    """ make dict of like - dislike.
-    You can test it:   
-    >>> get_like_dislike('like:5,dislike:4')
-    {'like': 5, 'dislike': 4}
-    """
-    dict_out ={'like':int(data.split(',')[0].split(':')[1]),
-               'dis':int(data.split(',')[1].split(':')[1])}
-    return dict_out
-    
-    
-def get_liked_from_database():
-    dict_liked = {}
-    if os.path.exists("database.pickle"):
-        with open('database.pickle', 'rb+') as file:
-            if file.read():
-                file.seek(0)
-                dict_liked = pickle.load(file)
-    else:
-        with open('database.pickle', 'wb') as file:
-            pickle.dump({}, file)
-            
-    return dict_liked
 
 
-def write_liked_to_database(key, value):
-    dict_liked = get_liked_from_database()
-    dict_liked.update({key:value})
-    with open('database.pickle', 'wb') as file:
-        pickle.dump(dict_liked, file)
-    
-    
 def button(bot, update):
     if update.callback_query.data in CHANNELS:
         channel_button_pressed(bot,update)
@@ -206,75 +164,7 @@ def channel_button_pressed(bot, update):
                           message_id=query.message.message_id,
                           reply_markup=keyboard)
 
-def like_button_pressed(bot, update):
-    '''
-    handler of like or dislike button press.
 
-    '''
-    query = update.callback_query
-    keyboard = get_buttons('post')
-    id_chat = query.chat_instance
-    id_post = query.message.message_id
-    id_user = query.from_user.id
-    key_like_database = '%s%s%s' % (id_chat, id_post, id_user)
-    is_user_liked_post = get_liked_from_database().get(key_like_database, 0)
-    dict_like_dislike = get_like_dislike(query.data)
-    action = query.data.split(',')[2]
-    if is_user_liked_post == 0:
-            dict_like_dislike[action] += 1
-            write_liked_to_database(key_like_database, action)  #press one button
-            print('pressed ',action)
-    else:
-        if is_user_liked_post == action :
-            dict_like_dislike[action] -=1
-            write_liked_to_database(key_like_database, 0)  #unpress one button
-            print('unpressed ',action)
-        else:
-            dict_like_dislike[action] +=1
-            dict_like_dislike[is_user_liked_post] -=1
-            write_liked_to_database(key_like_database, action)  #unpress one button
-            print('change ',is_user_liked_post, ' to ',action)
-    count_like = dict_like_dislike['like']
-    count_dislike = dict_like_dislike['dis']
-    data_button = 'like:%i,dislike:%i' % (count_like,count_dislike)
-    keyboard = get_buttons('post',
-                            data=data_button,
-                            count_like=count_like,
-                            count_dislike=count_dislike)
-    bot.edit_message_text(text=query.message.text,
-                          chat_id=query.message.chat.id, 
-                          message_id=query.message.message_id, 
-                          reply_markup=keyboard)
-    
-
-
-@is_allowed_user()
-def publication_to_channel(channel,message):
-    query.message.reply_text(message,reply_markup=keyboard)
-
-
-@is_allowed_user()
-def caps(bot, update, args):
-    text_caps = ' '.join(args).upper()
-    bot.send_message(chat_id=update.message.chat_id, text=text_caps)
-
-
-@is_allowed_user()
-def inline_caps(bot, update):
-    query = update.inline_query.query
-    if not query:
-        return
-    results = list()
-    results.append(
-        InlineQueryResultArticle(
-             id=query.upper(),
-             title='Caps',
-             input_message_content=InputTextMessageContent(query.upper())
-         )
-     )
-    bot.answer_inline_query(update.inline_query.id, results)
-    
-    
 if __name__ == "__main__":
     import doctest
     doctest.testmod(verbose=True)
