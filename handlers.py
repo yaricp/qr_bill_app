@@ -36,9 +36,9 @@ def get_category():
     buttons = []
     for category in categories:
         buttons.append(
-            InlineKeyboardButton(  
+            [InlineKeyboardButton(  
                 category.name, 
-                callback_data=category.id))
+                callback_data=category.id)])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
 
