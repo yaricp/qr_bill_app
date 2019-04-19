@@ -60,12 +60,12 @@ def get_seller(id_purchase):
 
 def list_purchase(bot, update):
     purchases = Purchase.select()
-    keyboard = InlineKeyboardMarkup()
+    
     for p in purchases:
-        button = InlineKeyboardButton(  
+        buttons.append([InlineKeyboardButton(  
             p.name, 
-            callback_data='purchase&'+str(p.id))
-        keyboard.add(button)
+            callback_data='purchase&'+str(p.id))])
+    keyboard = InlineKeyboardMarkup(buttons)
     update.message.reply_text(  text='List Purchases',
                                 reply_markup=keyboard)
                                 
