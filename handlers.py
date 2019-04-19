@@ -57,6 +57,18 @@ def get_seller(id_purchase):
     keyboard = InlineKeyboardMarkup([buttons])
     return keyboard
 
+
+def list_purchase():
+    purchases = Purchase.select()
+    buttons = []
+    for p in purchases:
+        buttons.append(
+            [InlineKeyboardButton(  
+                p.name, 
+                callback_data='purchase&'+str(p.id))])
+    keyboard = InlineKeyboardMarkup(buttons)
+    return keyboard
+    
     
 def error(bot, update, error_msg):
     module_logger.warning('Update caused error "%s"', error)

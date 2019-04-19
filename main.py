@@ -6,7 +6,7 @@ from telegram.ext import MessageHandler, Filters
 #from telegram.ext import InlineQueryHandler
 from telegram.ext import CallbackQueryHandler
 
-from handlers import new_category, new_msg, new_seller, button
+from handlers import new_category, new_msg, new_seller, list_purchase, button
 
 from config import *
 
@@ -26,6 +26,9 @@ def main():
     
     new_seller_handler = CommandHandler('new_seller', new_seller)
     dispatcher.add_handler(new_seller_handler)
+    
+    list_purchase_handler = CommandHandler('list', list_purchase)
+    dispatcher.add_handler(list_purchase_handler)
     
     new_msg_handler = MessageHandler(Filters.all, new_msg)
     dispatcher.add_handler(new_msg_handler)
