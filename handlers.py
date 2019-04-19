@@ -73,7 +73,7 @@ def list_purchase(bot, update):
 def menu(bot, update):
     buttons = [[InlineKeyboardButton( 'new_category', callback_data='/new_category'), 
                 InlineKeyboardButton( 'new_seller', callback_data='/new_seller')],  
-                [InlineKeyboardButton( 'list', callback_data='/llist')]]
+                [InlineKeyboardButton( 'list', callback_data='/list')]]
     keyboard = InlineKeyboardMarkup(buttons)
     update.message.reply_text(  text='Menu',
                                 reply_markup=keyboard)
@@ -96,6 +96,8 @@ def new_category(bot, update):
     
 @is_allowed_user()
 def new_seller(bot, update):
+    if update.message.text == '/new_seller':
+        update.message.reply_text('/new_seller')
     res = ''
     seller = Seller(name=update.message.text.replace('/new_seller ', ''))
     try:
@@ -150,9 +152,17 @@ def new_msg(bot, update):
 
 
 def button(bot, update):
-    list_ids = update.callback_query.data.split('&')
+    but_data = update.callback_query.data
+    if but_data == '/list':
+        menu(bot, update)
+    elif but_data == '/new_category':
+        new_caption(bot, update)
+    elif but_data == '/new_seller':
+        new_seller(bot, update)
+    list_ids = but_data.split('&')
     type_obj = list_ids[0]
-    purchase = Purchase.get(Purchase.id==list_ids[2])
+    if len(list_ids) >= 3:
+        purchase = Purchase.get(Purchase.id==list_ids[2])
     if type_obj == 'seller':
         seller = Seller.get(Seller.id==list_ids[1])
         purchase.seller = seller
@@ -168,6 +178,7 @@ def button(bot, update):
         text = 'category saved!'
         update.message.reply_text(text=text,
                                 reply_markup=keyboard)
+    elif 
 
 
 if __name__ == "__main__":
