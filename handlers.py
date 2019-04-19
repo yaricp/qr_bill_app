@@ -67,7 +67,7 @@ def list_purchase(bot, update):
                 p.name, 
                 callback_data='purchase&'+str(p.id))])
     keyboard = InlineKeyboardMarkup(buttons)
-    update.message.reply_text(  text='',
+    update.message.reply_text(  text='List Purchases',
                                 reply_markup=keyboard)
     
     
