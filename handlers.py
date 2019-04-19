@@ -2,6 +2,8 @@
 import pickle
 #import emoji
 import time, datetime
+from decimal import Decimal
+from datetime import datetime
 
 from telegram import (InlineQueryResultArticle, InputTextMessageContent,
                       InlineKeyboardMarkup, InlineKeyboardButton, 
@@ -86,12 +88,12 @@ def new_msg(bot, update):
         new_file = bot.get_file(foto.file_id)
         new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
         list_decoded = decode(Image.open(os.path.join(PATH_TEMP_FILES,'qrcode.jpg')))
-        data = ''
-        type_data = ''
         for rec in list_decoded:
-            data = rec.data.decode("utf-8") 
+            list_data = rec.data.decode("utf-8").split('&')
+            date_time = datetime.strptime(list_data[0].replace('t=', ''), '%Y%m%dT%H%M').date()
+            sum = Decimal(list_data[1].replace('s=', ''))
             type_data = rec.type
-        result_text = "%s %s" % (data,  type_data)
+            result_text = "%s %s %s" % (date_time,  sum,  type_data)+'  '
         update.message.reply_text(
             text=result_text, 
             reply_markup=keyboard)
