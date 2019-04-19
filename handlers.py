@@ -154,7 +154,7 @@ def new_msg(bot, update):
 def button(bot, update):
     but_data = update.callback_query.data
     if but_data == '/list':
-        menu(bot, update)
+        list_purchase(bot, update)
     elif but_data == '/new_category':
         new_caption(bot, update)
     elif but_data == '/new_seller':
