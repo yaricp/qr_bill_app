@@ -63,12 +63,19 @@ def list_purchase(bot, update):
     keyboard = InlineKeyboardMarkup()
     for p in purchases:
         button = InlineKeyboardButton(  
-                p.name, 
-                callback_data='purchase&'+str(p.id))
+            p.name, 
+            callback_data='purchase&'+str(p.id))
         keyboard.add(button)
     update.message.reply_text(  text='List Purchases',
                                 reply_markup=keyboard)
-    
+                                
+
+def menu(bot, update):
+    buttons = [['/new_category'], ['/new_seller'], 
+                ['/list']]
+    keyboard = InlineKeyboardMarkup(buttons)
+    update.message.reply_text(  text='Menu',
+                                reply_markup=keyboard)
     
 def error(bot, update, error_msg):
     module_logger.warning('Update caused error "%s"', error)

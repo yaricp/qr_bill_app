@@ -6,7 +6,7 @@ from telegram.ext import MessageHandler, Filters
 #from telegram.ext import InlineQueryHandler
 from telegram.ext import CallbackQueryHandler
 
-from handlers import new_category, new_msg, new_seller, list_purchase, button
+from handlers import new_category, new_msg, new_seller, list_purchase, button, menu
 
 from config import *
 
@@ -20,6 +20,9 @@ def main():
     updater = Updater(TOKEN, request_kwargs=REQUEST_KWARGS)
     print(REQUEST_KWARGS)
     dispatcher = updater.dispatcher
+    
+    menu_handler = CommandHandler('menu', menu)
+    dispatcher.add_handler(menu_handler)
 
     new_category_handler = CommandHandler('new_category', new_category)
     dispatcher.add_handler(new_category_handler)
