@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-import pickle
-#import emoji
-import time, datetime
-from decimal import Decimal
+
+#from decimal import Decimal
 from datetime import datetime
 
 from telegram import (InlineQueryResultArticle, InputTextMessageContent,
@@ -36,14 +34,26 @@ def is_allowed_user():
 def get_category(id_purchase):
     
     categories = Category.select()
-    
     buttons = []
     for category in categories:
         print(category)
         buttons.append(
             InlineKeyboardButton(  
                 category.name, 
-                callback_data='%s&%s' % (category.id, id_purchase )))
+                callback_data='category&%s&%s' % (category.id, id_purchase )))
+    keyboard = InlineKeyboardMarkup([buttons])
+    return keyboard
+
+
+def get_seller(id_purchase):
+    
+    sellers = Seller.select()
+    buttons = []
+    for seller in sellers:
+        buttons.append(
+            InlineKeyboardButton(  
+                seller.name, 
+                callback_data='seller&%s&%s' % (seller.id, id_purchase )))
     keyboard = InlineKeyboardMarkup([buttons])
     return keyboard
 
@@ -63,6 +73,17 @@ def new_category(bot, update):
         res = 'error!'
     update.message.reply_text(res)
     
+    
+@is_allowed_user()
+def new_seller(bot, update):
+    res = ''
+    seller = Seller(name=update.message.text.replace('/new_seller ', ''))
+    try:
+        seller.save()
+        res = 'Ok!'
+    except:
+        res = 'error!'
+    update.message.reply_text(seller)
 
 @is_allowed_user()
 def new_msg(bot, update):
@@ -114,73 +135,24 @@ def new_msg(bot, update):
 
 
 def button(bot, update):
-    if update.callback_query.data in CHANNELS:
-        channel_button_pressed(bot,update)
-    elif update.callback_query.data == 'comments':
-        text = make_measure(bot,update)
-    elif update.callback_query.data.find('like') != -1:
-        like_button_pressed(bot,update)
-
-
-@is_allowed_user()
-def channel_button_pressed(bot, update):
-    query = update.callback_query
-    keyboard = get_buttons('post')
-    
-    if query.data.find('fb_') != -1:
-        #if query.data.find('kefir') != -1:
-        #elif query.data.find('ecodome') != -1:
-        fb.publication_post(query.data,text)
-    else:
-        if query.message.caption:
-            media_id = query.message.caption.split('#')[1].replace(' ','')
-            reply_caption = query.message.caption.split('#')[0].split('published')[0]
-            if media_id:
-                list_media=[]
-                with open('files/'+media_id+'.txt', 'r') as file:
-                    count_id = 0
-                    for id in file.read().split(','):
-                        count_id += 1
-                        if id:
-                            list_media.append(InputMediaPhoto(id))
-                bot.send_media_group(
-                    chat_id=CHANNELS[query.data],
-                    media=list_media, 
-                    caption=reply_caption, 
-                    reply_markup=keyboard)
-                bot.send_message(
-                        chat_id=CHANNELS[query.data],
-                        text=reply_caption, 
-                        reply_markup=keyboard)
-                    
-            else:
-                query_text = query.message.caption
-                photo_file_id = query.message.photo[-1].get_file().file_id
-                bot.send_photo(
-                    chat_id=CHANNELS[query.data],
-                    photo=photo_file_id, 
-                    caption=update.message.caption, 
-                    reply_markup=keyboard)
-        else:
-            query_text = query.message.text
-            text = query_text.split('published')[0]
-            bot.send_message(
-                        chat_id=CHANNELS[query.data],
-                        text=text, 
-                        reply_markup=keyboard)
-    keyboard = get_buttons('channel')
-    ts = time.time()
-    st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-    if query.message.caption:
-        bot.edit_message_caption(caption='%s \npublished to %s (%s)' % (query.message.caption,query.data,st),
-                          chat_id=query.message.chat.id,
-                          message_id=query.message.message_id,
-                          reply_markup=keyboard)
-    else:
-        bot.edit_message_text(text='%s \npublished to %s (%s)' % (query.message.text,query.data,st),
-                          chat_id=query.message.chat.id,
-                          message_id=query.message.message_id,
-                          reply_markup=keyboard)
+    list_ids = update.callback_query.data.split('&')
+    type_obj = list_ids[0]
+    purchase = Purchase.select().where(Purchase.id==list_ids[2])
+    if type_obj == 'seller':
+        seller = Seller.select().where(Seller.id==list_ids[1])
+        purchase.seller = seller
+        purchase.save()
+        keyboard = get_seller(purchase.id)
+        text = 'seller saved!'
+        update.message.reply_text(text=text)
+    elif type_obj == 'category':
+        category = Category.select().where(Category.id==list_ids[1])
+        purchase.category = category
+        purchase.save()
+        keyboard = get_seller(purchase.id)
+        text = 'category saved!'
+        update.message.reply_text(text=text,
+                                reply_markup=keyboard)
 
 
 if __name__ == "__main__":

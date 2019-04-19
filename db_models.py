@@ -9,7 +9,12 @@ db = SqliteDatabase(PATH_DB, pragmas={
 #                           host='10.1.0.9', port=5432)
     
 class Category(Model):
-    #id = IntegerField()
+    name = CharField()
+    
+    class Meta:
+        database = db
+        
+class Seller(Model):
     name = CharField()
     
     class Meta:
@@ -17,19 +22,19 @@ class Category(Model):
            
           
 class Purchase(Model):
-    #id = IntegerField()
     category = ForeignKeyField(Category, backref='categories')
     name = CharField()
     datetime = DateTimeField()
     summ = DecimalField()
-    seller = CharField()
+    seller = ForeignKeyField(Seller, backref='sellers')
 
     class Meta:
         database = db
         
+        
 def initialize_db():
     db.connect()
-    db.create_tables([Category, Purchase], safe = True)
+    db.create_tables([Category, Purchase, Seller], safe = True)
     db.close()
         
 initialize_db()

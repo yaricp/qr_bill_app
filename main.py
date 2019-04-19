@@ -24,6 +24,9 @@ def main():
     new_category_handler = CommandHandler('new_category', new_category)
     dispatcher.add_handler(new_category_handler)
     
+    new_seller_handler = CommandHandler('new_seller', new_seller)
+    dispatcher.add_handler(new_seller_handler)
+    
     new_msg_handler = MessageHandler(Filters.all, new_msg)
     dispatcher.add_handler(new_msg_handler)
 
