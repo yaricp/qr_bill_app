@@ -89,7 +89,7 @@ def new_msg(bot, update):
         data = ''
         type_data = ''
         for rec in list_decoded:
-            data = rec.data.replace("b'", "").replace("'", "")
+            data = rec.data.decode("utf-8") 
             type_data = rec.type
         result_text = "%s %s" % (data,  type_data)
         update.message.reply_text(
