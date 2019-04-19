@@ -61,6 +61,7 @@ def get_seller(id_purchase):
 def list_purchase(bot, update):
     purchases = Purchase.select()
     buttons = []
+    print('purchases: ',  purchases)
     for p in purchases:
         buttons.append(
             [InlineKeyboardButton(  
