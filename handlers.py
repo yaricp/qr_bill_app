@@ -90,6 +90,7 @@ def new_msg(bot, update):
         list_decoded = decode(Image.open(os.path.join(PATH_TEMP_FILES,'qrcode.jpg')))
         for rec in list_decoded:
             list_data = rec.data.decode("utf-8").split('&')
+            print(list_data[0])
             date_time = datetime.strptime(list_data[0].replace('t=', ''), '%Y%m%dT%H%M').date()
             sum = Decimal(list_data[1].replace('s=', ''))
             type_data = rec.type
