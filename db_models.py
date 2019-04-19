@@ -22,11 +22,11 @@ class Seller(Model):
            
           
 class Purchase(Model):
-    category = ForeignKeyField(Category, backref='categories')
+    category = ForeignKeyField(Category, backref='categories', null=True)
     name = CharField()
     datetime = DateTimeField()
     summ = DecimalField()
-    seller = ForeignKeyField(Seller, backref='sellers')
+    seller = ForeignKeyField(Seller, backref='sellers', null=True)
 
     class Meta:
         database = db
@@ -35,10 +35,6 @@ class Purchase(Model):
 def initialize_db():
     db.connect()
     db.create_tables([Category, Purchase, Seller], safe = True)
-    s = Seller(name='unnamed')
-    s.save()
-    c = Category(name='food')
-    c.save()
     db.close()
         
 initialize_db()
