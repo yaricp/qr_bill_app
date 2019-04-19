@@ -6,6 +6,8 @@ import time, datetime
 from telegram import (InlineQueryResultArticle, InputTextMessageContent,
                       InlineKeyboardMarkup, InlineKeyboardButton, 
                       InputMediaPhoto)
+from pyzbar.pyzbar import decode
+from PIL import Image
 
 from config import *
 from db_models import *
@@ -36,10 +38,10 @@ def get_category():
     buttons = []
     for category in categories:
         buttons.append(
-            [InlineKeyboardButton(  
+            InlineKeyboardButton(  
                 category.name, 
-                callback_data=category.id)])
-    keyboard = InlineKeyboardMarkup(buttons)
+                callback_data=category.id))
+    keyboard = InlineKeyboardMarkup([buttons])
     return keyboard
 
     
@@ -83,10 +85,14 @@ def new_msg(bot, update):
         foto = bot.getFile(photo_file_id)
         new_file = bot.get_file(foto.file_id)
         new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
-        os.system(os.path.join(CUR_DIR,'venv','bin')+'/python qr_scanner.py')
-        with open(os.path.join(PATH_TEMP_FILES,'text.data'),'r') as res_file:
-            result_text = res_file.read()
-        os.remove(os.path.join(PATH_TEMP_FILES,'text.data'))
+        list_decoded = decode(Image.open(os.path.join(PATH_TEMP_FILES,'qrcode.jpg')))
+        for rec in list_decoded:
+            print(rec.data)
+            print(rec.type)
+#        os.system(os.path.join(CUR_DIR,'venv','bin')+'/python qr_scanner.py')
+#        with open(os.path.join(PATH_TEMP_FILES,'text.data'),'r') as res_file:
+#            result_text = res_file.read()
+#        os.remove(os.path.join(PATH_TEMP_FILES,'text.data'))
         update.message.reply_text(
             text=result_text, 
             reply_markup=keyboard)

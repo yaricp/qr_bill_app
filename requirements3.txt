@@ -1,3 +1,6 @@
 python-telegram-bot
 PySocks
 peewee
+pyzbar
+pyzbar[scripts]
+pillow
