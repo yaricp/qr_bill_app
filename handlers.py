@@ -178,7 +178,6 @@ def button(bot, update):
         text = 'category saved!'
         update.message.reply_text(text=text,
                                 reply_markup=keyboard)
-    elif 
 
 
 if __name__ == "__main__":
