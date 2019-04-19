@@ -121,7 +121,7 @@ def new_msg(bot, update):
                             datetime = date_time, 
                             summ = summ, 
                             category = 0, 
-                            seller = ''
+                            seller = 0
                             )
             pur.save()
             keyboard = get_category(pur.id)
