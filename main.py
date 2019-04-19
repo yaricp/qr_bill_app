@@ -6,7 +6,7 @@ from telegram.ext import MessageHandler, Filters
 #from telegram.ext import InlineQueryHandler
 from telegram.ext import CallbackQueryHandler
 
-from handlers import new_category, new_msg, button
+from handlers import new_category, new_msg, new_seller, button
 
 from config import *
 
