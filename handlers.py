@@ -58,7 +58,7 @@ def get_seller(id_purchase):
     return keyboard
 
 
-def list_purchase():
+def list_purchase(bot, update):
     print('list_purchase')
     purchases = Purchase.select()
     buttons = []
@@ -69,7 +69,7 @@ def list_purchase():
                 p.name, 
                 callback_data='purchase&'+str(p.id))])
     keyboard = InlineKeyboardMarkup(buttons)
-    return keyboard
+    update.message.reply_text(reply_markup=keyboard)
     
     
 def error(bot, update, error_msg):
