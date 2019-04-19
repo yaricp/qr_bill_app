@@ -64,7 +64,7 @@ def list_purchase(bot, update):
     for p in purchases:
         print(p.id)
         buttons.append([InlineKeyboardButton(  
-            p.name, 
+            p.id, 
             callback_data='purchase&'+str(p.id))])
         print(buttons)
     keyboard = InlineKeyboardMarkup([buttons])
