@@ -35,6 +35,10 @@ class Purchase(Model):
 def initialize_db():
     db.connect()
     db.create_tables([Category, Purchase, Seller], safe = True)
+    s = Seller(name='unnamed')
+    s.save()
+    c = Category(name='food')
+    c.save()
     db.close()
         
 initialize_db()

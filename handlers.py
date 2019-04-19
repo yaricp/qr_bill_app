@@ -95,15 +95,12 @@ def new_msg(bot, update):
             flag_send = True
         with open('files/'+update.message.media_group_id+'.txt', 'a') as file:
             file.write(photo_file_id+',')
-            #print('save to file: ', photo_file_id)
-        
         if flag_send:
             new_caption = update.message.caption.replace('#','')
             update.message.reply_photo(
                 photo=photo_file_id, 
                 caption="%s # %s" % (new_caption,update.message.media_group_id), 
                 reply_markup=keyboard)
-            #print("reply_photo for group")
     elif update.message.photo:
         photo_file_id = update.message.photo[-1].file_id
         foto = bot.getFile(photo_file_id)
@@ -113,15 +110,12 @@ def new_msg(bot, update):
         result_text = ''
         for rec in list_decoded:
             list_data = rec.data.decode("utf-8").split('&')
-            print(list_data[1])
             date_time = datetime.strptime(list_data[0].replace('t=', ''), '%Y%m%dT%H%M%S').date()
             summ = float(list_data[1].replace('s=', ''))
             type_data = rec.type
             pur = Purchase(name='', 
                             datetime = date_time, 
                             summ = summ, 
-                            category = 0, 
-                            seller = 0
                             )
             pur.save()
             keyboard = get_category(pur.id)
