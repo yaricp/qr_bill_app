@@ -32,7 +32,7 @@ def is_allowed_user():
 
 
 def get_category(id_purchase):
-    print(id_purchase)
+    print('id_purchase: ',  id_purchase)
     categories = Category.select()
     buttons = []
     for category in categories:
