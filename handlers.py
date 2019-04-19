@@ -71,8 +71,9 @@ def list_purchase(bot, update):
                                 
 
 def menu(bot, update):
-    buttons = [['/new_category'], ['/new_seller'], 
-                ['/list']]
+    buttons = [[InlineKeyboardButton( 'new_category', callback_data='/new_category'), 
+                InlineKeyboardButton( 'new_seller', callback_data='/new_seller')],  
+                [InlineKeyboardButton( 'list', callback_data='/llist')]]
     keyboard = InlineKeyboardMarkup(buttons)
     update.message.reply_text(  text='Menu',
                                 reply_markup=keyboard)
