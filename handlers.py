@@ -92,7 +92,7 @@ def new_msg(bot, update):
         for rec in list_decoded:
             list_data = rec.data.decode("utf-8").split('&')
             date_time = datetime.strptime(list_data[0].replace('t=', ''), '%Y%m%dT%H%M%S').date()
-            summ = Decimal(list_data[1].replace('s=', ''))
+            summ = float(list_data[1].replace('s=', ''))
             type_data = rec.type
             pur = Purchase(name='', 
                             datetime = date_time, 
