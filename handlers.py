@@ -103,7 +103,7 @@ def new_msg(bot, update):
                             )
             pur.save()
             keyboard = get_category(pur.id)
-            result_text = "%s %s %s" % (date_time,  sum,  type_data)+'  '
+            result_text = "%s %s %s" % (date_time,  summ,  type_data)+'  '
         update.message.reply_text(
             text=result_text, 
             reply_markup=keyboard)
