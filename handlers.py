@@ -97,7 +97,7 @@ def new_seller(bot, update):
         res = 'Ok!'
     except:
         res = 'error!'
-    update.message.reply_text(seller)
+    update.message.reply_text(res)
 
 @is_allowed_user()
 def new_msg(bot, update):
@@ -145,16 +145,16 @@ def new_msg(bot, update):
 def button(bot, update):
     list_ids = update.callback_query.data.split('&')
     type_obj = list_ids[0]
-    purchase = Purchase.select().where(Purchase.id==list_ids[2])
+    purchase = Purchase.get(Purchase.id==list_ids[2])
     if type_obj == 'seller':
-        seller = Seller.select().where(Seller.id==list_ids[1])
+        seller = Seller.get(Seller.id==list_ids[1])
         purchase.seller = seller
         purchase.save()
         keyboard = get_seller(purchase.id)
         text = 'seller saved!'
         update.message.reply_text(text=text)
     elif type_obj == 'category':
-        category = Category.select().where(Category.id==list_ids[1])
+        category = Category.get(Category.id==list_ids[1])
         purchase.category = category
         purchase.save()
         keyboard = get_seller(purchase.id)
