@@ -39,6 +39,7 @@ def get_category(id_purchase):
     
     buttons = []
     for category in categories:
+        print(category)
         buttons.append(
             InlineKeyboardButton(  
                 category.name, 
