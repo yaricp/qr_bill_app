@@ -32,7 +32,7 @@ def is_allowed_user():
 
 
 def get_category(id_purchase):
-    
+    print(id_purchase)
     categories = Category.select()
     buttons = []
     for category in categories:
@@ -115,7 +115,7 @@ def new_msg(bot, update):
             type_data = rec.type
             pur = Purchase(name='', 
                             datetime = date_time, 
-                            summ = summ, 
+                            summ = summ
                             )
             pur.save()
             keyboard = get_category(pur.id)
