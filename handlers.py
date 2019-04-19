@@ -62,6 +62,7 @@ def list_purchase(bot, update):
     purchases = Purchase.select()
     buttons = []
     for p in purchases:
+        print(p.id)
         buttons.append([InlineKeyboardButton(  
             p.name, 
             callback_data='purchase&'+str(p.id))])
