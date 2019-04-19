@@ -63,6 +63,7 @@ def list_purchase(bot, update):
     buttons = []
     print('purchases: ',  purchases)
     for p in purchases:
+        print(p.id)
         buttons.append(
             [InlineKeyboardButton(  
                 p.name, 
@@ -132,6 +133,7 @@ def new_msg(bot, update):
                             summ = summ
                             )
             pur.save()
+            print('pur: ',  pur)
             keyboard = get_category(pur.id)
             result_text = "%s %s %s" % (date_time,  summ,  type_data)+'  '
         update.message.reply_text(
