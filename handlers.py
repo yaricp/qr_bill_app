@@ -59,6 +59,7 @@ def get_seller(id_purchase):
 
 
 def list_purchase():
+    print('list_purchase')
     purchases = Purchase.select()
     buttons = []
     print(purchases)
