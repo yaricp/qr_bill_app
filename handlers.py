@@ -86,13 +86,12 @@ def new_msg(bot, update):
         new_file = bot.get_file(foto.file_id)
         new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
         list_decoded = decode(Image.open(os.path.join(PATH_TEMP_FILES,'qrcode.jpg')))
+        data = ''
+        type_data = ''
         for rec in list_decoded:
-            print(rec.data)
-            print(rec.type)
-#        os.system(os.path.join(CUR_DIR,'venv','bin')+'/python qr_scanner.py')
-#        with open(os.path.join(PATH_TEMP_FILES,'text.data'),'r') as res_file:
-#            result_text = res_file.read()
-#        os.remove(os.path.join(PATH_TEMP_FILES,'text.data'))
+            data = rec.data.replace("b'", "").replace("'", "")
+            type_data = rec.type
+        result_text = "%s %s" % (data,  type_data)
         update.message.reply_text(
             text=result_text, 
             reply_markup=keyboard)
