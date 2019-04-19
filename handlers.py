@@ -33,7 +33,7 @@ def is_allowed_user():
     return wrap
 
 
-def get_category():
+def get_category(id_purchase):
     
     categories = Category.select()
     
@@ -42,7 +42,7 @@ def get_category():
         buttons.append(
             InlineKeyboardButton(  
                 category.name, 
-                callback_data=category.id))
+                callback_data='%s&%s' % (category.id, id_purchase )))
     keyboard = InlineKeyboardMarkup([buttons])
     return keyboard
 
@@ -65,7 +65,7 @@ def new_category(bot, update):
 
 @is_allowed_user()
 def new_msg(bot, update):
-    keyboard = get_category()
+    
     if update.message.media_group_id:
         flag_send = False
         photo_file_id = update.message.photo[-1].get_file().file_id
@@ -88,12 +88,20 @@ def new_msg(bot, update):
         new_file = bot.get_file(foto.file_id)
         new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
         list_decoded = decode(Image.open(os.path.join(PATH_TEMP_FILES,'qrcode.jpg')))
+        result_text = ''
         for rec in list_decoded:
             list_data = rec.data.decode("utf-8").split('&')
-            print(list_data[0])
             date_time = datetime.strptime(list_data[0].replace('t=', ''), '%Y%m%dT%H%M%S').date()
-            sum = Decimal(list_data[1].replace('s=', ''))
+            summ = Decimal(list_data[1].replace('s=', ''))
             type_data = rec.type
+            pur = Purchase(name='', 
+                            datetime = date_time, 
+                            summ = summ, 
+                            category = 0, 
+                            seller = ''
+                            )
+            pur.save()
+            keyboard = get_category(pur.id)
             result_text = "%s %s %s" % (date_time,  sum,  type_data)+'  '
         update.message.reply_text(
             text=result_text, 
