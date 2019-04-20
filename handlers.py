@@ -156,7 +156,7 @@ def show_order_by(bot, type, message):
         query = (Purchase
             .select(Purchase.seller.name, fn.SUM(Purchase.summ))
             .group_by(Purchase.seller.name))
-        print(query)
+        print('query: ',  query)
         #for s in query:
         #    print(s)
             
