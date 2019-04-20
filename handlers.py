@@ -36,6 +36,7 @@ def get_button_categories(id_purchase):
     menu = []
     buttons = []
     count = 0
+    print('categories: ',  len(categories))
     for category in categories:
         if count >= 5:
             menu.append(buttons)
