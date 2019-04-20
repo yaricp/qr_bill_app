@@ -223,6 +223,7 @@ def new_msg(bot, update):
             status.value = False
             status.save()
             update.message.reply_text(text='Category created!')
+        
 
 
 def button(bot, update):
@@ -257,6 +258,14 @@ def button(bot, update):
         bot.send_message(update.callback_query.message.chat.id,
                         text='%s %s' % (purchase.datetime,  purchase.summ), 
                         reply_markup=keyboard)
+    elif type_obj == 'purchase':
+        text = '%s/n%s/n%s/n%s' % ( purchase.datetime, 
+                                purchase.summ, 
+                                purchase.seller, 
+                                purchase.category
+                                )
+        bot.send_message(update.callback_query.message.chat.id,
+                        text=text)
 
 
 if __name__ == "__main__":
