@@ -160,9 +160,9 @@ def new_msg(bot, update):
 def button(bot, update):
     but_data = update.callback_query.data
     if but_data == '/list':
-        print(update.__dict__)
         keyboard = get_list_purchase()
-        bot.send_message(update.message, 
+        bot.send_message(update.callback_query.message.chat.id,             
+                        text='List Purchase', 
                         reply_markup=keyboard)
     elif but_data == '/new_category':
         new_category(bot, update)
