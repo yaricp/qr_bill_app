@@ -141,12 +141,12 @@ def show_orders(bot, message):
                         
 @is_allowed_user()
 def by_sellers(bot, update):
+    show_order_by(bot, 'seller', update.message)
     
-     
 
 @is_allowed_user()
 def by_categories(bot, update):
-    show_order_by(bot, type, update.message)
+    show_order_by(bot, 'category', update.message)
     
     
 def show_order_by(bot, type, message):
