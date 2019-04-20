@@ -43,7 +43,7 @@ def get_button_categories(id_purchase):
     new_button = InlineKeyboardButton(  
         'New', 
         callback_data='/new_category')
-    keyboard = InlineKeyboardMarkup([buttons], [new_button])
+    keyboard = InlineKeyboardMarkup([buttons, [new_button]])
     return keyboard
 
 
