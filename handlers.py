@@ -156,9 +156,9 @@ def show_order_by(bot, type, message):
         query = (Purchase
                 .select(Purchase.seller.name, fn.SUM(Purchase.summ))  
                 .group_by(Purchase.seller.name))
-                
-        for s in query:
-            print(s)
+        print(query)
+#        for s in query:
+#            print(s)
             
             #summ = Purchase.select(SUM(Purchase.summ)).where(Purchase.seller == s)
             #text += 'Seller: %s, Summa: %s\n' % (s[0],  s[1])
