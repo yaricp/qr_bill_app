@@ -37,6 +37,10 @@ def get_button_sellers(id_purchase):
         'New Seller',
         callback_data='/new_seller')
     menu.append([new_button])
+    new_button = InlineKeyboardButton(  
+        'Menu',
+        callback_data='/menu')
+    menu.append([new_button])
     keyboard = InlineKeyboardMarkup(menu)
     return keyboard
     
@@ -65,6 +69,10 @@ def get_button_categories(id_purchase):
     new_button = InlineKeyboardButton(  
         'New Category', 
         callback_data='/new_category')
+    menu.append([new_button])
+    new_button = InlineKeyboardButton(  
+        'Menu',
+        callback_data='/menu')
     menu.append([new_button])
     keyboard = InlineKeyboardMarkup(menu)
     return keyboard
