@@ -88,7 +88,7 @@ def error(bot, update, error_msg):
 
 @is_allowed_user()
 def new_category(bot, update):
-    if update.callback_query.data and update.callback_query.data == '/new_category':
+    if update.callback_query and update.callback_query.data == '/new_category':
         status = Status.get(name='wait_category_name')
         if status:
             if not status.value:
@@ -111,7 +111,7 @@ def new_category(bot, update):
     
 @is_allowed_user()
 def new_seller(bot, update):
-    if update.callback_query.data and update.callback_query.data == '/new_seller':
+    if update.callback_query and update.callback_query.data == '/new_seller':
         status = Status.get(name='wait_seller_name')
         if status:
             if not status.value:
@@ -121,14 +121,16 @@ def new_seller(bot, update):
                             value=True)
         status.save()
         bot.send_message(update.callback_query.message.chat.id,'send name of seller')
-    res = ''
-    seller = Seller(name=update.message.text.replace('/new_seller ', ''))
-    try:
-        seller.save()
-        res = 'Ok!'
-    except:
-        res = 'error!'
-    update.message.reply_text(res)
+    else:
+        res = ''
+        seller = Seller(name=update.message.text.replace('/new_seller ', ''))
+        try:
+            seller.save()
+            res = 'Ok!'
+        except:
+            res = 'error!'
+        update.message.reply_text(res)
+        
 
 @is_allowed_user()
 def new_msg(bot, update):
