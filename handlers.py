@@ -230,10 +230,12 @@ def show_purchase_item(bot, message, id):
         category_name = purchase.category.name
     if purchase.seller:
         seller_name = purchase.seller.name
-    text = '%s\n%s\n%s\n%s' % ( purchase.datetime, 
-                                purchase.summ, 
-                                seller_name, 
-                                category_name
+    text = 'ID: %s\nDate Time: %s\nSumma: %s\nSeller: %s\nCategory: %s' % ( 
+            purchase.id, 
+            purchase.datetime, 
+            purchase.summ, 
+            seller_name, 
+            category_name
                             )
     bot.send_message(message.chat.id,
                     text=text,
