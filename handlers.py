@@ -64,8 +64,7 @@ def get_main_button():
     new_button = InlineKeyboardButton(  
         'Menu',
         callback_data='/menu')
-    menu.append([new_button])
-    keyboard = InlineKeyboardMarkup(menu)
+    keyboard = InlineKeyboardMarkup([[new_button]])
     return keyboard
     
 
