@@ -39,8 +39,8 @@ def main():
     list_purchase_handler = CommandHandler('list', list_purchase)
     dispatcher.add_handler(list_purchase_handler)
     
-    list_order_handler = CommandHandler('orders', list_orders)
-    dispatcher.add_handler(list_order_handler)
+    orders_handler = CommandHandler('orders', list_orders)
+    dispatcher.add_handler(orders_handler)
     
     new_msg_handler = MessageHandler(Filters.all, new_msg)
     dispatcher.add_handler(new_msg_handler)

@@ -136,8 +136,6 @@ def list_orders(bot, update):
                                 reply_markup=keyboard)
                 
     
-    
-
 @is_allowed_user()
 def new_category(bot, update):
     if update.callback_query and update.callback_query.data == '/new_category':
