@@ -210,15 +210,17 @@ def button(bot, update):
         purchase.save()
         keyboard = get_seller(purchase.id)
         text = 'seller saved!'
-        update.message.reply_text(text=text)
+        bot.send_message(update.callback_query.message.chat.id,
+                        text='%s %s %s' % (text,  purchase.datetime,  purchase.summ)
+                        )
     elif type_obj == 'category':
         category = Category.get(Category.id==list_ids[1])
         purchase.category = category
         purchase.save()
         keyboard = get_seller(purchase.id)
-        text = 'category saved!'
-        update.message.reply_text(text=text,
-                                reply_markup=keyboard)
+        bot.send_message(update.callback_query.message.chat.id,
+                        text='%s %s' % (purchase.datetime,  purchase.summ), 
+                        reply_markup=keyboard)
 
 
 if __name__ == "__main__":
