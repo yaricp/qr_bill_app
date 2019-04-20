@@ -36,11 +36,11 @@ def get_button_categories(id_purchase):
     menu = []
     buttons = []
     count = 0
-    #print('categories: ',  len(categories))
+    print('categories: ',  len(categories))
     for category in categories:
         if count == 5:
             menu.append(buttons)
-            #print('Empty buttons')
+            print('Empty buttons')
             buttons = []
             count = 0
         else:
@@ -50,6 +50,7 @@ def get_button_categories(id_purchase):
                 InlineKeyboardButton(  
                     category.name, 
                     callback_data='category&%s&%s' % (category.id, id_purchase )))
+    print('buttons: ',  buttons)
     menu.append(buttons)
     new_button = InlineKeyboardButton(  
         'New Category', 
