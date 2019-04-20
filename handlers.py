@@ -88,6 +88,16 @@ def error(bot, update, error_msg):
 
 @is_allowed_user()
 def new_category(bot, update):
+    if update.callback_query.data and update.callback_query.data == '/new_category':
+        status = Status.get(name='wait_category_name')
+        if status:
+            if not status.value:
+                status.value = True
+        else:
+            status = Status(name='wait_category_name', 
+                            value=True)
+        status.save()
+        bot.send_message(update.callback_query.message.chat.id,'send name of category')
     res = ''
     cat = Category(name=update.message.text.replace('/new_category ', ''))
     try:
@@ -101,9 +111,15 @@ def new_category(bot, update):
 @is_allowed_user()
 def new_seller(bot, update):
     if update.callback_query.data and update.callback_query.data == '/new_seller':
+        status = Status.get(name='wait_seller_name')
+        if status:
+            if not status.value:
+                status.value = True
+        else:
+            status = Status(name='wait_seller_name', 
+                            value=True)
+        status.save()
         bot.send_message(update.callback_query.message.chat.id,'send name of seller')
-    elif update.callback_query.data and update.callback_query.data == '/new_category':
-        bot.send_message(update.callback_query.message.chat.id,'send name of category')
     res = ''
     seller = Seller(name=update.message.text.replace('/new_seller ', ''))
     try:
@@ -153,8 +169,20 @@ def new_msg(bot, update):
             text=result_text, 
             reply_markup=keyboard)
     else:
-        update.message.reply_text(text=update.message.text,
-                              reply_markup=keyboard)
+        if Status.get(name='wait_seller_name').value:
+            new_seller = Seller(name=update.message.text)
+            new_seller.save()
+            status = Status.get(name='wait_seller_name')
+            status.value = False
+            status.save()
+            update.message.reply_text(text='Seller created!')
+        elif Status.get(name='wait_category_name').value:
+            new_cat = Category(name=update.message.text)
+            new_cat.save()
+            status = Status.get(name='wait_category_name')
+            status.value = False
+            status.save()
+            update.message.reply_text(text='Category created!')
 
 
 def button(bot, update):

@@ -7,6 +7,13 @@ db = SqliteDatabase(PATH_DB, pragmas={
     
 #pg_db = PostgresqlDatabase('my_app', user='postgres', password='secret',
 #                           host='10.1.0.9', port=5432)
+class Status(Model):
+    name = CharField()
+    value = BooleanField()
+    
+    class Meta:
+        database = db
+    
     
 class Category(Model):
     name = CharField()
