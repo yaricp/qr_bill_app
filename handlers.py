@@ -160,7 +160,7 @@ def show_order_by(bot, type, message):
             print(s.name)
             
             summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.seller == s)
-            print(dir(summ))
+            print(summ.__dict__)
             #text += 'Seller: %s, Summa: %s\n' % (s[0],  s[1])
     else:
         categories = Categories.select()
