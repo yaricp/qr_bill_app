@@ -201,6 +201,7 @@ def button(bot, update):
         new_seller(bot, update)
     list_ids = but_data.split('&')
     type_obj = list_ids[0]
+    print(list_ids)
     if len(list_ids) >= 3:
         purchase = Purchase.get(Purchase.id==list_ids[2])
     if type_obj == 'seller':
