@@ -62,11 +62,9 @@ def list_purchase(bot, update):
     purchases = Purchase.select()
     buttons = []
     for p in purchases:
-        print(p.id)
         buttons.append([InlineKeyboardButton(  
             p.id, 
             callback_data='purchase&'+str(p.id))])
-        print(buttons)
     keyboard = InlineKeyboardMarkup(buttons)
     update.message.reply_text(  text='List Purchases',
                                 reply_markup=keyboard)
@@ -99,7 +97,9 @@ def new_category(bot, update):
 @is_allowed_user()
 def new_seller(bot, update):
     if update.message.text == '/new_seller':
-        update.message.reply_text('/new_seller')
+        update.message.reply_text('send name of seller')
+    elif update.message.text == '/new_category':
+        update.message.reply_text('send name of category')
     res = ''
     seller = Seller(name=update.message.text.replace('/new_seller ', ''))
     try:
