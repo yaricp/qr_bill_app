@@ -156,12 +156,12 @@ def show_order_by(bot, type, message):
         query = (Purchase
                 .select(Purchase.seller, fn.SUM(Purchase.summ))  
                 .group_by(Purchase.seller))
+                
         for s in query:
-            print(s[0])
-            print(s[1])
+            print(s)
             
             #summ = Purchase.select(SUM(Purchase.summ)).where(Purchase.seller == s)
-            text += 'Seller: %s, Summa: %s\n' % (s[0],  s[1])
+            #text += 'Seller: %s, Summa: %s\n' % (s[0],  s[1])
     else:
         categories = Categories.select()
         for c in categories:
