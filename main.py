@@ -44,7 +44,7 @@ def main():
     orders_handler = CommandHandler('orders', list_orders)
     dispatcher.add_handler(orders_handler)
     
-    by_categories_handler = CommandHandler('by_categories', by_categories)
+    by_categories_handler = CommandHandler('by_category', by_categories)
     dispatcher.add_handler(by_categories_handler)
     
     by_sellers_handler = CommandHandler('by_seller', by_sellers)

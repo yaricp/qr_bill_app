@@ -36,11 +36,9 @@ def get_button_categories(id_purchase):
     menu = []
     buttons = []
     count = 0
-    print('categories: ',  len(categories))
     for category in categories:
         if count == 5:
             menu.append(buttons)
-            print('Empty buttons')
             buttons = []
             count = 0
             buttons.append(
@@ -49,7 +47,6 @@ def get_button_categories(id_purchase):
                     callback_data='category&%s&%s' % (category.id, id_purchase )))
         else:
             count += 1
-            print(category.id)
             buttons.append(
                 InlineKeyboardButton(  
                     category.name, 
@@ -62,6 +59,15 @@ def get_button_categories(id_purchase):
     keyboard = InlineKeyboardMarkup(menu)
     return keyboard
 
+
+def get_main_button():
+    new_button = InlineKeyboardButton(  
+        'Menu',
+        callback_data='/menu')
+    menu.append([new_button])
+    keyboard = InlineKeyboardMarkup(menu)
+    return keyboard
+    
 
 def get_button_sellers(id_purchase):
     
@@ -108,7 +114,7 @@ def list_purchase(bot, update):
     keyboard = get_list_purchase()
     update.message.reply_text(  text='List Purchases',
                                 reply_markup=keyboard)
-                                
+
                                 
 def menu(bot, update):
     buttons = [[InlineKeyboardButton( 'new_category', callback_data='/new_category'), 
@@ -131,8 +137,7 @@ def list_orders(bot, update):
     
     
 def show_orders(bot, message):
-    print('list_orders')
-    buttons = [[InlineKeyboardButton( 'by_categories', callback_data='/by_categories'), 
+    buttons = [[InlineKeyboardButton( 'by_category', callback_data='/by_category'), 
                 InlineKeyboardButton( 'by_seller', callback_data='/by_seller')]]
     keyboard = InlineKeyboardMarkup(buttons)
     message.reply_text( text='Orders',
@@ -150,6 +155,7 @@ def by_categories(bot, update):
     
     
 def show_order_by(bot, type, message):
+    keyboard = get_main_button()
     text = ''
     if type == 'seller':
         sellers = Seller.select()
@@ -159,10 +165,11 @@ def show_order_by(bot, type, message):
     else:
         categories = Categories.select()
         for c in categories:
-            summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.category== c).scalar()
+            summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.category == c).scalar()
             text += 'Categories: %s, Summa: %s\n' % (c.name, summ)
     bot.send_message(message.chat.id,
                     text=text,
+                    reply_markup=keyboard
                     )
 
     
@@ -236,7 +243,7 @@ def new_msg(bot, update):
         list_decoded = decode(Image.open(os.path.join(PATH_TEMP_FILES,'qrcode.jpg')))
         for rec in list_decoded:
             type_data = rec.type
-            print(type_data)
+            print('type_data: ', type_data)
             if type_data == 'QRCODE':
                 list_data = rec.data.decode("utf-8").split('&')
                 date_time = datetime.strptime(list_data[0].replace('t=', ''), '%Y%m%dT%H%M%S').date()
@@ -299,6 +306,10 @@ def button(bot, update):
         new_seller(bot, update)
     elif but_data == '/orders':
         show_orders(bot, update.callback_query.message)
+    elif but_data == '/by_seller':
+        show_order_by(bot, 'seller',  update.callback_query.message)
+    elif but_data == '/by_category':
+        show_order_by(bot, 'category', update.callback_query.message)
     list_ids = but_data.split('&')
     type_obj = list_ids[0]
     if len(list_ids) >= 3:
