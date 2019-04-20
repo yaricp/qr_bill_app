@@ -177,7 +177,7 @@ def button(bot, update):
     elif but_data == '/by_category':
         show_order_by(bot, 'category', update.callback_query.message)
     elif but_data == '/menu':
-        menu(bot, update)
+        show_menu(bot, update.callback_query.message)
     list_ids = but_data.split('&')
     type_obj = list_ids[0]
     if len(list_ids) >= 3:

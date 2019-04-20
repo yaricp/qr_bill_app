@@ -16,9 +16,7 @@ def show_menu(bot, message):
                     text='Menu',
                     reply_markup=keyboard
                     )
-#    message.reply_text(  text='Menu',
-#                                reply_markup=keyboard)
-                                
+                             
 
 def show_orders(bot, message):
     buttons = [[InlineKeyboardButton( 'by_category', callback_data='/by_category'), 
@@ -37,7 +35,7 @@ def show_order_by(bot, type, message):
             summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.seller == s).scalar()
             text += 'Seller: %s, Summa: %s\n' % (s.name,  summ)
     else:
-        categories = Categories.select()
+        categories = Category.select()
         for c in categories:
             summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.category == c).scalar()
             text += 'Categories: %s, Summa: %s\n' % (c.name, summ)
