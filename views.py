@@ -1,7 +1,7 @@
 from telegram import (InlineKeyboardMarkup, InlineKeyboardButton)
 
 from db_models import *
-
+from keyboards import *
                       
 def show_menu(bot, message):
     buttons = [[InlineKeyboardButton( 'new_category', callback_data='/new_category'), 
@@ -27,7 +27,7 @@ def show_orders(bot, message):
                         
 
 def show_order_by(bot, type, message):
-    keyboard = get_main_button()
+    keyboard = get_button_main()
     text = ''
     if type == 'seller':
         sellers = Seller.select()
