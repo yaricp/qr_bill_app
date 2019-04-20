@@ -42,6 +42,10 @@ class Purchase(Model):
 def initialize_db():
     db.connect()
     db.create_tables([Category, Purchase, Seller, Status], safe = True)
+    st = Status(name='wait_seller_name', value=False)
+    st.save()
+    st = Status(name='wait_category_name', value=False)
+    st.save()
     db.close()
         
 initialize_db()
