@@ -128,6 +128,10 @@ def error(bot, update, error_msg):
 
 @is_allowed_user()
 def list_orders(bot, update):
+    show_orders(bot, update.message)
+    
+    
+def show_orders(bot, message):
     print('list_orders')
     buttons = [[InlineKeyboardButton( 'by_categories', callback_data='/by_categories'), 
                 InlineKeyboardButton( 'by_seller', callback_data='/by_seller')]]
@@ -267,6 +271,8 @@ def button(bot, update):
         new_category(bot, update)
     elif but_data == '/new_seller':
         new_seller(bot, update)
+    elif but_data == '/orders':
+        show_orders(bot, update.callback_query.message)
     list_ids = but_data.split('&')
     type_obj = list_ids[0]
     if len(list_ids) >= 3:
