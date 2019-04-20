@@ -203,7 +203,7 @@ def new_msg(bot, update):
                                 summ = summ
                                 )
                 pur.save()
-                show_purchase_item(pur.id)
+                show_purchase_itembot, update, (pur.id)
     else:
         if Status.get(name='wait_seller_name').value:
             new_seller = Seller(name=update.message.text)
@@ -221,7 +221,7 @@ def new_msg(bot, update):
             update.message.reply_text(text='Category created!')
         
 
-def show_purchase_item(id):
+def show_purchase_item(bot, update, id):
     purchase = Purchase.get(Purchase.id==id)
     category_name = ''
     seller_name = ''
@@ -274,7 +274,7 @@ def button(bot, update):
                         text='%s %s' % (purchase.datetime,  purchase.summ), 
                         reply_markup=keyboard)
     elif type_obj == 'purchase':
-        show_purchase_item(list_ids[1])
+        show_purchase_item(bot,  update,  list_ids[1])
 
 
 if __name__ == "__main__":
