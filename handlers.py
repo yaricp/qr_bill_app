@@ -40,11 +40,12 @@ def get_button_categories(id_purchase):
         print(category.id)
         if count >= 5:
             menu.append(buttons)
-            print(buttons)
+            print('Empty buttons')
             buttons = []
             count = 0
         else:
             count += 1
+            print(category.id)
             buttons.append(
                 InlineKeyboardButton(  
                     category.name, 
