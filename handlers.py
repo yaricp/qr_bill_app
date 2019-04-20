@@ -57,8 +57,7 @@ def get_seller(id_purchase):
     keyboard = InlineKeyboardMarkup([buttons])
     return keyboard
 
-
-def list_purchase(bot, update):
+def get_list_purchase():
     purchases = Purchase.select()
     buttons = []
     for p in purchases:
@@ -66,6 +65,11 @@ def list_purchase(bot, update):
             p.id, 
             callback_data='purchase&'+str(p.id))])
     keyboard = InlineKeyboardMarkup(buttons)
+    return keyboard
+    
+
+def list_purchase(bot, update):
+    keyboard = get_list_purchase()
     update.message.reply_text(  text='List Purchases',
                                 reply_markup=keyboard)
                                 
@@ -156,7 +160,10 @@ def new_msg(bot, update):
 def button(bot, update):
     but_data = update.callback_query.data
     if but_data == '/list':
-        list_purchase(bot, update)
+        print(update.__dict__)
+        keyboard = get_list_purchase()
+        bot.send_message(update.message, 
+                        reply_markup=keyboard)
     elif but_data == '/new_category':
         new_category(bot, update)
     elif but_data == '/new_seller':
