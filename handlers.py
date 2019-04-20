@@ -158,7 +158,7 @@ def button(bot, update):
     if but_data == '/list':
         list_purchase(bot, update)
     elif but_data == '/new_category':
-        new_caption(bot, update)
+        new_category(bot, update)
     elif but_data == '/new_seller':
         new_seller(bot, update)
     list_ids = but_data.split('&')
