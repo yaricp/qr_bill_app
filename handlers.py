@@ -110,7 +110,7 @@ def list_purchase(bot, update):
     update.message.reply_text(  text='List Purchases',
                                 reply_markup=keyboard)
                                 
-
+                                
 def menu(bot, update):
     buttons = [[InlineKeyboardButton( 'new_category', callback_data='/new_category'), 
                 InlineKeyboardButton( 'new_seller', callback_data='/new_seller')],  
@@ -191,23 +191,19 @@ def new_msg(bot, update):
         new_file = bot.get_file(foto.file_id)
         new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
         list_decoded = decode(Image.open(os.path.join(PATH_TEMP_FILES,'qrcode.jpg')))
-        result_text = ''
         for rec in list_decoded:
-            list_data = rec.data.decode("utf-8").split('&')
-            date_time = datetime.strptime(list_data[0].replace('t=', ''), '%Y%m%dT%H%M%S').date()
-            summ = float(list_data[1].replace('s=', ''))
             type_data = rec.type
-            pur = Purchase(name='', 
-                            datetime = date_time, 
-                            summ = summ
-                            )
-            pur.save()
-            print('pur: ',  pur)
-            keyboard = get_button_categories(pur.id)
-            result_text = "%s %s %s" % (date_time,  summ,  type_data)+'  '
-        update.message.reply_text(
-            text=result_text, 
-            reply_markup=keyboard)
+            print(type_data)
+            if type_data == 'QRCODE':
+                list_data = rec.data.decode("utf-8").split('&')
+                date_time = datetime.strptime(list_data[0].replace('t=', ''), '%Y%m%dT%H%M%S').date()
+                summ = float(list_data[1].replace('s=', ''))
+                pur = Purchase(name='', 
+                                datetime = date_time, 
+                                summ = summ
+                                )
+                pur.save()
+                show_purchase_item(pur.id)
     else:
         if Status.get(name='wait_seller_name').value:
             new_seller = Seller(name=update.message.text)
@@ -224,6 +220,26 @@ def new_msg(bot, update):
             status.save()
             update.message.reply_text(text='Category created!')
         
+
+def show_purchase_item(id):
+    purchase = Purchase.get(Purchase.id==id)
+    category_name = ''
+    seller_name = ''
+    get_button_categories(id)
+    if purchase.category:
+        category_name = purchase.category.name
+    if purchase.seller:
+        seller_name = purchase.seller.name
+    text = '%s\n%s\n%s\n%s' % ( purchase.datetime, 
+                                purchase.summ, 
+                                seller_name, 
+                                category_name
+                            )
+    bot.send_message(update.callback_query.message.chat.id,
+                    text=text,
+                    reply_markup=keyboard
+                    )
+
 
 def button(bot, update):
     but_data = update.callback_query.data
@@ -258,18 +274,7 @@ def button(bot, update):
                         text='%s %s' % (purchase.datetime,  purchase.summ), 
                         reply_markup=keyboard)
     elif type_obj == 'purchase':
-        purchase = Purchase.get(Purchase.id==list_ids[1])
-        if purchase.category:
-            category_name = purchase.category.name
-        if purchase.seller:
-            seller_name = purchase.seller.name
-        text = '%s\n%s\n%s\n%s' % ( purchase.datetime, 
-                                purchase.summ, 
-                                seller_name, 
-                                category_name
-                                )
-        bot.send_message(update.callback_query.message.chat.id,
-                        text=text)
+        show_purchase_item(list_ids[1])
 
 
 if __name__ == "__main__":
