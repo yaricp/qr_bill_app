@@ -89,8 +89,7 @@ def error(bot, update, error_msg):
 @is_allowed_user()
 def new_category(bot, update):
     if update.callback_query.data and update.callback_query.data == '/new_category':
-        status = Status.get(name='wait_category_name')
-        if status:
+        if Status.get(name='wait_category_name'):
             if not status.value:
                 status.value = True
         else:
