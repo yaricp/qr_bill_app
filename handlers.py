@@ -88,7 +88,7 @@ def new_category(bot, update):
     cat = Category(name=update.message.text.replace('/new_category ', ''))
     try:
         cat.save()
-        res = 'Ok!'
+        res = 'category saved!'
     except:
         res = 'error!'
     update.message.reply_text(res)
@@ -97,9 +97,9 @@ def new_category(bot, update):
 @is_allowed_user()
 def new_seller(bot, update):
     if update.callback_query.data and update.callback_query.data == '/new_seller':
-        update.message.reply_text('send name of seller')
+        bot.send_message(update.message.chat.id,'send name of seller')
     elif update.callback_query.data and update.callback_query.data == '/new_category':
-        update.message.reply_text('send name of category')
+        bot.send_message(update.message.chat.id,'send name of category')
     res = ''
     seller = Seller(name=update.message.text.replace('/new_seller ', ''))
     try:
