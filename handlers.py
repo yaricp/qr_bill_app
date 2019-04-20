@@ -259,6 +259,7 @@ def button(bot, update):
                         text='%s %s' % (purchase.datetime,  purchase.summ), 
                         reply_markup=keyboard)
     elif type_obj == 'purchase':
+        purchase = Purchase.get(Purchase.id==list_ids[1])
         text = '%s/n%s/n%s/n%s' % ( purchase.datetime, 
                                 purchase.summ, 
                                 purchase.seller, 
