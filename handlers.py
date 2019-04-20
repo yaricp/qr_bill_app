@@ -114,14 +114,28 @@ def list_purchase(bot, update):
 def menu(bot, update):
     buttons = [[InlineKeyboardButton( 'new_category', callback_data='/new_category'), 
                 InlineKeyboardButton( 'new_seller', callback_data='/new_seller')],  
-                [InlineKeyboardButton( 'list', callback_data='/list')]]
+                [InlineKeyboardButton( 'list', callback_data='/list')], 
+                [InlineKeyboardButton( 'orders', callback_data='/orders')], 
+                ]
     keyboard = InlineKeyboardMarkup(buttons)
     update.message.reply_text(  text='Menu',
                                 reply_markup=keyboard)
     
+    
 def error(bot, update, error_msg):
     module_logger.warning('Update caused error "%s"', error)
 
+
+@is_allowed_user()
+def list_orders(bot, update):
+    buttons = [[InlineKeyboardButton( 'by_categories', callback_data='/by_categories'), 
+                InlineKeyboardButton( 'by_seller', callback_data='/by_seller')]]
+    keyboard = InlineKeyboardMarkup(buttons)
+    update.message.reply_text(  text='Orders',
+                                reply_markup=keyboard)
+                
+    
+    
 
 @is_allowed_user()
 def new_category(bot, update):
