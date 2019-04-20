@@ -1,6 +1,4 @@
-from telegram import (InlineQueryResultArticle, InputTextMessageContent,
-                      InlineKeyboardMarkup, InlineKeyboardButton, 
-                      InputMediaPhoto)
+from telegram import (InlineKeyboardMarkup, InlineKeyboardButton)
 
 from db_models import *
                       

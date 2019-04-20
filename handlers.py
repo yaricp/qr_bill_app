@@ -32,84 +32,6 @@ def is_allowed_user():
     return wrap
 
 
-def get_button_categories(id_purchase):
-    categories = Category.select()
-    menu = []
-    buttons = []
-    count = 0
-    for category in categories:
-        if count == 5:
-            menu.append(buttons)
-            buttons = []
-            count = 0
-            buttons.append(
-                InlineKeyboardButton(  
-                    category.name, 
-                    callback_data='category&%s&%s' % (category.id, id_purchase )))
-        else:
-            count += 1
-            buttons.append(
-                InlineKeyboardButton(  
-                    category.name, 
-                    callback_data='category&%s&%s' % (category.id, id_purchase )))
-    menu.append(buttons)
-    new_button = InlineKeyboardButton(  
-        'New Category', 
-        callback_data='/new_category')
-    menu.append([new_button])
-    keyboard = InlineKeyboardMarkup(menu)
-    return keyboard
-
-
-def get_main_button():
-    new_button = InlineKeyboardButton(  
-        'Menu',
-        callback_data='/menu')
-    keyboard = InlineKeyboardMarkup([[new_button]])
-    return keyboard
-    
-
-def get_button_sellers(id_purchase):
-    
-    sellers = Seller.select()
-    menu = []
-    buttons = []
-    count = 0
-    for seller in sellers:
-        if count >= 5:
-            menu.append(buttons)
-            buttons = []
-            count = 0
-            buttons.append(
-                InlineKeyboardButton(  
-                    seller.name, 
-                    callback_data='seller&%s&%s' % (seller.id, id_purchase )))
-        else:
-            count += 1
-            buttons.append(
-                InlineKeyboardButton(  
-                    seller.name, 
-                    callback_data='seller&%s&%s' % (seller.id, id_purchase )))
-    menu.append(buttons)
-    new_button = InlineKeyboardButton(  
-        'New Seller',
-        callback_data='/new_seller')
-    menu.append([new_button])
-    keyboard = InlineKeyboardMarkup(menu)
-    return keyboard
-    
-
-def get_list_purchase():
-    purchases = Purchase.select()
-    buttons = []
-    for p in purchases:
-        buttons.append([InlineKeyboardButton(  
-            p.id, 
-            callback_data='purchase&'+str(p.id))])
-    keyboard = InlineKeyboardMarkup(buttons)
-    return keyboard
-    
-
 def list_purchase(bot, update):
     keyboard = get_list_purchase()
     update.message.reply_text(  text='List Purchases',
@@ -118,10 +40,7 @@ def list_purchase(bot, update):
                                 
 def menu(bot, update):
     show_menu(bot, update.message)
-    
-    
-
-    
+       
     
 def error(bot, update, error_msg):
     module_logger.warning('Update caused error "%s"', error)
@@ -131,10 +50,7 @@ def error(bot, update, error_msg):
 def list_orders(bot, update):
     show_orders(bot, update.message)
     
-    
-
-
-                        
+                           
 @is_allowed_user()
 def by_sellers(bot, update):
     show_order_by(bot, 'seller', update.message)
@@ -242,8 +158,6 @@ def new_msg(bot, update):
             status.save()
             update.message.reply_text(text='Category created!')
         
-
-
 
 def button(bot, update):
     but_data = update.callback_query.data
