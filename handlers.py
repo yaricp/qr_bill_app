@@ -37,7 +37,6 @@ def get_button_categories(id_purchase):
     buttons = []
     count = 0
     for category in categories:
-        print(category.id)
         if count >= 5:
             menu.append(buttons)
             print('Empty buttons')
