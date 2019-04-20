@@ -47,7 +47,7 @@ def main():
     by_categories_handler = CommandHandler('by_categories', by_categories)
     dispatcher.add_handler(by_categories_handler)
     
-    by_sellers_handler = CommandHandler('orders', by_sellers)
+    by_sellers_handler = CommandHandler('by_seller', by_sellers)
     dispatcher.add_handler(by_sellers_handler)
     
     new_msg_handler = MessageHandler(Filters.all, new_msg)
