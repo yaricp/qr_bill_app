@@ -136,8 +136,8 @@ def show_orders(bot, message):
     buttons = [[InlineKeyboardButton( 'by_categories', callback_data='/by_categories'), 
                 InlineKeyboardButton( 'by_seller', callback_data='/by_seller')]]
     keyboard = InlineKeyboardMarkup(buttons)
-    update.message.reply_text(  text='Orders',
-                                reply_markup=keyboard)
+    message.reply_text( text='Orders',
+                        reply_markup=keyboard)
                 
     
 @is_allowed_user()
