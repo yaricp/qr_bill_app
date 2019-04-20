@@ -260,6 +260,10 @@ def button(bot, update):
                         reply_markup=keyboard)
     elif type_obj == 'purchase':
         purchase = Purchase.get(Purchase.id==list_ids[1])
+        if purchase.category:
+            category_name = purchase.category.name
+        if purchase.seller:
+            seller_name = purchase.seller.name
         text = '%s\n%s\n%s\n%s' % ( purchase.datetime, 
                                 purchase.summ, 
                                 purchase.seller, 
