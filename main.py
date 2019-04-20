@@ -12,6 +12,8 @@ from handlers import (  new_category,
                         list_purchase, 
                         button, 
                         list_orders, 
+                        by_categories, 
+                        by_sellers, 
                         menu)
 
 from config import *
@@ -41,6 +43,12 @@ def main():
     
     orders_handler = CommandHandler('orders', list_orders)
     dispatcher.add_handler(orders_handler)
+    
+    by_categories_handler = CommandHandler('by_categories', by_categories)
+    dispatcher.add_handler(by_categories_handler)
+    
+    by_sellers_handler = CommandHandler('orders', by_sellers)
+    dispatcher.add_handler(by_sellers_handler)
     
     new_msg_handler = MessageHandler(Filters.all, new_msg)
     dispatcher.add_handler(new_msg_handler)

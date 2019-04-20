@@ -70,7 +70,6 @@ def get_button_sellers(id_purchase):
     buttons = []
     count = 0
     for seller in sellers:
-        #print(seller.id)
         if count >= 5:
             menu.append(buttons)
             buttons = []
@@ -138,7 +137,34 @@ def show_orders(bot, message):
     keyboard = InlineKeyboardMarkup(buttons)
     message.reply_text( text='Orders',
                         reply_markup=keyboard)
-                
+
+                        
+@is_allowed_user()
+def by_sellers(bot, update):
+    
+     
+
+@is_allowed_user()
+def by_categories(bot, update):
+    show_order_by(bot, type, update.message)
+    
+    
+def show_order_by(bot, type, message):
+    text = ''
+    if type == 'seller':
+        sellers = Seller.select()
+        for s in sellers:
+            summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.seller == s)
+            text += 'Seller: %s, Summa: %s\n' % (s.name,  summ)
+    else:
+        categories = Categories.select()
+        for c in categories:
+            summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.category== c)
+            text += 'Categories: %s, Summa: %s\n' % (c.name, summ)
+    bot.send_message(message.chat.id,
+                    text=text,
+                    )
+
     
 @is_allowed_user()
 def new_category(bot, update):
