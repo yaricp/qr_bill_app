@@ -154,8 +154,8 @@ def show_order_by(bot, type, message):
     if type == 'seller':
         #sellers = Seller.select()
         query = (Purchase
-                .select(Purchase.seller, fn.SUM(Purchase.summ))  
-                .group_by(Purchase.seller))
+                .select(Purchase.seller.name, fn.SUM(Purchase.summ))  
+                .group_by(Purchase.seller.name))
                 
         for s in query:
             print(s)
