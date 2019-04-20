@@ -152,14 +152,15 @@ def by_categories(bot, update):
 def show_order_by(bot, type, message):
     text = ''
     if type == 'seller':
-        #sellers = Seller.select()
-        query = Purchase.select(Purchase.seller.name, fn.SUM(Purchase.summ))
+        sellers = Seller.select()
+        query = Seller.select(Seller.name, fn.SUM(Purchase.summ))
         #    .group_by(Purchase.seller.name))
         print('query: ',  query)
-        #for s in query:
-        #    print(s)
+        for s in sellers:
+            print(s.name)
             
-            #summ = Purchase.select(SUM(Purchase.summ)).where(Purchase.seller == s)
+            summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.seller == s)
+            print(summ)
             #text += 'Seller: %s, Summa: %s\n' % (s[0],  s[1])
     else:
         categories = Categories.select()
