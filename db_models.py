@@ -41,7 +41,7 @@ class Purchase(Model):
         
 def initialize_db():
     db.connect()
-    db.create_tables([Category, Purchase, Seller], safe = True)
+    db.create_tables([Category, Purchase, Seller, Status], safe = True)
     db.close()
         
 initialize_db()
