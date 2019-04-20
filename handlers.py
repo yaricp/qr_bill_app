@@ -33,30 +33,50 @@ def is_allowed_user():
 
 def get_button_categories(id_purchase):
     categories = Category.select()
+    menu = []
     buttons = []
+    count = 0
     for category in categories:
-        print(category)
-        buttons.append(
-            InlineKeyboardButton(  
-                category.name, 
-                callback_data='category&%s&%s' % (category.id, id_purchase )))
+        if count >= 5:
+            buttons = []
+            count = 0
+            menu.append(buttons)
+        else:
+            count += 1
+            buttons.append(
+                InlineKeyboardButton(  
+                    category.name, 
+                    callback_data='category&%s&%s' % (category.id, id_purchase )))
     new_button = InlineKeyboardButton(  
-        'New', 
+        'New Category', 
         callback_data='/new_category')
-    keyboard = InlineKeyboardMarkup([buttons, [new_button]])
+    menu.append([new_button])
+    keyboard = InlineKeyboardMarkup(menu)
     return keyboard
 
 
 def get_button_sellers(id_purchase):
     
     sellers = Seller.select()
+    menu = []
     buttons = []
+    count = 0
     for seller in sellers:
-        buttons.append(
-            InlineKeyboardButton(  
-                seller.name, 
-                callback_data='seller&%s&%s' % (seller.id, id_purchase )))
-    keyboard = InlineKeyboardMarkup([buttons])
+        if count >= 5:
+            buttons = []
+            count = 0
+            menu.append(buttons)
+        else:
+            count +=1
+            buttons.append(
+                InlineKeyboardButton(  
+                    seller.name, 
+                    callback_data='seller&%s&%s' % (seller.id, id_purchase )))
+    new_button = InlineKeyboardButton(  
+        'New Seller',
+        callback_data='/new_seller')
+    menu.append([new_button])
+    keyboard = InlineKeyboardMarkup(menu)
     return keyboard
     
 
