@@ -156,12 +156,12 @@ def show_order_by(bot, type, message):
         for s in sellers:
             print(s.name)
             print(s.id)
-            summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.seller == s)
+            summ = Purchase.select(SUM(Purchase.summ)).where(Purchase.seller == s)
             text += 'Seller: %s, Summa: %s\n' % (s.name,  summ)
     else:
         categories = Categories.select()
         for c in categories:
-            summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.category== c)
+            summ = Purchase.select(fSUM(Purchase.summ)).where(Purchase.category== c)
             text += 'Categories: %s, Summa: %s\n' % (c.name, summ)
     bot.send_message(message.chat.id,
                     text=text,
