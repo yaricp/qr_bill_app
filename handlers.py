@@ -225,7 +225,6 @@ def new_msg(bot, update):
             update.message.reply_text(text='Category created!')
         
 
-
 def button(bot, update):
     but_data = update.callback_query.data
     if but_data == '/list':
@@ -266,8 +265,8 @@ def button(bot, update):
             seller_name = purchase.seller.name
         text = '%s\n%s\n%s\n%s' % ( purchase.datetime, 
                                 purchase.summ, 
-                                purchase.seller, 
-                                purchase.category
+                                seller_name, 
+                                category_name
                                 )
         bot.send_message(update.callback_query.message.chat.id,
                         text=text)
