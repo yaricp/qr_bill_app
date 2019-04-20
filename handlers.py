@@ -31,8 +31,7 @@ def is_allowed_user():
     return wrap
 
 
-def get_category(id_purchase):
-    print('id_purchase: ',  id_purchase)
+def get_button_categories(id_purchase):
     categories = Category.select()
     buttons = []
     for category in categories:
@@ -41,11 +40,14 @@ def get_category(id_purchase):
             InlineKeyboardButton(  
                 category.name, 
                 callback_data='category&%s&%s' % (category.id, id_purchase )))
-    keyboard = InlineKeyboardMarkup([buttons])
+    new_button = InlineKeyboardButton(  
+        'New', 
+        callback_data='/new_category')
+    keyboard = InlineKeyboardMarkup([buttons], [new_button])
     return keyboard
 
 
-def get_seller(id_purchase):
+def get_button_sellers(id_purchase):
     
     sellers = Seller.select()
     buttons = []
@@ -56,6 +58,7 @@ def get_seller(id_purchase):
                 callback_data='seller&%s&%s' % (seller.id, id_purchase )))
     keyboard = InlineKeyboardMarkup([buttons])
     return keyboard
+    
 
 def get_list_purchase():
     purchases = Purchase.select()
@@ -166,7 +169,7 @@ def new_msg(bot, update):
                             )
             pur.save()
             print('pur: ',  pur)
-            keyboard = get_category(pur.id)
+            keyboard = get_button_categories(pur.id)
             result_text = "%s %s %s" % (date_time,  summ,  type_data)+'  '
         update.message.reply_text(
             text=result_text, 
@@ -201,14 +204,13 @@ def button(bot, update):
         new_seller(bot, update)
     list_ids = but_data.split('&')
     type_obj = list_ids[0]
-    print(list_ids)
     if len(list_ids) >= 3:
         purchase = Purchase.get(Purchase.id==list_ids[2])
     if type_obj == 'seller':
         seller = Seller.get(Seller.id==list_ids[1])
         purchase.seller = seller
         purchase.save()
-        keyboard = get_seller(purchase.id)
+        keyboard = get_button_sellers(purchase.id)
         text = 'seller saved!'
         bot.send_message(update.callback_query.message.chat.id,
                         text='%s %s %s' % (text,  purchase.datetime,  purchase.summ)
@@ -217,7 +219,7 @@ def button(bot, update):
         category = Category.get(Category.id==list_ids[1])
         purchase.category = category
         purchase.save()
-        keyboard = get_seller(purchase.id)
+        keyboard = get_button_sellers(purchase.id)
         bot.send_message(update.callback_query.message.chat.id,
                         text='%s %s' % (purchase.datetime,  purchase.summ), 
                         reply_markup=keyboard)
