@@ -159,7 +159,8 @@ def show_order_by(bot, type, message):
         for s in sellers:
             print(s.name)
             
-            summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.seller == s)
+            summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.seller == s).scalar()
+            print(summ)
             print(summ[0])
             #text += 'Seller: %s, Summa: %s\n' % (s[0],  s[1])
     else:
