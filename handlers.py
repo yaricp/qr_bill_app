@@ -98,14 +98,15 @@ def new_category(bot, update):
                             value=True)
         status.save()
         bot.send_message(update.callback_query.message.chat.id,'send name of category')
-    res = ''
-    cat = Category(name=update.message.text.replace('/new_category ', ''))
-    try:
-        cat.save()
-        res = 'category saved!'
-    except:
-        res = 'error!'
-    update.message.reply_text(res)
+    else:
+        res = ''
+        cat = Category(name=update.message.text.replace('/new_category ', ''))
+        try:
+            cat.save()
+            res = 'category saved!'
+        except:
+            res = 'error!'
+        update.message.reply_text(res)
     
     
 @is_allowed_user()
