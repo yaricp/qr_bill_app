@@ -1,6 +1,7 @@
 from telegram import (InlineKeyboardMarkup, InlineKeyboardButton)
 
 from db_models import *
+
                       
 def show_menu(bot, message):
     buttons = [[InlineKeyboardButton( 'new_category', callback_data='/new_category'), 
@@ -9,8 +10,12 @@ def show_menu(bot, message):
                 [InlineKeyboardButton( 'orders', callback_data='/orders')], 
                 ]
     keyboard = InlineKeyboardMarkup(buttons)
-    message.reply_text(  text='Menu',
-                                reply_markup=keyboard)
+    bot.send_message(message.chat.id,
+                    text='Menu',
+                    reply_markup=keyboard
+                    )
+#    message.reply_text(  text='Menu',
+#                                reply_markup=keyboard)
                                 
 
 def show_orders(bot, message):
