@@ -96,9 +96,9 @@ def new_category(bot, update):
     
 @is_allowed_user()
 def new_seller(bot, update):
-    if update.message.text == '/new_seller':
+    if update.message.data and update.message.data == '/new_seller':
         update.message.reply_text('send name of seller')
-    elif update.message.text == '/new_category':
+    elif update.message.data and update.message.data == '/new_category':
         update.message.reply_text('send name of category')
     res = ''
     seller = Seller(name=update.message.text.replace('/new_seller ', ''))
