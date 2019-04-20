@@ -101,9 +101,9 @@ def new_category(bot, update):
 @is_allowed_user()
 def new_seller(bot, update):
     if update.callback_query.data and update.callback_query.data == '/new_seller':
-        bot.send_message(update.message.chat.id,'send name of seller')
+        bot.send_message(update.callback_query.message.chat.id,'send name of seller')
     elif update.callback_query.data and update.callback_query.data == '/new_category':
-        bot.send_message(update.message.chat.id,'send name of category')
+        bot.send_message(update.callback_query.message.chat.id,'send name of category')
     res = ''
     seller = Seller(name=update.message.text.replace('/new_seller ', ''))
     try:
