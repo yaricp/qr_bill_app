@@ -36,11 +36,11 @@ def get_button_categories(id_purchase):
     menu = []
     buttons = []
     count = 0
-    print('categories: ',  len(categories))
+    #print('categories: ',  len(categories))
     for category in categories:
         if count >= 5:
             menu.append(buttons)
-            print('Empty buttons')
+            #print('Empty buttons')
             buttons = []
             count = 0
         else:
@@ -50,6 +50,7 @@ def get_button_categories(id_purchase):
                 InlineKeyboardButton(  
                     category.name, 
                     callback_data='category&%s&%s' % (category.id, id_purchase )))
+    menu.append(buttons)
     new_button = InlineKeyboardButton(  
         'New Category', 
         callback_data='/new_category')
@@ -65,7 +66,7 @@ def get_button_sellers(id_purchase):
     buttons = []
     count = 0
     for seller in sellers:
-        print(seller.id)
+        #print(seller.id)
         if count >= 5:
             menu.append(buttons)
             buttons = []
@@ -76,6 +77,7 @@ def get_button_sellers(id_purchase):
                 InlineKeyboardButton(  
                     seller.name, 
                     callback_data='seller&%s&%s' % (seller.id, id_purchase )))
+    menu.append(buttons)
     new_button = InlineKeyboardButton(  
         'New Seller',
         callback_data='/new_seller')
