@@ -225,7 +225,7 @@ def show_purchase_item(bot, message, id):
     purchase = Purchase.get(Purchase.id==id)
     category_name = ''
     seller_name = ''
-    get_button_categories(id)
+    keyboard = get_button_categories(id)
     if purchase.category:
         category_name = purchase.category.name
     if purchase.seller:
