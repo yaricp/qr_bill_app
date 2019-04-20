@@ -128,6 +128,7 @@ def error(bot, update, error_msg):
 
 @is_allowed_user()
 def list_orders(bot, update):
+    print('list_orders')
     buttons = [[InlineKeyboardButton( 'by_categories', callback_data='/by_categories'), 
                 InlineKeyboardButton( 'by_seller', callback_data='/by_seller')]]
     keyboard = InlineKeyboardMarkup(buttons)
