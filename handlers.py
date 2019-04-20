@@ -37,10 +37,12 @@ def get_button_categories(id_purchase):
     buttons = []
     count = 0
     for category in categories:
+        print(category.id)
         if count >= 5:
+            menu.append(buttons)
+            print(buttons)
             buttons = []
             count = 0
-            menu.append(buttons)
         else:
             count += 1
             buttons.append(
@@ -62,12 +64,13 @@ def get_button_sellers(id_purchase):
     buttons = []
     count = 0
     for seller in sellers:
+        print(seller.id)
         if count >= 5:
+            menu.append(buttons)
             buttons = []
             count = 0
-            menu.append(buttons)
         else:
-            count +=1
+            count += 1
             buttons.append(
                 InlineKeyboardButton(  
                     seller.name, 
