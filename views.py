@@ -5,7 +5,6 @@ from keyboards import *
                     
 
 def show_order_by(type):
-    
     text = ''
     if type == 'seller':
         sellers = Seller.select()
