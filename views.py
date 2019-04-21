@@ -56,7 +56,7 @@ def show_seller_item(id):
     return text
     
                   
-def delete_item(typeitem, iditem, chat):
+def delete_item(typeitem, iditem):
     text = ''
     if typeitem == 'category':
         cat = Category.get(id=iditem).delete().execute()
