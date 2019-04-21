@@ -94,11 +94,12 @@ def get_button_list_purchase():
     seller_name = 'None'
     for p in purchases:
         print('DICT: ', dir(p))
-        if not p.seller:
-            seller_name = 'None'
-        else:
-            s = Seller.get(id=p.seller)
-            seller_name = s.name
+        if p.seller:
+            try:
+                sel = Seller.get(id = p.seller)
+                seller_name = sel.name
+            except:
+                print('seller not found!')
         buttons.append([
             InlineKeyboardButton(  
                 '%s - %s - %s' % (p.id, p.summ, seller_name), 
