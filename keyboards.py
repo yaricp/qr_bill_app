@@ -93,7 +93,7 @@ def get_button_list_purchase():
     buttons = []
     seller_name = 'None'
     for p in purchases:
-        print(p.sellers)
+        print(p.__dict__)
         for seller in p.sellers:
             print(seller)
             seller_name = p.seller.name
