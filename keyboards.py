@@ -93,7 +93,7 @@ def get_button_list_purchase():
     buttons = []
     seller_name = 'None'
     for p in purchases:
-        print('DICT: ', dir(p))
+        print('DICT: ', p.__dict__)
         if p.seller:
             try:
                 sel = Seller.get(id = p.seller)
