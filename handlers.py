@@ -107,7 +107,8 @@ def new_msg(bot, update):
                                 summ = summ
                                 )
                 pur.save()
-                show_purchase_item(bot, update.message, pur.id)
+                text = show_purchase_item(pur.id)
+                keyboard = get_button_categories(pur.id)
     else:
         if Status.get(name='wait_seller_name').value:
             new_seller = Seller(name=update.message.text)
@@ -115,14 +116,18 @@ def new_msg(bot, update):
             status = Status.get(name='wait_seller_name')
             status.value = False
             status.save()
-            update.message.reply_text(text='Seller created!')
+            text='Seller created!'
+#            update.message.reply_text()
         elif Status.get(name='wait_category_name').value:
             new_cat = Category(name=update.message.text)
             new_cat.save()
             status = Status.get(name='wait_category_name')
             status.value = False
             status.save()
-            update.message.reply_text(text='Category created!')
+            text = 'Category created!'
+#            update.message.reply_text(text=)
+    update.message.reply_text(  text = text, 
+                                reply_markup=keyboard)
             
         
 @is_allowed_user()
@@ -153,37 +158,42 @@ def button(bot, update):
     elif but_data == '/sellers':
         keyboard = get_list_sellers()
         text = 'List sellers'
-    list_ids = but_data.split('&')
-    if len(list_ids) >= 3:
+    list_parameters = but_data.split('&')
+    if len(list_parameters) == 2:
+        type_obj = list_ids[0]
+        id_obj = list_ids[1]
+        if type_obj == 'purchase':
+            keyboard = get_button_categories(id_obj)
+            text = show_purchase_item(id_obj)
+        elif type_obj == 'category':
+            keyboard =  get_button_del_item(id_obj, type_obj)
+            text = show_category_item(id_obj)
+        elif type_obj == 'seller':
+            keyboard =  get_button_del_item(id_obj, type_obj)
+            text = show_seller_item(id_obj)
+        
+    if len(list_parameters) == 3:
+        type_obj = list_ids[0]
+        id_obj = list_ids[1]
         if list_ids[0] == 'delitem':
             typeitem = list_ids[1]
             iditem = list_ids[2]
             text = delete_item(typeitem, iditem)
-        else:
-            type_obj = list_ids[0]
     if type_obj == 'change_seller':
-        purchase = Purchase.get(Purchase.id==list_ids[2])
+        purchase = Purchase.get(Purchase.id==list_ids[1])
         keyboard = get_button_sellers(purchase.id)
-        seller = Seller.get(Seller.id==list_ids[1])
+        seller = Seller.get(Seller.id==list_ids[2])
         purchase.seller = seller
         purchase.save()
         text='seller saved! %s %s %s' % (text,  purchase.datetime,  purchase.summ)
     elif type_obj == 'change_category':
-        purchase = Purchase.get(Purchase.id==list_ids[2])
+        purchase = Purchase.get(Purchase.id==list_ids[1])
         keyboard = get_button_sellers(purchase.id)
-        category = Category.get(Category.id==list_ids[1])
+        category = Category.get(Category.id==list_ids[2])
         purchase.category = category
         purchase.save()
         text='%s %s' % (purchase.datetime,  purchase.summ)
-    elif type_obj == 'purchase':
-        keyboard = get_button_categories(list_ids[2])
-        text = show_purchase_item(list_ids[2])
-    elif type_obj == 'category':
-        keyboard =  get_button_del_item(list_ids[2], type_obj)
-        text = show_category_item(list_ids[2])
-    elif type_obj == 'seller':
-        keyboard =  get_button_del_item(list_ids[2], type_obj)
-        text = show_seller_item(list_ids[2])
+    
     bot.send_message(update.callback_query.message.chat.id,             
                     text=text, 
                     reply_markup=keyboard)

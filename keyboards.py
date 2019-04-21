@@ -105,7 +105,7 @@ def get_list_categories():
     for c in categories:
         buttons.append([InlineKeyboardButton(  
             c.id, 
-            callback_data='categories&'+str(c.id))])
+            callback_data='category&'+str(c.id))])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
 
@@ -123,7 +123,7 @@ def get_list_sellers():
     for s in sellers:
         buttons.append([InlineKeyboardButton(  
             s.id, 
-            callback_data='sellers&'+str(s.id))])
+            callback_data='seller&'+str(s.id))])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
     
