@@ -58,14 +58,14 @@ def show_seller_item(id):
 def delete_item(typeitem, iditem):
     text = '%s with ID = %s' % (typeitem, iditem)
     if typeitem == 'category':
-        for p in Purchase.select(Purchase.category == iditem):
+        for p in Purchase.select().where(Purchase.category == iditem):
             p.category = None
             p.save()
         nrows = Category.delete().where(Category.id == iditem).execute()
         
     elif typeitem == 'seller':
         nrows = Seller.delete().where(Seller.id == iditem).execute()
-        for p in Purchase.select(Purchase.seller == iditem):
+        for p in Purchase.select().where(Purchase.seller == iditem):
             p.seller = None
             p.save()
     elif typeitem == 'purchase':
