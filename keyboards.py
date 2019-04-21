@@ -100,6 +100,7 @@ def get_button_list_purchase():
                 seller_name = sel.name
             except:
                 print('seller not found!')
+        print('Seller_Name: ', seller_name)
         buttons.append([
             InlineKeyboardButton(  
                 '%s - %s - %s' % (p.id, p.summ, seller_name), 
