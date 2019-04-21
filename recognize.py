@@ -9,6 +9,7 @@ def scan():
     date_time = None
     summ = None
     list_decoded = decode(Image.open(os.path.join(PATH_TEMP_FILES,'qrcode.jpg')))
+    print('LIST_DECODED: ', list_decoded)
     for rec in list_decoded:
         print('TYPE_CODE: ', rec.type)
         type_data = rec.type
