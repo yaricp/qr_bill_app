@@ -89,7 +89,7 @@ def get_button_categories(id_purchase):
 
 
 def get_button_list_purchase():
-    purchases = Purchase.select().join(Seller)
+    purchases = Purchase.select()
     buttons = []
     seller_name = 'None'
     for p in purchases:
