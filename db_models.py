@@ -1,12 +1,16 @@
 from peewee import *
 from config import PATH_DB
-db = SqliteDatabase(PATH_DB, pragmas={
-    'journal_mode': 'wal',
-    'cache_size': -1024 * 64})
-    
-    
-#pg_db = PostgresqlDatabase('my_app', user='postgres', password='secret',
-#                           host='10.1.0.9', port=5432)
+
+if TYPE_DB == 'sqlite':
+    db = SqliteDatabase(PATH_DB, pragmas={
+        'journal_mode': 'wal',
+        'cache_size': -1024 * 64})
+elif TYPE_DB == 'pgsql':
+    db = PostgresqlDatabase(PG_BATABASE, user=PG_USERNAME, 
+                            password=PG_PASSWORD,
+                            host=PG_HOST, port=PG_PORT)
+                            
+                            
 class Status(Model):
     name = CharField()
     value = BooleanField()
@@ -47,5 +51,6 @@ def initialize_db():
     st = Status(name='wait_category_name', value=False)
     st.save()
     db.close()
+    
         
 initialize_db()
