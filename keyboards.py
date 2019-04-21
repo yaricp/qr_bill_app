@@ -93,14 +93,12 @@ def get_button_list_purchase():
     buttons = []
     seller_name = 'None'
     for p in purchases:
-        print('DICT: ', p.__dict__)
         if p.seller_id:
             try:
                 sel = Seller.get(id = p.seller_id)
                 seller_name = sel.name
             except:
                 print('seller not found!')
-        print('Seller_Name: ', seller_name)
         buttons.append([
             InlineKeyboardButton(  
                 '%s - %s - %s' % (p.id, p.summ, seller_name), 
@@ -117,9 +115,14 @@ def get_button_list_categories():
     categories = Category.select()
     buttons = []
     for c in categories:
-        buttons.append([InlineKeyboardButton(  
-            '%s - %s' % (c.id, c.name), 
-            callback_data='category&'+str(c.id))])
+        buttons.append([
+            InlineKeyboardButton(  
+                '%s - %s' % (c.id, c.name), 
+                callback_data='category&'+str(c.id)), 
+            InlineKeyboardButton( 
+                'Delete', 
+                callback_data='delitem&%s&%s' % ('category',  str(c.id)))
+            ])
     new_button = InlineKeyboardButton(  
         'New Category', 
         callback_data='/new_category')
@@ -139,9 +142,14 @@ def get_button_list_sellers():
     sellers = Seller.select()
     buttons = []
     for s in sellers:
-        buttons.append([InlineKeyboardButton(  
-            '%s - %s' % (s.id, s.name), 
-            callback_data='seller&'+str(s.id))])
+        buttons.append([
+            InlineKeyboardButton(  
+                '%s - %s' % (s.id, s.name), 
+                callback_data='seller&'+str(s.id)), 
+            InlineKeyboardButton( 
+                'Delete', 
+                callback_data='delitem&%s&%s' % ('seller',  str(s.id)))
+            ])
     new_button = InlineKeyboardButton(  
         'New Seller',
         callback_data='/new_seller')
