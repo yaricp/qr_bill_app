@@ -92,7 +92,7 @@ def get_button_list_purchase():
     purchases = Purchase.select()
     buttons = []
     for p in purchases:
-        print(p.seller)
+        print(type(p.seller))
         if p.seller:
             print('Seller: ',  p.seller )
         buttons.append([
