@@ -94,7 +94,7 @@ def get_button_list_purchase():
     seller_name = 'None'
     for p in purchases:
         print(type(p.seller))
-        if type(p.seller) != 'NoneType':
+        if type(p.seller) != "<class 'NoneType'>":
             seller_name = p.seller.name
         buttons.append([
             InlineKeyboardButton(  
