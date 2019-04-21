@@ -91,13 +91,13 @@ def get_button_categories(id_purchase):
 def get_button_list_purchase():
     purchases = Purchase.select()
     buttons = []
+    seller_name = 'None'
     for p in purchases:
-        print(type(p.seller))
         if p.seller:
-            print('Seller: ',  p.seller )
+            seller_name = p.seller.name
         buttons.append([
             InlineKeyboardButton(  
-                '%s - %s - %s' % (p.id, p.summ, p.seller), 
+                '%s - %s - %s' % (p.id, p.summ, seller_name), 
                 callback_data='purchase&'+str(p.id)),
             InlineKeyboardButton( 
                 'Delete', 
