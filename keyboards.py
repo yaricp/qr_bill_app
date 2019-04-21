@@ -93,7 +93,9 @@ def get_button_list_purchase():
     buttons = []
     seller_name = 'None'
     for p in purchases:
-        if p.seller:
+        if not p.seller:
+            seller_name = 'None'
+        else:
             s = Seller.get(id=p.seller)
             seller_name = s.name
         buttons.append([
