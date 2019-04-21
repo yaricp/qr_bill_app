@@ -31,13 +31,17 @@ def is_allowed_user():
         return wrapped_f
     return wrap
 
-
+@is_allowed_user()
 def list_purchase(bot, update):
     keyboard = get_list_purchase()
     update.message.reply_text(  text='List Purchases',
                                 reply_markup=keyboard)
-
-                                
+@is_allowed_user()
+def list_categories(bot, update):
+    keyboard = get_list_categories()
+    update.message.reply_text(  text='List Сategories',
+                                reply_markup=keyboard)
+@is_allowed_user()                                
 def menu(bot, update):
     show_menu(bot, update.message)
        
@@ -61,52 +65,6 @@ def by_categories(bot, update):
     show_order_by(bot, 'category', update.message)
     
     
-@is_allowed_user()
-def new_category(bot, update):
-    if update.callback_query and update.callback_query.data == '/new_category':
-        status = Status.get(name='wait_category_name')
-        if status:
-            if not status.value:
-                status.value = True
-        else:
-            status = Status(name='wait_category_name', 
-                            value=True)
-        status.save()
-        bot.send_message(update.callback_query.message.chat.id,'send name of category')
-    else:
-        res = ''
-        cat = Category(name=update.message.text.replace('/new_category ', ''))
-        try:
-            cat.save()
-            res = 'category saved!'
-        except:
-            res = 'error!'
-        update.message.reply_text(res)
-    
-    
-@is_allowed_user()
-def new_seller(bot, update):
-    if update.callback_query and update.callback_query.data == '/new_seller':
-        status = Status.get(name='wait_seller_name')
-        if status:
-            if not status.value:
-                status.value = True
-        else:
-            status = Status(name='wait_seller_name', 
-                            value=True)
-        status.save()
-        bot.send_message(update.callback_query.message.chat.id,'send name of seller')
-    else:
-        res = ''
-        seller = Seller(name=update.message.text.replace('/new_seller ', ''))
-        try:
-            seller.save()
-            res = 'Ok!'
-        except:
-            res = 'error!'
-        update.message.reply_text(res)
-        
-
 @is_allowed_user()
 def new_msg(bot, update):
     
@@ -157,51 +115,64 @@ def new_msg(bot, update):
             status.value = False
             status.save()
             update.message.reply_text(text='Category created!')
+            
         
-
+@is_allowed_user()
 def button(bot, update):
     but_data = update.callback_query.data
+    keyboard = show_orders()
     if but_data == '/list':
         keyboard = get_list_purchase()
-        bot.send_message(update.callback_query.message.chat.id,             
-                        text='List Purchase', 
-                        reply_markup=keyboard)
+        text='List Purchase'
     elif but_data == '/new_category':
-        new_category(bot, update)
+        keyboard = get_button_main()
+        text = new_category(bot, update)
     elif but_data == '/new_seller':
-        new_seller(bot, update)
+        keyboard = get_button_main()
+        text = new_seller(bot, update)
     elif but_data == '/orders':
-        show_orders(bot, update.callback_query.message)
+        text='Orders'
     elif but_data == '/by_seller':
-        show_order_by(bot, 'seller',  update.callback_query.message)
+        text = show_order_by(bot, 'seller',  update.callback_query.message)
     elif but_data == '/by_category':
-        show_order_by(bot, 'category', update.callback_query.message)
+        text = show_order_by(bot, 'category', update.callback_query.message)
     elif but_data == '/menu':
-        show_menu(bot, update.callback_query.message)
+        keyboard = show_menu()
+        text='Menu'
     list_ids = but_data.split('&')
-    type_obj = list_ids[0]
     if len(list_ids) >= 3:
-        purchase = Purchase.get(Purchase.id==list_ids[2])
-    if type_obj == 'seller':
+        if list_ids[0] == 'delitem':
+            typeitem = list_ids[1]
+            iditem = list_ids[2]
+            text = delete_item(typeitem, iditem)
+        else:
+            type_obj = list_ids[0]
+    purchase = Purchase.get(Purchase.id==list_ids[2])
+    if type_obj == 'change_seller':
+        keyboard = get_button_sellers(purchase.id)
         seller = Seller.get(Seller.id==list_ids[1])
         purchase.seller = seller
         purchase.save()
+        text='seller saved! %s %s %s' % (text,  purchase.datetime,  purchase.summ)
+    elif type_obj == 'change_category':
         keyboard = get_button_sellers(purchase.id)
-        text = 'seller saved!'
-        bot.send_message(update.callback_query.message.chat.id,
-                        text='%s %s %s' % (text,  purchase.datetime,  purchase.summ)
-                        )
-    elif type_obj == 'category':
         category = Category.get(Category.id==list_ids[1])
         purchase.category = category
         purchase.save()
-        keyboard = get_button_sellers(purchase.id)
-        bot.send_message(update.callback_query.message.chat.id,
-                        text='%s %s' % (purchase.datetime,  purchase.summ), 
-                        reply_markup=keyboard)
+        text='%s %s' % (purchase.datetime,  purchase.summ)
     elif type_obj == 'purchase':
-        show_purchase_item(bot, update.callback_query.message, list_ids[1])
-
+        keyboard = get_button_categories(list_ids[1])
+        text = show_purchase_item(list_ids[1])
+    elif type_obj == 'category':
+        keyboard =  get_button_del_item(list_ids[1], type_obj)
+        text = show_category_item(list_ids[1])
+    elif type_obj == 'seller':
+        keyboard =  get_button_del_item(list_ids[1], type_obj)
+        text = show_seller_item(list_ids[1])
+    bot.send_message(update.callback_query.message.chat.id,             
+                    text=text, 
+                    reply_markup=keyboard)
+    
 
 if __name__ == "__main__":
     import doctest

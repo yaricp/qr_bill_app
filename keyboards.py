@@ -10,6 +10,16 @@ def get_button_main():
     keyboard = InlineKeyboardMarkup([[new_button]])
     return keyboard
     
+    
+def show_menu():
+    buttons = [[InlineKeyboardButton( 'categories', callback_data='/categories'), 
+                InlineKeyboardButton( 'sellers', callback_data='/sellers')],  
+                [InlineKeyboardButton( 'list', callback_data='/list')], 
+                [InlineKeyboardButton( 'orders', callback_data='/orders')], 
+                ]
+    keyboard = InlineKeyboardMarkup(buttons)
+    return keyboard
+    
 
 def get_button_sellers(id_purchase):
     
@@ -87,3 +97,46 @@ def get_list_purchase():
             callback_data='purchase&'+str(p.id))])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
+    
+
+def get_list_categories():
+    categories = Category.select()
+    buttons = []
+    for c in categories:
+        buttons.append([InlineKeyboardButton(  
+            c.id, 
+            callback_data='categories&'+str(c.id))])
+    keyboard = InlineKeyboardMarkup(buttons)
+    return keyboard
+
+
+def show_orders(bot, message):
+    buttons = [[InlineKeyboardButton( 'by_category', callback_data='/by_category'), 
+                InlineKeyboardButton( 'by_seller', callback_data='/by_seller')]]
+    keyboard = InlineKeyboardMarkup(buttons)
+    return keyboard
+    
+
+def get_list_sellers():
+    sellers = Seller.select()
+    buttons = []
+    for s in sellers:
+        buttons.append([InlineKeyboardButton(  
+            s.id, 
+            callback_data='sellers&'+str(s.id))])
+    keyboard = InlineKeyboardMarkup(buttons)
+    return keyboard
+    
+    
+def get_button_del_item(id, type):
+    buttons = [[InlineKeyboardButton( 'Delete', callback_data='delitem&%s&%s' % 
+                (type,  str(id)))]]
+    keyboard = InlineKeyboardMarkup(buttons)
+    return keyboard
+    
+    
+#def get_button_crud(id):
+#    buttons = [[InlineKeyboardButton( 'Delete', callback_data='delitem&%s&%s' % 
+#                (type,  str(id)))]]
+#    keyboard = InlineKeyboardMarkup(buttons)
+#    return keyboard
