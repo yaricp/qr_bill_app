@@ -94,7 +94,7 @@ def get_button_list_purchase():
     for p in purchases:
         buttons.append([
             InlineKeyboardButton(  
-                '%s - %s - %s' % (p.id, p.summ, p.seller.name), 
+                '%s - %s - %s' % (p.id, p.summ, p.seller.name if p.seller else 'None'), 
                 callback_data='purchase&'+str(p.id)),
             InlineKeyboardButton( 
                 'Delete', 
