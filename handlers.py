@@ -160,8 +160,8 @@ def button(bot, update):
         text = 'List sellers'
     list_parameters = but_data.split('&')
     if len(list_parameters) == 2:
-        type_obj = list_ids[0]
-        id_obj = list_ids[1]
+        type_obj = list_parameters[0]
+        id_obj = list_parameters[1]
         print(type_obj)
         if type_obj == 'purchase':
             keyboard = get_button_categories(id_obj)
@@ -174,23 +174,23 @@ def button(bot, update):
             keyboard =  get_button_del_item(id_obj, type_obj)
             text = show_seller_item(id_obj)
     if len(list_parameters) == 3:
-        type_obj = list_ids[0]
-        id_obj = list_ids[1]
-        if list_ids[0] == 'delitem':
-            typeitem = list_ids[1]
-            iditem = list_ids[2]
+        type_obj = list_parameters[0]
+        id_obj = list_parameters[1]
+        if list_parameters[0] == 'delitem':
+            typeitem = list_parameters[1]
+            iditem = list_parameters[2]
             text = delete_item(typeitem, iditem)
     if type_obj == 'change_seller':
-        purchase = Purchase.get(Purchase.id==list_ids[1])
+        purchase = Purchase.get(Purchase.id==list_parameters[1])
         keyboard = get_button_sellers(purchase.id)
-        seller = Seller.get(Seller.id==list_ids[2])
+        seller = Seller.get(Seller.id==list_parameters[2])
         purchase.seller = seller
         purchase.save()
         text='seller saved! %s %s %s' % (text,  purchase.datetime,  purchase.summ)
     elif type_obj == 'change_category':
-        purchase = Purchase.get(Purchase.id==list_ids[1])
+        purchase = Purchase.get(Purchase.id==list_parameters[1])
         keyboard = get_button_sellers(purchase.id)
-        category = Category.get(Category.id==list_ids[2])
+        category = Category.get(Category.id==list_parameters[2])
         purchase.category = category
         purchase.save()
         text='%s %s' % (purchase.datetime,  purchase.summ)
