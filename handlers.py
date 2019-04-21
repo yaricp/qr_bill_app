@@ -176,9 +176,9 @@ def button(bot, update):
         keyboard = get_button_list_purchase()
         text='List Purchase'
     elif but_data == '/new_category':
-        text = new_category(bot, update)
+        text = show_new_category(update)
     elif but_data == '/new_seller':
-        text = new_seller(bot, update)
+        text = show_new_seller(update)
     elif but_data == '/orders':
         keyboard = get_button_orders()
         text='Orders'
