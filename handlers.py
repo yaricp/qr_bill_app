@@ -166,6 +166,7 @@ def new_msg(bot, update):
 @is_allowed_user()
 def button(bot, update):
     but_data = update.callback_query.data
+    print('but_data: ',  but_data)
     keyboard = get_button_main()
     type_obj = None
     text = ''
@@ -177,6 +178,7 @@ def button(bot, update):
     elif but_data == '/new_seller':
         text = new_seller(bot, update)
     elif but_data == '/orders':
+        keyboard = show_orders()
         text='Orders'
     elif but_data == '/by_seller':
         text = show_order_by('seller')
