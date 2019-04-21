@@ -70,7 +70,7 @@ def error(bot, update, error_msg):
     module_logger.warning('Update caused error "%s"', error)
 
 
-@is_allowed_user()
+
 def new_category(bot, update, args):
     keyboard = get_button_main()
     text = show_new_category(args)
@@ -78,7 +78,7 @@ def new_category(bot, update, args):
                                 reply_markup=keyboard)
                                 
                                 
-@is_allowed_user()
+
 def new_seller(bot, update, args):
     keyboard = get_button_main()
     text = show_new_seller(args)
