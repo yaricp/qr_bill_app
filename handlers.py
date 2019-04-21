@@ -71,17 +71,17 @@ def error(bot, update, error_msg):
 
 
 @is_allowed_user()
-def new_category(bot, update):
+def new_category(bot, update, args):
     keyboard = get_button_main()
-    text = show_new_category(update)
+    text = show_new_category(args)
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
                                 
                                 
 @is_allowed_user()
-def new_seller(bot, update):
+def new_seller(bot, update, args):
     keyboard = get_button_main()
-    text = show_new_seller(update)
+    text = show_new_seller(args)
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
                                 
@@ -176,9 +176,9 @@ def button(bot, update):
         keyboard = get_button_list_purchase()
         text='List Purchase'
     elif but_data == '/new_category':
-        text = show_new_category(update)
+        text = show_new_category()
     elif but_data == '/new_seller':
-        text = show_new_seller(update)
+        text = show_new_seller()
     elif but_data == '/orders':
         keyboard = get_button_orders()
         text='Orders'

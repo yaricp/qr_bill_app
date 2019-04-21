@@ -35,10 +35,10 @@ def main():
     menu_handler = CommandHandler('menu', menu)
     dispatcher.add_handler(menu_handler)
 
-    new_category_handler = CommandHandler('new_category', new_category)
+    new_category_handler = CommandHandler('new_category', new_category, pass_args=True)
     dispatcher.add_handler(new_category_handler)
     
-    new_seller_handler = CommandHandler('new_seller', new_seller)
+    new_seller_handler = CommandHandler('new_seller', new_seller, pass_args=True)
     dispatcher.add_handler(new_seller_handler)
     
     list_purchase_handler = CommandHandler('purchases', list_purchase)

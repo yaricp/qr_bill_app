@@ -66,8 +66,9 @@ def delete_item(typeitem, iditem):
     return text
         
         
-def show_new_category(update):
-    if update.callback_query and update.callback_query.data == '/new_category':
+def show_new_category(args=None):
+    print('ARGS: ', args)
+    if not args or args[0] == '':
         status = Status.get(name='wait_category_name')
         if status:
             if not status.value:
@@ -88,8 +89,9 @@ def show_new_category(update):
     return text
     
 
-def show_new_seller(update):
-    if update.callback_query and update.callback_query.data == '/new_seller':
+def show_new_seller(args=None):
+    print('ARGS: ', args)
+    if not args or args[0] == '':
         status = Status.get(name='wait_seller_name')
         if status:
             if not status.value:
