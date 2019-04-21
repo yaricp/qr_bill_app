@@ -80,7 +80,7 @@ def show_new_category(args=None):
         text = 'Please! send me name of category'
     else:
         text = ''
-        cat = Category(name=update.message.text.replace('/new_category ', ''))
+        cat = Category(name=args[0])
         try:
             cat.save()
             text = 'category saved!'
@@ -103,10 +103,10 @@ def show_new_seller(args=None):
         text = 'Please! send me name of seller'
     else:
         text = ''
-        seller = Seller(name=update.message.text.replace('/new_seller ', ''))
+        seller = Seller(name=args[0])
         try:
             seller.save()
-            text = 'Ok!'
+            text = 'Seller saved!'
         except:
             text = 'error!'
     return text 
