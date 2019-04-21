@@ -43,7 +43,9 @@ def list_categories(bot, update):
                                 reply_markup=keyboard)
 @is_allowed_user()                                
 def menu(bot, update):
-    show_menu(bot, update.message)
+    keyboard = show_menu()
+    update.message.reply_text(  text='Menu',
+                                reply_markup=keyboard)
        
     
 def error(bot, update, error_msg):
@@ -51,18 +53,24 @@ def error(bot, update, error_msg):
 
 
 @is_allowed_user()
-def list_orders(bot, update):
-    show_orders(bot, update.message)
+def list_orders(update):
+    keyboard = show_orders()
+    update.message.reply_text(  text='Orders',
+                                reply_markup=keyboard)
     
                            
 @is_allowed_user()
 def by_sellers(bot, update):
-    show_order_by(bot, 'seller', update.message)
+    keyboard = show_order_by('seller')
+    update.message.reply_text(  text='Order by seller',
+                                reply_markup=keyboard)
     
 
 @is_allowed_user()
 def by_categories(bot, update):
-    show_order_by(bot, 'category', update.message)
+    keyboard = show_order_by('category')
+    update.message.reply_text(  text='Order by categories',
+                                reply_markup=keyboard)
     
     
 @is_allowed_user()
