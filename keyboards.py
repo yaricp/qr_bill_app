@@ -93,9 +93,8 @@ def get_button_list_purchase():
     buttons = []
     seller_name = 'None'
     for p in purchases:
-        print(p.__dict__)
-        for seller in p.sellers:
-            print(seller)
+        print(p.seller)
+        if p.seller:
             seller_name = p.seller.name
         buttons.append([
             InlineKeyboardButton(  
