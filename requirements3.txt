@@ -4,3 +4,4 @@ peewee
 pyzbar
 pyzbar[scripts]
 pillow
+pytesseract
