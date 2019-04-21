@@ -128,22 +128,20 @@ def new_msg(bot, update):
 @is_allowed_user()
 def button(bot, update):
     but_data = update.callback_query.data
-    keyboard = show_orders()
+    keyboard = get_button_main()
     if but_data == '/list':
         keyboard = get_list_purchase()
         text='List Purchase'
     elif but_data == '/new_category':
-        keyboard = get_button_main()
         text = new_category(bot, update)
     elif but_data == '/new_seller':
-        keyboard = get_button_main()
         text = new_seller(bot, update)
     elif but_data == '/orders':
         text='Orders'
     elif but_data == '/by_seller':
-        text = show_order_by(bot, 'seller',  update.callback_query.message)
+        text = show_order_by('seller')
     elif but_data == '/by_category':
-        text = show_order_by(bot, 'category', update.callback_query.message)
+        text = show_order_by('category')
     elif but_data == '/menu':
         keyboard = show_menu()
         text='Menu'
