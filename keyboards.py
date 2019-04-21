@@ -94,9 +94,9 @@ def get_button_list_purchase():
     seller_name = 'None'
     for p in purchases:
         print('DICT: ', p.__dict__)
-        if p.seller:
+        if p.seller_id:
             try:
-                sel = Seller.get(id = p.seller)
+                sel = Seller.get(id = p.seller_id)
                 seller_name = sel.name
             except:
                 print('seller not found!')
