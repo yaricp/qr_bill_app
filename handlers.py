@@ -41,27 +41,27 @@ def help(bot, update):
 
 @is_allowed_user()
 def list_purchase(bot, update):
-    keyboard = get_list_purchase()
+    keyboard = get_button_list_purchase()
     update.message.reply_text(  text='List Purchases',
                                 reply_markup=keyboard)
                                 
 @is_allowed_user()
 def list_category(bot, update):
-    keyboard = get_list_categories()
+    keyboard = get_button_list_categories()
     update.message.reply_text(  text='List Сategories',
                                 reply_markup=keyboard)
                                 
 
 @is_allowed_user()
 def list_seller(bot, update):
-    keyboard = get_list_sellers()
+    keyboard = get_button_list_sellers()
     update.message.reply_text(  text='List Sellers',
                                 reply_markup=keyboard)
                                 
                                 
 @is_allowed_user()                                
 def menu(bot, update):
-    keyboard = show_menu()
+    keyboard = get_button_menu()
     update.message.reply_text(  text='Menu',
                                 reply_markup=keyboard)
        
@@ -173,27 +173,27 @@ def button(bot, update):
     type_obj = None
     text = ''
     if but_data == '/purchases':
-        keyboard = get_list_purchase()
+        keyboard = get_button_list_purchase()
         text='List Purchase'
     elif but_data == '/new_category':
         text = new_category(bot, update)
     elif but_data == '/new_seller':
         text = new_seller(bot, update)
     elif but_data == '/orders':
-        keyboard = show_orders()
+        keyboard = get_button_orders()
         text='Orders'
     elif but_data == '/by_seller':
         text = show_order_by('seller')
     elif but_data == '/by_category':
         text = show_order_by('category')
     elif but_data == '/menu':
-        keyboard = show_menu()
+        keyboard = get_button_menu()
         text='Menu'
     elif but_data == '/categories':
-        keyboard = get_list_categories()
+        keyboard = get_button_list_categories()
         text = 'List categories'
     elif but_data == '/sellers':
-        keyboard = get_list_sellers()
+        keyboard = get_button_list_sellers()
         text = 'List sellers'
     list_parameters = but_data.split('&')
     if len(list_parameters) == 2:

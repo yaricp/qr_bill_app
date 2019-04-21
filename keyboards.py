@@ -11,7 +11,7 @@ def get_button_main():
     return keyboard
     
     
-def show_menu():
+def get_button_menu():
     buttons = [[InlineKeyboardButton( 'categories', callback_data='/categories'), 
                 InlineKeyboardButton( 'sellers', callback_data='/sellers')],  
                 [InlineKeyboardButton( 'purchases', callback_data='/list_purchases')], 
@@ -88,7 +88,7 @@ def get_button_categories(id_purchase):
     return keyboard
 
 
-def get_list_purchase():
+def get_button_list_purchase():
     purchases = Purchase.select()
     buttons = []
     for p in purchases:
@@ -99,7 +99,7 @@ def get_list_purchase():
     return keyboard
     
 
-def get_list_categories():
+def get_button_list_categories():
     categories = Category.select()
     buttons = []
     for c in categories:
@@ -117,7 +117,7 @@ def get_button_orders():
     return keyboard
     
 
-def get_list_sellers():
+def get_button_list_sellers():
     sellers = Seller.select()
     buttons = []
     for s in sellers:
