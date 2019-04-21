@@ -61,6 +61,8 @@ def delete_item(typeitem, iditem):
         nrows = Category.delete().where(Category.id == iditem).execute()
     elif typeitem == 'seller':
         nrows = Seller.delete().where(Seller.id == iditem).execute()
+    elif typeitem == 'purchase':
+        nrows = Purchase.delete().where(Purchase.id == iditem).execute()
     print('nrows: ',  nrows)
     text += ' deleted'
     return text
