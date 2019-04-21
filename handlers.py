@@ -149,8 +149,10 @@ def button(bot, update):
         text='Menu'
     elif but_data == '/categories':
         keyboard = get_list_categories()
+        text = 'List categories'
     elif but_data == '/sellers':
         keyboard = get_list_sellers()
+        text = 'List sellers'
     list_ids = but_data.split('&')
     if len(list_ids) >= 3:
         if list_ids[0] == 'delitem':
