@@ -3,9 +3,9 @@
 #from decimal import Decimal
 from datetime import datetime
 
-from telegram import (InlineQueryResultArticle, InputTextMessageContent,
-                      InlineKeyboardMarkup, InlineKeyboardButton, 
-                      InputMediaPhoto)
+#from telegram import (InlineQueryResultArticle, InputTextMessageContent,
+#                      InlineKeyboardMarkup, InlineKeyboardButton, 
+#                      InputMediaPhoto)
 from pyzbar.pyzbar import decode
 from PIL import Image
 
@@ -30,17 +30,35 @@ def is_allowed_user():
                     update.message.reply_text('Sorry! it is private bot...')
         return wrapped_f
     return wrap
+    
+    
+def help(update):
+    keyboard = get_list_purchase()
+    text = show_help()
+    update.message.reply_text(  text=text,
+                                reply_markup=keyboard)
+    
 
 @is_allowed_user()
 def list_purchase(bot, update):
     keyboard = get_list_purchase()
     update.message.reply_text(  text='List Purchases',
                                 reply_markup=keyboard)
+                                
 @is_allowed_user()
-def list_categories(bot, update):
+def list_category(bot, update):
     keyboard = get_list_categories()
     update.message.reply_text(  text='List Сategories',
                                 reply_markup=keyboard)
+                                
+
+@is_allowed_user()
+def list_seller(bot, update):
+    keyboard = get_list_sellers()
+    update.message.reply_text(  text='List Sellers',
+                                reply_markup=keyboard)
+                                
+                                
 @is_allowed_user()                                
 def menu(bot, update):
     keyboard = show_menu()
@@ -51,6 +69,22 @@ def menu(bot, update):
 def error(bot, update, error_msg):
     module_logger.warning('Update caused error "%s"', error)
 
+
+@is_allowed_user()
+def new_category(update):
+    keyboard = get_button_main()
+    text = show_new_category(update)
+    update.message.reply_text(  text=text,
+                                reply_markup=keyboard)
+                                
+                                
+@is_allowed_user()
+def new_seller(update):
+    keyboard = get_button_main()
+    text = show_new_seller(update)
+    update.message.reply_text(  text=text,
+                                reply_markup=keyboard)
+                                
 
 @is_allowed_user()
 def list_orders(update):
@@ -135,7 +169,7 @@ def button(bot, update):
     keyboard = get_button_main()
     type_obj = None
     text = ''
-    if but_data == '/list':
+    if but_data == '/purchases':
         keyboard = get_list_purchase()
         text='List Purchase'
     elif but_data == '/new_category':

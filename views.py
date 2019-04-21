@@ -67,7 +67,7 @@ def delete_item(typeitem, iditem):
     return text
         
         
-def new_category(bot, update):
+def show_new_category(update):
     if update.callback_query and update.callback_query.data == '/new_category':
         status = Status.get(name='wait_category_name')
         if status:
@@ -89,7 +89,7 @@ def new_category(bot, update):
     return text
     
 
-def new_seller(bot, update):
+def show_new_seller(update):
     if update.callback_query and update.callback_query.data == '/new_seller':
         status = Status.get(name='wait_seller_name')
         if status:
@@ -110,3 +110,18 @@ def new_seller(bot, update):
             text = 'error!'
     return text 
         
+        
+def show_help():
+    text = '/menu - main menu\n'
+    text += '/new_category NAME - for adding new category\n'
+    text += '/new_seller NAME - for adding new seller\n'
+    text += '/purchases - list of purchases\n'
+    text += '/sellers - list of sellers\n'
+    text += '/categories - list of categories\n'
+    text += '/orders - list of orders\n'
+    text += '/by_category - order by category\n'
+    text += '/by_seller - order by seller\n'
+    text += '/help - show this help\n'
+    return text
+    
+    

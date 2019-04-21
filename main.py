@@ -9,7 +9,9 @@ from telegram.ext import CallbackQueryHandler
 from handlers import (  new_category, 
                         new_msg, 
                         new_seller, 
-                        list_purchase, 
+                        list_purchase,
+                        list_seller,
+                        list_category,
                         button, 
                         list_orders, 
                         by_categories, 
@@ -38,8 +40,14 @@ def main():
     new_seller_handler = CommandHandler('new_seller', new_seller)
     dispatcher.add_handler(new_seller_handler)
     
-    list_purchase_handler = CommandHandler('list', list_purchase)
+    list_purchase_handler = CommandHandler('purchases', list_purchase)
     dispatcher.add_handler(list_purchase_handler)
+    
+    list_seller_handler = CommandHandler('sellers', list_seller)
+    dispatcher.add_handler(list_seller_handler)
+    
+    list_category_handler = CommandHandler('categories', list_category)
+    dispatcher.add_handler(list_category_handler)
     
     orders_handler = CommandHandler('orders', list_orders)
     dispatcher.add_handler(orders_handler)
