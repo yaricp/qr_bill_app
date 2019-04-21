@@ -1,4 +1,5 @@
-import os, datetime
+import os
+from datetime import datetime
 from pyzbar.pyzbar import decode
 from PIL import Image
 
