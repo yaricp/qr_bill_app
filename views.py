@@ -63,7 +63,7 @@ def delete_item(typeitem, iditem):
     elif typeitem == 'seller':
         nrows = Seller.delete().where(Seller.id == iditem).execute()
     print('nrows: ',  nrows)
-    text += 'deleted'
+    text += ' deleted'
     return text
         
         
