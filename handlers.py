@@ -162,6 +162,7 @@ def button(bot, update):
     if len(list_parameters) == 2:
         type_obj = list_ids[0]
         id_obj = list_ids[1]
+        print(type_obj)
         if type_obj == 'purchase':
             keyboard = get_button_categories(id_obj)
             text = show_purchase_item(id_obj)
@@ -169,9 +170,9 @@ def button(bot, update):
             keyboard =  get_button_del_item(id_obj, type_obj)
             text = show_category_item(id_obj)
         elif type_obj == 'seller':
+            print('wewe')
             keyboard =  get_button_del_item(id_obj, type_obj)
             text = show_seller_item(id_obj)
-        
     if len(list_parameters) == 3:
         type_obj = list_ids[0]
         id_obj = list_ids[1]
