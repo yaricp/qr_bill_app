@@ -14,7 +14,7 @@ def get_button_main():
 def get_button_menu():
     buttons = [[InlineKeyboardButton( 'categories', callback_data='/categories'), 
                 InlineKeyboardButton( 'sellers', callback_data='/sellers')],  
-                [InlineKeyboardButton( 'purchases', callback_data='/list_purchases')], 
+                [InlineKeyboardButton( 'purchases', callback_data='/purchases')], 
                 [InlineKeyboardButton( 'orders', callback_data='/orders')], 
                 ]
     keyboard = InlineKeyboardMarkup(buttons)
