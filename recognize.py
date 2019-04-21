@@ -10,7 +10,7 @@ def scan():
     summ = None
     list_decoded = decode(Image.open(os.path.join(PATH_TEMP_FILES,'qrcode.jpg')))
     for rec in list_decoded:
-        print(rec.type)
+        print('TYPE_CODE: ', rec.type)
         type_data = rec.type
         if type_data == 'QRCODE':
             list_data = rec.data.decode("utf-8").split('&')
