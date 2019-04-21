@@ -92,7 +92,8 @@ def get_button_list_purchase():
     purchases = Purchase.select()
     buttons = []
     for p in purchases:
-        seller = Seller.get(id=p.seller)
+        if p.seller:
+            seller = Seller.get(id=p.seller)
         print(seller)
         try:
             seller_name = p.seller.name
