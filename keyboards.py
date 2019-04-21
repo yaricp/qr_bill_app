@@ -110,7 +110,7 @@ def get_list_categories():
     return keyboard
 
 
-def show_orders():
+def get_button_orders():
     buttons = [[InlineKeyboardButton( 'by_category', callback_data='/by_category'), 
                 InlineKeyboardButton( 'by_seller', callback_data='/by_seller')]]
     keyboard = InlineKeyboardMarkup(buttons)

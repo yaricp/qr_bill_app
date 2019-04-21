@@ -88,22 +88,24 @@ def new_seller(bot, update):
 
 @is_allowed_user()
 def list_orders(bot, update):
-    keyboard = show_orders()
+    keyboard = get_button_orders()
     update.message.reply_text(  text='Orders',
                                 reply_markup=keyboard)
     
                            
 @is_allowed_user()
 def by_seller(bot, update):
-    keyboard = show_order_by('seller')
-    update.message.reply_text(  text='Order by seller',
+    keyboard = get_button_main()
+    text = show_order_by('seller')
+    update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
     
 
 @is_allowed_user()
 def by_category(bot, update):
-    keyboard = show_order_by('category')
-    update.message.reply_text(  text='Order by categories',
+    keyboard = get_button_main()
+    text = show_order_by('category')
+    update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
     
     
