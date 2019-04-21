@@ -1,5 +1,5 @@
 from peewee import *
-from config import PATH_DB
+from config import *
 
 if TYPE_DB == 'sqlite':
     db = SqliteDatabase(PATH_DB, pragmas={
