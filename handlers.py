@@ -153,28 +153,29 @@ def button(bot, update):
             text = delete_item(typeitem, iditem)
         else:
             type_obj = list_ids[0]
-    purchase = Purchase.get(Purchase.id==list_ids[2])
     if type_obj == 'change_seller':
+        purchase = Purchase.get(Purchase.id==list_ids[2])
         keyboard = get_button_sellers(purchase.id)
         seller = Seller.get(Seller.id==list_ids[1])
         purchase.seller = seller
         purchase.save()
         text='seller saved! %s %s %s' % (text,  purchase.datetime,  purchase.summ)
     elif type_obj == 'change_category':
+        purchase = Purchase.get(Purchase.id==list_ids[2])
         keyboard = get_button_sellers(purchase.id)
         category = Category.get(Category.id==list_ids[1])
         purchase.category = category
         purchase.save()
         text='%s %s' % (purchase.datetime,  purchase.summ)
     elif type_obj == 'purchase':
-        keyboard = get_button_categories(list_ids[1])
-        text = show_purchase_item(list_ids[1])
+        keyboard = get_button_categories(list_ids[2])
+        text = show_purchase_item(list_ids[2])
     elif type_obj == 'category':
-        keyboard =  get_button_del_item(list_ids[1], type_obj)
-        text = show_category_item(list_ids[1])
+        keyboard =  get_button_del_item(list_ids[2], type_obj)
+        text = show_category_item(list_ids[2])
     elif type_obj == 'seller':
-        keyboard =  get_button_del_item(list_ids[1], type_obj)
-        text = show_seller_item(list_ids[1])
+        keyboard =  get_button_del_item(list_ids[2], type_obj)
+        text = show_seller_item(list_ids[2])
     bot.send_message(update.callback_query.message.chat.id,             
                     text=text, 
                     reply_markup=keyboard)
