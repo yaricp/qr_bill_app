@@ -1,17 +1,9 @@
 # -*- coding: utf-8 -*-
 
-#from decimal import Decimal
-from datetime import datetime
-
-#from telegram import (InlineQueryResultArticle, InputTextMessageContent,
-#                      InlineKeyboardMarkup, InlineKeyboardButton, 
-#                      InputMediaPhoto)
-from pyzbar.pyzbar import decode
-from PIL import Image
-
 from config import *
 from db_models import *
 from views import *
+from recognize import *
 
 CUR_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -130,20 +122,16 @@ def new_msg(bot, update):
         foto = bot.getFile(photo_file_id)
         new_file = bot.get_file(foto.file_id)
         new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
-        list_decoded = decode(Image.open(os.path.join(PATH_TEMP_FILES,'qrcode.jpg')))
-        for rec in list_decoded:
-            type_data = rec.type
-            if type_data == 'QRCODE':
-                list_data = rec.data.decode("utf-8").split('&')
-                date_time = datetime.strptime(list_data[0].replace('t=', ''), '%Y%m%dT%H%M%S').date()
-                summ = float(list_data[1].replace('s=', ''))
-                pur = Purchase(name='', 
-                                datetime = date_time, 
-                                summ = summ
-                                )
-                pur.save()
-                text = show_purchase_item(pur.id)
-                keyboard = get_button_categories(pur.id)
+        
+        date_time, summ = scan()
+        if date_time and summ:
+            pur = Purchase(name='', 
+                            datetime = date_time, 
+                            summ = summ
+                            )
+            pur.save()
+            text = show_purchase_item(pur.id)
+            keyboard = get_button_categories(pur.id)
     else:
         if Status.get(name='wait_seller_name').value:
             new_seller = Seller(name=update.message.text)
