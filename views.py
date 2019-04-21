@@ -59,9 +59,10 @@ def show_seller_item(id):
 def delete_item(typeitem, iditem):
     text = '%s with ID = %s' % (typeitem, iditem)
     if typeitem == 'category':
-        Category.get(id=iditem).delete().execute()
+        nrows = Category.delete().where(Category.id == iditem).execute()
     elif typeitem == 'seller':
-        Seller.get(id=iditem).delete().execute()
+        nrows = Seller.delete().where(Seller.id == iditem).execute()
+    print('nrows: ',  nrows)
     text += 'deleted'
     return text
         
