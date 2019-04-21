@@ -57,13 +57,11 @@ def show_seller_item(id):
     
                   
 def delete_item(typeitem, iditem):
-    text = ''
+    text = '%s with ID = %s' % (typeitem, iditem)
     if typeitem == 'category':
-        cat = Category.get(id=iditem).delete().execute()
-        text += 'category %s' % cat.name
+        Category.get(id=iditem).delete().execute()
     elif typeitem == 'seller':
-        seller = Seller.get(id=iditem).delete().execute()
-        text += 'seller %s' % seller.name
+        Seller.get(id=iditem).delete().execute()
     text += 'deleted'
     return text
         
