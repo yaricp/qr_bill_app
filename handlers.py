@@ -104,6 +104,7 @@ def by_category(bot, update):
 @is_allowed_user()
 def new_msg(bot, update):
     keyboard = get_button_main()
+    text = 'summa or datetime not found'
     if update.message.media_group_id:
         flag_send = False
         photo_file_id = update.message.photo[-1].get_file().file_id
