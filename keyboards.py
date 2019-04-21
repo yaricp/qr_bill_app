@@ -106,6 +106,10 @@ def get_button_list_categories():
         buttons.append([InlineKeyboardButton(  
             '%s - %s' % (c.id, c.name), 
             callback_data='category&'+str(c.id))])
+    new_button = InlineKeyboardButton(  
+        'New Category', 
+        callback_data='/new_category')
+    buttons.append([new_button])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
 
@@ -124,6 +128,10 @@ def get_button_list_sellers():
         buttons.append([InlineKeyboardButton(  
             '%s - %s' % (s.id, s.name), 
             callback_data='seller&'+str(s.id))])
+    new_button = InlineKeyboardButton(  
+        'New Seller',
+        callback_data='/new_seller')
+    buttons.append([new_button])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
     
