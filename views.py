@@ -15,7 +15,7 @@ def show_order_by(type):
         categories = Category.select()
         for c in categories:
             summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.category == c).scalar()
-            text += 'Categories: %s, Summa: %s\n' % (c.name, summ)
+            text += 'Category: %s, Summa: %s\n' % (c.name, summ)
     return text
                     
                                        
