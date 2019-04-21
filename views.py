@@ -66,7 +66,7 @@ def delete_item(typeitem, iditem):
     elif typeitem == 'seller':
         nrows = Seller.delete().where(Seller.id == iditem).execute()
         for p in Purchase.select(Purchase.seller == iditem):
-            p.category = None
+            p.seller = None
             p.save()
     elif typeitem == 'purchase':
         nrows = Purchase.delete().where(Purchase.id == iditem).execute()
