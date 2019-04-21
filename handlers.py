@@ -33,7 +33,7 @@ def is_allowed_user():
     
     
 def help(bot, update):
-    keyboard = get_list_purchase()
+    keyboard = get_button_main()
     text = show_help()
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
