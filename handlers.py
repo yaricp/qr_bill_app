@@ -75,7 +75,7 @@ def by_categories(bot, update):
     
 @is_allowed_user()
 def new_msg(bot, update):
-    
+    keyboard = get_button_main()
     if update.message.media_group_id:
         flag_send = False
         photo_file_id = update.message.photo[-1].get_file().file_id
@@ -97,7 +97,6 @@ def new_msg(bot, update):
         list_decoded = decode(Image.open(os.path.join(PATH_TEMP_FILES,'qrcode.jpg')))
         for rec in list_decoded:
             type_data = rec.type
-            print('type_data: ', type_data)
             if type_data == 'QRCODE':
                 list_data = rec.data.decode("utf-8").split('&')
                 date_time = datetime.strptime(list_data[0].replace('t=', ''), '%Y%m%dT%H%M%S').date()
@@ -117,7 +116,6 @@ def new_msg(bot, update):
             status.value = False
             status.save()
             text='Seller created!'
-#            update.message.reply_text()
         elif Status.get(name='wait_category_name').value:
             new_cat = Category(name=update.message.text)
             new_cat.save()
@@ -125,7 +123,6 @@ def new_msg(bot, update):
             status.value = False
             status.save()
             text = 'Category created!'
-#            update.message.reply_text(text=)
     update.message.reply_text(  text = text, 
                                 reply_markup=keyboard)
             
