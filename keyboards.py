@@ -93,10 +93,9 @@ def get_button_list_purchase():
     buttons = []
     seller_name = 'None'
     for p in purchases:
-        if p.seller:
-            seller = Seller.get(id=p.seller)
-            seller_name = seller.name
-            print(seller)
+        pur = Purchase.get(id=p.id)
+        if pur.seller:
+            seller_name = pur.seller.name
         buttons.append([
             InlineKeyboardButton(  
                 '%s - %s - %s' % (p.id, p.summ, seller_name), 
