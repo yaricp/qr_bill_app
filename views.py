@@ -70,13 +70,11 @@ def delete_item(typeitem, iditem):
             p.save()
     elif typeitem == 'purchase':
         nrows = Purchase.delete().where(Purchase.id == iditem).execute()
-    print('nrows: ',  nrows)
     text += ' deleted'
     return text
         
         
 def show_new_category(args=None):
-    print('ARGS: ', args)
     if not args or args[0] == '':
         status = Status.get(name='wait_category_name')
         if status:
@@ -99,7 +97,6 @@ def show_new_category(args=None):
     
 
 def show_new_seller(args=None):
-    print('ARGS: ', args)
     if not args or args[0] == '':
         status = Status.get(name='wait_seller_name')
         if status:

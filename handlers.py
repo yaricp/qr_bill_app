@@ -145,8 +145,6 @@ def new_msg(bot, update):
                 text = show_purchase_item(pur.id)
                 keyboard = get_button_categories(pur.id)
     else:
-        print(Status.get(name='wait_seller_name').value)
-        print(Status.get(name='wait_category_name').value)
         if Status.get(name='wait_seller_name').value:
             new_seller = Seller(name=update.message.text)
             new_seller.save()
@@ -168,7 +166,6 @@ def new_msg(bot, update):
 @is_allowed_user()
 def button(bot, update):
     but_data = update.callback_query.data
-    print('but_data: ',  but_data)
     keyboard = get_button_main()
     type_obj = None
     text = ''
