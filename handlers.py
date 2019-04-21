@@ -221,14 +221,16 @@ def button(bot, update):
         seller = Seller.get(Seller.id==list_parameters[2])
         purchase.seller = seller
         purchase.save()
-        text='seller saved! %s %s %s' % (text,  purchase.datetime,  purchase.summ)
+        text = show_purchase_item(purchase.id)
+        #text='seller saved! %s %s %s' % (text,  purchase.datetime,  purchase.summ)
     elif type_obj == 'change_category':
         purchase = Purchase.get(Purchase.id==list_parameters[1])
         keyboard = get_button_sellers(purchase.id)
         category = Category.get(Category.id==list_parameters[2])
         purchase.category = category
         purchase.save()
-        text='%s %s' % (purchase.datetime,  purchase.summ)
+        text = show_purchase_item(purchase.id)
+        #text='%s %s' % (purchase.datetime,  purchase.summ)
     
     bot.send_message(update.callback_query.message.chat.id,             
                     text=text, 
