@@ -91,8 +91,8 @@ def get_button_categories(id_purchase):
 def get_button_list_purchase():
     purchases = Purchase.select()
     buttons = []
-    seller_name = 'None'
     for p in purchases:
+        seller_name = 'None'
         if p.seller_id:
             try:
                 sel = Seller.get(id = p.seller_id)
