@@ -32,7 +32,7 @@ def is_allowed_user():
     return wrap
     
     
-def help(update):
+def help(bot, update):
     keyboard = get_list_purchase()
     text = show_help()
     update.message.reply_text(  text=text,
@@ -71,7 +71,7 @@ def error(bot, update, error_msg):
 
 
 @is_allowed_user()
-def new_category(update):
+def new_category(bot, update):
     keyboard = get_button_main()
     text = show_new_category(update)
     update.message.reply_text(  text=text,
@@ -79,7 +79,7 @@ def new_category(update):
                                 
                                 
 @is_allowed_user()
-def new_seller(update):
+def new_seller(bot, update):
     keyboard = get_button_main()
     text = show_new_seller(update)
     update.message.reply_text(  text=text,
@@ -87,7 +87,7 @@ def new_seller(update):
                                 
 
 @is_allowed_user()
-def list_orders(update):
+def list_orders(bot, update):
     keyboard = show_orders()
     update.message.reply_text(  text='Orders',
                                 reply_markup=keyboard)
