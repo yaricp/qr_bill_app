@@ -129,6 +129,7 @@ def new_msg(bot, update):
 def button(bot, update):
     but_data = update.callback_query.data
     keyboard = get_button_main()
+    type_obj = None
     if but_data == '/list':
         keyboard = get_list_purchase()
         text='List Purchase'
