@@ -94,14 +94,14 @@ def list_orders(bot, update):
     
                            
 @is_allowed_user()
-def by_sellers(bot, update):
+def by_seller(bot, update):
     keyboard = show_order_by('seller')
     update.message.reply_text(  text='Order by seller',
                                 reply_markup=keyboard)
     
 
 @is_allowed_user()
-def by_categories(bot, update):
+def by_category(bot, update):
     keyboard = show_order_by('category')
     update.message.reply_text(  text='Order by categories',
                                 reply_markup=keyboard)

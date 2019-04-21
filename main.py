@@ -14,8 +14,8 @@ from handlers import (  new_category,
                         list_category,
                         button, 
                         list_orders, 
-                        by_categories, 
-                        by_sellers,
+                        by_category, 
+                        by_seller,
                         help, 
                         menu)
 
@@ -53,10 +53,10 @@ def main():
     orders_handler = CommandHandler('orders', list_orders)
     dispatcher.add_handler(orders_handler)
     
-    by_categories_handler = CommandHandler('by_category', by_categories)
+    by_categories_handler = CommandHandler('by_category', by_category)
     dispatcher.add_handler(by_categories_handler)
     
-    by_sellers_handler = CommandHandler('by_seller', by_sellers)
+    by_sellers_handler = CommandHandler('by_seller', by_seller)
     dispatcher.add_handler(by_sellers_handler)
     
     help_handler = CommandHandler('help', help)
