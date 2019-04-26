@@ -144,14 +144,19 @@ def new_msg(bot, update):
         
         date_time, summ = scan()
         if date_time and summ:
-            pur = Purchase(name='', 
+            check_p = Purchase.get(summ=summ, datetime=date_time)
+            if not check_p:
+                pur = Purchase(name='', 
                             datetime=date_time, 
                             summ=summ, 
                             user=user, 
                             pic=photo_file_id
                             )
-            pur.save()
-            text = show_purchase_item(user, pur.id)
+                pur.save()
+                text = show_purchase_item(user, pur.id)
+            else:
+                text = 'Its looks like:\n'
+                text += show_purchase_item(user, check_p.id)
             keyboard = get_button_categories(user, pur.id)
     else:
         wait_command = Wait.get(user=user).command
