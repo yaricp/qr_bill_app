@@ -13,7 +13,7 @@ def show_order_by(user, type):
         sellers = Seller.select().where(Seller.user==user)
         print('sellers: ', sellers)
         for s in sellers:
-            summ = purchase.Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.seller == s).scalar()
+            summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.seller == s).scalar()
             text += 'Seller: %s, Summa: %s\n' % (s.name,  summ)
     else:
         categories = Category.select().where(Category.user==user)
