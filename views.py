@@ -9,12 +9,12 @@ from keyboards import *
 def show_order_by(user, type):
     text = ''
     if type == 'seller':
-        sellers = Seller.select(Category.user==user)
+        sellers = Seller.select().where(Category.user==user)
         for s in sellers:
             summ = purchase.Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.seller == s).scalar()
             text += 'Seller: %s, Summa: %s\n' % (s.name,  summ)
     else:
-        categories = Category.select(Category.user==user)
+        categories = Category.select().where(Category.user==user)
         for c in categories:
             summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.category == c).scalar()
             text += 'Category: %s, Summa: %s\n' % (c.name, summ)

@@ -25,7 +25,7 @@ def get_button_menu():
 
 def get_button_sellers(user, id_purchase):
     
-    sellers = Seller.select(Seller.user == user)
+    sellers = Seller.select().where(Seller.user == user)
     menu = []
     buttons = []
     count = 0
@@ -60,7 +60,7 @@ def get_button_sellers(user, id_purchase):
     
     
 def get_button_categories(user, id_purchase):
-    categories = Category.select(Category.user == user)
+    categories = Category.select().where(Category.user == user)
     menu = []
     buttons = []
     count = 0
@@ -126,7 +126,7 @@ def get_button_list_purchase(user):
     
 
 def get_button_list_categories(user):
-    categories = Category.select(Category.user == user)
+    categories = Category.select().where(Category.user == user)
     buttons = []
     for c in categories:
         buttons.append([
@@ -153,7 +153,7 @@ def get_button_orders():
     
 
 def get_button_list_sellers(user):
-    sellers = Seller.select(Seller.user == user)
+    sellers = Seller.select().where(Seller.user == user)
     buttons = []
     for s in sellers:
         buttons.append([
