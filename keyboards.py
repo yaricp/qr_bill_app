@@ -113,9 +113,9 @@ def get_button_list_purchase(user):
             InlineKeyboardButton(  
                 '%s - %s - %s' % (p.id, p.summ, seller_name), 
                 callback_data='purchase|'+str(p.id)),
-            InlineKeyboardButton( 
-                'Pic', 
-                callback_data='pic|%s|%s' % (str(p.id), p.pic)), 
+#            InlineKeyboardButton( 
+#                'Pic', 
+#                callback_data='pic|%s|%s' % (str(p.id), p.pic)), 
             InlineKeyboardButton( 
                 'Delete', 
                 callback_data='delitem|%s|%s' % ('purchase',  str(p.id)))
