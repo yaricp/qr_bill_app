@@ -117,12 +117,12 @@ def get_button_list_purchase(user):
             InlineKeyboardButton(  
                 p.id, 
                 callback_data='purchase&'+str(p.id)),
-            InlineKeyboardButton( 
-                'Pic', 
-                callback_data='pic&%s&%s' % (str(p.id), pic_id)), 
-            InlineKeyboardButton( 
-                'Delete', 
-                callback_data='delitem&%s&%s' % ('purchase',  str(p.id)))
+#            InlineKeyboardButton( 
+#                'Pic', 
+#                callback_data='pic&%s&%s' % (str(p.id), pic_id)), 
+#            InlineKeyboardButton( 
+#                'Delete', 
+#                callback_data='delitem&%s&%s' % ('purchase',  str(p.id)))
             ])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
