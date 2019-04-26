@@ -37,7 +37,6 @@ def show_purchase_item(user, id):
             seller_name, 
             category_name
                             )
-    print(text)
     return text
 
 

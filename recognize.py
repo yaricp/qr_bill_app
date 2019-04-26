@@ -18,7 +18,7 @@ def scan():
             if type_data == 'QRCODE':
                 print('DATA: ', rec.data)
                 list_data = rec.data.decode("utf-8").split('&')
-                date_time = datetime.strptime(list_data[0].replace('t=', ''), '%Y%m%dT%H%M%S')
+                date_time = datetime.strptime(list_data[0].replace('t=', ''), '%Y%m%dT%H%M')
                 summ = float(list_data[1].replace('s=', ''))
             elif type_data == 'EAN13':
                 list_data = rec.data.decode("utf-8")
