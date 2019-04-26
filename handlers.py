@@ -144,7 +144,8 @@ def new_msg(bot, update):
         
         date_time, summ = scan()
         if date_time and summ:
-            check_p = Purchase.get(summ=summ, datetime=date_time)
+            check_p = Purchase.select().where(summ=summ, datetime=date_time)
+            print('check_p: ', check_p)
             if not check_p:
                 pur = Purchase(name='', 
                             datetime=date_time, 
