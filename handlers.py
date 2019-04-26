@@ -178,7 +178,7 @@ def button(bot, update):
     elif but_data == '/new_seller':
         text = show_new_seller(user)
     elif but_data == '/orders':
-        keyboard = get_button_orders(user)
+        keyboard = get_button_orders()
         text='Orders'
     elif but_data == '/by_seller':
         text = show_order_by(user,'seller')
