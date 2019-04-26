@@ -10,7 +10,7 @@ from keyboards import *
 def show_order_by(user, type):
     text = ''
     if type == 'seller':
-        sellers = Seller.select().where(Category.user==user)
+        sellers = Seller.select().where(Seller.user==user)
         print('sellers: ', sellers)
         for s in sellers:
             summ = purchase.Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.seller == s).scalar()
