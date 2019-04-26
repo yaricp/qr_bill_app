@@ -155,7 +155,7 @@ def new_msg(bot, update):
         wait_command = Wait.get(user=user).command
         print('wait_command: ', wait_command)
         if wait_command:
-            text = run_command[wait_command](user, update.message.text)
+            text = run_waiting_command[wait_command](user, update.message.text)
 #        else:
 #            text = 'I not know this command'
     update.message.reply_text(  text, 
