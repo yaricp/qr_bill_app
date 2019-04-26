@@ -30,12 +30,13 @@ def show_purchase_item(user, id):
         category_name = purchase.category.name
     if purchase.seller:
         seller_name = purchase.seller.name
-    text = 'ID: %s\nDate Time: %s\nSumma: %s\nSeller: %s\nCategory: %s' % ( 
+    text = 'ID: %s\nDate Time: %s\nSumma: %s\nSeller: %s\nCategory: %s\nUser: %s' % ( 
             purchase.id, 
             purchase.datetime, 
             purchase.summ, 
             seller_name, 
-            category_name
+            category_name, 
+            purchase.user
                             )
     return text
 
