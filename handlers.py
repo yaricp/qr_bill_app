@@ -20,7 +20,7 @@ def is_allowed_user():
                     f(*args)
                 else:
                     if args[1].callback_query:
-                        args[1].callback_query.message.text('Sorry! it is private bot...')
+                        args[1].callback_query.answer('Sorry! it is private bot...')
                     obj.reply_text('Sorry! it is private bot...')
         return wrapped_f
     return wrap
