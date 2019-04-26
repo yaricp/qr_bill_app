@@ -72,7 +72,7 @@ def error(bot, update, error_msg):
 
 def new_category(bot, update, args):
     user = update.message.from_user.id
-    keyboard = get_button_main(user)
+    keyboard = get_button_main()
     text = show_new_category(user, args)
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
@@ -81,7 +81,7 @@ def new_category(bot, update, args):
 
 def new_seller(bot, update, args):
     user = update.message.from_user.id
-    keyboard = get_button_main(user)
+    keyboard = get_button_main()
     text = show_new_seller(user, args)
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
@@ -98,7 +98,7 @@ def list_orders(bot, update):
 @is_allowed_user()
 def by_seller(bot, update):
     user = update.message.from_user.id
-    keyboard = get_button_main(user)
+    keyboard = get_button_main()
     text = show_order_by(user, 'seller')
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
@@ -107,7 +107,7 @@ def by_seller(bot, update):
 @is_allowed_user()
 def by_category(bot, update):
     user = update.message.from_user.id
-    keyboard = get_button_main(user)
+    keyboard = get_button_main()
     text = show_order_by(user, 'category')
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
