@@ -235,6 +235,8 @@ def button(bot, update):
         purchase.category = category
         purchase.save()
         text = show_purchase_item(user, purchase.id)
+        update.callback_query.edit_message_caption('Test', 
+                                                    reply_markup=keyboard)
         #text='%s %s' % (purchase.datetime,  purchase.summ)
     
     bot.send_message(update.callback_query.message.chat.id,             
