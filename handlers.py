@@ -239,7 +239,7 @@ def button(bot, update):
         print('list_parameters: ',  list_parameters)
         id_pic = list_parameters[2]
         text = show_purchase_item(user, id_obj)
-        update.message.reply_photo(
+        update.callback_query.reply_photo(
             photo=id_pic, 
             caption=text, 
             reply_markup=keyboard)
