@@ -1,25 +1,29 @@
 
-from models import *
+from models.seller import Seller
+from models.purchase import Purchase
+from models.category import Category
+from models.wait import Wait
 from keyboards import *
 
 
-def show_order_by(type):
+def show_order_by(user, type):
     text = ''
     if type == 'seller':
-        sellers = Seller.select()
+        sellers = Seller.select(Category.user==user)
         for s in sellers:
-            summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.seller == s).scalar()
+            summ = purchase.Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.seller == s).scalar()
             text += 'Seller: %s, Summa: %s\n' % (s.name,  summ)
     else:
-        categories = Category.select()
+        categories = Category.select(Category.user==user)
         for c in categories:
             summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.category == c).scalar()
             text += 'Category: %s, Summa: %s\n' % (c.name, summ)
     return text
                     
                                        
-def show_purchase_item(id):
-    purchase = Purchase.get(Purchase.id==id)
+def show_purchase_item(user, id):
+    purchase = Purchase.get(Purchase.id==id, 
+                            Purchase.user==user)
     category_name = ''
     seller_name = ''
     if purchase.category:
@@ -36,8 +40,9 @@ def show_purchase_item(id):
     return text
 
 
-def show_category_item(id):
-    category = Category.get(Category.id==id)
+def show_category_item(user, id):
+    category = Category.get(Category.id==id, 
+                            Category.user==user)
     text = 'ID: %s\nCategory: %s' % ( 
             category.id, 
             category.name
@@ -45,8 +50,9 @@ def show_category_item(id):
     return text
 
 
-def show_seller_item(id):
-    seller = Seller.get(Seller.id==id)
+def show_seller_item(user, id):
+    seller = Seller.get(Seller.id==id, 
+                        Seller.user==user)
     text = 'ID: %s\nSeller: %s' % ( 
             seller.id, 
             seller.name
@@ -54,39 +60,39 @@ def show_seller_item(id):
     return text
     
                   
-def delete_item(typeitem, iditem):
+def delete_item(user, typeitem, iditem):
     text = '%s with ID = %s' % (typeitem, iditem)
     if typeitem == 'category':
-        for p in Purchase.select().where(Purchase.category == iditem):
+        for p in Purchase.select().where(Purchase.category == iditem, 
+                                         Purchase.user == user):
             p.category = None
             p.save()
-        nrows = Category.delete().where(Category.id == iditem).execute()
+        nrows = Category.delete().where(Category.id == iditem, 
+                                        Purchase.user == user).execute()
         
     elif typeitem == 'seller':
-        nrows = Seller.delete().where(Seller.id == iditem).execute()
-        for p in Purchase.select().where(Purchase.seller == iditem):
+        nrows = Seller.delete().where(Seller.id == iditem, 
+                                        Purchase.user == user).execute()
+        for p in Purchase.select().where(Purchase.seller == iditem, 
+                                            Purchase.user == user):
             p.seller = None
             p.save()
     elif typeitem == 'purchase':
-        nrows = Purchase.delete().where(Purchase.id == iditem).execute()
+        nrows = Purchase.delete().where(Purchase.id == iditem, 
+                                        Purchase.user == user).execute()
     text += ' deleted'
     return text
         
         
-def show_new_category(args=None):
+def show_new_category(user, args=None):
+    
     if not args or args[0] == '':
-        status = Status.get(name='wait_category_name')
-        if status:
-            if not status.value:
-                status.value = True
-        else:
-            status = Status(name='wait_category_name', 
-                            value=True)
-        status.save()
+        w = Wait(user=user, command='new_category')
+        w.save()
         text = 'Please! send me name of category'
     else:
         text = ''
-        cat = Category(name=args[0])
+        cat = Category(name=args[0], user=user)
         try:
             cat.save()
             text = 'category saved!'
@@ -95,26 +101,21 @@ def show_new_category(args=None):
     return text
     
 
-def show_new_seller(args=None):
+def show_new_seller(user, args=None):
+    
     if not args or args[0] == '':
-        status = Status.get(name='wait_seller_name')
-        if status:
-            if not status.value:
-                status.value = True
-        else:
-            status = Status(name='wait_seller_name', 
-                            value=True)
-        status.save()
+        w = Wait(user=user, command='new_seller')
+        w.save()
         text = 'Please! send me name of seller'
     else:
         text = ''
-        seller = Seller(name=args[0])
+        sel = Seller(name=args[0], user=user)
         try:
-            seller.save()
-            text = 'Seller saved!'
+            sel.save()
+            text = 'seller saved!'
         except:
             text = 'error!'
-    return text 
+    return text
         
         
 def show_help():
@@ -131,17 +132,17 @@ def show_help():
     return text
     
     
-def create_category(name):
+def create_category(user, name):
     
-    new_category = Category(name=name)
+    new_category = Category(name=name, user=user)
     new_category.save()
     text='Seller created!'
     return text
     
     
-def create_seller(name):
+def create_seller(user, name):
     
-    new_seller = Seller(name=name)
+    new_seller = Seller(name=name, user=user)
     new_seller.save()
     text='Seller created!'
     return text

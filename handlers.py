@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from config import *
-from models import *
+from models.wait import Wait
 from views import *
 from recognize import *
 
@@ -38,20 +38,23 @@ def help(bot, update):
 
 @is_allowed_user()
 def list_purchase(bot, update):
-    keyboard = get_button_list_purchase()
+    user = update.message.from_user.id
+    keyboard = get_button_list_purchase(user)
     update.message.reply_text(  text='List Purchases',
                                 reply_markup=keyboard)
                                 
 @is_allowed_user()
 def list_category(bot, update):
-    keyboard = get_button_list_categories()
+    user = update.message.from_user.id
+    keyboard = get_button_list_categories(user)
     update.message.reply_text(  text='List Сategories',
                                 reply_markup=keyboard)
                                 
 
 @is_allowed_user()
 def list_seller(bot, update):
-    keyboard = get_button_list_sellers()
+    user = update.message.from_user.id
+    keyboard = get_button_list_sellers(user)
     update.message.reply_text(  text='List Sellers',
                                 reply_markup=keyboard)
                                 
@@ -67,41 +70,45 @@ def error(bot, update, error_msg):
     module_logger.warning('Update caused error "%s"', error)
 
 
-
 def new_category(bot, update, args):
-    keyboard = get_button_main()
-    text = show_new_category(args)
+    user = update.message.from_user.id
+    keyboard = get_button_main(user)
+    text = show_new_category(user, args)
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
                                 
                                 
 
 def new_seller(bot, update, args):
-    keyboard = get_button_main()
-    text = show_new_seller(args)
+    user = update.message.from_user.id
+    keyboard = get_button_main(user)
+    text = show_new_seller(user, args)
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
                                 
 
 @is_allowed_user()
 def list_orders(bot, update):
-    keyboard = get_button_orders()
+    user = update.message.from_user.id
+    keyboard = get_button_orders(user)
     update.message.reply_text(  text='Orders',
                                 reply_markup=keyboard)
     
                            
 @is_allowed_user()
 def by_seller(bot, update):
-    keyboard = get_button_main()
-    text = show_order_by('seller')
+    user = update.message.from_user.id
+    keyboard = get_button_main(user)
+    text = show_order_by(user, 'seller')
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
     
 
 @is_allowed_user()
 def by_category(bot, update):
-    keyboard = get_button_main()
-    text = show_order_by('category')
+    user = update.message.from_user.id
+    keyboard = get_button_main(user)
+    text = show_order_by(user, 'category')
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
     
@@ -134,18 +141,19 @@ def new_msg(bot, update):
         date_time, summ = scan()
         if date_time and summ:
             pur = Purchase(name='', 
-                            datetime = date_time, 
-                            summ = summ, 
-                            pic = photo_file_id
+                            datetime=date_time, 
+                            summ=summ, 
+                            user=user, 
+                            pic=photo_file_id
                             )
             pur.save()
-            text = show_purchase_item(pur.id)
-            keyboard = get_button_categories(pur.id)
+            text = show_purchase_item(user, pur.id)
+            keyboard = get_button_categories(user, pur.id)
     else:
         wait_command = Wait.get(user=user).command
         print('wait_command: ', wait_command)
         if wait_command:
-            text = run_command[wait_command](update.message.text)
+            text = run_command[wait_command](user, update.message.text)
 #        else:
 #            text = 'I not know this command'
     update.message.reply_text(  text = text, 
@@ -155,72 +163,73 @@ def new_msg(bot, update):
 @is_allowed_user()
 def button(bot, update):
     but_data = update.callback_query.data
+    user = update.callback_query.from_user.id
     keyboard = get_button_main()
     type_obj = None
     text = ''
     nrows = Wait.delete().where(Wait.user == user).execute()
     if but_data == '/purchases':
-        keyboard = get_button_list_purchase()
+        keyboard = get_button_list_purchase(user)
         text='List Purchase'
     elif but_data == '/new_category':
-        w = Wait(user=user, command='new_category')
-        w.save()
-        text = show_new_category()
+        text = show_new_category(user)
     elif but_data == '/new_seller':
-        w = Wait(user=user, command='new_seller')
-        w.save()
-        text = show_new_seller()
+        text = show_new_seller(user)
     elif but_data == '/orders':
-        keyboard = get_button_orders()
+        keyboard = get_button_orders(user)
         text='Orders'
     elif but_data == '/by_seller':
-        text = show_order_by('seller')
+        text = show_order_by(user,'seller')
     elif but_data == '/by_category':
-        text = show_order_by('category')
+        text = show_order_by(user,'category')
     elif but_data == '/menu':
         keyboard = get_button_menu()
         text='Menu'
     elif but_data == '/categories':
-        keyboard = get_button_list_categories()
+        keyboard = get_button_list_categories(user)
         text = 'List categories'
     elif but_data == '/sellers':
-        keyboard = get_button_list_sellers()
+        keyboard = get_button_list_sellers(user)
         text = 'List sellers'
     list_parameters = but_data.split('&')
     if len(list_parameters) == 2:
         type_obj = list_parameters[0]
         id_obj = list_parameters[1]
         if type_obj == 'purchase':
-            keyboard = get_button_categories(id_obj)
-            text = show_purchase_item(id_obj)
+            keyboard = get_button_categories(user, id_obj)
+            text = show_purchase_item(user, id_obj)
         elif type_obj == 'category':
-            keyboard =  get_button_del_item(id_obj, type_obj)
-            text = show_category_item(id_obj)
+            keyboard =  get_button_del_item(user, id_obj, type_obj)
+            text = show_category_item(user, id_obj)
         elif type_obj == 'seller':
-            keyboard =  get_button_del_item(id_obj, type_obj)
-            text = show_seller_item(id_obj)
+            keyboard =  get_button_del_item(user, id_obj, type_obj)
+            text = show_seller_item(user, id_obj)
     if len(list_parameters) == 3:
         type_obj = list_parameters[0]
         id_obj = list_parameters[1]
         if list_parameters[0] == 'delitem':
             typeitem = list_parameters[1]
             iditem = list_parameters[2]
-            text = delete_item(typeitem, iditem)
+            text = delete_item(user, typeitem, iditem)
     if type_obj == 'change_seller':
-        purchase = Purchase.get(Purchase.id==list_parameters[1])
-        keyboard = get_button_sellers(purchase.id)
-        seller = Seller.get(Seller.id==list_parameters[2])
+        purchase = Purchase.get(Purchase.id==list_parameters[1], 
+                                Purchase.user==user)
+        keyboard = get_button_sellers(user, purchase.id)
+        seller = Seller.get(Seller.id==list_parameters[2], 
+                            Seller.user==user)
         purchase.seller = seller
         purchase.save()
-        text = show_purchase_item(purchase.id)
+        text = show_purchase_item(user, purchase.id)
         #text='seller saved! %s %s %s' % (text,  purchase.datetime,  purchase.summ)
     elif type_obj == 'change_category':
-        purchase = Purchase.get(Purchase.id==list_parameters[1])
-        keyboard = get_button_sellers(purchase.id)
-        category = Category.get(Category.id==list_parameters[2])
+        purchase = Purchase.get(Purchase.id==list_parameters[1], 
+                                Purchase.user==user)
+        keyboard = get_button_sellers(user, purchase.id)
+        category = Category.get(Category.id==list_parameters[2], 
+                                Category.user==user)
         purchase.category = category
         purchase.save()
-        text = show_purchase_item(purchase.id)
+        text = show_purchase_item(user, purchase.id)
         #text='%s %s' % (purchase.datetime,  purchase.summ)
     
     bot.send_message(update.callback_query.message.chat.id,             

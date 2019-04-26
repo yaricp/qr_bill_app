@@ -1,6 +1,8 @@
 from telegram import (InlineKeyboardMarkup, InlineKeyboardButton)
 
-from models import *
+from models.seller import Seller
+from models.category import Category
+from models.purchase import Purchase
 
 
 def get_button_main():
@@ -21,9 +23,9 @@ def get_button_menu():
     return keyboard
     
 
-def get_button_sellers(id_purchase):
+def get_button_sellers(user, id_purchase):
     
-    sellers = Seller.select()
+    sellers = Seller.select(Seller.user == user)
     menu = []
     buttons = []
     count = 0
@@ -55,8 +57,8 @@ def get_button_sellers(id_purchase):
     return keyboard
     
     
-def get_button_categories(id_purchase):
-    categories = Category.select()
+def get_button_categories(user, id_purchase):
+    categories = Category.select(Category.user == user)
     menu = []
     buttons = []
     count = 0
@@ -88,8 +90,8 @@ def get_button_categories(id_purchase):
     return keyboard
 
 
-def get_button_list_purchase():
-    purchases = Purchase.select()
+def get_button_list_purchase(user):
+    purchases = Purchase.select(Purchase.user == user)
     buttons = []
     for p in purchases:
         seller_name = 'None'
@@ -114,8 +116,8 @@ def get_button_list_purchase():
     return keyboard
     
 
-def get_button_list_categories():
-    categories = Category.select()
+def get_button_list_categories(user):
+    categories = Category.select(Category.user == user)
     buttons = []
     for c in categories:
         buttons.append([
@@ -141,8 +143,8 @@ def get_button_orders():
     return keyboard
     
 
-def get_button_list_sellers():
-    sellers = Seller.select()
+def get_button_list_sellers(user):
+    sellers = Seller.select(Seller.user == user)
     buttons = []
     for s in sellers:
         buttons.append([
