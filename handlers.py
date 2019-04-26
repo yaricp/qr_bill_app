@@ -161,8 +161,8 @@ def new_msg(bot, update):
                 keyboard = get_button_categories(user, pur.id)
             else:
                 text = 'ATTANTION!\nIts looks like:\n'
-                text += show_purchase_item(user, check_p.id)
-                keyboard = get_button_categories(user, check_p.id)
+                text += show_purchase_item(user, check_p[0].id)
+                keyboard = get_button_categories(user, check_p[0].id)
     else:
         wait_command = Wait.get(user=user).command
         if wait_command:
