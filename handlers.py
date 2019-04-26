@@ -200,11 +200,11 @@ def button(bot, update):
         if type_obj == 'purchase':
             keyboard = get_button_categories(user, id_obj)
             text = show_purchase_item(user, id_obj)
-        elif but_data == 'pic':
+        elif type_obj == 'pic':
             text = show_purchase_item(user, id_obj)
             print('text: ', text)
             update.message.reply_photo(
-                photo=photo_file_id, 
+                photo=id_obj, 
                 caption=text, 
                 reply_markup=keyboard)
         elif type_obj == 'category':
