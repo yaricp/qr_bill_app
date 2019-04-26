@@ -148,12 +148,11 @@ def new_msg(bot, update):
                             )
             pur.save()
             text = show_purchase_item(user, pur.id)
-            print(text)
+            #print(text)
             keyboard = get_button_categories(user, pur.id)
-            print(keyboard)
+            #print(keyboard)
     else:
         wait_command = Wait.get(user=user).command
-        print('wait_command: ', wait_command)
         if wait_command:
             text = run_waiting_command[wait_command](user, update.message.text)
 #        else:
