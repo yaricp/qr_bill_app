@@ -7,7 +7,7 @@ sys.path.append(os.getcwd())
 from models.seller import Seller
 from models.purchase import Purchase
 from models.category import Category
-from model.wait import Wait
+from models.wait import Wait
 
 user_id = '251241715'
 
