@@ -98,11 +98,6 @@ def get_button_list_purchase(user):
     purchases = Purchase.select().where(Purchase.user == user)
     buttons = []
     for p in purchases:
-        print('id: ',  p.id)
-        print('summ: ',  p.summ)
-        print('date: ',  p.datetime)
-        print('user: ',  p.user)
-        print('pic: ',  p.pic)
         seller_name = 'None'
         if p.seller_id:
             try:

@@ -152,15 +152,12 @@ def new_msg(bot, update):
                             )
             pur.save()
             text = show_purchase_item(user, pur.id)
-            #print(text)
             keyboard = get_button_categories(user, pur.id)
-            #print(keyboard)
     else:
         wait_command = Wait.get(user=user).command
         if wait_command:
             text = run_waiting_command[wait_command](user, update.message.text)
-#        else:
-#            text = 'I not know this command'
+
     update.message.reply_text(  text, 
                                 reply_markup=keyboard)
             
@@ -203,6 +200,12 @@ def button(bot, update):
         if type_obj == 'purchase':
             keyboard = get_button_categories(user, id_obj)
             text = show_purchase_item(user, id_obj)
+        elif but_data == '/pic':
+            text = show_purchase_item(user, id_obj)
+            update.message.reply_photo(
+                photo=photo_file_id, 
+                caption=text, 
+                reply_markup=keyboard)
         elif type_obj == 'category':
             keyboard =  get_button_del_item(user, id_obj, type_obj)
             text = show_category_item(user, id_obj)
