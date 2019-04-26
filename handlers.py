@@ -200,13 +200,7 @@ def button(bot, update):
         if type_obj == 'purchase':
             keyboard = get_button_categories(user, id_obj)
             text = show_purchase_item(user, id_obj)
-        elif type_obj == 'pic':
-            text = show_purchase_item(user, id_obj)
-            print('text: ', text)
-            update.message.reply_photo(
-                photo=id_obj, 
-                caption=text, 
-                reply_markup=keyboard)
+        
         elif type_obj == 'category':
             keyboard =  get_button_del_item(user, id_obj, type_obj)
             text = show_category_item(user, id_obj)
@@ -241,8 +235,13 @@ def button(bot, update):
         text = show_purchase_item(user, purchase.id)
         update.callback_query.edit_message_reply_markup(text='Test', 
                                                     reply_markup=keyboard)
-        #text='%s %s' % (purchase.datetime,  purchase.summ)
-    
+    elif type_obj == 'pic':
+        id_pic = list_parameters[2]
+        text = show_purchase_item(user, id_obj)
+        update.message.reply_photo(
+            photo=id_pic, 
+            caption=text, 
+            reply_markup=keyboard)
     bot.send_message(update.callback_query.message.chat.id,             
                     text=text, 
                     reply_markup=keyboard)
