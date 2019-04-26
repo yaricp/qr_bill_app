@@ -203,10 +203,10 @@ def button(bot, update):
         elif but_data == '/pic':
             text = show_purchase_item(user, id_obj)
             print('text: ', text)
-            update.message.reply_photo(
-                photo=photo_file_id, 
-                caption=text, 
-                reply_markup=keyboard)
+            bot.send_photo(update.callback_query.message.chat.id,
+                            photo=photo_file_id, 
+                            caption=text, 
+                            reply_markup=keyboard)
         elif type_obj == 'category':
             keyboard =  get_button_del_item(user, id_obj, type_obj)
             text = show_category_item(user, id_obj)
