@@ -99,6 +99,8 @@ def get_button_list_purchase(user):
     buttons = []
     for p in purchases:
         seller_name = 'None'
+        pic_id = ' - '
+        if p.pic: pic_id = p.pic
         if p.seller_id:
             try:
                 sel = Seller.get(id = p.seller_id)
@@ -112,7 +114,7 @@ def get_button_list_purchase(user):
                 callback_data='purchase&'+str(p.id)),
             InlineKeyboardButton( 
                 'Pic', 
-                callback_data='pic&%s&%s' % (p.id, p.pic)), 
+                callback_data='pic&%s&%s' % (p.id, pic_id)), 
             InlineKeyboardButton( 
                 'Delete', 
                 callback_data='delitem&%s&%s' % ('purchase',  str(p.id)))
