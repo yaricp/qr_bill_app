@@ -202,6 +202,7 @@ def button(bot, update):
             text = show_purchase_item(user, id_obj)
         elif but_data == '/pic':
             text = show_purchase_item(user, id_obj)
+            print('text: ', text)
             update.message.reply_photo(
                 photo=photo_file_id, 
                 caption=text, 
