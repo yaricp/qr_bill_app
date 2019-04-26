@@ -100,9 +100,6 @@ def get_button_list_purchase(user):
     for p in purchases:
         print('id: ', p.id)
         print('pic: ', p.pic)
-        print('id: ', p.id)
-        print('id: ', p.id)
-        print('id: ', p.id)
         seller_name = 'None'
         pic_id = ' - '
         if p.pic: pic_id = p.pic
