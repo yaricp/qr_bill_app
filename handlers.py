@@ -236,7 +236,6 @@ def button(bot, update):
         update.callback_query.edit_message_reply_markup(text='Test', 
                                                     reply_markup=keyboard)
     elif type_obj == 'pic':
-        print('list_parameters: ',  list_parameters)
         id_pic = list_parameters[2]
         text = show_purchase_item(user, id_obj)
         bot.send_photo(
@@ -245,6 +244,7 @@ def button(bot, update):
             caption=text, 
             reply_markup=keyboard)
         return true
+    print('keyboard: ', keyboard)
     bot.send_message(update.callback_query.message.chat.id,             
                     text=text, 
                     reply_markup=keyboard)
