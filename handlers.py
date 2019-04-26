@@ -150,6 +150,7 @@ def new_msg(bot, update):
             text = show_purchase_item(user, pur.id)
             print(text)
             keyboard = get_button_categories(user, pur.id)
+            print(keyboard)
     else:
         wait_command = Wait.get(user=user).command
         print('wait_command: ', wait_command)
@@ -157,7 +158,7 @@ def new_msg(bot, update):
             text = run_command[wait_command](user, update.message.text)
 #        else:
 #            text = 'I not know this command'
-    update.message.reply_text(  text = text, 
+    update.message.reply_text(  text, 
                                 reply_markup=keyboard)
             
         
