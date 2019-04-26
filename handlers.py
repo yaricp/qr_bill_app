@@ -154,10 +154,11 @@ def new_msg(bot, update):
                             )
                 pur.save()
                 text = show_purchase_item(user, pur.id)
+                keyboard = get_button_categories(user, pur.id)
             else:
                 text = 'Its looks like:\n'
                 text += show_purchase_item(user, check_p.id)
-            keyboard = get_button_categories(user, pur.id)
+                keyboard = get_button_categories(user, check_p.id)
     else:
         wait_command = Wait.get(user=user).command
         if wait_command:
