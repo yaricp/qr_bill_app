@@ -72,13 +72,13 @@ def delete_item(user, typeitem, iditem):
             p.category = None
             p.save()
         nrows = Category.delete().where(Category.id == iditem, 
-                                        Purchase.user == user).execute()
+                                        Category.user == user).execute()
         
     elif typeitem == 'seller':
         nrows = Seller.delete().where(Seller.id == iditem, 
-                                        Purchase.user == user).execute()
+                                      Seller.user == user).execute()
         for p in Purchase.select().where(Purchase.seller == iditem, 
-                                            Purchase.user == user):
+                                         Purchase.user == user):
             p.seller = None
             p.save()
     elif typeitem == 'purchase':
