@@ -111,7 +111,7 @@ def get_button_list_purchase(user):
         print('pic&%s&%s' % (str(p.id), p.pic))
         buttons.append([
             InlineKeyboardButton(  
-                '%s - %s - %s' % (p.id, p.summ, seller_name), 
+                '%s - %s - %s' % (p.id, p.pic, seller_name), 
                 callback_data='purchase|'+str(p.id)),
 #            InlineKeyboardButton( 
 #                'Pic', 
