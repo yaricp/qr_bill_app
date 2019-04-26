@@ -111,14 +111,14 @@ def get_button_list_purchase(user):
         print('pic&%s&%s' % (str(p.id), p.pic))
         buttons.append([
             InlineKeyboardButton(  
-                '%s - %s - %s' % (p.id, p.pic, seller_name), 
-                callback_data='purchase|'+str(p.id)),
-#            InlineKeyboardButton( 
-#                'Pic', 
-#                callback_data='pic|%s|%s' % (str(p.id), p.pic)), 
+                '%s - %s - %s' % (p.id, p.summ, seller_name), 
+                callback_data='purchase&'+str(p.id)),
+            InlineKeyboardButton( 
+                'Pic', 
+                callback_data='pic&'+ str(p.id) + '&' + str(p.pic)), 
             InlineKeyboardButton( 
                 'Delete', 
-                callback_data='delitem|%s|%s' % ('purchase',  str(p.id)))
+                callback_data='delitem&%s&%s' % ('purchase',  str(p.id)))
             ])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
