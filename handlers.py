@@ -244,6 +244,7 @@ def button(bot, update):
             photo=id_pic, 
             caption=text, 
             reply_markup=keyboard)
+        return true
     bot.send_message(update.callback_query.message.chat.id,             
                     text=text, 
                     reply_markup=keyboard)
