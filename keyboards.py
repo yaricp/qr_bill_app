@@ -98,6 +98,11 @@ def get_button_list_purchase(user):
     purchases = Purchase.select().where(Purchase.user == user)
     buttons = []
     for p in purchases:
+        print('id: ', p.id)
+        print('pic: ', p.pic)
+        print('id: ', p.id)
+        print('id: ', p.id)
+        print('id: ', p.id)
         seller_name = 'None'
         pic_id = ' - '
         if p.pic: pic_id = p.pic
@@ -114,7 +119,7 @@ def get_button_list_purchase(user):
                 callback_data='purchase&'+str(p.id)),
             InlineKeyboardButton( 
                 'Pic', 
-                callback_data='pic&%s&%s' % (p.id, pic_id)), 
+                callback_data='pic&%s&%s' % (str(p.id), pic_id)), 
             InlineKeyboardButton( 
                 'Delete', 
                 callback_data='delitem&%s&%s' % ('purchase',  str(p.id)))
