@@ -235,7 +235,7 @@ def button(bot, update):
         text = show_purchase_item(user, purchase.id)
         update.callback_query.edit_message_reply_markup(text='Test', 
                                                     reply_markup=keyboard)
-    elif type_obj == 'pic':
+    elif type_obj == 'img':
         id_pic = list_parameters[2]
         text = show_purchase_item(user, id_obj)
         bot.send_photo(
