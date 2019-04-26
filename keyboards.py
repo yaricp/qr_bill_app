@@ -97,8 +97,12 @@ def get_button_categories(user, id_purchase):
 def get_button_list_purchase(user):
     purchases = Purchase.select(Purchase.user == user)
     buttons = []
-    print(purchases)
     for p in purchases:
+        print('id: ',  p.id)
+        print('summ: ',  p.summ)
+        print('date: ',  p.datetime)
+        print('user: ',  p.user)
+        print('pic: ',  p.pic)
         seller_name = 'None'
         if p.seller_id:
             try:
