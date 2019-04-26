@@ -30,19 +30,21 @@ def get_button_sellers(user, id_purchase):
     buttons = []
     count = 0
     for seller in sellers:
-        if count >= 5:
+        sel_name = '--'
+        if seller.name: sel_name = seller.name
+        if count == 5:
             menu.append(buttons)
             buttons = []
             count = 0
             buttons.append(
                 InlineKeyboardButton(  
-                    seller.name, 
+                    sel_name, 
                     callback_data='change_seller&%s&%s' % ( id_purchase,  seller.id )))
         else:
             count += 1
             buttons.append(
                 InlineKeyboardButton(  
-                    seller.name, 
+                    sel_name, 
                     callback_data='change_seller&%s&%s' % ( id_purchase , seller.id )))
     menu.append(buttons)
     new_button = InlineKeyboardButton(  
@@ -63,19 +65,21 @@ def get_button_categories(user, id_purchase):
     buttons = []
     count = 0
     for category in categories:
+        cat_name = '--'
+        if category.name: cat_name = category.name
         if count == 5:
             menu.append(buttons)
             buttons = []
             count = 0
             buttons.append(
                 InlineKeyboardButton(  
-                    category.name, 
+                    cat_name, 
                     callback_data='change_category&%s&%s' % ( id_purchase, category.id )))
         else:
             count += 1
             buttons.append(
                 InlineKeyboardButton(  
-                    category.name, 
+                    cat_name, 
                     callback_data='change_category&%s&%s' % ( id_purchase, category.id )))
     menu.append(buttons)
     new_button = InlineKeyboardButton(  
