@@ -1,6 +1,6 @@
 from telegram import (InlineKeyboardMarkup, InlineKeyboardButton)
 
-from db_models import *
+from models import *
 
 
 def get_button_main():
@@ -103,6 +103,9 @@ def get_button_list_purchase():
             InlineKeyboardButton(  
                 '%s - %s - %s' % (p.id, p.summ, seller_name), 
                 callback_data='purchase&'+str(p.id)),
+            InlineKeyboardButton( 
+                'Pic', 
+                callback_data='pic&%s' % p.pic), 
             InlineKeyboardButton( 
                 'Delete', 
                 callback_data='delitem&%s&%s' % ('purchase',  str(p.id)))

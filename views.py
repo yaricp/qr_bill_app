@@ -1,8 +1,7 @@
 
-from db_models import *
+from models import *
 from keyboards import *
 
-                    
 
 def show_order_by(type):
     text = ''
@@ -132,3 +131,17 @@ def show_help():
     return text
     
     
+def create_category(name):
+    
+    new_category = Category(name=name)
+    new_category.save()
+    text='Seller created!'
+    return text
+    
+    
+def create_seller(name):
+    
+    new_seller = Seller(name=name)
+    new_seller.save()
+    text='Seller created!'
+    return text

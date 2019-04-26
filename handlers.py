@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from config import *
-from db_models import *
+from models import *
 from views import *
 from recognize import *
 
@@ -23,6 +23,11 @@ def is_allowed_user():
         return wrapped_f
     return wrap
     
+    
+run_waiting_command = {
+        'new_category': create_category, 
+        'new_seller': create_seller
+    }
     
 def help(bot, update):
     keyboard = get_button_main()
@@ -103,6 +108,7 @@ def by_category(bot, update):
     
 @is_allowed_user()
 def new_msg(bot, update):
+    user = update.message.from_user.id
     keyboard = get_button_main()
     text = 'summa or datetime not found'
     if update.message.media_group_id:
@@ -119,6 +125,7 @@ def new_msg(bot, update):
                 caption="%s # %s" % (new_caption,update.message.media_group_id), 
                 reply_markup=keyboard)
     elif update.message.photo:
+        nrows = Wait.delete().where(Wait.user == user).execute()
         photo_file_id = update.message.photo[-1].file_id
         foto = bot.getFile(photo_file_id)
         new_file = bot.get_file(foto.file_id)
@@ -128,26 +135,19 @@ def new_msg(bot, update):
         if date_time and summ:
             pur = Purchase(name='', 
                             datetime = date_time, 
-                            summ = summ
+                            summ = summ, 
+                            pic = photo_file_id
                             )
             pur.save()
             text = show_purchase_item(pur.id)
             keyboard = get_button_categories(pur.id)
     else:
-        if Status.get(name='wait_seller_name').value:
-            new_seller = Seller(name=update.message.text)
-            new_seller.save()
-            status = Status.get(name='wait_seller_name')
-            status.value = False
-            status.save()
-            text='Seller created!'
-        elif Status.get(name='wait_category_name').value:
-            new_cat = Category(name=update.message.text)
-            new_cat.save()
-            status = Status.get(name='wait_category_name')
-            status.value = False
-            status.save()
-            text = 'Category created!'
+        wait_command = Wait.get(user=user).command
+        print('wait_command: ', wait_command)
+        if wait_command:
+            text = run_command[wait_command](update.message.text)
+#        else:
+#            text = 'I not know this command'
     update.message.reply_text(  text = text, 
                                 reply_markup=keyboard)
             
@@ -158,12 +158,17 @@ def button(bot, update):
     keyboard = get_button_main()
     type_obj = None
     text = ''
+    nrows = Wait.delete().where(Wait.user == user).execute()
     if but_data == '/purchases':
         keyboard = get_button_list_purchase()
         text='List Purchase'
     elif but_data == '/new_category':
+        w = Wait(user=user, command='new_category')
+        w.save()
         text = show_new_category()
     elif but_data == '/new_seller':
+        w = Wait(user=user, command='new_seller')
+        w.save()
         text = show_new_seller()
     elif but_data == '/orders':
         keyboard = get_button_orders()

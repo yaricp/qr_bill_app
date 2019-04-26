@@ -43,3 +43,4 @@ files/
 *.e4p
 *.pickle
 *.db
+*.db*

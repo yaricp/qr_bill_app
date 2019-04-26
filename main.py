@@ -6,6 +6,8 @@ from telegram.ext import MessageHandler, Filters
 #from telegram.ext import InlineQueryHandler
 from telegram.ext import CallbackQueryHandler
 
+from init_db import initialize_db
+
 from handlers import (  new_category, 
                         new_msg, 
                         new_seller, 
@@ -70,5 +72,5 @@ def main():
     updater.start_polling()
 
 if __name__ == '__main__':
-    #print(os.getcwd())
+    initialize_db()
     main()
