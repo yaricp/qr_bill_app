@@ -1,3 +1,4 @@
+from peewee import *
 
 from models.seller import Seller
 from models.purchase import Purchase
