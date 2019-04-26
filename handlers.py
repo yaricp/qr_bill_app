@@ -19,7 +19,7 @@ def is_allowed_user():
                 if obj.from_user.first_name in allowed_users:
                     f(*args)
                 else:
-                    update.message.reply_text('Sorry! it is private bot...')
+                    obj.reply_text('Sorry! it is private bot...')
         return wrapped_f
     return wrap
     
