@@ -244,7 +244,8 @@ def button(bot, update):
             caption=text, 
             reply_markup=keyboard)
         return true
-    print('keyboard: ', keyboard)
+    for k in keyboard:
+        print('k: ', k)
     bot.send_message(update.callback_query.message.chat.id,             
                     text=text, 
                     reply_markup=keyboard)
