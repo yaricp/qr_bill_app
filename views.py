@@ -140,7 +140,7 @@ def create_category(user, name):
     
     new_category = Category(name=name, user=user)
     new_category.save()
-    text='Seller created!'
+    text='Category created!'
     return text
     
     
