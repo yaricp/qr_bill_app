@@ -4,71 +4,32 @@ from config import *
 from models.wait import Wait
 from views import *
 from recognize import *
+from decorators import *
 
 CUR_DIR = os.path.dirname(os.path.realpath(__file__))
 
-def is_allowed_user():
-    def wrap(f):
-        def wrapped_f(*args):
-            obj = None
-            if args[1].message:
-                obj = args[1].message
-            elif args[1].callback_query:
-                obj = args[1].callback_query
-            if obj:
-                if obj.from_user.first_name in allowed_users:
-                    f(*args)
-                else:
-                    if args[1].callback_query:
-                        args[1].callback_query.answer('Sorry! it is private bot...')
-                    else:
-                        obj.reply_text('Sorry! it is private bot...')
-        return wrapped_f
-    return wrap
-    
-    
-def is_admin():
-    def wrap(f):
-        def wrapped_f(*args):
-            obj = None
-            if args[1].message:
-                obj = args[1].message
-            elif args[1].callback_query:
-                obj = args[1].callback_query
-            if obj:
-                if obj.from_user.first_name in admins:
-                    f(*args)
-                else:
-                    if args[1].callback_query:
-                        args[1].callback_query.answer('Sorry! you are not admin...')
-                    else:
-                        obj.reply_text('Sorry! you are not admin...')
-        return wrapped_f
-    return wrap
-    
-    
 run_waiting_command = {
         'new_category': create_category, 
         'new_seller': create_seller
     }
 
 
+@is_not_bot()
 def start(bot, update):
-    user = update.message.from_user.username
+    user = update.message.from_user
     keyboard = get_button_main()
-    print('UPDATE: ', update.message.from_user)
-    if user in admins:
+    if user.first_name in admins:
         text = 'Yes! And You are admins this bot!'
         update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
-    elif user in allowed_users:
+    elif user.first_name in allowed_users:
         text = 'Hello! \n'
         text += show_help()
         update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
     else:
-        username = update.message.from_user.username
-        user_id = update.message.from_user.id
+        username = user.first_name
+        user_id = user.id
         text = 'user %s with %s\n Wanted to use your bot.' % (username, user_id)
         for k, v in admins.items():
             bot.send_message(
@@ -81,22 +42,22 @@ def start(bot, update):
 
         
     
-    
+@is_not_bot()    
 def help(bot, update):
     keyboard = get_button_main()
     text = show_help()
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
     
-
+@is_not_bot()
 @is_allowed_user()
 def list_purchase(bot, update):
     user = update.message.from_user.id
-    print(update.message)
     keyboard = get_button_list_purchase(user)
     update.message.reply_text(  text='List Purchases',
                                 reply_markup=keyboard)
-                                
+
+@is_not_bot()                                
 @is_allowed_user()
 def list_category(bot, update):
     user = update.message.from_user.id
@@ -105,6 +66,7 @@ def list_category(bot, update):
                                 reply_markup=keyboard)
                                 
 
+@is_not_bot()
 @is_allowed_user()
 def list_seller(bot, update):
     user = update.message.from_user.id
@@ -112,7 +74,7 @@ def list_seller(bot, update):
     update.message.reply_text(  text='List Sellers',
                                 reply_markup=keyboard)
                                 
-                                
+@is_not_bot()                                
 @is_allowed_user()                                
 def menu(bot, update):
     keyboard = get_button_menu()
@@ -124,6 +86,7 @@ def error(bot, update, error_msg):
     module_logger.warning('Update caused error "%s"', error)
 
 
+@is_not_bot()
 def new_category(bot, update, args):
     user = update.message.from_user.id
     keyboard = get_button_main()
@@ -132,7 +95,7 @@ def new_category(bot, update, args):
                                 reply_markup=keyboard)
                                 
                                 
-
+@is_not_bot()
 def new_seller(bot, update, args):
     user = update.message.from_user.id
     keyboard = get_button_main()
@@ -141,6 +104,7 @@ def new_seller(bot, update, args):
                                 reply_markup=keyboard)
                                 
 
+@is_not_bot()
 @is_allowed_user()
 def list_orders(bot, update):
     user = update.message.from_user.id
@@ -148,7 +112,8 @@ def list_orders(bot, update):
     update.message.reply_text(  text='Orders',
                                 reply_markup=keyboard)
     
-                           
+
+@is_not_bot()                           
 @is_allowed_user()
 def by_seller(bot, update):
     user = update.message.from_user.id
@@ -158,6 +123,7 @@ def by_seller(bot, update):
                                 reply_markup=keyboard)
     
 
+@is_not_bot()
 @is_allowed_user()
 def by_category(bot, update):
     user = update.message.from_user.id
@@ -166,7 +132,8 @@ def by_category(bot, update):
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
     
-    
+
+@is_not_bot()    
 @is_allowed_user()
 def new_msg(bot, update):
     user = update.message.from_user.id
@@ -219,7 +186,8 @@ def new_msg(bot, update):
     update.message.reply_text(  text, 
                                 reply_markup=keyboard)
             
-        
+
+@is_not_bot()        
 @is_allowed_user()
 def button(bot, update):
     but_data = update.callback_query.data
