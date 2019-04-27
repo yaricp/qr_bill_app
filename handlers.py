@@ -55,6 +55,7 @@ run_waiting_command = {
 
 def start(bot, update):
     user = update.message.from_user.username
+    print('UPDATE: ', update.message)
     if user in admins:
         text = 'Yes! And You are admins this bot!'
         update.message.reply_text(  text=text,
@@ -67,7 +68,7 @@ def start(bot, update):
     else:
         username = update.message.from_user.username
         user_id = update.message.from_user.id
-        text = 'user $s with $s\n Wanted to use your bot.' % (username, user_id)
+        text = 'user %s with %s\n Wanted to use your bot.' % (username, user_id)
         for k, v in admins.items():
             bot.send_message(
                         v, 
