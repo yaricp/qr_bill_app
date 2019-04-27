@@ -19,7 +19,8 @@ from handlers import (  new_category,
                         by_category, 
                         by_seller,
                         help, 
-                        menu)
+                        menu, 
+                        start)
 
 from config import *
 
@@ -33,6 +34,9 @@ def main():
     updater = Updater(TOKEN, request_kwargs=REQUEST_KWARGS)
     print(REQUEST_KWARGS)
     dispatcher = updater.dispatcher
+    
+    start_handler = CommandHandler('start', start)
+    dispatcher.add_handler(start_handler)
     
     menu_handler = CommandHandler('menu', menu)
     dispatcher.add_handler(menu_handler)

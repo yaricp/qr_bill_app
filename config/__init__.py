@@ -12,7 +12,9 @@ REQUEST_KWARGS={
 }
 
 PATH_TEMP_FILES = 'files'
-allowed_users = ['yaricp','yaricp_dev']
+allowed_users = {'yaricp':'251241715',
+                'yaricp_dev':'556094746'}
+admins = {'yaricp':'251241715'}
 development = int(os.getenv('DEVEL', 1))
 
 if development:
