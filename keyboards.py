@@ -98,8 +98,6 @@ def get_button_list_purchase(user):
     purchases = Purchase.select().where(Purchase.user == user)
     buttons = []
     for p in purchases:
-        print('id: ', p.id)
-        print('pic: ', p.pic)
         seller_name = 'None'
         if p.seller_id:
             try:
@@ -108,7 +106,6 @@ def get_button_list_purchase(user):
             except:
                 print('seller not found!')
         #
-        print('pic&%s&%s' % (str(p.id), p.pic))
         buttons.append([
             InlineKeyboardButton(  
                 '%s - %s - %s' % (p.id, p.summ, seller_name), 
