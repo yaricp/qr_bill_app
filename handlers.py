@@ -56,7 +56,7 @@ run_waiting_command = {
 def start(bot, update):
     user = update.message.from_user.username
     keyboard = get_button_main()
-    print('UPDATE: ', dir(update.message))
+    print('UPDATE: ', update.message.from_user)
     if user in admins:
         text = 'Yes! And You are admins this bot!'
         update.message.reply_text(  text=text,
