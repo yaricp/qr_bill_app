@@ -53,7 +53,6 @@ run_waiting_command = {
     }
 
 
-@is_admin()
 def start(bot, update):
     user = update.message.from_user.username
     if user in admins:
