@@ -60,8 +60,8 @@ msgstr ""
 "Продавец: %s"
 
 #: views.py:70
-msgid "%s with ID = %s"
-msgstr "%s с номером = %s"
+msgid "%s with name = %s"
+msgstr "%s с именем = %s"
 
 #: views.py:98
 msgid "Please! send me name of category"

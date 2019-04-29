@@ -35,8 +35,7 @@ def show_purchase_item(user, id):
         category_name = purchase.category.name
     if purchase.seller:
         seller_name = purchase.seller.name
-    text = _('ID: %s\nDate Time: %s\nSumma: %s\nSeller: %s\nCategory: %s\nUser: %s') % ( 
-            purchase.id, 
+    text = _('Date Time: %s\nSumma: %s\nSeller: %s\nCategory: %s\nUser: %s') % ( 
             purchase.datetime, 
             purchase.summ, 
             seller_name, 
@@ -49,34 +48,30 @@ def show_purchase_item(user, id):
 def show_category_item(user, id):
     category = Category.get(Category.id==id, 
                             Category.user==user)
-    text = _('ID: %s\nCategory: %s') % ( 
-            category.id, 
-            category.name
-                            )
+    text = _('Category: %s') % category.name
     return text
 
 
 def show_seller_item(user, id):
     seller = Seller.get(Seller.id==id, 
                         Seller.user==user)
-    text = _('ID: %s\nSeller: %s') % ( 
-            seller.id, 
-            seller.name
-                            )
+    text = _('Seller: %s') % seller.name
     return text
     
                   
 def delete_item(user, typeitem, iditem):
-    text = _('%s with ID = %s') % (typeitem, iditem)
+    
     if typeitem == 'category':
         for p in Purchase.select().where(Purchase.category == iditem, 
                                          Purchase.user == user):
             p.category = None
             p.save()
+        item = Category.get(id=iditem)
         nrows = Category.delete().where(Category.id == iditem, 
                                         Category.user == user).execute()
         
     elif typeitem == 'seller':
+        item = Seller.get(id=iditem)
         nrows = Seller.delete().where(Seller.id == iditem, 
                                       Seller.user == user).execute()
         for p in Purchase.select().where(Purchase.seller == iditem, 
@@ -84,8 +79,10 @@ def delete_item(user, typeitem, iditem):
             p.seller = None
             p.save()
     elif typeitem == 'purchase':
+        item = Purchase.get(id=iditem)
         nrows = Purchase.delete().where(Purchase.id == iditem, 
                                         Purchase.user == user).execute()
+    text = _('%s with name = %s') % (typeitem, item.name)
     text += ' deleted'
     return text
         

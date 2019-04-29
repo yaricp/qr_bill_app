@@ -272,10 +272,10 @@ def button(bot, update):
             text = show_change_lang(user, id_obj)
             keyboard = get_button_main()
         elif type_obj == 'category':
-            keyboard =  get_button_del_item(user, id_obj, type_obj)
+            keyboard =  get_button_del_item(id_obj, type_obj)
             text = show_category_item(user, id_obj)
         elif type_obj == 'seller':
-            keyboard =  get_button_del_item(user, id_obj, type_obj)
+            keyboard =  get_button_del_item(id_obj, type_obj)
             text = show_seller_item(user, id_obj)
     if len(list_parameters) == 3:
         type_obj = list_parameters[0]

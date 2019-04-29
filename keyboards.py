@@ -128,7 +128,7 @@ def get_button_list_purchase(user):
                 'X', 
                 callback_data='delitem&%s&%s' % ('purchase',  str(p.id))), 
             InlineKeyboardButton(  
-                '%s - %s - %s' % (p.id, p.summ, seller_name), 
+                '%s - %s - %s' % (p.summ, p.datetime, seller_name), 
                 callback_data='purchase&'+str(p.id)),
             InlineKeyboardButton( 
                 _('Pic'), 
@@ -148,7 +148,7 @@ def get_button_list_categories(user):
                 'X', 
                 callback_data='delitem&%s&%s' % ('category',  str(c.id))), 
             InlineKeyboardButton(  
-                '%s - %s' % (c.id, c.name), 
+                c.name, 
                 callback_data='category&'+str(c.id))
             ])
     new_button = InlineKeyboardButton(  
@@ -175,7 +175,7 @@ def get_button_list_sellers(user):
                 'X', 
                 callback_data='delitem&%s&%s' % ('seller',  str(s.id))), 
             InlineKeyboardButton(  
-                '%s - %s' % (s.id, s.name), 
+                s.name, 
                 callback_data='seller&'+str(s.id))
             ])
     new_button = InlineKeyboardButton(  
