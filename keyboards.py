@@ -32,7 +32,7 @@ def get_button_lang():
     
     buttons = []
     for l in LANGUAGES:
-        buttons.append(InlineKeyboardButton( lang, 
+        buttons.append(InlineKeyboardButton( l, 
                                             callback_data='lang&%s' % lang))
     return [buttons]
     
