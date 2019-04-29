@@ -237,8 +237,10 @@ def button(bot, update):
         keyboard = get_button_list_purchase(user)
         text=_('List Purchase')
     elif but_data == '/new_category':
+        #TODO telegram.ReplyKeyboardRemove
         text = show_new_category(user)
     elif but_data == '/new_seller':
+        #TODO telegram.ReplyKeyboardRemove
         text = show_new_seller(user)
     elif but_data == '/orders':
         keyboard = get_button_orders()
