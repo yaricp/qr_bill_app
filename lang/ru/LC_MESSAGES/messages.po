@@ -167,6 +167,10 @@ msgstr "отчеты"
 msgid "languages"
 msgstr "языки"
 
+#: keyboards.py:26
+msgid "help"
+msgstr "помощь"
+
 #: keyboards.py:65 keyboards.py:178
 msgid "New Seller"
 msgstr "Новый продавец"

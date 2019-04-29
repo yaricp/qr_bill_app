@@ -22,7 +22,8 @@ def get_button_menu():
                 InlineKeyboardButton( _('sellers'), callback_data='/sellers')],  
                 [InlineKeyboardButton( _('purchases'), callback_data='/purchases')], 
                 [InlineKeyboardButton( _('orders'), callback_data='/orders')], 
-                [InlineKeyboardButton( _('languages'), callback_data='/langs')], 
+                [InlineKeyboardButton( _('languages'), callback_data='/langs')],
+                [InlineKeyboardButton( _('help'), callback_data='/help')], 
                 ]
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard

@@ -250,6 +250,8 @@ def button(bot, update):
     elif but_data == '/menu':
         keyboard = get_button_menu()
         text=_('Menu')
+    elif but_data == '/help':
+        text = show_help()
     elif but_data == '/langs':
         keyboard = get_button_lang()
         text=_('Change language')
