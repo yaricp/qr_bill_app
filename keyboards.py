@@ -123,15 +123,16 @@ def get_button_list_purchase(user):
                 print('seller not found!')
         #
         buttons.append([
+            InlineKeyboardButton( 
+                'X', 
+                callback_data='delitem&%s&%s' % ('purchase',  str(p.id))), 
             InlineKeyboardButton(  
                 '%s - %s - %s' % (p.id, p.summ, seller_name), 
                 callback_data='purchase&'+str(p.id)),
             InlineKeyboardButton( 
                 _('Pic'), 
                 callback_data='p&%s&%s' % (str(p.id), str(p.pic))), 
-            InlineKeyboardButton( 
-                _('Delete'), 
-                callback_data='delitem&%s&%s' % ('purchase',  str(p.id)))
+            
             ])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
@@ -142,12 +143,12 @@ def get_button_list_categories(user):
     buttons = []
     for c in categories:
         buttons.append([
+            InlineKeyboardButton( 
+                'X', 
+                callback_data='delitem&%s&%s' % ('category',  str(c.id))), 
             InlineKeyboardButton(  
                 '%s - %s' % (c.id, c.name), 
-                callback_data='category&'+str(c.id)), 
-            InlineKeyboardButton( 
-                _('Delete'), 
-                callback_data='delitem&%s&%s' % ('category',  str(c.id)))
+                callback_data='category&'+str(c.id))
             ])
     new_button = InlineKeyboardButton(  
         _('New Category'), 
@@ -169,12 +170,12 @@ def get_button_list_sellers(user):
     buttons = []
     for s in sellers:
         buttons.append([
+            InlineKeyboardButton( 
+                'X', 
+                callback_data='delitem&%s&%s' % ('seller',  str(s.id))), 
             InlineKeyboardButton(  
                 '%s - %s' % (s.id, s.name), 
-                callback_data='seller&'+str(s.id)), 
-            InlineKeyboardButton( 
-                _('Delete'), 
-                callback_data='delitem&%s&%s' % ('seller',  str(s.id)))
+                callback_data='seller&'+str(s.id))
             ])
     new_button = InlineKeyboardButton(  
         _('New Seller'),
