@@ -11,6 +11,7 @@ REQUEST_KWARGS={
     }
 }
 
+LANGUAGES = ['en', 'ru']
 
 PATH_TEMP_FILES = 'files'
 allowed_users = {'yaricp':'251241715',

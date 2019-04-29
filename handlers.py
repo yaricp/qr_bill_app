@@ -6,6 +6,7 @@ from views import *
 from recognize import *
 from decorators import *
 
+
 CUR_DIR = os.path.dirname(os.path.realpath(__file__))
 
 run_waiting_command = {
@@ -19,28 +20,40 @@ def start(bot, update):
     user = update.message.from_user
     keyboard = get_button_main()
     if user.first_name in admins:
-        text = 'Yes! And You are admins this bot!'
+        text = _('Yes! And You are admins this bot!')
         update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
     elif user.first_name in allowed_users:
-        text = 'Hello! \n'
+        text = _('Hello!') + ' \n'
         text += show_help()
         update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
     else:
         username = user.first_name
         user_id = user.id
-        text = 'user %s with %s\n Wanted to use your bot.' % (username, user_id)
+        text = _('user %s with %s\n Wanted to use your bot.') % (username, user_id)
         for k, v in admins.items():
             bot.send_message(
                         v, 
                         text=text, 
                         reply_markup=keyboard
                         )
-        text = 'Ок! we send request to admin of this bot\n After confirm you will take a message'
+        text = _('Ок! we send request to admin of this bot\n After confirm you will take a message')
         update.message.reply_text(text=text)
 
-        
+
+@is_not_bot()
+@is_allowed_user()
+def change_lang(bot, update, ):
+    user = update.message.from_user.id
+    lang = update.message.text.replace('/lang', '').replace(' ', '')
+    if lang in LANGUAGES:
+        text = show_change_lang(user, lang)
+        keyboard = get_button_main()
+        update.message.reply_text(  text=text,
+                                reply_markup=keyboard)
+    return false
+
     
 @is_not_bot()    
 def help(bot, update):
@@ -54,7 +67,7 @@ def help(bot, update):
 def list_purchase(bot, update):
     user = update.message.from_user.id
     keyboard = get_button_list_purchase(user)
-    update.message.reply_text(  text='List Purchases',
+    update.message.reply_text(  text=_('List Purchases'),
                                 reply_markup=keyboard)
 
 @is_not_bot()                                
@@ -62,7 +75,7 @@ def list_purchase(bot, update):
 def list_category(bot, update):
     user = update.message.from_user.id
     keyboard = get_button_list_categories(user)
-    update.message.reply_text(  text='List Сategories',
+    update.message.reply_text(  text=_('List Сategories'),
                                 reply_markup=keyboard)
                                 
 
@@ -71,19 +84,19 @@ def list_category(bot, update):
 def list_seller(bot, update):
     user = update.message.from_user.id
     keyboard = get_button_list_sellers(user)
-    update.message.reply_text(  text='List Sellers',
+    update.message.reply_text(  text=_('List Sellers'),
                                 reply_markup=keyboard)
                                 
 @is_not_bot()                                
 @is_allowed_user()                                
 def menu(bot, update):
     keyboard = get_button_menu()
-    update.message.reply_text(  text='Menu',
+    update.message.reply_text(  text=_('Menu'),
                                 reply_markup=keyboard)
        
     
 def error(bot, update, error_msg):
-    module_logger.warning('Update caused error "%s"', error)
+    module_logger.warning(_('Update caused error "%s"'), error)
 
 
 @is_not_bot()
@@ -109,7 +122,7 @@ def new_seller(bot, update, args):
 def list_orders(bot, update):
     user = update.message.from_user.id
     keyboard = get_button_orders(user)
-    update.message.reply_text(  text='Orders',
+    update.message.reply_text(  text=_('Orders'),
                                 reply_markup=keyboard)
     
 
@@ -138,7 +151,7 @@ def by_category(bot, update):
 def new_msg(bot, update):
     user = update.message.from_user.id
     keyboard = get_button_main()
-    text = 'summa or datetime not found'
+    text = _('summa or datetime not found')
     if update.message.media_group_id:
         flag_send = False
         photo_file_id = update.message.photo[-1].get_file().file_id
@@ -175,7 +188,7 @@ def new_msg(bot, update):
                 text = show_purchase_item(user, pur.id)
                 keyboard = get_button_categories(user, pur.id)
             else:
-                text = 'ATTANTION!\nIts looks like:\n'
+                text = _('ATTANTION!\nIts looks like:\n')
                 text += show_purchase_item(user, check_p[0].id)
                 keyboard = get_button_categories(user, check_p[0].id)
     else:
@@ -198,27 +211,27 @@ def button(bot, update):
     nrows = Wait.delete().where(Wait.user == user).execute()
     if but_data == '/purchases':
         keyboard = get_button_list_purchase(user)
-        text='List Purchase'
+        text=_('List Purchase')
     elif but_data == '/new_category':
         text = show_new_category(user)
     elif but_data == '/new_seller':
         text = show_new_seller(user)
     elif but_data == '/orders':
         keyboard = get_button_orders()
-        text='Orders'
+        text=_('Orders')
     elif but_data == '/by_seller':
         text = show_order_by(user,'seller')
     elif but_data == '/by_category':
         text = show_order_by(user,'category')
     elif but_data == '/menu':
         keyboard = get_button_menu()
-        text='Menu'
+        text=_('Menu')
     elif but_data == '/categories':
         keyboard = get_button_list_categories(user)
-        text = 'List categories'
+        text = _('List categories')
     elif but_data == '/sellers':
         keyboard = get_button_list_sellers(user)
-        text = 'List sellers'
+        text = _('List sellers')
     list_parameters = but_data.split('&')
     if len(list_parameters) == 2:
         type_obj = list_parameters[0]

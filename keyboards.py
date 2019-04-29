@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 from telegram import (InlineKeyboardMarkup, InlineKeyboardButton)
+
 
 from models.seller import Seller
 from models.category import Category
@@ -7,17 +9,17 @@ from models.purchase import Purchase
 
 def get_button_main():
     new_button = InlineKeyboardButton(  
-        'Menu',
+        _('Menu'),
         callback_data='/menu')
     keyboard = InlineKeyboardMarkup([[new_button]])
     return keyboard
     
     
 def get_button_menu():
-    buttons = [[InlineKeyboardButton( 'categories', callback_data='/categories'), 
-                InlineKeyboardButton( 'sellers', callback_data='/sellers')],  
-                [InlineKeyboardButton( 'purchases', callback_data='/purchases')], 
-                [InlineKeyboardButton( 'orders', callback_data='/orders')], 
+    buttons = [[InlineKeyboardButton( _('categories'), callback_data='/categories'), 
+                InlineKeyboardButton( _('sellers'), callback_data='/sellers')],  
+                [InlineKeyboardButton( _('purchases'), callback_data='/purchases')], 
+                [InlineKeyboardButton( _('orders'), callback_data='/orders')], 
                 ]
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
@@ -48,11 +50,11 @@ def get_button_sellers(user, id_purchase):
                     callback_data='change_seller&%s&%s' % ( id_purchase , seller.id )))
     menu.append(buttons)
     new_button = InlineKeyboardButton(  
-        'New Seller',
+        _('New Seller'),
         callback_data='/new_seller')
     menu.append([new_button])
     new_button = InlineKeyboardButton(  
-        'Menu',
+        _('Menu'),
         callback_data='/menu')
     menu.append([new_button])
     keyboard = InlineKeyboardMarkup(menu)
@@ -83,11 +85,11 @@ def get_button_categories(user, id_purchase):
                     callback_data='change_category&%s&%s' % ( id_purchase, category.id )))
     menu.append(buttons)
     new_button = InlineKeyboardButton(  
-        'New Category', 
+        _('New Category'), 
         callback_data='/new_category')
     menu.append([new_button])
     new_button = InlineKeyboardButton(  
-        'Menu',
+        _('Menu'),
         callback_data='/menu')
     menu.append([new_button])
     keyboard = InlineKeyboardMarkup(menu)
@@ -111,10 +113,10 @@ def get_button_list_purchase(user):
                 '%s - %s - %s' % (p.id, p.summ, seller_name), 
                 callback_data='purchase&'+str(p.id)),
             InlineKeyboardButton( 
-                'Pic', 
+                _('Pic'), 
                 callback_data='p&%s&%s' % (str(p.id), str(p.pic))), 
             InlineKeyboardButton( 
-                'Delete', 
+                _('Delete'), 
                 callback_data='delitem&%s&%s' % ('purchase',  str(p.id)))
             ])
     keyboard = InlineKeyboardMarkup(buttons)
@@ -130,11 +132,11 @@ def get_button_list_categories(user):
                 '%s - %s' % (c.id, c.name), 
                 callback_data='category&'+str(c.id)), 
             InlineKeyboardButton( 
-                'Delete', 
+                _('Delete'), 
                 callback_data='delitem&%s&%s' % ('category',  str(c.id)))
             ])
     new_button = InlineKeyboardButton(  
-        'New Category', 
+        _('New Category'), 
         callback_data='/new_category')
     buttons.append([new_button])
     keyboard = InlineKeyboardMarkup(buttons)
@@ -142,8 +144,8 @@ def get_button_list_categories(user):
 
 
 def get_button_orders():
-    buttons = [[InlineKeyboardButton( 'by_category', callback_data='/by_category'), 
-                InlineKeyboardButton( 'by_seller', callback_data='/by_seller')]]
+    buttons = [[InlineKeyboardButton( _('by category'), callback_data='/by_category'), 
+                InlineKeyboardButton( _('by seller'), callback_data='/by_seller')]]
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
     
@@ -157,11 +159,11 @@ def get_button_list_sellers(user):
                 '%s - %s' % (s.id, s.name), 
                 callback_data='seller&'+str(s.id)), 
             InlineKeyboardButton( 
-                'Delete', 
+                _('Delete'), 
                 callback_data='delitem&%s&%s' % ('seller',  str(s.id)))
             ])
     new_button = InlineKeyboardButton(  
-        'New Seller',
+        _('New Seller'),
         callback_data='/new_seller')
     buttons.append([new_button])
     keyboard = InlineKeyboardMarkup(buttons)

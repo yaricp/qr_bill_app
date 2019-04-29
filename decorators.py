@@ -1,3 +1,4 @@
+
 from config import *
 
 def is_allowed_user():
@@ -13,9 +14,9 @@ def is_allowed_user():
                     f(*args)
                 else:
                     if args[1].callback_query:
-                        args[1].callback_query.answer('Sorry! it is private bot...')
+                        args[1].callback_query.answer(_('Sorry! it is private bot...'))
                     else:
-                        obj.reply_text('Sorry! it is private bot...')
+                        obj.reply_text(_('Sorry! it is private bot...'))
         return wrapped_f
     return wrap
     
