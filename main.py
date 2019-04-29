@@ -6,10 +6,6 @@ from telegram.ext import MessageHandler, Filters
 #from telegram.ext import InlineQueryHandler
 from telegram.ext import CallbackQueryHandler
 
-#import gettext
-#ru = gettext.translation('qrcodeorder', localedir='lang', languages=['ru'])
-#ru.install()
-
 from init_db import initialize_db
 
 from handlers import (  new_category, 
