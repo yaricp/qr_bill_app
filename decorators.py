@@ -1,3 +1,4 @@
+from models.language import Language
 
 from config import *
 
@@ -52,6 +53,28 @@ def is_not_bot():
             if obj:
                 if not obj.from_user.is_bot:
                     f(*args)
+        return wrapped_f
+    return wrap
+    
+
+def lang():
+    def wrap(f):
+        def wrapped_f(*args):
+            obj = None
+            if args[1].message:
+                obj = args[1].message
+            elif args[1].callback_query:
+                obj = args[1].callback_query
+            if obj:
+                user = obj.from_user.id
+                lang = Language.select().where(Langauge.user == user)[0].lang
+                print(lang)
+                if not lang: lang = DEFAULT_LANG
+                lang_user = gettext.translation('qrcodeorder', 
+                                                localedir='lang', 
+                                                languages=[lang])
+                lang_user.install()
+                f(*args)
         return wrapped_f
     return wrap
     

@@ -6,6 +6,8 @@ from models.seller import Seller
 from models.category import Category
 from models.purchase import Purchase
 
+from config import *
+
 
 def get_button_main():
     new_button = InlineKeyboardButton(  
@@ -20,9 +22,19 @@ def get_button_menu():
                 InlineKeyboardButton( _('sellers'), callback_data='/sellers')],  
                 [InlineKeyboardButton( _('purchases'), callback_data='/purchases')], 
                 [InlineKeyboardButton( _('orders'), callback_data='/orders')], 
+                [InlineKeyboardButton( _('languages'), callback_data='/langs')], 
                 ]
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
+    
+    
+def get_button_lang():
+    
+    buttons = []
+    for l in LANGUAGES:
+        buttons.append(InlineKeyboardButton( lang, 
+                                            callback_data='lang&%s' % lang))
+    return [buttons]
     
 
 def get_button_sellers(user, id_purchase):

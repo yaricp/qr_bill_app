@@ -134,6 +134,8 @@ def show_help():
     text += '/orders - ' + _('list of orders') + '\n'
     text += '/by_category - ' + _('order by category') + '\n'
     text += '/by_seller - ' + _('order by seller') + '\n'
+    text += '/langs - ' + _('list languages') + '\n'
+    text += '/lang NAME - ' + _('set language to NAME') + '\n'
     text += '/help - ' + _('show this help') + '\n'
     return text
     
@@ -142,7 +144,7 @@ def create_category(user, name):
     
     new_category = Category(name=name, user=user)
     new_category.save()
-    text='Category created!'
+    text=_('Category created!')
     return text
     
     
@@ -150,7 +152,7 @@ def create_seller(user, name):
     
     new_seller = Seller(name=name, user=user)
     new_seller.save()
-    text='Seller created!'
+    text=_('Seller created!')
     return text
 
 
@@ -162,8 +164,6 @@ def show_change_lang(user, lang):
     else:
         user_lang = Language(user=user, lang=lang)
     user_lang.save()
-    lang_user = gettext.translation('qrcodeorder', localedir='lang', languages=[lang])
-    lang_user.install()
     text = _('Language changed to ') + lang
     return text
     

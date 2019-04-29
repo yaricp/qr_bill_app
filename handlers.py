@@ -16,6 +16,7 @@ run_waiting_command = {
 
 
 @is_not_bot()
+@lang()
 def start(bot, update):
     user = update.message.from_user
     keyboard = get_button_main()
@@ -44,6 +45,7 @@ def start(bot, update):
 
 @is_not_bot()
 @is_allowed_user()
+@lang()
 def change_lang(bot, update, ):
     user = update.message.from_user.id
     lang = update.message.text.replace('/lang', '').replace(' ', '')
@@ -55,7 +57,8 @@ def change_lang(bot, update, ):
     return false
 
     
-@is_not_bot()    
+@is_not_bot()
+@lang()
 def help(bot, update):
     keyboard = get_button_main()
     text = show_help()
@@ -64,6 +67,7 @@ def help(bot, update):
     
 @is_not_bot()
 @is_allowed_user()
+@lang()
 def list_purchase(bot, update):
     user = update.message.from_user.id
     keyboard = get_button_list_purchase(user)
@@ -72,6 +76,7 @@ def list_purchase(bot, update):
 
 @is_not_bot()                                
 @is_allowed_user()
+@lang()
 def list_category(bot, update):
     user = update.message.from_user.id
     keyboard = get_button_list_categories(user)
@@ -81,6 +86,7 @@ def list_category(bot, update):
 
 @is_not_bot()
 @is_allowed_user()
+@lang()
 def list_seller(bot, update):
     user = update.message.from_user.id
     keyboard = get_button_list_sellers(user)
@@ -88,7 +94,8 @@ def list_seller(bot, update):
                                 reply_markup=keyboard)
                                 
 @is_not_bot()                                
-@is_allowed_user()                                
+@is_allowed_user()
+@lang()
 def menu(bot, update):
     keyboard = get_button_menu()
     update.message.reply_text(  text=_('Menu'),
@@ -100,6 +107,7 @@ def error(bot, update, error_msg):
 
 
 @is_not_bot()
+@lang()
 def new_category(bot, update, args):
     user = update.message.from_user.id
     keyboard = get_button_main()
@@ -109,6 +117,7 @@ def new_category(bot, update, args):
                                 
                                 
 @is_not_bot()
+@lang()
 def new_seller(bot, update, args):
     user = update.message.from_user.id
     keyboard = get_button_main()
@@ -119,6 +128,7 @@ def new_seller(bot, update, args):
 
 @is_not_bot()
 @is_allowed_user()
+@lang()
 def list_orders(bot, update):
     user = update.message.from_user.id
     keyboard = get_button_orders(user)
@@ -128,6 +138,7 @@ def list_orders(bot, update):
 
 @is_not_bot()                           
 @is_allowed_user()
+@lang()
 def by_seller(bot, update):
     user = update.message.from_user.id
     keyboard = get_button_main()
@@ -138,6 +149,7 @@ def by_seller(bot, update):
 
 @is_not_bot()
 @is_allowed_user()
+@lang()
 def by_category(bot, update):
     user = update.message.from_user.id
     keyboard = get_button_main()
@@ -148,6 +160,7 @@ def by_category(bot, update):
 
 @is_not_bot()    
 @is_allowed_user()
+@lang()
 def new_msg(bot, update):
     user = update.message.from_user.id
     keyboard = get_button_main()
@@ -202,6 +215,7 @@ def new_msg(bot, update):
 
 @is_not_bot()        
 @is_allowed_user()
+@lang()
 def button(bot, update):
     but_data = update.callback_query.data
     user = update.callback_query.from_user.id
@@ -226,6 +240,9 @@ def button(bot, update):
     elif but_data == '/menu':
         keyboard = get_button_menu()
         text=_('Menu')
+    elif but_data == '/langs':
+        keyboard = get_button_lang()
+        text=_('Languages')
     elif but_data == '/categories':
         keyboard = get_button_list_categories(user)
         text = _('List categories')
@@ -239,7 +256,8 @@ def button(bot, update):
         if type_obj == 'purchase':
             keyboard = get_button_categories(user, id_obj)
             text = show_purchase_item(user, id_obj)
-        
+        elif type_obj == 'lang':
+            text = show_change_lang(user, id_obj)
         elif type_obj == 'category':
             keyboard =  get_button_del_item(user, id_obj, type_obj)
             text = show_category_item(user, id_obj)

@@ -6,9 +6,9 @@ from telegram.ext import MessageHandler, Filters
 #from telegram.ext import InlineQueryHandler
 from telegram.ext import CallbackQueryHandler
 
-import gettext
-ru = gettext.translation('qrcodeorder', localedir='lang', languages=['ru'])
-ru.install()
+#import gettext
+#ru = gettext.translation('qrcodeorder', localedir='lang', languages=['ru'])
+#ru.install()
 
 from init_db import initialize_db
 
@@ -24,7 +24,8 @@ from handlers import (  new_category,
                         by_seller,
                         help, 
                         menu, 
-                        start)
+                        start, 
+                        change_lang)
 
 from config import *
 
@@ -34,6 +35,7 @@ if development:
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 def main():
+    
 
     updater = Updater(TOKEN, request_kwargs=REQUEST_KWARGS)
     dispatcher = updater.dispatcher
@@ -43,6 +45,9 @@ def main():
     
     menu_handler = CommandHandler('menu', menu)
     dispatcher.add_handler(menu_handler)
+    
+    lang_handler = CommandHandler('lang', change_lang)
+    dispatcher.add_handler(lang_handler)
 
     new_category_handler = CommandHandler('new_category', new_category, pass_args=True)
     dispatcher.add_handler(new_category_handler)

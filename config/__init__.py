@@ -2,6 +2,7 @@
 import os
 import peewee as pw
 from playhouse.migrate import *
+
 REQUEST_KWARGS={
     'proxy_url': 'socks5://80.211.38.123:1080',
     # Optional, if you need authentication:
@@ -12,6 +13,7 @@ REQUEST_KWARGS={
 }
 
 LANGUAGES = ['en', 'ru']
+DEFAULT_LANG = 'ru'
 
 PATH_TEMP_FILES = 'files'
 allowed_users = {'yaricp':'251241715',
