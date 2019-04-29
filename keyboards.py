@@ -32,9 +32,11 @@ def get_button_lang():
     
     buttons = []
     for l in LANGUAGES:
+        
         buttons.append(InlineKeyboardButton( l, 
                                             callback_data='lang&%s' % l))
-    return [buttons]
+    keyboard = InlineKeyboardMarkup([buttons])
+    return keyboard
     
 
 def get_button_sellers(user, id_purchase):
