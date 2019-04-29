@@ -136,6 +136,9 @@ def show_help():
     text += '/by_seller - ' + _('order by seller') + '\n'
     text += '/langs - ' + _('list languages') + '\n'
     text += '/lang NAME - ' + _('set language to NAME') + '\n'
+    text += _('Now available this languages:') + '\n'
+    for lang in LANGUAGES:
+        text += lang + '\n'
     text += '/help - ' + _('show this help') + '\n'
     return text
     
