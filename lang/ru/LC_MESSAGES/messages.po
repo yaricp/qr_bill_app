@@ -252,7 +252,7 @@ msgid "List Purchase"
 msgstr "Список покупок"
 
 #: handlers.py:245
-msgid "Languages"
+msgid "Change language"
 msgstr "Выберите язык"
 
 #: handlers.py:248

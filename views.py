@@ -161,6 +161,10 @@ def show_change_lang(user, lang):
     user_lang, created = Language.get_or_create(user=user)
     user_lang.lang = lang
     user_lang.save()
+    lang_user = gettext.translation('messages', 
+                                    localedir='lang', 
+                                    languages=[lang])
+    lang_user.install()
     text = _('Language changed to ') + lang
     return text
     

@@ -21,7 +21,8 @@ from handlers import (  new_category,
                         help, 
                         menu, 
                         start, 
-                        change_lang)
+                        change_lang, 
+                        langs)
 
 from config import *
 
@@ -44,6 +45,9 @@ def main():
     
     lang_handler = CommandHandler('lang', change_lang)
     dispatcher.add_handler(lang_handler)
+    
+    langs_handler = CommandHandler('langs', langs)
+    dispatcher.add_handler(langs_handler)
 
     new_category_handler = CommandHandler('new_category', new_category, pass_args=True)
     dispatcher.add_handler(new_category_handler)

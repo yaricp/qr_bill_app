@@ -70,7 +70,6 @@ def lang():
                 user = obj.from_user.id
                 user_lang, created = Language.get_or_create(user=user)
                 lang = user_lang.lang
-                print('LANG :', lang)
                 lang_user = gettext.translation('messages', 
                                                 localedir='lang', 
                                                 languages=[lang])

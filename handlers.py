@@ -46,7 +46,7 @@ def start(bot, update):
 @is_not_bot()
 @is_allowed_user()
 @lang()
-def change_lang(bot, update, ):
+def change_lang(bot, update):
     user = update.message.from_user.id
     lang = update.message.text.replace('/lang', '').replace(' ', '')
     if lang in LANGUAGES:
@@ -55,6 +55,16 @@ def change_lang(bot, update, ):
         update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
     return false
+    
+    
+@is_not_bot()
+@is_allowed_user()
+@lang()
+def langs(bot, update):
+    keyboard = get_button_lang()
+    text=_('Change language')
+    update.message.reply_text(  text=text,
+                                reply_markup=keyboard)
 
     
 @is_not_bot()
@@ -242,7 +252,7 @@ def button(bot, update):
         text=_('Menu')
     elif but_data == '/langs':
         keyboard = get_button_lang()
-        text=_('Languages')
+        text=_('Change language')
     elif but_data == '/categories':
         keyboard = get_button_list_categories(user)
         text = _('List categories')

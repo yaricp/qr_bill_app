@@ -234,7 +234,7 @@ msgid "List Purchase"
 msgstr ""
 
 #: handlers.py:245
-msgid "Languages"
+msgid "Change language"
 msgstr ""
 
 #: handlers.py:248
