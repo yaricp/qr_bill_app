@@ -67,10 +67,10 @@ def lang():
                 obj = args[1].callback_query
             if obj:
                 user = obj.from_user.id
+                lang = DEFAULT_LANG
                 langs = Language.select().where(Language.user == user)
-                if not langs: lang = DEFAULT_LANG
                 for lang in langs:
-                    print(lang)
+                    print('LANG: ', lang)
                     lang_user = gettext.translation('messages', 
                                                     localedir='lang', 
                                                     languages=[lang])
