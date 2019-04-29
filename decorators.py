@@ -67,14 +67,15 @@ def lang():
                 obj = args[1].callback_query
             if obj:
                 user = obj.from_user.id
-                lang = Language.select().where(Language.user == user)[0].lang
-                print(lang)
-                if not lang: lang = DEFAULT_LANG
-                lang_user = gettext.translation('messages', 
-                                                localedir='lang', 
-                                                languages=[lang])
-                lang_user.install()
-                f(*args)
+                langs = Language.select().where(Language.user == user)
+                if not langs: lang = DEFAULT_LANG
+                for lang in langs:
+                    print(lang)
+                    lang_user = gettext.translation('messages', 
+                                                    localedir='lang', 
+                                                    languages=[lang])
+                    lang_user.install()
+                    f(*args)
         return wrapped_f
     return wrap
     
