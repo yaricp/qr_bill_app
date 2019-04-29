@@ -69,6 +69,7 @@ def lang():
             if obj:
                 user = obj.from_user.id
                 lang = DEFAULT_LANG
+                print('USER: ', user)
                 langs = Language.select().where(Language.user == user)
                 for l in langs:
                     print('LANG: ', l)

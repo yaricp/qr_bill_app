@@ -159,6 +159,8 @@ def create_seller(user, name):
 def show_change_lang(user, lang):
     
     user_lang = Language.select().where(Language.user == user)
+    print(len(user_lang))
+    print(user_lang)
     if user_lang:
         user_lang[0].lang = lang
     else:
