@@ -1,3 +1,4 @@
+import gettext
 from models.language import Language
 
 from config import *
@@ -69,13 +70,14 @@ def lang():
                 user = obj.from_user.id
                 lang = DEFAULT_LANG
                 langs = Language.select().where(Language.user == user)
-                for lang in langs:
-                    print('LANG: ', lang)
-                    lang_user = gettext.translation('messages', 
-                                                    localedir='lang', 
-                                                    languages=[lang])
-                    lang_user.install()
-                    f(*args)
+                for l in langs:
+                    print('LANG: ', l)
+                    lang = l
+                lang_user = gettext.translation('messages', 
+                                                localedir='lang', 
+                                                languages=[lang])
+                lang_user.install()
+                f(*args)
         return wrapped_f
     return wrap
     
