@@ -71,10 +71,10 @@ def lang():
                 lang = DEFAULT_LANG
                 print('USER: ', user)
                 langs = Language.select().where(Language.user == user)
-                print('LANGS :', langs)
+                print('LANGS :', len(langs))
                 for l in langs:
-                    print('LANG: ', l)
-                    lang = l
+                    print('LANG: ', l.lang)
+                    lang = l.lang
                 lang_user = gettext.translation('messages', 
                                                 localedir='lang', 
                                                 languages=[lang])
