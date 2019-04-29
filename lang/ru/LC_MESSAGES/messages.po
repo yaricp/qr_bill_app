@@ -59,9 +59,21 @@ msgstr ""
 "Номер: %s\n"
 "Продавец: %s"
 
+#: views.py:65
+msgid "category"
+msgstr "категория"
+
 #: views.py:70
 msgid "%s with name %s"
 msgstr "%s с именем %s"
+
+#: views.py:75
+msgid "seller"
+msgstr "продавец"
+
+#: views.py:82
+msgid "purchase"
+msgstr "покупка"
 
 #: views.py:98
 msgid "Please! send me name of category"

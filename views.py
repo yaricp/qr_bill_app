@@ -62,6 +62,7 @@ def show_seller_item(user, id):
 def delete_item(user, typeitem, iditem):
     
     if typeitem == 'category':
+        type_name = _('category')
         for p in Purchase.select().where(Purchase.category == iditem, 
                                          Purchase.user == user):
             p.category = None
@@ -71,6 +72,7 @@ def delete_item(user, typeitem, iditem):
                                         Category.user == user).execute()
         
     elif typeitem == 'seller':
+        type_name = _('seller')
         item_name = Seller.get(id=iditem).name
         nrows = Seller.delete().where(Seller.id == iditem, 
                                       Seller.user == user).execute()
@@ -79,11 +81,12 @@ def delete_item(user, typeitem, iditem):
             p.seller = None
             p.save()
     elif typeitem == 'purchase':
+        type_name = _('purchase')
         item_name = '%s %s' % (Purchase.get(id=iditem).datetime, 
                                 Purchase.get(id=iditem).summ)
         nrows = Purchase.delete().where(Purchase.id == iditem, 
                                         Purchase.user == user).execute()
-    text = _('%s with name %s') % (typeitem, item_name)
+    text = _('%s %s') % (type_name, item_name)
     text += ' deleted'
     return text
         
