@@ -71,6 +71,7 @@ def lang():
                 lang = DEFAULT_LANG
                 print('USER: ', user)
                 langs = Language.select().where(Language.user == user)
+                print('LANGS :', langs)
                 for l in langs:
                     print('LANG: ', l)
                     lang = l
