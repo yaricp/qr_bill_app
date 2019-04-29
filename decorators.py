@@ -70,7 +70,7 @@ def lang():
                 lang = Language.select().where(Langauge.user == user)[0].lang
                 print(lang)
                 if not lang: lang = DEFAULT_LANG
-                lang_user = gettext.translation('qrcodeorder', 
+                lang_user = gettext.translation('messages', 
                                                 localedir='lang', 
                                                 languages=[lang])
                 lang_user.install()
