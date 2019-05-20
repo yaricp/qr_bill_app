@@ -5,3 +5,4 @@ pyzbar
 pyzbar[scripts]
 pillow
 pytesseract
+opencv-python
