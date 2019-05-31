@@ -33,6 +33,7 @@ if development:
 
 def main():
     
+    print('TOKEN: ', TOKEN)
 
     updater = Updater(TOKEN, request_kwargs=REQUEST_KWARGS)
     dispatcher = updater.dispatcher
