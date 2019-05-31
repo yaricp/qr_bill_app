@@ -172,6 +172,7 @@ def by_category(bot, update):
 @is_allowed_user()
 @lang()
 def new_msg(bot, update):
+    wait_command = None
     user = update.message.from_user.id
     keyboard = get_button_main()
     text = _('summa or datetime not found')
@@ -196,7 +197,8 @@ def new_msg(bot, update):
         new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
         date_time, summ = scan()
     else:
-        wait_command = Wait.get(user=user).command
+        if Wait.get(user=user).exists():
+            wait_command = Wait.get(user=user).command
         if wait_command:
             text = run_waiting_command[wait_command](user, update.message.text)
         else:
