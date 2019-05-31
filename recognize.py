@@ -37,6 +37,17 @@ def scan():
     return date_time, summ
 
 
+def parse_text(text):
+    list = text.split('&')
+    temp_datetime = '%Y%m%dT%H%M'
+    str_date_time = list[0].replace('t=', '')
+    if len(str_date_time.split('T')[1]) == 6:
+        temp_datetime = '%Y%m%dT%H%M%S'
+    date_time = datetime.strptime(str_date_time, temp_datetime)
+    summ = float(list[1].replace('s=', ''))
+    return date_time, summ
+    
+    
 if __name__ == "__main__":
     scan()
     

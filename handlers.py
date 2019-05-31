@@ -194,31 +194,31 @@ def new_msg(bot, update):
         foto = bot.getFile(photo_file_id)
         new_file = bot.get_file(foto.file_id)
         new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
-        
         date_time, summ = scan()
-        if date_time and summ:
-            check_p = Purchase.select().where(Purchase.summ==summ,
-                                    Purchase.datetime==date_time, 
-                                    Purchase.user==user)
-            if not check_p:
-                pur = Purchase(name='', 
-                            datetime=date_time, 
-                            summ=summ, 
-                            user=user, 
-                            pic=photo_file_id
-                            )
-                pur.save()
-                text = show_purchase_item(user, pur.id)
-                keyboard = get_button_categories(user, pur.id)
-            else:
-                text = _('ATTANTION!\nIts looks like:\n')
-                text += show_purchase_item(user, check_p[0].id)
-                keyboard = get_button_categories(user, check_p[0].id)
     else:
         wait_command = Wait.get(user=user).command
         if wait_command:
             text = run_waiting_command[wait_command](user, update.message.text)
-
+        else:
+            date_time, summ = parse_text(update.message.text)
+    if date_time and summ:
+        check_p = Purchase.select().where(Purchase.summ==summ,
+                                Purchase.datetime==date_time, 
+                                Purchase.user==user)
+        if not check_p:
+            pur = Purchase(name='', 
+                        datetime=date_time, 
+                        summ=summ, 
+                        user=user, 
+                        pic=photo_file_id
+                        )
+            pur.save()
+            text = show_purchase_item(user, pur.id)
+            keyboard = get_button_categories(user, pur.id)
+        else:
+            text = _('ATTANTION!\nIts looks like:\n')
+            text += show_purchase_item(user, check_p[0].id)
+            keyboard = get_button_categories(user, check_p[0].id)
     update.message.reply_text(  text, 
                                 reply_markup=keyboard)
             
