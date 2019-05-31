@@ -173,6 +173,8 @@ def by_category(bot, update):
 @lang()
 def new_msg(bot, update):
     wait_command = None
+    date_time = None
+    summ = None
     photo_file_id = ''
     user = update.message.from_user.id
     keyboard = get_button_main()
