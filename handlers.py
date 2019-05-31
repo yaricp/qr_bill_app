@@ -197,7 +197,8 @@ def new_msg(bot, update):
         new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
         date_time, summ = scan()
     else:
-        if Wait.get(user=user).exists():
+        query = Wait.select().where(Wait.user == user)
+        if query.exists():
             wait_command = Wait.get(user=user).command
         if wait_command:
             text = run_waiting_command[wait_command](user, update.message.text)
