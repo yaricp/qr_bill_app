@@ -329,7 +329,7 @@ def button(bot, update):
             if type_obj != 'seller':
                 keyboard = get_button_sellers(user, obj.id)
             else:
-                keyboard = get_button_main()
+                keyboard = get_button_categories(user, id_obj, type_obj)
             text = dict_show_item[type_obj](user, obj.id)
         elif action == 'show_picture':
             text = show_purchase_item(user, id_obj)
