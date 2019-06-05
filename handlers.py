@@ -215,7 +215,11 @@ def new_msg(bot, update):
         if query.exists():
             wait_command = Wait.get(user=user).command
         if wait_command:
-            text = run_waiting_command[wait_command](user, update.message.text)
+            command = wait_command.split('&')[0]
+            arg_command = wait_command.split('&')[1]
+            text = run_waiting_command[command](user, 
+                                                update.message.text, 
+                                                args=arg_command)
         else:
             date_time, summ = parse_text(update.message.text)
     if date_time and summ:
@@ -256,9 +260,7 @@ def button(bot, update):
     elif but_data == '/new_category':
         #TODO telegram.ReplyKeyboardRemove
         text = show_new_category(user)
-    elif but_data == '/new_seller':
-        #TODO telegram.ReplyKeyboardRemove
-        text = show_new_seller(user)
+    
     elif but_data == '/orders':
         keyboard = get_button_orders()
         text=_('Orders')
@@ -281,10 +283,13 @@ def button(bot, update):
         keyboard = get_button_list_sellers(user)
         text = _('List sellers')
     list_parameters = but_data.split('&')
+    
     if len(list_parameters) > 2:
         action = list_parameters[0]
         type_obj = list_parameters[1]
         id_obj = list_parameters[2]
+        if action == 'new_seller':
+           text = show_new_seller(user, id_obj) 
         if action == 'show':
             if type_obj == 'purchase':
                 keyboard = get_button_categories(user, id_obj, type_obj)

@@ -109,10 +109,10 @@ def show_new_category(user, args=None):
     return text
     
 
-def show_new_seller(user, args=None):
+def show_new_seller(user, category=None, args=None):
     
     if not args or args[0] == '':
-        w = Wait(user=user, command='new_seller')
+        w = Wait(user=user, command='new_seller&%s' % category)
         w.save()
         text = _('Please! send me name of seller')
     else:
@@ -145,7 +145,7 @@ def show_help():
     return text
     
     
-def create_category(user, name):
+def create_category(user, name, args=None):
     
     new_category = Category(name=name, user=user)
     new_category.save()
@@ -153,9 +153,12 @@ def create_category(user, name):
     return text
     
     
-def create_seller(user, name):
+def create_seller(user, name, args=None):
     
     new_seller = Seller(name=name, user=user)
+    if args:
+        category = Category.get(Category.id==args)
+        new_seller.category = category
     new_seller.save()
     text=_('Seller created!')
     return text

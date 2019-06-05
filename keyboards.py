@@ -72,7 +72,7 @@ def get_button_sellers(user, id_item):
     menu.append(buttons)
     new_button = InlineKeyboardButton(  
         _('New Seller'),
-        callback_data='/new_seller')
+        callback_data='new_seller&category&%s' % purchase.category.id)
     menu.append([new_button])
     new_button = InlineKeyboardButton(  
         _('Menu'),
