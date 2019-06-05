@@ -19,6 +19,12 @@ dict_types = {
         'seller': Seller, 
         'category':Category
     }
+    
+dict_show_item = {
+        'purchase': show_purchase_item, 
+        'seller': show_seller_item, 
+        'category': show_category_item
+    }
 
 @is_not_bot()
 @lang()
@@ -315,8 +321,11 @@ def button(bot, update):
                                     Category.user==user)
             obj.category = category
             obj.save()
-            keyboard = get_button_sellers(user, obj.id)
-            text = show_purchase_item(user, obj.id)
+            if type_obj != 'seller':
+                keyboard = get_button_sellers(user, obj.id)
+            else:
+                keyboard = get_button_main()
+            text = dict_show_item[type_obj](user, obj.id)
         elif action == 'show_picture':
             text = show_purchase_item(user, id_obj)
             bot.send_photo(
