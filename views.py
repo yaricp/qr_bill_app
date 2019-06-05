@@ -55,7 +55,9 @@ def show_category_item(user, id):
 def show_seller_item(user, id):
     seller = Seller.get(Seller.id==id, 
                         Seller.user==user)
-    text = _('Seller: %s') % seller.name
+    if seller.category:
+        category_name = seller.category.name
+    text = _('Seller: %s\nCategory: %s') % (seller.name, category_name)
     return text
     
                   
