@@ -8,6 +8,11 @@ from models.wait import Wait
 from models.language import Language
 from keyboards import *
 
+dict_types = {
+        'purchase': Purchase, 
+        'seller': Seller, 
+        'category':Category
+    }
 
 def show_order_by(user, type):
     text = ''
@@ -61,7 +66,13 @@ def show_seller_item(user, id):
     text = _('Seller: %s\nCategory: %s') % (seller.name, category_name)
     return text
     
-                  
+     
+dict_show_item = {
+        'purchase': show_purchase_item, 
+        'seller': show_seller_item, 
+        'category': show_category_item
+    }
+     
 def delete_item(user, typeitem, iditem):
     
     if typeitem == 'category':
@@ -92,27 +103,40 @@ def delete_item(user, typeitem, iditem):
     return text
         
         
-def show_new_category(user, args=None):
+def show_new_category(user, args=None, type=None, obj_id=None):
     
     if not args or args[0] == '':
-        w = Wait(user=user, command='new_category')
+        command = 'new_category'
+        if type and obj_id:
+            command = 'new_category&%s&%s' % (type, obj_id)
+        w = Wait(user=user, command=command)
         w.save()
         text = _('Please! send me name of category')
     else:
         text = ''
+        
         cat = Category(name=args[0], user=user)
         try:
             cat.save()
             text = _('category saved!')
+            if type and obj_id:
+                obj = dict_types[type].get(dict_types[type].id==obj_id, 
+                                        dict_types[type].user==user )
+                obj.category = cat
+                obj.save()
+                text = dict_show_item[type](user, obj_id)
         except:
             text = _('error!')
     return text
     
 
-def show_new_seller(user, category=None, args=None):
+def show_new_seller(user, args=None, category=None):
     
     if not args or args[0] == '':
-        w = Wait(user=user, command='new_seller&%s' % category)
+        command = 'new_seller'
+        if category:
+            command = 'new_seller&%s' % category
+        w = Wait(user=user, command=command)
         w.save()
         text = _('Please! send me name of seller')
     else:

@@ -215,8 +215,12 @@ def new_msg(bot, update):
         if query.exists():
             wait_command = Wait.get(user=user).command
         if wait_command:
-            command = wait_command.split('&')[0]
-            arg_command = wait_command.split('&')[1]
+            splitted_wait_command = wait_command.split('&')
+            command = wait_command
+            arg_command = None
+            if len(splitted_wait_command) > 1:
+                command = splitted_wait_command[0]
+                arg_command = splitted_wait_command[1]
             text = run_waiting_command[command](user, 
                                                 update.message.text, 
                                                 args=arg_command)
@@ -288,9 +292,11 @@ def button(bot, update):
         action = list_parameters[0]
         type_obj = list_parameters[1]
         id_obj = list_parameters[2]
-        if action == 'new_seller':
-           text = show_new_seller(user, id_obj) 
-        if action == 'show':
+        if action == 'new_category':
+            text = show_new_category(user, type=type_obj, obj_id=id_obj)
+        elif action == 'new_seller':
+           text = show_new_seller(user, category=id_obj) 
+        elif action == 'show':
             if type_obj == 'purchase':
                 keyboard = get_button_categories(user, id_obj, type_obj)
                 text = show_purchase_item(user, id_obj)
