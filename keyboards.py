@@ -142,15 +142,13 @@ def get_button_list_purchase(user):
         buttons.append([
             InlineKeyboardButton( 
                 'X', 
-                callback_data='delitem&%s&%s' % ('purchase',  str(p.id))), 
+                callback_data='delitem&purchase&%s' % str(p.id)), 
             InlineKeyboardButton(  
                 '%s - %s - %s' % (p.summ, p.datetime, seller_name), 
                 callback_data='show&purchase&'+str(p.id)),
             InlineKeyboardButton( 
                 _('Pic'), 
-                callback_data='show_picture&%s&%s' % (str(p.id),
-                                                    'purchase',
-                                                    str(p.pic))), 
+                callback_data='show_picture&purchase&%s' % str(p.id)), 
             
             ])
     keyboard = InlineKeyboardMarkup(buttons)

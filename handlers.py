@@ -361,7 +361,7 @@ def button(bot, update):
             text = show_purchase_item(user, id_obj)
             bot.send_photo(
                 update.callback_query.message.chat.id, 
-                photo=id_link_obj, 
+                photo=obj.pic, 
                 caption=text, 
                 reply_markup=keyboard)
             return true
