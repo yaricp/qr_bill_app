@@ -220,11 +220,11 @@ def new_msg(bot, update):
                         )
             pur.save()
             text = show_purchase_item(user, pur.id)
-            keyboard = get_button_categories(user, pur.id)
+            keyboard = get_button_categories(user, pur.id, 'purchase')
         else:
             text = _('ATTANTION!\nIts looks like:\n')
             text += show_purchase_item(user, check_p[0].id)
-            keyboard = get_button_categories(user, check_p[0].id)
+            keyboard = get_button_categories(user, check_p[0].id, 'purchase')
     update.message.reply_text(  text, 
                                 reply_markup=keyboard)
             
