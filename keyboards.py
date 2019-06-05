@@ -44,7 +44,7 @@ def get_button_sellers(user, id_item):
     purchase = Purchase.get(Purchase.id==id_item, 
                             Purchase.user==user)
     sellers = Seller.select().where(Seller.user==user, 
-                                    Seller.category==purchase.category)
+                                    Seller.category==purchase.category.id)
     menu = []
     buttons = []
     count = 0
