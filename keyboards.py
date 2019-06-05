@@ -118,8 +118,7 @@ def get_button_categories(user, id_item, type_item):
     menu.append([new_button])
     new_button = InlineKeyboardButton(  
         _('Menu'),
-        callback_data='/menu' % (   id_item,
-                                    type_item))
+        callback_data='/menu')
     menu.append([new_button])
     keyboard = InlineKeyboardMarkup(menu)
     return keyboard
