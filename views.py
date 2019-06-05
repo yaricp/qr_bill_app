@@ -148,7 +148,7 @@ def create_category(user, name, purchase_id=None, seller_id=None):
     
     new_category = Category(name=name, user=user)
     new_category.save()
-    text=_('Category created!')
+    text=_('Category created!\n')
     if purchase_id:
         purchase = Purchase.get(Purchase.id==purchase_id, 
                                 Purchase.user==user
@@ -170,7 +170,7 @@ def create_seller(user, name, purchase_id=None):
     
     new_seller = Seller(name=name, user=user)
     new_seller.save()
-    text=_('Seller created!')
+    text=_('Seller created!\n')
     if purchase_id:
         purchase = Purchase.get(Purchase.id==purchase_id, 
                                 Purchase.user==user

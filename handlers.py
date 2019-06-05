@@ -231,16 +231,19 @@ def new_msg(bot, update):
                                     update.message.text,
                                     purchase_id=purchase_id
                                     )
+                keyboard = get_button_categories(user, purchase_id, 'purchase')
             elif command == 'new_category_purchase':
                 purchase_id = splitted_wait_command[1]
                 text = create_category( user, 
                                         update.message.text, 
                                         purchase_id=purchase_id)
+                keyboard = get_button_categories(user, purchase_id, 'purchase')
             elif command == 'new_category_seller':
                 seller_id = splitted_wait_command[1]
                 text = create_category( user, 
                                         update.message.text, 
                                         seller_id=seller_id)
+                keyboard = get_button_categories(user, seller_id, 'seller')
             nrows = Wait.delete().where(Wait.user == user).execute()
         else:
             date_time, summ = parse_text(update.message.text)
