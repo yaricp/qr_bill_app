@@ -14,6 +14,11 @@ run_waiting_command = {
         'new_seller': create_seller
     }
 
+dict_types = {
+        'purchase': Purchase, 
+        'seller': Seller, 
+        'category':Category
+    }
 
 @is_not_bot()
 @lang()
