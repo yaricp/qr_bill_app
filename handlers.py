@@ -231,13 +231,13 @@ def new_msg(bot, update):
                                     update.message.text,
                                     purchase_id=purchase_id
                                     )
-                keyboard = get_button_categories(user, purchase_id, 'purchase')
+                keyboard = get_button_sellers(user, purchase_id)
             elif command == 'new_category_purchase':
                 purchase_id = splitted_wait_command[1]
                 text = create_category( user, 
                                         update.message.text, 
                                         purchase_id=purchase_id)
-                keyboard = get_button_categories(user, purchase_id, 'purchase')
+                keyboard = get_button_sellers(user, purchase_id)
             elif command == 'new_category_seller':
                 seller_id = splitted_wait_command[1]
                 text = create_category( user, 
