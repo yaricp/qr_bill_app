@@ -270,58 +270,56 @@ def button(bot, update):
         keyboard = get_button_list_sellers(user)
         text = _('List sellers')
     list_parameters = but_data.split('&')
-    if len(list_parameters) == 2:
-        type_obj = list_parameters[0]
-        id_obj = list_parameters[1]
-        if type_obj == 'purchase':
-            keyboard = get_button_categories(user, id_obj)
+    if len(list_parameters) > 2:
+        action = list_parameters[0]
+        type_obj = list_parameters[1]
+        id_obj = list_parameters[2]
+        if action == 'show':
+            if type_obj == 'purchase':
+                keyboard = get_button_categories(user, id_obj, type_obj)
+                text = show_purchase_item(user, id_obj)
+            elif type_obj == 'lang':
+                text = show_change_lang(user, id_obj)
+                keyboard = get_button_main()
+            elif type_obj == 'category':
+                keyboard =  get_button_del_item(id_obj, type_obj)
+                text = show_category_item(user, id_obj)
+            elif type_obj == 'seller':
+                #keyboard =  get_button_del_item(id_obj, type_obj)
+                keyboard = get_button_categories(user, id_obj, type_obj)
+                text = show_seller_item(user, id_obj)
+        if action == 'delitem':
+            text = delete_item(user, type_obj, id_obj)
+    if len(list_parameters) > 3:
+        id_link_obj = list_parameters[3]
+        obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj, 
+                                        dict_types[type_obj].user==user )
+        if action == 'change_seller':
+            keyboard = get_button_sellers(user, obj.id)
+#            Category = Category.get(Category.id==id_link_obj, 
+#                                    Category.user==user)
+            seller = Seller.get(Seller.id==id_link_obj, 
+                                Seller.user==user)
+            obj.seller = seller
+            obj.save()
+            text = show_purchase_item(user, obj.id)
+            #text='seller saved! %s %s %s' % (text,  purchase.datetime,  purchase.summ)
+        elif action == 'change_category':
+            
+            category = Category.get(Category.id==id_link_obj, 
+                                    Category.user==user)
+            obj.category = category
+            obj.save()
+            keyboard = get_button_sellers(user, obj.id)
+            text = show_purchase_item(user, obj.id)
+        elif action == 'show_picture':
             text = show_purchase_item(user, id_obj)
-        elif type_obj == 'lang':
-            text = show_change_lang(user, id_obj)
-            keyboard = get_button_main()
-        elif type_obj == 'category':
-            keyboard =  get_button_del_item(id_obj, type_obj)
-            text = show_category_item(user, id_obj)
-        elif type_obj == 'seller':
-            keyboard =  get_button_del_item(id_obj, type_obj)
-            text = show_seller_item(user, id_obj)
-    if len(list_parameters) == 3:
-        type_obj = list_parameters[0]
-        id_obj = list_parameters[1]
-        if list_parameters[0] == 'delitem':
-            typeitem = list_parameters[1]
-            iditem = list_parameters[2]
-            text = delete_item(user, typeitem, iditem)
-    if type_obj == 'change_seller':
-        purchase = Purchase.get(Purchase.id==list_parameters[1], 
-                                Purchase.user==user)
-        keyboard = get_button_sellers(user, purchase.id)
-        seller = Seller.get(Seller.id==list_parameters[2], 
-                            Seller.user==user)
-        purchase.seller = seller
-        purchase.save()
-        text = show_purchase_item(user, purchase.id)
-        #text='seller saved! %s %s %s' % (text,  purchase.datetime,  purchase.summ)
-    elif type_obj == 'change_category':
-        purchase = Purchase.get(Purchase.id==list_parameters[1], 
-                                Purchase.user==user)
-        keyboard = get_button_sellers(user, purchase.id)
-        category = Category.get(Category.id==list_parameters[2], 
-                                Category.user==user)
-        purchase.category = category
-        purchase.save()
-        text = show_purchase_item(user, purchase.id)
-        update.callback_query.edit_message_reply_markup(text='Test', 
-                                                    reply_markup=keyboard)
-    elif type_obj == 'p':
-        id_pic = list_parameters[2]
-        text = show_purchase_item(user, id_obj)
-        bot.send_photo(
-            update.callback_query.message.chat.id, 
-            photo=id_pic, 
-            caption=text, 
-            reply_markup=keyboard)
-        return true
+            bot.send_photo(
+                update.callback_query.message.chat.id, 
+                photo=id_link_obj, 
+                caption=text, 
+                reply_markup=keyboard)
+            return true
     bot.send_message(update.callback_query.message.chat.id,             
                     text=text, 
                     reply_markup=keyboard)
