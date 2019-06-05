@@ -295,7 +295,7 @@ def button(bot, update):
         if action == 'new_category':
             text = show_new_category(user, type=type_obj, obj_id=id_obj)
         elif action == 'new_seller':
-           text = show_new_seller(user, category=id_obj) 
+            text = show_new_seller(user, category=id_obj) 
         elif action == 'show':
             if type_obj == 'purchase':
                 keyboard = get_button_categories(user, id_obj, type_obj)
