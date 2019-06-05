@@ -132,7 +132,8 @@ def error(bot, update, error_msg):
 def new_category(bot, update, args):
     user = update.message.from_user.id
     keyboard = get_button_main()
-    text = show_new_category(user, args)
+    name = args[0]
+    text = create_category(user, name)
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
                                 
@@ -142,7 +143,8 @@ def new_category(bot, update, args):
 def new_seller(bot, update, args):
     user = update.message.from_user.id
     keyboard = get_button_main()
-    text = show_new_seller(user, args)
+    name = args[0]
+    text = create_seller(user, name)
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
                                 
@@ -216,14 +218,30 @@ def new_msg(bot, update):
             wait_command = Wait.get(user=user).command
         if wait_command:
             splitted_wait_command = wait_command.split('&')
-            command = wait_command
-            arg_command = None
-            if len(splitted_wait_command) > 1:
-                command = splitted_wait_command[0]
-                arg_command = splitted_wait_command[1]
-            text = run_waiting_command[command](user, 
-                                                update.message.text, 
-                                                args=arg_command)
+            command = splitted_wait_command[0]
+            if command == 'new_category':
+                text = create_category(  user, 
+                                        update.message.text)
+            elif command == 'new_seller':
+                text = create_seller(  user, 
+                                        update.message.text)
+            elif command == 'new_seller_purchase':
+                purchase_id = splitted_wait_command[1]
+                text = create_seller(user, 
+                                    update.message.text,
+                                    purchase_id=purchase_id
+                                    )
+            elif command == 'new_category_purchase':
+                purchase_id = splitted_wait_command[1]
+                text = create_category( user, 
+                                        update.message.text, 
+                                        purchase_id=purchase_id)
+            elif command == 'new_category_seller':
+                seller_id = splitted_wait_command[1]
+                text = create_category( user, 
+                                        update.message.text, 
+                                        seller_id=seller_id)
+            nrows = Wait.delete().where(Wait.user == user).execute()
         else:
             date_time, summ = parse_text(update.message.text)
     if date_time and summ:
@@ -264,7 +282,9 @@ def button(bot, update):
     elif but_data == '/new_category':
         #TODO telegram.ReplyKeyboardRemove
         text = show_new_category(user)
-    
+    elif but_data == '/new_seller':
+        #TODO telegram.ReplyKeyboardRemove
+        text = show_new_seller(user)
     elif but_data == '/orders':
         keyboard = get_button_orders()
         text=_('Orders')
@@ -295,7 +315,7 @@ def button(bot, update):
         if action == 'new_category':
             text = show_new_category(user, type=type_obj, obj_id=id_obj)
         elif action == 'new_seller':
-            text = show_new_seller(user, category=id_obj) 
+            text = show_new_seller(user, purchase_id=id_obj) 
         elif action == 'show':
             if type_obj == 'purchase':
                 keyboard = get_button_categories(user, id_obj, type_obj)

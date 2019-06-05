@@ -103,50 +103,25 @@ def delete_item(user, typeitem, iditem):
     return text
         
         
-def show_new_category(user, args=None, type=None, obj_id=None):
+def show_new_category(user, type=None, obj_id=None):
+    command = 'new_category'
+    if type and obj_id:
+        command = 'new_category_%s&%s' % (type, obj_id)
+    w = Wait(user=user, command=command)
+    w.save()
+    text = _('Please! send me name of category')
     
-    if not args or args[0] == '':
-        command = 'new_category'
-        if type and obj_id:
-            command = 'new_category&%s&%s' % (type, obj_id)
-        w = Wait(user=user, command=command)
-        w.save()
-        text = _('Please! send me name of category')
-    else:
-        text = ''
-        
-        cat = Category(name=args[0], user=user)
-        try:
-            cat.save()
-            text = _('category saved!')
-            if type and obj_id:
-                obj = dict_types[type].get(dict_types[type].id==obj_id, 
-                                        dict_types[type].user==user )
-                obj.category = cat
-                obj.save()
-                text = dict_show_item[type](user, obj_id)
-        except:
-            text = _('error!')
     return text
     
 
-def show_new_seller(user, args=None, category=None):
+def show_new_seller(user, purchase_id=None):
+    command = 'new_seller'
+    if purchase_id:
+        command = 'new_seller_purchase&%s' % purchase_id
+    w = Wait(user=user, command=command)
+    w.save()
+    text = _('Please! send me name of seller')
     
-    if not args or args[0] == '':
-        command = 'new_seller'
-        if category:
-            command = 'new_seller&%s' % category
-        w = Wait(user=user, command=command)
-        w.save()
-        text = _('Please! send me name of seller')
-    else:
-        text = ''
-        sel = Seller(name=args[0], user=user)
-        try:
-            sel.save()
-            text = _('seller saved!')
-        except:
-            text = _('error!')
     return text
         
         
@@ -169,22 +144,40 @@ def show_help():
     return text
     
     
-def create_category(user, name, args=None):
+def create_category(user, name, purchase_id=None, seller_id=None):
     
     new_category = Category(name=name, user=user)
     new_category.save()
     text=_('Category created!')
+    if purchase_id:
+        purchase = Purchase.get(Purchase.id==purchase_id, 
+                                Purchase.user==user
+                                )
+        purchase.category = new_category
+        purchase.save()
+        text += show_purchase_item(user, purchase_id)
+    elif seller_id:
+        seller = Seller.get(Seller.id==seller_id, 
+                            Seller.user==user
+                            )
+        seller.category = new_category
+        seller.save()
+        text += show_seller_item(user, seller_id)
     return text
     
     
-def create_seller(user, name, args=None):
+def create_seller(user, name, purchase_id=None):
     
     new_seller = Seller(name=name, user=user)
-    if args:
-        category = Category.get(Category.id==args)
-        new_seller.category = category
     new_seller.save()
     text=_('Seller created!')
+    if purchase_id:
+        purchase = Purchase.get(Purchase.id==purchase_id, 
+                                Purchase.user==user
+                                )
+        purchase.seller = new_seller
+        purchase.save()
+        text += show_purchase_item(user, purchase_id)
     return text
 
 

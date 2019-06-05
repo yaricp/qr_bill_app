@@ -72,7 +72,7 @@ def get_button_sellers(user, id_item):
     menu.append(buttons)
     new_button = InlineKeyboardButton(  
         _('New Seller'),
-        callback_data='new_seller&category&%s' % purchase.category.id)
+        callback_data='new_seller&purchase&%s' % purchase.id)
     menu.append([new_button])
     new_button = InlineKeyboardButton(  
         _('Menu'),
@@ -145,7 +145,7 @@ def get_button_list_purchase(user):
                 callback_data='delitem&%s&%s' % ('purchase',  str(p.id))), 
             InlineKeyboardButton(  
                 '%s - %s - %s' % (p.summ, p.datetime, seller_name), 
-                callback_data='purchase&'+str(p.id)),
+                callback_data='show&purchase&'+str(p.id)),
             InlineKeyboardButton( 
                 _('Pic'), 
                 callback_data='show_picture&%s&%s' % (str(p.id),
