@@ -53,6 +53,7 @@ def show_category_item(user, id):
 
 
 def show_seller_item(user, id):
+    category_name = ''
     seller = Seller.get(Seller.id==id, 
                         Seller.user==user)
     if seller.category:
