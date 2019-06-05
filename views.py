@@ -177,6 +177,8 @@ def create_seller(user, name, purchase_id=None):
                                 )
         purchase.seller = new_seller
         purchase.save()
+        new_seller.category = purchase.category
+        new_seller.save()
         text += show_purchase_item(user, purchase_id)
     return text
 
