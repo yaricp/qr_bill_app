@@ -208,7 +208,7 @@ def new_msg(bot, update):
     elif update.message.video:
         nrows = Wait.delete().where(Wait.user == user).execute()
         print(update.message.video.__dict__)
-        video_file_id = update.message.video[-1].file_id
+        video_file_id = update.message.video.file_id
         video = bot.getFile(video_file_id)
         new_file = bot.get_file(video.file_id)
         new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.mp4'))
