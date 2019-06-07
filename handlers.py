@@ -212,14 +212,14 @@ def new_msg(bot, update):
         video = bot.getFile(video_file_id)
         new_file = bot.get_file(video.file_id)
         new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.mp4'))
-        date_time, summ, raw = scan(video=True)
+        date_time, summ, raw = scan(image=False, video=True)
     elif update.message.photo:
         nrows = Wait.delete().where(Wait.user == user).execute()
         photo_file_id = update.message.photo[-1].file_id
         foto = bot.getFile(photo_file_id)
         new_file = bot.get_file(foto.file_id)
         new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
-        date_time, summ, raw = scan(image=True)
+        date_time, summ, raw = scan(image=True, video=False)
         if raw:
             text = _('perhaps I found this:\n')
             text += _('Date: ' + date_time + '\n')
