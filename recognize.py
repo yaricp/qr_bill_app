@@ -1,51 +1,121 @@
 import os
+import re
 from datetime import datetime
 from pyzbar.pyzbar import decode
 from PIL import Image
+import cv2
 import pytesseract
 
 from config import *
 
-def scan():
+
+def recognize_video():
+    video_file_path = os.path.join(PATH_TEMP_FILES,'qrcode.mp4')
+    vidcap = cv2.VideoCapture(video_file_path)
+    success,image = vidcap.read()
+    count = 0
+    while success:
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        list_decoded = decode(gray)
+        success,image = vidcap.read()
+        if list_decoded:
+            date_time, summ = parse_qr_code(list_decoded)
+            return date_time, summ, False
+    vidcap = cv2.VideoCapture(video_file_path)
+    success,image = vidcap.read()
+    while success:
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        list_decoded = adjust_and_decode(gray)
+        success,image = vidcap.read()
+        if list_decoded:
+            date_time, summ = parse_qr_code(list_decoded)
+            return date_time, summ, False
+    return None, None, True
+        
+
+def recognize_image():
+    image_file_path = os.path.join(PATH_TEMP_FILES,'qrcode.jpg')
+    image = cv2.imread(image_file_path)
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    list_decoded = decode(gray)
+    if list_decoded:
+        date_time, summ = parse_qr_code(list_decoded)
+        return date_time, summ, False
+    list_decoded = adjust_and_decode(gray)
+    if list_decoded:
+        date_time, summ = parse_qr_code(list_decoded)
+        return date_time, summ, False
+    date_time, summ = parse_raw_text(gray)
+    if date_time and summ:
+        return date_time, summ, True
+    else:
+        return (_('I cant find any data in pictures.\nEnter please date and summ in format like this: \n 12.01.19 123.00'), 
+                '', True)
+    
+    
+def adjust_and_decode(gray):
+    list_decoded = None
+    for i in range(127, 155):
+        print(i)
+#        for j in range(200, 255):
+#            print(j)
+        (thresh, blackAndWhiteImage) = cv2.threshold(gray, i, 255, cv2.THRESH_BINARY)
+        cv2.imwrite("image_processed.png",blackAndWhiteImage)
+        cv2.imwrite("image_gray.png",gray)
+        #image_file = Image.open("image_processed.png")
+        list_decoded = decode(blackAndWhiteImage)
+    return list_decoded
+    
+
+def scan(image=True, video=False):
     date_time = None
     summ = None
-    image_file_path = os.path.join(PATH_TEMP_FILES,'qrcode.jpg')
-    image_file = Image.open(image_file_path)
-    list_decoded = decode(image_file)
-    print('LIST_DECODED: ', list_decoded)
-    if list_decoded:
-        for rec in list_decoded:
-            print('TYPE_CODE: ', rec.type)
-            type_data = rec.type
-            if type_data == 'QRCODE':
-                list_data = rec.data.decode("utf-8").split('&')
-                temp_datetime = '%Y%m%dT%H%M'
-                str_date_time = list_data[0].replace('t=', '')
-                if len(str_date_time.split('T')[1]) == 6:
-                    temp_datetime = '%Y%m%dT%H%M%S'
-                date_time = datetime.strptime(str_date_time, temp_datetime)
-                summ = float(list_data[1].replace('s=', ''))
-            elif type_data == 'EAN13':
-                list_data = rec.data.decode("utf-8")
-                print(list_data)
-            print('DATA: ', rec.data)
-    else:
+    raw = False
+    if image:
+        date_time, summ, raw = recognize_image()
+    if video:
+        date_time, summ, raw = recognize_video()
         
-        raw_text = pytesseract.image_to_string(image_file,
-                                                lang=LANG)
-        print('RAW_TEXT: ', raw_text)
-    return date_time, summ
 
-
-def parse_text(text):
-    list = text.split('&')
-    temp_datetime = '%Y%m%dT%H%M'
-    str_date_time = list[0].replace('t=', '')
-    if len(str_date_time.split('T')[1]) == 6:
-        temp_datetime = '%Y%m%dT%H%M%S'
-    date_time = datetime.strptime(str_date_time, temp_datetime)
-    summ = float(list[1].replace('s=', ''))
+def parse_qr_code(list_decoded):
+    date_time = None
+    summ = None
+    for rec in list_decoded:
+        print('TYPE_CODE: ', rec.type)
+        type_data = rec.type
+        if type_data == 'QRCODE':
+            list_data = rec.data.decode("utf-8").split('&')
+            temp_datetime = '%Y%m%dT%H%M'
+            str_date_time = list_data[0].replace('t=', '')
+            if len(str_date_time.split('T')[1]) == 6:
+                temp_datetime = '%Y%m%dT%H%M%S'
+            date_time = datetime.strptime(str_date_time, temp_datetime)
+            summ = float(list_data[1].replace('s=', ''))
+        elif type_data == 'EAN13':
+            list_data = rec.data.decode("utf-8")
+            print(list_data)
+        print('DATA: ', rec.data)
     return date_time, summ
+    
+
+def parse_raw_text(img):
+    date_time = None
+    summ = None
+    raw_text = pytesseract.image_to_string(img, lang=LANG)
+    print(raw_text)
+    list_matches = [r"\s+(?=\d{2}(?:\d{2})?-\d{1,2}-\d{1,2}\b)", 
+                    ]
+    for exp in list_matches:
+        print(exp)
+        match = re.search(exp, raw_text)
+        print(match)
+        if match:
+            date_time = match.group(1)
+            break
+    match = re.search(r'(\d+.\d\d )', raw_text)
+    if match:
+        summ = match.group(1)
+    return date_time,  summ
     
     
 if __name__ == "__main__":

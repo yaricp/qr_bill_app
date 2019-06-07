@@ -205,13 +205,20 @@ def new_msg(bot, update):
                 photo=photo_file_id, 
                 caption="%s # %s" % (new_caption,update.message.media_group_id), 
                 reply_markup=keyboard)
+    elif update.message.video:
+        nrows = Wait.delete().where(Wait.user == user).execute()
+        video_file_id = update.message.photo[-1].file_id
+        video = bot.getFile(video_file_id)
+        new_file = bot.get_file(video.file_id)
+        new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.mp4'))
+        date_time, summ = scan(video=True)
     elif update.message.photo:
         nrows = Wait.delete().where(Wait.user == user).execute()
         photo_file_id = update.message.photo[-1].file_id
         foto = bot.getFile(photo_file_id)
         new_file = bot.get_file(foto.file_id)
         new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
-        date_time, summ = scan()
+        date_time, summ = scan(image=True)
     else:
         query = Wait.select().where(Wait.user == user)
         if query.exists():

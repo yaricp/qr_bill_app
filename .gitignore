@@ -44,3 +44,4 @@ files/
 *.pickle
 *.db
 *.db*
+.DS_Store*
