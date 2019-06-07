@@ -278,7 +278,7 @@ def new_msg(bot, update):
             text += show_purchase_item(user, check_p[0].id)
             keyboard = get_button_categories(user, check_p[0].id, 'purchase')
     else:
-        text = _('Sorry! I not found nothing')
+        text = _('Sorry! I not found nothing\n')
         text += _('You can send me date and sum like this:\n')
         text += _('12.01.19 123.00')
     update.message.reply_text(  text, 
