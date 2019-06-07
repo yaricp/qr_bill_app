@@ -212,14 +212,18 @@ def new_msg(bot, update):
         video = bot.getFile(video_file_id)
         new_file = bot.get_file(video.file_id)
         new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.mp4'))
-        date_time, summ = scan(video=True)
+        date_time, summ, raw = scan(video=True)
     elif update.message.photo:
         nrows = Wait.delete().where(Wait.user == user).execute()
         photo_file_id = update.message.photo[-1].file_id
         foto = bot.getFile(photo_file_id)
         new_file = bot.get_file(foto.file_id)
         new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
-        date_time, summ = scan(image=True)
+        date_time, summ, raw = scan(image=True)
+        if raw:
+            text = _('perhaps I found this:\n')
+            text += _('Date: ' + date_time + '\n')
+            text += _('Sum: ' + summ + '\n')
     else:
         query = Wait.select().where(Wait.user == user)
         if query.exists():
@@ -273,6 +277,10 @@ def new_msg(bot, update):
             text = _('ATTANTION!\nIts looks like:\n')
             text += show_purchase_item(user, check_p[0].id)
             keyboard = get_button_categories(user, check_p[0].id, 'purchase')
+    else:
+        text = _('Sorry! I not found nothing')
+        text += _('You can send me date and sum like this:\n')
+        text += _('12.01.19 123.00')
     update.message.reply_text(  text, 
                                 reply_markup=keyboard)
             

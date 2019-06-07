@@ -75,6 +75,7 @@ def scan(image=True, video=False):
         date_time, summ, raw = recognize_image()
     if video:
         date_time, summ, raw = recognize_video()
+    return date_time, summ, raw
         
 
 def parse_qr_code(list_decoded):
