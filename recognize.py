@@ -103,7 +103,7 @@ def parse_raw_text(img):
     date_time = None
     summ = None
     raw_text = pytesseract.image_to_string(img, lang=LANG)
-    print(raw_text)
+    print(raw_text.decode("utf-8"))
     list_matches = [r"\s+(?=\d{2}(?:\d{2})?-\d{1,2}-\d{1,2}\b)", 
                     ]
     for exp in list_matches:
