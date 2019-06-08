@@ -43,11 +43,10 @@ def start(bot, update):
     else:
         username = user.first_name
         user_id = user.id
-        text = _('user %(username)s with %(user_id)s\n Wanted to use your bot.') % 
-                ({
-                'username': username, 
-                'user_id': user_id
-                })
+        text = _('user %(username)s with %(user_id)s\n Wanted to use your bot.') % ({
+                                                                    'username': username, 
+                                                                    'user_id': user_id
+                                                                    })
         for k, v in admins.items():
             bot.send_message(
                         v, 
