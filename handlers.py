@@ -369,7 +369,10 @@ def button(bot, update):
     if len(list_parameters) > 2:
         type_obj = list_parameters[1]
         id_obj = list_parameters[2]
-        obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj, 
+        if type_obj =='user':
+            obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj)
+        else:
+            obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj, 
                                         dict_types[type_obj].user==user )
         if action == 'new_category':
             text = show_new_category(user, type=type_obj, obj_id=id_obj)
