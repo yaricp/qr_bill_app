@@ -328,17 +328,18 @@ def button(bot, update):
         text = _('List sellers')
     list_parameters = but_data.split('&')
     
-    if len(list_parameters) > 2:
+    if len(list_parameters) > 1:
         action = list_parameters[0]
+        if action == 'lang':
+            text = show_change_lang(user, list_parameters[1])
+            keyboard = get_button_main()
+    if len(list_parameters) > 2:
         type_obj = list_parameters[1]
         id_obj = list_parameters[2]
         if action == 'new_category':
             text = show_new_category(user, type=type_obj, obj_id=id_obj)
         elif action == 'new_seller':
             text = show_new_seller(user, purchase_id=id_obj) 
-        elif action == 'lang':
-            text = show_change_lang(user, id_obj)
-            keyboard = get_button_main()
         elif action == 'show':
             if type_obj == 'purchase':
                 keyboard = get_button_categories(user, id_obj, type_obj)
