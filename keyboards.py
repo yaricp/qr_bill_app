@@ -131,7 +131,7 @@ def get_button_list_purchase(user):
     
     buttons = []
     for p in purchases:
-        print('id: ', p.id)
+        print('p: ', p)
         seller_name = 'None'
         if p.seller_id:
             try:
