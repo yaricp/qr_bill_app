@@ -7,6 +7,7 @@ import cv2
 import pytesseract
 
 from config import *
+from models.language import Language
 
 
 def recognize_video():
@@ -33,7 +34,7 @@ def recognize_video():
     return None, None, True
         
 
-def recognize_image():
+def recognize_image(user):
     image_file_path = os.path.join(PATH_TEMP_FILES,'qrcode.jpg')
     image = cv2.imread(image_file_path)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -45,8 +46,8 @@ def recognize_image():
     if list_decoded:
         date_time, summ = parse_qr_code(list_decoded)
         return date_time, summ, False
-    date_time, summ = parse_raw_text(gray)
-    if date_time and summ:
+    date_time, summ = parse_raw_text(gray, user)
+    if date_time or summ:
         return date_time, summ, True
     else:
         return (_('I cant find any data in pictures.\nEnter please date and summ in format like this: \n 12.01.19 123.00'), 
@@ -67,12 +68,12 @@ def adjust_and_decode(gray):
     return list_decoded
     
 
-def scan(image=True, video=False):
+def scan(user='251241715', image=True, video=False):
     date_time = None
     summ = None
     raw = False
     if image:
-        date_time, summ, raw = recognize_image()
+        date_time, summ, raw = recognize_image(user)
     if video:
         date_time, summ, raw = recognize_video()
     return date_time, summ, raw
@@ -99,23 +100,53 @@ def parse_qr_code(list_decoded):
     return date_time, summ
     
 
-def parse_raw_text(img):
+def parse_raw_text(img, user):
     date_time = None
     summ = None
-    raw_text = pytesseract.image_to_string(img, lang=LANG)
-    print(raw_text.encode("utf-8"))
-    list_matches = [r"\s+(?=\d{2}(?:\d{2})?-\d{1,2}-\d{1,2}\b)", 
-                    ]
-    for exp in list_matches:
-        print(exp)
-        match = re.search(exp, raw_text)
-        print(match)
+    lang, created = Language.get_or_create(user=user)
+    #print('lang: ', lang.lang)
+    lang_dict = {
+                'ru': 'rus', 
+                'en': 'eng'
+                }
+    raw_text = pytesseract.image_to_string(img, lang=lang_dict[lang.lang])
+    #print(raw_text)
+    rows = raw_text.split('\n')
+    for row in rows:
+        match = None
+        #print('row: ', row)
+        list_matches = [r"(\d{2}\.\d{2}\.\d{2} \d{2}: \d{2})",
+                        r"(\d{2}\.\d{2}\.\d{2} \d{2}:\d{2})",
+                        r"(\d{4}\-\d{2}\-\d{2} \d{2}: \d{2})",
+                        r"(\d{2}\-\d{2}\-\d{2} \d{2}:\d{2})",
+                        r"(\d{4}\-\d{2}\-\d{2} \d{2}: \d{2})",
+                        r"(\d{2}\-\d{2}\-\d{2} \d{2}:\d{2})", 
+                        r"(\d{2}\.\d{2}\.\d{2} )",
+                        r"(\d{2}\.\d{2}\.\d{2} )",
+                        r"(\d{2}\.\d{2}\.\d{2} )",
+                        r"(\d{2}\.\d{2}\.\d{2} )",
+                        ]
+        for exp in list_matches:
+            #print('exp date time :', exp)
+            match = re.search(exp, row)
+            #print(match)
+            if match:
+                #print('break')
+                break
         if match:
             date_time = match.group(1)
-            break
-    match = re.search(r'(\d+.\d\d )', raw_text)
-    if match:
-        summ = match.group(1)
+            continue
+        list_matches = [r"(\d+\.\d{1,2} )", 
+                        r"(\d+\. \d{1,2} )", 
+                        ]
+        #print('start search summ')
+        for exp in list_matches:
+            #print('exp: ', exp)
+            match = re.search(exp, row)
+            if match:
+                #print(match)
+                summ = match.group(1).replace(' ', '')
+                #print('summ', summ)
     return date_time,  summ
     
     

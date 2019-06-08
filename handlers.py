@@ -224,6 +224,7 @@ def new_msg(bot, update):
             text = _('perhaps I found this:\n')
             text += _('Date: ' + date_time + '\n')
             text += _('Sum: ' + summ + '\n')
+            text += _('Is it true?\n')
     else:
         query = Wait.select().where(Wait.user == user)
         if query.exists():
