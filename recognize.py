@@ -113,7 +113,7 @@ def parse_raw_text(img, user):
     rows = raw_text.split('\n')
     for row in rows:
         match = None
-        #print('row: ', row)
+        
         list_matches = [r"(\d{2}\.\d{2}\.\d{2} \d{2}: \d{2})",
                         r"(\d{2}\.\d{2}\.\d{2} \d{2}:\d{2})",
                         r"(\d{2}\.\d{2}\. \d{2} \d{2}: \d{2})",
@@ -141,16 +141,12 @@ def parse_raw_text(img, user):
             #print('date: ', date)
             #print('datetime: ', date_time)
             continue
-        list_matches = [r"((|=)\d+(\.|,)(| )\d{1,2}( |$))", 
-#                        r"(\d+\. \d{1,2}) ", 
-#                        r"(=\d+\. \d{1,2}) ", 
-#                        r"(=\d+\.\d{1,2}) ",
-#                        r"(\d+(\.|,)\d{1,2})$", 
-#                        r"(\d+\. \d{1,2})$", 
-#                        r"(=\d+\. \d{1,2})$", 
-#                        r"(=\d+\.\d{1,2})$",
+        list_matches = [r"((|=)\d+(\.|,)\d{1,2}$)", 
+
                         ]
-        #print('start search summ')
+        
+        row = row.replace(' ', '')
+        #print('row: ', row)
         for exp in list_matches:
             #print('exp: ', exp)
             match = re.search(exp, row)
