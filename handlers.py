@@ -267,7 +267,7 @@ def new_msg(bot, update):
                         summ=summ, 
                         user=user, 
                         pic=photo_file_id,
-                        confirm = confirm
+                        confirm=confirm
                         )
             pur.save()
             keyboard = get_button_categories(user, pur.id, 'purchase')
