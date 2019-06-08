@@ -12,7 +12,9 @@ def is_allowed_user():
             elif args[1].callback_query:
                 obj = args[1].callback_query
             if obj:
-                if obj.from_user.first_name in allowed_users:
+                user_id = obj.from_user.id
+                user = User.get(User.tg_user_id==user_id)
+                if user.is_active:
                     f(*args)
                 else:
                     if args[1].callback_query:
