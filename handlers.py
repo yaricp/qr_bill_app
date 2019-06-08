@@ -361,8 +361,16 @@ def button(bot, update):
                 #keyboard =  get_button_del_item(id_obj, type_obj)
                 keyboard = get_button_categories(user, id_obj, type_obj)
                 text = show_seller_item(user, id_obj)
-        if action == 'delitem':
+        elif action == 'delitem':
             text = delete_item(user, type_obj, id_obj)
+        elif action == 'show_picture':
+            text = show_purchase_item(user, id_obj)
+            bot.send_photo(
+                update.callback_query.message.chat.id, 
+                photo=obj.pic, 
+                caption=text, 
+                reply_markup=keyboard)
+            return true
     if len(list_parameters) > 3:
         id_link_obj = list_parameters[3]
         obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj, 
@@ -388,14 +396,7 @@ def button(bot, update):
             else:
                 keyboard = get_button_categories(user, id_obj, type_obj)
             text = dict_show_item[type_obj](user, obj.id)
-        elif action == 'show_picture':
-            text = show_purchase_item(user, id_obj)
-            bot.send_photo(
-                update.callback_query.message.chat.id, 
-                photo=obj.pic, 
-                caption=text, 
-                reply_markup=keyboard)
-            return true
+        
         elif action == 'confirm':
             if id_link_obj == 'yes':
                 obj.confirm = True
