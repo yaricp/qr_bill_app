@@ -43,14 +43,18 @@ def start(bot, update):
     else:
         username = user.first_name
         user_id = user.id
-        text = _('user %s with %s\n Wanted to use your bot.') % (username, user_id)
+        text = _('user %(username)s with %(user_id)s\n Wanted to use your bot.') % 
+                ({
+                'username': username, 
+                'user_id': user_id
+                })
         for k, v in admins.items():
             bot.send_message(
                         v, 
                         text=text, 
                         reply_markup=keyboard
                         )
-        text = _('Ок! we send request to admin of this bot\n After confirm you will take a message')
+        text = _('Ok! we send request to admin of this bot\n After confirm you will take a message')
         update.message.reply_text(text=text)
 
 
@@ -286,7 +290,7 @@ def new_msg(bot, update):
             keyboard = get_button_categories(user, check_p[0].id, 'purchase')
     else:
         text = _('Sorry! I not found nothing\n')
-        text += _('You can send me date and sum like this:\n')
+        text += _('You can send me date and summ like this:\n')
         text += _('12.01.19 123.00')
     update.message.reply_text(  text, 
                                 reply_markup=keyboard)
@@ -401,7 +405,7 @@ def button(bot, update):
                 keyboard = get_button_categories(user, id_obj, type_obj)
                 text += show_purchase_item(user, id_obj)
             else:
-                text += _('You can send me date and sum like this:\n')
+                text += _('You can send me date and summ like this:\n')
                 text += _('12.01.19 123.00')
     bot.send_message(update.callback_query.message.chat.id,             
                     text=text, 

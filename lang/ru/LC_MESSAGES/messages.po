@@ -5,261 +5,243 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2019-04-29 21:41++07\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-06-08 19:29+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: pygettext.py 1.5\n"
 
+#: views.py:24
+#, fuzzy, python-format
+msgid "Seller: %(seller)s, Summa: %(summ)s\n"
+msgstr "Продавец: %s,Сумма: %s\n"
 
-#: views.py:19
+#: views.py:30
+#, fuzzy, python-format
+msgid "Category: %(cat)s, Summa: %(summ)s\n"
+msgstr "Категория: %s,Сумма: %s\n"
+
+#: views.py:43
+#, fuzzy, python-format
 msgid ""
-"Seller: %s, Summa: %s\n"
+"Date Time: %(datetime)s\n"
+"Summa: %(summ)s\n"
+"Seller: %(seller)s\n"
+"Category: %(cat)s\n"
+"User: %(user)s"
 msgstr ""
-"Продавец: %s,Сумма: %s\n"
+"Дата: %(datetime)s\n"
+"Сумма: %(summ)s\n"
+"Продавец: %(seller)s\n"
+"Категория: %(cat)s\n"
+"Пользователь: %(user)s"
 
-#: views.py:25
-msgid ""
-"Category: %s, Summa: %s\n"
-msgstr ""
-"Категория: %s,Сумма: %s\n"
-
-#: views.py:38
-msgid ""
-"ID: %s\n"
-"Date Time: %s\n"
-"Summa: %s\n"
-"Seller: %s\n"
-"Category: %s\n"
-"User: %s"
-msgstr ""
-"Номер: %s\n"
-"Дата: %s\n"
-"Сумма: %s\n"
-"Продавец: %s\n"
-"Категория: %s\n"
-"Пользователь: %s"
-
-#: views.py:52
-msgid ""
-"ID: %s\n"
-"Category: %s"
+#: views.py:56
+#, fuzzy, python-format
+msgid "Category: %s"
 msgstr ""
 "Номер: %s\n"
 "Категория: %s"
 
-#: views.py:62
+#: views.py:66
+#, fuzzy, python-format
 msgid ""
-"ID: %s\n"
-"Seller: %s"
+"Seller: %(seller)s\n"
+"Category: %(cat)s"
 msgstr ""
-"Номер: %s\n"
-"Продавец: %s"
+"Продавец: %(seller)s\n"
+"Категория: %(cat)s"
 
-#: views.py:65
-msgid "category"
-msgstr "категория"
+#: views.py:84
+#, fuzzy, python-format
+msgid "category %(item)s deleted"
+msgstr "категория %(item)s удалена"
 
-#: views.py:70
-msgid "category %s deleted"
-msgstr "категория %s удалена"
+#: views.py:90
+#, fuzzy, python-format
+msgid "seller %(item)s deleted"
+msgstr "продавец %(item)s удален"
 
-#: views.py:76
-msgid "seller %s deleted"
-msgstr "продавец %s удален"
-
-#: views.py:86
+#: views.py:100
+#, python-format
 msgid "purchase %s deleted"
 msgstr "покупка %s удалена"
 
-#: views.py:98
+#: views.py:112
 msgid "Please! send me name of category"
 msgstr "Вышлите мне пожалуйста имя категории"
 
-#: views.py:104
-msgid "category saved!"
-msgstr "категория создана!"
-
-#: views.py:106 views.py:123
-msgid "error!"
-msgstr "ошибка!"
-
-#: views.py:115
+#: views.py:123
 msgid "Please! send me name of seller"
 msgstr "Вышлите мне пожалуйста имя продавца"
 
-#: views.py:121
-msgid "seller saved!"
-msgstr "продавец создан"
-
-#: views.py:128
+#: views.py:129
 msgid "main menu"
 msgstr "Главное меню"
 
-#: views.py:129
+#: views.py:130
 msgid "for adding new category"
 msgstr "создание новой категории"
 
-#: views.py:130
+#: views.py:131
 msgid "for adding new seller"
 msgstr "создание нового продавца"
 
-#: views.py:131
+#: views.py:132
 msgid "list of purchases"
 msgstr "список покупок"
 
-#: views.py:132
+#: views.py:133
 msgid "list of sellers"
 msgstr "список продавцов"
 
-#: views.py:133
+#: views.py:134
 msgid "list of categories"
 msgstr "список категорий"
 
-#: views.py:134
+#: views.py:135
 msgid "list of orders"
 msgstr "список отчетов"
 
-#: views.py:135
+#: views.py:136
 msgid "order by category"
 msgstr "отчет по категориям"
 
-#: views.py:136
+#: views.py:137
 msgid "order by seller"
 msgstr "отчет по продавцам"
 
-#: views.py:137
+#: views.py:138
 msgid "list languages"
 msgstr "список языков интерфейса"
 
-#: views.py:138
+#: views.py:139
 msgid "set language to NAME"
 msgstr "установка языка NAME"
 
-#: views.py:139
+#: views.py:140
 msgid "Now available this languages:"
 msgstr "Сейчас доступны вот такие языки:"
 
-#: views.py:142
+#: views.py:143
 msgid "show this help"
 msgstr "показывает данное сообщение"
 
-#: views.py:147
-msgid "Category created!"
+#: views.py:151
+#, fuzzy
+msgid "Category created!\n"
 msgstr "Категория создана!"
 
-#: views.py:155
-msgid "Seller created!"
+#: views.py:173
+#, fuzzy
+msgid "Seller created!\n"
 msgstr "Продавец создан!"
 
-#: views.py:167
+#: views.py:195
 msgid "Language changed to "
 msgstr "Язык изменен на "
 
-#: keyboards.py:14 keyboards.py:69 keyboards.py:104 handlers.py:101 handlers.py:242
 msgid "Menu"
 msgstr "Меню"
 
-#: keyboards.py:21
 msgid "categories"
 msgstr "категории"
 
-#: keyboards.py:22
 msgid "sellers"
 msgstr "продавцы"
 
-#: keyboards.py:23
 msgid "purchases"
 msgstr "покупки"
 
-#: keyboards.py:24
 msgid "orders"
 msgstr "отчеты"
 
-#: keyboards.py:25
 msgid "languages"
 msgstr "языки"
 
-#: keyboards.py:26
 msgid "help"
 msgstr "помощь"
 
-#: keyboards.py:65 keyboards.py:178
 msgid "New Seller"
 msgstr "Новый продавец"
 
-#: keyboards.py:100 keyboards.py:151
 msgid "New Category"
 msgstr "Новая категория"
 
-#: keyboards.py:128
 msgid "Pic"
 msgstr "Фото"
 
-#: keyboards.py:131 keyboards.py:147 keyboards.py:174
-msgid "Delete"
-msgstr "Удалить"
-
-#: keyboards.py:159
 msgid "by category"
 msgstr "по категориям"
 
-#: keyboards.py:160
 msgid "by seller"
 msgstr "по продавцам"
 
-#: handlers.py:24
+msgid "Delete"
+msgstr "Удалить"
+
 msgid "Yes! And You are admins this bot!"
 msgstr "Хей! привет! А ты и так админ этого бота!"
 
-#: handlers.py:28
 msgid "Hello!"
 msgstr "Привет!"
 
-#: handlers.py:35
+
 msgid ""
-"user %s with %s\n"
+"user %(username)s with %(user_id)s\n"
 " Wanted to use your bot."
 msgstr ""
 "пользователь %s с %s\n"
 " Хочет зарегистрироваться и пользоваться ботом."
 
-#: handlers.py:42
 msgid ""
-"Ок! we send request to admin of this bot\n"
+"Ok! we send request to admin of this bot\n"
 " After confirm you will take a message"
 msgstr ""
 "Мы выслали администраторам запрос на регистрацию\n"
 "После подтверждения Вам придет сообщение"
 
-#: handlers.py:74
+msgid "Change language"
+msgstr "Выберите язык"
+
 msgid "List Purchases"
 msgstr "Список покупок"
 
-#: handlers.py:83
 msgid "List Сategories"
 msgstr "Список категорий"
 
-#: handlers.py:93
 msgid "List Sellers"
 msgstr "Список продавцов"
 
-#: handlers.py:106
 msgid "Update caused error \"%s\""
 msgstr "Произошла ошибка \"%s\""
 
-#: handlers.py:135 handlers.py:235
 msgid "Orders"
 msgstr "Отчеты"
 
-#: handlers.py:167
 msgid "summa or datetime not found"
 msgstr "Сумма и дата не определена"
 
-#: handlers.py:204
+msgid "Sorry I not found QR code.\n"
+msgstr "Извините, я не нашел QR код в картинке.\n"
+
+msgid "But I tried to recognize the text and found:\n"
+msgstr "Но я попытался распознать текст картинки и нашел вот что:\n"
+
+msgid "Date: "
+msgstr "Дата: "
+
+msgid "Sum: "
+msgstr "Сумма: "
+
+msgid "Is it true?\n"
+msgstr "Это верно?\n"
+
 msgid ""
 "ATTANTION!\n"
 "Its looks like:\n"
@@ -267,22 +249,42 @@ msgstr ""
 "ВНИМАНИЕ!\n"
 "Это похоже на:\n"
 
-#: handlers.py:228
+msgid "Sorry! I not found nothing\n"
+msgstr "Извините, я ничего не нашел на картинке\n"
+
+msgid "You can send me date and summ like this:\n"
+msgstr "вы можете выслать мне дату покупки и сумму в следующем формате:\n"
+
 msgid "List Purchase"
 msgstr "Список покупок"
 
-#: handlers.py:245
-msgid "Change language"
-msgstr "Выберите язык"
-
-#: handlers.py:248
 msgid "List categories"
 msgstr "Список категорий"
 
-#: handlers.py:251
 msgid "List sellers"
 msgstr "Список продавцов"
 
-#: decorators.py:18 decorators.py:20
+msgid "Confirmed!\n"
+msgstr "Подтверждено!\n"
+
 msgid "Sorry! it is private bot..."
 msgstr "Извините! Это приватный бот..."
+
+msgid ""
+"ID: %s\n"
+"Seller: %s"
+msgstr ""
+"Номер: %s\n"
+"Продавец: %s"
+
+msgid "category"
+msgstr "категория"
+
+msgid "category saved!"
+msgstr "категория создана!"
+
+msgid "error!"
+msgstr "ошибка!"
+
+msgid "seller saved!"
+msgstr "продавец создан"

@@ -21,13 +21,13 @@ def show_order_by(user, type):
         #print('sellers: ', sellers)
         for s in sellers:
             summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.seller == s).scalar()
-            text += _('Seller: %s, Summa: %s\n') % (s.name,  summ)
+            text += _('Seller: %(seller)s, Summa: %(summ)s\n') % ({'seller':s.name, 'summ':summ})
     else:
         categories = Category.select().where(Category.user==user)
         #print('categories: ', categories)
         for c in categories:
             summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.category == c).scalar()
-            text += _('Category: %s, Summa: %s\n') % (c.name, summ)
+            text += _('Category: %(cat)s, Summa: %(summ)s\n') % ({'cat':c.name, 'summ':summ})
     return text
                     
                                        
@@ -40,12 +40,12 @@ def show_purchase_item(user, id):
         category_name = purchase.category.name
     if purchase.seller:
         seller_name = purchase.seller.name
-    text = _('Date Time: %s\nSumma: %s\nSeller: %s\nCategory: %s\nUser: %s') % ( 
-            purchase.datetime, 
-            purchase.summ, 
-            seller_name, 
-            category_name, 
-            purchase.user
+    text = _('Date Time: %(datetime)s\nSumma: %(summ)s\nSeller: %(seller)s\nCategory: %(cat)s\nUser: %(user)s') % ( 
+            {'datetime':purchase.datetime, 
+            'summ':purchase.summ, 
+            'seller':seller_name, 
+            'cat':category_name, 
+            'user':purchase.user}
                             )
     return text
 
@@ -63,7 +63,7 @@ def show_seller_item(user, id):
                         Seller.user==user)
     if seller.category:
         category_name = seller.category.name
-    text = _('Seller: %s\nCategory: %s') % (seller.name, category_name)
+    text = _('Seller: %(seller)s\nCategory: %(cat)s') % ({'seller':seller.name, 'cat':category_name})
     return text
     
      
@@ -81,13 +81,13 @@ def delete_item(user, typeitem, iditem):
             p.category = None
             p.save()
         item_name = Category.get(id=iditem).name
-        text = _('category %s deleted') %  item_name
+        text = _('category %(item)s deleted') %  {'item':item_name}
         nrows = Category.delete().where(Category.id == iditem, 
                                         Category.user == user).execute()
         
     elif typeitem == 'seller':
         item_name = Seller.get(id=iditem).name
-        text = _('seller %s deleted') %  item_name
+        text = _('seller %(item)s deleted') %  {'item':item_name}
         nrows = Seller.delete().where(Seller.id == iditem, 
                                       Seller.user == user).execute()
         for p in Purchase.select().where(Purchase.seller == iditem, 

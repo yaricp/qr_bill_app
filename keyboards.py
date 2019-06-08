@@ -203,7 +203,7 @@ def get_button_list_sellers(user):
     
     
 def get_button_del_item(id, type):
-    buttons = [[InlineKeyboardButton( 'Delete', callback_data='delitem&%s&%s' % 
+    buttons = [[InlineKeyboardButton( _('Delete'), callback_data='delitem&%s&%s' % 
                 (type,  str(id)))]]
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
@@ -211,8 +211,8 @@ def get_button_del_item(id, type):
 
 def get_button_confirm(id):
     buttons = [[
-        InlineKeyboardButton( 'Yes', callback_data='confirm&purchase&%s&yes' % id ), 
-        InlineKeyboardButton( 'No', callback_data='confirm&purchase&%s&no' % id )
+        InlineKeyboardButton( _('Yes'), callback_data='confirm&purchase&%s&yes' % id ), 
+        InlineKeyboardButton( _('No'), callback_data='confirm&purchase&%s&no' % id )
         ]]
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
