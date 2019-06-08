@@ -257,6 +257,9 @@ def new_msg(bot, update):
                                         seller_id=seller_id)
                 keyboard = get_button_categories(user, seller_id, 'seller')
             nrows = Wait.delete().where(Wait.user == user).execute()
+            update.message.reply_text(  text, 
+                                reply_markup=keyboard)
+            return True
         else:
             date_time, summ = parse_text(update.message.text)
     if date_time and summ:
