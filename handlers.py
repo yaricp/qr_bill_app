@@ -53,7 +53,8 @@ def start(bot, update):
                                                                     }
         user = User(
                 username=username, 
-                tg_user_id=user_id
+                tg_user_id=user_id, 
+                paid_datetime=''
                 )
         user.save()
         
