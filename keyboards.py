@@ -131,27 +131,30 @@ def get_button_list_purchase(user):
     
     buttons = []
     for p in purchases:
-        print('p: ', p)
-        seller_name = 'None'
-        if p.seller_id:
-            try:
-                sel = Seller.get(id = p.seller_id)
-                seller_name = sel.name
-            except:
-                print('seller not found!')
-        #
-        buttons.append([
-            InlineKeyboardButton( 
-                'X', 
-                callback_data='delitem&purchase&%s' % str(p.id)), 
-            InlineKeyboardButton(  
-                '%s - %s - %s' % (p.summ, p.datetime, seller_name), 
-                callback_data='show&purchase&'+str(p.id)),
-            InlineKeyboardButton( 
-                _('Pic'), 
-                callback_data='show_picture&purchase&%s' % str(p.id)), 
+        try:
             
-            ])
+            seller_name = 'None'
+            if p.seller_id:
+                try:
+                    sel = Seller.get(id = p.seller_id)
+                    seller_name = sel.name
+                except:
+                    print('seller not found!')
+            #
+            buttons.append([
+                InlineKeyboardButton( 
+                    'X', 
+                    callback_data='delitem&purchase&%s' % str(p.id)), 
+                InlineKeyboardButton(  
+                    '%s - %s - %s' % (p.summ, p.datetime, seller_name), 
+                    callback_data='show&purchase&'+str(p.id)),
+                InlineKeyboardButton( 
+                    _('Pic'), 
+                    callback_data='show_picture&purchase&%s' % str(p.id)), 
+                
+                ])
+        except:
+            print('p: ', p.__dict__)
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
     
