@@ -269,6 +269,7 @@ def new_msg(bot, update):
                         pic=photo_file_id,
                         confirm = confirm
                         )
+            pur.save()
             keyboard = get_button_categories(user, pur.id, 'purchase')
             text = show_purchase_item(user, pur.id)
             if raw:
@@ -279,7 +280,7 @@ def new_msg(bot, update):
                 text += _('Is it true?\n')
                 keyboard = get_button_confirm(pur.id)
                 pur.confirm = False
-            pur.save()
+                pur.save()
         else:
             text = _('ATTANTION!\nIts looks like:\n')
             text += show_purchase_item(user, check_p[0].id)
