@@ -396,10 +396,12 @@ def button(bot, update):
             obj.is_active = True
             obj.save()
             text = _('User %s activated') % obj.username
+            print('text: ', text)
         elif action == 'block':
             obj.is_active = False
             obj.save()
             text = _('User %s blocked') % obj.username
+            print(text)
         elif action == 'delitem':
             text = delete_item(user, type_obj, id_obj)
         elif action == 'show_picture':
