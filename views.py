@@ -194,6 +194,3 @@ def show_change_lang(user, lang):
     lang_user.install()
     text = _('Language changed to ') + lang
     return text
-    
-    
-    

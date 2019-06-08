@@ -220,7 +220,6 @@ def new_msg(bot, update):
         new_file = bot.get_file(foto.file_id)
         new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
         date_time, summ, raw = scan(image=True, video=False)
-        
     else:
         query = Wait.select().where(Wait.user == user)
         if query.exists():
@@ -274,7 +273,7 @@ def new_msg(bot, update):
             text = show_purchase_item(user, pur.id)
             if raw:
                 text = _('Sorry I not found QR code.\n')
-                text = _('But I tried to recognize the text and found:\n')
+                text += _('But I tried to recognize the text and found:\n')
                 text += _('Date: ' + date_time + '\n')
                 text += _('Sum: ' + summ + '\n')
                 text += _('Is it true?\n')
