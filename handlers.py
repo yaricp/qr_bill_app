@@ -191,6 +191,7 @@ def new_msg(bot, update):
     wait_command = None
     date_time = None
     summ = None
+    raw = None
     photo_file_id = ''
     user = update.message.from_user.id
     keyboard = get_button_main()
@@ -372,7 +373,7 @@ def button(bot, update):
                 photo=obj.pic, 
                 caption=text, 
                 reply_markup=keyboard)
-            return true
+            return True
     if len(list_parameters) > 3:
         id_link_obj = list_parameters[3]
         
