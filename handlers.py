@@ -336,13 +336,13 @@ def button(bot, update):
             text = show_new_category(user, type=type_obj, obj_id=id_obj)
         elif action == 'new_seller':
             text = show_new_seller(user, purchase_id=id_obj) 
+        elif action == 'lang':
+            text = show_change_lang(user, id_obj)
+            keyboard = get_button_main()
         elif action == 'show':
             if type_obj == 'purchase':
                 keyboard = get_button_categories(user, id_obj, type_obj)
                 text = show_purchase_item(user, id_obj)
-            elif type_obj == 'lang':
-                text = show_change_lang(user, id_obj)
-                keyboard = get_button_main()
             elif type_obj == 'category':
                 keyboard =  get_button_del_item(id_obj, type_obj)
                 text = show_category_item(user, id_obj)
