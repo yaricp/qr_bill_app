@@ -31,9 +31,9 @@ dict_show_item = {
 @is_not_bot()
 @lang()
 def start(bot, update):
-    user = update.message.from_user
+    req_user = update.message.from_user
     keyboard = get_button_main()
-    user_id = update.message.from_user.id
+    user_id = req_user.id
     user = User.get_or_none(User.tg_user_id==user_id)
     if user and user.is_admin:
         text = _('Yes! And You are admins this bot!')
@@ -46,8 +46,7 @@ def start(bot, update):
         update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
     else:
-        username = user.first_name
-        user_id = user.id
+        username=req_user.first_name
         text = _('user %(username)s with %(user_id)s\n Wanted to use your bot.') % ({
                                                                     'username': username, 
                                                                     'user_id': user_id
