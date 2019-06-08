@@ -220,11 +220,7 @@ def new_msg(bot, update):
         new_file = bot.get_file(foto.file_id)
         new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
         date_time, summ, raw = scan(image=True, video=False)
-        if raw:
-            text = _('perhaps I found this:\n')
-            text += _('Date: ' + date_time + '\n')
-            text += _('Sum: ' + summ + '\n')
-            text += _('Is it true?\n')
+        
     else:
         query = Wait.select().where(Wait.user == user)
         if query.exists():
@@ -265,15 +261,27 @@ def new_msg(bot, update):
                                 Purchase.datetime==date_time, 
                                 Purchase.user==user)
         if not check_p:
+            text = show_purchase_item(user, pur.id)
+            keyboard = get_button_categories(user, pur.id, 'purchase')
+            confirm = True
+            if raw:
+                text = _('Sorry I not found QR code.\n')
+                text = _('But I tried to recognize the text and found:\n')
+                text += _('Date: ' + date_time + '\n')
+                text += _('Sum: ' + summ + '\n')
+                text += _('Is it true?\n')
+                confirm = False
             pur = Purchase(name='', 
                         datetime=date_time, 
                         summ=summ, 
                         user=user, 
-                        pic=photo_file_id
+                        pic=photo_file_id,
+                        confirm = confirm
                         )
             pur.save()
-            text = show_purchase_item(user, pur.id)
-            keyboard = get_button_categories(user, pur.id, 'purchase')
+            if raw:
+                keyboard = get_button_confirm(pur.id)
+            
         else:
             text = _('ATTANTION!\nIts looks like:\n')
             text += show_purchase_item(user, check_p[0].id)
@@ -339,7 +347,8 @@ def button(bot, update):
         if action == 'new_category':
             text = show_new_category(user, type=type_obj, obj_id=id_obj)
         elif action == 'new_seller':
-            text = show_new_seller(user, purchase_id=id_obj) 
+            text = show_new_seller(user, purchase_id=id_obj)
+        
         elif action == 'show':
             if type_obj == 'purchase':
                 keyboard = get_button_categories(user, id_obj, type_obj)
@@ -386,6 +395,16 @@ def button(bot, update):
                 caption=text, 
                 reply_markup=keyboard)
             return true
+        elif action == 'confirm':
+            if id_link_obj == 'yes':
+                obj.confirm = True
+                obj.save()
+                text = _('Confirmed!\n')
+                keyboard = get_button_categories(user, id_obj, type_obj)
+                text += show_purchase_item(user, id_obj)
+            else:
+                text += _('You can send me date and sum like this:\n')
+                text += _('12.01.19 123.00')
     bot.send_message(update.callback_query.message.chat.id,             
                     text=text, 
                     reply_markup=keyboard)

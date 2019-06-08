@@ -197,4 +197,3 @@ def show_change_lang(user, lang):
     
     
     
-    
