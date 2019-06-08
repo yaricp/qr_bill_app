@@ -1,5 +1,6 @@
 import gettext
 from models.language import Language
+from models.user import User
 
 from config import *
 
