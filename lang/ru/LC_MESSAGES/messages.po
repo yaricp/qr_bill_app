@@ -196,7 +196,7 @@ msgid ""
 "user %(username)s with %(user_id)s\n"
 " Wanted to use your bot."
 msgstr ""
-"пользователь %s с %s\n"
+"пользователь %(username)s с %(user_id)s\n"
 " Хочет зарегистрироваться и пользоваться ботом."
 
 msgid ""
