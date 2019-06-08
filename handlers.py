@@ -363,6 +363,7 @@ def button(bot, update):
     
     if len(list_parameters) > 1:
         action = list_parameters[0]
+        print('action: ',  action)
         if action == 'lang':
             text = show_change_lang(user, list_parameters[1])
             keyboard = get_button_main()
