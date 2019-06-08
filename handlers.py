@@ -47,10 +47,10 @@ def start(bot, update):
                                 reply_markup=keyboard)
     else:
         username=req_user.first_name
-        text = _('user %(username)s with %(user_id)s\n Wanted to use your bot.') % ({
+        text = _('user %(username)s with %(user_id)s\n Wanted to use your bot.') % {
                                                                     'username': username, 
                                                                     'user_id': str(user_id)
-                                                                    })
+                                                                    }
         user = User(
                 username=username, 
                 tg_user_id=user_id
