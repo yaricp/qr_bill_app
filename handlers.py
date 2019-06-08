@@ -334,7 +334,7 @@ def button(bot, update):
     elif but_data == '/by_category':
         text = show_order_by(user,'category')
     elif but_data == '/menu':
-        keyboard = get_button_menu(user_id)
+        keyboard = get_button_menu(user)
         text=_('Menu')
     elif but_data == '/help':
         text = show_help()
