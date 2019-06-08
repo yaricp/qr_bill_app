@@ -33,11 +33,14 @@ dict_show_item = {
 def start(bot, update):
     user = update.message.from_user
     keyboard = get_button_main()
-    if user.first_name in admins:
+    user_id = update.message.from_user.id
+    user = User.get_or_none(User.tg_user_id==user_id)
+    if user and user.is_admin:
         text = _('Yes! And You are admins this bot!')
         update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
-    elif user.first_name in allowed_users:
+    
+    elif user and user.is_active:
         text = _('Hello!') + ' \n'
         text += show_help()
         update.message.reply_text(  text=text,
@@ -49,6 +52,12 @@ def start(bot, update):
                                                                     'username': username, 
                                                                     'user_id': user_id
                                                                     })
+        user = User(
+                username=username, 
+                tg_user_id=user_id
+                )
+        user.save()
+        
         for k, v in admins.items():
             bot.send_message(
                         v, 
