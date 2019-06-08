@@ -57,13 +57,12 @@ def adjust_and_decode(gray):
     list_decoded = None
     for i in range(127, 160):
         print(i)
-#        for j in range(200, 255):
-#            print(j)
         (thresh, blackAndWhiteImage) = cv2.threshold(gray, i, 255, cv2.THRESH_BINARY)
         cv2.imwrite("image_processed.png",blackAndWhiteImage)
         cv2.imwrite("image_gray.png",gray)
-        #image_file = Image.open("image_processed.png")
         list_decoded = decode(blackAndWhiteImage)
+        if list_decoded:
+            break
     return list_decoded, blackAndWhiteImage
     
 
