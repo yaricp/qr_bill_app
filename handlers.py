@@ -261,16 +261,7 @@ def new_msg(bot, update):
                                 Purchase.datetime==date_time, 
                                 Purchase.user==user)
         if not check_p:
-            text = show_purchase_item(user, pur.id)
-            keyboard = get_button_categories(user, pur.id, 'purchase')
             confirm = True
-            if raw:
-                text = _('Sorry I not found QR code.\n')
-                text = _('But I tried to recognize the text and found:\n')
-                text += _('Date: ' + date_time + '\n')
-                text += _('Sum: ' + summ + '\n')
-                text += _('Is it true?\n')
-                confirm = False
             pur = Purchase(name='', 
                         datetime=date_time, 
                         summ=summ, 
@@ -278,10 +269,17 @@ def new_msg(bot, update):
                         pic=photo_file_id,
                         confirm = confirm
                         )
-            pur.save()
+            keyboard = get_button_categories(user, pur.id, 'purchase')
+            text = show_purchase_item(user, pur.id)
             if raw:
+                text = _('Sorry I not found QR code.\n')
+                text = _('But I tried to recognize the text and found:\n')
+                text += _('Date: ' + date_time + '\n')
+                text += _('Sum: ' + summ + '\n')
+                text += _('Is it true?\n')
                 keyboard = get_button_confirm(pur.id)
-            
+                pur.confirm = False
+            pur.save()
         else:
             text = _('ATTANTION!\nIts looks like:\n')
             text += show_purchase_item(user, check_p[0].id)
