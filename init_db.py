@@ -14,7 +14,8 @@ def initialize_db():
     admin = user.User.get_or_create(username=superuser, 
                                     tg_user_id=allowed_users[superuser], 
                                     is_active=True, 
-                                    is_admin=True
+                                    is_admin=True, 
+                                    paid_datetime=''
                                     )
     print(admin)
     db.close()
