@@ -49,7 +49,7 @@ def start(bot, update):
         username=req_user.first_name
         text = _('user %(username)s with %(user_id)s\n Wanted to use your bot.') % ({
                                                                     'username': username, 
-                                                                    'user_id': user_id
+                                                                    'user_id': str(user_id)
                                                                     })
         user = User(
                 username=username, 
