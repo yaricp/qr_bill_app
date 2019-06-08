@@ -101,8 +101,8 @@ def parse_qr_code(list_decoded):
     
 
 def parse_raw_text(img, user):
-    date_time = None
-    summ = None
+    date_time = ''
+    summ = ''
     lang, created = Language.get_or_create(user=user)
     #print('lang: ', lang.lang)
     lang_dict = {
