@@ -42,21 +42,20 @@ def recognize_image(user):
     if list_decoded:
         date_time, summ = parse_qr_code(list_decoded)
         return date_time, summ, False
-    list_decoded = adjust_and_decode(gray)
+    list_decoded, adj_img = adjust_and_decode(gray)
     if list_decoded:
         date_time, summ = parse_qr_code(list_decoded)
         return date_time, summ, False
-    date_time, summ = parse_raw_text(gray, user)
+    date_time, summ = parse_raw_text(adj_img, user)
     if date_time or summ:
         return date_time, summ, True
     else:
-        return (_('I cant find any data in pictures.\nEnter please date and summ in format like this: \n 12.01.19 123.00'), 
-                '', True)
+        return None, None, True
     
     
 def adjust_and_decode(gray):
     list_decoded = None
-    for i in range(127, 155):
+    for i in range(127, 160):
         print(i)
 #        for j in range(200, 255):
 #            print(j)
@@ -65,7 +64,7 @@ def adjust_and_decode(gray):
         cv2.imwrite("image_gray.png",gray)
         #image_file = Image.open("image_processed.png")
         list_decoded = decode(blackAndWhiteImage)
-    return list_decoded
+    return list_decoded, blackAndWhiteImage
     
 
 def scan(user='251241715', image=True, video=False):
@@ -110,13 +109,15 @@ def parse_raw_text(img, user):
                 'en': 'eng'
                 }
     raw_text = pytesseract.image_to_string(img, lang=lang_dict[lang.lang])
-    #print(raw_text)
+    print('raw_text: ', raw_text)
     rows = raw_text.split('\n')
     for row in rows:
         match = None
         #print('row: ', row)
         list_matches = [r"(\d{2}\.\d{2}\.\d{2} \d{2}: \d{2})",
                         r"(\d{2}\.\d{2}\.\d{2} \d{2}:\d{2})",
+                        r"(\d{2}\.\d{2}\. \d{2} \d{2}: \d{2})",
+                        r"(\d{2}\.\d{2}\. \d{2} \d{2}:\d{2})",
                         r"(\d{4}\-\d{2}\-\d{2} \d{2}: \d{2})",
                         r"(\d{2}\-\d{2}\-\d{2} \d{2}:\d{2})",
                         r"(\d{4}\-\d{2}\-\d{2} \d{2}: \d{2})",
@@ -134,17 +135,20 @@ def parse_raw_text(img, user):
                 #print('break')
                 break
         if match:
-            date_time = match.group(1)
+            date_time = match.group(1).replace(' ', '').replace('.', '-')
+            date = date_time[:8]
+            date_time = date_time[:8] + ' ' + date_time[8:] + ':00'
+            print('date: ', date)
             print('datetime: ', date_time)
             continue
-        list_matches = [r"(\d+\.\d{1,2}) ", 
-                        r"(\d+\. \d{1,2}) ", 
-                        r"(=\d+\. \d{1,2}) ", 
-                        r"(=\d+\.\d{1,2}) ",
-                        r"(\d+\.\d{1,2})$", 
-                        r"(\d+\. \d{1,2})$", 
-                        r"(=\d+\. \d{1,2})$", 
-                        r"(=\d+\.\d{1,2})$",
+        list_matches = [r"((|=)\d+(\.|,)(| )\d{1,2}( |$))", 
+#                        r"(\d+\. \d{1,2}) ", 
+#                        r"(=\d+\. \d{1,2}) ", 
+#                        r"(=\d+\.\d{1,2}) ",
+#                        r"(\d+(\.|,)\d{1,2})$", 
+#                        r"(\d+\. \d{1,2})$", 
+#                        r"(=\d+\. \d{1,2})$", 
+#                        r"(=\d+\.\d{1,2})$",
                         ]
         #print('start search summ')
         for exp in list_matches:
@@ -152,7 +156,7 @@ def parse_raw_text(img, user):
             match = re.search(exp, row)
             if match:
                 #print(match)
-                summ = match.group(1).replace(' ', '').replace('=', '')
+                summ = match.group(1).replace(' ', '').replace('=', '').replace(',', '.')
                 print('summ', summ)
                 break
     return date_time,  summ
