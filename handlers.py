@@ -17,13 +17,15 @@ run_waiting_command = {
 dict_types = {
         'purchase': Purchase, 
         'seller': Seller, 
-        'category':Category
+        'category': Category, 
+        'user': User
     }
     
 dict_show_item = {
         'purchase': show_purchase_item, 
         'seller': show_seller_item, 
-        'category': show_category_item
+        'category': show_category_item, 
+        'user': show_user_item
     }
 
 @is_not_bot()
@@ -112,8 +114,8 @@ def list_category(bot, update):
 @is_allowed_user()
 @lang()
 def list_seller(bot, update):
-    user = update.message.from_user.id
-    keyboard = get_button_list_sellers(user)
+    user_id = update.message.from_user.id
+    keyboard = get_button_list_sellers(user_id)
     update.message.reply_text(  text=_('List Sellers'),
                                 reply_markup=keyboard)
                                 
@@ -121,7 +123,8 @@ def list_seller(bot, update):
 @is_allowed_user()
 @lang()
 def menu(bot, update):
-    keyboard = get_button_menu()
+    user_id = update.message.from_user.id
+    keyboard = get_button_menu(user_id)
     update.message.reply_text(  text=_('Menu'),
                                 reply_markup=keyboard)
        
@@ -331,7 +334,7 @@ def button(bot, update):
     elif but_data == '/by_category':
         text = show_order_by(user,'category')
     elif but_data == '/menu':
-        keyboard = get_button_menu()
+        keyboard = get_button_menu(user_id)
         text=_('Menu')
     elif but_data == '/help':
         text = show_help()
@@ -344,6 +347,9 @@ def button(bot, update):
     elif but_data == '/sellers':
         keyboard = get_button_list_sellers(user)
         text = _('List sellers')
+    elif but_data == '/users':
+        keyboard = get_button_users()
+        text = _('List users')
     list_parameters = but_data.split('&')
     
     if len(list_parameters) > 1:
@@ -372,6 +378,8 @@ def button(bot, update):
                 #keyboard =  get_button_del_item(id_obj, type_obj)
                 keyboard = get_button_categories(user, id_obj, type_obj)
                 text = show_seller_item(user, id_obj)
+            elif type_obj == 'user':
+                text = show_user_item(user, id_obj)
         elif action == 'delitem':
             text = delete_item(user, type_obj, id_obj)
         elif action == 'show_picture':
@@ -382,6 +390,7 @@ def button(bot, update):
                 caption=text, 
                 reply_markup=keyboard)
             return True
+        
     if len(list_parameters) > 3:
         id_link_obj = list_parameters[3]
         

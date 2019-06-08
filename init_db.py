@@ -8,7 +8,14 @@ def initialize_db():
                         purchase.Purchase, 
                         seller.Seller, 
                         wait.Wait, 
-                        language.Language], safe = True)
+                        language.Language, 
+                        user.User
+                        ], safe = True)
+    admin = user.User.get_or_create(username=superuser, 
+                                    tg_user_id=allowed_users[superuser], 
+                                    is_active=True, 
+                                    is_admin=True)
+    print(admin)
     db.close()
     
 

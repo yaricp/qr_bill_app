@@ -194,3 +194,18 @@ def show_change_lang(user, lang):
     lang_user.install()
     text = _('Language changed to ') + lang
     return text
+
+
+def show_user_item(user,  id_obj):
+    
+    user = User.get(Get.id==id_obj)
+    text = 'username: %s\ndatetime: %s\nactive: %s\nadmin: %s\npaid: %s\ndate payment: %s' % (
+                                            user.username, 
+                                            user.start_time,
+                                            user.is_active, 
+                                            user.is_admin, 
+                                            user.paid, 
+                                            user.paid_datetime
+                                            )
+    return text
+    

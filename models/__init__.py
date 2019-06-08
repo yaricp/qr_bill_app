@@ -1,4 +1,4 @@
-__all__ = ["purchase", "category", "seller", "wait", "language"]
+__all__ = ["purchase", "category", "seller", "wait", "language", "user"]
 
 
 

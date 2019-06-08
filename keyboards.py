@@ -5,6 +5,7 @@ from telegram import (InlineKeyboardMarkup, InlineKeyboardButton)
 from models.seller import Seller
 from models.category import Category
 from models.purchase import Purchase
+from models.user import User
 
 from config import *
 
@@ -17,7 +18,7 @@ def get_button_main():
     return keyboard
     
     
-def get_button_menu():
+def get_button_menu(user_id):
     buttons = [[InlineKeyboardButton( _('categories'), callback_data='/categories'), 
                 InlineKeyboardButton( _('sellers'), callback_data='/sellers')],  
                 [InlineKeyboardButton( _('purchases'), callback_data='/purchases')], 
@@ -25,6 +26,22 @@ def get_button_menu():
                 [InlineKeyboardButton( _('languages'), callback_data='/langs')],
                 [InlineKeyboardButton( _('help'), callback_data='/help')], 
                 ]
+    user = User.get_or_create(tg_user_id=user_id)
+    if user.is_admin:
+        buttons.append([InlineKeyboardButton( _('users'), callback_data='/users')])
+    keyboard = InlineKeyboardMarkup(buttons)
+    return keyboard
+    
+    
+def get_button_users():
+    buttons = []
+    users = User.select()
+    for user in users:
+        buttons.append([
+                        InlineKeyboardButton( user.username + ' '+ user.is_active, callback_data='/show&user&%s' % user.id), 
+                        InlineKeyboardButton( _('make admin'), callback_data='/makeadmin&user&%s' % user.id), 
+                        InlineKeyboardButton( _('block'), callback_data='/block&user&%s' % user.id)
+                        ])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
     
