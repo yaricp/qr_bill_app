@@ -345,6 +345,8 @@ def button(bot, update):
     if len(list_parameters) > 2:
         type_obj = list_parameters[1]
         id_obj = list_parameters[2]
+        obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj, 
+                                        dict_types[type_obj].user==user )
         if action == 'new_category':
             text = show_new_category(user, type=type_obj, obj_id=id_obj)
         elif action == 'new_seller':
@@ -373,8 +375,7 @@ def button(bot, update):
             return true
     if len(list_parameters) > 3:
         id_link_obj = list_parameters[3]
-        obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj, 
-                                        dict_types[type_obj].user==user )
+        
         if action == 'change_seller':
             keyboard = get_button_sellers(user, obj.id)
 #            Category = Category.get(Category.id==id_link_obj, 
