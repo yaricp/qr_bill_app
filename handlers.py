@@ -363,7 +363,7 @@ def button(bot, update):
     
     if len(list_parameters) > 1:
         action = list_parameters[0]
-        print('action: ',  action)
+        #print('action: ',  action)
         if action == 'lang':
             text = show_change_lang(user, list_parameters[1])
             keyboard = get_button_main()
@@ -396,12 +396,12 @@ def button(bot, update):
             obj.is_active = True
             obj.save()
             text = _('User %s activated') % obj.username
-            print('text: ', text)
+            #print('text: ', text)
         elif action == 'block':
             obj.is_active = False
             obj.save()
             text = _('User %s blocked') % obj.username
-            print(text)
+            #print(text)
         elif action == 'delitem':
             text = delete_item(user, type_obj, id_obj)
         elif action == 'show_picture':
