@@ -217,6 +217,10 @@ def new_msg(bot, update):
         new_file = bot.get_file(video.file_id)
         new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.mp4'))
         date_time, summ, raw = scan(image=False, video=True)
+        bot.send_message(
+                        update.message.chat.id,
+                        text=_('Please wait. Recognize video perhaps take some time.'), 
+                        )
     elif update.message.photo:
         nrows = Wait.delete().where(Wait.user == user).execute()
         photo_file_id = update.message.photo[-1].file_id

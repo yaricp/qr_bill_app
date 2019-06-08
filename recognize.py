@@ -26,7 +26,7 @@ def recognize_video():
     success,image = vidcap.read()
     while success:
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        list_decoded = adjust_and_decode(gray)
+        list_decoded, adj_img = adjust_and_decode(gray)
         success,image = vidcap.read()
         if list_decoded:
             date_time, summ = parse_qr_code(list_decoded)
@@ -66,7 +66,7 @@ def adjust_and_decode(gray):
     return list_decoded, blackAndWhiteImage
     
 
-def scan(user='251241715', image=True, video=False):
+def scan(user='251241715', image=False, video=True):
     date_time = None
     summ = None
     raw = False
