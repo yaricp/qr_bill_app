@@ -14,7 +14,7 @@ def is_allowed_user():
                 obj = args[1].callback_query
             if obj:
                 user_id = obj.from_user.id
-                user = User.get(User.tg_user_id==user_id)
+                user = User.get_or_none(User.tg_user_id==user_id)
                 if user and user.is_active:
                     f(*args)
                 else:
