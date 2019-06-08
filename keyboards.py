@@ -38,10 +38,10 @@ def get_button_users():
     users = User.select()
     for user in users:
         buttons.append([
-                        InlineKeyboardButton( user.username + ' ' + str(user.is_active), callback_data='/show&user&%s' % user.id), 
-                        #InlineKeyboardButton( _('make admin'), callback_data='/makeadmin&user&%s' % user.id), 
-                        InlineKeyboardButton( _('block'), callback_data='/block&user&%s' % user.id), 
-                        InlineKeyboardButton( _('act'), callback_data='/activate&user&%s' % user.id)
+                        InlineKeyboardButton( user.username + ' ' + str(user.is_active), callback_data='show&user&%s' % user.id), 
+                        #InlineKeyboardButton( _('make admin'), callback_data='makeadmin&user&%s' % user.id), 
+                        InlineKeyboardButton( _('block'), callback_data='block&user&%s' % user.id), 
+                        InlineKeyboardButton( _('act'), callback_data='activate&user&%s' % user.id)
                         ])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
