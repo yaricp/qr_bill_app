@@ -393,15 +393,29 @@ def button(bot, update):
             elif type_obj == 'user':
                 text = show_user_item(user, id_obj)
         elif action == 'activate':
-            obj.is_active = True
-            obj.save()
-            text = _('User %s activated') % obj.username
-            #print('text: ', text)
+            if not obj.is_active:
+                obj.is_active = True
+                obj.save()
+                user_text = _('Your account is activated by admin.\n')
+                user_text += _('You can send me photo or video with QR code on bill and I try to decode or recognize date and summ.\n')
+                user_text += _('Also you can use any programm for decore QR codes and send me result.\n')
+                user_text += _('Finally you can send me date and summ in format: dd.mm.yy 123.00')
+                bot.send_message(obj.tg_user_id,             
+                        text=user_text)
+                text = _('User %s activated') % obj.username
+            else:
+                text = _('User %s is active') % obj.username
         elif action == 'block':
-            obj.is_active = False
-            obj.save()
-            text = _('User %s blocked') % obj.username
-            #print(text)
+            if obj.is_active:
+                obj.is_active = False
+                obj.save()
+                user_text = _('Your account is blocked.\n')
+                user_text += _('You can write to administrators of bot.\n')
+                bot.send_message(obj.tg_user_id,             
+                            text=user_text)
+                text = _('User %s blocked') % obj.username
+            else:
+                text = _('User %s is not active') % obj.username
         elif action == 'delitem':
             text = delete_item(user, type_obj, id_obj)
         elif action == 'show_picture':

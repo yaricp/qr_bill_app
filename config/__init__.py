@@ -20,6 +20,7 @@ superuser = 'yaricp'
 allowed_users = {'yaricp':'251241715',
                 'yaricp_dev':'556094746', 
                  'Алексей': '470579427'}
+
                 
 admins = {'yaricp':'251241715'}
 development = int(os.getenv('DEVEL', 1))
