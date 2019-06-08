@@ -110,7 +110,7 @@ def parse_raw_text(img, user):
                 'en': 'eng'
                 }
     raw_text = pytesseract.image_to_string(img, lang=lang_dict[lang.lang])
-    #print(raw_text)
+    print(raw_text)
     rows = raw_text.split('\n')
     for row in rows:
         match = None
@@ -135,9 +135,16 @@ def parse_raw_text(img, user):
                 break
         if match:
             date_time = match.group(1)
+            print('datetime: ', date_time)
             continue
-        list_matches = [r"(\d+\.\d{1,2} )", 
-                        r"(\d+\. \d{1,2} )", 
+        list_matches = [r"(\d+\.\d{1,2}) ", 
+                        r"(\d+\. \d{1,2}) ", 
+                        r"(=\d+\. \d{1,2}) ", 
+                        r"(=\d+\.\d{1,2}) ",
+                        r"(\d+\.\d{1,2})$", 
+                        r"(\d+\. \d{1,2})$", 
+                        r"(=\d+\. \d{1,2})$", 
+                        r"(=\d+\.\d{1,2})$",
                         ]
         #print('start search summ')
         for exp in list_matches:
@@ -145,8 +152,9 @@ def parse_raw_text(img, user):
             match = re.search(exp, row)
             if match:
                 #print(match)
-                summ = match.group(1).replace(' ', '')
-                #print('summ', summ)
+                summ = match.group(1).replace(' ', '').replace('=', '')
+                print('summ', summ)
+                break
     return date_time,  summ
     
     
