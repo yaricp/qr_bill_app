@@ -71,7 +71,7 @@ def scan(user='251241715', image=False, video=True):
     summ = None
     raw = False
     if image:
-        date_time, summ, raw = recognize_image(user)
+        date_time, summ, raw = recognize_image(user) 
     if video:
         date_time, summ, raw = recognize_video()
     return date_time, summ, raw
