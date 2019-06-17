@@ -314,6 +314,7 @@ def button(bot, update):
     message_id = update.callback_query.message.message_id
     but_data = update.callback_query.data
     keyboard = get_button_main()
+    print('but_data: ', but_data)
     if but_data == 'register':
         user = User(
                 username=username, 
