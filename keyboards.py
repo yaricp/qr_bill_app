@@ -21,10 +21,10 @@ def get_button_main():
 def get_button_register():
     yes_button = InlineKeyboardButton(  
         _('Yes'),
-        callback_data='/register')
+        callback_data='register')
     no_button = InlineKeyboardButton(  
         _('No'),
-        callback_data='/no_register')
+        callback_data='no_register')
     keyboard = InlineKeyboardMarkup([[yes_button, no_button]])
     return keyboard
     
