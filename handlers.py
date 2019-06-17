@@ -323,7 +323,8 @@ def button(bot, update):
         if not user:
             user = User(
                     username=username, 
-                    tg_user_id=user_id, 
+                    tg_user_id=user_id,
+                    is_active=True, 
                     paid_datetime=''
                     )
             user.save()
@@ -348,7 +349,7 @@ def button(bot, update):
         text += _('We hope you return. We will glad to work for you.')
     else:
         private_actions(bot, update)
-        return true
+        return True
     bot.edit_message_text(chat_id=chat_id,
                         message_id=message_id, 
                         text=text, 
