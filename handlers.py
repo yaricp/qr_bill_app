@@ -323,6 +323,7 @@ def button(bot, update):
     but_data = update.callback_query.data
     user = update.callback_query.from_user.id
     chat_id = update.callback_query.message.chat.id
+    print('update: ', update)
     message_id = update.callback_query.message.id
     keyboard = get_button_main()
     type_obj = None
