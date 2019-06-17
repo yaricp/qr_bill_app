@@ -464,7 +464,7 @@ def button(bot, update):
                 text += _('You can send me date and summ like this:\n')
                 text += _('12.01.19 123.00')
     print('text: ', text)
-    bot.edit_message_text(chat_id,             
+    bot.edit_message_text(chat_id=chat_id,             
                     text=text, 
                     reply_markup=keyboard)
     
