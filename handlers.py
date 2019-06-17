@@ -37,27 +37,10 @@ def start(bot, update):
     user = User.get_or_none(User.tg_user_id==user_id)
     if user and user.is_admin:
         text = _('Yes! And You are admins this bot!')
-        update.message.reply_text(  text=text,
-                                reply_markup=keyboard)
-    
     elif user and user.is_active:
         text = _('Hello!') + ' \n'
         text += show_help()
-        update.message.reply_text(  text=text,
-                                reply_markup=keyboard)
     else:
-        username=req_user.first_name
-        text = _('user %(username)s with %(user_id)s\n Wanted to use your bot.') % {
-                                                                    'username': username, 
-                                                                    'user_id': str(user_id)
-                                                                    }
-        
-        for k, v in admins.items():
-            bot.send_message(
-                        v, 
-                        text=text, 
-                        reply_markup=keyboard
-                        )
         text = _('Hi! This bot will store your user_id and username in database.\n')
         text += _('Keep in mind this service is not commercial in this time and can`t guarantee safety your data.\n')
         text += _('We work by donates and quality of this service depend values of donates.\n')
@@ -65,7 +48,7 @@ def start(bot, update):
         text += _('But you can use it FREE.\n')
         text += _('Do you want to register?')
         keyboard = get_button_register()
-        update.message.reply_text(text=text,
+    update.message.reply_text(text=text,
                         reply_markup=keyboard
                         )
                         
@@ -74,6 +57,7 @@ def start(bot, update):
 def about(bot, update):
     text = show_about()
     update.message.reply_text(text=text)
+    
 
 @is_not_bot()
 @is_allowed_user()
@@ -323,18 +307,11 @@ def new_msg(bot, update):
                                 reply_markup=keyboard)
             
 
-@is_not_bot()        
-@is_allowed_user()
+@is_not_bot()
 @lang()
 def button(bot, update):
     but_data = update.callback_query.data
-    user = update.callback_query.from_user.id
-    chat_id = update.callback_query.message.chat.id
-    print('update: ', update.callback_query.message.message_id)
-    message_id = update.callback_query.message.message_id
     keyboard = get_button_main()
-    type_obj = None
-    text = ''
     if but_data == 'register':
         user = User(
                 username=username, 
@@ -347,7 +324,37 @@ def button(bot, update):
         text += show_help()
         text += _('If you want to make this service more reliable you can donate us.\n')
         text += _('donate - /donate')
+        admin_text = _('user %(username)s with %(user_id)s\n Wanted to use your bot.') % {
+                                                                    'username': user.username, 
+                                                                    'user_id': str(user.tg_user_id)
+                                                                    }
+        for k, v in admins.items():
+            bot.send_message(
+                        v, 
+                        text=admin_text, 
+                        reply_markup=keyboard
+                        )
+    elif but_data == 'no_register':
+        text = _('Ok! Good luck for you.')
+        text += _('We hope you return. We will glad to work for you.')
+    else:
+        private_actions(bot, update)
+    update.message.reply_text(text=text,
+                        reply_markup=keyboard
+                        )
+    
 
+@is_not_bot()        
+@is_allowed_user()
+@lang()
+def private_actions(bot, update):
+    but_data = update.callback_query.data
+    user = update.callback_query.from_user.id
+    chat_id = update.callback_query.message.chat.id
+    message_id = update.callback_query.message.message_id
+    keyboard = get_button_main()
+    type_obj = None
+    text = ''
     nrows = Wait.delete().where(Wait.user == user).execute()
     if but_data == '/purchases':
         keyboard = get_button_list_purchase(user)
