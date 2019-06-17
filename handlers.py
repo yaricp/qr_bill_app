@@ -68,8 +68,12 @@ def start(bot, update):
         update.message.reply_text(text=text,
                         reply_markup=keyboard
                         )
-
-
+                        
+@is_not_bot()
+@lang()
+def about(bot, update):
+    text = show_about()
+    update.message.reply_text(text=text)
 
 @is_not_bot()
 @is_allowed_user()

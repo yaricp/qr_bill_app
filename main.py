@@ -19,6 +19,7 @@ from handlers import (  new_category,
                         by_category, 
                         by_seller,
                         help, 
+                        about, 
                         menu, 
                         start, 
                         change_lang, 
@@ -76,6 +77,9 @@ def main():
     
     help_handler = CommandHandler('help', help)
     dispatcher.add_handler(help_handler)
+    
+    about_handler = CommandHandler('about', about)
+    dispatcher.add_handler(about_handler)
     
     new_msg_handler = MessageHandler(Filters.all, new_msg)
     dispatcher.add_handler(new_msg_handler)
