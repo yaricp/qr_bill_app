@@ -314,11 +314,11 @@ def button(bot, update):
     message_id = update.callback_query.message.message_id
     but_data = update.callback_query.data
     keyboard = get_button_main()
-    print('chat: ', update.callback_query.message.chat)
+    print('from: ', update.callback_query.from_user)
     print(dir(update.callback_query))
     if but_data == 'register':
-        username = update.callback_query.message['from'].first_name
-        user_id = update.callback_query.message['from'].id
+        username = update.callback_query.from_user.username
+        user_id = update.callback_query.from_user.id
         user = User.get_or_none(tg_user_id=user_id)
         if not user:
             user = User(
