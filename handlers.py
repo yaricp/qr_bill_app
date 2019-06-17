@@ -314,32 +314,35 @@ def button(bot, update):
     message_id = update.callback_query.message.message_id
     but_data = update.callback_query.data
     keyboard = get_button_main()
-    print(update.callback_query)
-    print(type(update.callback_query))
+    print(update.callback_query.chat)
+    print(dir(update.callback_query))
     if but_data == 'register':
         username = update.callback_query['from'].first_name
         user_id = update.callback_query['from'].id
-        user = User(
-                username=username, 
-                tg_user_id=user_id, 
-                paid_datetime=''
-                )
-        user.save()
-        text = _('Congratulation! you registered now.\n')
-        text += show_about()
-        text += show_help()
-        text += _('If you want to make this service more reliable you can donate us.\n')
-        text += _('donate - /donate')
-        admin_text = _('user %(username)s with %(user_id)s\n Wanted to use your bot.') % {
-                                                                    'username': user.username, 
-                                                                    'user_id': str(user.tg_user_id)
-                                                                    }
-        for k, v in admins.items():
-            bot.send_message(
-                        v, 
-                        text=admin_text, 
-                        reply_markup=keyboard
-                        )
+        user = User.get_or_none(tg_user_id=user_id)
+        if not user:
+            user = User(
+                    username=username, 
+                    tg_user_id=user_id, 
+                    paid_datetime=''
+                    )
+            user.save()
+            text = _('Congratulation! you registered now.\n')
+            text += show_about()
+            text += show_help()
+            text += _('If you want to make this service more reliable you can donate us.\n')
+            text += _('donate - /donate')
+            admin_text = _('user %(username)s with %(user_id)s\n Wanted to use your bot.') % {
+                                                                        'username': user.username, 
+                                                                        'user_id': str(user.tg_user_id)
+                                                                        }
+            for k, v in admins.items():
+                bot.send_message(
+                            v, 
+                            text=admin_text, 
+                            reply_markup=keyboard
+                            )
+        
     elif but_data == 'no_register':
         text = _('Ok! Good luck for you.')
         text += _('We hope you return. We will glad to work for you.')
