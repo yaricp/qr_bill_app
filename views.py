@@ -130,7 +130,8 @@ def show_new_seller(user, purchase_id=None):
         
         
 def show_help():
-    text = '/menu - ' + _('main menu') + '\n'
+    text = _('Help.\n')
+    text += '/menu - ' + _('main menu') + '\n'
     text += '/new_category NAME - ' + _('for adding new category') + '\n'
     text += '/new_seller NAME - ' + _('for adding new seller') + '\n'
     text += '/purchases - ' + _('list of purchases') + '\n'
@@ -145,6 +146,28 @@ def show_help():
     for lang in LANGUAGES:
         text += lang + '\n'
     text += '/help - ' + _('show this help') + '\n'
+    text += ' /about - ' + _('About this bot') + '\n'
+    return text
+    
+
+def show_about():
+    text = _('About.\n')
+    text += _('This bot help you to keep and analize your purchases.\n')
+    text += _('You can send to bot photo of bill with QR code and bot try to decode QR code and save this purchase in database.\n')
+    text += _('You can send also video with QR code.\n')
+    text += _('If bot can`t to recognize QR code you can use any application for decode QR code and then send to bot result.\n')
+    text += _('For each purchase bot save link to photo of bill and you can check it anytime.\n')
+    text += _('You can create categories and sellers (name of seller) for each purchase.\n')
+    text += _('And then bot can show you reports by sellres and by categories.\n')
+    text += _('If you twice send photo with QR code bot notice about it.\n')
+    text += _('We have more plans to make this bot better. For example:\n')
+    text += _(' - make send reports to email each week, month or other period.\n')
+    text += _(' - make connection to third party database what user want (for example for more strong safety of finance data).\n')
+    text += _(' - save geoposition of purchase (it maybe good for travellers).\n')
+    text += _('But notice we work by donates.\n')
+    text += _('And how long we will release new features depend of free time and how much donated we will have.\n')
+    text += _('Now we use simple database on weak server because it cheap.\n')
+    text += _('For discussion of work this bot invite to .\n')
     return text
     
     

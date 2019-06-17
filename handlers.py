@@ -338,10 +338,10 @@ def button(bot, update):
                 paid_datetime=''
                 )
         user.save()
-        text = _('Congratulation! you registaerd now.\n')
+        text = _('Congratulation! you registered now.\n')
+        text += show_about()
+        text += show_help()
         text += _('If you want to make this service more reliable you can donate us.\n')
-        text += _('About service /about\n')
-        text += _('help  - /help\n')
         text += _('donate - /donate')
 
     nrows = Wait.delete().where(Wait.user == user).execute()
