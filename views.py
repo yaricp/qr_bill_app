@@ -225,7 +225,7 @@ def show_change_lang(user, lang):
 
 def show_user_item(user,  id_obj):
     
-    user = User.get(Get.id==id_obj)
+    user = User.get(User.id==id_obj)
     text = 'username: %s\ndatetime: %s\nactive: %s\nadmin: %s\npaid: %s\ndate payment: %s' % (
                                             user.username, 
                                             user.start_time,
