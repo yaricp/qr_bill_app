@@ -75,6 +75,10 @@ dict_show_item = {
      
 def delete_item(user, typeitem, iditem):
     
+    if typeitem == 'user':
+        item_name = User.get(id=iditem).username
+        text = _('user %(item)s deleted') %  {'item':item_name}
+        nrows = User.delete().where(User.id == iditem).execute()
     if typeitem == 'category':
         for p in Purchase.select().where(Purchase.category == iditem, 
                                          Purchase.user == user):

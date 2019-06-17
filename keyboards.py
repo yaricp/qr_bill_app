@@ -17,6 +17,17 @@ def get_button_main():
     keyboard = InlineKeyboardMarkup([[new_button]])
     return keyboard
     
+
+def get_button_register():
+    yes_button = InlineKeyboardButton(  
+        _('Yes'),
+        callback_data='/register')
+    no_button = InlineKeyboardButton(  
+        _('No'),
+        callback_data='/no_register')
+    keyboard = InlineKeyboardMarkup([[yes_button, no_button]])
+    return keyboard
+    
     
 def get_button_menu(user_id):
     buttons = [[InlineKeyboardButton( _('categories'), callback_data='/categories'), 
@@ -37,12 +48,21 @@ def get_button_users():
     buttons = []
     users = User.select()
     for user in users:
-        buttons.append([
+        row_but = [
+                    InlineKeyboardButton( user.username + ' ' + str(user.is_active), callback_data='show&user&%s' % user.id), 
+                    #InlineKeyboardButton( _('make admin'), callback_data='makeadmin&user&%s' % user.id), 
+                    InlineKeyboardButton( _('block'), callback_data='block&user&%s' % user.id), 
+                    InlineKeyboardButton( _('act'), callback_data='activate&user&%s' % user.id)
+                    ]
+        if not user.is_admin:
+            row_but = [
+                        InlineKeyboardButton( 'x', callback_data='delitem&user&%s' % user.id),
                         InlineKeyboardButton( user.username + ' ' + str(user.is_active), callback_data='show&user&%s' % user.id), 
                         #InlineKeyboardButton( _('make admin'), callback_data='makeadmin&user&%s' % user.id), 
                         InlineKeyboardButton( _('block'), callback_data='block&user&%s' % user.id), 
                         InlineKeyboardButton( _('act'), callback_data='activate&user&%s' % user.id)
-                        ])
+                        ]
+        buttons.append(row_but)
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
     

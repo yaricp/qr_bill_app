@@ -51,12 +51,6 @@ def start(bot, update):
                                                                     'username': username, 
                                                                     'user_id': str(user_id)
                                                                     }
-        user = User(
-                username=username, 
-                tg_user_id=user_id, 
-                paid_datetime=''
-                )
-        user.save()
         
         for k, v in admins.items():
             bot.send_message(
@@ -64,8 +58,17 @@ def start(bot, update):
                         text=text, 
                         reply_markup=keyboard
                         )
-        text = _('Ok! we send request to admin of this bot\n After confirm you will take a message')
-        update.message.reply_text(text=text)
+        text = _('Hi! This bot will store your user_id and username in database.\n')
+        text += _('Keep in mind this service is not commercial in this time and can`t guarantee safety your data.\n')
+        text += _('We work by donates and quality of this service depend values of donates.\n')
+        text += _('Please don`t send photo of important documents here.\n')
+        text += _('But you can use it FREE.\n')
+        text += _('Do you want to register?')
+        keyboard = get_button_register()
+        update.message.reply_text(text=text,
+                        reply_markup=keyboard
+                        )
+
 
 
 @is_not_bot()
@@ -328,6 +331,19 @@ def button(bot, update):
     keyboard = get_button_main()
     type_obj = None
     text = ''
+    if but_data == 'register':
+        user = User(
+                username=username, 
+                tg_user_id=user_id, 
+                paid_datetime=''
+                )
+        user.save()
+        text = _('Congratulation! you registaerd now.\n')
+        text += _('If you want to make this service more reliable you can donate us.\n')
+        text += _('About service /about\n')
+        text += _('help  - /help\n')
+        text += _('donate - /donate')
+
     nrows = Wait.delete().where(Wait.user == user).execute()
     if but_data == '/purchases':
         keyboard = get_button_list_purchase(user)
