@@ -344,6 +344,7 @@ def button(bot, update):
         text += _('We hope you return. We will glad to work for you.')
     else:
         private_actions(bot, update)
+        return true
     bot.edit_message_text(chat_id=chat_id,
                         message_id=message_id, 
                         text=text, 
