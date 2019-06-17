@@ -310,6 +310,8 @@ def new_msg(bot, update):
 @is_not_bot()
 @lang()
 def button(bot, update):
+    chat_id = update.callback_query.message.chat.id
+    message_id = update.callback_query.message.message_id
     but_data = update.callback_query.data
     keyboard = get_button_main()
     if but_data == 'register':
@@ -339,9 +341,10 @@ def button(bot, update):
         text += _('We hope you return. We will glad to work for you.')
     else:
         private_actions(bot, update)
-    update.message.reply_text(text=text,
-                        reply_markup=keyboard
-                        )
+    bot.edit_message_text(chat_id=chat_id,
+                        message_id=message_id, 
+                        text=text, 
+                        reply_markup=keyboard)
     
 
 @is_not_bot()        
@@ -492,7 +495,6 @@ def private_actions(bot, update):
             else:
                 text += _('You can send me date and summ like this:\n')
                 text += _('12.01.19 123.00')
-    print('text: ', text)
     bot.edit_message_text(chat_id=chat_id,
                         message_id=message_id, 
                         text=text, 
