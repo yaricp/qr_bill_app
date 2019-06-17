@@ -310,10 +310,12 @@ def new_msg(bot, update):
 @is_not_bot()
 @lang()
 def button(bot, update):
+    print('start button')
     chat_id = update.callback_query.message.chat.id
     message_id = update.callback_query.message.message_id
     but_data = update.callback_query.data
     keyboard = get_button_main()
+    print('update: ', update)
     print('but_data: ', but_data)
     if but_data == 'register':
         user = User(
