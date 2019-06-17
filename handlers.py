@@ -323,6 +323,7 @@ def button(bot, update):
     but_data = update.callback_query.data
     user = update.callback_query.from_user.id
     chat_id = update.callback_query.message.chat.id
+    message_id = update.callback_query.message.id
     keyboard = get_button_main()
     type_obj = None
     text = ''
@@ -464,9 +465,10 @@ def button(bot, update):
                 text += _('You can send me date and summ like this:\n')
                 text += _('12.01.19 123.00')
     print('text: ', text)
-    bot.edit_message_text(chat_id=chat_id,             
-                    text=text, 
-                    reply_markup=keyboard)
+    bot.edit_message_text(chat_id=chat_id,
+                        message_id=message_id, 
+                        text=text, 
+                        reply_markup=keyboard)
     
 
 if __name__ == "__main__":
