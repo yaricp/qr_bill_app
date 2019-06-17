@@ -315,7 +315,7 @@ def button(bot, update):
     but_data = update.callback_query.data
     keyboard = get_button_main()
     print(update.callback_query)
-    print(type(update.callback_quer))
+    print(type(update.callback_query))
     if but_data == 'register':
         username = update.callback_query['from'].first_name
         user_id = update.callback_query['from'].id
