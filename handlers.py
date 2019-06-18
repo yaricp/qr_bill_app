@@ -415,6 +415,8 @@ def private_actions(bot, update):
     elif but_data == '/categories':
         keyboard = get_button_list_categories(user)
         text = _('List categories')
+        print('Categories')
+        print(keyboard)
     elif but_data == '/sellers':
         keyboard = get_button_list_sellers(user)
         text = _('List sellers')
