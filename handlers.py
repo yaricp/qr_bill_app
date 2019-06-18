@@ -482,8 +482,6 @@ def private_actions(bot, update):
             if type_obj == 'user':
                 send_delete_info_to_user(bot, id_obj)
             text = delete_item(user, type_obj, id_obj)
-            if type_obj == 'user':
-                send_delete_info()
         elif action == 'show_picture':
             text = show_purchase_item(user, id_obj)
             bot.send_photo(

@@ -19,9 +19,9 @@ def is_allowed_user():
                     f(*args)
                 else:
                     if args[1].callback_query:
-                        args[1].callback_query.answer('Sorry! it is private bot...')
+                        args[1].callback_query.answer('Sorry! you need to register. Use /start for this.')
                     else:
-                        obj.reply_text('Sorry! it is private bot...')
+                        obj.reply_text('Sorry! you need to register. Use /start for this.')
         return wrapped_f
     return wrap
     
