@@ -275,7 +275,7 @@ msgstr "Перейдите по ссылке: https://online.sberbank.ru\n"
 
 #: views.py:248
 msgid "And then fill number of card in field for payment\n"
-msgstr "И после этого вставьте номер карты в поле оплаты"
+msgstr "И после этого вставьте номер карты в поле оплаты\n"
 
 #: views.py:253
 msgid "Paypal Donate:\n"
