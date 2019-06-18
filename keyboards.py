@@ -63,6 +63,10 @@ def get_button_users():
                         InlineKeyboardButton( _('act'), callback_data='activate&user&%s' % user.id)
                         ]
         buttons.append(row_but)
+    new_button = InlineKeyboardButton(  
+        _('Menu'),
+        callback_data='/menu')
+    buttons.append([new_button])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
     
@@ -116,14 +120,11 @@ def get_button_sellers(user, id_item):
         _('Menu'),
         callback_data='/menu')
     menu.append([new_button])
-    print('append menu button')
-    print('new_button: ', new_button)
     keyboard = InlineKeyboardMarkup(menu)
     return keyboard
     
     
 def get_button_categories(user, id_item, type_item):
-    print('start categories button ')
     categories = Category.select().where(Category.user == user)
     menu = []
     buttons = []
@@ -233,6 +234,10 @@ def get_button_list_categories(user):
 def get_button_orders():
     buttons = [[InlineKeyboardButton( _('by category'), callback_data='/by_category'), 
                 InlineKeyboardButton( _('by seller'), callback_data='/by_seller')]]
+    new_button = InlineKeyboardButton(  
+        _('Menu'),
+        callback_data='/menu')
+    buttons.append([new_button])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
     

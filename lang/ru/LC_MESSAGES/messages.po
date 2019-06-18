@@ -19,12 +19,12 @@ msgstr ""
 #: views.py:24
 #, python-format
 msgid "Seller: %(seller)s, Summa: %(summ)s\n"
-msgstr "Продавец: %s,Сумма: %s\n"
+msgstr "Продавец: %(seller)s,Сумма: %(summ)s\n"
 
 #: views.py:30
 #, python-format
 msgid "Category: %(cat)s, Summa: %(summ)s\n"
-msgstr "Категория: %s,Сумма: %s\n"
+msgstr "Категория: %(cat)s,Сумма: %(summ)s\n"
 
 #: views.py:43
 #, python-format
