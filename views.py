@@ -242,20 +242,20 @@ def show_sberbank_donate_text():
     text = _('For donate in sberbank-online\n')
     text += _('Copy this number:\n')
     text += _('5484 0144 0994 4498\n')
-    text += _('Go to: https://online.sberbank.ru')
-    text += _('And then fill number of card in field for payment')
+    text += _('Go to: https://online.sberbank.ru\n')
+    text += _('And then fill number of card in field for payment\n')
     return text
     
     
 def show_paypal_donate_text():
     text = _('Paypal Donate:\n')
-    text += _('https://www.paypal.me/yaricpisarev')
+    text += _('https://www.paypal.me/yaricpisarev\n')
     return text
     
     
 def show_patreon_donate_text():
     text = _('Patreon Donate:\n')
-    text += _('https://www.patreon.com/qrscanner_order_bot')
+    text += _('https://www.patreon.com/qrscanner_order_bot\n')
     return text
     
 
