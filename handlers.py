@@ -538,7 +538,7 @@ def send_delete_info_to_user(bot, id_obj):
     tg_user_id = User.get_or_none(id=id_obj)
     if tg_user_id:
         text = _('Sorry, your account has been deleted.\n')
-        text += _('Please write to administrators of this bot.')
+        text += _('Please contact to administrators of this bot.')
         bot.send_message(chat_id=tg_user_id, text=text)
     return True
     
