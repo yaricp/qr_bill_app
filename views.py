@@ -147,6 +147,7 @@ def show_help():
         text += lang + '\n'
     text += '/help - ' + _('show this help') + '\n'
     text += ' /about - ' + _('About this bot') + '\n'
+    text += ' /donate - ' + _('Donate') + '\n'
     return text
     
 
