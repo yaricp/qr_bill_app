@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import time
 
 from config import *
 from models.wait import Wait
@@ -325,8 +326,6 @@ def button(bot, update):
     message_id = update.callback_query.message.message_id
     but_data = update.callback_query.data
     keyboard = get_button_main()
-    print('from: ', update.callback_query.from_user)
-    print(dir(update.callback_query))
     if but_data == 'register':
         username = update.callback_query.from_user.username
         user_id = update.callback_query.from_user.id
@@ -339,23 +338,30 @@ def button(bot, update):
                     paid_datetime=''
                     )
             user.save()
-            text = _('Congratulation! you registered now.\n')
-            text += show_about()
-            text += show_help()
-            text += _('If you want to make this service more reliable you can donate us.\n')
-            text += _('donate - /donate')
             admin_text = _('user %(username)s with %(user_id)s\n registered.') % {
-                                                                        'username': user.username, 
-                                                                        'user_id': str(user.tg_user_id)
-                                                                        }
+                                                    'username': user.username, 
+                                                    'user_id': str(user.tg_user_id)
+                                                    }
             for k, v in admins.items():
                 bot.send_message(
                             v, 
                             text=admin_text, 
                             reply_markup=keyboard
                             )
-        bot.edit_message_text(chat_id=chat_id,
+                            
+            text = _('Congratulation! you registered now.\n')
+            bot.edit_message_text(chat_id=chat_id,
                         message_id=message_id, 
+                        text=text)
+            time.sleep(20)
+            text = show_about()
+            bot.send_message(
+                        chat_id=chat_id,
+                        text=text)
+            time.sleep(20)
+            text = show_help()
+            bot.send_message(
+                        chat_id=chat_id,
                         text=text, 
                         reply_markup=keyboard)
     elif but_data == 'no_register':
