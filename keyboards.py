@@ -123,6 +123,7 @@ def get_button_sellers(user, id_item):
     
     
 def get_button_categories(user, id_item, type_item):
+    print('start categories button ')
     categories = Category.select().where(Category.user == user)
     menu = []
     buttons = []
