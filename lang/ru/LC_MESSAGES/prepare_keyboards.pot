@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-08 19:29+0700\n"
+"POT-Creation-Date: 2019-06-18 14:51+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,62 +17,74 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: keyboards.py:14 keyboards.py:78 keyboards.py:121
+#: keyboards.py:15 keyboards.py:116 keyboards.py:159
 msgid "Menu"
 msgstr ""
 
-#: keyboards.py:21
-msgid "categories"
-msgstr ""
-
-#: keyboards.py:22
-msgid "sellers"
-msgstr ""
-
-#: keyboards.py:23
-msgid "purchases"
-msgstr ""
-
-#: keyboards.py:24
-msgid "orders"
-msgstr ""
-
-#: keyboards.py:25
-msgid "languages"
-msgstr ""
-
-#: keyboards.py:26
-msgid "help"
-msgstr ""
-
-#: keyboards.py:74 keyboards.py:198
-msgid "New Seller"
-msgstr ""
-
-#: keyboards.py:115 keyboards.py:171
-msgid "New Category"
-msgstr ""
-
-#: keyboards.py:150
-msgid "Pic"
-msgstr ""
-
-#: keyboards.py:179
-msgid "by category"
-msgstr ""
-
-#: keyboards.py:180
-msgid "by seller"
-msgstr ""
-
-#: keyboards.py:206
-msgid "Delete"
-msgstr ""
-
-#: keyboards.py:214
+#: keyboards.py:23 keyboards.py:257
 msgid "Yes"
 msgstr ""
 
-#: keyboards.py:215
+#: keyboards.py:26 keyboards.py:258
 msgid "No"
+msgstr ""
+
+#: keyboards.py:33
+msgid "categories"
+msgstr ""
+
+#: keyboards.py:34
+msgid "sellers"
+msgstr ""
+
+#: keyboards.py:35
+msgid "purchases"
+msgstr ""
+
+#: keyboards.py:36
+msgid "orders"
+msgstr ""
+
+#: keyboards.py:37
+msgid "languages"
+msgstr ""
+
+#: keyboards.py:38
+msgid "help"
+msgstr ""
+
+#: keyboards.py:42
+msgid "users"
+msgstr ""
+
+#: keyboards.py:54 keyboards.py:62
+msgid "block"
+msgstr ""
+
+#: keyboards.py:55 keyboards.py:63
+msgid "act"
+msgstr ""
+
+#: keyboards.py:112 keyboards.py:241
+msgid "New Seller"
+msgstr ""
+
+#: keyboards.py:153 keyboards.py:214
+msgid "New Category"
+msgstr ""
+
+#: keyboards.py:191
+msgid "Pic"
+msgstr ""
+
+#: keyboards.py:222
+msgid "by category"
+msgstr ""
+
+#: keyboards.py:223
+msgid "by seller"
+msgstr ""
+
+#: keyboards.py:249
+msgid "Delete"
 msgstr ""
