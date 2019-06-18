@@ -162,8 +162,6 @@ def get_button_categories(user, id_item, type_item):
         _('Menu'),
         callback_data='/menu')
     menu.append([new_button])
-    print('append menu button')
-    print('new_button: ', new_button)
     keyboard = InlineKeyboardMarkup(menu)
     return keyboard
 
@@ -199,6 +197,10 @@ def get_button_list_purchase(user):
                 ])
         except:
             print('p: ', p.__dict__)
+    new_button = InlineKeyboardButton(  
+        _('Menu'),
+        callback_data='/menu')
+    buttons.append([new_button])
     keyboard = InlineKeyboardMarkup(buttons)
     
     return keyboard
@@ -219,6 +221,10 @@ def get_button_list_categories(user):
     new_button = InlineKeyboardButton(  
         _('New Category'), 
         callback_data='/new_category')
+    buttons.append([new_button])
+    new_button = InlineKeyboardButton(  
+        _('Menu'),
+        callback_data='/menu')
     buttons.append([new_button])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
@@ -246,6 +252,10 @@ def get_button_list_sellers(user):
     new_button = InlineKeyboardButton(  
         _('New Seller'),
         callback_data='/new_seller')
+    buttons.append([new_button])
+    new_button = InlineKeyboardButton(  
+        _('Menu'),
+        callback_data='/menu')
     buttons.append([new_button])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
