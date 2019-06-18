@@ -353,12 +353,12 @@ def button(bot, update):
             bot.edit_message_text(chat_id=chat_id,
                         message_id=message_id, 
                         text=text)
-            time.sleep(20)
-            text = show_about()
-            bot.send_message(
-                        chat_id=chat_id,
-                        text=text)
-            time.sleep(20)
+            time.sleep(5)
+#            text = show_about()
+#            bot.send_message(
+#                        chat_id=chat_id,
+#                        text=text)
+#            time.sleep(20)
             text = show_help()
             bot.send_message(
                         chat_id=chat_id,
