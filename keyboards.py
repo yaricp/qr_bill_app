@@ -116,6 +116,8 @@ def get_button_sellers(user, id_item):
         _('Menu'),
         callback_data='/menu')
     menu.append([new_button])
+    print('append menu button')
+    print('new_button: ', new_button)
     keyboard = InlineKeyboardMarkup(menu)
     return keyboard
     
@@ -159,6 +161,8 @@ def get_button_categories(user, id_item, type_item):
         _('Menu'),
         callback_data='/menu')
     menu.append([new_button])
+    print('append menu button')
+    print('new_button: ', new_button)
     keyboard = InlineKeyboardMarkup(menu)
     return keyboard
 
@@ -168,7 +172,7 @@ def get_button_list_purchase(user):
     #count_rows = purchases.count()
     
     buttons = []
-    print(purchases)
+    #print(purchases)
     for p in purchases:
         try:
             
@@ -195,6 +199,7 @@ def get_button_list_purchase(user):
         except:
             print('p: ', p.__dict__)
     keyboard = InlineKeyboardMarkup(buttons)
+    
     return keyboard
     
 
