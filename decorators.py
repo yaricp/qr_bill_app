@@ -71,8 +71,10 @@ def lang():
                 obj = args[1].callback_query
             if obj:
                 user = obj.from_user.id
+                lang = obj.from_user.language_code
                 user_lang, created = Language.get_or_create(user=user)
-                lang = user_lang.lang
+                if user_lang.lang:
+                    lang = user_lang.lang
                 lang_user = gettext.translation('messages', 
                                                 localedir='lang', 
                                                 languages=[lang])
