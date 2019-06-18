@@ -165,10 +165,12 @@ def show_about():
     text += _(' - make send reports to email each week, month or other period.\n')
     text += _(' - make connection to third party database what user want (for example for more strong safety of finance data).\n')
     text += _(' - save geoposition of purchase (it maybe good for travellers).\n')
-    text += _('But notice we work by donates.\n')
+    text += _('But notice we work by \donate.\n')
     text += _('And how long we will release new features depend of free time and how much donated we will have.\n')
     text += _('Now we use simple database on weak server because it cheap.\n')
-    text += _('For discussion of work this bot invite to .\n')
+    text += _('Note! This is not commercial service and it can`t guarantee safety your data.\n')
+    text += _('View on this service as a test of the future commercial solution.\n')
+    text += _('Discuss in chat of channel:https://t.me/qrscanner_order_bot .\n')
     return text
     
     

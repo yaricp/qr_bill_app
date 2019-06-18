@@ -43,6 +43,7 @@ def start(bot, update):
     else:
         text = _('Hi! This bot will store your user_id and username in database.\n')
         text += _('Keep in mind this service is not commercial in this time and can`t guarantee safety your data.\n')
+        text += _('View on this service as a test of the future commercial solution.\n')
         text += _('We work by donates and quality of this service depend values of donates.\n')
         text += _('Please don`t send photo of important documents here.\n')
         text += _('But you can use it FREE.\n')
