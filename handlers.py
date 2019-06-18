@@ -354,17 +354,20 @@ def button(bot, update):
                             text=admin_text, 
                             reply_markup=keyboard
                             )
-        
-    elif but_data == 'no_register':
-        text = _('Ok! Good luck for you.')
-        text += _('We hope you return. We will glad to work for you.')
-    else:
-        private_actions(bot, update)
-        return True
-    bot.edit_message_text(chat_id=chat_id,
+        bot.edit_message_text(chat_id=chat_id,
                         message_id=message_id, 
                         text=text, 
                         reply_markup=keyboard)
+    elif but_data == 'no_register':
+        text = _('Ok! Good luck for you.')
+        text += _('We hope you return. We will glad to work for you.')
+        bot.edit_message_text(chat_id=chat_id,
+                        message_id=message_id, 
+                        text=text)
+    else:
+        private_actions(bot, update)
+        return True
+    
     
 
 @is_not_bot()        
