@@ -236,3 +236,55 @@ def show_user_item(user,  id_obj):
                                             )
     return text
     
+    
+def show_sberbank_donate_text():
+    text = _('For donate in sberbank-online\n')
+    text += _('Copy this number:\n')
+    text += _('5484 0144 0994 4498\n')
+    text += _('Go to: https://online.sberbank.ru')
+    text += _('And then fill number of card in field for payment')
+    
+def show_paypal_donate_text():
+    text = _('Paypal Donate:\n')
+    text += _('https://www.paypal.me/yaricpisarev')
+    
+    
+def show_patreon_donate_text():
+    text = _('Patreon Donate:\n')
+    text += _('https://www.patreon.com/qrscanner_order_bot')
+    
+
+def show_donate_link_ru():
+    text = 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=F444B9FSAE4XW&source=url'
+    return text
+    
+
+def show_donate_form_ru():
+    text = '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">'\
+    '<input type="hidden" name="cmd" value="_s-xclick" />'\
+    '<input type="hidden" name="hosted_button_id" value="F444B9FSAE4XW" />'\
+    '<input type="image" src="https://www.paypalobjects.com/ru_RU/RU/i/btn/btn_donateCC_LG.gif"'\
+    ' border="0" name="submit" title="PayPal - The safer, easier way to pay online!"'\
+    ' alt="Кнопка «Пожертвовать через PayPal»" />'\
+    '<img alt="" border="0" src="https://www.paypal.com/ru_RU/i/scr/pixel.gif" width="1"'\
+    ' height="1" />'\
+    '</form>'
+    return text
+    
+    
+def show_donate_link_en():
+    text = 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6FQEGNXMVMF8C&source=url'
+    return text
+
+
+def show_donate_form_en():
+    text = '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">'\
+    '<input type="hidden" name="cmd" value="_s-xclick" />'\
+    '<input type="hidden" name="hosted_button_id" value="6FQEGNXMVMF8C" />'\
+    '<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif"'\
+    ' border="0" name="submit" title="PayPal - The safer, easier way to pay online!"'\
+    ' alt="Donate with PayPal button" />'\
+    '<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif"'\
+    ' width="1" height="1" />'\
+    '</form>'
+    return text

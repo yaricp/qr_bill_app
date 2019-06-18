@@ -62,6 +62,16 @@ def about(bot, update):
 @is_not_bot()
 @is_allowed_user()
 @lang()
+def donate(bot, update):
+    text = show_sberbank_donate_text()
+    text += show_paypal_donate_text()
+    text += show_patreon_donate_text()
+    update.message.reply_text(text=text)
+
+
+@is_not_bot()
+@is_allowed_user()
+@lang()
 def change_lang(bot, update):
     user = update.message.from_user.id
     lang = update.message.text.replace('/lang', '').replace(' ', '')
@@ -333,7 +343,7 @@ def button(bot, update):
             text += show_help()
             text += _('If you want to make this service more reliable you can donate us.\n')
             text += _('donate - /donate')
-            admin_text = _('user %(username)s with %(user_id)s\n Wanted to use your bot.') % {
+            admin_text = _('user %(username)s with %(user_id)s\n registered.') % {
                                                                         'username': user.username, 
                                                                         'user_id': str(user.tg_user_id)
                                                                         }
