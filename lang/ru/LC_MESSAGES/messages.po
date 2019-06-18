@@ -313,9 +313,9 @@ msgstr ""
 "Имейте виду, что данный сервис не является коммерческим и не может гарантировать сохранность "
 "ваших данных.\n"
 
-#: handlers.py:47
-msgid "View on this service as a test of the future commercial solution.\n"
-msgstr "Рассматривайте этот сервис как тест будущего коммерческого решения.\n"
+##: handlers.py:47
+#msgid "View on this service as a test of the future commercial solution.\n"
+#msgstr "Рассматривайте этот сервис как тест будущего коммерческого решения.\n"
 
 #: handlers.py:48
 msgid ""
@@ -516,10 +516,10 @@ msgstr "Извините, ваш аккаунт был удален.\n"
 msgid "Please contact to administrators of this bot."
 msgstr "Пожалуйста свяжитесь с администраторами этого бота."
 
-
-#: keyboards.py:15 keyboards.py:116 keyboards.py:159
-msgid "Menu"
-msgstr "Меню"
+#
+##: keyboards.py:15 keyboards.py:116 keyboards.py:159
+#msgid "Menu"
+#msgstr "Меню"
 
 #: keyboards.py:23 keyboards.py:257
 msgid "Yes"
