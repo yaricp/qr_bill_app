@@ -479,7 +479,11 @@ def private_actions(bot, update):
             else:
                 text = _('User %s is not active') % obj.username
         elif action == 'delitem':
+            if type_obj == 'user':
+                send_delete_info_to_user(bot, id_obj)
             text = delete_item(user, type_obj, id_obj)
+            if type_obj == 'user':
+                send_delete_info()
         elif action == 'show_picture':
             text = show_purchase_item(user, id_obj)
             bot.send_photo(
@@ -528,6 +532,15 @@ def private_actions(bot, update):
                         message_id=message_id, 
                         text=text, 
                         reply_markup=keyboard)
+                        
+                        
+def send_delete_info_to_user(bot, id_obj):
+    tg_user_id = User.get_or_none(id=id_obj)
+    if tg_user_id:
+        text = _('Sorry, your account has been deleted.\n')
+        text += _('Please write to administrators of this bot.')
+        bot.send_message(chat_id=tg_user_id, text=text)
+    return True
     
 
 if __name__ == "__main__":
