@@ -5,7 +5,7 @@ from .main import MainModel
 
 
 class User(MainModel):
-    username = pw.CharField()
+    username = pw.CharField(default='')
     tg_user_id = pw.IntegerField()
     start_time = pw.DateTimeField(default=datetime.datetime.now)
     is_active = pw.BooleanField(default=False)
