@@ -328,6 +328,8 @@ def button(bot, update):
     keyboard = get_button_main()
     if but_data == 'register':
         username = update.callback_query.from_user.username
+        if not username:
+            username = ''
         user_id = update.callback_query.from_user.id
         user = User.get_or_none(tg_user_id=user_id)
         if not user:
