@@ -35,8 +35,8 @@ def show_order_by(user, type):
                                 'month',
                                 Purchase.datetime.month
                                 ) == datetime.date(2019, month+1, 1)).scalar()
-                except e:
-                    print(e)
+                except:
+                    print("Unexpected error:", sys.exc_info()[0])
                 text += _('Category: %(cat)s, Summa: %(summ)s\n') % ({'cat':c.name, 'summ':summ})
         categories = Category.select().where(Category.user==user)
         text += _('Total:')+ '\n'
