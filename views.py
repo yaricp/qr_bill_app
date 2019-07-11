@@ -25,8 +25,9 @@ def show_order_by(user, type):
     else:
         #for m in range(11):
         month = fn.date_part('month', Purchase.datetime)
+        print(month)
         categories = Category.select().where(Category.user==user)
-        text += _('Month: ')+ str(month + 1)+ '\n'
+        #text += _('Month: ')+ str(month + 1)+ '\n'
         for c in categories:
             summ = (Purchase.select(fn.SUM(Purchase.summ))
                 .where(Purchase.category == c)
