@@ -26,7 +26,7 @@ def show_order_by(user, type):
         
         categories = Category.select().where(Category.user==user)
         #text += _('Month: ')+ str(month + 1)+ '\n'
-        month = fn.date_part('month', Booking.starttime)
+        month = fn.date_part('month', Purchase.datetime)
         query = (Purchase
          .select(Purchase.category, month, fn.SUM(Purchase.summ))
          .where(fn.date_part('year', Purchase.datetime) == 2019)
