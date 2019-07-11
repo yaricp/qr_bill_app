@@ -33,9 +33,9 @@ def show_order_by(user, type):
                 .where(fn.date_part('year', Purchase.datetime) == 2019)
                 .group_by(Purchase.datetime, month)
                 .order_by(fn.SUM(Purchase.summ)))
-            print('Summ: ', summ)
-            for s in summ:
-                print('s :', s)
+            facid, nslots = query.scalar(as_tuple=True)
+            print('facid: ',facid)
+            print('nslots :', nslots)
             text += _('Category: %(cat)s, Summa: %(summ)s\n') % ({'cat':c.name, 'summ':summ})
         
         print('summ :', summ)
