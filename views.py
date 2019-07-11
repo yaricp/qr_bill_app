@@ -32,7 +32,7 @@ def show_order_by(user, type):
                             fn.date_trunc(
                                 'month',
                                 Purchase.datetime.month
-                                ) == datetime.month(month+1)).scalar()
+                                ) == datetime.date.month(month+1)).scalar()
                 text += _('Category: %(cat)s, Summa: %(summ)s\n') % ({'cat':c.name, 'summ':summ})
         categories = Category.select().where(Category.user==user)
         text += _('Total:')+ '\n'
