@@ -36,6 +36,7 @@ def show_order_by(user, type):
                 .group_by(Purchase.datetime, month)
                 .order_by(Purchase.datetime, month)
                 .scalar())
+                print('Summ: ', summ)
             except: 
                 summ=0 
                 print('error')
