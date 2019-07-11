@@ -35,6 +35,11 @@ msgid ""
 "User: %s"
 msgstr ""
 
+msgid "Month: "
+msgstr ""
+
+msgid "Total: "
+msgstr ""
 #: views.py:52
 msgid ""
 "ID: %s\n"

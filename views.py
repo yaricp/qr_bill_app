@@ -23,8 +23,16 @@ def show_order_by(user, type):
             summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.seller == s).scalar()
             text += _('Seller: %(seller)s, Summa: %(summ)s\n') % ({'seller':s.name, 'summ':summ})
     else:
+        for month in range(11):
+            categories = Category.select().where(Category.user==user)
+            text += _('Month: ')+ str(month + 1)+ '\n'
+            for c in categories:
+                summ = Purchase.select(fn.SUM(Purchase.summ)).where(
+                            Purchase.category == c, 
+                            Purchase.datetime.month == month+1).scalar()
+                text += _('Category: %(cat)s, Summa: %(summ)s\n') % ({'cat':c.name, 'summ':summ})
         categories = Category.select().where(Category.user==user)
-        #print('categories: ', categories)
+        text += _('Total:')+ '\n'
         for c in categories:
             summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.category == c).scalar()
             text += _('Category: %(cat)s, Summa: %(summ)s\n') % ({'cat':c.name, 'summ':summ})

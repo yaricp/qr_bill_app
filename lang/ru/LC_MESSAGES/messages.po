@@ -592,3 +592,9 @@ msgstr "Удалить"
 #: decorators.py:19 decorators.py:21
 msgid "Sorry! it is private bot..."
 msgstr ""
+
+msgid "Month: "
+msgstr "Месяц: "
+
+msgid "Total: "
+msgstr "Всего: "
