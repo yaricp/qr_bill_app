@@ -27,17 +27,24 @@ def show_order_by(user, type):
         categories = Category.select().where(Category.user==user)
         #text += _('Month: ')+ str(month + 1)+ '\n'
         month = fn.date_part('month', Purchase.datetime)
-        for c in categories:
-            query = (Purchase.select(fn.SUM(Purchase.summ))
-                .where(Purchase.category == c)
-                .where(fn.date_part('year', Purchase.datetime) == 2019)
-                #.group_by(Purchase.datetime, month)
-                #.order_by(Purchase.datetime, month)
-                )
-            summ = query.scalar()
-            print('summ: ',summ)
-            #print('nslots :', nslots)
-            text += _('Category: %(cat)s, Summa: %(summ)s\n') % ({'cat':c.name, 'summ':summ})
+        query = (Booking
+            .select(Purchase.category,
+                 month.alias('month'),
+                 fn.SUM(Purchase.summ))
+            .where(fn.date_part('year', Purchase.datetime) == 2019)
+            .group_by(fn.ROLLUP(Purchase.category, month))
+            .order_by(Purchase.category, month))
+#        for c in categories:
+#            query = (Purchase.select(fn.SUM(Purchase.summ))
+#                .where(Purchase.category == c)
+#                .where(fn.date_part('year', Purchase.datetime) == 2019)
+#                #.group_by(Purchase.datetime, month)
+#                #.order_by(Purchase.datetime, month)
+#                )
+        summ = query.scalar()
+        print('summ: ',summ)
+#            #print('nslots :', nslots)
+#            text += _('Category: %(cat)s, Summa: %(summ)s\n') % ({'cat':c.name, 'summ':summ})
         
         print('summ :', summ)
         ategories = Category.select().where(Category.user==user)
