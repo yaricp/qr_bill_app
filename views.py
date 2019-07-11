@@ -30,11 +30,11 @@ def show_order_by(user, type):
                 summ=0
                 try:
                     summ = Purchase.select(fn.SUM(Purchase.summ)).where(
-                            Purchase.category == c).where(
+                            Purchase.category == c, 
                             fn.date_trunc(
                                 'month',
                                 Purchase.datetime
-                                ) == datetime.date(2019, month+1, 1)).scalar()
+                                ) == datetime.date(2019,6,1)).scalar()
                 except:
                     raise ValueError
                 text += _('Category: %(cat)s, Summa: %(summ)s\n') % ({'cat':c.name, 'summ':summ})
