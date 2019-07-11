@@ -24,29 +24,29 @@ def show_order_by(user, type):
             text += _('Seller: %(seller)s, Summa: %(summ)s\n') % ({'seller':s.name, 'summ':summ})
     else:
         
+#        categories = Category.select().where(Category.user==user)
+#        #text += _('Month: ')+ str(month + 1)+ '\n'
+#        month = fn.date_part('month', Purchase.datetime)
+#        query = (Purchase
+#         .select(fn.SUM(Purchase.summ))
+#         .where(fn.date_part('month', Purchase.datetime) == 6)
+#        )
+#
+##        for c in categories:
+##            query = (Purchase.select(fn.SUM(Purchase.summ))
+##                .where(Purchase.category == c)
+##                .where(fn.date_part('year', Purchase.datetime) == 2019)
+##                #.group_by(Purchase.datetime, month)
+##                #.order_by(Purchase.datetime, month)
+##                )
+#        summ = query.scalar()
+#        print('summ: ',summ)
+##            #print('nslots :', nslots)
+##            text += _('Category: %(cat)s, Summa: %(summ)s\n') % ({'cat':c.name, 'summ':summ})
+#        
+#        print('summ :', summ)
         categories = Category.select().where(Category.user==user)
-        #text += _('Month: ')+ str(month + 1)+ '\n'
-        month = fn.date_part('month', Purchase.datetime)
-        query = (Purchase
-         .select(fn.SUM(Purchase.summ))
-         .where(fn.date_part('month', Purchase.datetime) == 6)
-        )
-
-#        for c in categories:
-#            query = (Purchase.select(fn.SUM(Purchase.summ))
-#                .where(Purchase.category == c)
-#                .where(fn.date_part('year', Purchase.datetime) == 2019)
-#                #.group_by(Purchase.datetime, month)
-#                #.order_by(Purchase.datetime, month)
-#                )
-        summ = query.scalar()
-        print('summ: ',summ)
-#            #print('nslots :', nslots)
-#            text += _('Category: %(cat)s, Summa: %(summ)s\n') % ({'cat':c.name, 'summ':summ})
-        
-        print('summ :', summ)
-        ategories = Category.select().where(Category.user==user)
-        text += _('Total:')+ '\n'
+#        text += _('Total:')+ '\n'
         for c in categories:
             summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.category == c).scalar()
             text += _('Category: %(cat)s, Summa: %(summ)s\n') % ({'cat':c.name, 'summ':summ})
