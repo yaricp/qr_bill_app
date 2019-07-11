@@ -27,7 +27,7 @@ def show_order_by(user, type):
         categories = Category.select().where(Category.user==user)
         #text += _('Month: ')+ str(month + 1)+ '\n'
         month = fn.date_part('month', Purchase.datetime)
-        query = (Booking
+        query = (Purchase
             .select(Purchase.category,
                  month.alias('month'),
                  fn.SUM(Purchase.summ))
