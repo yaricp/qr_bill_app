@@ -28,20 +28,21 @@ def show_order_by(user, type):
         print(month)
         categories = Category.select().where(Category.user==user)
         #text += _('Month: ')+ str(month + 1)+ '\n'
-        for c in categories:
-            try:
-                summ = (Purchase.select(Purchase.category,  fn.SUM(Purchase.summ))
-                .where(Purchase.category == c)
-                .where(fn.date_part('year', Purchase.datetime) == 2019)
-                .group_by(Purchase.datetime, month)
-                .order_by(fn.SUM(Purchase.summ)))
-                print('Summ: ', summ)
-            except: 
-                summ=0 
-                print('error')
-            print('summ :', summ)
+        try:
+            summ = (Purchase.select(Purchase.category,  fn.SUM(Purchase.summ))
+            .where(Purchase.category == c)
+            .where(fn.date_part('year', Purchase.datetime) == 2019)
+            .group_by(Purchase.datetime, month)
+            .order_by(fn.SUM(Purchase.summ)))
+            print('Summ: ', summ)
+            for s in summ:
+                print('s :', s)
             text += _('Category: %(cat)s, Summa: %(summ)s\n') % ({'cat':c.name, 'summ':summ})
-        categories = Category.select().where(Category.user==user)
+        except: 
+            summ=0 
+            print('error')
+        print('summ :', summ)
+        ategories = Category.select().where(Category.user==user)
         text += _('Total:')+ '\n'
         for c in categories:
             summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.category == c).scalar()
