@@ -23,18 +23,19 @@ def show_order_by(user, type):
             summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.seller == s).scalar()
             text += _('Seller: %(seller)s, Summa: %(summ)s\n') % ({'seller':s.name, 'summ':summ})
     else:
-        for month in range(11):
-            categories = Category.select().where(Category.user==user)
-            text += _('Month: ')+ str(month + 1)+ '\n'
-            for c in categories:
-                summ = (Purchase.select(fn.SUM(Purchase.summ))
-                    .where(Purchase.category == c)
-                    .where(fn.date_part('year', Purchase.datetime) == 2019)
-                    .group_by(Purchase.datetime, month)
-                    .order_by(Purchase.datetime, month)
-                    .scalar())
-                print('summ :', summ)
-                text += _('Category: %(cat)s, Summa: %(summ)s\n') % ({'cat':c.name, 'summ':summ})
+        #for m in range(11):
+        month = fn.date_part('month', Purchase.datetime)
+        categories = Category.select().where(Category.user==user)
+        text += _('Month: ')+ str(month + 1)+ '\n'
+        for c in categories:
+            summ = (Purchase.select(fn.SUM(Purchase.summ))
+                .where(Purchase.category == c)
+                .where(fn.date_part('year', Purchase.datetime) == 2019)
+                .group_by(Purchase.datetime, month)
+                .order_by(Purchase.datetime, month)
+                .scalar())
+            print('summ :', summ)
+            text += _('Category: %(cat)s, Summa: %(summ)s\n') % ({'cat':c.name, 'summ':summ})
         categories = Category.select().where(Category.user==user)
         text += _('Total:')+ '\n'
         for c in categories:
