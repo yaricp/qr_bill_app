@@ -34,7 +34,7 @@ def show_order_by(user, type):
                             fn.date_trunc(
                                 'month',
                                 Purchase.datetime.month
-                                ) == datetime.date(2019, month+1, 1)).scalar()
+                                ) == datetime.date(2019, 6, 1)).scalar()
                 except:
                     raise ValueError
                 text += _('Category: %(cat)s, Summa: %(summ)s\n') % ({'cat':c.name, 'summ':summ})
