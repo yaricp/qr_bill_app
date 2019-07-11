@@ -34,7 +34,7 @@ def show_order_by(user, type):
                 #.group_by(Purchase.datetime, month)
                 #.order_by(Purchase.datetime, month)
                 )
-            facid, nslots = query.scalar(as_tuple=True)
+            facid, nslots = query.scalar()
             print('facid: ',facid)
             print('nslots :', nslots)
             text += _('Category: %(cat)s, Summa: %(summ)s\n') % ({'cat':c.name, 'summ':summ})
