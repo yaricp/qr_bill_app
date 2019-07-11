@@ -32,7 +32,7 @@ def show_order_by(user, type):
                 .where(Purchase.category == c)
                 .where(fn.date_part('year', Purchase.datetime) == 2019)
                 .group_by(Purchase.datetime, month)
-                .order_by(fn.SUM(Purchase.summ)))
+                .order_by(Purchase.datetime, month))
             facid, nslots = query.scalar(as_tuple=True)
             print('facid: ',facid)
             print('nslots :', nslots)
