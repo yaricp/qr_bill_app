@@ -28,7 +28,7 @@ def show_order_by(user, type):
         #text += _('Month: ')+ str(month + 1)+ '\n'
         month = fn.date_part('month', Purchase.datetime)
         for c in categories:
-            query = (Purchase.select(Purchase.category,  fn.SUM(Purchase.summ))
+            query = (Purchase.select(fn.SUM(Purchase.summ))
                 .where(Purchase.category == c)
                 .where(fn.date_part('year', Purchase.datetime) == 2019)
                 .group_by(Purchase.datetime, month)
