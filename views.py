@@ -30,12 +30,11 @@ def show_order_by(user, type):
         #text += _('Month: ')+ str(month + 1)+ '\n'
         for c in categories:
             try:
-                summ = (Purchase.select(fn.SUM(Purchase.summ))
+                summ = (Purchase.select(Purchase.category,  fn.SUM(Purchase.summ))
                 .where(Purchase.category == c)
                 .where(fn.date_part('year', Purchase.datetime) == 2019)
                 .group_by(Purchase.datetime, month)
-                .order_by(Purchase.datetime, month)
-                .scalar())
+                .order_by(fn.SUM(Purchase.summ)))
                 print('Summ: ', summ)
             except: 
                 summ=0 
