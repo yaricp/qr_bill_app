@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 import time
 
+from telegram import ParseMode
+
 from config import *
 from models.wait import Wait
 from views import *
 from recognize import *
 from decorators import *
+
 
 
 CUR_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -356,7 +359,7 @@ def button(bot, update):
             bot.edit_message_text(chat_id=chat_id,
                         message_id=message_id, 
                         text=text, 
-                        parse_mode='HTML')
+                        parse_mode=ParseMode.HTML)
             time.sleep(5)
 #            text = show_about()
 #            bot.send_message(
@@ -368,14 +371,14 @@ def button(bot, update):
                         chat_id=chat_id,
                         text=text, 
                         reply_markup=keyboard, 
-                        parse_mode='HTML')
+                        parse_mode=ParseMode.HTML)
     elif but_data == 'no_register':
         text = _('Ok! Good luck for you.')
         text += _('We hope you return. We will glad to work for you.')
         bot.edit_message_text(chat_id=chat_id,
                         message_id=message_id, 
                         text=text, 
-                        parse_mode='HTML')
+                        parse_mode=ParseMode.HTML)
     else:
         private_actions(bot, update)
         return True
