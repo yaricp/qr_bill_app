@@ -59,7 +59,7 @@ def show_order_by(user, type):
                 if summ:
                     summ = round(summ, 2)
                 text+= str(summ) + '|'
-            text += '\n---------------------\n'
+            #text += '\n---------------------\n'
         text += '</pre>\n'
     return text
                     
