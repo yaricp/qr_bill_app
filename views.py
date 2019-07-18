@@ -16,7 +16,8 @@ dict_types = {
     }
 
 def show_order_by(user, type):
-    dict_months = {1: ('January'), 
+    dict_months = {
+                    1: ('January'), 
                     2: ('Februrary'), 
                     3: ('March'), 
                     4: ('April'), 
