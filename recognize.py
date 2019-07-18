@@ -197,11 +197,10 @@ def get_datetime_from_string(text_date):
                     18: '%m.%d.%y'
                     }
     for k, v in dict_matches.items():
-        match = re.search(v, text_date)
-        key = k
-        if match:
-            break
-    date_time = datetime.strptime(text_date, dict_matches[key])
+        try:
+            date_time = datetime.strptime(text_date, v)
+        except:
+            print('error type: ', v)
     return date_time
     
     
