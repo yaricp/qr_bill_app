@@ -44,7 +44,7 @@ def show_order_by(user, type):
         text += ('Category') + '|'
         for m in (month_now-2, month_now-1, month_now):
             text += dict_months[m] + '|'
-        text += '\n* * *\n'
+        text += '\n----------------\n'
         for c in categories:
             text += ('%s|') % c.name
             for m in (month_now-2, month_now-1, month_now):
@@ -59,7 +59,7 @@ def show_order_by(user, type):
                 if summ:
                     summ = round(summ, 2)
                 text+= str(summ) + '|'
-            text += '\n* * *\n'
+            text += '\n---------------------\n'
         text += '</pre>\n'
     return text
                     
