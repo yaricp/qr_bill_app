@@ -33,34 +33,38 @@ def show_order_by(user, type):
     month_now = datetime.now().month
     text = '<pre>\n'
     if type == 'seller':
-        sellers = Seller.select().where(Seller.user==user)
+        list_by_for = Seller.select().where(Seller.user==user)
+        text += ('Seller') + '|'
+        by_for_field = Purchase.seller
         #print('sellers: ', sellers)
-        for s in sellers:
-            summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.seller == s).scalar()
-            text += _('Seller: %(seller)s, Summa: %(summ)s\n') % ({'seller':s.name, 'summ':summ})
+#        for s in sellers:
+#            summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.seller == s).scalar()
+#            text += _('Seller: %(seller)s, Summa: %(summ)s\n') % ({'seller':s.name, 'summ':summ})
     else:
 
-        categories = Category.select().where(Category.user==user)
+        list_by_for = Category.select().where(Category.user==user)
         text += ('Category') + '|'
+        by_for_field = Purchase.category
+    for m in (month_now-2, month_now-1, month_now):
+        text += dict_months[m] + '|'
+    text += '\n----------------\n'
+    
+    for c in list_by_for:
+        text += ('%s|') % c.name
         for m in (month_now-2, month_now-1, month_now):
-            text += dict_months[m] + '|'
-        text += '\n----------------\n'
-        for c in categories:
-            text += ('%s|') % c.name
-            for m in (month_now-2, month_now-1, month_now):
-                month = str(m)
-                if m < 10:
-                    month = '0'+str(m)
-                summ = (Purchase
-                    .select(fn.SUM(Purchase.summ))
-                    .where(Purchase.category==c, Purchase.user==user, fn.strftime('%m', Purchase.datetime)==month)
-                    .scalar()
-                    )
-                if summ:
-                    summ = round(summ, 2)
-                text+= str(summ) + '|'
-            text += '\n'
-        text += '</pre>\n'
+            month = str(m)
+            if m < 10:
+                month = '0'+str(m)
+            summ = (Purchase
+                .select(fn.SUM(Purchase.summ))
+                .where(by_for_field==c, Purchase.user==user, fn.strftime('%m', Purchase.datetime)==month)
+                .scalar()
+                )
+            if summ:
+                summ = round(summ, 2)
+            text+= str(summ) + '|'
+        text += '\n'
+    text += '</pre>\n'
     return text
                     
                                        
