@@ -175,7 +175,7 @@ def parse_text(text):
     
     
 def get_datetime_from_string(text_date):
-    date_time - None
+    date_time = None
     dict_matches = {
                     1: '%Y-%m-%d', 
                     2: '%Y/%m/%d', 
