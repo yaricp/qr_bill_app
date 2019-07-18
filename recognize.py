@@ -194,19 +194,7 @@ def get_datetime_from_string(text_date):
                     15: '%d.%m.%y', 
                     16: '%m-%d-%y', 
                     17: '%m/%d/%y',
-                    18: '%m.%d.%y',
-                    19: '%b-%d-%Y', 
-                    20: '%b/%d/%Y', 
-                    21: '%b.%d.%Y', 
-                    22: '%d-%b-%Y', 
-                    23: '%d/%b/%Y', 
-                    24: '%d.%b.%Y', 
-                    25: '%b-%d-%y', 
-                    26: '%b/%d/%y', 
-                    27: '%b.%d.%y', 
-                    28: '%d-%b-%y', 
-                    29: '%d/%b/%y', 
-                    30: '%d.%b.%y',
+                    18: '%m.%d.%y'
                     }
     for k, v in dict_matches.items():
         match = re.search(v, text_date)
