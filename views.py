@@ -38,9 +38,10 @@ def show_order_by(user, type):
             text += _('Seller: %(seller)s, Summa: %(summ)s\n') % ({'seller':s.name, 'summ':summ})
     else:
         
-        
+        for i in Purchase.select().where(Purchase.user==user):
+            print('Item: ', i)
         query = (Purchase
-         .select(fn.Sum(Purchase.summ).alias('average_value'), 
+            .select(fn.Sum(Purchase.summ).alias('average_value'), 
                 Purchase.category, 
                 fn.strftime('%m', Purchase.datetime)
                 )
