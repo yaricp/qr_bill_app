@@ -28,7 +28,7 @@ def show_order_by(user, type):
 #        #text += _('Month: ')+ str(month + 1)+ '\n'
 #        month = fn.date_part('month', Purchase.datetime)
         query = (Purchase
-         .select(fn.Sum(Purchase.value).alias('average_value'))
+         .select(fn.Sum(Purchase.summ).alias('average_value'))
          .group_by(fn.strftime('%Y-%m', Purchase.datetime))
          .tuples())
         print('query : ', query)
