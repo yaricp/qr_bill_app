@@ -41,12 +41,12 @@ def show_order_by(user, type):
 
         categories = Category.select().where(Category.user==user)
         text += '\t'
-        for m in (now_month-2, now_month-1, now_month):
+        for m in (month_now-2, month_now-1, month_now):
             text += dict_months[m] + '\t'
         text += '/n'
         for c in categories:
             text += ('%s:\t') % c.name
-            for m in (now_month-2, now_month-1, now_month):
+            for m in (month_now-2, month_now-1, month_now):
                 summ = (Purchase
                     .select(fn.SUM(Purchase.summ))
                     .where(Purchase.category==c, Purchase.user==user, fn.strftime('%m', Purchase.datetime)==m )
