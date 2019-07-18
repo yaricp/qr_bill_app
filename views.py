@@ -40,12 +40,12 @@ def show_order_by(user, type):
     else:
 
         categories = Category.select().where(Category.user==user)
-        text += '\t'
+        text += ('Category') + '|'
         for m in (month_now-2, month_now-1, month_now):
-            text += dict_months[m] + '\t'
-        text += '\n'
+            text += dict_months[m] + '|'
+        text += '* * *'
         for c in categories:
-            text += ('%s:\t') % c.name
+            text += ('%s|') % c.name
             for m in (month_now-2, month_now-1, month_now):
                 month = str(m)
                 if m < 10:
@@ -57,8 +57,8 @@ def show_order_by(user, type):
                     )
                 if summ:
                     summ = round(summ, 2)
-                text+= str(summ) + '\t'
-            text+= '\n'
+                text+= str(summ) + '|'
+            text+= '* * *'
     return text
                     
                                        
