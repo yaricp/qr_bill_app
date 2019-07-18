@@ -27,9 +27,11 @@ def show_order_by(user, type):
 #        categories = Category.select().where(Category.user==user)
 #        #text += _('Month: ')+ str(month + 1)+ '\n'
 #        month = fn.date_part('month', Purchase.datetime)
-#        query = (Purchase
-#         .select(fn.SUM(Purchase.summ))
-#         .where(fn.date_part('month', Purchase.datetime) == 6)
+        query = (Purchase
+         .select(fn.Sum(Purchase.value).alias('average_value'))
+         .group_by(fn.strftime('%Y-%m', Purchase.datetime))
+         .tuples())
+        print('query : ', query)
 #        )
 #
 ##        for c in categories:
