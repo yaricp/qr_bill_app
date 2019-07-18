@@ -89,7 +89,8 @@ def show_order_by(user, type):
             
             text += ('Category: %s: ') % c.name
             for s in summ:
-                text+= s + '  '
+                print(s)
+                text+= s[0] + '  '
             text+= '\n'
     return text
                     
