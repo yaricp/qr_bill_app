@@ -82,10 +82,15 @@ def show_order_by(user, type):
         for c in categories:
             summ = (Purchase
                 .select(fn.SUM(Purchase.summ))
-                .where(Purchase.category == c)
-                .scalar()
+                .where(Purchase.category==c, Purchase.user==user)
+                .group_by(fn.strftime('%m', Purchase.datetime))
+                .tuples()
                 )
-            text += _('Category: %(cat)s, Summa: %(summ)s\n') % ({'cat':c.name, 'summ':summ})
+            
+            text += ('Category: %s: ') % c.name
+            for s in summ:
+                text+= s + '  '
+            text+= '\n'
     return text
                     
                                        
