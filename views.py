@@ -41,7 +41,8 @@ def show_order_by(user, type):
         
         query = (Purchase
          .select(fn.Sum(Purchase.summ).alias('average_value'), 
-                Purchase.category
+                Purchase.category, 
+                fn.strftime('%Y-%m', Purchase.datetime)
                 )
          .group_by(fn.strftime('%Y-%m', Purchase.datetime))
          .group_by(Purchase.category)
