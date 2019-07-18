@@ -81,7 +81,7 @@ def show_order_by(user, type):
 #        text += '/n'
         for c in categories:
             summ = (Purchase
-                .select(fn.SUM(Purchase.summ))
+                .select(fn.strftime('%m', Purchase.datetime), fn.SUM(Purchase.summ))
                 .where(Purchase.category==c, Purchase.user==user)
                 .group_by(fn.strftime('%m', Purchase.datetime))
                 .tuples()
