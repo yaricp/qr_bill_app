@@ -356,7 +356,7 @@ def button(bot, update):
             bot.edit_message_text(chat_id=chat_id,
                         message_id=message_id, 
                         text=text, 
-                        parse_mode='Markdown')
+                        parse_mode='HTML')
             time.sleep(5)
 #            text = show_about()
 #            bot.send_message(
@@ -368,14 +368,14 @@ def button(bot, update):
                         chat_id=chat_id,
                         text=text, 
                         reply_markup=keyboard, 
-                        parse_mode='Markdown')
+                        parse_mode='HTML')
     elif but_data == 'no_register':
         text = _('Ok! Good luck for you.')
         text += _('We hope you return. We will glad to work for you.')
         bot.edit_message_text(chat_id=chat_id,
                         message_id=message_id, 
                         text=text, 
-                        parse_mode='Markdown')
+                        parse_mode='HTML')
     else:
         private_actions(bot, update)
         return True
