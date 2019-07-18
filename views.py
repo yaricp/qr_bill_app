@@ -28,7 +28,7 @@ def show_order_by(user, type):
                     11: ('November'), 
                     12: ('December')
                     }
-    #now_month = datetime.datetime.now().month()
+    month_now = datetime.today().month
     text = ''
     if type == 'seller':
         sellers = Seller.select().where(Seller.user==user)
@@ -37,61 +37,22 @@ def show_order_by(user, type):
             summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.seller == s).scalar()
             text += _('Seller: %(seller)s, Summa: %(summ)s\n') % ({'seller':s.name, 'summ':summ})
     else:
-        
-#        for i in Purchase.select().where(Purchase.user==user):
-#            print('Item: ', i)
-#            print('User: ', i.user)
-#            print('Summ: ', i.summ)
-#            print('Cat: ', i.category)
-#            print('date: ', i.datetime)
-#            print('')
-        query = (Purchase
-            .select(
-                Category.name, 
-                fn.Sum(Purchase.summ).alias('average_value'), 
-                fn.strftime('%m', Purchase.datetime)
-                )
-            .join(Category)
-            .where(Purchase.user==user)
-            .group_by(Purchase.category)
-            .group_by(fn.strftime('%m', Purchase.datetime))
-            .tuples())
-        print('query : ', query)
-        for r in query:
-            print('R: ', r)
-#        )
-#
-##        for c in categories:
-##            query = (Purchase.select(fn.SUM(Purchase.summ))
-##                .where(Purchase.category == c)
-##                .where(fn.date_part('year', Purchase.datetime) == 2019)
-##                #.group_by(Purchase.datetime, month)
-##                #.order_by(Purchase.datetime, month)
-##                )
-#        summ = query.scalar()
-#        print('summ: ',summ)
-##            #print('nslots :', nslots)
-##            text += _('Category: %(cat)s, Summa: %(summ)s\n') % ({'cat':c.name, 'summ':summ})
-#        
-#        print('summ :', summ)
+
         categories = Category.select().where(Category.user==user)
-#        text += _('Total:')+ '\n'
-#        for m in (now_month-2, now_month-1, now_month):
-#            text += dict_months[m] + ' '
-#        text += '/n'
+        text += '\t'
+        for m in (now_month-2, now_month-1, now_month):
+            text += dict_months[m] + '\t'
+        text += '/n'
         for c in categories:
-            summ = (Purchase
-                .select(fn.strftime('%m', Purchase.datetime), fn.SUM(Purchase.summ))
-                .where(Purchase.category==c, Purchase.user==user)
-                .group_by(fn.strftime('%m', Purchase.datetime))
-                .tuples()
-                )
-            
-            text += ('Category: %s: ') % c.name
-            print(summ)
-            for s in summ:
-                print(s)
-                text+= str(s[0]) + '  '
+            text += ('%s:\t') % c.name
+            for m in (now_month-2, now_month-1, now_month):
+                summ = (Purchase
+                    .select(fn.SUM(Purchase.summ))
+                    .where(Purchase.category==c, Purchase.user==user, fn.strftime('%m', Purchase.datetime)==m )
+                    .scalar()
+                    )
+                print(summ)
+                text+= str(summ) + '\t'
             text+= '\n'
     return text
                     
