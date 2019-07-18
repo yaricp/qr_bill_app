@@ -209,7 +209,7 @@ def get_datetime_from_string(text_date):
                     30: '%d.%b.%y',
                     }
     for k, v in dict_matches.items():
-        match = re.search(exp, text_date)
+        match = re.search(v, text_date)
         key = k
         if match:
             break
