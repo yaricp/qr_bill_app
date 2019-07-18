@@ -15,6 +15,20 @@ dict_types = {
     }
 
 def show_order_by(user, type):
+    dict_months = {1: ('January'), 
+                    2: ('Februrary'), 
+                    3: ('March'), 
+                    4: ('April'), 
+                    5: ('May'), 
+                    6: ('June'), 
+                    7: ('July'), 
+                    8: ('August'), 
+                    9: ('September'), 
+                    10: ('Oktober'), 
+                    11: ('November'), 
+                    12: ('December')
+                    }
+    now_month = datetime.datetime.now().month()
     text = ''
     if type == 'seller':
         sellers = Seller.select().where(Seller.user==user)
@@ -24,12 +38,13 @@ def show_order_by(user, type):
             text += _('Seller: %(seller)s, Summa: %(summ)s\n') % ({'seller':s.name, 'summ':summ})
     else:
         
-#        categories = Category.select().where(Category.user==user)
-#        #text += _('Month: ')+ str(month + 1)+ '\n'
-#        month = fn.date_part('month', Purchase.datetime)
+        
         query = (Purchase
-         .select(fn.Sum(Purchase.summ).alias('average_value'))
+         .select(fn.Sum(Purchase.summ).alias('average_value'), 
+                Purchase.category
+                )
          .group_by(fn.strftime('%Y-%m', Purchase.datetime))
+         .group_by(Purchase.category)
          .tuples())
         print('query : ', query)
         for r in query:
@@ -51,8 +66,15 @@ def show_order_by(user, type):
 #        print('summ :', summ)
         categories = Category.select().where(Category.user==user)
 #        text += _('Total:')+ '\n'
+        for m in (now_month-2, now_month-1, now_month):
+            text += dict_months[m] + ' '
+        text += '/n'
         for c in categories:
-            summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.category == c).scalar()
+            summ = (Purchase
+                .select(fn.SUM(Purchase.summ))
+                .where(Purchase.category == c)
+                .scalar()
+                )
             text += _('Category: %(cat)s, Summa: %(summ)s\n') % ({'cat':c.name, 'summ':summ})
     return text
                     
