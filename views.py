@@ -38,21 +38,21 @@ def show_order_by(user, type):
             text += _('Seller: %(seller)s, Summa: %(summ)s\n') % ({'seller':s.name, 'summ':summ})
     else:
         
-        for i in Purchase.select().where(Purchase.user==user):
-            print('Item: ', i)
-            print('User: ', i.user)
-            print('Summ: ', i.summ)
-            print('Cat: ', i.category)
-            print('date: ', i.datetime)
-            print('')
+#        for i in Purchase.select().where(Purchase.user==user):
+#            print('Item: ', i)
+#            print('User: ', i.user)
+#            print('Summ: ', i.summ)
+#            print('Cat: ', i.category)
+#            print('date: ', i.datetime)
+#            print('')
         query = (Purchase
             .select(fn.Sum(Purchase.summ).alias('average_value'), 
-                Purchase.category, 
+                #Purchase.category, 
                 fn.strftime('%m', Purchase.datetime)
                 )
             .where(Purchase.user==user)
             .group_by(fn.strftime('%m', Purchase.datetime))
-            .group_by(Purchase.category)
+            #.group_by(Purchase.category)
             .tuples())
         print('query : ', query)
         for r in query:
