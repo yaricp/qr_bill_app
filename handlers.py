@@ -540,7 +540,9 @@ def private_actions(bot, update):
     bot.edit_message_text(chat_id=chat_id,
                         message_id=message_id, 
                         text=text, 
-                        reply_markup=keyboard)
+                        reply_markup=keyboard, 
+                        parse_mode=ParseMode.HTML
+                        )
                         
                         
 def send_delete_info_to_user(bot, id_obj):

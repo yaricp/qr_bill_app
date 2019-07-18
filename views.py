@@ -31,7 +31,7 @@ def show_order_by(user, type):
                     12: ('December')
                     }
     month_now = datetime.now().month
-    text = '<pre>'
+    text = '<pre>\n'
     if type == 'seller':
         sellers = Seller.select().where(Seller.user==user)
         #print('sellers: ', sellers)
@@ -44,7 +44,7 @@ def show_order_by(user, type):
         text += ('Category') + '|'
         for m in (month_now-2, month_now-1, month_now):
             text += dict_months[m] + '|'
-        text += '* * *'
+        text += '\n* * *\n'
         for c in categories:
             text += ('%s|') % c.name
             for m in (month_now-2, month_now-1, month_now):
@@ -59,8 +59,8 @@ def show_order_by(user, type):
                 if summ:
                     summ = round(summ, 2)
                 text+= str(summ) + '|'
-            text += '* * *'
-        text += '</pre>'
+            text += '\n* * *\n'
+        text += '</pre>\n'
     return text
                     
                                        
