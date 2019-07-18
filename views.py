@@ -52,7 +52,7 @@ def show_order_by(user, type):
                     month = '0'+str(m)
                 summ = (Purchase
                     .select(fn.SUM(Purchase.summ))
-                    .where(Purchase.category==c, Purchase.user==user, fn.strftime('%m', Purchase.datetime)==m )
+                    .where(Purchase.category==c, Purchase.user==user, fn.strftime('%m', Purchase.datetime)==month)
                     .scalar()
                     )
                 print(summ)
