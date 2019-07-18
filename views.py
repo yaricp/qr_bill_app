@@ -44,6 +44,7 @@ def show_order_by(user, type):
             print('Item: ', i.summ)
             print('Item: ', i.category)
             print('Item: ', i.datetime)
+            print('')
         query = (Purchase
             .select(fn.Sum(Purchase.summ).alias('average_value'), 
                 Purchase.category, 
