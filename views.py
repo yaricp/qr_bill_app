@@ -43,7 +43,7 @@ def show_order_by(user, type):
         text += '\t'
         for m in (month_now-2, month_now-1, month_now):
             text += dict_months[m] + '\t'
-        text += '/n'
+        text += '\n'
         for c in categories:
             text += ('%s:\t') % c.name
             for m in (month_now-2, month_now-1, month_now):
