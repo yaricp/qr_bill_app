@@ -56,7 +56,7 @@ def show_order_by(user, type):
                     .scalar()
                     )
                 print(summ)
-                text+= str(summ) + '\t'
+                text+= str(round(summ, 2)) + '\t'
             text+= '\n'
     return text
                     
