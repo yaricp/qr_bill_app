@@ -53,8 +53,8 @@ def show_order_by(user, type):
                 )
             .join(Category)
             .where(Purchase.user==user)
-            .group_by(fn.strftime('%m', Purchase.datetime))
-            #.group_by(Purchase.category)
+            .group_by(Purchase.category)
+            #.group_by(fn.strftime('%m', Purchase.datetime))
             .tuples())
         print('query : ', query)
         for r in query:
