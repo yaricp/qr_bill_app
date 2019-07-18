@@ -162,7 +162,7 @@ def parse_text(text):
     
     list = text.split(' ')
     if len(list) > 1:
-        return list[0],  list[1]
+        return get_datetime_from_string(list[0]), list[1]
     list = text.split('&')
     if len(list) > 1:
         temp_datetime = '%Y%m%dT%H%M'
@@ -172,6 +172,49 @@ def parse_text(text):
         date_time = datetime.strptime(str_date_time, temp_datetime)
         summ = float(list[1].replace('s=', ''))
     return date_time,  summ
+    
+    
+def get_datetime_from_string(text_date):
+    date_time - None
+    dict_matches = {
+                    1: '%Y-%m-%d', 
+                    2: '%Y/%m/%d', 
+                    3: '%Y.%m.%d', 
+                    4: '%d-%m-%Y', 
+                    5: '%d/%m/%Y',
+                    6: '%d.%m.%Y', 
+                    7: '%m-%d-%Y', 
+                    8: '%m/%d/%Y',
+                    9: '%m.%d.%Y',
+                    10: '%y-%m-%d', 
+                    11: '%y/%m/%d', 
+                    12: '%y.%m.%d', 
+                    13: '%d-%m-%y', 
+                    14: '%d/%m/%y',
+                    15: '%d.%m.%y', 
+                    16: '%m-%d-%y', 
+                    17: '%m/%d/%y',
+                    18: '%m.%d.%y',
+                    19: '%b-%d-%Y', 
+                    20: '%b/%d/%Y', 
+                    21: '%b.%d.%Y', 
+                    22: '%d-%b-%Y', 
+                    23: '%d/%b/%Y', 
+                    24: '%d.%b.%Y', 
+                    25: '%b-%d-%y', 
+                    26: '%b/%d/%y', 
+                    27: '%b.%d.%y', 
+                    28: '%d-%b-%y', 
+                    29: '%d/%b/%y', 
+                    30: '%d.%b.%y',
+                    }
+    for k, v in dict_matches.items():
+        match = re.search(exp, text_date)
+        key = k
+        if match:
+            break
+    date_time = datetime.strptime(text_date, dict_matches[key])
+    return date_time
     
     
 if __name__ == "__main__":
