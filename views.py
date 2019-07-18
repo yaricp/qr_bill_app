@@ -32,6 +32,8 @@ def show_order_by(user, type):
          .group_by(fn.strftime('%Y-%m', Purchase.datetime))
          .tuples())
         print('query : ', query)
+        for r in query:
+            print('R: ', r)
 #        )
 #
 ##        for c in categories:
