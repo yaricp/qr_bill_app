@@ -46,10 +46,12 @@ def show_order_by(user, type):
 #            print('date: ', i.datetime)
 #            print('')
         query = (Purchase
-            .select(fn.Sum(Purchase.summ).alias('average_value'), 
-                #Purchase.category, 
+            .select(
+                Category.name, 
+                fn.Sum(Purchase.summ).alias('average_value'), 
                 fn.strftime('%m', Purchase.datetime)
                 )
+            .join(Category)
             .where(Purchase.user==user)
             .group_by(fn.strftime('%m', Purchase.datetime))
             #.group_by(Purchase.category)
