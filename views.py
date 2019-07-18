@@ -28,7 +28,7 @@ def show_order_by(user, type):
                     11: ('November'), 
                     12: ('December')
                     }
-    month_now = datetime.today().month
+    month_now = datetime.now().month
     text = ''
     if type == 'seller':
         sellers = Seller.select().where(Seller.user==user)
