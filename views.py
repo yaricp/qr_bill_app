@@ -1,5 +1,6 @@
-import gettext, datetime, sys
+import gettext, sys
 from peewee import *
+from datetime import datetime
 
 from models.seller import Seller
 from models.purchase import Purchase
