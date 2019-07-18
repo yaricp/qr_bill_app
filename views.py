@@ -76,9 +76,9 @@ def show_order_by(user, type):
 #        print('summ :', summ)
         categories = Category.select().where(Category.user==user)
 #        text += _('Total:')+ '\n'
-        for m in (now_month-2, now_month-1, now_month):
-            text += dict_months[m] + ' '
-        text += '/n'
+#        for m in (now_month-2, now_month-1, now_month):
+#            text += dict_months[m] + ' '
+#        text += '/n'
         for c in categories:
             summ = (Purchase
                 .select(fn.SUM(Purchase.summ))
