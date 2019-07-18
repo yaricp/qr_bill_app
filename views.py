@@ -55,8 +55,9 @@ def show_order_by(user, type):
                     .where(Purchase.category==c, Purchase.user==user, fn.strftime('%m', Purchase.datetime)==month)
                     .scalar()
                     )
-                print(summ)
-                text+= str(round(summ, 2)) + '\t'
+                if summ:
+                    summ = round(summ, 2)
+                text+= str(summ) + '\t'
             text+= '\n'
     return text
                     
