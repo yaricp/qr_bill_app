@@ -47,6 +47,9 @@ def show_order_by(user, type):
         for c in categories:
             text += ('%s:\t') % c.name
             for m in (month_now-2, month_now-1, month_now):
+                month = str(m)
+                if m < 10:
+                    month = '0'+str(m)
                 summ = (Purchase
                     .select(fn.SUM(Purchase.summ))
                     .where(Purchase.category==c, Purchase.user==user, fn.strftime('%m', Purchase.datetime)==m )
