@@ -40,10 +40,10 @@ def show_order_by(user, type):
         
         for i in Purchase.select().where(Purchase.user==user):
             print('Item: ', i)
-            print('Item: ', i.user)
-            print('Item: ', i.summ)
-            print('Item: ', i.category)
-            print('Item: ', i.datetime)
+            print('User: ', i.user)
+            print('Summ: ', i.summ)
+            print('Cat: ', i.category)
+            print('date: ', i.datetime)
             print('')
         query = (Purchase
             .select(fn.Sum(Purchase.summ).alias('average_value'), 
