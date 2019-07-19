@@ -102,6 +102,7 @@ def show_order_by(user, type_c):
         count_r = 0
         count_c +=1
     #text += '</pre>'
+    print(text)
     return text
                     
                                        
