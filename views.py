@@ -83,7 +83,8 @@ def show_order_by(user, type):
             else: summ = ''
             print(dict_column_size[count_c])
             print(len(summ))
-            print(type(dict_column_size[count_c]))
+            a = dict_column_size[count_c]
+            print(type(a))
             print(type(len(summ)))
             print(dict_column_size[count_c] > len(summ))
             if dict_column_size[count_c] > len(summ):
