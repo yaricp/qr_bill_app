@@ -344,13 +344,16 @@ def get_button_purchases_by(user, name, by_what, month=None):
     else:
         obj = Seller.get_or_none(name=name)
         by_field = Purchase.seller
-    pur_where = (Purchase.user==user, by_field==obj)
+    purchases = (Purchase.select()
+                .where(Purchase.user==user, by_field==obj)
+                .order_by(Purchase.id.desc())
+                .paginate(1, 20))
     if month:
         if int(month) < 10:
             month = '0'+month
-        pur_where = (Purchase.user==user, by_field==obj, fn.strftime('%m', Purchase.datetime)==month)
-    purchases = (Purchase.select()
-                .where(pur_where)
+        print('month: ', month)
+        purchases = (Purchase.select()
+                .where(Purchase.user==user, by_field==obj, fn.strftime('%m', Purchase.datetime)==month)
                 .order_by(Purchase.id.desc())
                 .paginate(1, 20))
     for p in purchases:
