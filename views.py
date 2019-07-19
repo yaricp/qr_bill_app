@@ -81,7 +81,7 @@ def show_order_by(user, type_c):
             table_rows[count_r].append(summ)
         count_c = 0
         
-    total_size = 0    
+    total_size = 4    
     for k, v in dict_column_size.items():
         total_size += v
     text = '<pre>'
