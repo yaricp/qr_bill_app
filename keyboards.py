@@ -310,7 +310,7 @@ def get_button_order_by(user, type_c):
                 .scalar()
                 )
             if summ: summ = str(round(summ, 2))
-            else: summ = ''
+            else: summ = '-'
             rows.append(InlineKeyboardButton( summ, callback_data='/by_category&%s&%s' % (c_name, m) ))
         buttons.append(rows)
     keyboard = InlineKeyboardMarkup(buttons)
