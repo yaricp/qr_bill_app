@@ -40,14 +40,14 @@ def show_order_by(user, type):
     total_size = 0
     if type == 'seller':
         list_by_for = Seller.select().where(Seller.user==user)
-        dict_column_size.update({0:count(('Seller'))})
-        total_size += count(('Seller'))
+        dict_column_size.update({0:('Seller').count})
+        total_size += ('Seller').count
         table_rows[0].append(('Seller'))
         by_for_field = Purchase.seller
     else:
         list_by_for = Category.select().where(Category.user==user)
         dict_column_size.update({0:count(('Category'))})
-        total_size += count(('Category'))
+        total_size += ('Category').count
         table_rows[0].append(('Category'))
         by_for_field = Purchase.category
         
@@ -55,8 +55,8 @@ def show_order_by(user, type):
     
     for m in (month_now-2, month_now-1, month_now):
         count_m += 1
-        dict_column_size.update({count_m:count(dict_months[m])})
-        total_size += count(dict_months[m])
+        dict_column_size.update({count_m:(dict_months[m]).count})
+        total_size += (dict_months[m]).count
         table_rows[0].append(dict_months[m])
         
     
@@ -64,9 +64,9 @@ def show_order_by(user, type):
     count_c = 0
     total_count_row = 0
     for c in list_by_for:
-        if dict_column_size[count_c] > count(c.name):
-            dict_column_size.update({count_c:count(c.name)})
-            total_count_row += count(c.name)
+        if dict_column_size[count_c] > (c.name).count:
+            dict_column_size.update({count_c:(c.name).count})
+            total_count_row += (c.name).count
         table_rows.append([c.name])
         for m in (month_now-2, month_now-1, month_now):
             count_c += 1
@@ -80,9 +80,9 @@ def show_order_by(user, type):
                 )
             if summ: summ = str(round(summ, 2))
             else: summ = ''
-            if dict_column_size[count_c] > count(summ):
-                dict_column_size.update({count_c:count(summ)})
-                total_count_row += count(summ)
+            if dict_column_size[count_c] > (summ).count:
+                dict_column_size.update({count_c:(summ).count})
+                total_count_row += (summ).count
             table_rows[count_c].append(summ)
         if total_count_row > total_size:
             total_size = total_count_row
