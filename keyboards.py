@@ -305,10 +305,12 @@ def get_button_order_by(user, type_c):
         list_by_for = Seller.select().where(Seller.user==user)
         by_for_field = Purchase.seller
         c_name = 'Seller'
+        command = '/by_seller'
     else:
         list_by_for = Category.select().where(Category.user==user)
         by_for_field = Purchase.category
         c_name = 'Category'
+        command = '/by_category'
     rows.append(InlineKeyboardButton( c_name, callback_data='-' ))
     
     for m in (month_now-2, month_now-1, month_now):
@@ -319,7 +321,7 @@ def get_button_order_by(user, type_c):
         c_name = '-'
         if c.name:
             c_name = c.name
-        rows.append(InlineKeyboardButton( c_name, callback_data='/by_category&%s' % c_name ))
+        rows.append(InlineKeyboardButton( c_name, callback_data='%s&%s' % (command, c_name) ))
         for m in (month_now-2, month_now-1, month_now):
             month = str(m)
             if m < 10:
@@ -331,7 +333,7 @@ def get_button_order_by(user, type_c):
                 )
             if summ: summ = str(round(summ, 2))
             else: summ = '-'
-            rows.append(InlineKeyboardButton( summ, callback_data='/by_category&%s&%s' % (c_name, m) ))
+            rows.append(InlineKeyboardButton( summ, callback_data='%s&%s&%s' % (command, c_name, m) ))
         buttons.append(rows)
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
