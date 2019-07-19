@@ -455,75 +455,77 @@ def private_actions(bot, update):
             text = 'By Seller: %s' %  list_parameters[1] #show_purchases_by(user, list_parameters[1], 'Seller')
             keyboard = get_button_purchases_by(user, list_parameters[1], 'Seller')
     if len(list_parameters) > 2:
-        if action == '/by_category':
-            text = 'By Category %s and month: %s' %  (list_parameters[1], list_parameters[2])  
-            keyboard = get_button_purchases_by(user, list_parameters[1], 'Category', list_parameters[2])
-        elif action == '/by_seller':
-            text = 'By Seller %s and month: %s' %  (list_parameters[1], list_parameters[2])  
-            keyboard = get_button_purchases_by(user, list_parameters[1], 'Seller', list_parameters[2])
-            
-        type_obj = list_parameters[1]
-        id_obj = list_parameters[2]
-        
-        if type_obj =='user':
-            obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj)
+        list_action = ['user', 'new_category', 'new_seller', 'show', 'activate', 'block', 'delitem', 'show_picture']
+        if action not in list_action:
+            if action == '/by_category':
+                text = 'By Category %s and month: %s' %  (list_parameters[1], list_parameters[2])  
+                keyboard = get_button_purchases_by(user, list_parameters[1], 'Category', list_parameters[2])
+            elif action == '/by_seller':
+                text = 'By Seller %s and month: %s' %  (list_parameters[1], list_parameters[2])  
+                keyboard = get_button_purchases_by(user, list_parameters[1], 'Seller', list_parameters[2])
         else:
-            obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj, 
-                                        dict_types[type_obj].user==user )
-        if action == 'new_category':
-            text = show_new_category(user, type=type_obj, obj_id=id_obj)
-        elif action == 'new_seller':
-            text = show_new_seller(user, purchase_id=id_obj)
-        
-        elif action == 'show':
-            if type_obj == 'purchase':
-                keyboard = get_button_categories(user, id_obj, type_obj)
-                text = show_purchase_item(user, id_obj)
-            elif type_obj == 'category':
-                keyboard =  get_button_del_item(id_obj, type_obj)
-                text = show_category_item(user, id_obj)
-            elif type_obj == 'seller':
-                #keyboard =  get_button_del_item(id_obj, type_obj)
-                keyboard = get_button_categories(user, id_obj, type_obj)
-                text = show_seller_item(user, id_obj)
-            elif type_obj == 'user':
-                text = show_user_item(user, id_obj)
-        elif action == 'activate':
-            if not obj.is_active:
-                obj.is_active = True
-                obj.save()
-                user_text = _('Your account is activated by admin.\n')
-                user_text += _('You can send me photo or video with QR code on bill and I try to decode or recognize date and summ.\n')
-                user_text += _('Also you can use any programm for decore QR codes and send me result.\n')
-                user_text += _('Finally you can send me date and summ in format: dd.mm.yy 123.00')
-                bot.send_message(obj.tg_user_id,             
-                        text=user_text)
-                text = _('User %s activated') % obj.username
+            type_obj = list_parameters[1]
+            id_obj = list_parameters[2]
+            
+            if type_obj =='user':
+                obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj)
             else:
-                text = _('User %s is active') % obj.username
-        elif action == 'block':
-            if obj.is_active:
-                obj.is_active = False
-                obj.save()
-                user_text = _('Your account is blocked.\n')
-                user_text += _('You can write to administrators of bot.\n')
-                bot.send_message(obj.tg_user_id,             
+                obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj, 
+                                            dict_types[type_obj].user==user )
+            if action == 'new_category':
+                text = show_new_category(user, type=type_obj, obj_id=id_obj)
+            elif action == 'new_seller':
+                text = show_new_seller(user, purchase_id=id_obj)
+            
+            elif action == 'show':
+                if type_obj == 'purchase':
+                    keyboard = get_button_categories(user, id_obj, type_obj)
+                    text = show_purchase_item(user, id_obj)
+                elif type_obj == 'category':
+                    keyboard =  get_button_del_item(id_obj, type_obj)
+                    text = show_category_item(user, id_obj)
+                elif type_obj == 'seller':
+                    #keyboard =  get_button_del_item(id_obj, type_obj)
+                    keyboard = get_button_categories(user, id_obj, type_obj)
+                    text = show_seller_item(user, id_obj)
+                elif type_obj == 'user':
+                    text = show_user_item(user, id_obj)
+            elif action == 'activate':
+                if not obj.is_active:
+                    obj.is_active = True
+                    obj.save()
+                    user_text = _('Your account is activated by admin.\n')
+                    user_text += _('You can send me photo or video with QR code on bill and I try to decode or recognize date and summ.\n')
+                    user_text += _('Also you can use any programm for decore QR codes and send me result.\n')
+                    user_text += _('Finally you can send me date and summ in format: dd.mm.yy 123.00')
+                    bot.send_message(obj.tg_user_id,             
                             text=user_text)
-                text = _('User %s blocked') % obj.username
-            else:
-                text = _('User %s is not active') % obj.username
-        elif action == 'delitem':
-            if type_obj == 'user':
-                send_delete_info_to_user(bot, id_obj)
-            text = delete_item(user, type_obj, id_obj)
-        elif action == 'show_picture':
-            text = show_purchase_item(user, id_obj)
-            bot.send_photo(
-                update.callback_query.message.chat.id, 
-                photo=obj.pic, 
-                caption=text, 
-                reply_markup=keyboard)
-            return True
+                    text = _('User %s activated') % obj.username
+                else:
+                    text = _('User %s is active') % obj.username
+            elif action == 'block':
+                if obj.is_active:
+                    obj.is_active = False
+                    obj.save()
+                    user_text = _('Your account is blocked.\n')
+                    user_text += _('You can write to administrators of bot.\n')
+                    bot.send_message(obj.tg_user_id,             
+                                text=user_text)
+                    text = _('User %s blocked') % obj.username
+                else:
+                    text = _('User %s is not active') % obj.username
+            elif action == 'delitem':
+                if type_obj == 'user':
+                    send_delete_info_to_user(bot, id_obj)
+                text = delete_item(user, type_obj, id_obj)
+            elif action == 'show_picture':
+                text = show_purchase_item(user, id_obj)
+                bot.send_photo(
+                    update.callback_query.message.chat.id, 
+                    photo=obj.pic, 
+                    caption=text, 
+                    reply_markup=keyboard)
+                return True
         
     if len(list_parameters) > 3:
         id_link_obj = list_parameters[3]
