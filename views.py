@@ -84,7 +84,8 @@ def show_order_by(user, type_c):
     total_size = 4    
     for k, v in dict_column_size.items():
         total_size += v
-    text = '<pre>'
+    text = ''
+    #text += '<pre>'
     count_r = 0
     count_c = 0
     for r in table_rows:
@@ -100,7 +101,7 @@ def show_order_by(user, type_c):
             text += ('-' * total_size)+ '\n'
         count_r = 0
         count_c +=1
-    text += '</pre>\n'
+    #text += '</pre>'
     return text
                     
                                        
