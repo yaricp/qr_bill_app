@@ -31,15 +31,12 @@ def show_order_by(user, type):
                     12: ('December')
                     }
     month_now = datetime.now().month
-    text = '<pre>\n'
+    text = '\n'
     if type == 'seller':
         list_by_for = Seller.select().where(Seller.user==user)
         text += ('Seller') + '|'
         by_for_field = Purchase.seller
-        #print('sellers: ', sellers)
-#        for s in sellers:
-#            summ = Purchase.select(fn.SUM(Purchase.summ)).where(Purchase.seller == s).scalar()
-#            text += _('Seller: %(seller)s, Summa: %(summ)s\n') % ({'seller':s.name, 'summ':summ})
+
     else:
 
         list_by_for = Category.select().where(Category.user==user)
@@ -64,7 +61,7 @@ def show_order_by(user, type):
                 summ = round(summ, 2)
             text+= str(summ) + '|'
         text += '\n'
-    text += '</pre>\n'
+    text += '\n'
     return text
                     
                                        
