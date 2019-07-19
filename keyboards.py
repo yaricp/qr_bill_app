@@ -357,7 +357,7 @@ def get_button_purchases_by(user, name, by_what, month=None):
         purchases = (Purchase.select()
                 .where(Purchase.user==user, by_field==obj, fn.strftime('%m', Purchase.datetime)==month)
                 .order_by(Purchase.id.desc())
-                .paginate(1, 20))
+                )
     for p in purchases:
         rows = []
         category_name = ''
