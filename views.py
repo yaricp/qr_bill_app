@@ -93,7 +93,7 @@ def show_order_by(user, type_c):
         count_c = 0
     #print('DICT :', dict_column_size)
     #print('Table :', table_rows)
-    text = '<pre>\n'
+    text = '<pre>'
     count_r = 0
     count_c = 0
     for r in table_rows:
