@@ -284,7 +284,23 @@ def get_button_confirm(id):
     
 
 def get_button_order_by(user, type_c):
+    dict_months = {
+                    1: _('January'), 
+                    2: _('Februrary'), 
+                    3: _('March'), 
+                    4: _('April'), 
+                    5: _('May'), 
+                    6: _('June'), 
+                    7: _('July'), 
+                    8: _('August'), 
+                    9: _('September'), 
+                    10: _('Oktober'), 
+                    11: _('November'), 
+                    12: _('December')
+                    }
     month_now = datetime.now().month
+    buttons = [] 
+    rows = []
     if type_c == 'seller':
         list_by_for = Seller.select().where(Seller.user==user)
         by_for_field = Purchase.seller
@@ -293,7 +309,11 @@ def get_button_order_by(user, type_c):
         list_by_for = Category.select().where(Category.user==user)
         by_for_field = Purchase.category
         c_name = 'Category'
-    buttons = []    
+    rows.append(InlineKeyboardButton( c_name, callback_data='' ))
+    
+    for m in (month_now-2, month_now-1, month_now):
+        rows.append(InlineKeyboardButton( dict_months[m], callback_data='' ))
+        
     for c in list_by_for:
         rows = []
         c_name = '-'
