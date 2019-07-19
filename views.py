@@ -18,7 +18,7 @@ dict_types = {
 #'sticker': {'file_id': 'CAADAgADCwEAAvR7GQABuArOzKHFjusC', 'height': 512, 'set_name': 'Animals', 'emoji': '\U0001f436', 'width': 427, 'file_size': 34138, 'thumb': {'file_id': 'AAQCABO9nVkqAAQz9MZF3Mcwj2c_AAIC', 'height': 128,
 
 
-def show_order_by(user, type):
+def show_order_by(user, type_c):
     dict_months = {
                     1: _('January'), 
                     2: _('Februrary'), 
@@ -38,7 +38,7 @@ def show_order_by(user, type):
     dict_column_size = {}
     table_rows = [[]]
     total_size = 0
-    if type == 'seller':
+    if type_c == 'seller':
         list_by_for = Seller.select().where(Seller.user==user)
         dict_column_size.update({0:len(('Seller'))})
         total_size += len(('Seller'))
@@ -55,17 +55,7 @@ def show_order_by(user, type):
     
     for m in (month_now-2, month_now-1, month_now):
         count_m += 1
-        print('m: ', m)
-        month = dict_months[m]
-        size_m = int(len(month))
-        print('month: ', month)
-        type(5)
-        type('May')
-        print('type: ', type(month))
-        print('size: ', size_m)
-        type(size_m)
         dict_column_size.update({count_m:len(dict_months[m])})
-        type(len(dict_months[m]))
         total_size += len(dict_months[m])
         table_rows[0].append(dict_months[m])
     print('header: ', dict_column_size)
