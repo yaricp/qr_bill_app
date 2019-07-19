@@ -185,8 +185,10 @@ def list_orders(bot, update):
 @lang()
 def by_seller(bot, update):
     user = update.message.from_user.id
-    keyboard = get_button_main()
-    text = show_order_by(user, 'seller')
+#    keyboard = get_button_main()
+#    text = show_order_by(user, 'seller')
+    text = 'by sellers'   #show_order_by(user,'category')
+    keyboard = get_button_order_by(user,'seller')
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard, 
                                 parse_mode=ParseMode.HTML )
@@ -197,8 +199,10 @@ def by_seller(bot, update):
 @lang()
 def by_category(bot, update):
     user = update.message.from_user.id
-    keyboard = get_button_main()
-    text = show_order_by(user, 'category')
+#    keyboard = get_button_main()
+#    text = show_order_by(user, 'category')
+    text = 'by categories'   #show_order_by(user,'category')
+    keyboard = get_button_order_by(user,'category')
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard, 
                                 parse_mode=ParseMode.HTML )
