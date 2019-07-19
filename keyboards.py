@@ -313,7 +313,7 @@ def get_button_order_by(user, type_c):
     
     for m in (month_now-2, month_now-1, month_now):
         rows.append(InlineKeyboardButton( dict_months[m], callback_data='' ))
-        
+    buttons.append(rows)
     for c in list_by_for:
         rows = []
         c_name = '-'
