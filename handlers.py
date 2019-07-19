@@ -541,7 +541,7 @@ def private_actions(bot, update):
                         message_id=message_id, 
                         text=text, 
                         reply_markup=keyboard, 
-                        parse_mode=ParseMode.HTML
+                        parse_mode=ParseMode.MARKDOWN 
                         )
                         
                         
