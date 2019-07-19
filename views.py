@@ -65,10 +65,13 @@ def show_order_by(user, type_c):
     total_count_row = 0
     for c in list_by_for:
         count_r += 1
-        if len(c.name) > dict_column_size[0]:
-            dict_column_size.update({0:len(c.name)})
-            total_count_row += len(c.name)
-        table_rows.append([c.name])
+        c_name = ''
+        if c.name:
+            c_name = c.name
+        if len(c_name) > dict_column_size[0]:
+            dict_column_size.update({0:len(c_name)})
+            total_count_row += len(c_name)
+        table_rows.append([c_name])
         for m in (month_now-2, month_now-1, month_now):
             count_c += 1
             month = str(m)
