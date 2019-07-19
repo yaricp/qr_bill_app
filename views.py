@@ -31,7 +31,7 @@ def show_order_by(user, type):
                     12: ('December')
                     }
     month_now = datetime.now().month
-    text = '\n'
+    text = '<pre>\n'
     if type == 'seller':
         list_by_for = Seller.select().where(Seller.user==user)
         text += ('Seller') + '|'
@@ -61,7 +61,7 @@ def show_order_by(user, type):
                 summ = round(summ, 2)
             text+= str(summ) + '|'
         text += '\n'
-    text += '\n'
+    text += '</pre>\n'
     return text
                     
                                        
