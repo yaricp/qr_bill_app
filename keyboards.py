@@ -285,7 +285,7 @@ def get_button_confirm(id):
 
 def get_button_order_by(user, type_c):
     month_now = datetime.now().month
-    keyboards = []
+    keyboard = []
     if type_c == 'seller':
         list_by_for = Seller.select().where(Seller.user==user)
         by_for_field = Purchase.seller
