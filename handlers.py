@@ -439,9 +439,12 @@ def private_actions(bot, update):
     if len(list_parameters) > 1:
         action = list_parameters[0]
         #print('action: ',  action)
+        keyboard = get_button_main()
         if action == 'lang':
             text = show_change_lang(user, list_parameters[1])
-            keyboard = get_button_main()
+            
+        elif action == '/by_category':
+            text = show_purchases_by(user, list_parameters[1], 'category')
     if len(list_parameters) > 2:
         type_obj = list_parameters[1]
         id_obj = list_parameters[2]

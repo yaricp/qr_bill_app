@@ -340,6 +340,30 @@ def show_donate_link_ru():
     text = 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=F444B9FSAE4XW&source=url'
     return text
     
+def show_purchases_by(user, name, by_what):
+    text = ''
+    if by_what == 'Category':
+        by_field = Purchase.category
+    else:
+        by_field = Purchase.seller
+    purchases = (Purchase.select()
+                .where(Purchase.user==user, by_field.name==name)
+                .order_by(Purchase.id.desc())
+                .paginate(1, 20))
+    for p in purchases:
+        category_name = ''
+        seller_name = ''
+        if purchase.category:
+            category_name = purchase.category.name
+        if purchase.seller:
+            seller_name = purchase.seller.name
+        text += _('%(datetime)s %(summ)s %(seller)s %(cat)s\n') % ( 
+                {'datetime':purchase.datetime, 
+                'summ':purchase.summ, 
+                'seller':seller_name, 
+                'cat':category_name}
+                                )
+    return text
 
 #def show_donate_form_ru():
 #    text = '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">'\
