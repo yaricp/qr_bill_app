@@ -188,7 +188,8 @@ def by_seller(bot, update):
     keyboard = get_button_main()
     text = show_order_by(user, 'seller')
     update.message.reply_text(  text=text,
-                                reply_markup=keyboard)
+                                reply_markup=keyboard, 
+                                parse_mode=ParseMode.HTML )
     
 
 @is_not_bot()
@@ -200,7 +201,7 @@ def by_category(bot, update):
     text = show_order_by(user, 'category')
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard, 
-                                parse_mode=HTML)
+                                parse_mode=ParseMode.HTML )
     
 
 @is_not_bot()    
