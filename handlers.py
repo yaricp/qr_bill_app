@@ -450,6 +450,7 @@ def private_actions(bot, update):
             text = show_change_lang(user, list_parameters[1])
         elif action == '/by_category':
             text = show_purchases_by(user, list_parameters[1], 'Category')
+            
         elif action == '/by_seller':
             text = show_purchases_by(user, list_parameters[1], 'Seller')
     if len(list_parameters) > 2:

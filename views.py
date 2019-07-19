@@ -344,12 +344,16 @@ def show_donate_link_ru():
     
 def show_purchases_by(user, name, by_what):
     text = ''
+    print('name: ', name)
     if by_what == 'Category':
+        obj = Category.get_or_none(name=name)
         by_field = Purchase.category
     else:
+        obj = Seller.get_or_none(name=name)
         by_field = Purchase.seller
+    print('obj: ', obj)
     purchases = (Purchase.select()
-                .where(Purchase.user==user, by_field.name==name)
+                .where(Purchase.user==user, by_field==obj)
                 .order_by(Purchase.id.desc())
                 .paginate(1, 20))
     for p in purchases:
