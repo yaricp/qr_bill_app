@@ -56,6 +56,7 @@ def show_order_by(user, type):
     for m in (month_now-2, month_now-1, month_now):
         count_m += 1
         dict_column_size.update({count_m:len(dict_months[m])})
+        print(type(len(dict_months[m])))
         total_size += len(dict_months[m])
         table_rows[0].append(dict_months[m])
     print('header: ', dict_column_size)
