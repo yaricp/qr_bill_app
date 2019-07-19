@@ -58,14 +58,14 @@ def show_order_by(user, type):
         dict_column_size.update({count_m:len(dict_months[m])})
         total_size += len(dict_months[m])
         table_rows[0].append(dict_months[m])
-        
+    print('header: ', dict_column_size)
     
     count_r = 0
     count_c = 0
     total_count_row = 0
     for c in list_by_for:
-        if dict_column_size[count_c] > len(c.name):
-            dict_column_size.update({count_c:len(c.name)})
+        if dict_column_size[0] > len(c.name):
+            dict_column_size.update({0:len(c.name)})
             total_count_row += len(c.name)
         table_rows.append([c.name])
         for m in (month_now-2, month_now-1, month_now):
@@ -84,6 +84,8 @@ def show_order_by(user, type):
                 dict_column_size.update({count_c:len(summ)})
                 total_count_row += len(summ)
             table_rows[count_r].append(summ)
+        print('dict row: ', dict_column_size)
+        print('table: ', table_rows)
         if total_count_row > total_size:
             total_size = total_count_row
         count_r += 1
