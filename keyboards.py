@@ -295,16 +295,13 @@ def get_button_order_by(user, type_c):
         by_for_field = Purchase.category
         c_name = 'Category'
         
-    count_r = 0
     for c in list_by_for:
         buttons = []
-        count_r += 1
         c_name = '-'
         if c.name:
             c_name = c.name
         buttons.append(InlineKeyboardButton( c_name, callback_data='/by_category&%s' % c_name ))
         for m in (month_now-2, month_now-1, month_now):
-            count_c += 1
             month = str(m)
             if m < 10:
                 month = '0'+str(m)
