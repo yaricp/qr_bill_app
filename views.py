@@ -15,6 +15,9 @@ dict_types = {
         'category':Category
     }
 
+#'sticker': {'file_id': 'CAADAgADCwEAAvR7GQABuArOzKHFjusC', 'height': 512, 'set_name': 'Animals', 'emoji': '\U0001f436', 'width': 427, 'file_size': 34138, 'thumb': {'file_id': 'AAQCABO9nVkqAAQz9MZF3Mcwj2c_AAIC', 'height': 128,
+
+
 def show_order_by(user, type):
     dict_months = {
                     1: ('January'), 
@@ -32,23 +35,41 @@ def show_order_by(user, type):
                     }
     month_now = datetime.now().month
     text = '<pre>\n'
+    dict_column_size = {}
+    table_rows = [[]]
+    total_size = 0
     if type == 'seller':
         list_by_for = Seller.select().where(Seller.user==user)
-        text += ('Seller') + '|'
+        dict_column_size.update({0:count(('Seller'))})
+        total_size += count(('Seller'))
+        table_rows[0].append(('Seller'))
         by_for_field = Purchase.seller
-
     else:
-
         list_by_for = Category.select().where(Category.user==user)
-        text += ('Category') + '|'
+        dict_column_size.update({0:count(('Category'))})
+        total_size += count(('Category'))
+        table_rows[0].append(('Category'))
         by_for_field = Purchase.category
-    for m in (month_now-2, month_now-1, month_now):
-        text += dict_months[m] + '|'
-    text += '\n----------------\n'
+        
+    count_m = 0
     
+    for m in (month_now-2, month_now-1, month_now):
+        count_m += 1
+        dict_column_size.update({count_m:count(dict_months[m])})
+        total_size += count(dict_months[m])
+        table_rows[0].append(dict_months[m])
+        
+    
+    count_r = 0
+    count_c = 0
+    total_count_row = 0
     for c in list_by_for:
-        text += ('%s|') % c.name
+        if dict_column_size[count_c] > count(c.name):
+            dict_column_size.update({count_c:count(c.name)})
+            total_count_row += count(c.name)
+        table_rows.append([c.name])
         for m in (month_now-2, month_now-1, month_now):
+            count_c += 1
             month = str(m)
             if m < 10:
                 month = '0'+str(m)
@@ -57,10 +78,33 @@ def show_order_by(user, type):
                 .where(by_for_field==c, Purchase.user==user, fn.strftime('%m', Purchase.datetime)==month)
                 .scalar()
                 )
-            if summ:
-                summ = round(summ, 2)
-            text+= str(summ) + '|'
+            if summ: summ = str(round(summ, 2))
+            else: summ = ''
+            if dict_column_size[count_c] > count(summ):
+                dict_column_size.update({count_c:count(summ)})
+                total_count_row += count(summ)
+            table_rows[count_c].append(summ)
+        if total_count_row > total_size:
+            total_size = total_count_row
+        count_r += 1
+        count_c = 0
+    print('DICT :', dict_column_size)
+    print('Table :', table_rows)
+    text = '<pre>\n'
+    count_r = 0
+    count_c = 0
+    for r in table_rows:
+        for c in r:
+            if count_c == 0:
+                text += c.ljust(dict_column_size[count_c]) + '|'
+            else:
+                text += c.rjust(dict_column_size[count_c]) + '|'
         text += '\n'
+        if count_r == 0:
+            text += ('-' * total_size)+ '\n'
+        
+        count_r += 1
+        count_c = 0
     text += '</pre>\n'
     return text
                     
