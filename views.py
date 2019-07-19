@@ -92,7 +92,6 @@ def show_order_by(user, type_c):
     print('Table :', table_rows)
     text = '<pre>\n'
     count_r = 0
-    count_c = 0
     for r in table_rows:
         for c in r:
             print(dict_column_size[count_r])
@@ -100,12 +99,11 @@ def show_order_by(user, type_c):
                 text += c.ljust(dict_column_size[count_r]) + '|'
             else:
                 text += c.rjust(dict_column_size[count_r]) + '|'
+            count_r += 1
         text += '\n'
         if count_r == 0:
             text += ('-' * total_size)+ '\n'
-        
-        count_r += 1
-        count_c = 0
+        count_r = 0
     text += '</pre>\n'
     return text
                     
