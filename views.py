@@ -37,17 +37,14 @@ def show_order_by(user, type_c):
     text = '<pre>\n'
     dict_column_size = {}
     table_rows = [[]]
-    total_size = 0
     if type_c == 'seller':
         list_by_for = Seller.select().where(Seller.user==user)
         dict_column_size.update({0:len(('Seller'))})
-        total_size += len(('Seller'))
         table_rows[0].append(('Seller'))
         by_for_field = Purchase.seller
     else:
         list_by_for = Category.select().where(Category.user==user)
         dict_column_size.update({0:len(('Category'))})
-        total_size += len(('Category'))
         table_rows[0].append(('Category'))
         by_for_field = Purchase.category
         
@@ -56,13 +53,9 @@ def show_order_by(user, type_c):
     for m in (month_now-2, month_now-1, month_now):
         count_m += 1
         dict_column_size.update({count_m:len(dict_months[m])})
-        total_size += len(dict_months[m])
         table_rows[0].append(dict_months[m])
-    print('header: ', dict_column_size)
-    
     count_r = 0
     count_c = 0
-    total_count_row = 0
     for c in list_by_for:
         count_r += 1
         c_name = ''
@@ -70,7 +63,6 @@ def show_order_by(user, type_c):
             c_name = c.name
         if len(c_name) > dict_column_size[0]:
             dict_column_size.update({0:len(c_name)})
-            total_count_row += len(c_name)
         table_rows.append([c_name])
         for m in (month_now-2, month_now-1, month_now):
             count_c += 1
@@ -86,13 +78,12 @@ def show_order_by(user, type_c):
             else: summ = ''
             if len(summ) > dict_column_size[count_c]:
                 dict_column_size.update({count_c:len(summ)})
-                total_count_row += len(summ)
             table_rows[count_r].append(summ)
-        if total_count_row > total_size:
-            total_size = total_count_row
         count_c = 0
-    #print('DICT :', dict_column_size)
-    #print('Table :', table_rows)
+        
+    total_size = 0    
+    for k, v in dict_column_size.items():
+        total_size += v
     text = '<pre>'
     count_r = 0
     count_c = 0
