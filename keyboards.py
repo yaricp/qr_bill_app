@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 from telegram import (InlineKeyboardMarkup, InlineKeyboardButton)
 
 
@@ -283,6 +284,7 @@ def get_button_confirm(id):
     
 
 def get_button_order_by(user, type_c):
+    month_now = datetime.now().month
     keyboards = []
     if type_c == 'seller':
         list_by_for = Seller.select().where(Seller.user==user)
