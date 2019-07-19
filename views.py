@@ -91,8 +91,8 @@ def show_order_by(user, type_c):
         if total_count_row > total_size:
             total_size = total_count_row
         count_c = 0
-    print('DICT :', dict_column_size)
-    print('Table :', table_rows)
+    #print('DICT :', dict_column_size)
+    #print('Table :', table_rows)
     text = '<pre>\n'
     count_r = 0
     for r in table_rows:
