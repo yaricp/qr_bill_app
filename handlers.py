@@ -199,7 +199,8 @@ def by_category(bot, update):
     keyboard = get_button_main()
     text = show_order_by(user, 'category')
     update.message.reply_text(  text=text,
-                                reply_markup=keyboard)
+                                reply_markup=keyboard, 
+                                parse_mode=HTML)
     
 
 @is_not_bot()    
@@ -541,7 +542,7 @@ def private_actions(bot, update):
                         message_id=message_id, 
                         text=text, 
                         reply_markup=keyboard, 
-                        parse_mode=ParseMode.Markdown 
+                        parse_mode=ParseMode.HTML 
                         )
                         
                         
