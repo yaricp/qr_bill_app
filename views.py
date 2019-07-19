@@ -34,7 +34,6 @@ def show_order_by(user, type_c):
                     12: _('December')
                     }
     month_now = datetime.now().month
-    text = '<pre>\n'
     dict_column_size = {}
     table_rows = [[]]
     if type_c == 'seller':
