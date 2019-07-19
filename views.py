@@ -81,21 +81,12 @@ def show_order_by(user, type_c):
                 )
             if summ: summ = str(round(summ, 2))
             else: summ = ''
-            print(dict_column_size[count_c])
-            print(len(summ))
-            a = dict_column_size[count_c]
-            print(type(a))
-            print(type(len(summ)))
-            print( len(summ) > dict_column_size[count_c])
             if len(summ) > dict_column_size[count_c]:
                 dict_column_size.update({count_c:len(summ)})
                 total_count_row += len(summ)
             table_rows[count_r].append(summ)
-        print('dict row: ', dict_column_size)
-        print('table: ', table_rows)
         if total_count_row > total_size:
             total_size = total_count_row
-        
         count_c = 0
     print('DICT :', dict_column_size)
     print('Table :', table_rows)
@@ -104,10 +95,11 @@ def show_order_by(user, type_c):
     count_c = 0
     for r in table_rows:
         for c in r:
+            print(dict_column_size[count_r])
             if count_c == 0:
-                text += c.ljust(dict_column_size[count_c]) + '|'
+                text += c.ljust(dict_column_size[count_r]) + '|'
             else:
-                text += c.rjust(dict_column_size[count_c]) + '|'
+                text += c.rjust(dict_column_size[count_r]) + '|'
         text += '\n'
         if count_r == 0:
             text += ('-' * total_size)+ '\n'
