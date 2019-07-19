@@ -83,7 +83,7 @@ def show_order_by(user, type):
             if dict_column_size[count_c] > len(summ):
                 dict_column_size.update({count_c:len(summ)})
                 total_count_row += len(summ)
-            table_rows[count_c].append(summ)
+            table_rows[count_r].append(summ)
         if total_count_row > total_size:
             total_size = total_count_row
         count_r += 1
