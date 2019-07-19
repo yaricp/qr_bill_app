@@ -449,10 +449,11 @@ def private_actions(bot, update):
         if action == 'lang':
             text = show_change_lang(user, list_parameters[1])
         elif action == '/by_category':
-            text = show_purchases_by(user, list_parameters[1], 'Category')
-            
+            text = 'By Category %s' %  list_parameters[1]  #show_purchases_by(user, list_parameters[1], 'Category')
+            keyboard = get_button_purchases_by(user, list_parameters[1], 'Category')
         elif action == '/by_seller':
-            text = show_purchases_by(user, list_parameters[1], 'Seller')
+            text = 'By Seller: %s' %  list_parameters[1] #show_purchases_by(user, list_parameters[1], 'Seller')
+            keyboard = get_button_purchases_by(user, list_parameters[1], 'Seller')
     if len(list_parameters) > 2:
         type_obj = list_parameters[1]
         id_obj = list_parameters[2]
@@ -465,6 +466,12 @@ def private_actions(bot, update):
             text = show_new_category(user, type=type_obj, obj_id=id_obj)
         elif action == 'new_seller':
             text = show_new_seller(user, purchase_id=id_obj)
+        elif action == '/by_category':
+            text = 'By Category %s and month: %s' %  (list_parameters[1], list_parameters[2])  
+            keyboard = get_button_purchases_by(user, list_parameters[1], 'Category', list_parameters[2])
+        elif action == '/by_seller':
+            text = 'By Seller %s and month: %s' %  (list_parameters[1], list_parameters[2])  
+            keyboard = get_button_purchases_by(user, list_parameters[1], 'Seller', list_parameters[2])
         elif action == 'show':
             if type_obj == 'purchase':
                 keyboard = get_button_categories(user, id_obj, type_obj)

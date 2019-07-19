@@ -335,3 +335,40 @@ def get_button_order_by(user, type_c):
         buttons.append(rows)
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
+    
+def get_button_purchases_by(user, name, by_what, month=None):
+    buttons = []
+    if by_what == 'Category':
+        obj = Category.get_or_none(name=name)
+        by_field = Purchase.category
+    else:
+        obj = Seller.get_or_none(name=name)
+        by_field = Purchase.seller
+    pur_where = (Purchase.user==user, by_field==obj)
+    if month:
+        if int(month) < 10:
+            month = '0'+month
+        pur_where = (Purchase.user==user, by_field==obj, fn.strftime('%m', Purchase.datetime)==month)
+    purchases = (Purchase.select()
+                .where(pur_where)
+                .order_by(Purchase.id.desc())
+                .paginate(1, 20))
+    for p in purchases:
+        rows = []
+        category_name = ''
+        seller_name = ''
+        if p.category:
+            category_name = p.category.name
+        if p.seller:
+            seller_name = p.seller.name
+        
+        rows.append(InlineKeyboardButton(  
+                    '%s - %s - %s' % (p.summ, p.datetime, seller_name), 
+                    callback_data='show&purchase&'+str(p.id)))
+                    
+        rows.append(InlineKeyboardButton( 
+                    _('Pic'), 
+                    callback_data='show_picture&purchase&%s' % str(p.id)))
+        buttons.append(rows)
+    keyboard = InlineKeyboardMarkup(buttons)
+    return keyboard
