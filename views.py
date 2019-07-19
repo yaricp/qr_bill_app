@@ -92,7 +92,8 @@ def show_order_by(user, type_c):
         for c in r:
             print(dict_column_size[count_r])
             if count_r == 0:
-                text += c.ljust(dict_column_size[count_r]) + '|'
+                col_text = '<a href="/by_category">%s</a>' % c
+                text += col_text.ljust(dict_column_size[count_r]) + '|'
             else:
                 text += c.rjust(dict_column_size[count_r]) + '|'
             count_r += 1
