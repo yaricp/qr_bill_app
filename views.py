@@ -359,13 +359,13 @@ def show_purchases_by(user, name, by_what):
     for p in purchases:
         category_name = ''
         seller_name = ''
-        if purchase.category:
-            category_name = purchase.category.name
-        if purchase.seller:
-            seller_name = purchase.seller.name
+        if p.category:
+            category_name = p.category.name
+        if p.seller:
+            seller_name = p.seller.name
         text += _('%(datetime)s %(summ)s %(seller)s %(cat)s\n') % ( 
-                {'datetime':purchase.datetime, 
-                'summ':purchase.summ, 
+                {'datetime':p.datetime, 
+                'summ':p.summ, 
                 'seller':seller_name, 
                 'cat':category_name}
                                 )
