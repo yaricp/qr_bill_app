@@ -60,7 +60,7 @@ def show_order_by(user, type):
         size_m = len(month)
         print('month: ', month)
         print('size: ', size_m)
-        
+        print(type(size_m))
         dict_column_size.update({count_m:len(dict_months[m])})
         print(type(len(dict_months[m])))
         total_size += len(dict_months[m])
