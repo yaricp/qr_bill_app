@@ -64,6 +64,7 @@ def show_order_by(user, type):
     count_c = 0
     total_count_row = 0
     for c in list_by_for:
+        count_r += 1
         if dict_column_size[0] > len(c.name):
             dict_column_size.update({0:len(c.name)})
             total_count_row += len(c.name)
@@ -80,6 +81,8 @@ def show_order_by(user, type):
                 )
             if summ: summ = str(round(summ, 2))
             else: summ = ''
+            print(dict_column_size[count_c])
+            print(len(summ))
             if dict_column_size[count_c] > len(summ):
                 dict_column_size.update({count_c:len(summ)})
                 total_count_row += len(summ)
@@ -88,7 +91,7 @@ def show_order_by(user, type):
         print('table: ', table_rows)
         if total_count_row > total_size:
             total_size = total_count_row
-        count_r += 1
+        
         count_c = 0
     print('DICT :', dict_column_size)
     print('Table :', table_rows)
