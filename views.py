@@ -56,7 +56,7 @@ def show_order_by(user, type):
     for m in (month_now-2, month_now-1, month_now):
         count_m += 1
         print('m: ', m)
-        month = str(dict_months[m])
+        month = dict_months[m]
         size_m = int(len(month))
         print('month: ', month,  'type: ', type(month))
         print('size: ', size_m)
