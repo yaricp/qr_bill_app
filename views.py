@@ -369,7 +369,7 @@ def show_purchases_by(user, name, by_what):
                 'seller':seller_name, 
                 'cat':category_name}
                                 )
-    print(text)
+    #print(text)
     return text
 
 #def show_donate_form_ru():
