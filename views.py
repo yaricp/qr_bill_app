@@ -46,7 +46,7 @@ def show_order_by(user, type):
         by_for_field = Purchase.seller
     else:
         list_by_for = Category.select().where(Category.user==user)
-        dict_column_size.update({0:count(('Category'))})
+        dict_column_size.update({0:('Category').count})
         total_size += ('Category').count
         table_rows[0].append(('Category'))
         by_for_field = Purchase.category
