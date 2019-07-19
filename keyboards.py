@@ -309,10 +309,10 @@ def get_button_order_by(user, type_c):
         list_by_for = Category.select().where(Category.user==user)
         by_for_field = Purchase.category
         c_name = 'Category'
-    rows.append(InlineKeyboardButton( c_name, callback_data='' ))
+    rows.append(InlineKeyboardButton( c_name, callback_data='-' ))
     
     for m in (month_now-2, month_now-1, month_now):
-        rows.append(InlineKeyboardButton( dict_months[m], callback_data='' ))
+        rows.append(InlineKeyboardButton( dict_months[m], callback_data='-' ))
     buttons.append(rows)
     for c in list_by_for:
         rows = []
