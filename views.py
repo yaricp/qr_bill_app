@@ -2,6 +2,8 @@ import gettext, sys
 from peewee import *
 from datetime import datetime
 
+from telegram import (InlineKeyboardMarkup, InlineKeyboardButton)
+
 from models.seller import Seller
 from models.purchase import Purchase
 from models.category import Category
@@ -89,10 +91,10 @@ def show_order_by(user, type_c):
     count_c = 0
     for r in table_rows:
         for c in r:
+            
             print(dict_column_size[count_r])
             if count_r == 0:
-                col_text = '<a href="tg://@yaricp_dev_bot/by_category %s">%s</a>' % (c, c)
-                text += col_text.ljust(dict_column_size[count_r]) + '|'
+                text += c.ljust(dict_column_size[count_r]) + '|'
             else:
                 text += c.rjust(dict_column_size[count_r]) + '|'
             count_r += 1

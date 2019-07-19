@@ -412,9 +412,11 @@ def private_actions(bot, update):
         keyboard = get_button_orders()
         text=_('Orders')
     elif but_data == '/by_seller':
-        text = show_order_by(user,'seller')
+        text = 'by sellers'   #show_order_by(user,'seller')
+        keyboard = get_button_order_by(user,'seller')
     elif but_data == '/by_category':
-        text = show_order_by(user,'category')
+        text = 'by categories'   #show_order_by(user,'category')
+        keyboard = get_button_order_by(user,'category')
     elif but_data == '/menu':
         keyboard = get_button_menu(user)
         text=_('Menu')
@@ -445,6 +447,7 @@ def private_actions(bot, update):
             
         elif action == '/by_category':
             text = show_purchases_by(user, list_parameters[1], 'category')
+            keyboard = get_button_order_by(user, )
     if len(list_parameters) > 2:
         type_obj = list_parameters[1]
         id_obj = list_parameters[2]

@@ -280,3 +280,39 @@ def get_button_confirm(id):
         ]]
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
+    
+
+def get_button_order_by(user, type_c):
+    keyboards = []
+    if type_c == 'seller':
+        list_by_for = Seller.select().where(Seller.user==user)
+        by_for_field = Purchase.seller
+        c_name = 'Seller'
+    else:
+        list_by_for = Category.select().where(Category.user==user)
+        by_for_field = Purchase.category
+        c_name = 'Category'
+        
+    count_r = 0
+    for c in list_by_for:
+        buttons = []
+        count_r += 1
+        c_name = '-'
+        if c.name:
+            c_name = c.name
+        buttons.append(InlineKeyboardButton( c_name, callback_data='/by_category&%s' % c_name ))
+        for m in (month_now-2, month_now-1, month_now):
+            count_c += 1
+            month = str(m)
+            if m < 10:
+                month = '0'+str(m)
+            summ = (Purchase
+                .select(fn.SUM(Purchase.summ))
+                .where(by_for_field==c, Purchase.user==user, fn.strftime('%m', Purchase.datetime)==month)
+                .scalar()
+                )
+            if summ: summ = str(round(summ, 2))
+            else: summ = ''
+            buttons.append(InlineKeyboardButton( summ, callback_data='/by_category&%s&%s' % (c_name, m) ))
+        keyboard.append(buttons)
+    return keyboard
