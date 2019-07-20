@@ -137,7 +137,7 @@ def del_purchase(bot, update, args):
     #text = delete_item(user, 'purchase', id)
     nrows = Purchase.delete().where(Purchase.id == id, 
                                     Purchase.user == user).execute()
-    text = 'deleted'
+    text = _('Deleted')
     keyboard = get_button_menu(user)
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
@@ -478,19 +478,19 @@ def private_actions(bot, update):
         if action == 'lang':
             text = show_change_lang(user, list_parameters[1])
         elif action == '/by_category':
-            text = 'By Category %s' %  list_parameters[1]  #show_purchases_by(user, list_parameters[1], 'Category')
+            text = _('By Category %s') %  list_parameters[1]  #show_purchases_by(user, list_parameters[1], 'Category')
             keyboard = get_button_purchases_by(user, list_parameters[1], 'Category')
         elif action == '/by_seller':
-            text = 'By Seller: %s' %  list_parameters[1] #show_purchases_by(user, list_parameters[1], 'Seller')
+            text = _('By Seller: %s') %  list_parameters[1] #show_purchases_by(user, list_parameters[1], 'Seller')
             keyboard = get_button_purchases_by(user, list_parameters[1], 'Seller')
     if len(list_parameters) > 2:
         list_action = ['/by_category', '/by_category']
         if action in list_action:
             if action == '/by_category':
-                text = 'By Category %s and month: %s' %  (list_parameters[1], list_parameters[2])  
+                text = _('By Category %s and month: %s') %  (list_parameters[1], list_parameters[2])  
                 keyboard = get_button_purchases_by(user, list_parameters[1], 'Category', list_parameters[2])
             elif action == '/by_seller':
-                text = 'By Seller %s and month: %s' %  (list_parameters[1], list_parameters[2])  
+                text = _('By Seller %s and month: %s') %  (list_parameters[1], list_parameters[2])  
                 keyboard = get_button_purchases_by(user, list_parameters[1], 'Seller', list_parameters[2])
         else:
             type_obj = list_parameters[1]

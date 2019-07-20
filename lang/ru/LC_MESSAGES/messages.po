@@ -598,3 +598,21 @@ msgstr "Месяц: "
 
 msgid "Total: "
 msgstr "Всего: "
+
+msgid "By Category %s"
+msgstr "По категории %s"
+
+msgid "By Seller: %s"
+msgstr "По продавцу: %s"
+
+msgid "By Category %s and month: %s"
+msgstr "По категории %s и за месяц: %s"
+
+msgid "By Seller %s and month: %s"
+msgstr "По продавцу %s и за месяц: %s"
+
+msgid "Deleted"
+msgstr "Удалено"
+
+msgid "Purchase"
+msgstr "Покупка"
