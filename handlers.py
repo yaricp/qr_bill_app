@@ -138,7 +138,7 @@ def del_purchase(bot, update, args):
     nrows = Purchase.delete().where(Purchase.id == id, 
                                     Purchase.user == user).execute()
     text = 'deleted'
-    keyboard = get_button_menu(user_id)
+    keyboard = get_button_menu(user)
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
 
