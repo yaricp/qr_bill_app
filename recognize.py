@@ -208,7 +208,9 @@ def get_datetime_from_string(text_date):
 def get_decimal_or_none(text):
     result = None
     from decimal import Decimal
-    result = [Decimal(x.strip(' "')) for x in text]
+    try:
+        result = Decimal(text)
+    except: print('error Decimal in '+ text)
     return result
     
     
