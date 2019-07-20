@@ -356,8 +356,8 @@ def get_button_order_by(user, type_c):
                 month = '0'+str(m)
                 
             for p in Purchase.select().where(by_for_field==c, Purchase.user==user, fn.strftime('%m', Purchase.datetime)==month):
-                if p.category.name == 'Одежда'Ж
-                print(p.summ)
+                if p.category.name == 'Одежда':
+                    print(p.summ)
                 
             summ = (Purchase
                 .select(fn.SUM(Purchase.summ))
