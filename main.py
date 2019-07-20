@@ -62,7 +62,7 @@ def main():
     list_purchase_handler = CommandHandler('purchases', list_purchase)
     dispatcher.add_handler(list_purchase_handler)
     
-    purchase_handler = CommandHandler('purchase', purchase)
+    purchase_handler = CommandHandler('purchase', purchase, pass_args=True)
     dispatcher.add_handler(purchase_handler)
     
     list_seller_handler = CommandHandler('sellers', list_seller)
