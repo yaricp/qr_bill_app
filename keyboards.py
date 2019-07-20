@@ -173,7 +173,7 @@ def get_button_list_purchase(user):
     #count_rows = purchases.count()
     
     buttons = []
-    #print(purchases)
+    print(purchases)
     for p in purchases:
         try:
             
