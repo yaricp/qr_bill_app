@@ -444,8 +444,7 @@ def private_actions(bot, update):
     
     if len(list_parameters) > 1:
         action = list_parameters[0]
-        
-        print('action: ',  action)
+        #print('action: ',  action)
         keyboard = get_button_main()
         if action == 'lang':
             text = show_change_lang(user, list_parameters[1])
@@ -472,7 +471,6 @@ def private_actions(bot, update):
             else:
                 obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj, 
                                             dict_types[type_obj].user==user )
-            print(type(obj))
             if action == 'new_category':
                 text = show_new_category(user, type=type_obj, obj_id=id_obj)
             elif action == 'new_seller':

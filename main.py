@@ -28,10 +28,10 @@ from handlers import (  new_category,
 
 from config import *
 
-if development:
-    import logging
-    logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+#if development:
+import logging
+logging.basicConfig(level=logging.DEBUG,
+                format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 def main():
     
