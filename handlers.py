@@ -446,10 +446,10 @@ def private_actions(bot, update):
         keyboard = get_button_orders()
         text=_('Orders')
     elif but_data == '/by_seller':
-        text = _('by seller')   #show_order_by(user,'seller')
+        text = _('summs by sellers and months')   #show_order_by(user,'seller')
         keyboard = get_button_order_by(user,'seller')
     elif but_data == '/by_category':
-        text = _('by category')   #show_order_by(user,'category')
+        text = _('summs by categories and months')   #show_order_by(user,'category')
         keyboard = get_button_order_by(user,'category')
     elif but_data == '/menu':
         keyboard = get_button_menu(user)
