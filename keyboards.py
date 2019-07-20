@@ -171,9 +171,10 @@ def get_button_categories(user, id_item, type_item):
 def get_button_one_task(user, id):
     p = Purchase.get_or_none(user=user, id=id)
     buttons = []
-    if p.seller_id:
+    seller_name = 'None'
+    if p.seller:
         try:
-            sel = Seller.get(id = p.seller_id)
+            sel = Seller.get_or_none(id = p.seller_id)
             seller_name = sel.name
         except:
             print('seller not found!')
