@@ -354,6 +354,9 @@ def get_button_order_by(user, type_c):
             month = str(m)
             if m < 10:
                 month = '0'+str(m)
+                
+            print('C: ', c)
+            print('C_name: ', c_name)
             summ = (Purchase
                 .select(fn.SUM(Purchase.summ))
                 .where(by_for_field==c, Purchase.user==user, fn.strftime('%m', Purchase.datetime)==month)
@@ -369,6 +372,7 @@ def get_button_order_by(user, type_c):
     buttons.append([new_button])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
+    
     
 def get_button_purchases_by(user, name, by_what, month=None):
     buttons = []
