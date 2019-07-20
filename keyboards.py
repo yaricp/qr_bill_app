@@ -360,6 +360,7 @@ def get_button_order_by(user, type_c):
                 for p in Purchase.select().where(by_for_field==c, Purchase.user==user):
                     print('select:', p)
                     print('Summ: ', p.summ)
+                    print('Summ: ', p.datetime)
                 
             summ = (Purchase
                 .select(fn.SUM(Purchase.summ))
