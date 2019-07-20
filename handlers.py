@@ -133,7 +133,7 @@ def purchase(bot, update, args):
 def del_purchase(bot, update, args):
     user = update.message.from_user.id
     id = args[0]
-    text = delete_item(user, 'purchase', id):
+    text = delete_item(user, 'purchase', id)
     keyboard = get_button_menu(user_id)
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
