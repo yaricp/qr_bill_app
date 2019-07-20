@@ -188,6 +188,9 @@ def get_button_one_task(user, id):
                 InlineKeyboardButton( 
                     'X', 
                     callback_data='delitem&purchase&%s' % str(p.id)), 
+                InlineKeyboardButton( 
+                    str(p.id), 
+                    callback_data='show&purchase&'+str(p.id)),
                 InlineKeyboardButton(  
                     '%s - %s - %s' % (p.summ, p.datetime, seller_name), 
                     callback_data='show&purchase&'+str(p.id)),

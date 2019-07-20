@@ -117,8 +117,9 @@ def show_purchase_item(user, id):
         category_name = purchase.category.name
     if purchase.seller:
         seller_name = purchase.seller.name
-    text = _('Date Time: %(datetime)s\nSumma: %(summ)s\nSeller: %(seller)s\nCategory: %(cat)s\nUser: %(user)s') % ( 
-            {'datetime':purchase.datetime, 
+    text = _('ID: %(id)s\nDate Time: %(datetime)s\nSumma: %(summ)s\nSeller: %(seller)s\nCategory: %(cat)s\nUser: %(user)s') % ( 
+            {'id':purchase.id, 
+            'datetime':purchase.datetime, 
             'summ':purchase.summ, 
             'seller':seller_name, 
             'cat':category_name, 
