@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import gettext
 dict_months = {
                     1: _('January'), 
                     2: _('Februrary'), 
