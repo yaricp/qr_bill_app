@@ -166,7 +166,38 @@ def get_button_categories(user, id_item, type_item):
     menu.append([new_button])
     keyboard = InlineKeyboardMarkup(menu)
     return keyboard
+    
 
+def get_button_one_task(user, id):
+    p = Purchase.get_or_none(user=user, id=id)
+    buttons = []
+    if p.seller_id:
+        try:
+            sel = Seller.get(id = p.seller_id)
+            seller_name = sel.name
+        except:
+            print('seller not found!')
+    buttons.append([
+                InlineKeyboardButton( 
+                    'X', 
+                    callback_data='delitem&purchase&%s' % str(p.id)), 
+                InlineKeyboardButton(  
+                    '%s - %s - %s' % (p.summ, p.datetime, seller_name), 
+                    callback_data='show&purchase&'+str(p.id)),
+                InlineKeyboardButton( 
+                    _('Pic'), 
+                    callback_data='show_picture&purchase&%s' % str(p.id)), 
+                
+                ])
+    new_button = InlineKeyboardButton(  
+        _('Menu'),
+        callback_data='/menu')
+    buttons.append([new_button])
+    keyboard = InlineKeyboardMarkup(buttons)
+    
+    return keyboard
+    
+    
 
 def get_button_list_purchase(user):
     purchases = Purchase.select().where(Purchase.user == user).order_by(Purchase.id.desc()).paginate(1, 10)

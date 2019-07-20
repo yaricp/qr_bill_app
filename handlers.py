@@ -114,6 +114,18 @@ def list_purchase(bot, update):
     keyboard = get_button_list_purchase(user)
     update.message.reply_text(  text=_('List Purchases'),
                                 reply_markup=keyboard)
+                                
+                                
+@is_not_bot()
+@is_allowed_user()
+@lang()
+def purchase(bot, update, args):
+    user = update.message.from_user.id
+    id = args[0]
+    keyboard = get_button_one_task(user, id)
+    update.message.reply_text(  text=_('Purchase'),
+                                reply_markup=keyboard)
+                                
 
 @is_not_bot()                                
 @is_allowed_user()

@@ -12,6 +12,7 @@ from handlers import (  new_category,
                         new_msg, 
                         new_seller, 
                         list_purchase,
+                        purchase, 
                         list_seller,
                         list_category,
                         button, 
@@ -60,6 +61,9 @@ def main():
     
     list_purchase_handler = CommandHandler('purchases', list_purchase)
     dispatcher.add_handler(list_purchase_handler)
+    
+    purchase_handler = CommandHandler('purchase', purchase)
+    dispatcher.add_handler(purchase_handler)
     
     list_seller_handler = CommandHandler('sellers', list_seller)
     dispatcher.add_handler(list_seller_handler)
