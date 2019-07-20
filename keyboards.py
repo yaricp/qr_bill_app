@@ -407,5 +407,9 @@ def get_button_purchases_by(user, name, by_what, month=None):
                     _('Pic'), 
                     callback_data='show_picture&purchase&%s' % str(p.id)))
         buttons.append(rows)
+    new_button = InlineKeyboardButton(  
+        _('Menu'),
+        callback_data='/menu')
+    buttons.append([new_button])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
