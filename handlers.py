@@ -9,7 +9,7 @@ from models.purchase import Purchase
 from views import *
 from recognize import *
 from decorators import *
-from utils import dict_months
+from utils import *
 
 
 
@@ -487,7 +487,7 @@ def private_actions(bot, update):
     if len(list_parameters) > 2:
         list_action = ['/by_category', '/by_category']
         if action in list_action:
-            month = list_parameters[2]
+            month = get_month(int(list_parameters[2]))
             if action == '/by_category':
                 text = _('By Category %s and month: %s') %  (list_parameters[1], month)  
                 keyboard = get_button_purchases_by(user, list_parameters[1], 'Category', list_parameters[2])

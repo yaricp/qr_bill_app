@@ -9,7 +9,7 @@ from models.purchase import Purchase
 from models.user import User
 
 from config import *
-from utils import dict_months
+from utils import *
 
 
 def get_button_main():
@@ -342,7 +342,7 @@ def get_button_order_by(user, type_c):
     rows.append(InlineKeyboardButton( c_name, callback_data='-' ))
     
     for m in (month_now-2, month_now-1, month_now):
-        rows.append(InlineKeyboardButton( dict_months[m], callback_data='-' ))
+        rows.append(InlineKeyboardButton( get_month(m), callback_data='-' ))
     buttons.append(rows)
     for c in list_by_for:
         rows = []

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-import gettext, sys
-dict_months = {
+from decorators import *
+
+def get_month(m):
+    dict_months = {
                     1: _('January'), 
                     2: _('Februrary'), 
                     3: _('March'), 
@@ -14,3 +16,4 @@ dict_months = {
                     11: _('November'), 
                     12: _('December')
                     }
+    return dict_month[m]
