@@ -171,19 +171,13 @@ def get_button_categories(user, id_item, type_item):
 def get_button_one_task(user, id):
     p = Purchase.get_or_none(user=user, id=id)
     buttons = []
-    print('p.datetime: ',  p.datetime)
-    print('p.seller: ', p.seller)
-    print('p.actegory: ', p.category)
-    
     seller_name = 'None'
     if p.seller:
         try:
             sel = Seller.get_or_none(id = p.seller_id)
             seller_name = sel.name
-            print('seller_name: ', seller_name)
         except:
             print('seller not found!')
-    print('p.summ: ', p.summ)
     buttons.append([
                 InlineKeyboardButton( 
                     'X', 
@@ -348,12 +342,14 @@ def get_button_order_by(user, type_c):
     if type_c == 'seller':
         list_by_for = Seller.select().where(Seller.user==user)
         by_for_field = Purchase.seller
-        c_name = 'Seller'
+        c_name = _('Seller')
+        arg_commang_what = 'Seller'
         command = '/by_seller'
     else:
         list_by_for = Category.select().where(Category.user==user)
         by_for_field = Purchase.category
-        c_name = 'Category'
+        c_name = _('Category')
+        arg_commang_what = 'Category'
         command = '/by_category'
     rows.append(InlineKeyboardButton( c_name, callback_data='-' ))
     
@@ -365,7 +361,7 @@ def get_button_order_by(user, type_c):
         c_name = '-'
         if c.name:
             c_name = c.name
-        rows.append(InlineKeyboardButton( c_name, callback_data='%s&%s' % (command, c_name) ))
+        rows.append(InlineKeyboardButton( c_name, callback_data='%s&%s' % (command, arg_commang_what) ))
         for m in (month_now-2, month_now-1, month_now):
             month = str(m)
             if m < 10:
@@ -397,7 +393,7 @@ def get_button_purchases_by(user, name, by_what, month=None):
     if month:
         if int(month) < 10:
             month = '0'+month
-        print('month: ', month)
+        #print('month: ', month)
         purchases = (Purchase.select()
                 .where(Purchase.user==user, by_field==obj, fn.strftime('%m', Purchase.datetime)==month)
                 .order_by(Purchase.id.desc())

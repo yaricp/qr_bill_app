@@ -616,3 +616,45 @@ msgstr "Удалено"
 
 msgid "Purchase"
 msgstr "Покупка"
+
+msgid "Category"
+msgstr "Категория"
+
+msgid "Seller"
+msgstr "Продавец"
+
+msgid "January"
+msgstr "Январь"
+
+msgid "Februrary"
+msgstr "Февраль"
+
+msgid "March"
+msgstr "Март"
+
+msgid "April"
+msgstr "Апрель"
+
+msgid "May"
+msgstr "Май"
+
+msgid "June"
+msgstr "Июнь"
+
+msgid "July"
+msgstr "Июль"
+
+msgid "August"
+msgstr "Август"
+
+msgid "September"
+msgstr "Сентябрь"
+
+msgid "Oktober"
+msgstr "Октябрь"
+
+msgid "November"
+msgstr "Ноябрь"
+
+msgid "December"
+msgstr "Декабрь"
