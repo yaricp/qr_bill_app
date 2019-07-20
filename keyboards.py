@@ -9,6 +9,7 @@ from models.purchase import Purchase
 from models.user import User
 
 from config import *
+from utils import *
 
 
 def get_button_main():
@@ -322,20 +323,7 @@ def get_button_confirm(id):
     
 
 def get_button_order_by(user, type_c):
-    dict_months = {
-                    1: _('January'), 
-                    2: _('Februrary'), 
-                    3: _('March'), 
-                    4: _('April'), 
-                    5: _('May'), 
-                    6: _('June'), 
-                    7: _('July'), 
-                    8: _('August'), 
-                    9: _('September'), 
-                    10: _('Oktober'), 
-                    11: _('November'), 
-                    12: _('December')
-                    }
+    
     month_now = datetime.now().month
     buttons = [] 
     rows = []
