@@ -6,7 +6,7 @@ from config import *
 
 def is_allowed_user():
     def wrap(f):
-        def wrapped_f(*args):
+        def wrapped_f(*args, **kwargs):
             obj = None
             if args[1].message:
                 obj = args[1].message
@@ -16,7 +16,7 @@ def is_allowed_user():
                 user_id = obj.from_user.id
                 user = User.get_or_none(User.tg_user_id==user_id)
                 if user and user.is_active:
-                    f(*args)
+                    f(*args, **kwargs)
                 else:
                     if args[1].callback_query:
                         args[1].callback_query.answer('Sorry! you need to register. Use /start for this.')
@@ -28,7 +28,7 @@ def is_allowed_user():
     
 def is_admin():
     def wrap(f):
-        def wrapped_f(*args):
+        def wrapped_f(*args, **kwargs):
             obj = None
             if args[1].message:
                 obj = args[1].message
@@ -36,7 +36,7 @@ def is_admin():
                 obj = args[1].callback_query
             if obj:
                 if obj.from_user.first_name in admins:
-                    f(*args)
+                    f(*args, **kwargs)
                 else:
                     if args[1].callback_query:
                         args[1].callback_query.answer('Sorry! you are not admin...')
@@ -48,7 +48,7 @@ def is_admin():
 
 def is_not_bot():
     def wrap(f):
-        def wrapped_f(*args):
+        def wrapped_f(*args, **kwargs):
             obj = None
             if args[1].message:
                 obj = args[1].message
@@ -56,14 +56,14 @@ def is_not_bot():
                 obj = args[1].callback_query
             if obj:
                 if not obj.from_user.is_bot:
-                    f(*args)
+                    f(*args, **kwargs)
         return wrapped_f
     return wrap
     
 
 def lang():
     def wrap(f):
-        def wrapped_f(*args):
+        def wrapped_f(*args, **kwargs):
             obj = None
             if args[1].message:
                 obj = args[1].message
@@ -79,7 +79,7 @@ def lang():
                                                 localedir='lang', 
                                                 languages=[lang])
                 lang_user.install()
-                f(*args)
+                f(*args, **kwargs)
         return wrapped_f
     return wrap
     
