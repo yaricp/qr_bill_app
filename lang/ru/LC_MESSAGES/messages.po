@@ -663,4 +663,4 @@ msgid "summs by categories and months"
 msgstr "суммарно по категориям и месяцам"
 
 msgid "summs by sellers and months"
-msgstr "суммарно по кпродавцам и месяцам"
+msgstr "суммарно по продавцам и месяцам"
