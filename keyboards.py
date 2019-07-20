@@ -171,13 +171,19 @@ def get_button_categories(user, id_item, type_item):
 def get_button_one_task(user, id):
     p = Purchase.get_or_none(user=user, id=id)
     buttons = []
+    print('p.datetime: ',  p.datetime)
+    print('p.seller: ', p.seller)
+    print('p.actegory: ', p.category)
+    
     seller_name = 'None'
     if p.seller:
         try:
             sel = Seller.get_or_none(id = p.seller_id)
             seller_name = sel.name
+            print('seller_name: ', seller_name)
         except:
             print('seller not found!')
+    print('p.summ: 'p.summ)
     buttons.append([
                 InlineKeyboardButton( 
                     'X', 

@@ -13,6 +13,7 @@ from handlers import (  new_category,
                         new_seller, 
                         list_purchase,
                         purchase, 
+                        del_purchase, 
                         list_seller,
                         list_category,
                         button, 
@@ -64,6 +65,9 @@ def main():
     
     purchase_handler = CommandHandler('purchase', purchase, pass_args=True)
     dispatcher.add_handler(purchase_handler)
+    
+    del_purchase_handler = CommandHandler('del_purchase', del_purchase, pass_args=True)
+    dispatcher.add_handler(del_purchase_handler)
     
     list_seller_handler = CommandHandler('sellers', list_seller)
     dispatcher.add_handler(list_seller_handler)

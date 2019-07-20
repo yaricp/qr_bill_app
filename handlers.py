@@ -126,6 +126,18 @@ def purchase(bot, update, args):
     update.message.reply_text(  text=_('Purchase'),
                                 reply_markup=keyboard)
                                 
+                                
+@is_not_bot()
+@is_allowed_user()
+@lang()
+def del_purchase(bot, update, args):
+    user = update.message.from_user.id
+    id = args[0]
+    text = delete_item(user, 'purchase', id):
+    keyboard = get_button_menu(user_id)
+    update.message.reply_text(  text=text,
+                                reply_markup=keyboard)
+
 
 @is_not_bot()                                
 @is_allowed_user()
