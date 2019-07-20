@@ -9,7 +9,7 @@ from models.purchase import Purchase
 from models.user import User
 
 from config import *
-from utils import *
+from utils import dict_months
 
 
 def get_button_main():

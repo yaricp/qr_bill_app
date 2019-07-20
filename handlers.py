@@ -9,7 +9,7 @@ from models.purchase import Purchase
 from views import *
 from recognize import *
 from decorators import *
-from utils import *
+from utils import dict_months
 
 
 
