@@ -177,29 +177,30 @@ def parse_text(text):
     
 def get_datetime_from_string(text_date):
     date_time = None
-    dict_matches = {
-                    1: '%Y-%m-%d', 
-                    2: '%Y/%m/%d', 
-                    3: '%Y.%m.%d', 
-                    4: '%d-%m-%Y', 
-                    5: '%d/%m/%Y',
-                    6: '%d.%m.%Y', 
-                    7: '%m-%d-%Y', 
-                    8: '%m/%d/%Y',
-                    9: '%m.%d.%Y',
-                    10: '%y-%m-%d', 
-                    11: '%y/%m/%d', 
-                    12: '%y.%m.%d', 
-                    13: '%d-%m-%y', 
-                    14: '%d/%m/%y',
-                    15: '%d.%m.%y', 
-                    16: '%m-%d-%y', 
-                    17: '%m/%d/%y',
-                    18: '%m.%d.%y'
-                    }
-    for k, v in dict_matches.items():
+    matches = [
+                '%d.%m.%Y',
+                '%d-%m-%Y', 
+                '%d/%m/%Y',
+                '%Y-%m-%d', 
+                '%Y/%m/%d', 
+                '%Y.%m.%d', 
+                '%m-%d-%Y', 
+                '%m/%d/%Y',
+                '%m.%d.%Y',
+                '%y-%m-%d', 
+                '%y/%m/%d', 
+                '%y.%m.%d', 
+                '%d-%m-%y', 
+                '%d/%m/%y',
+                '%d.%m.%y', 
+                '%m-%d-%y', 
+                '%m/%d/%y',
+                '%m.%d.%y'
+                    ]
+    for v in matches:
         try:
             date_time = datetime.strptime(text_date, v)
+            break
         except:
             print('error type: ', v)
     return date_time
