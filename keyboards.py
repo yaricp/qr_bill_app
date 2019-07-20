@@ -183,7 +183,7 @@ def get_button_one_task(user, id):
             print('seller_name: ', seller_name)
         except:
             print('seller not found!')
-    print('p.summ: 'p.summ)
+    print('p.summ: ', p.summ)
     buttons.append([
                 InlineKeyboardButton( 
                     'X', 
