@@ -444,6 +444,7 @@ def private_actions(bot, update):
     
     if len(list_parameters) > 1:
         action = list_parameters[0]
+        
         print('action: ',  action)
         keyboard = get_button_main()
         if action == 'lang':
@@ -455,8 +456,8 @@ def private_actions(bot, update):
             text = 'By Seller: %s' %  list_parameters[1] #show_purchases_by(user, list_parameters[1], 'Seller')
             keyboard = get_button_purchases_by(user, list_parameters[1], 'Seller')
     if len(list_parameters) > 2:
-        list_action = ['user', 'new_category', 'new_seller', 'show', 'activate', 'block', 'delitem', 'show_picture']
-        if action not in list_action:
+        list_action = ['/by_category', '/by_category']
+        if action in list_action:
             if action == '/by_category':
                 text = 'By Category %s and month: %s' %  (list_parameters[1], list_parameters[2])  
                 keyboard = get_button_purchases_by(user, list_parameters[1], 'Category', list_parameters[2])
@@ -466,17 +467,16 @@ def private_actions(bot, update):
         else:
             type_obj = list_parameters[1]
             id_obj = list_parameters[2]
-            
             if type_obj =='user':
                 obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj)
             else:
                 obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj, 
                                             dict_types[type_obj].user==user )
+            print(type(obj))
             if action == 'new_category':
                 text = show_new_category(user, type=type_obj, obj_id=id_obj)
             elif action == 'new_seller':
                 text = show_new_seller(user, purchase_id=id_obj)
-            
             elif action == 'show':
                 if type_obj == 'purchase':
                     keyboard = get_button_categories(user, id_obj, type_obj)
@@ -526,7 +526,6 @@ def private_actions(bot, update):
                     caption=text, 
                     reply_markup=keyboard)
                 return True
-        
     if len(list_parameters) > 3:
         id_link_obj = list_parameters[3]
         
