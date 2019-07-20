@@ -363,6 +363,10 @@ def get_button_order_by(user, type_c):
             else: summ = '-'
             rows.append(InlineKeyboardButton( summ, callback_data='%s&%s&%s' % (command, c_name, m) ))
         buttons.append(rows)
+    new_button = InlineKeyboardButton(  
+        _('Menu'),
+        callback_data='/menu')
+    buttons.append([new_button])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
     
