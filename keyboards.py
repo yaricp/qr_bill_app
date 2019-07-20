@@ -357,7 +357,7 @@ def get_button_order_by(user, type_c):
                 
                 
             if c.id == 15 and month =='07':
-                for p in Purchase.select().where(Purchase.user==user,):
+                for p in Purchase.select().where(by_for_field==c, Purchase.user==user):
                     print('select:', p)
                     print('Summ: ', p.summ)
                 
