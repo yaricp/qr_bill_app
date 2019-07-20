@@ -92,7 +92,7 @@ def show_order_by(user, type_c):
     for r in table_rows:
         for c in r:
             
-            print(dict_column_size[count_r])
+            #print(dict_column_size[count_r])
             if count_r == 0:
                 text += c.ljust(dict_column_size[count_r]) + '|'
             else:
@@ -104,7 +104,7 @@ def show_order_by(user, type_c):
         count_r = 0
         count_c +=1
     #text += '</pre>'
-    print(text)
+    #print(text)
     return text
                     
                                        
@@ -345,14 +345,14 @@ def show_donate_link_ru():
     
 def show_purchases_by(user, name, by_what):
     text = ''
-    print('name: ', name)
+    #print('name: ', name)
     if by_what == 'Category':
         obj = Category.get_or_none(name=name)
         by_field = Purchase.category
     else:
         obj = Seller.get_or_none(name=name)
         by_field = Purchase.seller
-    print('obj: ', obj)
+    #print('obj: ', obj)
     purchases = (Purchase.select()
                 .where(Purchase.user==user, by_field==obj)
                 .order_by(Purchase.id.desc())

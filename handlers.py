@@ -263,7 +263,7 @@ def new_msg(bot, update):
                 reply_markup=keyboard)
     elif update.message.video:
         nrows = Wait.delete().where(Wait.user == user).execute()
-        print(update.message.video.__dict__)
+        #print(update.message.video.__dict__)
         video_file_id = update.message.video.file_id
         video = bot.getFile(video_file_id)
         new_file = bot.get_file(video.file_id)
@@ -461,8 +461,8 @@ def private_actions(bot, update):
     elif but_data == '/categories':
         keyboard = get_button_list_categories(user)
         text = _('List categories')
-        print('Categories')
-        print(keyboard)
+        #print('Categories')
+        #print(keyboard)
     elif but_data == '/sellers':
         keyboard = get_button_list_sellers(user)
         text = _('List sellers')
