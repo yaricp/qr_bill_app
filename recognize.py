@@ -162,7 +162,7 @@ def parse_text(text):
     
     list = text.split(' ')
     if len(list) > 1:
-        return get_datetime_from_string(list[0]), list[1]
+        return get_datetime_from_string(list[0]), get_decimal_or_none(list[1])
     list = text.split('&')
     if len(list) > 1:
         temp_datetime = '%Y%m%dT%H%M'
@@ -170,7 +170,8 @@ def parse_text(text):
         if len(str_date_time.split('T')[1]) == 6:
             temp_datetime = '%Y%m%dT%H%M%S'
         date_time = datetime.strptime(str_date_time, temp_datetime)
-        summ = float(list[1].replace('s=', ''))
+        #summ = float(list[1].replace('s=', ''))
+        summ = get_decimal_or_none(list[1].replace('s=', ''))
     return date_time,  summ
     
     
@@ -202,6 +203,13 @@ def get_datetime_from_string(text_date):
         except:
             print('error type: ', v)
     return date_time
+    
+    
+def get_decimal_or_none(text):
+    result = None
+    from decimal import Decimal
+    result = [Decimal(x.strip(' "')) for x in text]
+    return result
     
     
 if __name__ == "__main__":
