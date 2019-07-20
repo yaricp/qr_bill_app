@@ -321,6 +321,7 @@ def new_msg(bot, update):
             date_time, summ = parse_text(update.message.text)
     if date_time and summ:
         print('datetime: ', date_time )
+        print('summ: ', summ)
         check_p = Purchase.select().where(Purchase.summ==summ,
                                 Purchase.datetime==date_time, 
                                 Purchase.user==user)
