@@ -16,4 +16,4 @@ def get_month(m):
                     11: _('November'), 
                     12: _('December')
                     }
-    return dict_month[m]
+    return dict_months[m]
