@@ -372,11 +372,11 @@ def new_msg(bot, update):
                 keyboard = get_button_confirm(pur.id)
                 pur.confirm = False
                 pur.save()
-            print('123123')
-            keyboard = get_button_geo(user, pur.id)
-            update.message.reply_text(  _('what is location?'), 
-                                reply_markup=keyboard)
-            return LOCATION
+#            print('123123')
+#            keyboard = get_button_geo(user, pur.id)
+#            update.message.reply_text(  _('what is location?'), 
+#                                reply_markup=keyboard)
+#            return LOCATION
         else:
             text = _('ATTANTION!\nIts looks like:\n')
             text += show_purchase_item(user, check_p[0].id)
