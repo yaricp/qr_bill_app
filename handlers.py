@@ -235,6 +235,20 @@ def by_category(bot, update):
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard, 
                                 parse_mode=ParseMode.HTML )
+
+                                
+@is_not_bot()    
+@is_allowed_user()
+@lang()
+def location(bot, update):
+    user = update.message.from_user
+    user_location = update.message.location
+    logger.info("Location of %s: %f / %f", user.first_name, user_location.latitude,
+                user_location.longitude)
+    update.message.reply_text('Maybe I can visit you sometime! '
+                              'At last, tell me something about yourself.')
+
+    return END
     
 
 @is_not_bot()    

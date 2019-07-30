@@ -27,7 +27,8 @@ from handlers import (  new_category,
                         menu, 
                         start, 
                         change_lang, 
-                        langs)
+                        langs, 
+                        location)
 
 from config import *
 
