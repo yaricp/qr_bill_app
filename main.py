@@ -50,7 +50,8 @@ def main():
                     MessageHandler(Filters.photo, new_msg)
                     ],
         states={
-            LOCATION: [ MessageHandler(Filters.location, location) ],
+            LOCATION: [ MessageHandler(Filters.location, location), 
+                        CommandHandler('location', location)],
         },
         fallbacks=[CommandHandler('cancel', cancel)], 
         allow_reentry = True
