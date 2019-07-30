@@ -20,12 +20,16 @@ def get_button_main():
     return keyboard
     
     
-def get_button_geo():
+def get_button_geo(user, id):
+    p = Purchase.get_or_none(user=user, id=id)
+    text = ''
+    if p:
+        text = str(p.id)
     new_button = InlineKeyboardButton(  
         _('Location'),
         request_location=True, 
-        callback_data='/location')
-    keyboard = InlineKeyboardMarkup([[new_button]])
+        callback_data='location&%s' % text)
+    keyboard = ReplyKeyboardMarkup([[new_button]])
     return keyboard
     
 

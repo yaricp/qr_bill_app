@@ -373,7 +373,7 @@ def new_msg(bot, update):
                 pur.confirm = False
                 pur.save()
             print('123123')
-            keyboard = get_button_geo()
+            keyboard = get_button_geo(user, pur.id)
             update.message.reply_text(  _('what is location?'), 
                                 reply_markup=keyboard)
             return LOCATION
