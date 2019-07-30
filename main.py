@@ -28,7 +28,8 @@ from handlers import (  new_category,
                         start, 
                         change_lang, 
                         langs, 
-                        location)
+                        location, 
+                        cancel)
 
 from config import *
 

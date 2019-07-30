@@ -2,6 +2,7 @@
 import time
 
 from telegram import ParseMode
+from telegram.ext import ConversationHandler
 
 from config import *
 from models.wait import Wait
@@ -248,7 +249,16 @@ def location(bot, update):
     update.message.reply_text('Maybe I can visit you sometime! '
                               'At last, tell me something about yourself.')
 
-    return END
+    return ConversationHandler.END
+    
+    
+def cancel(update, context):
+    user = update.message.from_user
+    logger.info("User %s canceled the conversation.", user.first_name)
+    update.message.reply_text('Bye! I hope we can talk again some day.',
+                              reply_markup=ReplyKeyboardRemove())
+
+    return ConversationHandler.END
     
 
 @is_not_bot()    
