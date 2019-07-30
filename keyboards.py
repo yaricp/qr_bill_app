@@ -19,6 +19,15 @@ def get_button_main():
     keyboard = InlineKeyboardMarkup([[new_button]])
     return keyboard
     
+    
+def get_button_geo():
+    new_button = InlineKeyboardButton(  
+        _('Location'),
+        request_location=True, 
+        callback_data='/location')
+    keyboard = InlineKeyboardMarkup([[new_button]])
+    return keyboard
+    
 
 def get_button_register():
     yes_button = InlineKeyboardButton(  

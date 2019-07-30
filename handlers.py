@@ -326,6 +326,7 @@ def new_msg(bot, update):
         check_p = Purchase.select().where(Purchase.summ==summ,
                                 Purchase.datetime==date_time, 
                                 Purchase.user==user)
+        print('check_p: ', check_p)
         if not check_p:
             confirm = True
             pur = Purchase(name='', 
@@ -347,6 +348,11 @@ def new_msg(bot, update):
                 keyboard = get_button_confirm(pur.id)
                 pur.confirm = False
                 pur.save()
+            print('123123')
+            keyboard = get_button_geo()
+            update.message.reply_text(  _('what is location?'), 
+                                reply_markup=keyboard)
+            return LOCATION
         else:
             text = _('ATTANTION!\nIts looks like:\n')
             text += show_purchase_item(user, check_p[0].id)

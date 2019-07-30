@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from decorators import *
 
+GENDER, PHOTO, LOCATION, BIO = range(4)
+
 def get_month(m):
     dict_months = {
                     1: _('January'), 
@@ -17,3 +19,5 @@ def get_month(m):
                     12: _('December')
                     }
     return dict_months[m]
+    
+    
