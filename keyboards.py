@@ -28,7 +28,7 @@ def get_button_geo(user, id):
     new_button = KeyboardButton(  
         _('Location'),
         request_location=True)
-    keyboard = InlineKeyboardMarkup([[new_button]])
+    keyboard = ReplyKeyboardMarkup([[new_button]])
     return keyboard
     
 
