@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from telegram import (InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup)
+from telegram import (InlineKeyboardMarkup, KeyboardButton, InlineKeyboardButton, ReplyKeyboardMarkup)
 
 
 from models.seller import Seller
@@ -25,11 +25,10 @@ def get_button_geo(user, id):
     text = ''
     if p:
         text = str(p.id)
-    new_button = InlineKeyboardButton(  
+    new_button = KeyboardButton(  
         _('Location'),
-        request_location=True, 
-        callback_data='location&%s' % text)
-    keyboard = ReplyKeyboardMarkup([[new_button]])
+        request_location=True)
+    keyboard = InlineKeyboardMarkup([[new_button]])
     return keyboard
     
 
