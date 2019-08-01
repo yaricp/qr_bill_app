@@ -50,7 +50,7 @@ def main():
                     MessageHandler(Filters.photo, new_msg)
                     ],
         states={
-            LOCATION: [ MessageHandler(Filters.all, location), 
+            LOCATION: [ MessageHandler(Filters.location, location), 
                         CommandHandler('menu', menu)],
         },
         fallbacks=[CommandHandler('cancel', cancel)], 
