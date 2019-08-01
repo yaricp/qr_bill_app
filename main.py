@@ -45,18 +45,18 @@ def main():
     updater = Updater(TOKEN, request_kwargs=REQUEST_KWARGS)
     dispatcher = updater.dispatcher
     
-#    new_photo_handler = ConversationHandler(
-#        entry_points=[
-#                    MessageHandler(Filters.photo, new_msg)
-#                    ],
-#        states={
-#            LOCATION: [ MessageHandler(Filters.location, location), 
-#                        CommandHandler('location', location)],
-#        },
-#        fallbacks=[CommandHandler('cancel', cancel)], 
-#        allow_reentry = True
-#    )
-#    dispatcher.add_handler(new_photo_handler)
+    new_photo_handler = ConversationHandler(
+        entry_points=[
+                    MessageHandler(Filters.photo, new_msg)
+                    ],
+        states={
+            LOCATION: [ MessageHandler(Filters.location, location), 
+                        CommandHandler('location', location)],
+        },
+        fallbacks=[CommandHandler('cancel', cancel)], 
+        allow_reentry = True
+    )
+    dispatcher.add_handler(new_photo_handler)
     
     start_handler = CommandHandler('start', start)
     dispatcher.add_handler(start_handler)
@@ -109,7 +109,7 @@ def main():
     donate_handler = CommandHandler('donate', donate)
     dispatcher.add_handler(donate_handler)
     
-    new_msg_handler = MessageHandler(Filters.all, new_msg)
+    new_msg_handler = MessageHandler(Filters.text, new_msg)
     dispatcher.add_handler(new_msg_handler)
 
     updater.dispatcher.add_handler(CallbackQueryHandler(button))
