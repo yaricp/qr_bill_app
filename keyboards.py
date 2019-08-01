@@ -26,7 +26,7 @@ def get_button_geo(user, id):
     if p:
         text = str(p.id)
     new_button = KeyboardButton(  
-        _('Location'),
+        ('Location'),
         request_location=True)
     keyboard = ReplyKeyboardMarkup([[new_button]])
     return keyboard
