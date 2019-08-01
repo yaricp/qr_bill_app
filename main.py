@@ -11,6 +11,8 @@ from utils import *
 
 from handlers import (  new_category, 
                         new_msg, 
+                        new_photo,
+                        new_text,  
                         new_seller, 
                         list_purchase,
                         purchase, 
@@ -44,19 +46,19 @@ def main():
 
     updater = Updater(TOKEN, request_kwargs=REQUEST_KWARGS)
     dispatcher = updater.dispatcher
-    print('LOCATION: ', LOCATION)
-    new_photo_handler = ConversationHandler(
-        entry_points=[
-                    MessageHandler(Filters.photo, new_msg)
-                    ],
-        states={
-            LOCATION: [ MessageHandler(Filters.location, location), 
-                        CommandHandler('menu', menu)],
-        },
-        fallbacks=[CommandHandler('cancel', cancel)], 
-        allow_reentry = True
-    )
-    dispatcher.add_handler(new_photo_handler)
+#    print('LOCATION: ', LOCATION)
+#    new_photo_handler = ConversationHandler(
+#        entry_points=[
+#                    MessageHandler(Filters.photo, new_msg)
+#                    ],
+#        states={
+#            LOCATION: [ MessageHandler(Filters.location, location), 
+#                        CommandHandler('menu', menu)],
+#        },
+#        fallbacks=[CommandHandler('cancel', cancel)], 
+#        allow_reentry = True
+#    )
+#    dispatcher.add_handler(new_photo_handler)
     
     start_handler = CommandHandler('start', start)
     dispatcher.add_handler(start_handler)
@@ -111,6 +113,9 @@ def main():
     
     new_msg_handler = MessageHandler(Filters.text, new_msg)
     dispatcher.add_handler(new_msg_handler)
+    
+    new_photo_handler = MessageHandler(Filters.photo, new_photo)
+    dispatcher.add_handler(new_photo_handler)
 
     updater.dispatcher.add_handler(CallbackQueryHandler(button))
 

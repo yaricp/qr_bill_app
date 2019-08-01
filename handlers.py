@@ -260,90 +260,79 @@ def cancel(update, context):
 
     return ConversationHandler.END
     
-
+    
 @is_not_bot()    
 @is_allowed_user()
 @lang()
-def new_msg(bot, update):
-    wait_command = None
+def new_photo(bot, update):
     date_time = None
     summ = None
     raw = None
     photo_file_id = ''
     user = update.message.from_user.id
+    
+    nrows = Wait.delete().where(Wait.user == user).execute()
+    photo_file_id = update.message.photo[-1].file_id
+    foto = bot.getFile(photo_file_id)
+    new_file = bot.get_file(foto.file_id)
+    new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
+    date_time, summ, raw = scan(image=True, video=False)
+    reply_to_new(date_time, summ)
+    
+    
+@is_not_bot()    
+@is_allowed_user()
+@lang()
+def new_text(bot, update):
+    date_time = None
+    summ = None
+    raw = None
+    photo_file_id = ''
+    user = update.message.from_user.id
+    
+    query = Wait.select().where(Wait.user == user)
+    if query.exists():
+        wait_command = Wait.get(user=user).command
+    if wait_command:
+        splitted_wait_command = wait_command.split('&')
+        command = splitted_wait_command[0]
+        if command == 'new_category':
+            text = create_category(  user, 
+                                    update.message.text)
+        elif command == 'new_seller':
+            text = create_seller(  user, 
+                                    update.message.text)
+        elif command == 'new_seller_purchase':
+            purchase_id = splitted_wait_command[1]
+            text = create_seller(user, 
+                                update.message.text,
+                                purchase_id=purchase_id
+                                )
+            keyboard = get_button_sellers(user, purchase_id)
+        elif command == 'new_category_purchase':
+            purchase_id = splitted_wait_command[1]
+            text = create_category( user, 
+                                    update.message.text, 
+                                    purchase_id=purchase_id)
+            keyboard = get_button_sellers(user, purchase_id)
+        elif command == 'new_category_seller':
+            seller_id = splitted_wait_command[1]
+            text = create_category( user, 
+                                    update.message.text, 
+                                    seller_id=seller_id)
+            keyboard = get_button_categories(user, seller_id, 'seller')
+        nrows = Wait.delete().where(Wait.user == user).execute()
+        update.message.reply_text(  text, 
+                            reply_markup=keyboard)
+        return True
+    else:
+        date_time, summ = parse_text(update.message.text)
+    reply_to_new(date_time, summ)
+    
+    
+def reply_to_new(date_time, summ):
     keyboard = get_button_main()
     text = _('summa or datetime not found')
-    if update.message.media_group_id:
-        flag_send = False
-        photo_file_id = update.message.photo[-1].get_file().file_id
-        if not os.path.exists('files/'+update.message.media_group_id+'.txt'):
-            flag_send = True
-        with open('files/'+update.message.media_group_id+'.txt', 'a') as file:
-            file.write(photo_file_id+',')
-        if flag_send:
-            new_caption = update.message.caption.replace('#','')
-            update.message.reply_photo(
-                photo=photo_file_id, 
-                caption="%s # %s" % (new_caption,update.message.media_group_id), 
-                reply_markup=keyboard)
-    elif update.message.video:
-        nrows = Wait.delete().where(Wait.user == user).execute()
-        #print(update.message.video.__dict__)
-        video_file_id = update.message.video.file_id
-        video = bot.getFile(video_file_id)
-        new_file = bot.get_file(video.file_id)
-        new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.mp4'))
-        bot.send_message(
-                        update.message.chat.id,
-                        text=_('Video uploaded.\nPlease wait. \nRecognize video perhaps take some time.'), 
-                        )
-        date_time, summ, raw = scan(image=False, video=True)
-        
-    elif update.message.photo:
-        nrows = Wait.delete().where(Wait.user == user).execute()
-        photo_file_id = update.message.photo[-1].file_id
-        foto = bot.getFile(photo_file_id)
-        new_file = bot.get_file(foto.file_id)
-        new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
-        date_time, summ, raw = scan(image=True, video=False)
-    else:
-        query = Wait.select().where(Wait.user == user)
-        if query.exists():
-            wait_command = Wait.get(user=user).command
-        if wait_command:
-            splitted_wait_command = wait_command.split('&')
-            command = splitted_wait_command[0]
-            if command == 'new_category':
-                text = create_category(  user, 
-                                        update.message.text)
-            elif command == 'new_seller':
-                text = create_seller(  user, 
-                                        update.message.text)
-            elif command == 'new_seller_purchase':
-                purchase_id = splitted_wait_command[1]
-                text = create_seller(user, 
-                                    update.message.text,
-                                    purchase_id=purchase_id
-                                    )
-                keyboard = get_button_sellers(user, purchase_id)
-            elif command == 'new_category_purchase':
-                purchase_id = splitted_wait_command[1]
-                text = create_category( user, 
-                                        update.message.text, 
-                                        purchase_id=purchase_id)
-                keyboard = get_button_sellers(user, purchase_id)
-            elif command == 'new_category_seller':
-                seller_id = splitted_wait_command[1]
-                text = create_category( user, 
-                                        update.message.text, 
-                                        seller_id=seller_id)
-                keyboard = get_button_categories(user, seller_id, 'seller')
-            nrows = Wait.delete().where(Wait.user == user).execute()
-            update.message.reply_text(  text, 
-                                reply_markup=keyboard)
-            return True
-        else:
-            date_time, summ = parse_text(update.message.text)
     if date_time and summ:
         print('datetime: ', date_time )
         print('summ: ', summ)
@@ -372,12 +361,12 @@ def new_msg(bot, update):
                 keyboard = get_button_confirm(pur.id)
                 pur.confirm = False
                 pur.save()
-            print('123123')
-            keyboard = get_button_geo(user, pur.id)
-            update.message.reply_text(  _('what is location?'), 
-                                reply_markup=keyboard)
-            print('return LOCATION: ', LOCATION)
-            return LOCATION
+#            print('123123')
+#            keyboard = get_button_geo(user, pur.id)
+#            update.message.reply_text(  _('what is location?'), 
+#                                reply_markup=keyboard)
+#            print('return LOCATION: ', LOCATION)
+#            return LOCATION
         else:
             text = _('ATTANTION!\nIts looks like:\n')
             text += show_purchase_item(user, check_p[0].id)
@@ -388,7 +377,135 @@ def new_msg(bot, update):
         text += _('12.01.19 123.00')
     update.message.reply_text(  text, 
                                 reply_markup=keyboard)
-            
+    
+#@is_not_bot()    
+#@is_allowed_user()
+#@lang()
+#def new_msg(bot, update):
+#    wait_command = None
+#    date_time = None
+#    summ = None
+#    raw = None
+#    photo_file_id = ''
+#    user = update.message.from_user.id
+#    keyboard = get_button_main()
+#    text = _('summa or datetime not found')
+#    if update.message.media_group_id:
+#        flag_send = False
+#        photo_file_id = update.message.photo[-1].get_file().file_id
+#        if not os.path.exists('files/'+update.message.media_group_id+'.txt'):
+#            flag_send = True
+#        with open('files/'+update.message.media_group_id+'.txt', 'a') as file:
+#            file.write(photo_file_id+',')
+#        if flag_send:
+#            new_caption = update.message.caption.replace('#','')
+#            update.message.reply_photo(
+#                photo=photo_file_id, 
+#                caption="%s # %s" % (new_caption,update.message.media_group_id), 
+#                reply_markup=keyboard)
+#    elif update.message.video:
+#        nrows = Wait.delete().where(Wait.user == user).execute()
+#        #print(update.message.video.__dict__)
+#        video_file_id = update.message.video.file_id
+#        video = bot.getFile(video_file_id)
+#        new_file = bot.get_file(video.file_id)
+#        new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.mp4'))
+#        bot.send_message(
+#                        update.message.chat.id,
+#                        text=_('Video uploaded.\nPlease wait. \nRecognize video perhaps take some time.'), 
+#                        )
+#        date_time, summ, raw = scan(image=False, video=True)
+#        
+#    elif update.message.photo:
+#        nrows = Wait.delete().where(Wait.user == user).execute()
+#        photo_file_id = update.message.photo[-1].file_id
+#        foto = bot.getFile(photo_file_id)
+#        new_file = bot.get_file(foto.file_id)
+#        new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
+#        date_time, summ, raw = scan(image=True, video=False)
+#    else:
+#        query = Wait.select().where(Wait.user == user)
+#        if query.exists():
+#            wait_command = Wait.get(user=user).command
+#        if wait_command:
+#            splitted_wait_command = wait_command.split('&')
+#            command = splitted_wait_command[0]
+#            if command == 'new_category':
+#                text = create_category(  user, 
+#                                        update.message.text)
+#            elif command == 'new_seller':
+#                text = create_seller(  user, 
+#                                        update.message.text)
+#            elif command == 'new_seller_purchase':
+#                purchase_id = splitted_wait_command[1]
+#                text = create_seller(user, 
+#                                    update.message.text,
+#                                    purchase_id=purchase_id
+#                                    )
+#                keyboard = get_button_sellers(user, purchase_id)
+#            elif command == 'new_category_purchase':
+#                purchase_id = splitted_wait_command[1]
+#                text = create_category( user, 
+#                                        update.message.text, 
+#                                        purchase_id=purchase_id)
+#                keyboard = get_button_sellers(user, purchase_id)
+#            elif command == 'new_category_seller':
+#                seller_id = splitted_wait_command[1]
+#                text = create_category( user, 
+#                                        update.message.text, 
+#                                        seller_id=seller_id)
+#                keyboard = get_button_categories(user, seller_id, 'seller')
+#            nrows = Wait.delete().where(Wait.user == user).execute()
+#            update.message.reply_text(  text, 
+#                                reply_markup=keyboard)
+#            return True
+#        else:
+#            date_time, summ = parse_text(update.message.text)
+#    if date_time and summ:
+#        print('datetime: ', date_time )
+#        print('summ: ', summ)
+#        check_p = Purchase.select().where(Purchase.summ==summ,
+#                                Purchase.datetime==date_time, 
+#                                Purchase.user==user)
+#        print('check_p: ', check_p)
+#        if not check_p:
+#            confirm = True
+#            pur = Purchase(name='', 
+#                        datetime=date_time, 
+#                        summ=summ, 
+#                        user=user, 
+#                        pic=photo_file_id,
+#                        confirm=confirm
+#                        )
+#            pur.save()
+#            keyboard = get_button_categories(user, pur.id, 'purchase')
+#            text = show_purchase_item(user, pur.id)
+#            if raw:
+#                text = _('Sorry I not found QR code.\n')
+#                text += _('But I tried to recognize the text and found:\n')
+#                text += _('Date: ' + date_time + '\n')
+#                text += _('Sum: ' + summ + '\n')
+#                text += _('Is it true?\n')
+#                keyboard = get_button_confirm(pur.id)
+#                pur.confirm = False
+#                pur.save()
+#            print('123123')
+#            keyboard = get_button_geo(user, pur.id)
+#            update.message.reply_text(  _('what is location?'), 
+#                                reply_markup=keyboard)
+#            print('return LOCATION: ', LOCATION)
+#            return LOCATION
+#        else:
+#            text = _('ATTANTION!\nIts looks like:\n')
+#            text += show_purchase_item(user, check_p[0].id)
+#            keyboard = get_button_categories(user, check_p[0].id, 'purchase')
+#    else:
+#        text = _('Sorry! I not found nothing\n')
+#        text += _('You can send me date and summ like this:\n')
+#        text += _('12.01.19 123.00')
+#    update.message.reply_text(  text, 
+#                                reply_markup=keyboard)
+#            
 
 @is_not_bot()
 @lang()
