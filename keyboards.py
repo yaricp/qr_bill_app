@@ -14,7 +14,7 @@ from utils import *
 
 def get_button_main():
     new_button = InlineKeyboardButton(  
-        _('Menu'),
+        ('Menu'),
         callback_data='/menu')
     keyboard = InlineKeyboardMarkup([[new_button]])
     return keyboard
