@@ -277,7 +277,7 @@ def new_photo(bot, update):
     new_file = bot.get_file(foto.file_id)
     new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
     date_time, summ, raw = scan(image=True, video=False)
-    reply_to_new(date_time, summ)
+    reply_to_new(date_time, summ, user)
     
     
 @is_not_bot()    
@@ -327,10 +327,10 @@ def new_text(bot, update):
         return True
     else:
         date_time, summ = parse_text(update.message.text)
-    reply_to_new(date_time, summ)
+    reply_to_new(date_time, summ, user)
     
     
-def reply_to_new(date_time, summ):
+def reply_to_new(date_time, summ, user):
     keyboard = get_button_main()
     text = _('summa or datetime not found')
     if date_time and summ:
