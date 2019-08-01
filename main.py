@@ -10,7 +10,7 @@ from init_db import initialize_db
 from utils import *
 
 from handlers import (  new_category, 
-                        new_msg, 
+                        #new_msg, 
                         new_photo,
                         new_text,  
                         new_seller, 
