@@ -286,7 +286,7 @@ def new_photo(bot, update):
 def new_text(bot, update):
     date_time = None
     summ = None
-    raw = None
+    
     photo_file_id = ''
     user = update.message.from_user.id
     
@@ -333,6 +333,7 @@ def new_text(bot, update):
 def reply_to_new(update, date_time, summ, user, photo_file_id=None):
     keyboard = get_button_main()
     text = _('summa or datetime not found')
+    raw = None
     if date_time and summ:
         print('datetime: ', date_time )
         print('summ: ', summ)
