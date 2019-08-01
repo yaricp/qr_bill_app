@@ -51,7 +51,7 @@ def main():
                     ],
         states={
             LOCATION: [ MessageHandler(Filters.location, location), 
-                        CommandHandler('location', location)],
+                        CommandHandler('menu', menu)],
         },
         fallbacks=[CommandHandler('cancel', cancel)], 
         allow_reentry = True

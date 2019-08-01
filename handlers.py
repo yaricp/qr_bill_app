@@ -244,6 +244,7 @@ def by_category(bot, update):
 def location(bot, update):
     user = update.message.from_user
     user_location = update.message.location
+    print('LOCATION!')
     logger.info("Location of %s: %f / %f", user.first_name, user_location.latitude,
                 user_location.longitude)
     update.message.reply_text('Maybe I can visit you sometime! '
