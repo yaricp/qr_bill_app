@@ -286,7 +286,7 @@ def new_photo(bot, update):
 def new_text(bot, update):
     date_time = None
     summ = None
-    
+    wait_command =None
     photo_file_id = ''
     user = update.message.from_user.id
     
