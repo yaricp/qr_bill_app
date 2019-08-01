@@ -16,7 +16,7 @@ def is_allowed_user():
                 user_id = obj.from_user.id
                 user = User.get_or_none(User.tg_user_id==user_id)
                 if user and user.is_active:
-                    f(*args, **kwargs)
+                    return f(*args, **kwargs)
                 else:
                     if args[1].callback_query:
                         args[1].callback_query.answer('Sorry! you need to register. Use /start for this.')
@@ -56,7 +56,7 @@ def is_not_bot():
                 obj = args[1].callback_query
             if obj:
                 if not obj.from_user.is_bot:
-                    f(*args, **kwargs)
+                    return f(*args, **kwargs)
         return wrapped_f
     return wrap
     
@@ -79,7 +79,7 @@ def lang():
                                                 localedir='lang', 
                                                 languages=[lang])
                 lang_user.install()
-                f(*args, **kwargs)
+                return f(*args, **kwargs)
         return wrapped_f
     return wrap
     

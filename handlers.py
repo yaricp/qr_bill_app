@@ -262,9 +262,9 @@ def cancel(update, context):
     return ConversationHandler.END
     
 
-#@is_not_bot()    
-#@is_allowed_user()
-#@lang()
+@is_not_bot()    
+@is_allowed_user()
+@lang()
 def new_msg(bot, update):
     wait_command = None
     date_time = None
@@ -273,7 +273,7 @@ def new_msg(bot, update):
     photo_file_id = ''
     user = update.message.from_user.id
     keyboard = get_button_main()
-    text = ('summa or datetime not found')
+    text = _('summa or datetime not found')
     if update.message.media_group_id:
         flag_send = False
         photo_file_id = update.message.photo[-1].get_file().file_id
@@ -375,7 +375,7 @@ def new_msg(bot, update):
                 pur.save()
             print('123123')
             keyboard = get_button_geo(user, pur.id)
-            update.message.reply_text(  ('what is location?'), 
+            update.message.reply_text(  _('what is location?'), 
                                 reply_markup=keyboard)
             print('return LOCATION: ', LOCATION)
             return LOCATION

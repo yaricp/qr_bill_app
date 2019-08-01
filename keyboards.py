@@ -14,7 +14,7 @@ from utils import *
 
 def get_button_main():
     new_button = InlineKeyboardButton(  
-        ('Menu'),
+        _('Menu'),
         callback_data='/menu')
     keyboard = InlineKeyboardMarkup([[new_button]])
     return keyboard
@@ -26,7 +26,7 @@ def get_button_geo(user, id):
     if p:
         text = str(p.id)
     new_button = KeyboardButton(  
-        ('Location'),
+        _('Location'),
         request_location=True)
     keyboard = ReplyKeyboardMarkup([[new_button]])
     return keyboard
