@@ -330,7 +330,7 @@ def new_text(bot, update):
     reply_to_new(update, date_time, summ, user)
     
     
-def reply_to_new(update, date_time, summ, user, photo_file_id=None):
+def reply_to_new(update, date_time, summ, user, photo_file_id=''):
     keyboard = get_button_main()
     text = _('summa or datetime not found')
     raw = None
