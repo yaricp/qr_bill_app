@@ -111,7 +111,7 @@ def main():
     donate_handler = CommandHandler('donate', donate)
     dispatcher.add_handler(donate_handler)
     
-    new_msg_handler = MessageHandler(Filters.text, new_msg)
+    new_msg_handler = MessageHandler(Filters.text, new_text)
     dispatcher.add_handler(new_msg_handler)
     
     new_photo_handler = MessageHandler(Filters.photo, new_photo)
