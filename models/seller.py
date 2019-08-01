@@ -8,5 +8,5 @@ class Seller(MainModel):
     name = pw.CharField()
     user = pw.CharField()
     category = pw.ForeignKeyField(Category, backref='categories', null=True)
-    longitude = pw.FloatField() #83.256584
-    latitude = pw.FloatField()  #54.838643
+    longitude = pw.FloatField(null=True) #83.256584
+    latitude = pw.FloatField(null=True)  #54.838643
