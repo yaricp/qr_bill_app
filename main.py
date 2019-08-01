@@ -44,7 +44,7 @@ def main():
 
     updater = Updater(TOKEN, request_kwargs=REQUEST_KWARGS)
     dispatcher = updater.dispatcher
-    
+    print('LOCATION: ', LOCATION)
     new_photo_handler = ConversationHandler(
         entry_points=[
                     MessageHandler(Filters.photo, new_msg)

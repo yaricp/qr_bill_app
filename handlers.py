@@ -262,9 +262,9 @@ def cancel(update, context):
     return ConversationHandler.END
     
 
-@is_not_bot()    
-@is_allowed_user()
-@lang()
+#@is_not_bot()    
+#@is_allowed_user()
+#@lang()
 def new_msg(bot, update):
     wait_command = None
     date_time = None
