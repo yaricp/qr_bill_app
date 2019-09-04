@@ -108,7 +108,8 @@ def help(bot, update):
     text = show_help()
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
-    
+
+
 @is_not_bot()
 @is_allowed_user()
 @lang()
