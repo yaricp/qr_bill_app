@@ -100,7 +100,7 @@ def langs(bot, update):
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
 
-    
+
 @is_not_bot()
 @lang()
 def help(bot, update):
