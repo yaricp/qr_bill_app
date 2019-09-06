@@ -117,7 +117,7 @@ def show_purchase_item(user, id):
     seller_name = ''
     if purchase.category:
         category_name = purchase.category.name
-        print('cat: ', category_name)
+        #print('cat: ', category_name)
     if purchase.seller:
         seller_name = purchase.seller.name
     text = _('ID: %(id)s\nDate Time: %(datetime)s\nSumma: %(summ)s\nSeller: %(seller)s\nCategory: %(cat)s\nUser: %(user)s') % ( 
