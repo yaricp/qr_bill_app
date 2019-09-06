@@ -17,7 +17,7 @@ def initialize_db():
                                     is_admin=True, 
                                     paid_datetime=''
                                     )
-    print(admin)
+    #print(admin)
     db.close()
     
 
