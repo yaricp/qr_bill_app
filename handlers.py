@@ -255,6 +255,11 @@ def location(bot, update):
         text = show_purchase_item(user, obj_id)
     else:
         keyboard =  get_button_categories(user, obj_id, type_obj)
+        obj = dict_types[type_obj].get(dict_types[type_obj].id==obj_id, 
+                                            dict_types[type_obj].user==user )
+        obj.longitude = user_location.longitude
+        obj.latitude = user_location.latitude
+        obj.save()
         text = show_seller_item(user, obj_id)
     update.message.reply_text(text=text, 
                         reply_markup=ReplyKeyboardRemove())
