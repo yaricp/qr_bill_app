@@ -342,6 +342,7 @@ def new_text(bot, update):
                                 purchase_id=purchase_id
                                 )
             #keyboard = get_button_sellers(user, purchase_id)
+            
             keyboard = get_button_geo()
             update.message.reply_text(text)
             chat_id = update.message.chat.id
