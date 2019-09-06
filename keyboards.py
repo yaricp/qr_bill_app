@@ -174,6 +174,12 @@ def get_button_categories(user, id_item, type_item):
                                                 ))
     menu.append([new_button])
     new_button = InlineKeyboardButton(  
+        _('Location'), 
+        callback_data='location&%s&%s' % ( type_item, 
+                                                id_item
+                                                ))
+    menu.append([new_button])
+    new_button = InlineKeyboardButton(  
         _('Menu'),
         callback_data='/menu')
     menu.append([new_button])

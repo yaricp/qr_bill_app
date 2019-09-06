@@ -725,7 +725,20 @@ def private_actions(bot, update):
                 return True
     if len(list_parameters) > 3:
         id_link_obj = list_parameters[3]
-        
+        if action == 'location':
+            keyboard = get_button_geo()
+            text_loc =  _('what is location?\nID: %s' % obj.id)
+            text = dict_show_item[type_obj](user, obj.id)
+            bot.edit_message_text(
+                chat_id=chat_id,
+                message_id=message_id, 
+                text=text
+                )
+            bot.send_message(
+                chat_id=chat_id,
+                text=text_loc, 
+                reply_markup=keyboard
+                )
         if action == 'change_seller':
             keyboard = get_button_sellers(user, obj.id)
 #            Category = Category.get(Category.id==id_link_obj, 
