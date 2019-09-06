@@ -746,11 +746,12 @@ def private_actions(bot, update):
             obj.category = category
             obj.save()
             if type_obj != 'seller':
-                keyboard = get_button_sellers(user, obj.id)
-            else:
-                #keyboard = get_button_categories(user, id_obj, type_obj)
-                keyboard = get_button_geo(user, obj.id)
+                #keyboard = get_button_sellers(user, obj.id)
+                keyboard = get_button_geo()
                 text =  _('what is location?\n')
+            else:
+                keyboard = get_button_categories(user, id_obj, type_obj)
+                
             text += dict_show_item[type_obj](user, obj.id)
         
         elif action == 'confirm':
