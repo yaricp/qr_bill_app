@@ -749,13 +749,18 @@ def private_actions(bot, update):
                 #print(keyboard)
                 keyboard = get_button_geo()
                 print(keyboard)
-                text =  _('what is location?\n')
-                text += dict_show_item[type_obj](user, obj.id)
+                text_loc =  _('what is location?\n')
+                text = dict_show_item[type_obj](user, obj.id)
                 bot.edit_message_reply_markup(
-                        chat_id=chat_id,
-                        message_id=message_id, 
-                        reply_markup=keyboard
-                        )
+                    chat_id=chat_id,
+                    message_id=message_id, 
+                    text=text
+                    )
+                bot.send_message(
+                    chat_id=chat_id,
+                    text=text_loc, 
+                    reply_markup=keyboard
+                    )
                 
                 return
             else:
