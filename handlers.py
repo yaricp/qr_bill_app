@@ -378,6 +378,7 @@ def reply_to_new(update, date_time, summ, user, raw=None, photo_file_id=''):
                         )
             pur.save()
             keyboard = get_button_categories(user, pur.id, 'purchase')
+            
             text = show_purchase_item(user, pur.id)
             if raw:
                 text = _('Sorry I not found QR code.\n')
@@ -389,8 +390,6 @@ def reply_to_new(update, date_time, summ, user, raw=None, photo_file_id=''):
                 pur.confirm = False
                 pur.save()
 
-            keyboard = get_button_geo(user, pur.id)
-            text +=  _('what is location?\n')
         else:
             text = _('ATTANTION!\nIts looks like:\n')
             text += show_purchase_item(user, check_p[0].id)
@@ -751,7 +750,8 @@ def private_actions(bot, update):
             else:
                 #keyboard = get_button_categories(user, id_obj, type_obj)
                 keyboard = get_button_geo(user, obj.id)
-            text = dict_show_item[type_obj](user, obj.id)
+                text =  _('what is location?\n')
+            text += dict_show_item[type_obj](user, obj.id)
         
         elif action == 'confirm':
             if id_link_obj == 'yes':
