@@ -1,4 +1,11 @@
 TOKEN = '852232182:AAHV5GoZ7782BDhF8EwmW2XkfqqF6ZN00iQ'
-PATH_DB = 'qrscanner.db'
-TYPE_DB = 'sqlite'
+#PATH_DB = 'test_qrscanner.db'
+#TYPE_DB = 'sqlite'
 LANG = 'rus'
+
+TYPE_DB = 'pgsql'
+PG_BATABASE = 'qrscanner'
+PG_HOST = 'localhost'
+PG_PORT = '5432'
+PG_USERNAME = 'qrscanadmin'
+PG_PASSWORD = 'qrscanadmin'
