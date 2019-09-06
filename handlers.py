@@ -249,8 +249,9 @@ def location(bot, update):
     print(user_location)
     #TODO make to search sellers by location in radius 
     #TODO show list sellers in buttons (call function from keyboards)
-    
-    keyboard = get_button_main()
+    obj_id = update.message.reply_to_message.text.split(':')[1]
+    keyboard = get_button_sellers(user, obj_id)
+    text = show_purchase_item(user, obj_id)
     update.message.reply_text(text='Maybe I can visit you sometime! '\
                               'At last, tell me something about yourself.', 
                         reply_markup=ReplyKeyboardRemove())
@@ -749,9 +750,9 @@ def private_actions(bot, update):
                 #keyboard = get_button_sellers(user, obj.id)
                 #print(keyboard)
                 keyboard = get_button_geo()
-                text_loc =  _('what is location?\n')
+                text_loc =  _('what is location?\nID: %s' % obj.id)
                 text = dict_show_item[type_obj](user, obj.id)
-                bot.edit_message_reply_markup(
+                bot.edit_message_text(
                     chat_id=chat_id,
                     message_id=message_id, 
                     text=text
