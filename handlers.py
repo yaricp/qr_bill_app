@@ -259,10 +259,9 @@ def location(bot, update):
     print('UDPATE:', update)
     print("CHAT: ", update.message.chat)
     message_id = update.message.message_id
-    bot.edit_message_text(
+    bot.send_message_text(
                         chat_id=chat_id,
-                        message_id=message_id, 
-                        text='seller!', 
+                        text=text, 
                         reply_markup=keyboard)
 
     return ConversationHandler.END
