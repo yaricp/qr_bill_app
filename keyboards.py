@@ -92,12 +92,14 @@ def get_button_lang():
     return keyboard
     
 
-def get_button_sellers(user, id_item):
-    print(user)
-    print(id_item)
+def get_button_sellers(user, id_item, geo=None):
+    
     purchase = Purchase.get(Purchase.id==id_item, 
                             Purchase.user==user)
-    sellers = Seller.select().where(Seller.user==user, 
+    #TODO make to search sellers by location in radius 
+    sellers = []
+    if not sellers:
+        sellers = Seller.select().where(Seller.user==user, 
                                     Seller.category==purchase.category)
     menu = []
     buttons = []

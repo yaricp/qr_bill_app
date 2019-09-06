@@ -243,19 +243,15 @@ def by_category(bot, update):
 @is_allowed_user()
 @lang()
 def location(bot, update):
-    user = update.message.from_user
+    user = update.message.from_user.id
     user_location = update.message.location
     print('LOCATION!')
     print(user_location)
-    #TODO make to search sellers by location in radius 
-    #TODO show list sellers in buttons (call function from keyboards)
+    
     obj_id = int(update.message.reply_to_message.text.split(':')[1])
-    print(update.message.reply_to_message.text)
-    print(obj_id)
-    keyboard = get_button_sellers(user, obj_id)
+    keyboard = get_button_sellers(user, obj_id, geo=user_location)
     text = show_purchase_item(user, obj_id)
-    update.message.reply_text(text='Maybe I can visit you sometime! '\
-                              'At last, tell me something about yourself.', 
+    update.message.reply_text(text=text, 
                         reply_markup=ReplyKeyboardRemove())
 #    update.message.reply_text(', 
 #                              )
