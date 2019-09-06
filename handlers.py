@@ -247,10 +247,15 @@ def location(bot, update):
     user_location = update.message.location
     print('LOCATION!')
     print(user_location)
-    
-    obj_id = int(update.message.reply_to_message.text.split(':')[1])
-    keyboard = get_button_sellers(user, obj_id, geo=user_location)
-    text = show_purchase_item(user, obj_id)
+    rows = update.message.reply_to_message.text.split('\n')
+    obj_id = int(rows[1].split(':')[1])
+    type_obj = rows[2].split(':')[1].replace(' ', '')
+    if type_obj != 'seller':
+        keyboard = get_button_sellers(user, obj_id, geo=user_location)
+        text = show_purchase_item(user, obj_id)
+    else:
+        keyboard =  get_button_categories(user, obj_id, type_obj)
+        text = show_seller_item(user, obj_id)
     update.message.reply_text(text=text, 
                         reply_markup=ReplyKeyboardRemove())
 #    update.message.reply_text(', 
@@ -672,7 +677,7 @@ def private_actions(bot, update):
                                             dict_types[type_obj].user==user )
             if action == 'location':
                 keyboard = get_button_geo()
-                text_loc =  _('what is location?\nID: %s' % obj.id)
+                text_loc =  _('what is location?\nID: %s\n TYPE: %s' % (obj.id, type_obj))
                 text = dict_show_item[type_obj](user, obj.id)
                 bot.edit_message_text(
                     chat_id=chat_id,
@@ -762,7 +767,7 @@ def private_actions(bot, update):
                 #keyboard = get_button_sellers(user, obj.id)
                 #print(keyboard)
                 keyboard = get_button_geo()
-                text_loc =  _('what is location?\nID: %s' % obj.id)
+                text_loc =  _('what is location?\nID: %s\n TYPE: %s' % (obj.id, type_obj))
                 text = dict_show_item[type_obj](user, obj.id)
                 bot.edit_message_text(
                     chat_id=chat_id,
