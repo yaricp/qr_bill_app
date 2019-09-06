@@ -754,7 +754,6 @@ def private_actions(bot, update):
                         chat_id=chat_id,
                         message_id=message_id, 
                         text=text, 
-                        reply_markup=ReplyKeyboardRemove()
                         )
                 bot.edit_message_text(
                         chat_id=chat_id,
