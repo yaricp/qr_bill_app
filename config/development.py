@@ -4,7 +4,7 @@ TOKEN = '659006306:AAHIkFC53ayy67ToAUcRZflZrBDvKotp5IA'
 LANG = 'rus'
 
 TYPE_DB = 'pgsql'
-PG_BATABASE = 'qrscanner'
+PG_BATABASE = 'qrscanner_dev'
 PG_HOST = 'localhost'
 PG_PORT = '5432'
 PG_USERNAME = 'qrscanadmin'
