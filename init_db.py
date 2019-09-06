@@ -3,6 +3,7 @@ from config import *
 from models import *
 
 def initialize_db():
+    print('DB:', db)
     db.connect()
     db.create_tables([  category.Category, 
                         purchase.Purchase, 
