@@ -739,6 +739,7 @@ def private_actions(bot, update):
                 text=text_loc, 
                 reply_markup=keyboard
                 )
+            return
         if action == 'change_seller':
             keyboard = get_button_sellers(user, obj.id)
 #            Category = Category.get(Category.id==id_link_obj, 
