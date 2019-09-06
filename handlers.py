@@ -247,8 +247,10 @@ def location(bot, update):
     user_location = update.message.location
     print('LOCATION!')
     print(user_location)
+    
     update.message.reply_text('Maybe I can visit you sometime! '
-                              'At last, tell me something about yourself.')
+                              'At last, tell me something about yourself.', 
+                              reply_markup=ReplyKeyboardRemove())
 
     return ConversationHandler.END
     
