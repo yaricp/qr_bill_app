@@ -751,17 +751,10 @@ def private_actions(bot, update):
                 print(keyboard)
                 text =  _('what is location?\n')
                 text += dict_show_item[type_obj](user, obj.id)
-                bot.edit_message_text(
+                bot.edit_message_reply_markup(
                         chat_id=chat_id,
                         message_id=message_id, 
-                        text=text, 
-                        reply_markup=ForceReply()
-                        )
-                bot.edit_message_text(
-                        chat_id=chat_id,
-                        message_id=message_id, 
-                        text=text, 
-                        reply_markup=keyboard,
+                        reply_markup=keyboard
                         )
                 
                 return
