@@ -386,13 +386,12 @@ def reply_to_new(update, date_time, summ, user, raw=None, photo_file_id=''):
                                 Purchase.user==user)
         print('check_p: ', check_p)
         if not check_p:
-            confirm = True
+            #confirm = True
             pur = Purchase(name='', 
                         datetime=date_time, 
                         summ=summ, 
                         user=user, 
                         pic=photo_file_id,
-                        confirm=confirm
                         )
             pur.save()
             keyboard = get_button_categories(user, pur.id, 'purchase')
