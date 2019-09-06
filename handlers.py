@@ -247,10 +247,13 @@ def location(bot, update):
     user_location = update.message.location
     print('LOCATION!')
     print(user_location)
+    #TODO make to search sellers by location in radius 
+    #TODO show list sellers in buttons (call function from keyboards)
     
+    keyboard = get_button_main()
     update.message.reply_text('Maybe I can visit you sometime! '
                               'At last, tell me something about yourself.', 
-                              reply_markup=ReplyKeyboardRemove())
+                              reply_markup=keyboard)
 
     return ConversationHandler.END
     
