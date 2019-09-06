@@ -745,15 +745,12 @@ def private_actions(bot, update):
             obj.category = category
             obj.save()
             if type_obj != 'seller':
-                #keyboard = get_button_sellers(user, obj.id)
+                keyboard = get_button_sellers(user, obj.id)
+                print(keyboard)
                 keyboard = get_button_geo()
+                print(keyboard)
                 text =  _('what is location?\n')
                 text += dict_show_item[type_obj](user, obj.id)
-                bot.edit_message_text(
-                        chat_id=chat_id,
-                        message_id=message_id, 
-                        text=text, 
-                        )
                 bot.edit_message_text(
                         chat_id=chat_id,
                         message_id=message_id, 
