@@ -746,7 +746,7 @@ def private_actions(bot, update):
             obj.save()
             if type_obj != 'seller':
                 keyboard = get_button_sellers(user, obj.id)
-                print(keyboard)
+                #print(keyboard)
                 keyboard = get_button_geo()
                 print(keyboard)
                 text =  _('what is location?\n')
