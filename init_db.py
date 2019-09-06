@@ -10,7 +10,8 @@ def initialize_db():
                         seller.Seller, 
                         wait.Wait, 
                         language.Language, 
-                        user.User
+                        user.User, 
+                        payment.Payment
                         ], safe = True)
     admin = user.User.get_or_create(username=superuser, 
                                     tg_user_id=allowed_users[superuser], 

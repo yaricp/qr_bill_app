@@ -10,5 +10,4 @@ class User(MainModel):
     start_time = pw.DateTimeField(default=datetime.datetime.now)
     is_active = pw.BooleanField(default=False)
     is_admin = pw.BooleanField(default=False)
-    #paid = pw.BooleanField(default=False)
-    #paid_datetime = pw.DateTimeField(null=True, default='')
+

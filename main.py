@@ -59,6 +59,8 @@ def main():
 #        allow_reentry = True
 #    )
 #    dispatcher.add_handler(new_photo_handler)
+    location = MessageHandler(Filters.location, location, edited_updates=True)
+    dispatcher.add_handler(location)
     
     start_handler = CommandHandler('start', start)
     dispatcher.add_handler(start_handler)

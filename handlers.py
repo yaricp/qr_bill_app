@@ -377,6 +377,9 @@ def reply_to_new(update, date_time, summ, user, raw=None, photo_file_id=''):
 #                                reply_markup=keyboard)
 #            print('return LOCATION: ', LOCATION)
 #            return LOCATION
+            keyboard = get_button_geo(user, pur.id)
+            update.message.reply_text(  _('what is location?'), 
+                                reply_markup=keyboard)
         else:
             text = _('ATTANTION!\nIts looks like:\n')
             text += show_purchase_item(user, check_p[0].id)
