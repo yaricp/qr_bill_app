@@ -249,11 +249,19 @@ def location(bot, update):
     print(user_location)
     #TODO make to search sellers by location in radius 
     #TODO show list sellers in buttons (call function from keyboards)
-    
+    chat_id = update.message.chat_id
     keyboard = get_button_main()
-    update.message.reply_text('Maybe I can visit you sometime! '
+    bot.edit_message_text(chat_id=chat_id,
+                        message_id=message_id, 
+                        text='Maybe I can visit you sometime! '\
                               'At last, tell me something about yourself.', 
-                              reply_markup=keyboard)
+                        reply_markup=ReplyKeyboardRemove())
+#    update.message.reply_text(', 
+#                              )
+    bot.edit_message_text(chat_id=chat_id,
+                        message_id=message_id, 
+                        text='seller!', 
+                        reply_markup=keyboard)
 
     return ConversationHandler.END
     
