@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import time
 
-from telegram import ParseMode
+from telegram import ParseMode, ReplyKeyboardRemove
 from telegram.ext import ConversationHandler
 
 from config import *
