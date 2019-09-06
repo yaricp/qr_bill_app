@@ -252,9 +252,7 @@ def location(bot, update):
     chat_id = update.message.chat.id
     message_id = update.message.message_id
     keyboard = get_button_main()
-    bot.edit_message_text(chat_id=chat_id,
-                        message_id=message_id, 
-                        text='Maybe I can visit you sometime! '\
+    update.message.reply_text(text='Maybe I can visit you sometime! '\
                               'At last, tell me something about yourself.', 
                         reply_markup=ReplyKeyboardRemove())
 #    update.message.reply_text(', 
