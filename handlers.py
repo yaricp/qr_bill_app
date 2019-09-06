@@ -251,7 +251,6 @@ def location(bot, update):
     #TODO show list sellers in buttons (call function from keyboards)
     
     keyboard = get_button_main()
-    text = show_
     update.message.reply_text(text='Maybe I can visit you sometime! '\
                               'At last, tell me something about yourself.', 
                         reply_markup=ReplyKeyboardRemove())
