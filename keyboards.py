@@ -21,10 +21,10 @@ def get_button_main():
     
     
 def get_button_geo(user, id):
-    p = Purchase.get_or_none(user=user, id=id)
-    text = ''
-    if p:
-        text = str(p.id)
+#    p = Purchase.get_or_none(user=user, id=id)
+#    text = ''
+#    if p:
+#        text = str(p.id)
     new_button = KeyboardButton(  
         _('Location'),
         request_location=True)

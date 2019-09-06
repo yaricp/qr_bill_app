@@ -251,6 +251,7 @@ def location(bot, update):
     #TODO show list sellers in buttons (call function from keyboards)
     
     keyboard = get_button_main()
+    text = show_
     update.message.reply_text(text='Maybe I can visit you sometime! '\
                               'At last, tell me something about yourself.', 
                         reply_markup=ReplyKeyboardRemove())
@@ -384,18 +385,12 @@ def reply_to_new(update, date_time, summ, user, raw=None, photo_file_id=''):
                 text += _('Date: ' + date_time + '\n')
                 text += _('Sum: ' + summ + '\n')
                 text += _('Is it true?\n')
-                keyboard = get_button_confirm(pur.id)
+                #keyboard = get_button_confirm(pur.id)
                 pur.confirm = False
                 pur.save()
-#            print('123123')
-#            keyboard = get_button_geo(user, pur.id)
-#            update.message.reply_text(  _('what is location?'), 
-#                                reply_markup=keyboard)
-#            print('return LOCATION: ', LOCATION)
-#            return LOCATION
+
             keyboard = get_button_geo(user, pur.id)
-            update.message.reply_text(  _('what is location?'), 
-                                reply_markup=keyboard)
+            text +=  _('what is location?\n')
         else:
             text = _('ATTANTION!\nIts looks like:\n')
             text += show_purchase_item(user, check_p[0].id)
@@ -754,7 +749,8 @@ def private_actions(bot, update):
             if type_obj != 'seller':
                 keyboard = get_button_sellers(user, obj.id)
             else:
-                keyboard = get_button_categories(user, id_obj, type_obj)
+                #keyboard = get_button_categories(user, id_obj, type_obj)
+                keyboard = get_button_geo(user, obj.id)
             text = dict_show_item[type_obj](user, obj.id)
         
         elif action == 'confirm':
