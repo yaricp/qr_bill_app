@@ -749,6 +749,13 @@ def private_actions(bot, update):
                 #keyboard = get_button_sellers(user, obj.id)
                 keyboard = get_button_geo()
                 text =  _('what is location?\n')
+                bot.edit_message_text(chat_id=chat_id,
+                        message_id=message_id, 
+                        text=text, 
+                        reply_markup=keyboard,
+                        )
+                text += dict_show_item[type_obj](user, obj.id)
+                return
             else:
                 keyboard = get_button_categories(user, id_obj, type_obj)
                 
