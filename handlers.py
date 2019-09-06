@@ -249,7 +249,9 @@ def location(bot, update):
     print(user_location)
     #TODO make to search sellers by location in radius 
     #TODO show list sellers in buttons (call function from keyboards)
-    obj_id = update.message.reply_to_message.text.split(':')[1]
+    obj_id = int(update.message.reply_to_message.text.split(':')[1])
+    print(update.message.reply_to_message.text)
+    print(obj_id)
     keyboard = get_button_sellers(user, obj_id)
     text = show_purchase_item(user, obj_id)
     update.message.reply_text(text='Maybe I can visit you sometime! '\
