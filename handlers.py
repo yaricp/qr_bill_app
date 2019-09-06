@@ -250,6 +250,7 @@ def location(bot, update):
     #TODO make to search sellers by location in radius 
     #TODO show list sellers in buttons (call function from keyboards)
     chat_id = update.message.chat.id
+    print('UDPATE:', update)
     message_id = update.message.message_id
     keyboard = get_button_main()
     update.message.reply_text(text='Maybe I can visit you sometime! '\
