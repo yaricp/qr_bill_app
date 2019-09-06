@@ -259,7 +259,7 @@ def location(bot, update):
     print('UDPATE:', update)
     print("CHAT: ", update.message.chat)
     message_id = update.message.message_id
-    bot.send_message_text(
+    bot.send_message(
                         chat_id=chat_id,
                         text=text, 
                         reply_markup=keyboard)
