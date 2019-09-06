@@ -341,7 +341,15 @@ def new_text(bot, update):
                                 update.message.text,
                                 purchase_id=purchase_id
                                 )
-            keyboard = get_button_sellers(user, purchase_id)
+            #keyboard = get_button_sellers(user, purchase_id)
+            keyboard = get_button_geo()
+            update.message.reply_text(text)
+            bot.send_message(
+                    chat_id=chat_id,
+                    text=text_loc, 
+                    reply_markup=keyboard
+                    )
+            return
         elif command == 'new_category_purchase':
             purchase_id = splitted_wait_command[1]
             text = create_category( user, 
