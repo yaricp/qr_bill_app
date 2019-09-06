@@ -16,7 +16,6 @@ def initialize_db():
                                     tg_user_id=allowed_users[superuser], 
                                     is_active=True, 
                                     is_admin=True, 
-                                    paid_datetime=''
                                     )
     #print(admin)
     db.close()
