@@ -93,6 +93,8 @@ def get_button_lang():
     
 
 def get_button_sellers(user, id_item):
+    print(user)
+    print(id_item)
     purchase = Purchase.get(Purchase.id==id_item, 
                             Purchase.user==user)
     sellers = Seller.select().where(Seller.user==user, 
