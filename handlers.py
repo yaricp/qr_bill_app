@@ -251,6 +251,8 @@ def location(bot, update):
     #TODO show list sellers in buttons (call function from keyboards)
     chat_id = update.message.chat.id
     print('UDPATE:', update)
+    print("CHAT: ", update.message.chat)
+    #print()
     message_id = update.message.message_id
     keyboard = get_button_main()
     update.message.reply_text(text='Maybe I can visit you sometime! '\
@@ -258,7 +260,8 @@ def location(bot, update):
                         reply_markup=ReplyKeyboardRemove())
 #    update.message.reply_text(', 
 #                              )
-    bot.edit_message_text(chat_id=chat_id,
+    bot.edit_message_text(
+                        chat_id=chat_id,
                         message_id=message_id, 
                         text='seller!', 
                         reply_markup=keyboard)
