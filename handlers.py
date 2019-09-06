@@ -743,12 +743,12 @@ def private_actions(bot, update):
             category = Category.get(Category.id==id_link_obj, 
                                     Category.user==user)
             obj.category = category
+            print('Category: ', category)
             obj.save()
             if type_obj != 'seller':
-                keyboard = get_button_sellers(user, obj.id)
+                #keyboard = get_button_sellers(user, obj.id)
                 #print(keyboard)
                 keyboard = get_button_geo()
-                print(keyboard)
                 text_loc =  _('what is location?\n')
                 text = dict_show_item[type_obj](user, obj.id)
                 bot.edit_message_reply_markup(
