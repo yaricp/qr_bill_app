@@ -369,7 +369,9 @@ def get_button_order_by(user, type_c):
 
             summ = (Purchase
                 .select(fn.SUM(Purchase.summ))
-                .where(by_for_field==c, Purchase.user==user, fn.strftime('%m', Purchase.datetime)==month)
+                .where( by_for_field==c, 
+                        Purchase.user==user, 
+                        fn.date_part('month', Purchase.datetime)==month)
                 .scalar()
                 )
             if summ: summ = str(round(summ, 2))
