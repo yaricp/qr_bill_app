@@ -6,9 +6,9 @@ sys.path.append(os.getcwd())
 
 from config import *
 #import peewee as pw
-from models.purchase import Purchase
+#from models.purchase import Purchase
 
 
 migrate(
-    migrator.drop_column('Purchase', 'confirm'),
+    migrator.drop_column('purchase', 'confirm'),
 )
