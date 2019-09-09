@@ -6,7 +6,7 @@ sys.path.append(os.getcwd())
 
 from config import *
 #import peewee as pw
-from models.purchace import Purchase
+from models.purchase import Purchase
 
 
 migrate(
