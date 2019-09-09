@@ -97,6 +97,7 @@ def get_button_sellers(user, id_item, geo=None):
     purchase = Purchase.get(Purchase.id==id_item, 
                             Purchase.user==user)
     #TODO make to search sellers by location in radius 
+    
     import psycopg2
     conn = psycopg2.connect(database=PG_BATABASE, 
                             user=PG_USERNAME, 
