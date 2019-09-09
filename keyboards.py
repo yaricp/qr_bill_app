@@ -97,6 +97,21 @@ def get_button_sellers(user, id_item, geo=None):
     purchase = Purchase.get(Purchase.id==id_item, 
                             Purchase.user==user)
     #TODO make to search sellers by location in radius 
+    import psycopg2
+    conn = psycopg2.connect(database=PG_BATABASE, 
+                            user=PG_USERNAME, 
+                            password=PG_PASSWORD)
+    curs = conn.cursor()
+
+    poi = (geo.longitude, geo.latitude) # longitude, latitude
+
+    curs.execute("""\
+        SELECT gid, ST_AsGeoJSON(longitude,latitude), ST_Distance((longitude,latitude), poi)
+        FROM seller, (SELECT ST_MakePoint(%s, %s)::geography AS poi) AS f
+        WHERE ST_DWithin((longitude,latitude), poi, 1000);""", poi)
+
+    for row in curs.fetchall():
+        print(row)
     sellers = []
     if not sellers:
         sellers = Seller.select().where(Seller.user==user, 
