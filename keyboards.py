@@ -102,6 +102,7 @@ def get_button_sellers(user, id_item, geo=None):
                             user=PG_USERNAME, 
                             password=PG_PASSWORD)
     curs = conn.cursor()
+    print('GEO: ', geo)
 
     poi = (geo.longitude, geo.latitude) # longitude, latitude
 

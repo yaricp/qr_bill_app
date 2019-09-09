@@ -251,6 +251,7 @@ def location(bot, update):
     obj_id = int(rows[1].split(':')[1])
     type_obj = rows[2].split(':')[1].replace(' ', '')
     if type_obj != 'seller':
+        print('get sellers buttons by geo: ', user_location)
         keyboard = get_button_sellers(user, obj_id, geo=user_location)
         text = show_purchase_item(user, obj_id)
     else:
