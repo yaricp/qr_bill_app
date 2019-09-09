@@ -109,7 +109,7 @@ def get_button_sellers(user, id_item, geo=None):
         SELECT gid, ST_AsGeoJSON(longitude,latitude), ST_Distance((longitude,latitude), poi)
         FROM seller, (SELECT ST_MakePoint(%s, %s)::geography AS poi) AS f
         WHERE ST_DWithin((longitude,latitude), poi, 1000);""", poi)
-
+    print('result of geo search: ',curs.fetchall())
     for row in curs.fetchall():
         print(row)
     sellers = []
