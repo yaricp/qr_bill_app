@@ -250,6 +250,7 @@ def location(bot, update):
     rows = update.message.reply_to_message.text.split('\n')
     obj_id = int(rows[1].split(':')[1])
     type_obj = rows[2].split(':')[1].replace(' ', '')
+    print('TYPE_OBJ: ', type_obj)
     if type_obj != 'seller':
         print('get sellers buttons by geo: ', user_location)
         keyboard = get_button_sellers(user, obj_id, geo=user_location)
@@ -262,7 +263,9 @@ def location(bot, update):
         obj.latitude = user_location.latitude
         obj.save()
         text = show_seller_item(user, obj_id)
-    update.message.reply_text(text=text, 
+    bot.edit_message_text(
+                        chat_id=chat_id,
+                        text=text, 
                         reply_markup=ReplyKeyboardRemove())
 #    update.message.reply_text(', 
 #                              )
