@@ -386,10 +386,7 @@ def show_on_map(type_obj, obj_id):
                             user=PG_USERNAME, 
                             password=PG_PASSWORD)
     curs = conn.cursor()
-    curs.execute("""\
-        SELECT name, ST_AsText(geom)
-        FROM %s
-        WHERE id=%s""",(type_obj,obj_id ))
+    curs.execute('SELECT name, ST_AsText(geom) FROM %s WHERE id=%s',(type_obj,obj_id ))
     result = curs.fetchall()[0] 
     print('RESULT: ', result)
     point = [1]
