@@ -708,7 +708,7 @@ def private_actions(bot, update):
                     bot.send_venue(chat_id, 
                                 latitude=position[1], 
                                 longitude=position[0], 
-                                address='test Address', 
+                                address=' ', 
                                 title=title, 
                                 disable_notification=False, 
                                 reply_to_message_id=message_id, 
@@ -725,14 +725,18 @@ def private_actions(bot, update):
                 keyboard = get_button_geo()
                 text_loc =  _('what is location?\nID: %s\n TYPE: %s' % (obj.id, type_obj))
                 text = dict_show_item[type_obj](user, obj.id)
-                bot.edit_message_text(
+                bot.delete_message(
                     chat_id=chat_id,
                     message_id=message_id, 
-                    text=text
+                    )
+                bot.answer_callback_query(
+                    callback_query_id=callback_query_id, 
+                    text=_('send me coordinates of seller please'), 
+                    show_alert=True
                     )
                 bot.send_message(
                     chat_id=chat_id,
-                    text=text_loc, 
+                    text=text, 
                     reply_markup=keyboard
                     )
                 return   
