@@ -262,7 +262,7 @@ def set_location(bot, update):
         keyboard = get_button_sellers(user, obj_id, geo=user_location)
         text = show_purchase_item(user, obj_id)
     else:
-        keyboard =  get_button_categories(user, obj_id, type_obj)
+        keyboard =  buttons_for_seller_item(user, obj_id, type_obj)
         result = save_geo_position(type_obj, obj_id, user_location)
         print(result)
         text = show_seller_item(user, obj_id)
