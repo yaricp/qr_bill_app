@@ -20,11 +20,11 @@ def buttons_for_seller_item(user, id_item, type_item):
         callback_data='location&%s&%s' % ( type_item, 
                                                 id_item
                                                 ))
-    keyboard.menu.append([new_button])
+    keyboard['menu'].append([new_button])
     new_button = InlineKeyboardButton(  
         _('Menu'),
         callback_data='/menu')
-    keyboard.menu.append([new_button])
+    keyboard['menu'].append([new_button])
     return keyboard
     
     
