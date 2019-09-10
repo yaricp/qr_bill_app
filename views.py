@@ -143,7 +143,7 @@ def show_seller_item(user, id):
     category_name = ''
     seller = Seller.get(Seller.id==id, 
                         Seller.user==user)
-    
+    geo = get_geo_positions('seller', id)
     if seller.category:
         category_name = seller.category.name
     text = _('Seller: %(seller)s\n'\
