@@ -179,12 +179,13 @@ def delete_item(user, typeitem, iditem):
     elif typeitem == 'seller':
         item_name = Seller.get(id=iditem).name
         text = _('seller %(item)s deleted') %  {'item':item_name}
-        nrows = Seller.delete().where(Seller.id == iditem, 
-                                      Seller.user == user).execute()
         for p in Purchase.select().where(Purchase.seller == iditem, 
                                          Purchase.user == user):
             p.seller = None
             p.save()
+        nrows = Seller.delete().where(Seller.id == iditem, 
+                                      Seller.user == user).execute()
+        
     elif typeitem == 'purchase':
         item_name = '%s %s' % (Purchase.get(id=iditem).datetime, 
                                 Purchase.get(id=iditem).summ)
