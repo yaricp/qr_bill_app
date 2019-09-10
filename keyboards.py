@@ -138,8 +138,8 @@ def get_button_sellers(user, id_item, geo=None):
     curs.execute(
         'SELECT id,name,geom FROM seller '\
         'WHERE ST_DWithin(geom, ST_SetSRID(ST_MakePoint('\
-        '%s, %s), 4326), 1000);', poi)
-    print('result of geo search: ',curs.fetchall())
+        '%s, %s), 4326), 300);', poi)
+    #print('result of geo search: ',curs.fetchall())
     for row in curs.fetchall():
         print(row)
     sellers = []
