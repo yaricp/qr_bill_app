@@ -133,11 +133,15 @@ def get_button_sellers(user, id_item, geo=None):
                                 user=PG_USERNAME, 
                                 password=PG_PASSWORD)
         curs = conn.cursor()
-        poi = (geo.longitude, geo.latitude) # longitude, latitude
+        #poi = () # longitude, latitude
+#        curs.execute(
+#            'SELECT id,name FROM seller '\
+#            'WHERE ST_DWithin(geom, ST_SetSRID(ST_MakePoint('\
+#            '%s, %s), 4326), 100);', poi)
         curs.execute(
             'SELECT id,name FROM seller '\
-            'WHERE ST_DWithin(geom, ST_SetSRID(ST_MakePoint('\
-            '%s, %s), 4326), 100);', poi)
+            'WHERE ST_Distance_Sphere(geom, ST_SetSRID(ST_MakePoint('\
+            '%s, %s), 4326)) <= %s * 1609.34;', (geo.longitude, geo.latitude, radius_mi))
         print('found')
         for row in curs.fetchall():
             print(row[0])
