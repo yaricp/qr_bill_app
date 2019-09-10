@@ -151,6 +151,7 @@ def get_button_sellers(user, id_item, geo=None):
     count = 0
     for seller in sellers:
         sel_name = '--'
+        print(seller.__dict__)
         if seller['name']: sel_name = seller['name']
         if count == 5:
             menu.append(buttons)
