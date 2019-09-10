@@ -650,6 +650,13 @@ def private_actions(bot, update):
     elif but_data == '/menu':
         keyboard = get_button_menu(user)
         text=_('Menu')
+        bot.delete_message(
+                chat_id=chat_id, 
+                message_id=message_id)
+        bot.send_message(chat_id=chat_id, 
+                        text=text, 
+                        reply_markup=keyboard)
+        return
     elif but_data == '/help':
         text = show_help()
     elif but_data == '/langs':
