@@ -267,8 +267,6 @@ def set_location(bot, update):
         print(result)
         text = show_seller_item(user, obj_id)
     chat_id = update.message.chat.id
-    print('User: ', user)
-    print('Chat_id: ', chat_id)
     message_id = update.message.message_id
     bot.delete_message(
                     chat_id=chat_id,
