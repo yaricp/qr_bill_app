@@ -170,7 +170,7 @@ def get_button_sellers(user, id_item, geo=None):
                     sel_name, 
                     callback_data='change_seller&%s&%s&%s' % ( 'purchase',
                                                                 id_item, 
-                                                                seller.id )))
+                                                                seller['id'] )))
     menu.append(buttons)
     new_button = InlineKeyboardButton(  
         _('New Seller'),
