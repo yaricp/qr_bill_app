@@ -33,9 +33,9 @@ def get_geo_positions(type, id):
     curs.execute(sql_text)
     result = curs.fetchall()[0] 
     point = result[0]
-    print('LEN POINT:', len(point))
+    print('TYpe POINT:', type(point))
     if point:
-        geo = (result[0], result[1])
+        geo = (point[0], point[1])
     conn.close()
     return geo 
     
