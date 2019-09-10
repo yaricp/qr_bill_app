@@ -274,10 +274,7 @@ def set_location(bot, update):
                     chat_id=chat_id,
                     message_id=message_id
                     )
-    bot.delete_message(
-                    chat_id=chat_id,
-                    message_id=message_id-1
-                    )
+    
     bot.edit_message_text(
                         chat_id=chat_id,
                         message_id=message_id-2, 
