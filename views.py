@@ -387,7 +387,8 @@ def show_on_map(type_obj, obj_id):
                             password=PG_PASSWORD)
     curs = conn.cursor()
     print(type_obj)
-    curs.execute('SELECT name, ST_AsText(geom) FROM %s WHERE id=%s',(type_obj,obj_id ))
+    sql_text = 'SELECT name, ST_AsText(geom) FROM %s WHERE id=%s' % (type_obj,obj_id )
+    curs.execute(sql_text)
     result = curs.fetchall()[0] 
     print('RESULT: ', result)
     point = [1]
