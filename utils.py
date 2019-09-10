@@ -34,7 +34,7 @@ def get_geo_positions(type, id):
     result = curs.fetchall()[0] 
     point = result[0]
     print('LEN POINT:', len(point))
-    if point and len(point) == 2:
+    if point:
         geo = (result[0], result[1])
     conn.close()
     return geo 
