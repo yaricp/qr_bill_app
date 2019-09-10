@@ -343,15 +343,16 @@ def new_text(bot, update):
         elif command == 'new_seller':
             text, seller_id = create_seller(  user, 
                                     update.message.text)
-            keyboard = get_button_geo()
-            update.message.reply_text(text)
-            text_loc =  _('what is location?\nID: %s\n TYPE: %s' % (seller_id, 'seller'))
-            bot.send_message(
-                    chat_id=chat_id,
-                    text=text_loc, 
-                    reply_markup=keyboard
-                    )
-            return                        
+            keyboard = get_button_categories(user, seller_id, 'seller')
+#            keyboard = get_button_geo()
+#            update.message.reply_text(text)
+#            text_loc =  _('what is location?\nID: %s\n TYPE: %s' % (seller_id, 'seller'))
+#            bot.send_message(
+#                    chat_id=chat_id,
+#                    text=text_loc, 
+#                    reply_markup=keyboard
+#                    )
+#            return                        
         elif command == 'new_seller_purchase':
             purchase_id = splitted_wait_command[1]
             text, seller_id = create_seller(user, 
