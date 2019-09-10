@@ -624,6 +624,7 @@ def button(bot, update):
 @lang()
 def private_actions(bot, update):
     but_data = update.callback_query.data
+    callback_query_id = update.callback_query.id
     user = update.callback_query.from_user.id
     chat_id = update.callback_query.message.chat.id
     message_id = update.callback_query.message.message_id
@@ -703,13 +704,20 @@ def private_actions(bot, update):
             if action == 'on_map':
                 #TODO make dict for defend menu for object
                 title, position = show_on_map(type_obj, obj.id)
-                bot.send_venue(chat_id, 
+                if position:
+                    bot.send_venue(chat_id, 
                                 latitude=position[1], 
                                 longitude=position[0], 
                                 title=title, 
                                 disable_notification=False, 
                                 reply_to_message_id=message_id, 
                                 reply_markup=keyboard
+                                )
+                else:
+                    bot.answer_callback_query(
+                                callback_query_id, 
+                                text=_('this seller have not coordinates'), 
+                                show_alert=False
                                 )
                 return
             if action == 'location':
