@@ -717,7 +717,7 @@ def private_actions(bot, update):
                     bot.answer_callback_query(
                                 callback_query_id, 
                                 text=_('this seller have not coordinates'), 
-                                show_alert=False
+                                show_alert=True
                                 )
                 return
             if action == 'location':
