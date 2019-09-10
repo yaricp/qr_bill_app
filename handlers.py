@@ -27,19 +27,19 @@ dict_types = {
         'category': Category, 
         'user': User
     }
-    
+
 dict_show_item = {
         'purchase': show_purchase_item, 
         'seller': show_seller_item, 
         'category': show_category_item, 
         'user': show_user_item
     }
-    
+
 #dict_keyboard_item = {
 #        'seller':
 #
 #    }
-    
+
 
 @is_not_bot()
 @lang()
@@ -65,13 +65,13 @@ def start(bot, update):
     update.message.reply_text(text=text,
                         reply_markup=keyboard
                         )
-                        
+
 @is_not_bot()
 @lang()
 def about(bot, update):
     text = show_about()
     update.message.reply_text(text=text)
-    
+
 
 @is_not_bot()
 @is_allowed_user()
@@ -95,8 +95,8 @@ def change_lang(bot, update):
         update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
     return false
-    
-    
+
+
 @is_not_bot()
 @is_allowed_user()
 @lang()
@@ -124,8 +124,8 @@ def list_purchase(bot, update):
     keyboard = get_button_list_purchase(user)
     update.message.reply_text(  text=_('List Purchases'),
                                 reply_markup=keyboard)
-                                
-                                
+
+
 @is_not_bot()
 @is_allowed_user()
 @lang()
@@ -135,8 +135,8 @@ def purchase(bot, update, args):
     keyboard = get_button_one_task(user, id)
     update.message.reply_text(  text=_('Purchase'),
                                 reply_markup=keyboard)
-                                
-                                
+
+
 @is_not_bot()
 @is_allowed_user()
 @lang()
@@ -160,7 +160,7 @@ def list_category(bot, update):
     keyboard = get_button_list_categories(user)
     update.message.reply_text(  text=_('List Сategories'),
                                 reply_markup=keyboard)
-                                
+
 
 @is_not_bot()
 @is_allowed_user()
@@ -170,7 +170,7 @@ def list_seller(bot, update):
     keyboard = get_button_list_sellers(user_id)
     update.message.reply_text(  text=_('List Sellers'),
                                 reply_markup=keyboard)
-                                
+
 @is_not_bot()                                
 @is_allowed_user()
 @lang()
@@ -179,8 +179,8 @@ def menu(bot, update):
     keyboard = get_button_menu(user_id)
     update.message.reply_text(  text=_('Menu'),
                                 reply_markup=keyboard)
-       
-    
+
+
 def error(bot, update, error_msg):
     module_logger.warning(_('Update caused error "%s"'), error)
 
@@ -194,8 +194,8 @@ def new_category(bot, update, args):
     text = create_category(user, name)
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
-                                
-                                
+
+
 @is_not_bot()
 @lang()
 def new_seller(bot, update, args):
@@ -205,7 +205,7 @@ def new_seller(bot, update, args):
     text = create_seller(user, name)
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
-                                
+
 
 @is_not_bot()
 @is_allowed_user()
@@ -215,7 +215,7 @@ def list_orders(bot, update):
     keyboard = get_button_orders(user)
     update.message.reply_text(  text=_('Orders'),
                                 reply_markup=keyboard)
-    
+
 
 @is_not_bot()                           
 @is_allowed_user()
@@ -229,7 +229,7 @@ def by_seller(bot, update):
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard, 
                                 parse_mode=ParseMode.HTML )
-    
+
 
 @is_not_bot()
 @is_allowed_user()
@@ -244,7 +244,7 @@ def by_category(bot, update):
                                 reply_markup=keyboard, 
                                 parse_mode=ParseMode.HTML )
 
-                                
+
 @is_not_bot()    
 @is_allowed_user()
 @lang()
@@ -282,8 +282,8 @@ def set_location(bot, update):
                     reply_markup=keyboard)
 
     return ConversationHandler.END
-    
-    
+
+
 def cancel(update, context):
     user = update.message.from_user
     logger.info("User %s canceled the conversation.", user.first_name)
@@ -291,8 +291,8 @@ def cancel(update, context):
                               reply_markup=ReplyKeyboardRemove())
 
     return ConversationHandler.END
-    
-    
+
+
 @is_not_bot()    
 @is_allowed_user()
 @lang()
@@ -302,7 +302,7 @@ def new_photo(bot, update):
     raw = None
     photo_file_id = ''
     user = update.message.from_user.id
-    
+
     nrows = Wait.delete().where(Wait.user == user).execute()
     photo_file_id = update.message.photo[-1].file_id
     foto = bot.getFile(photo_file_id)
@@ -318,8 +318,8 @@ def new_photo(bot, update):
 #    w = Wait(user=user, command=command)
 #    w.save()
 #    return LOCATION
-    
-    
+
+
 @is_not_bot()    
 @is_allowed_user()
 @lang()
@@ -341,7 +341,7 @@ def new_text(bot, update):
             text = create_category(  user, 
                                     update.message.text)
         elif command == 'new_seller':
-            text = create_seller(  user, 
+            text, seller_id = create_seller(  user, 
                                     update.message.text)
             keyboard = get_button_geo()
             update.message.reply_text(text)
@@ -386,8 +386,8 @@ def new_text(bot, update):
     else:
         date_time, summ = parse_text(update.message.text)
     reply_to_new(update, date_time, summ, user)
-    
-    
+
+
 def reply_to_new(update, date_time, summ, user, raw=None, photo_file_id=''):
     keyboard = get_button_main()
     text = _('summa or datetime not found')
@@ -409,7 +409,7 @@ def reply_to_new(update, date_time, summ, user, raw=None, photo_file_id=''):
                         )
             pur.save()
             keyboard = get_button_categories(user, pur.id, 'purchase')
-            
+
             text = show_purchase_item(user, pur.id)
             if raw:
                 text = _('Sorry I not found QR code.\n')
@@ -431,7 +431,7 @@ def reply_to_new(update, date_time, summ, user, raw=None, photo_file_id=''):
         text += _('12.01.19 123.00')
     update.message.reply_text(  text, 
                                 reply_markup=keyboard)
-    
+
 #@is_not_bot()    
 #@is_allowed_user()
 #@lang()
@@ -592,7 +592,7 @@ def button(bot, update):
                             text=admin_text, 
                             reply_markup=keyboard
                             )
-                            
+
             text = _('Congratulation! you registered now.\n')
             bot.edit_message_text(chat_id=chat_id,
                         message_id=message_id, 
@@ -620,8 +620,8 @@ def button(bot, update):
     else:
         private_actions(bot, update)
         return True
-    
-    
+
+
 
 @is_not_bot()        
 @is_allowed_user()
@@ -681,7 +681,7 @@ def private_actions(bot, update):
         keyboard = get_button_users()
         text = _('List users')
     list_parameters = but_data.split('&')
-    
+
     if len(list_parameters) > 1:
         action = list_parameters[0]
         #print('action: ',  action)
@@ -806,7 +806,7 @@ def private_actions(bot, update):
                 return True
     if len(list_parameters) > 3:
         id_link_obj = list_parameters[3]
-        
+
         if action == 'change_seller':
             keyboard = get_button_sellers(user, obj.id)
 #            Category = Category.get(Category.id==id_link_obj, 
@@ -818,7 +818,7 @@ def private_actions(bot, update):
             text = show_purchase_item(user, obj.id)
             #text='seller saved! %s %s %s' % (text,  purchase.datetime,  purchase.summ)
         elif action == 'change_category':
-            
+
             category = Category.get(Category.id==id_link_obj, 
                                     Category.user==user)
             obj.category = category
@@ -840,13 +840,13 @@ def private_actions(bot, update):
                     text=text_loc, 
                     reply_markup=keyboard
                     )
-                
+
                 return
             else:
                 keyboard = get_button_categories(user, id_obj, type_obj)
-                
+
             text += dict_show_item[type_obj](user, obj.id)
-        
+
         elif action == 'confirm':
             if id_link_obj == 'yes':
                 obj.confirm = True
@@ -863,8 +863,8 @@ def private_actions(bot, update):
                         reply_markup=keyboard, 
                         parse_mode=ParseMode.HTML 
                         )
-                        
-                        
+
+
 def send_delete_info_to_user(bot, id_obj):
     tg_user_id = User.get_or_none(id=id_obj).tg_user_id
     if tg_user_id:
@@ -872,7 +872,7 @@ def send_delete_info_to_user(bot, id_obj):
         text += _('Please contact to administrators of this bot.')
         bot.send_message(chat_id=tg_user_id, text=text)
     return True
-    
+
 
 if __name__ == "__main__":
     import doctest
