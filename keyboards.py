@@ -135,12 +135,10 @@ def get_button_sellers(user, id_item, geo=None):
     curs = conn.cursor()
     print('GEO: ', geo)
     poi = (geo.longitude, geo.latitude) # longitude, latitude
-    curs.execute("""\
-        SELECT seller.id,seller.name,
-        ST_transform(ST_SetSRID(ST_MakePoint(seller.longitude, seller.latitude),4326),3857) as geom
-        FROM seller, (SELECT ST_transform(ST_SetSRID(ST_MakePoint(%s, %s),4326),3857)::geography AS poi) AS f
-        WHERE ST_DWithin(ST_transform(ST_SetSRID(ST_MakePoint(seller.longitude, seller.latitude),4326),3857), 
-        poi, 1000);""", poi)
+    curs.execute(
+        'SELECT id,name,geom FROM seller'\
+        'WHERE ST_DWithin(geom, ST_SetSRID(ST_MakePoint('\
+        '%s, %s), 4326), 1000);', poi)
     print('result of geo search: ',curs.fetchall())
     for row in curs.fetchall():
         print(row)
