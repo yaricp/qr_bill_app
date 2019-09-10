@@ -23,13 +23,13 @@ def get_month(m):
     return dict_months[m]
     
     
-def get_geo_positions(type, id):
+def get_geo_positions(type_obj, id):
     conn = psycopg2.connect(database=PG_BATABASE, 
                             user=PG_USERNAME, 
                             password=PG_PASSWORD)
     curs = conn.cursor()
     geo = None
-    sql_text = 'SELECT ST_AsText(geom) FROM %s WHERE id=%s' % (type, id)
+    sql_text = 'SELECT ST_AsText(geom) FROM %s WHERE id=%s' % (type_obj, id)
     curs.execute(sql_text)
     result = curs.fetchall()[0] 
     point = result[0]
