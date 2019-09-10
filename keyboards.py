@@ -159,25 +159,19 @@ def get_button_sellers(user, id_item, geo=None):
         else:
             if seller.name: sel_name = seller.name
             sel_id = seller.id
-        
+        if count == 5:
+            menu.append(buttons)
+            buttons = []
+            count = 0
+        else:
+            count += 1
         buttons.append(
             InlineKeyboardButton(  
                 sel_name, 
                 callback_data='change_seller&%s&%s&%s' % ( 'purchase',
                                                             id_item, 
                                                             sel_id )))
-        if count == 5:
-            menu.append(buttons)
-            buttons = []
-            count = 0
-#            buttons.append(
-#                InlineKeyboardButton(  
-#                    sel_name, 
-#                    callback_data='change_seller&%s&%s&%s' % ( 'purchase', 
-#                                                                id_item, 
-#                                                                sel_id )))
-        else:
-            count += 1
+       
     menu.append(buttons)
     new_button = InlineKeyboardButton(  
         _('New Seller'),
