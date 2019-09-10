@@ -127,22 +127,21 @@ def get_button_sellers(user, id_item, geo=None):
     
     purchase = Purchase.get(Purchase.id==id_item, 
                             Purchase.user==user)
-    #TODO make to search sellers by location in radius 
-    
-    conn = psycopg2.connect(database=PG_BATABASE, 
-                            user=PG_USERNAME, 
-                            password=PG_PASSWORD)
-    curs = conn.cursor()
-    print('GEO: ', geo)
-    poi = (geo.longitude, geo.latitude) # longitude, latitude
-    curs.execute(
-        'SELECT id,name FROM seller '\
-        'WHERE ST_DWithin(geom, ST_SetSRID(ST_MakePoint('\
-        '%s, %s), 4326), 300);', poi)
     sellers = []
-    for row in curs.fetchall():
-        seller = {'name':row[1], 'id':row[0]}
-        sellers.append(seller)
+    if geo:
+        conn = psycopg2.connect(database=PG_BATABASE, 
+                                user=PG_USERNAME, 
+                                password=PG_PASSWORD)
+        curs = conn.cursor()
+        poi = (geo.longitude, geo.latitude) # longitude, latitude
+        curs.execute(
+            'SELECT id,name FROM seller '\
+            'WHERE ST_DWithin(geom, ST_SetSRID(ST_MakePoint('\
+            '%s, %s), 4326), 100);', poi)
+        
+        for row in curs.fetchall():
+            seller = {'name':row[1], 'id':row[0]}
+            sellers.append(seller)
     
     if not sellers:
         sellers = Seller.select().where(Seller.user==user, 
