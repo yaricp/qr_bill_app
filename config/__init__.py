@@ -45,3 +45,5 @@ elif TYPE_DB == 'pgsql':
                             host=PG_HOST, port=PG_PORT)
     migrator = PostgresqlMigrator(db)
                             
+
+RADIUS_SEARCH_SELLER = 0.3 
