@@ -1,5 +1,4 @@
 import gettext, sys
-import psycopg2
 from peewee import *
 from datetime import datetime
 
@@ -11,6 +10,7 @@ from models.category import Category
 from models.wait import Wait
 from models.language import Language
 from keyboards import *
+from utils import *
 
 dict_types = {
         'purchase': Purchase, 
@@ -143,9 +143,14 @@ def show_seller_item(user, id):
     category_name = ''
     seller = Seller.get(Seller.id==id, 
                         Seller.user==user)
+    
     if seller.category:
         category_name = seller.category.name
-    text = _('Seller: %(seller)s\nCategory: %(cat)s') % ({'seller':seller.name, 'cat':category_name})
+    text = _('Seller: %(seller)s\n'\
+            'Category: %(cat)s\n'\
+            'Position: %(geo)s') % ({   'seller':seller.name, 
+                                        'cat':category_name, 
+                                        'geo':geo})
     return text
     
      
@@ -382,22 +387,11 @@ def show_purchases_by(user, name, by_what):
 def show_on_map(type_obj, obj_id):
     position = {'long':0, 
                 'lat':0}
-    conn = psycopg2.connect(database=PG_BATABASE, 
-                            user=PG_USERNAME, 
-                            password=PG_PASSWORD)
-    curs = conn.cursor()
-    print(type_obj)
-    sql_text = 'SELECT name, ST_AsText(geom) FROM %s WHERE id=%s' % (type_obj,obj_id )
-    curs.execute(sql_text)
-    result = curs.fetchall()[0] 
-    print('RESULT: ', result)
-    point = [1]
-    title = result[0]
-    #list_pos = .replace('POINT(', '').replace(')', '').split(' ')
-    position['long'] = point[0]
-    position['lat'] = point[1]
+    position = get_geo_positions(type_obj, obj_id)
     return title, position
     
+
+
 
 #def show_donate_form_ru():
 #    text = '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">'\

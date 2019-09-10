@@ -51,9 +51,11 @@ msgstr "Категория: %s"
 msgid ""
 "Seller: %(seller)s\n"
 "Category: %(cat)s\n"
+"Position: %(geo)s"
 msgstr ""
 "Продавец: %(seller)s\n"
 "Категория: %(cat)s\n"
+"Координаты: %(geo)s"
 
 #: views.py:80
 #, python-format

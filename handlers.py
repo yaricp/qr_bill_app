@@ -704,8 +704,8 @@ def private_actions(bot, update):
                 #TODO make dict for defend menu for object
                 title, position = show_on_map(type_obj, obj.id)
                 bot.send_venue(chat_id, 
-                                latitude=position['lat'], 
-                                longitude=position['long'], 
+                                latitude=position[1], 
+                                longitude=position[0], 
                                 title=title, 
                                 disable_notification=False, 
                                 reply_to_message_id=message_id, 

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import psycopg2
+
 from decorators import *
 
 GENDER, PHOTO, LOCATION, BIO = range(4)
@@ -20,4 +22,15 @@ def get_month(m):
                     }
     return dict_months[m]
     
+    
+def get_geo_positions(type, id):
+    conn = psycopg2.connect(database=PG_BATABASE, 
+                            user=PG_USERNAME, 
+                            password=PG_PASSWORD)
+    curs = conn.cursor()
+    sql_text = 'SELECT name, ST_AsText(geom) FROM %s WHERE id=%s' % (type, id)
+    curs.execute(sql_text)
+    result = curs.fetchall()[0] 
+    point = [1]
+    return (point[0], point[1])
     
