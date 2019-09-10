@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import psycopg2
 from datetime import datetime
 from telegram import (InlineKeyboardMarkup, KeyboardButton, InlineKeyboardButton, ReplyKeyboardMarkup)
 
@@ -10,6 +11,31 @@ from models.user import User
 
 from config import *
 from utils import *
+
+
+def buttons_for_seller_item(user, id_item, type_item):
+    keyboard = get_button_categories(user, id_item, type_item)
+    new_button = InlineKeyboardButton(  
+        _('Location'), 
+        callback_data='location&%s&%s' % ( type_item, 
+                                                id_item
+                                                ))
+    keyboard.menu.append([new_button])
+    new_button = InlineKeyboardButton(  
+        _('Menu'),
+        callback_data='/menu')
+    keyboard.menu.append([new_button])
+    return keyboard
+    
+    
+def buttons_for_purchase_item(user, id_item, type_item):
+    keyboard = get_button_categories(user, id_item, type_item)
+    new_button = InlineKeyboardButton(  
+        _('Menu'),
+        callback_data='/menu')
+    keyboard.menu.append([new_button])
+    return keyboard
+    
 
 
 def get_button_main():
@@ -97,15 +123,13 @@ def get_button_sellers(user, id_item, geo=None):
     purchase = Purchase.get(Purchase.id==id_item, 
                             Purchase.user==user)
     #TODO make to search sellers by location in radius 
-    import psycopg2
+    
     conn = psycopg2.connect(database=PG_BATABASE, 
                             user=PG_USERNAME, 
                             password=PG_PASSWORD)
     curs = conn.cursor()
     print('GEO: ', geo)
-
     poi = (geo.longitude, geo.latitude) # longitude, latitude
-
     curs.execute("""\
         SELECT seller.id,seller.name,
         ST_transform(ST_SetSRID(ST_MakePoint(seller.longitude, seller.latitude),4326),3857) as geom
@@ -191,16 +215,7 @@ def get_button_categories(user, id_item, type_item):
                                                 id_item
                                                 ))
     menu.append([new_button])
-    new_button = InlineKeyboardButton(  
-        _('Location'), 
-        callback_data='location&%s&%s' % ( type_item, 
-                                                id_item
-                                                ))
-    menu.append([new_button])
-    new_button = InlineKeyboardButton(  
-        _('Menu'),
-        callback_data='/menu')
-    menu.append([new_button])
+    
     keyboard = InlineKeyboardMarkup(menu)
     return keyboard
     

@@ -1,4 +1,5 @@
 import gettext, sys
+import psycopg2
 from peewee import *
 from datetime import datetime
 
@@ -346,6 +347,7 @@ def show_donate_link_ru():
     text = 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=F444B9FSAE4XW&source=url'
     return text
     
+    
 def show_purchases_by(user, name, by_what):
     text = ''
     #print('name: ', name)
@@ -375,6 +377,28 @@ def show_purchases_by(user, name, by_what):
                                 )
     #print(text)
     return text
+    
+    
+def show_on_map(type_obj, obj_id):
+    position = {'long':0, 
+                'lat':0}
+    conn = psycopg2.connect(database=PG_BATABASE, 
+                            user=PG_USERNAME, 
+                            password=PG_PASSWORD)
+    curs = conn.cursor()
+    curs.execute("""\
+        SELECT name, ST_AsText(geom)
+        FROM %s
+        WHERE id=%s""",(type_obj,obj_id ))
+    result = curs.fetchall()[0] 
+    print('RESULT: ', result)
+    point = [1]
+    title = result[0]
+    list_pos = point.replace('POINT(', '').replace(')', '').split(' ')
+    position['long'] = list_pos[0]
+    position['lat'] = list_pos[1]
+    return title, position
+    
 
 #def show_donate_form_ru():
 #    text = '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">'\

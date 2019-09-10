@@ -34,6 +34,12 @@ dict_show_item = {
         'category': show_category_item, 
         'user': show_user_item
     }
+    
+#dict_keyboard_item = {
+#        'seller':
+#
+#    }
+    
 
 @is_not_bot()
 @lang()
@@ -694,6 +700,18 @@ def private_actions(bot, update):
             else:
                 obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj, 
                                             dict_types[type_obj].user==user )
+            if action == 'on_map':
+                #TODO make dict for defend menu for object
+                title, position = show_on_map(type_obj, obj.id)
+                bot.send_venue(chat_id, 
+                                latitude=position['lat'], 
+                                longitude=position['long'], 
+                                title=title, 
+                                disable_notification=False, 
+                                reply_to_message_id=message_id, 
+                                reply_markup=keyboard
+                                )
+                return
             if action == 'location':
                 keyboard = get_button_geo()
                 text_loc =  _('what is location?\nID: %s\n TYPE: %s' % (obj.id, type_obj))
@@ -715,14 +733,14 @@ def private_actions(bot, update):
                 text = show_new_seller(user, purchase_id=id_obj)
             elif action == 'show':
                 if type_obj == 'purchase':
-                    keyboard = get_button_categories(user, id_obj, type_obj)
+                    keyboard = buttons_for_seller_item(user, id_obj, type_obj)
                     text = show_purchase_item(user, id_obj)
                 elif type_obj == 'category':
                     keyboard =  get_button_del_item(id_obj, type_obj)
                     text = show_category_item(user, id_obj)
                 elif type_obj == 'seller':
                     #keyboard =  get_button_del_item(id_obj, type_obj)
-                    keyboard = get_button_categories(user, id_obj, type_obj)
+                    keyboard = buttons_for_seller_item(user, id_obj, type_obj)
                     text = show_seller_item(user, id_obj)
                 elif type_obj == 'user':
                     text = show_user_item(user, id_obj)
