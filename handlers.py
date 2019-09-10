@@ -708,6 +708,7 @@ def private_actions(bot, update):
                     bot.send_venue(chat_id, 
                                 latitude=position[1], 
                                 longitude=position[0], 
+                                address='test Address', 
                                 title=title, 
                                 disable_notification=False, 
                                 reply_to_message_id=message_id, 
