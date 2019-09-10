@@ -326,7 +326,7 @@ def new_photo(bot, update):
 def new_text(bot, update):
     date_time = None
     summ = None
-    wait_command =None
+    wait_command=None
     photo_file_id = ''
     user = update.message.from_user.id
     
@@ -336,6 +336,7 @@ def new_text(bot, update):
     if wait_command:
         splitted_wait_command = wait_command.split('&')
         command = splitted_wait_command[0]
+        print('command: ', command)
         if command == 'new_category':
             text = create_category(  user, 
                                     update.message.text)

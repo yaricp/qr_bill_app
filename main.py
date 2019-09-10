@@ -46,6 +46,19 @@ def main():
 
     updater = Updater(TOKEN, request_kwargs=REQUEST_KWARGS)
     dispatcher = updater.dispatcher
+#    new_seller_handler = ConversationHandler(
+#        entry_points=[
+#                    CommandHandler('new_seller', new_seller, pass_args=True)
+#                    ],
+#        states={
+#            LOCATION: [ MessageHandler(Filters.location, location), 
+#                        CommandHandler('menu', menu)],
+#        },
+#        fallbacks=[CommandHandler('cancel', cancel)], 
+#        allow_reentry = True
+#    )
+    
+    
 #    print('LOCATION: ', LOCATION)
 #    new_photo_handler = ConversationHandler(
 #        entry_points=[

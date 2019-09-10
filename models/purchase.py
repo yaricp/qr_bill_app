@@ -11,4 +11,3 @@ class Purchase(MainModel):
     seller = pw.ForeignKeyField(Seller, backref='sellers', null=True)
     user = pw.CharField()
     pic = pw.CharField()
-    #confirm = pw.IntegerField(null=True)
