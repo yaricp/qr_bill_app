@@ -37,3 +37,14 @@ def get_geo_positions(type, id):
         geo = (point[0], point[1])
     return geo 
     
+    
+def save_geo_position(type, id, geo):
+    conn = psycopg2.connect(database=PG_BATABASE, 
+                            user=PG_USERNAME, 
+                            password=PG_PASSWORD)
+    curs = conn.cursor()
+    geo = None
+    sql_text = 'UPDATE %s SET geom = ST_SetSRID(ST_MakePoint('\
+                '%s, %s), 4326) WHERE id=%s;' % (type, geo[1], geo[0], id)
+    result = curs.execute(sql_text)
+    return result

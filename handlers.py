@@ -248,7 +248,7 @@ def by_category(bot, update):
 @is_not_bot()    
 @is_allowed_user()
 @lang()
-def location(bot, update):
+def set_location(bot, update):
     user = update.message.from_user.id
     user_location = update.message.location
     print('LOCATION!')
@@ -263,22 +263,15 @@ def location(bot, update):
         text = show_purchase_item(user, obj_id)
     else:
         keyboard =  get_button_categories(user, obj_id, type_obj)
-        obj = dict_types[type_obj].get(dict_types[type_obj].id==obj_id, 
-                                            dict_types[type_obj].user==user )
-        obj.longitude = user_location.longitude
-        obj.latitude = user_location.latitude
-        obj.save()
+        result = save_geo_position(type_obj, obj_id, user_location)
+        print(result)
         text = show_seller_item(user, obj_id)
+    chat_id = update.message.chat.id
     bot.edit_message_text(
                         chat_id=chat_id,
                         text=text, 
                         reply_markup=ReplyKeyboardRemove())
-#    update.message.reply_text(', 
-#                              )
-    chat_id = update.message.chat.id
-    print('UDPATE:', update)
-    print("CHAT: ", update.message.chat)
-    message_id = update.message.message_id
+    #message_id = update.message.message_id
     bot.send_message(
                         chat_id=chat_id,
                         text=text, 

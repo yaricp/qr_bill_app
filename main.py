@@ -30,7 +30,7 @@ from handlers import (  new_category,
                         start, 
                         change_lang, 
                         langs, 
-                        location, 
+                        set_location, 
                         cancel)
 
 from config import *
@@ -59,7 +59,10 @@ def main():
 #        allow_reentry = True
 #    )
 #    dispatcher.add_handler(new_photo_handler)
-    location_handler = MessageHandler(Filters.location, location, edited_updates=True)
+    location_handler = MessageHandler(
+                            Filters.location, 
+                            set_location, 
+                            edited_updates=True)
     dispatcher.add_handler(location_handler)
     
     start_handler = CommandHandler('start', start)
