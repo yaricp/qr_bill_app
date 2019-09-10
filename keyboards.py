@@ -37,7 +37,7 @@ def buttons_for_purchase_item(user, id_item, type_item):
     new_button = InlineKeyboardButton(  
         _('Menu'),
         callback_data='/menu')
-    keyboard.menu.append([new_button])
+    keyboard['inline_keyboard'].append([new_button])
     return keyboard
     
 
