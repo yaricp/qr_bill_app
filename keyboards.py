@@ -15,6 +15,7 @@ from utils import *
 
 def buttons_for_seller_item(user, id_item, type_item):
     keyboard = get_button_categories(user, id_item, type_item)
+    print(keyboard.__dict__)
     new_button = InlineKeyboardButton(  
         _('Location'), 
         callback_data='location&%s&%s' % ( type_item, 
