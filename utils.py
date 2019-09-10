@@ -32,8 +32,9 @@ def get_geo_positions(type, id):
     sql_text = 'SELECT ST_AsText(geom) FROM %s WHERE id=%s' % (type, id)
     curs.execute(sql_text)
     result = curs.fetchall()[0] 
+    print('RESULT:', result)
     point = result[0]
-    if len(point) == 2:
+    if point and len(point) == 2:
         geo = (point[0], point[1])
     conn.close()
     return geo 
