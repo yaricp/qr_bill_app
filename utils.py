@@ -32,7 +32,7 @@ def get_geo_positions(type_obj, id):
     sql_text = 'SELECT ST_AsText(geom) FROM %s WHERE id=%s' % (type_obj, id)
     curs.execute(sql_text)
     result = curs.fetchall()[0] 
-    point = result[0].replace('POINT(', '').replace(')', '')
+    point = result[0].replace('POINT(', '').replace(')', '').split(' ')
     print('TYpe POINT:', type(point))
     if point:
         geo = (point[0], point[1])
