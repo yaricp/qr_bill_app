@@ -270,12 +270,9 @@ def set_location(bot, update):
     print('User: ', user)
     print('Chat_id: ', chat_id)
     message_id = update.message.message_id
-    bot.edit_message_text(
+    bot.edit_message_reply_markup(
                         chat_id=chat_id,
-                        message_id=message_id, 
-                        text=text, 
-                        reply_markup=keyboard)
-                        #ReplyKeyboardRemove())
+                        reply_markup=ReplyKeyboardRemove())
     #d
 #    bot.send_message(
 #                        chat_id=chat_id,
