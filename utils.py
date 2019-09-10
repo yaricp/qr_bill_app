@@ -43,8 +43,8 @@ def save_geo_position(type, id, geo):
                             user=PG_USERNAME, 
                             password=PG_PASSWORD)
     curs = conn.cursor()
-    geo = None
     sql_text = 'UPDATE %s SET geom = ST_SetSRID(ST_MakePoint('\
-                '%s, %s), 4326) WHERE id=%s;' % (type, geo[1], geo[0], id)
+                '%s, %s), 4326) WHERE id=%s;' % (type, geo.longitude, geo.latitude, id)
     result = curs.execute(sql_text)
+    conn.close()
     return result
