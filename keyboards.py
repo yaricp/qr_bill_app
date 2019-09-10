@@ -136,13 +136,14 @@ def get_button_sellers(user, id_item, geo=None):
     print('GEO: ', geo)
     poi = (geo.longitude, geo.latitude) # longitude, latitude
     curs.execute(
-        'SELECT id,name,geom FROM seller '\
+        'SELECT id,name FROM seller '\
         'WHERE ST_DWithin(geom, ST_SetSRID(ST_MakePoint('\
         '%s, %s), 4326), 300);', poi)
-    #print('result of geo search: ',curs.fetchall())
-    for row in curs.fetchall():
-        print(row)
     sellers = []
+    for row in curs.fetchall():
+        seller = {'name':row[1], 'id':row[0]}
+        sellers.append(seller)
+    
     if not sellers:
         sellers = Seller.select().where(Seller.user==user, 
                                     Seller.category==purchase.category)
@@ -151,7 +152,7 @@ def get_button_sellers(user, id_item, geo=None):
     count = 0
     for seller in sellers:
         sel_name = '--'
-        if seller.name: sel_name = seller.name
+        if seller['name']: sel_name = seller['name']
         if count == 5:
             menu.append(buttons)
             buttons = []
@@ -161,7 +162,7 @@ def get_button_sellers(user, id_item, geo=None):
                     sel_name, 
                     callback_data='change_seller&%s&%s&%s' % ( 'purchase', 
                                                                 id_item, 
-                                                                seller.id )))
+                                                                seller['id'] )))
         else:
             count += 1
             buttons.append(
