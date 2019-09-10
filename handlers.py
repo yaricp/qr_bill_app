@@ -844,7 +844,7 @@ def private_actions(bot, update):
 
                 return
             else:
-                keyboard = get_button_categories(user, id_obj, type_obj)
+                keyboard = buttons_for_seller_item(user, id_obj, type_obj)
 
             text += dict_show_item[type_obj](user, obj.id)
 
