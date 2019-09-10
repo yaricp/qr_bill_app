@@ -16,12 +16,17 @@ from utils import *
 def buttons_for_seller_item(user, id_item, type_item):
     keyboard = get_button_categories(user, id_item, type_item)
     print(keyboard.__dict__)
-    new_button = InlineKeyboardButton(  
+    loc = InlineKeyboardButton(  
         _('Location'), 
         callback_data='location&%s&%s' % ( type_item, 
                                                 id_item
                                                 ))
-    keyboard['inline_keyboard'].append([new_button])
+    on_map = InlineKeyboardButton(  
+        _('show on map'), 
+        callback_data='on_map&%s&%s' % ( type_item, 
+                                                id_item
+                                                ))
+    keyboard['inline_keyboard'].append([loc, on_map])
     new_button = InlineKeyboardButton(  
         _('Menu'),
         callback_data='/menu')
