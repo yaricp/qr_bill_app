@@ -736,7 +736,7 @@ def private_actions(bot, update):
                     )
                 bot.send_message(
                     chat_id=chat_id,
-                    text=text, 
+                    text=text_loc, 
                     reply_markup=keyboard
                     )
                 return   
