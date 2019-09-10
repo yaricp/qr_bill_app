@@ -267,11 +267,13 @@ def set_location(bot, update):
         print(result)
         text = show_seller_item(user, obj_id)
     chat_id = update.message.chat.id
+    print('User: ', user)
+    print('Chat_id: ', chat_id)
     message_id = update.message.message_id
     bot.edit_message_text(
-                        user,
-                        message_id, 
-                        text, 
+                        chat_id=chat_id,
+                        message_id=message_id, 
+                        text=text, 
                         reply_markup=keyboard)
                         #ReplyKeyboardRemove())
     #d
