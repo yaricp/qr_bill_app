@@ -138,6 +138,7 @@ def get_button_sellers(user, id_item, geo=None):
 #            'SELECT id,name FROM seller '\
 #            'WHERE ST_DWithin(geom, ST_SetSRID(ST_MakePoint('\
 #            '%s, %s), 4326), 100);', poi)
+        radius_mi = 0.3 #300 meters
         curs.execute(
             'SELECT id,name FROM seller '\
             'WHERE ST_Distance_Sphere(geom, ST_SetSRID(ST_MakePoint('\
