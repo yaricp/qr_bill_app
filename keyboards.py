@@ -128,6 +128,7 @@ def get_button_sellers(user, id_item, geo=None):
     purchase = Purchase.get(Purchase.id==id_item, 
                             Purchase.user==user)
     sellers = []
+    seller_dict_flag = False
     if geo:
         conn = psycopg2.connect(database=PG_BATABASE, 
                                 user=PG_USERNAME, 
@@ -142,6 +143,7 @@ def get_button_sellers(user, id_item, geo=None):
         for row in curs.fetchall():
             seller = {'name':row[1], 'id':row[0]}
             sellers.append(seller)
+            seller_dict_flag = True
     
     if not sellers:
         sellers = Seller.select().where(Seller.user==user, 
@@ -151,26 +153,31 @@ def get_button_sellers(user, id_item, geo=None):
     count = 0
     for seller in sellers:
         sel_name = '--'
-        print(seller)
-        if seller['name']: sel_name = seller['name']
+        if seller_dict_flag:
+            sel_name = seller['name']
+            sel_id = seller['id']
+        else:
+            if seller['name']: sel_name = seller['name']
+            sel_id = seller.id
+        
+        buttons.append(
+            InlineKeyboardButton(  
+                sel_name, 
+                callback_data='change_seller&%s&%s&%s' % ( 'purchase',
+                                                            id_item, 
+                                                            sel_id )))
         if count == 5:
             menu.append(buttons)
             buttons = []
             count = 0
-            buttons.append(
-                InlineKeyboardButton(  
-                    sel_name, 
-                    callback_data='change_seller&%s&%s&%s' % ( 'purchase', 
-                                                                id_item, 
-                                                                seller['id'] )))
+#            buttons.append(
+#                InlineKeyboardButton(  
+#                    sel_name, 
+#                    callback_data='change_seller&%s&%s&%s' % ( 'purchase', 
+#                                                                id_item, 
+#                                                                sel_id )))
         else:
             count += 1
-            buttons.append(
-                InlineKeyboardButton(  
-                    sel_name, 
-                    callback_data='change_seller&%s&%s&%s' % ( 'purchase',
-                                                                id_item, 
-                                                                seller['id'] )))
     menu.append(buttons)
     new_button = InlineKeyboardButton(  
         _('New Seller'),
