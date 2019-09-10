@@ -274,12 +274,14 @@ def set_location(bot, update):
                     chat_id=chat_id,
                     message_id=message_id
                     )
-    
-    bot.edit_message_text(
-                        chat_id=chat_id,
-                        message_id=message_id-2, 
-                        text=text, 
-                        reply_markup=keyboard)
+    bot.delete_message(
+                    chat_id=chat_id,
+                    message_id=message_id-1
+                    )
+    bot.send_message(
+                    chat_id=chat_id,
+                    text=text, 
+                    reply_markup=keyboard)
 
     return ConversationHandler.END
     
