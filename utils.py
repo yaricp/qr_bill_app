@@ -28,9 +28,12 @@ def get_geo_positions(type, id):
                             user=PG_USERNAME, 
                             password=PG_PASSWORD)
     curs = conn.cursor()
-    sql_text = 'SELECT name, ST_AsText(geom) FROM %s WHERE id=%s' % (type, id)
+    geo = None
+    sql_text = 'SELECT ST_AsText(geom) FROM %s WHERE id=%s' % (type, id)
     curs.execute(sql_text)
     result = curs.fetchall()[0] 
-    point = [1]
-    return (point[0], point[1])
+    point = result[0]
+    if len(point) == 2:
+        geo = (point[0], point[1])
+    return geo 
     

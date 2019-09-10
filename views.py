@@ -389,6 +389,7 @@ def show_purchases_by(user, name, by_what):
 def show_on_map(type_obj, obj_id):
     position = {'long':0, 
                 'lat':0}
+    title = dict_types[type_obj].get_or_none(id=obj_id).name
     position = get_geo_positions(type_obj, obj_id)
     return title, position
     
