@@ -140,7 +140,7 @@ def get_button_sellers(user, id_item, geo=None):
             '%s, %s), 4326), 100);', poi)
         print('found')
         for row in curs.fetchall():
-            print(row[1])
+            print(row[0])
             seller = {'name':row[1], 'id':row[0]}
             sellers.append(seller)
             seller_dict_flag = True
