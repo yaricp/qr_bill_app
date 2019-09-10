@@ -137,7 +137,7 @@ def get_button_sellers(user, id_item, geo=None):
         radius_mi = RADIUS_SEARCH_SELLER
         curs.execute(
             'SELECT id,name FROM seller '\
-            'WHERE category = %s AND ST_Distance_Sphere(geom, ST_SetSRID(ST_MakePoint('\
+            'WHERE category_id = %s AND ST_Distance_Sphere(geom, ST_SetSRID(ST_MakePoint('\
             '%s, %s), 4326)) <= %s * 1609.34;', 
             (purchase.category.id, geo.longitude, geo.latitude, radius_mi))
         print('found')
