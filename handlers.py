@@ -269,7 +269,7 @@ def set_location(bot, update):
     chat_id = update.message.chat.id
     message_id = update.message.message_id
     bot.edit_message_text(
-                        chat_id,
+                        user,
                         message_id, 
                         text, 
                         reply_markup=keyboard)
