@@ -329,7 +329,7 @@ def new_text(bot, update):
     wait_command=None
     photo_file_id = ''
     user = update.message.from_user.id
-    
+    chat_id = update.message.chat.id
     query = Wait.select().where(Wait.user == user)
     if query.exists():
         wait_command = Wait.get(user=user).command
@@ -343,17 +343,23 @@ def new_text(bot, update):
         elif command == 'new_seller':
             text = create_seller(  user, 
                                     update.message.text)
+            keyboard = get_button_geo()
+            update.message.reply_text(text)
+            text_loc =  _('what is location?\nID: %s\n TYPE: %s' % (seller_id, 'seller'))
+            bot.send_message(
+                    chat_id=chat_id,
+                    text=text_loc, 
+                    reply_markup=keyboard
+                    )
+            return                        
         elif command == 'new_seller_purchase':
             purchase_id = splitted_wait_command[1]
             text, seller_id = create_seller(user, 
                                 update.message.text,
                                 purchase_id=purchase_id
                                 )
-            #keyboard = get_button_sellers(user, purchase_id)
-            
             keyboard = get_button_geo()
             update.message.reply_text(text)
-            chat_id = update.message.chat.id
             text_loc =  _('what is location?\nID: %s\n TYPE: %s' % (seller_id, 'seller'))
             bot.send_message(
                     chat_id=chat_id,
