@@ -35,6 +35,7 @@ def get_geo_positions(type, id):
     point = result[0]
     if len(point) == 2:
         geo = (point[0], point[1])
+    conn.close()
     return geo 
     
     
