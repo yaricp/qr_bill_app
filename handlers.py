@@ -272,6 +272,7 @@ def set_location(bot, update):
     message_id = update.message.message_id
     bot.edit_message_reply_markup(
                         chat_id=chat_id,
+                        message_id=message_id, 
                         reply_markup=ReplyKeyboardRemove())
     #d
 #    bot.send_message(
