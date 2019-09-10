@@ -157,7 +157,7 @@ def get_button_sellers(user, id_item, geo=None):
             sel_name = seller['name']
             sel_id = seller['id']
         else:
-            if seller['name']: sel_name = seller['name']
+            if seller.name: sel_name = seller['name']
             sel_id = seller.id
         
         buttons.append(
