@@ -393,9 +393,9 @@ def show_on_map(type_obj, obj_id):
     print('RESULT: ', result)
     point = [1]
     title = result[0]
-    list_pos = point.replace('POINT(', '').replace(')', '').split(' ')
-    position['long'] = list_pos[0]
-    position['lat'] = list_pos[1]
+    #list_pos = .replace('POINT(', '').replace(')', '').split(' ')
+    position['long'] = point[0]
+    position['lat'] = point[1]
     return title, position
     
 
