@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import time
 
+from telegram import bot
 from telegram import ParseMode, ReplyKeyboardRemove, ForceReply
 from telegram.ext import ConversationHandler
 
