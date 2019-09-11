@@ -291,7 +291,7 @@ def get_update_data(update):
         chat_id = update.callback_query.message.chat.id
         message_id = update.callback_query.message.message_id
     else:
-        user = update.message.from.id
+        user = update.message.from_user.id
         chat_id = update.message.chat.id
         message_id = update.message.message_id
     return user, chat_id, message_id
