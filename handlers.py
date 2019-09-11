@@ -338,14 +338,38 @@ def new_photo(update, context):
     user = update.message.from_user.id
     print('NEW PHOTO')
     print('USER: ', user)
+    print('CONTEXT: ', context)
     nrows = Wait.delete().where(Wait.user == user).execute()
     photo_file_id = update.message.photo[-1].file_id
-    foto = bot.getFile(photo_file_id)
-    new_file = bot.get_file(foto.file_id)
+    #foto = bot.get_file(photo_file_id)
+    new_file = bot.get_file(photo_file_id)
     new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
     date_time, summ, raw = scan(image=True, video=False)
-    reply_to_new(update, date_time, summ, user, raw, photo_file_id)
+    purchase_id = reply_to_new(update, date_time, summ, user, raw, photo_file_id)
+    request_location(purchase_id)
     return LOCATION
+
+
+@is_not_bot()    
+@is_allowed_user()
+@lang()
+def request_location(user, type_obj, obj_id):
+    
+    text = dict_show_item[type_obj](user, obj_id)
+#    bot.delete_message(
+#        chat_id=chat_id,
+#        message_id=message_id, 
+#        )
+    bot.answer_callback_query(
+        callback_query_id=user, 
+        text=_('send me coordinates of seller please'), 
+        show_alert=True
+        )
+    bot.send_message(
+        chat_id=chat_id,
+        text=text, 
+        reply_markup=keyboard, 
+        )
 
 
 @is_not_bot()    
