@@ -43,7 +43,7 @@ dict_keyboard_item = {
 
 @is_not_bot()
 @lang()
-def start(bot, update):
+def start(update, context):
     req_user = update.message.from_user
     keyboard = get_button_main()
     user_id = req_user.id
@@ -68,7 +68,7 @@ def start(bot, update):
 
 @is_not_bot()
 @lang()
-def about(bot, update):
+def about(update, context):
     text = show_about()
     update.message.reply_text(text=text)
 
@@ -76,14 +76,14 @@ def about(bot, update):
 @is_not_bot()
 @is_allowed_user()
 @lang()
-def cancel(bot, update):
+def cancel(update, context):
     update.message.reply_text(text='cancel')
     
 
 @is_not_bot()
 @is_allowed_user()
 @lang()
-def donate(bot, update):
+def donate(update, context):
     text = show_sberbank_donate_text()
     text += show_paypal_donate_text()
     text += show_patreon_donate_text()
@@ -93,7 +93,7 @@ def donate(bot, update):
 @is_not_bot()
 @is_allowed_user()
 @lang()
-def change_lang(bot, update):
+def change_lang(update, context):
     user = update.message.from_user.id
     lang = update.message.text.replace('/lang', '').replace(' ', '')
     if lang in LANGUAGES:
@@ -107,7 +107,7 @@ def change_lang(bot, update):
 @is_not_bot()
 @is_allowed_user()
 @lang()
-def langs(bot, update):
+def langs(update, context):
     keyboard = get_button_lang()
     text=_('Change language')
     update.message.reply_text(  text=text,
@@ -116,7 +116,7 @@ def langs(bot, update):
 
 @is_not_bot()
 @lang()
-def help(bot, update):
+def help(update, context):
     keyboard = get_button_main()
     text = show_help()
     update.message.reply_text(  text=text,
@@ -126,7 +126,7 @@ def help(bot, update):
 @is_not_bot()
 @is_allowed_user()
 @lang()
-def list_purchase(bot, update):
+def list_purchase(update, context):
     user = update.message.from_user.id
     keyboard = get_button_list_purchase(user)
     update.message.reply_text(  text=_('List Purchases'),
@@ -162,7 +162,7 @@ def del_purchase(bot, update, args):
 @is_not_bot()                                
 @is_allowed_user()
 @lang()
-def list_category(bot, update):
+def list_category(update, context):
     user = update.message.from_user.id
     keyboard = get_button_list_categories(user)
     update.message.reply_text(  text=_('List Сategories'),
@@ -172,7 +172,7 @@ def list_category(bot, update):
 @is_not_bot()
 @is_allowed_user()
 @lang()
-def list_seller(bot, update):
+def list_seller(update, context):
     user_id = update.message.from_user.id
     keyboard = get_button_list_sellers(user_id)
     update.message.reply_text(  text=_('List Sellers'),
@@ -181,7 +181,7 @@ def list_seller(bot, update):
 @is_not_bot()                                
 @is_allowed_user()
 @lang()
-def menu(bot, update):
+def menu(update, context):
     user_id = update.message.from_user.id
     keyboard = get_button_menu(user_id)
     update.message.reply_text(  text=_('Menu'),
@@ -217,7 +217,7 @@ def new_seller(bot, update, args):
 @is_not_bot()
 @is_allowed_user()
 @lang()
-def list_orders(bot, update):
+def list_orders(update, context):
     user = update.message.from_user.id
     keyboard = get_button_orders(user)
     update.message.reply_text(  text=_('Orders'),
@@ -227,7 +227,7 @@ def list_orders(bot, update):
 @is_not_bot()                           
 @is_allowed_user()
 @lang()
-def by_seller(bot, update):
+def by_seller(update, context):
     user = update.message.from_user.id
 #    keyboard = get_button_main()
 #    text = show_order_by(user, 'seller')
@@ -241,7 +241,7 @@ def by_seller(bot, update):
 @is_not_bot()
 @is_allowed_user()
 @lang()
-def by_category(bot, update):
+def by_category(update, context):
     user = update.message.from_user.id
 #    keyboard = get_button_main()
 #    text = show_order_by(user, 'category')
@@ -255,7 +255,7 @@ def by_category(bot, update):
 @is_not_bot()    
 @is_allowed_user()
 @lang()
-def set_location(bot, update):
+def set_location(update, context):
     user = update.message.from_user.id
     user_location = update.message.location
     print('LOCATION!')
@@ -303,7 +303,7 @@ def cancel(update, context):
 @is_not_bot()    
 @is_allowed_user()
 @lang()
-def new_video(bot, update):
+def new_video(update, context):
     date_time = None
     summ = None
     raw = None
@@ -329,7 +329,7 @@ def new_video(bot, update):
 @is_not_bot()    
 @is_allowed_user()
 @lang()
-def new_photo(bot, update):
+def new_photo(update, context):
     date_time = None
     summ = None
     raw = None
@@ -350,7 +350,7 @@ def new_photo(bot, update):
 @is_not_bot()    
 @is_allowed_user()
 @lang()
-def new_text(bot, update):
+def new_text(update, context):
     date_time = None
     summ = None
     wait_command=None
@@ -455,7 +455,7 @@ def reply_to_new(update, date_time, summ, user, raw=None, photo_file_id=''):
 #@is_not_bot()    
 #@is_allowed_user()
 #@lang()
-#def new_msg(bot, update):
+#def new_msg(update, context):
 #    wait_command = None
 #    date_time = None
 #    summ = None
@@ -583,7 +583,7 @@ def reply_to_new(update, date_time, summ, user, raw=None, photo_file_id=''):
 
 @is_not_bot()
 @lang()
-def button(bot, update):
+def button(update, context):
     chat_id = update.callback_query.message.chat.id
     message_id = update.callback_query.message.message_id
     but_data = update.callback_query.data
@@ -638,14 +638,14 @@ def button(bot, update):
                         text=text, 
                         parse_mode=ParseMode.HTML)
     else:
-        private_actions(bot, update)
+        private_actions(update, context)
         return True
         
 
 @is_not_bot()        
 @is_allowed_user()
 @lang()
-def change_seller_category(bot, update):
+def change_seller_category(update, context):
     but_data = update.callback_query.data
     #callback_query_id = update.callback_query.id
     user = update.callback_query.from_user.id
@@ -683,7 +683,7 @@ def change_seller_category(bot, update):
 @is_not_bot()        
 @is_allowed_user()
 @lang()
-def private_actions(bot, update):
+def private_actions(update, context):
     but_data = update.callback_query.data
     callback_query_id = update.callback_query.id
     user = update.callback_query.from_user.id
