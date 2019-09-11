@@ -86,8 +86,7 @@ def main():
         fallbacks=[cancel_handler, ], 
         allow_reentry=True, 
         per_message=True, 
-        persistent=True, 
-        persistence={'obj_id': '', 'type_obj':'purchase'},
+        persistent=True
         
     )
     #
