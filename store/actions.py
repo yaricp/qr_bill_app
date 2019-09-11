@@ -1,7 +1,7 @@
-from ..config import *
+from config import *
 
-from .models.wait import Wait
-from .models.purchase import Purchase
+from models.wait import Wait
+from models.purchase import Purchase
 
 
 def save_purchase(date_time, summ, user, raw=None, photo_file_id=''):
