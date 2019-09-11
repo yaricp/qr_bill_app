@@ -343,6 +343,7 @@ def new_photo(bot, update):
     new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
     date_time, summ, raw = scan(image=True, video=False)
     reply_to_new(update, date_time, summ, user, raw, photo_file_id)
+    return LOCATION
 
 
 @is_not_bot()    

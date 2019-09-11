@@ -47,3 +47,6 @@ elif TYPE_DB == 'pgsql':
                             
 
 RADIUS_SEARCH_SELLER = 0.3 
+LOCATION = 1
+SELLER = 2
+CATEGORY = 3

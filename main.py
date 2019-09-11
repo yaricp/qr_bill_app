@@ -9,6 +9,7 @@ from telegram.ext import CallbackQueryHandler
 
 from init_db import initialize_db
 from utils import *
+from config import *
 
 from handlers import (  new_category, 
                         #new_msg, 
@@ -54,9 +55,7 @@ def main():
         )
     dispatcher = updater.dispatcher
 
-    LOCATION = 1
-    SELLER = 2
-    CATEGORY = 3
+    
     new_summ_handler = RegexHandler('^\d\d\d \d\d$', new_text)
     new_fn_handler = RegexHandler('^&fn=', new_text)
     new_photo_handler = MessageHandler(Filters.photo, new_photo)
