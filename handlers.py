@@ -372,6 +372,7 @@ def request_location(bot, chat_id, text, type_obj, obj_id):
 #        text=_('send me coordinates of seller please'), 
 #        show_alert=True
 #        )
+    keyboard = get_button_geo()
     bot.send_message(
         chat_id=chat_id,
         text=text, 
