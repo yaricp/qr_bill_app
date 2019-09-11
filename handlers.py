@@ -682,7 +682,7 @@ def change_seller_category(update, context):
         change_category(obj, user, id_link_obj)
         keyboard = dict_keyboard_item[type_obj](user, id_obj, type_obj)
         text = dict_show_item[type_obj](user, obj.id)
-    bot.edit_message_text(
+    context.bot.edit_message_text(
         chat_id=chat_id, 
         message_id=message_id, 
         text=text, 
