@@ -1,7 +1,19 @@
 from config import *
 
-from models.wait import Wait
+from models.seller import Seller
 from models.purchase import Purchase
+from models.category import Category
+from models.wait import Wait
+from models.language import Language
+from models.user import User
+
+
+dict_types = {
+        'purchase': Purchase, 
+        'seller': Seller, 
+        'category': Category, 
+        'user': User
+    }
 
 
 def save_purchase(date_time, summ, user, raw=None, photo_file_id=''):
@@ -77,3 +89,8 @@ def change_seller(user,  seller_id):
     obj.save()
     
     
+def get_item(user, type_obj, id_obj):
+    
+    obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj, 
+                                            dict_types[type_obj].user==user )
+    return obj

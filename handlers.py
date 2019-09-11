@@ -668,7 +668,7 @@ def change_seller_category(update, context):
     type_obj = list_parameters[1]
     id_obj = list_parameters[2]
     id_link_obj = list_parameters[3]
-    
+    obj = get_item(user, type_obj, id_obj)
     if action == 'change_seller':
         keyboard = get_button_sellers(user, obj.id)
         change_seller(user, id_link_obj)
