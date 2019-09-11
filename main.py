@@ -63,7 +63,7 @@ def main():
     new_video_handler = MessageHandler(Filters.video, new_video)
     cancel_handler = CommandHandler('cancel', cancel)
     location_handler = MessageHandler(
-                            Filters.all, 
+                            Filters.location, 
                             set_location)
     
     new_bill_handler = ConversationHandler(
@@ -76,11 +76,11 @@ def main():
                     ],
         states={
             LOCATION: [location_handler ],
-            SELLER: [CallbackQueryHandler(  change_seller_category, 
-                                            #pattern='change_seller'
-                                            )], 
-            CATEGORY: [CallbackQueryHandler(change_seller_category, 
-                                            pattern='change_category')]
+#            SELLER: [CallbackQueryHandler(  change_seller_category, 
+#                                            #pattern='change_seller'
+#                                            )], 
+#            CATEGORY: [CallbackQueryHandler(change_seller_category, 
+#                                            pattern='change_category')]
             }, 
         fallbacks=[cancel_handler, ], 
         allow_reentry=True, 
