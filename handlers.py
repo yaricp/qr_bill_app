@@ -728,21 +728,26 @@ def name_new_seller_category(update, context):
                                 purchase_id=purchase_id
                                     )
         keyboard = get_button_categories(user, purchase_id, type_obj)
+        context.bot.delete_message(
+                    chat_id=chat_id, 
+                    message_id=message_id-2
+                    )
+        update.message.reply_text(
+                        text=text, 
+                        reply_markup=keyboard
+                        )
+        return SELLER_CATEGORY
     else:
         text = create_category( user, 
                                 update.message.text, 
                                 purchase_id=purchase_id)
         keyboard = buttons_for_purchase_item(user, purchase_id, type_obj)
-        return ConversationHandler.END
-    context.bot.delete_message(
-                    chat_id=chat_id, 
-                    message_id=message_id-2
-                    )
-    update.message.reply_text(
+        update.message.reply_text(
                     text=text, 
                     reply_markup=keyboard
                     )
-    return SELLER_CATEGORY
+        return ConversationHandler.END
+    
     
     
 @is_not_bot()        
