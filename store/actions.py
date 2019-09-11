@@ -37,7 +37,7 @@ def save_purchase(date_time, summ, user, raw=None, photo_file_id=''):
         text += _('You can send me date and summ like this:\n')
         text += _('12.01.19 123.00')
         
-    return text
+    return text, pur.id
     
     
 def get_purchase_item(user, id):
