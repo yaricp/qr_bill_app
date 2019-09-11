@@ -290,7 +290,7 @@ def get_update_data(update):
         user = update.callback_query.from_user.id
         chat_id = update.callback_query.message.chat.id
         message_id = update.callback_query.message.message_id
-    else
+    else:
         user = update.message.from.id
         chat_id = update.message.chat.id
         message_id = update.message.message_id
