@@ -663,7 +663,7 @@ def button(update, context):
 @is_not_bot()        
 @is_allowed_user()
 @lang()
-def change_seller(update, context):
+def change_seller_purchase(update, context):
     but_data = update.callback_query.data
     user, chat_id, message_id = get_update_data(update)
     list_parameters = but_data.split('&')

@@ -16,7 +16,7 @@ from handlers import (  new_category,
                         new_photo,
                         new_video, 
                         new_text,  
-                        change_seller, 
+                        change_seller_purchase, 
                         add_seller_purchase, 
                         name_new_seller, 
                         new_seller, 
@@ -69,7 +69,7 @@ def main():
                             set_location)
                             
     change_seller_handler = CallbackQueryHandler(  
-                                            change_seller, 
+                                            change_seller_purchase, 
                                             pattern='change_seller'
                                             )
     add_seller_purchase_handler = CallbackQueryHandler(  
