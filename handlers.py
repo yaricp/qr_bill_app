@@ -342,9 +342,9 @@ def new_photo(update, context):
     print('UPDATE:', update.message.photo[-1].__dict__)
     print('UPDATE:', dir(update.message.photo[-1]))
     nrows = Wait.delete().where(Wait.user == user).execute()
-    photo_file_id = update.message.photo[-1].file_id
+    #photo_file_id = update.message.photo[-1].file_id
     #foto = bot.get_file(photo_file_id)
-    new_file = bot.get_file(photo_file_id)
+    new_file = update.message.photo[-1].get_file()
     new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
     date_time, summ, raw = scan(image=True, video=False)
     purchase_id = reply_to_new(update, date_time, summ, user, raw, photo_file_id)
