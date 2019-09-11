@@ -64,9 +64,7 @@ def main():
     cancel_handler = CommandHandler('cancel', cancel)
     location_handler = MessageHandler(
                             Filters.location, 
-                            set_location, 
-                            edited_updates=True, 
-                            pass_user_data=True)
+                            set_location)
     
     new_bill_handler = ConversationHandler(
         name='new_bill_conv', 
