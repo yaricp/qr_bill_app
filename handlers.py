@@ -76,6 +76,13 @@ def about(bot, update):
 @is_not_bot()
 @is_allowed_user()
 @lang()
+def cancel(bot, update):
+    update.message.reply_text(text='cancel')
+    
+
+@is_not_bot()
+@is_allowed_user()
+@lang()
 def donate(bot, update):
     text = show_sberbank_donate_text()
     text += show_paypal_donate_text()

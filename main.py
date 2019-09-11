@@ -60,6 +60,7 @@ def main():
     new_fn_handler = RegexHandler('^&fn=', new_text)
     new_photo_handler = MessageHandler(Filters.photo, new_photo)
     new_video_handler = MessageHandler(Filters.video, new_video)
+    cancel_handler = CommandHandler('cancel', cancel)
     location_handler = MessageHandler(
                             Filters.location, 
                             set_location, 
@@ -82,11 +83,14 @@ def main():
             CATEGORY: [CallbackQueryHandler(change_seller_category, 
                                             pattern='change_category')]
             }, 
+        fallbacks=[cancel_handler, ], 
         allow_reentry=True, 
         per_message=True, 
-        persistent=False
+        persistent=True, 
+        persistence={'obj_id': '', 'type_obj':'purchase'},
+        
     )
-    #persistence={'obj_id': '', 'type_obj':'purchase'},
+    #
     dispatcher.add_handler(new_bill_handler)
 
 
