@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from telegram.ext import Updater
-#from telegram.ext.basepersistence import PicklePersistence
+from telegram.ext.basepersistence import PicklePersistence
 from telegram.ext import CommandHandler, RegexHandler
 from telegram.ext import MessageHandler, Filters, ConversationHandler
 #from telegram.ext import InlineQueryHandler
@@ -46,10 +46,11 @@ if development:
 def main():
     
     print('TOKEN: ', TOKEN)
-    #my_persistence = PicklePersistence(filename='work_data')
+    persistence = PicklePersistence(filename='work_data')
     updater = Updater(
         TOKEN, 
-        request_kwargs=REQUEST_KWARGS
+        request_kwargs=REQUEST_KWARGS, 
+        persistence, 
         )
     dispatcher = updater.dispatcher
 
@@ -87,7 +88,6 @@ def main():
         allow_reentry=True, 
         per_message=True, 
         persistent=True
-        
     )
     #
     dispatcher.add_handler(new_bill_handler)
