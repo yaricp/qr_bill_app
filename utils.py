@@ -3,7 +3,7 @@ import psycopg2
 
 from decorators import *
 
-GENDER, PHOTO, LOCATION, BIO = range(4)
+LOCATION, SELLER, CATEGORY = range(3)
 
 def get_month(m):
     dict_months = {

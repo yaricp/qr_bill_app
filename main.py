@@ -76,11 +76,11 @@ def main():
                     ],
         states={
             LOCATION: [location_handler ],
-#            SELLER: [CallbackQueryHandler(  change_seller_category, 
-#                                            #pattern='change_seller'
-#                                            )], 
-#            CATEGORY: [CallbackQueryHandler(change_seller_category, 
-#                                            pattern='change_category')]
+            SELLER: [CallbackQueryHandler(  change_seller_category, 
+                                            #pattern='change_seller'
+                                            )], 
+            CATEGORY: [CallbackQueryHandler(change_seller_category, 
+                                            pattern='change_category')]
             }, 
         fallbacks=[cancel_handler, ], 
         allow_reentry=True, 
