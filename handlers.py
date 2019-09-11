@@ -339,7 +339,7 @@ def new_photo(update, context):
     user = update.message.from_user.id
     print('NEW PHOTO')
     print('USER: ', user)
-    print('CONTEXT: ', context.__dict__)
+    print('CONTEXT: ', dir(context))
     print('UPDATE:', update.message.photo[-1].__dict__)
     print('UPDATE:', dir(update.message.photo[-1]))
     nrows = Wait.delete().where(Wait.user == user).execute()
