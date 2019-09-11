@@ -8,6 +8,7 @@ from telegram.ext import ConversationHandler
 from config import *
 from models.wait import Wait
 from models.purchase import Purchase
+from store.actions import *
 from views import *
 from recognize import *
 from decorators import *
@@ -342,22 +343,20 @@ def new_photo(update, context):
     print('UPDATE:', update.message.photo[-1].__dict__)
     print('UPDATE:', dir(update.message.photo[-1]))
     nrows = Wait.delete().where(Wait.user == user).execute()
-    #photo_file_id = update.message.photo[-1].file_id
-    #foto = bot.get_file(photo_file_id)
     new_file = update.message.photo[-1].get_file()
     new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
     date_time, summ, raw = scan(image=True, video=False)
-    purchase_id = reply_to_new(update, date_time, summ, user, raw, photo_file_id)
-    request_location(purchase_id)
+    text, purchase_id = save_purchase(date_time, summ, user, raw, photo_file_id)
+    request_location(user, text, 'purchase', purchase_id)
     return LOCATION
 
 
 @is_not_bot()    
 @is_allowed_user()
 @lang()
-def request_location(user, type_obj, obj_id):
+def request_location(user, text, type_obj, obj_id):
     
-    text = dict_show_item[type_obj](user, obj_id)
+#    text = dict_show_item[type_obj](user, obj_id)
 #    bot.delete_message(
 #        chat_id=chat_id,
 #        message_id=message_id, 
