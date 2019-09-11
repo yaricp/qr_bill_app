@@ -67,6 +67,7 @@ def main():
                             pass_user_data=True)
     
     new_bill_handler = ConversationHandler(
+        name = 'new_bill_conv', 
         entry_points=[
                     new_summ_handler, 
                     new_fn_handler, 
@@ -81,9 +82,10 @@ def main():
             CATEGORY: [CallbackQueryHandler(change_seller_category, 
                                             pattern='change_category')]
             }, 
-        allow_reentry = True, 
-        persistence = {'obj_id': '', 'type_obj':'purchase'}, 
-        persistent = True
+        allow_reentry=True, 
+        per_message=True, 
+        persistence={'obj_id': '', 'type_obj':'purchase'}, 
+        persistent=False
     )
     dispatcher.add_handler(new_bill_handler)
 
