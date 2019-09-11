@@ -67,7 +67,7 @@ def main():
                             pass_user_data=True)
     
     new_bill_handler = ConversationHandler(
-        name = 'new_bill_conv', 
+        name='new_bill_conv', 
         entry_points=[
                     new_summ_handler, 
                     new_fn_handler, 
@@ -84,9 +84,9 @@ def main():
             }, 
         allow_reentry=True, 
         per_message=True, 
-        #persistence={'obj_id': '', 'type_obj':'purchase'}, 
         persistent=False
     )
+    #persistence={'obj_id': '', 'type_obj':'purchase'},
     dispatcher.add_handler(new_bill_handler)
 
 
