@@ -346,7 +346,7 @@ def new_photo(update, context):
     new_file = update.message.photo[-1].get_file()
     new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
     date_time, summ, raw = scan(image=True, video=False)
-    text, purchase_id = save_purchase(date_time, summ, user, raw, photo_file_id)
+    text, purchase_id, double = save_purchase(date_time, summ, user, raw, photo_file_id)
     request_location(user, text, 'purchase', purchase_id)
     return LOCATION
 

@@ -7,13 +7,11 @@ from models.purchase import Purchase
 def save_purchase(date_time, summ, user, raw=None, photo_file_id=''):
     text = _('summa or datetime not found')
     raw = None
+    double = False
     if date_time and summ:
-        print('datetime: ', date_time )
-        print('summ: ', summ)
         check_p = Purchase.select().where(Purchase.summ==summ,
                                 Purchase.datetime==date_time, 
                                 Purchase.user==user)
-        print('check_p: ', check_p)
         if not check_p:
             pur = Purchase(name='', 
                         datetime=date_time, 
@@ -22,6 +20,7 @@ def save_purchase(date_time, summ, user, raw=None, photo_file_id=''):
                         pic=photo_file_id,
                         )
             pur.save()
+            obj_id = pur.id
             text = get_purchase_item(user, pur.id)
             if raw:
                 text = _('Sorry I not found QR code.\n')
@@ -32,12 +31,14 @@ def save_purchase(date_time, summ, user, raw=None, photo_file_id=''):
         else:
             text = _('ATTANTION!\nIts looks like:\n')
             text += get_purchase_item(user, check_p[0].id)
+            obj_id = check_p[0].id
+            double = True
     else:
         text = _('Sorry! I not found nothing\n')
         text += _('You can send me date and summ like this:\n')
         text += _('12.01.19 123.00')
         
-    return text, pur.id
+    return text, pur.id, double
     
     
 def get_purchase_item(user, id):
