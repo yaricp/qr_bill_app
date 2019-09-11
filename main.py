@@ -49,8 +49,8 @@ def main():
     #my_persistence = PicklePersistence(filename='work_data')
     updater = Updater(
         TOKEN, 
-        request_kwargs=REQUEST_KWARGS, 
-        use_context=True)
+        request_kwargs=REQUEST_KWARGS
+        )
     dispatcher = updater.dispatcher
 
     LOCATION = 1
