@@ -96,8 +96,8 @@ def main():
                     ],
         states={
             LOCATION: [location_handler ],
-            SELLER_CATEGORY: [  change_seller_category_handler, 
-                                add_seller_category_purchase_handler, 
+            SELLER_CATEGORY: [  change_seller_handler, 
+                                add_seller_purchase_handler, 
                                 change_category_handler, 
                                 add_category_purchase_handler,
                                 ], 
