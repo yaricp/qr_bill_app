@@ -261,7 +261,8 @@ def set_location(update, context):
     user_location = update.message.location
     print('LOCATION!')
     print(user_location)
-    print('CONTEXT USER DATA: ', context.usr_data)
+    print('CONTEXT: ', context)
+    print('CONTEXT USER DATA: ', context.user_data)
     rows = update.message.reply_to_message.text.split('\n')
     obj_id = int(rows[1].split(':')[1])
     type_obj = rows[2].split(':')[1].replace(' ', '')
