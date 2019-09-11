@@ -254,7 +254,7 @@ def set_location(update, context):
     user_location = update.message.location
     print('LOCATION!')
     print(user_location)
-    print('MESSAGE_ID: ', update.reply_to_message.message_id)
+    print('MESSAGE_ID: ', update.message.reply_to_message.message_id)
     obj_id = context.user_data['obj_id']
     type_obj = context.user_data['type_obj']
     if type_obj != 'seller':
