@@ -351,16 +351,8 @@ def new_photo(update, context):
     return LOCATION
 
 
-@is_not_bot()    
-@is_allowed_user()
-@lang()
 def request_location(user, text, type_obj, obj_id):
     
-#    text = dict_show_item[type_obj](user, obj_id)
-#    bot.delete_message(
-#        chat_id=chat_id,
-#        message_id=message_id, 
-#        )
     bot.answer_callback_query(
         callback_query_id=user, 
         text=_('send me coordinates of seller please'), 

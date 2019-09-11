@@ -50,8 +50,8 @@ def is_not_bot():
     def wrap(f):
         def wrapped_f(*args, **kwargs):
             obj = None
-            print('args[1]: ', args[1].__dict__)
-            print('args[0]: ', args[0].__dict__)
+            #print('args[1]: ', args[1].__dict__)
+            #print('args[0]: ', args[0].__dict__)
             if args[0].message:
                 obj = args[0].message
             elif args[0].callback_query:
