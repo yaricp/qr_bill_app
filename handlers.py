@@ -706,7 +706,8 @@ def add_seller_purchase(update, context):
     context.user_data['type_obj'] = type_obj
     context.user_data['id_obj'] = id_obj
     context.user_data['action'] = action
-    update.message.reply_text(
+    context.bot.send_message(
+                chat_id=chat_id, 
                 text=_('Send me name of %s' % trans_type(type_obj))
                 )
     return NAME
@@ -731,6 +732,10 @@ def name_new_seller(update, context):
                                 update.message.text, 
                                 purchase_id=purchase_id)
         keyboard = get_button_sellers(user, purchase_id)
+    context.bot.delete_message(
+                    chat_id=chat_id, 
+                    message_id=message_id-2
+                    )
     update.message.reply_text(
                     text=text, 
                     reply_markup=keyboard
