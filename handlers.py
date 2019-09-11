@@ -311,8 +311,13 @@ def new_video(bot, update):
                     text=_('Video uploaded.\nPlease wait. \nRecognize video perhaps take some time.'), 
                     )
     date_time, summ, raw = scan(image=False, video=True)
+    bot.delete_message(
+            update.message.chat.id, 
+            update.message.id+1,
+            )
     reply_to_new(update, date_time, summ, user, raw, video_file_id)
     
+
 
 @is_not_bot()    
 @is_allowed_user()

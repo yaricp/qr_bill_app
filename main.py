@@ -14,6 +14,8 @@ from handlers import (  new_category,
                         new_photo,
                         new_video, 
                         new_text,  
+                        change_seller, 
+                        change_category,
                         new_seller, 
                         list_purchase,
                         purchase, 
@@ -47,37 +49,41 @@ def main():
 
     updater = Updater(TOKEN, request_kwargs=REQUEST_KWARGS)
     dispatcher = updater.dispatcher
-#    new_seller_handler = ConversationHandler(
-#        entry_points=[
-#                    CommandHandler('new_seller', new_seller, pass_args=True)
-#                    ],
-#        states={
-#            LOCATION: [ MessageHandler(Filters.location, location), 
-#                        CommandHandler('menu', menu)],
-#        },
-#        fallbacks=[CommandHandler('cancel', cancel)], 
-#        allow_reentry = True
-#    )
     
-    
-#    print('LOCATION: ', LOCATION)
-#    new_photo_handler = ConversationHandler(
-#        entry_points=[
-#                    MessageHandler(Filters.photo, new_msg)
-#                    ],
-#        states={
-#            LOCATION: [ MessageHandler(Filters.location, location), 
-#                        CommandHandler('menu', menu)],
-#        },
-#        fallbacks=[CommandHandler('cancel', cancel)], 
-#        allow_reentry = True
-#    )
-#    dispatcher.add_handler(new_photo_handler)
+    LOCATION = 1
+    SELLER = 2
+    CATEGORY = 3
+    new_summ_handler = RegexHandler('^\d\d\d \d\d$', new_text)
+    new_fn_handler = RegexHandler('^&fn=', new_text)
+    new_photo_handler = MessageHandler(Filters.photo, new_photo)
+    new_video_handler = MessageHandler(Filters.video, new_video)
     location_handler = MessageHandler(
                             Filters.location, 
                             set_location, 
                             edited_updates=True)
-    dispatcher.add_handler(location_handler)
+    
+    new_bill_handler = ConversationHandler(
+        entry_points=[
+                    new_summ_handler, 
+                    new_fn_handler, 
+                    new_photo_handler, 
+                    new_video_handler
+                    ],
+        states={
+            LOCATION: [location_handler, ],
+            SELLER: [CallbackQueryHandler(change_seller, pattern='change_seller' )], 
+            CATEGORY: [CallbackQueryHandler(change_category, pattern='change_category')]
+            }, 
+        allow_reentry = True
+    )
+    dispatcher.add_handler(new_bill_handler)
+
+
+#    location_handler = MessageHandler(
+#                            Filters.location, 
+#                            set_location, 
+#                            edited_updates=True)
+#    dispatcher.add_handler(location_handler)
     
     start_handler = CommandHandler('start', start)
     dispatcher.add_handler(start_handler)
@@ -130,14 +136,14 @@ def main():
     donate_handler = CommandHandler('donate', donate)
     dispatcher.add_handler(donate_handler)
     
-    new_msg_handler = MessageHandler(Filters.text, new_text)
-    dispatcher.add_handler(new_msg_handler)
+#    new_msg_handler = MessageHandler(Filters.text, new_text)
+#    dispatcher.add_handler(new_msg_handler)
+#    
+#    new_photo_handler = MessageHandler(Filters.photo, new_photo)
+#    dispatcher.add_handler(new_photo_handler)
     
-    new_photo_handler = MessageHandler(Filters.photo, new_photo)
-    dispatcher.add_handler(new_photo_handler)
-    
-    new_video_handler = MessageHandler(Filters.video, new_video)
-    dispatcher.add_handler(new_video_handler)
+#    new_video_handler = MessageHandler(Filters.video, new_video)
+#    dispatcher.add_handler(new_video_handler)
 
     updater.dispatcher.add_handler(CallbackQueryHandler(button))
 
