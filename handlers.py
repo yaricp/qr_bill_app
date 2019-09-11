@@ -362,6 +362,7 @@ def new_photo(update, context):
     text, purchase_id, double = save_purchase(date_time, summ, user, raw, photo_file_id)
     request_location(bot, chat_id, text, 'purchase', purchase_id)
     context.user_data = {'type_obj':'purchase', 'obj_id': purchase_id}
+    print('RETURN: ', LOCATION)
     return LOCATION
 
 
