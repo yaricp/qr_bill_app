@@ -708,7 +708,7 @@ def add_seller_purchase(update, context):
     context.user_data['action'] = action
     context.bot.send_message(
                 chat_id=chat_id, 
-                text=_('Send me name of %s' % trans_type(type_obj))
+                text=_('Send me name of %s' % trans_type(action))
                 )
     return NAME
         
