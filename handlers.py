@@ -339,6 +339,7 @@ def new_photo(update, context):
     print('NEW PHOTO')
     print('USER: ', user)
     print('CONTEXT: ', context)
+    print('UPDATE:', update.__dict__)
     nrows = Wait.delete().where(Wait.user == user).execute()
     photo_file_id = update.message.photo[-1].file_id
     #foto = bot.get_file(photo_file_id)
