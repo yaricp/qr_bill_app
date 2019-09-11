@@ -763,7 +763,7 @@ def add_category_purchase(update, context):
                 chat_id=chat_id, 
                 text=_('Send me name of %s' % trans_type(action))
                 )
-    return NAME_SELLER
+    return NAME_SELLER_CATEGORY
     
                     
 @is_not_bot()        
