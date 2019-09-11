@@ -933,9 +933,9 @@ def private_actions(update, context):
                     caption=text, 
                     reply_markup=keyboard)
                 return True
-#    if len(list_parameters) > 3:
-#        id_link_obj = list_parameters[3]
-#
+    if len(list_parameters) > 3:
+        id_link_obj = list_parameters[3]
+
 #        if action == 'change_seller':
 #            keyboard = get_button_sellers(user, obj.id)
 ##            Category = Category.get(Category.id==id_link_obj, 
@@ -974,7 +974,7 @@ def private_actions(update, context):
 #
 #            text += dict_show_item[type_obj](user, obj.id)
 
-        elif action == 'confirm':
+        if action == 'confirm':
             if id_link_obj == 'yes':
                 obj.confirm = True
                 obj.save()
