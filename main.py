@@ -76,10 +76,10 @@ def main():
                                             add_seller_purchase, 
                                             pattern='change_seller'
                                             )
-    change_category_handler = CallbackQueryHandler(
-                                            change_seller_category, 
-                                            pattern='change_category'
-                                            )
+#    change_category_handler = CallbackQueryHandler(
+#                                            change_seller_category, 
+#                                            pattern='change_category'
+#                                            )
 #    add_category_purchase_handler = CallbackQueryHandler(
 #                                            add_category_purchase, 
 #                                            pattern='change_category'
