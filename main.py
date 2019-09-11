@@ -2,7 +2,7 @@
 
 from telegram.ext import Updater
 from telegram.ext.picklepersistence import PicklePersistence
-from telegram.ext import CommandHandler, RegexHandler
+from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler, Filters, ConversationHandler
 #from telegram.ext import InlineQueryHandler
 from telegram.ext import CallbackQueryHandler
@@ -56,8 +56,8 @@ def main():
     dispatcher = updater.dispatcher
 
     
-    new_summ_handler = RegexHandler('^\d\d\d \d\d$', new_text)
-    new_fn_handler = RegexHandler('^&fn=', new_text)
+    new_summ_handler = MessageHandler(Filters.regex('^\d\d\d \d\d$'), new_text)
+    new_fn_handler = MessageHandler(Filters.regex('^&fn='), new_text)
     new_photo_handler = MessageHandler(Filters.photo, new_photo)
     new_video_handler = MessageHandler(Filters.video, new_video)
     cancel_handler = CommandHandler('cancel', cancel)
@@ -85,7 +85,6 @@ def main():
             }, 
         fallbacks=[cancel_handler, ], 
         allow_reentry=True, 
-        per_message=True, 
         persistent=True
     )
     #
