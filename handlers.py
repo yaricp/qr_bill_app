@@ -268,6 +268,7 @@ def set_location(update, context):
         result = save_geo_position(type_obj, obj_id, user_location)
         print(result)
         text = show_seller_item(user, obj_id)
+    update.message.edit_reply_markup(reply_markup=ReplyKeyboardRemove())
     update.message.reply_text(
             text=text, 
             reply_markup=keyboard
@@ -335,12 +336,12 @@ def new_photo(update, context):
     user, chat_id, message_id = get_update_data(update)
     bot = context.bot
     print('NEW PHOTO')
-    print('USER: ', user)
-    print('CONTEXT: ', context)
-    print('CONTEXT: ', dir(context))
-    print('CONTEXT: ', context.__dict__)
-    print('UPDATE:', update.message.photo[-1].__dict__)
-    print('UPDATE:', dir(update.message.photo[-1]))
+#    print('USER: ', user)
+#    print('CONTEXT: ', context)
+#    print('CONTEXT: ', dir(context))
+#    print('CONTEXT: ', context.__dict__)
+#    print('UPDATE:', update.message.photo[-1].__dict__)
+#    print('UPDATE:', dir(update.message.photo[-1]))
     nrows = Wait.delete().where(Wait.user == user).execute()
     new_file = update.message.photo[-1].get_file()
     new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
@@ -349,17 +350,12 @@ def new_photo(update, context):
     request_location(update, chat_id, text, 'purchase', purchase_id)
     context.user_data['type_obj'] = 'purchase'
     context.user_data['obj_id'] = purchase_id
-    print('RETURN: ', LOCATION)
+#    print('RETURN: ', LOCATION)
     return LOCATION
 
 
 def request_location(update, chat_id, text, type_obj, obj_id):
     
-#    bot.answer_callback_query(
-#        callback_query_id=user, 
-#        text=_('send me coordinates of seller please'), 
-#        show_alert=True
-#        )
     keyboard = get_button_geo()
     update.message.reply_text(
         text=text, 
@@ -665,7 +661,7 @@ def button(update, context):
 @is_not_bot()        
 @is_allowed_user()
 @lang()
-def change_seller_category(update, context):
+def change_seller(update, context):
     but_data = update.callback_query.data
     user, chat_id, message_id = get_update_data(update)
     list_parameters = but_data.split('&')
@@ -678,10 +674,10 @@ def change_seller_category(update, context):
         keyboard = get_button_sellers(user, obj.id)
         change_seller(obj, user, id_link_obj)
         text = show_purchase_item(user, obj.id)
-    elif action == 'change_category':
-        change_category(obj, user, id_link_obj)
-        keyboard = dict_keyboard_item[type_obj](user, id_obj, type_obj)
-        text = dict_show_item[type_obj](user, obj.id)
+#    elif action == 'change_category':
+#        change_category(obj, user, id_link_obj)
+#        keyboard = dict_keyboard_item[type_obj](user, id_obj, type_obj)
+#        text = dict_show_item[type_obj](user, obj.id)
     context.bot.edit_message_text(
         chat_id=chat_id, 
         message_id=message_id, 
@@ -690,11 +686,78 @@ def change_seller_category(update, context):
         )
     return ConversationHandler.END
     
+
+@is_not_bot()        
+@is_allowed_user()
+@lang()
+def add_seller_category_purchase(update, context):
+    
+    but_data = update.callback_query.data
+    user, chat_id, message_id = get_update_data(update)
+    list_parameters = but_data.split('&')
+    action = list_parameters[0]
+    type_obj = list_parameters[1]
+    id_obj = list_parameters[2]
+    obj = dict_types[type_obj].get( dict_types[type_obj].id==id_obj, 
+                                    dict_types[type_obj].user==user )
+    
+    context.user_data['type_obj'] = type_obj
+    context.user_data['id_obj'] = id_obj
+    context.user_data['action'] = action
+    update.message.reply_text(
+                text=_('Send me name of %s' % trans_type(type_obj))
+                )
+    return NAME
+        
+        
+@is_not_bot()        
+@is_allowed_user()
+@lang()
+def new_seller_category(update, context):
+    
+    user, chat_id, message_id = get_update_data(update)
+    type_obj = context.user_data['type_obj']
+    purchase_id = context.user_data['id_obj']
+    action = context.user_data['action']
+    if action == 'seller':
+        text, seller_id = create_seller(user, 
+                                    update.message.text,
+                                    purchase_id=purchase_id
+                                    )
+    else:
+        text = create_category( user, 
+                                update.message.text, 
+                                purchase_id=purchase_id)
+        keyboard = get_button_sellers(user, purchase_id)
+    update.message.reply_text(
+                    text=text, 
+                    reply_markup=keyboard
+                    )
+    return ConversationHandler.END
+    
+#    
+#@is_not_bot()        
+#@is_allowed_user()
+#@lang()
+#def add_category_purchase(update, context):
+#    
+#    but_data = update.callback_query.data
+#    user, chat_id, message_id = get_update_data(update)
+#    list_parameters = but_data.split('&')
+#    action = list_parameters[0]
+#    type_obj = list_parameters[1]
+#    id_obj = list_parameters[2]
+#    obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj, 
+#                                            dict_types[type_obj].user==user )
+#    text = show_new_category(user, type=type_obj, obj_id=id_obj)
+#    
+    
                     
 @is_not_bot()        
 @is_allowed_user()
 @lang()
 def private_actions(update, context):
+    bot = context.bot
     but_data = update.callback_query.data
     callback_query_id = update.callback_query.id
     user = update.callback_query.from_user.id
@@ -870,46 +933,46 @@ def private_actions(update, context):
                     caption=text, 
                     reply_markup=keyboard)
                 return True
-    if len(list_parameters) > 3:
-        id_link_obj = list_parameters[3]
-
-        if action == 'change_seller':
-            keyboard = get_button_sellers(user, obj.id)
-#            Category = Category.get(Category.id==id_link_obj, 
+#    if len(list_parameters) > 3:
+#        id_link_obj = list_parameters[3]
+#
+#        if action == 'change_seller':
+#            keyboard = get_button_sellers(user, obj.id)
+##            Category = Category.get(Category.id==id_link_obj, 
+##                                    Category.user==user)
+#            seller = Seller.get(Seller.id==id_link_obj, 
+#                                Seller.user==user)
+#            obj.seller = seller
+#            obj.save()
+#            text = show_purchase_item(user, obj.id)
+#            #text='seller saved! %s %s %s' % (text,  purchase.datetime,  purchase.summ)
+#        elif action == 'change_category':
+#
+#            category = Category.get(Category.id==id_link_obj, 
 #                                    Category.user==user)
-            seller = Seller.get(Seller.id==id_link_obj, 
-                                Seller.user==user)
-            obj.seller = seller
-            obj.save()
-            text = show_purchase_item(user, obj.id)
-            #text='seller saved! %s %s %s' % (text,  purchase.datetime,  purchase.summ)
-        elif action == 'change_category':
-
-            category = Category.get(Category.id==id_link_obj, 
-                                    Category.user==user)
-            obj.category = category
-            print('Category: ', category)
-            obj.save()
-            if type_obj != 'seller':
-                keyboard = get_button_geo()
-                text_loc =  _('what is location?\nID: %s\n TYPE: %s' % (obj.id, type_obj))
-                text = dict_show_item[type_obj](user, obj.id)
-                bot.edit_message_text(
-                    chat_id=chat_id,
-                    message_id=message_id, 
-                    text=text
-                    )
-                bot.send_message(
-                    chat_id=chat_id,
-                    text=text_loc, 
-                    reply_markup=keyboard
-                    )
-
-                return
-            else:
-                keyboard = buttons_for_seller_item(user, id_obj, type_obj)
-
-            text += dict_show_item[type_obj](user, obj.id)
+#            obj.category = category
+#            print('Category: ', category)
+#            obj.save()
+#            if type_obj != 'seller':
+#                keyboard = get_button_geo()
+#                text_loc =  _('what is location?\nID: %s\n TYPE: %s' % (obj.id, type_obj))
+#                text = dict_show_item[type_obj](user, obj.id)
+#                bot.edit_message_text(
+#                    chat_id=chat_id,
+#                    message_id=message_id, 
+#                    text=text
+#                    )
+#                bot.send_message(
+#                    chat_id=chat_id,
+#                    text=text_loc, 
+#                    reply_markup=keyboard
+#                    )
+#
+#                return
+#            else:
+#                keyboard = buttons_for_seller_item(user, id_obj, type_obj)
+#
+#            text += dict_show_item[type_obj](user, obj.id)
 
         elif action == 'confirm':
             if id_link_obj == 'yes':

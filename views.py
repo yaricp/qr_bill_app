@@ -21,6 +21,11 @@ dict_types = {
 #'sticker': {'file_id': 'CAADAgADCwEAAvR7GQABuArOzKHFjusC', 'height': 512, 'set_name': 'Animals', 'emoji': '\U0001f436', 'width': 427, 'file_size': 34138, 'thumb': {'file_id': 'AAQCABO9nVkqAAQz9MZF3Mcwj2c_AAIC', 'height': 128,
 
 
+def trans_type(type_obj):
+    if type_obj == 'seller': return _('seller`s')
+    else: return _('category`s')
+
+
 def show_order_by(user, type_c):
     dict_months = {
                     1: _('January'), 

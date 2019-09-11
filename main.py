@@ -16,7 +16,9 @@ from handlers import (  new_category,
                         new_photo,
                         new_video, 
                         new_text,  
-                        change_seller_category, 
+                        change_seller, 
+                        add_seller_category_purchase, 
+                        new_seller_category, 
                         new_seller, 
                         list_purchase,
                         purchase, 
@@ -65,6 +67,23 @@ def main():
     location_handler = MessageHandler(
                             Filters.location, 
                             set_location)
+                            
+    change_seller_handler = CallbackQueryHandler(  
+                                            change_seller, 
+                                            pattern='change_seller'
+                                            )
+    add_seller_purchase_handler = CallbackQueryHandler(  
+                                            add_seller_purchase, 
+                                            pattern='change_seller'
+                                            )
+#    change_category_handler = CallbackQueryHandler(
+#                                            change_seller_category, 
+#                                            pattern='change_category'
+#                                            )
+    add_category_purchase_handler = CallbackQueryHandler(
+                                            add_category_purchase, 
+                                            pattern='change_category'
+                                            )
     
     new_bill_handler = ConversationHandler(
         name='new_bill_conv', 
@@ -76,11 +95,13 @@ def main():
                     ],
         states={
             LOCATION: [location_handler ],
-            SELLER: [CallbackQueryHandler(  change_seller_category, 
-                                            pattern='change_seller'
-                                            )], 
-            CATEGORY: [CallbackQueryHandler(change_seller_category, 
-                                            pattern='change_category')]
+            SELLER: [   change_seller_handler, 
+                        add_new_seller_purchase, 
+                        ], 
+            NAME: [ MessageHandler(Filters.text, new_seller_category), ], 
+#            CATEGORY: [ change_category_handler, 
+#                        add_category_purchase_handler, 
+#                        ]
             }, 
         fallbacks=[cancel_handler, ], 
         allow_reentry=True, 
