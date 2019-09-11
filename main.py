@@ -63,7 +63,7 @@ def main():
     new_video_handler = MessageHandler(Filters.video, new_video)
     cancel_handler = CommandHandler('cancel', cancel)
     location_handler = MessageHandler(
-                            #Filters.location, 
+                            Filters.all, 
                             set_location)
     
     new_bill_handler = ConversationHandler(
