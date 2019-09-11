@@ -250,7 +250,7 @@ def by_category(update, context):
 @is_allowed_user()
 @lang()
 def set_location(update, context):
-    user, chat_id, message_id = get_update_data(update.message)
+    user, chat_id, message_id = get_update_data(update)
     user_location = update.message.location
     print('LOCATION!')
     print(user_location)
@@ -285,10 +285,15 @@ def cancel(update, context):
     return ConversationHandler.END
     
 
-def get_update_data(message):
-    user = message.from_user.id
-    chat_id = message.chat.id
-    message_id = message.message_id
+def get_update_data(update):
+    if update.callback_query:
+        user = update.callback_query.from_user.id
+        chat_id = update.callback_query.message.chat.id
+        message_id = update.callback_query.message.message_id
+    else
+        user = update.message.from.id
+        chat_id = update.message.chat.id
+        message_id = update.message.message_id
     return user, chat_id, message_id
     
 
@@ -327,7 +332,7 @@ def new_photo(update, context):
     summ = None
     raw = None
     photo_file_id = ''
-    user, chat_id, message_id = get_update_data(update.message)
+    user, chat_id, message_id = get_update_data(update)
     bot = context.bot
     print('NEW PHOTO')
     print('USER: ', user)
@@ -662,7 +667,7 @@ def button(update, context):
 @lang()
 def change_seller_category(update, context):
     but_data = update.callback_query.data
-    user, chat_id, message_id = get_update_data(update.callback_query.message)
+    user, chat_id, message_id = get_update_data(update)
     list_parameters = but_data.split('&')
     action = list_parameters[0]
     type_obj = list_parameters[1]

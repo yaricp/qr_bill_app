@@ -91,6 +91,6 @@ def change_seller(user,  seller_id):
     
 def get_item(user, type_obj, id_obj):
     
-    obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj, 
-                                            dict_types[type_obj].user==user )
+    obj = dict_types[type_obj].get( dict_types[type_obj].id==id_obj, 
+                                    dict_types[type_obj].user==user )
     return obj
