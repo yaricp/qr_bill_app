@@ -73,7 +73,7 @@ def get_purchase_item(user, id):
     return text
         
 
-def change_category(user, category_id):
+def change_category(obj, user, category_id):
     
     category = Category.get(Category.id==category_id, 
                                 Category.user==user)
@@ -81,7 +81,7 @@ def change_category(user, category_id):
     obj.save()
     
     
-def change_seller(user,  seller_id):
+def change_seller(obj, user,  seller_id):
     
     seller = Seller.get(Seller.id==seller_id, 
                             Seller.user==user)

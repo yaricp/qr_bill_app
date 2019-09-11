@@ -676,10 +676,10 @@ def change_seller_category(update, context):
     obj = get_item(user, type_obj, id_obj)
     if action == 'change_seller':
         keyboard = get_button_sellers(user, obj.id)
-        change_seller(user, id_link_obj)
+        change_seller(obj, user, id_link_obj)
         text = show_purchase_item(user, obj.id)
     elif action == 'change_category':
-        change_category(user, id_link_obj)
+        change_category(obj, user, id_link_obj)
         keyboard = dict_keyboard_item[type_obj](user, id_obj, type_obj)
         text = dict_show_item[type_obj](user, obj.id)
     bot.edit_message_text(
