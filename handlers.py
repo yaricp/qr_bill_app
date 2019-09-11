@@ -276,7 +276,7 @@ def set_location(update, context):
             reply_markup=keyboard
             )
 
-    return SELLER
+    return SELLER_CATEGORY
 
 
 def cancel(update, context):
@@ -663,7 +663,7 @@ def button(update, context):
 @is_not_bot()        
 @is_allowed_user()
 @lang()
-def change_seller_purchase(update, context):
+def change_seller_category_purchase(update, context):
     but_data = update.callback_query.data
     user, chat_id, message_id = get_update_data(update)
     list_parameters = but_data.split('&')
@@ -692,7 +692,7 @@ def change_seller_purchase(update, context):
 @is_not_bot()        
 @is_allowed_user()
 @lang()
-def add_seller_purchase(update, context):
+def add_seller_category_purchase(update, context):
     
     but_data = update.callback_query.data
     user, chat_id, message_id = get_update_data(update)
@@ -710,28 +710,30 @@ def add_seller_purchase(update, context):
                 chat_id=chat_id, 
                 text=_('Send me name of %s' % trans_type(action))
                 )
-    return NAME
+    return NAME_SELLER_CATEGORY 
         
         
 @is_not_bot()        
 @is_allowed_user()
 @lang()
-def name_new_seller(update, context):
+def name_new_seller_category(update, context):
     
     user, chat_id, message_id = get_update_data(update)
     type_obj = context.user_data['type_obj']
     purchase_id = context.user_data['id_obj']
     action = context.user_data['action']
     if action == 'new_seller':
-        text, seller_id = create_seller(user, 
-                                    update.message.text,
-                                    purchase_id=purchase_id
+        text = create_seller(   user, 
+                                update.message.text,
+                                purchase_id=purchase_id
                                     )
+        keyboard = get_button_categories(user, purchase_id, type_obj)
     else:
         text = create_category( user, 
                                 update.message.text, 
                                 purchase_id=purchase_id)
-        keyboard = get_button_sellers(user, purchase_id)
+        keyboard = buttons_for_purchase_item(user, purchase_id, type_obj)
+        return ConversationHandler.END
     context.bot.delete_message(
                     chat_id=chat_id, 
                     message_id=message_id-2
@@ -740,24 +742,28 @@ def name_new_seller(update, context):
                     text=text, 
                     reply_markup=keyboard
                     )
-    return ConversationHandler.END
+    return SELLER_CATEGORY
     
-#    
-#@is_not_bot()        
-#@is_allowed_user()
-#@lang()
-#def add_category_purchase(update, context):
-#    
-#    but_data = update.callback_query.data
-#    user, chat_id, message_id = get_update_data(update)
-#    list_parameters = but_data.split('&')
-#    action = list_parameters[0]
-#    type_obj = list_parameters[1]
-#    id_obj = list_parameters[2]
-#    obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj, 
-#                                            dict_types[type_obj].user==user )
-#    text = show_new_category(user, type=type_obj, obj_id=id_obj)
-#    
+    
+@is_not_bot()        
+@is_allowed_user()
+@lang()
+def add_category_purchase(update, context):
+    
+    but_data = update.callback_query.data
+    user, chat_id, message_id = get_update_data(update)
+    list_parameters = but_data.split('&')
+    action = list_parameters[0]
+    type_obj = list_parameters[1]
+    id_obj = list_parameters[2]
+    obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj, 
+                                            dict_types[type_obj].user==user )
+    text = show_new_category(user, type=type_obj, obj_id=id_obj)
+    context.bot.send_message(
+                chat_id=chat_id, 
+                text=_('Send me name of %s' % trans_type(action))
+                )
+    return NAME_SELLER
     
                     
 @is_not_bot()        

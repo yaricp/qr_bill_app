@@ -16,9 +16,11 @@ from handlers import (  new_category,
                         new_photo,
                         new_video, 
                         new_text,  
-                        change_seller_purchase, 
-                        add_seller_purchase, 
-                        name_new_seller, 
+                        change_seller_category_purchase, 
+                        add_seller_category_purchase, 
+                        change_category_purchase, 
+                        add_category_purchase, 
+                        name_new_seller_category, 
                         new_seller, 
                         list_purchase,
                         purchase, 
@@ -69,21 +71,22 @@ def main():
                             set_location)
                             
     change_seller_handler = CallbackQueryHandler(  
-                                            change_seller_purchase, 
+                                            change_seller_category_purchase, 
                                             pattern='change_seller'
                                             )
+    change_category_handler = CallbackQueryHandler(  
+                                            change_seller_category_purchase, 
+                                            pattern='change_category'
+                                            )
     add_seller_purchase_handler = CallbackQueryHandler(  
-                                            add_seller_purchase, 
+                                            add_seller_category_purchase, 
                                             pattern='new_seller&purchase'
                                             )
-#    change_category_handler = CallbackQueryHandler(
-#                                            change_seller_category, 
-#                                            pattern='change_category'
-#                                            )
-#    add_category_purchase_handler = CallbackQueryHandler(
-#                                            add_category_purchase, 
-#                                            pattern='change_category'
-#                                            )
+    add_category_purchase_handler = CallbackQueryHandler(  
+                                            add_seller_category_purchase, 
+                                            pattern='new_category&purchase'
+                                            )
+    
     
     new_bill_handler = ConversationHandler(
         name='new_bill_conv', 
@@ -95,13 +98,13 @@ def main():
                     ],
         states={
             LOCATION: [location_handler ],
-            SELLER: [   change_seller_handler, 
-                        add_seller_purchase_handler, 
-                        ], 
-            NAME: [ MessageHandler(Filters.text, name_new_seller), ], 
-#            CATEGORY: [ change_category_handler, 
-#                        add_category_purchase_handler, 
-#                        ]
+            SELLER_CATEGORY: [  change_seller_category_handler, 
+                                add_seller_category_purchase_handler, 
+                                change_category_handler, 
+                                add_category_purchase_handler,
+                                ], 
+            NAME_SELLER_CATEGORY: [ MessageHandler(Filters.text, name_new_seller_category), ], 
+            
             }, 
         fallbacks=[cancel_handler, ], 
         allow_reentry=True, 
