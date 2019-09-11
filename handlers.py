@@ -266,7 +266,7 @@ def set_location(update, context):
         result = save_geo_position(type_obj, obj_id, user_location)
         print(result)
         text = show_seller_item(user, obj_id)
-    context.bot.edit_reply_markup(
+    context.bot.edit_message_reply_markup(
             chat_id=chat_id,  
             message_id=update.message.reply_to_message.message_id, 
             reply_markup=ReplyKeyboardRemove()
