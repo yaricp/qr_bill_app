@@ -362,12 +362,13 @@ def new_photo(update, context):
     date_time, summ, raw = scan(image=True, video=False)
     text, purchase_id, double = save_purchase(date_time, summ, user, raw, photo_file_id)
     request_location(bot, chat_id, text, 'purchase', purchase_id)
-    context.user_data = {'type_obj':'purchase', 'obj_id': purchase_id}
+    context.user_data['type_obj'] = 'purchase'
+    context.user_data['obj_id'] = purchase_id
     print('RETURN: ', LOCATION)
     return LOCATION
 
 
-def request_location(bot, chat_id, text, type_obj, obj_id):
+def request_location(update, chat_id, text, type_obj, obj_id):
     
 #    bot.answer_callback_query(
 #        callback_query_id=user, 
@@ -375,8 +376,7 @@ def request_location(bot, chat_id, text, type_obj, obj_id):
 #        show_alert=True
 #        )
     keyboard = get_button_geo()
-    bot.send_message(
-        chat_id=chat_id,
+    update.message.reply_text(
         text=text, 
         reply_markup=keyboard, 
         )
