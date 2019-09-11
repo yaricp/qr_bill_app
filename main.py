@@ -85,7 +85,7 @@ def main():
         allow_reentry=True, 
         per_message=True, 
         persistence={'obj_id': '', 'type_obj':'purchase'}, 
-        persistent=False
+        #persistent=False
     )
     dispatcher.add_handler(new_bill_handler)
 
