@@ -690,7 +690,7 @@ def change_seller(update, context):
 @is_not_bot()        
 @is_allowed_user()
 @lang()
-def add_seller_category_purchase(update, context):
+def add_seller_purchase(update, context):
     
     but_data = update.callback_query.data
     user, chat_id, message_id = get_update_data(update)
@@ -713,7 +713,7 @@ def add_seller_category_purchase(update, context):
 @is_not_bot()        
 @is_allowed_user()
 @lang()
-def new_seller_category(update, context):
+def name_new_seller(update, context):
     
     user, chat_id, message_id = get_update_data(update)
     type_obj = context.user_data['type_obj']
