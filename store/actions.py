@@ -85,7 +85,7 @@ def change_seller(obj, user,  seller_id):
     
     seller = Seller.get(Seller.id==seller_id, 
                         Seller.user==user)
-    obj.category = category
+    obj.category = seller.category
     obj.seller = seller
     obj.save()
     
