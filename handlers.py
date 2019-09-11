@@ -267,7 +267,7 @@ def set_location(update, context):
         print(result)
         text = show_seller_item(user, obj_id)
     update.message.edit_reply_markup(
-            message_id=update.reply_to_message.message_id, 
+            message_id=update.message.reply_to_message.message_id, 
             reply_markup=ReplyKeyboardRemove()
             )
     update.message.reply_text(
