@@ -35,10 +35,10 @@ dict_show_item = {
         'user': show_user_item
     }
 
-#dict_keyboard_item = {
-#        'seller':
-#
-#    }
+dict_keyboard_item = {
+        'seller': buttons_for_seller_item, 
+        'purchase': buttons_for_purchase_item
+    }
 
 
 @is_not_bot()
@@ -631,9 +631,46 @@ def button(bot, update):
     else:
         private_actions(bot, update)
         return True
+        
 
-
-
+@is_not_bot()        
+@is_allowed_user()
+@lang()
+def change_seller_category(bot, update):
+    but_data = update.callback_query.data
+    #callback_query_id = update.callback_query.id
+    user = update.callback_query.from_user.id
+    chat_id = update.callback_query.message.chat.id
+    message_id = update.callback_query.message.message_id
+    
+    list_parameters = but_data.split('&')
+    action = list_parameters[0]
+    type_obj = list_parameters[1]
+    id_obj = list_parameters[2]
+    id_link_obj = list_parameters[3]
+    
+    if action == 'change_seller':
+        keyboard = get_button_sellers(user, obj.id)
+        seller = Seller.get(Seller.id==id_link_obj, 
+                            Seller.user==user)
+        obj.seller = seller
+        obj.save()
+        text = show_purcdarhase_item(user, obj.id)
+    elif action == 'change_category':
+        category = Category.get(Category.id==id_link_obj, 
+                                Category.user==user)
+        obj.category = category
+        obj.save()
+        keyboard = dict_keyboard_item[type_obj](user, id_obj, type_obj)
+        text += dict_show_item[type_obj](user, obj.id)
+    bot.edit_message_text(
+        chat_id=chat_id, 
+        message_id=message_id, 
+        text=text, 
+        reply_markup=keyboard
+        )
+    return True
+                    
 @is_not_bot()        
 @is_allowed_user()
 @lang()

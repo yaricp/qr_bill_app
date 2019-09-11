@@ -46,10 +46,14 @@ if development:
 def main():
     
     print('TOKEN: ', TOKEN)
-
-    updater = Updater(TOKEN, request_kwargs=REQUEST_KWARGS)
+    my_persistence = PicklePersistence(filename='work_data')
+    updater = Updater(
+        TOKEN, 
+        request_kwargs=REQUEST_KWARGS, 
+        persistence=my_persistence, 
+        use_context=True)
     dispatcher = updater.dispatcher
-    
+
     LOCATION = 1
     SELLER = 2
     CATEGORY = 3
@@ -71,10 +75,12 @@ def main():
                     ],
         states={
             LOCATION: [location_handler, ],
-            SELLER: [CallbackQueryHandler(change_seller, pattern='change_seller' )], 
-            CATEGORY: [CallbackQueryHandler(change_category, pattern='change_category')]
+            SELLER: [CallbackQueryHandler(change_seller_category, pattern='change_seller' )], 
+            CATEGORY: [CallbackQueryHandler(change_seller_category, pattern='change_category')]
             }, 
-        allow_reentry = True
+        allow_reentry = True, 
+        persistence = {'obj_id': '', 'type_obj':'purchase'}, 
+        persistent = True
     )
     dispatcher.add_handler(new_bill_handler)
 
