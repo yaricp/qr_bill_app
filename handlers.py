@@ -254,11 +254,9 @@ def set_location(update, context):
     user_location = update.message.location
     print('LOCATION!')
     print(user_location)
-    print('CONTEXT: ', context)
-    print('CONTEXT USER DATA: ', context.user_data)
+    print('MESSAGE_ID: ', message_id)
     obj_id = context.user_data['obj_id']
     type_obj = context.user_data['type_obj']
-    print('TYPE_OBJ: ', type_obj)
     if type_obj != 'seller':
         print('get sellers buttons by geo: ', user_location)
         keyboard = get_button_sellers(user, obj_id, geo=user_location)
