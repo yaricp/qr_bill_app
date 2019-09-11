@@ -664,11 +664,7 @@ def button(update, context):
 @lang()
 def change_seller_category(update, context):
     but_data = update.callback_query.data
-    #callback_query_id = update.callback_query.id
-    user = update.callback_query.from_user.id
-    chat_id = update.callback_query.message.chat.id
-    message_id = update.callback_query.message.message_id
-    
+    user, chat_id, message_id = get_update_data(update)
     list_parameters = but_data.split('&')
     action = list_parameters[0]
     type_obj = list_parameters[1]
@@ -677,25 +673,20 @@ def change_seller_category(update, context):
     
     if action == 'change_seller':
         keyboard = get_button_sellers(user, obj.id)
-        seller = Seller.get(Seller.id==id_link_obj, 
-                            Seller.user==user)
-        obj.seller = seller
-        obj.save()
-        text = show_purcdarhase_item(user, obj.id)
+        change_seller(user, id_link_obj)
+        text = show_purchase_item(user, obj.id)
     elif action == 'change_category':
-        category = Category.get(Category.id==id_link_obj, 
-                                Category.user==user)
-        obj.category = category
-        obj.save()
+        change_category(user, id_link_obj)
         keyboard = dict_keyboard_item[type_obj](user, id_obj, type_obj)
-        text += dict_show_item[type_obj](user, obj.id)
+        text = dict_show_item[type_obj](user, obj.id)
     bot.edit_message_text(
         chat_id=chat_id, 
         message_id=message_id, 
         text=text, 
         reply_markup=keyboard
         )
-    return True
+    return ConversationHandler.END
+    
                     
 @is_not_bot()        
 @is_allowed_user()
