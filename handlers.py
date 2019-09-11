@@ -722,7 +722,7 @@ def name_new_seller(update, context):
     type_obj = context.user_data['type_obj']
     purchase_id = context.user_data['id_obj']
     action = context.user_data['action']
-    if action == 'seller':
+    if action == 'new_seller':
         text, seller_id = create_seller(user, 
                                     update.message.text,
                                     purchase_id=purchase_id
