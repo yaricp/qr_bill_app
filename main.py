@@ -74,7 +74,7 @@ def main():
                                             )
     add_seller_purchase_handler = CallbackQueryHandler(  
                                             add_seller_purchase, 
-                                            pattern='change_seller'
+                                            pattern='new_seller&purchase'
                                             )
 #    change_category_handler = CallbackQueryHandler(
 #                                            change_seller_category, 
