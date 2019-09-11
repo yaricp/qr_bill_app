@@ -31,7 +31,7 @@ def save_purchase(date_time, summ, user, raw=None, photo_file_id=''):
                 text += _('Is it true?\n')
         else:
             text = _('ATTANTION!\nIts looks like:\n')
-            text += show_purchase_item(user, check_p[0].id)
+            text += get_purchase_item(user, check_p[0].id)
     else:
         text = _('Sorry! I not found nothing\n')
         text += _('You can send me date and summ like this:\n')
