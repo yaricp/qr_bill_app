@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from telegram.ext import Updater
-from telegram.ext.basepersistence import PicklePersistence
+#from telegram.ext.basepersistence import PicklePersistence
 from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler, Filters, ConversationHandler
 #from telegram.ext import InlineQueryHandler
@@ -46,11 +46,10 @@ if development:
 def main():
     
     print('TOKEN: ', TOKEN)
-    my_persistence = PicklePersistence(filename='work_data')
+    #my_persistence = PicklePersistence(filename='work_data')
     updater = Updater(
         TOKEN, 
         request_kwargs=REQUEST_KWARGS, 
-        persistence=my_persistence, 
         use_context=True)
     dispatcher = updater.dispatcher
 
@@ -64,7 +63,8 @@ def main():
     location_handler = MessageHandler(
                             Filters.location, 
                             set_location, 
-                            edited_updates=True)
+                            edited_updates=True, 
+                            pass_user_data=True)
     
     new_bill_handler = ConversationHandler(
         entry_points=[
@@ -75,8 +75,11 @@ def main():
                     ],
         states={
             LOCATION: [location_handler, ],
-            SELLER: [CallbackQueryHandler(change_seller_category, pattern='change_seller' )], 
-            CATEGORY: [CallbackQueryHandler(change_seller_category, pattern='change_category')]
+            SELLER: [CallbackQueryHandler(  change_seller_category, 
+                                            pattern='change_seller', 
+                                            pass_user_data=True )], 
+            CATEGORY: [CallbackQueryHandler(change_seller_category, 
+                                            pattern='change_category')]
             }, 
         allow_reentry = True, 
         persistence = {'obj_id': '', 'type_obj':'purchase'}, 
