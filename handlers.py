@@ -263,9 +263,8 @@ def set_location(update, context):
     print(user_location)
     print('CONTEXT: ', context)
     print('CONTEXT USER DATA: ', context.user_data)
-    rows = update.message.reply_to_message.text.split('\n')
-    obj_id = int(rows[1].split(':')[1])
-    type_obj = rows[2].split(':')[1].replace(' ', '')
+    obj_id = context.user_data['obj_id']
+    type_obj = context.user_data['type_obj']
     print('TYPE_OBJ: ', type_obj)
     if type_obj != 'seller':
         print('get sellers buttons by geo: ', user_location)
@@ -276,20 +275,22 @@ def set_location(update, context):
         result = save_geo_position(type_obj, obj_id, user_location)
         print(result)
         text = show_seller_item(user, obj_id)
-    chat_id = update.message.chat.id
-    message_id = update.message.message_id
-    bot.delete_message(
-                    chat_id=chat_id,
-                    message_id=message_id
-                    )
-    bot.delete_message(
-                    chat_id=chat_id,
-                    message_id=message_id-1
-                    )
-    bot.send_message(
-                    chat_id=chat_id,
-                    text=text, 
-                    reply_markup=keyboard)
+    update.message.reply_text(
+            text=text, 
+            reply_markup=keyboard
+            )
+#    bot.delete_message(
+#                    chat_id=chat_id,
+#                    message_id=message_id
+#                    )
+#    bot.delete_message(
+#                    chat_id=chat_id,
+#                    message_id=message_id-1
+#                    )
+#    bot.send_message(
+#                    chat_id=chat_id,
+#                    text=text, 
+#                    reply_markup=keyboard)
 
     return SELLER
 
