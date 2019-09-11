@@ -77,7 +77,7 @@ def main():
         states={
             LOCATION: [location_handler, ],
             SELLER: [CallbackQueryHandler(  change_seller_category, 
-                                            pattern='change_seller', 
+                                            #pattern='change_seller', 
                                             pass_user_data=True )], 
             CATEGORY: [CallbackQueryHandler(change_seller_category, 
                                             pattern='change_category')]

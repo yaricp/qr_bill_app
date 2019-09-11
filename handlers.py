@@ -290,7 +290,7 @@ def set_location(update, context):
                     text=text, 
                     reply_markup=keyboard)
 
-    return ConversationHandler.END
+    return SELLER
 
 
 def cancel(update, context):
