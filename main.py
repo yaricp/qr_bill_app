@@ -50,7 +50,7 @@ def main():
     updater = Updater(
         TOKEN, 
         request_kwargs=REQUEST_KWARGS, 
-        persistence, 
+        persistence=persistence, 
         )
     dispatcher = updater.dispatcher
 
