@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import time
 
-from telegram import bot
 from telegram import ParseMode, ReplyKeyboardRemove, ForceReply
 from telegram.ext import ConversationHandler
 
@@ -337,6 +336,7 @@ def new_photo(update, context):
     raw = None
     photo_file_id = ''
     user = update.message.from_user.id
+    bot = context.bot
     print('NEW PHOTO')
     print('USER: ', user)
     print('CONTEXT: ', dir(context))
@@ -347,11 +347,11 @@ def new_photo(update, context):
     new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
     date_time, summ, raw = scan(image=True, video=False)
     text, purchase_id, double = save_purchase(date_time, summ, user, raw, photo_file_id)
-    request_location(user, text, 'purchase', purchase_id)
+    request_location(bot, user, text, 'purchase', purchase_id)
     return LOCATION
 
 
-def request_location(user, text, type_obj, obj_id):
+def request_location(bot,  user, text, type_obj, obj_id):
     
     bot.answer_callback_query(
         callback_query_id=user, 
