@@ -355,11 +355,11 @@ def new_photo(update, context):
 
 def request_location(bot,  user, text, type_obj, obj_id):
     
-    bot.answer_callback_query(
-        callback_query_id=user, 
-        text=_('send me coordinates of seller please'), 
-        show_alert=True
-        )
+#    bot.answer_callback_query(
+#        callback_query_id=user, 
+#        text=_('send me coordinates of seller please'), 
+#        show_alert=True
+#        )
     bot.send_message(
         chat_id=chat_id,
         text=text, 
