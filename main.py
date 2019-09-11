@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from telegram.ext import Updater
+from telegram.ext import Updater, PicklePersistence
 from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler, Filters, ConversationHandler
 #from telegram.ext import InlineQueryHandler
