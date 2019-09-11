@@ -296,6 +296,27 @@ def cancel(update, context):
 @is_not_bot()    
 @is_allowed_user()
 @lang()
+def new_video(bot, update):
+    date_time = None
+    summ = None
+    raw = None
+    user = update.message.from_user.id
+    nrows = Wait.delete().where(Wait.user == user).execute()
+    video_file_id = update.message.video.file_id
+    video = bot.getFile(video_file_id)
+    new_file = bot.get_file(video.file_id)
+    new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.mp4'))
+    bot.send_message(
+                    update.message.chat.id,
+                    text=_('Video uploaded.\nPlease wait. \nRecognize video perhaps take some time.'), 
+                    )
+    date_time, summ, raw = scan(image=False, video=True)
+    reply_to_new(update, date_time, summ, user, raw, video_file_id)
+    
+
+@is_not_bot()    
+@is_allowed_user()
+@lang()
 def new_photo(bot, update):
     date_time = None
     summ = None
@@ -310,14 +331,6 @@ def new_photo(bot, update):
     new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
     date_time, summ, raw = scan(image=True, video=False)
     reply_to_new(update, date_time, summ, user, raw, photo_file_id)
-#    keyboard = get_button_geo(user, pur.id)
-#    update.message.reply_text(  _('what is location?'), 
-#                        reply_markup=keyboard)
-#    print('return LOCATION: ', LOCATION)
-#    command = 'location&%s' % (type, obj_id)
-#    w = Wait(user=user, command=command)
-#    w.save()
-#    return LOCATION
 
 
 @is_not_bot()    
@@ -344,15 +357,7 @@ def new_text(bot, update):
             text, seller_id = create_seller(  user, 
                                     update.message.text)
             keyboard = get_button_categories(user, seller_id, 'seller')
-#            keyboard = get_button_geo()
-#            update.message.reply_text(text)
-#            text_loc =  _('what is location?\nID: %s\n TYPE: %s' % (seller_id, 'seller'))
-#            bot.send_message(
-#                    chat_id=chat_id,
-#                    text=text_loc, 
-#                    reply_markup=keyboard
-#                    )
-#            return                        
+                       
         elif command == 'new_seller_purchase':
             purchase_id = splitted_wait_command[1]
             text, seller_id = create_seller(user, 

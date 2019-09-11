@@ -12,6 +12,7 @@ from utils import *
 from handlers import (  new_category, 
                         #new_msg, 
                         new_photo,
+                        new_video, 
                         new_text,  
                         new_seller, 
                         list_purchase,
@@ -134,6 +135,9 @@ def main():
     
     new_photo_handler = MessageHandler(Filters.photo, new_photo)
     dispatcher.add_handler(new_photo_handler)
+    
+    new_video_handler = MessageHandler(Filters.video, new_video)
+    dispatcher.add_handler(new_video_handler)
 
     updater.dispatcher.add_handler(CallbackQueryHandler(button))
 
