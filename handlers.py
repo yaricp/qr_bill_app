@@ -72,14 +72,7 @@ def start(update, context):
 def about(update, context):
     text = show_about()
     update.message.reply_text(text=text)
-
-
-@is_not_bot()
-@is_allowed_user()
-@lang()
-def cancel(update, context):
-    update.message.reply_text(text='cancel')
-    
+   
 
 @is_not_bot()
 @is_allowed_user()
@@ -279,18 +272,6 @@ def set_location(update, context):
             text=text, 
             reply_markup=keyboard
             )
-#    bot.delete_message(
-#                    chat_id=chat_id,
-#                    message_id=message_id
-#                    )
-#    bot.delete_message(
-#                    chat_id=chat_id,
-#                    message_id=message_id-1
-#                    )
-#    bot.send_message(
-#                    chat_id=chat_id,
-#                    text=text, 
-#                    reply_markup=keyboard)
 
     return SELLER
 
