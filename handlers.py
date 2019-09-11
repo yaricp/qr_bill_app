@@ -257,10 +257,11 @@ def by_category(update, context):
 @is_allowed_user()
 @lang()
 def set_location(update, context):
-    user = update.message.from_user.id
+    user, chat_id, message_id = get_update_data(update)
     user_location = update.message.location
     print('LOCATION!')
     print(user_location)
+    print('CONTEXT USER DATA: ', context.usr_data)
     rows = update.message.reply_to_message.text.split('\n')
     obj_id = int(rows[1].split(':')[1])
     type_obj = rows[2].split(':')[1].replace(' ', '')
@@ -299,6 +300,16 @@ def cancel(update, context):
                               reply_markup=ReplyKeyboardRemove())
 
     return ConversationHandler.END
+    
+
+def get_update_data(update):
+    user = update.message.from_user.id
+    chat_id = update.message.chat.id
+    message_id = update.message.id
+    if update.callback_query:
+        message_id = update.callback_query.message.message_id
+    return user, chat_id, message_id
+    
 
 
 @is_not_bot()    
@@ -335,7 +346,7 @@ def new_photo(update, context):
     summ = None
     raw = None
     photo_file_id = ''
-    user = update.message.from_user.id
+    user, chat_id, message_id = get_update_data(update)
     bot = context.bot
     print('NEW PHOTO')
     print('USER: ', user)
@@ -349,11 +360,12 @@ def new_photo(update, context):
     new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
     date_time, summ, raw = scan(image=True, video=False)
     text, purchase_id, double = save_purchase(date_time, summ, user, raw, photo_file_id)
-    request_location(bot, user, text, 'purchase', purchase_id)
+    request_location(bot, chat_id, text, 'purchase', purchase_id)
+    context.user_data = {'type_obj':'purchase', 'obj_id': purchase_id}
     return LOCATION
 
 
-def request_location(bot,  user, text, type_obj, obj_id):
+def request_location(bot, chat_id, text, type_obj, obj_id):
     
 #    bot.answer_callback_query(
 #        callback_query_id=user, 
