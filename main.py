@@ -98,7 +98,7 @@ def main():
             LOCATION: [location_handler, 
                         MessageHandler(
                         Filters.regex('not now'), 
-                                    cancel_location)
+                                    set_location)
                         ],
             SELLER_CATEGORY: [  change_seller_handler, 
                                 add_seller_purchase_handler, 

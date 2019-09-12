@@ -249,18 +249,6 @@ def by_category(update, context):
 @is_not_bot()    
 @is_allowed_user()
 @lang()
-def cancel_location(update, context):
-    context.bot.delete_message(
-            chat_id=chat_id,  
-            message_id=update.message.reply_to_message.message_id, 
-            reply_markup=ReplyKeyboardRemove()
-            )
-    return SELLER_CATEGORY
-
-
-@is_not_bot()    
-@is_allowed_user()
-@lang()
 def set_location(update, context):
     user, chat_id, message_id = get_update_data(update)
     user_location = None

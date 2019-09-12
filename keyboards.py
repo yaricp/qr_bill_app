@@ -52,7 +52,7 @@ def get_button_main():
     
 def get_button_geo():
     geo = KeyboardButton(  
-        _('Location'),
+        _('location'),
         request_location=True)
     cancel = KeyboardButton(  
         _('not now'))
