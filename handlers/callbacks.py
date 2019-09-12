@@ -600,9 +600,23 @@ def order_by(update, context):
                 message_id=message_id,
                 text=text,
                 reply_markup=keyboard)
+
+
+@is_not_bot()        
+@is_allowed_user()
+@lang()
+def langs(update, context):
     
-    
+    user, chat_id, message_id = get_update_data(update)
+    keyboard = get_button_lang()
+    text=_('Change language')
+    context.bot.edit_message_text(
+                chat_id=chat_id, 
+                message_id=message_id,
+                text=text,
+                reply_markup=keyboard)
         
+
 @is_not_bot()        
 @is_allowed_user()
 @lang()
@@ -625,8 +639,7 @@ def private_actions(update, context):
     elif but_data == '/help':
         text = show_help()
     elif but_data == '/langs':
-        keyboard = get_button_lang()
-        text=_('Change language')
+        
     elif but_data == '/users':
         keyboard = get_button_users()
         text = _('List users')
