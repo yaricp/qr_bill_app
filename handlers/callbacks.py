@@ -615,7 +615,24 @@ def list_langs(update, context):
                 message_id=message_id,
                 text=text,
                 reply_markup=keyboard)
-        
+
+
+@is_not_bot()        
+@is_allowed_user()
+@lang()
+def set_lang(update, context):
+    
+    user, chat_id, message_id = get_update_data(update)
+    but_data = update.callback_query.data
+    list_parameters = but_data.split('&')
+    text = show_change_lang(user, list_parameters[1])
+    keyboard = get_button_main()
+    context.bot.edit_message_text(
+                chat_id=chat_id, 
+                message_id=message_id,
+                text=text,
+                reply_markup=keyboard)
+    
 
 @is_not_bot()        
 @is_allowed_user()
@@ -647,9 +664,7 @@ def private_actions(update, context):
         action = list_parameters[0]
         #print('action: ',  action)
         keyboard = get_button_main()
-        if action == 'lang':
-            text = show_change_lang(user, list_parameters[1])
-        elif action == '/by_category':
+        if action == '/by_category':
             text = _('By Category %s') %  list_parameters[1]  #show_purchases_by(user, list_parameters[1], 'Category')
             keyboard = get_button_purchases_by(user, list_parameters[1], 'Category')
         elif action == '/by_seller':
