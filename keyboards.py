@@ -375,8 +375,8 @@ def get_columns_items(columns, type_obj, obj):
 #
 
 def get_button_orders():
-    buttons = [[InlineKeyboardButton( _('by category'), callback_data='/order_by&category'), 
-                InlineKeyboardButton( _('by seller'), callback_data='/order_by&seller')]]
+    buttons = [[InlineKeyboardButton( _('by category'), callback_data='order_by&category'), 
+                InlineKeyboardButton( _('by seller'), callback_data='order_by&seller')]]
     new_button = InlineKeyboardButton(  
         _('Menu'),
         callback_data='/menu')
