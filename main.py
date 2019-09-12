@@ -99,6 +99,8 @@ def main():
     )
     dispatcher.add_handler(new_bill_handler)
     dispatcher.add_handler(show_menu_handler)
+    dispatcher.add_handler(change_seller_handler)
+    dispatcher.add_handler(change_category_handler)
     
     set_location_item_handler = MessageHandler(
                             Filters.location, 
