@@ -589,6 +589,7 @@ def orders(update, context):
 def order_by(update, context):
     
     user, chat_id, message_id = get_update_data(update)
+    but_data = update.callback_query.data
     list_parameters = but_data.split('&')
     type_obj = list_parameters[1]
     text = _('summs by %ss and months') %  type_obj
