@@ -605,7 +605,7 @@ def order_by(update, context):
 @is_not_bot()        
 @is_allowed_user()
 @lang()
-def langs(update, context):
+def list_langs(update, context):
     
     user, chat_id, message_id = get_update_data(update)
     keyboard = get_button_lang()
