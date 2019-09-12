@@ -5,7 +5,7 @@ from recognize import *
 from decorators import *
 from utils import *
 
-from callbacks import request_location
+from handlers.callbacks import request_location
 
 @is_not_bot()    
 @is_allowed_user()

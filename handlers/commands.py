@@ -5,7 +5,7 @@ from utils import *
 from keyboards import *
 from views import *
 
-from callbacks import request_location
+
 
 from store.models.user import User
 
