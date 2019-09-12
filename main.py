@@ -72,6 +72,10 @@ def main():
                             Filters.location, 
                             set_location)
     dispatcher.add_handler(location_handler)
+    
+    bill_location_handler = MessageHandler(
+                            Filters.location, 
+                            set_location)
                             
     change_seller_handler = CallbackQueryHandler(  
                                             change_seller_category_purchase, 
@@ -107,7 +111,7 @@ def main():
                     new_video_handler
                     ],
         states={
-            LOCATION: [ location_handler, 
+            LOCATION: [ bill_location_handler, 
                         CommandHandler('skip_location', set_location)
                         ],
             SELLER: [   change_seller_handler, 
