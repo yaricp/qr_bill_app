@@ -1,5 +1,6 @@
 from decorators import *
 from utils import *
+from keyboards import *
 
 from store.models.user import User
 #from models.purchase import Purchase

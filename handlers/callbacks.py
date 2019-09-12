@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 import time
 
-from telegram import ParseMode, ReplyKeyboardRemove, ForceReply
-from telegram.ext import ConversationHandler
+from telegram import ReplyKeyboardRemove
 
 from config import *
 #from models.wait import Wait
