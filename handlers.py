@@ -552,7 +552,7 @@ def change_seller_category_purchase(update, context):
     obj = get_item(user, type_obj, id_obj)
     print('USER DATA: ', context.user_data)
     geo = None
-    if geo in context.user_data:
+    if 'geo' in context.user_data:
         geo = context.user_data['geo']
         
     if action == 'change_seller':
@@ -616,7 +616,7 @@ def name_new_seller_category(update, context):
     action = context.user_data['action']
     print('USER DATA: ', context.user_data)
     geo = None
-    if geo in context.user_data:
+    if 'geo' in context.user_data:
         geo = context.user_data['geo']
         print('longitude:', geo.longitude)
         print('latitude:', geo.latitude)
