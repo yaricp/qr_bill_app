@@ -669,7 +669,7 @@ def private_actions(update, context):
     elif but_data == '/new_seller':
         #TODO telegram.ReplyKeyboardRemove
         text = show_new_seller(user)
-    eelif but_data == '/users':
+    elif but_data == '/users':
         keyboard = get_button_users()
         text = _('List users')
     list_parameters = but_data.split('&')
