@@ -257,7 +257,8 @@ def by_category(update, context):
 def set_location(update, context):
     user, chat_id, message_id = get_update_data(update)
     user_location = None
-    text = _('Please, choose seller')
+    text = _('Please, choose seller')+ '\n'
+    text += show_purchase_item(user, obj_id)
     if update.message.location:
         user_location = update.message.location
         context.bot.delete_message(
@@ -279,7 +280,7 @@ def set_location(update, context):
     if type_obj != 'seller':
         print('get sellers buttons by geo: ', user_location)
         keyboard = get_button_sellers(user, obj_id, geo=user_location)
-        #text = show_purchase_item(user, obj_id)
+        #
     else:
         keyboard =  buttons_for_seller_item(user, obj_id, type_obj)
         result = save_geo_position(type_obj, obj_id, user_location)
@@ -555,7 +556,14 @@ def change_seller_category_purchase(update, context):
         obj = change_seller(obj, user, id_link_obj)
         if not obj.category:
             keyboard = get_button_categories(user, obj.id, 'purchase')
-            text = _('Please?, choose category of purchase')
+            text = _('Please?, choose category of purchase')+'\n'
+            text += show_purchase_item(user, obj.id)
+            context.bot.edit_message_text(
+                chat_id=chat_id, 
+                message_id=message_id, 
+                text=text, 
+                reply_markup=keyboard
+                )
             return SELLER_CATEGORY
     else:
         obj = change_category(obj, user, id_link_obj)
