@@ -88,7 +88,7 @@ def help(update, context):
 @lang()
 def list_purchase(update, context):
     user = update.message.from_user.id
-    keyboard = get_button_list_purchase(user)
+    keyboard = get_button_list_items(user, 'purchase')
     update.message.reply_text(  text=_('List Purchases'),
                                 reply_markup=keyboard)
 
@@ -99,7 +99,8 @@ def list_purchase(update, context):
 def purchase(bot, update, args):
     user = update.message.from_user.id
     id = args[0]
-    keyboard = get_button_one_task(user, id)
+    keyboard = buttons_for_purchase_item(user, id)
+    text = show_purchase_item(user, id_obj)
     update.message.reply_text(  text=_('Purchase'),
                                 reply_markup=keyboard)
                                 
@@ -109,7 +110,7 @@ def purchase(bot, update, args):
 @lang()
 def list_category(update, context):
     user = update.message.from_user.id
-    keyboard = get_button_list_categories(user)
+    keyboard = get_button_list_items(user, 'category')
     update.message.reply_text(  text=_('List Сategories'),
                                 reply_markup=keyboard)
 
@@ -118,8 +119,8 @@ def list_category(update, context):
 @is_allowed_user()
 @lang()
 def list_seller(update, context):
-    user_id = update.message.from_user.id
-    keyboard = get_button_list_sellers(user_id)
+    user = update.message.from_user.id
+    keyboard = get_button_list_items(user, 'seller')
     update.message.reply_text(  text=_('List Sellers'),
                                 reply_markup=keyboard)
                                 
