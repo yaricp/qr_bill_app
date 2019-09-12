@@ -2,6 +2,7 @@
 import psycopg2
 
 from decorators import *
+from keyboards import *
 from store.models.seller import Seller
 from store.models.category import Category
 from store.models.purchase import Purchase
