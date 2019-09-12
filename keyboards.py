@@ -130,19 +130,7 @@ def get_button_sellers(user, id_item, geo=None):
     sellers = []
     seller_dict_flag = False
     if geo:
-        conn = psycopg2.connect(database=PG_BATABASE, 
-                                user=PG_USERNAME, 
-                                password=PG_PASSWORD)
-        curs = conn.cursor()
-
-        radius_mi = RADIUS_SEARCH_SELLER
-        curs.execute(
-            'SELECT id,name FROM seller '\
-            'WHERE category_id = %s AND ST_Distance_Sphere(geom, ST_SetSRID(ST_MakePoint('\
-            '%s, %s), 4326)) <= %s * 1609.34;', 
-            (purchase.category.id, geo.longitude, geo.latitude, radius_mi))
-        print('found')
-        for row in curs.fetchall():
+        for row in find_sellers_around(geo):
             print(row[0])
             seller = {'name':row[1], 'id':row[0]}
             sellers.append(seller)
