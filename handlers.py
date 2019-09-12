@@ -173,7 +173,15 @@ def list_seller(update, context):
 def menu(update, context):
     user, chat_id, message_id = get_update_data(update)
     keyboard = get_button_menu(user)
-    update.message.reply_text(  text=_('Menu'),
+    if update.callback_query:
+        context.bot.edit_message_text(
+                        chat_id=chat_id, 
+                        message_id=message_id, 
+                        text=_('Menu'), 
+                        reply_markup=keyboard
+                        )
+    else:
+        update.message.reply_text(  text=_('Menu'),
                                 reply_markup=keyboard)
 
 
