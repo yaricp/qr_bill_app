@@ -1,11 +1,11 @@
 from config import *
 
-from models.seller import Seller
-from models.purchase import Purchase
-from models.category import Category
-from models.wait import Wait
-from models.language import Language
-from models.user import User
+from .models.seller import Seller
+from .models.purchase import Purchase
+from .models.category import Category
+#from .models.wait import Wait
+#from .models.language import Language
+from .odels.user import User
 
 
 dict_types = {
