@@ -273,13 +273,12 @@ def get_button_list_items(user, type_obj):
 #                    sel = Seller.get(id = p.seller_id)
 #                    seller_name = sel.name
 #                except:
-#                    print('seller not found!')
-        buttons.append([
-            InlineKeyboardButton( 
+#                    print('seller not found!'
+        columns = [InlineKeyboardButton( 
                 'X', 
-                callback_data='delitem&%s&%s' % (type_obj, str(obj.id))), 
-                get_columns_items(type_obj, obj)
-                ])
+                callback_data='delitem&%s&%s' % (type_obj, str(obj.id)))]
+        columns = get_columns_items(columns, type_obj, obj)
+        buttons.append(columns)
     if type_obj != 'purchase':
         new_button = InlineKeyboardButton(  
         _('New %s') % type_obj, 
@@ -294,22 +293,23 @@ def get_button_list_items(user, type_obj):
     return keyboard
     
 
-def get_columns_items(type_obj, obj):
+def get_columns_items(columns, type_obj, obj):
     if type_obj == 'purchase':
-        return [InlineKeyboardButton(  
+        columns.append(InlineKeyboardButton(  
                     '%s - %s - %s' % (obj.summ, obj.datetime, obj.seller.name), 
-                    callback_data='show&purchase&'+str(obj.id)),
-                InlineKeyboardButton( 
+                    callback_data='show&purchase&'+str(obj.id)))
+        columns.append(InlineKeyboardButton( 
                     _('Pic'), 
-                    callback_data='show_picture&purchase&%s' % str(obj.id))]
+                    callback_data='show_picture&purchase&%s' % str(obj.id)))
     elif type_obj == 'seller':
-        return InlineKeyboardButton(  
+        columns.append(InlineKeyboardButton(  
                 obj.name, 
-                callback_data='show&seller&'+str(obj.id))
+                callback_data='show&seller&'+str(obj.id)))
     elif type_obj == 'category':
-        return InlineKeyboardButton(  
+        columns.append(InlineKeyboardButton(  
                 obj.name, 
-                callback_data='show&category&'+str(obj.id))
+                callback_data='show&category&'+str(obj.id)))
+    return columns
     
     
         
