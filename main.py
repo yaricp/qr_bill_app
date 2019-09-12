@@ -120,7 +120,7 @@ def main():
     dispatcher.add_handler(delitem_handler)
     
     list_items_handler = CallbackQueryHandler( list_items, 
-                                            pattern='^list_of&'
+                                            pattern='^list_of'
                                             )
     dispatcher.add_handler(list_items_handler)
 
