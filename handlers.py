@@ -614,6 +614,7 @@ def name_new_seller_category(update, context):
     type_obj = context.user_data['type_obj']
     purchase_id = context.user_data['id_obj']
     action = context.user_data['action']
+    print('USER DATA: ', context.user_data)
     geo = None
     if geo in context.user_data:
         geo = context.user_data['geo']
