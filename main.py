@@ -19,6 +19,7 @@ from handlers import (  new_category,
                         change_seller_category_purchase, 
                         add_seller_category_purchase, 
                         name_new_seller_category, 
+                        show_all_sellers, 
                         new_seller, 
                         list_purchase,
                         purchase, 
@@ -75,6 +76,10 @@ def main():
                                             change_seller_category_purchase, 
                                             pattern='change_seller'
                                             )
+    show_all_sellers_handler = CallbackQueryHandler(  
+                                            show_all_sellers, 
+                                            pattern='show_all_sellers'
+                                            )
     change_category_handler = CallbackQueryHandler(  
                                             change_seller_category_purchase, 
                                             pattern='change_category'
@@ -98,15 +103,18 @@ def main():
                     new_video_handler
                     ],
         states={
-            LOCATION: [location_handler, 
+            LOCATION: [ location_handler, 
                         CommandHandler('skip_location', set_location)
                         ],
-            SELLER_CATEGORY: [  change_seller_handler, 
-                                add_seller_purchase_handler, 
-                                change_category_handler, 
-                                add_category_purchase_handler,
-                                ], 
-            NAME_SELLER_CATEGORY: [ MessageHandler(Filters.text, name_new_seller_category), ], 
+            SELLER: [   change_seller_handler, 
+                        add_seller_purchase_handler,
+                        show_all_sellers_handler, 
+                        ], 
+            CATEGORY: [ change_category_handler,
+                        add_category_purchase_handler,
+                        ], 
+            NAME_SELLER_CATEGORY: [ MessageHandler(Filters.text, 
+                                                    name_new_seller_category), ], 
             
             }, 
         fallbacks=[cancel_handler, ], 

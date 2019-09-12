@@ -289,7 +289,7 @@ def set_location(update, context):
             reply_markup=keyboard
             )
 
-    return SELLER_CATEGORY
+    return SELLER
 
 
 def cancel(update, context):
@@ -536,7 +536,26 @@ def button(update, context):
     else:
         private_actions(update, context)
         return True
-        
+       
+@is_not_bot()        
+@is_allowed_user()
+@lang()      
+def show_all_sellers(update, context):
+    but_data = update.callback_query.data
+    user, chat_id, message_id = get_update_data(update)
+    list_parameters = but_data.split('&')
+    type_obj = list_parameters[1]
+    id_obj = list_parameters[2]
+    obj = get_item(user, type_obj, id_obj)
+    text = show_purchase_item(user, obj.id)
+    keyboard = get_button_sellers(user, id_item)
+    context.bot.edit_message_text(
+                chat_id=chat_id, 
+                message_id=message_id, 
+                text=text, 
+                reply_markup=keyboard
+                )
+    return SELLER
 
 @is_not_bot()        
 @is_allowed_user()
@@ -550,11 +569,9 @@ def change_seller_category_purchase(update, context):
     id_obj = list_parameters[2]
     id_link_obj = list_parameters[3]
     obj = get_item(user, type_obj, id_obj)
-    print('USER DATA: ', context.user_data)
     geo = None
     if 'geo' in context.user_data:
         geo = context.user_data['geo']
-        
     if action == 'change_seller':
         obj = change_seller(obj, user, id_link_obj, geo)
         if not obj.category:
@@ -567,7 +584,7 @@ def change_seller_category_purchase(update, context):
                 text=text, 
                 reply_markup=keyboard
                 )
-            return SELLER_CATEGORY
+            return CATEGORY
     else:
         obj = change_category(obj, user, id_link_obj)
     text = show_purchase_item(user, obj.id)
@@ -616,12 +633,9 @@ def name_new_seller_category(update, context):
     type_obj = context.user_data['type_obj']
     purchase_id = context.user_data['id_obj']
     action = context.user_data['action']
-    print('USER DATA: ', context.user_data)
     geo = None
     if 'geo' in context.user_data:
         geo = context.user_data['geo']
-        print('longitude:', geo.longitude)
-        print('latitude:', geo.latitude)
     if action == 'new_seller':
         text = create_seller(   user, 
                                 update.message.text,
@@ -637,7 +651,7 @@ def name_new_seller_category(update, context):
                         text=text, 
                         reply_markup=keyboard
                         )
-        return SELLER_CATEGORY
+        return CATEGORY
     else:
         text = create_category( user, 
                                 update.message.text, 
