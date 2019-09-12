@@ -14,7 +14,7 @@ from store.models.category import Category
 def buttons_for_seller_item(user, id_item, type_item):
     buttons = [
     [InlineKeyboardButton( _('change_category'),
-        callback_data='show_change_category&%s' % id_item),  
+        callback_data='show_change_category&seller&%s' % id_item),  
     InlineKeyboardButton( _('set location'), 
         callback_data='location&%s&%s' % ( type_item,id_item))], 
     [InlineKeyboardButton( _('show card'), 
@@ -33,7 +33,7 @@ def buttons_for_purchase_item(user, id_item):
                 [InlineKeyboardButton( _('change_seller'), 
                                         callback_data='show_change_seller&%s' % id_item)], 
                 [InlineKeyboardButton( _('change_category'),
-                                        callback_data='show_change_category&%s' % id_item)],  
+                                        callback_data='show_change_category&purchase&%s' % id_item)],  
                 [InlineKeyboardButton( _('menu'), callback_data='menu')], 
                 ]
     keyboard = InlineKeyboardMarkup(buttons)
