@@ -662,6 +662,7 @@ def add_category_purchase(update, context):
 @lang()
 def delitem(update, context):
     but_data = update.callback_query.data
+    print('DIR CALLBACK: ', dir(update.callback_query))
     user, chat_id, message_id = get_update_data(update)
     list_parameters = but_data.split('&')
     #action = list_parameters[0]
@@ -670,7 +671,7 @@ def delitem(update, context):
     if type_obj == 'user':
         send_delete_info_to_user(bot, id_obj)
     text = delete_item(user, type_obj, id_obj)
-    update.callback_query.answer_callback_query(_('%s with ID: %s was deleted' %
+    context.bot.callback_query.answer_callback_query(_('%s with ID: %s was deleted' %
                                                     (type_obj, id_obj)))
     return True
                     
