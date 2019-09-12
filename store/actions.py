@@ -95,7 +95,7 @@ def change_seller(obj, user,  seller_id, geo):
     obj.seller = seller
     obj.save()
     if geo: 
-        save_geo_position('seller', new_seller.id, geo)
+        save_geo_position('seller', seller.id, geo)
     return obj
     
     
