@@ -92,7 +92,10 @@ def main():
                                             add_seller_category_purchase, 
                                             pattern='new_category&purchase'
                                             )
-    
+    show_menu_handler = CallbackQueryHandler( menu, 
+                                            pattern='menu'
+                                            )
+    dispatcher.add_handler(show_menu_handler)
     
     new_bill_handler = ConversationHandler(
         name='new_bill_conv', 
@@ -117,7 +120,7 @@ def main():
                                                     name_new_seller_category), ], 
             
             }, 
-        fallbacks=[cancel_handler, ], 
+        fallbacks=[cancel_handler, show_menu_handler], 
         allow_reentry=True, 
         persistent=True
     )
@@ -136,10 +139,7 @@ def main():
                                             pattern='show'
                                             )
     dispatcher.add_handler(show_item_handler)
-    show_menu_handler = CallbackQueryHandler( menu, 
-                                            pattern='menu'
-                                            )
-    dispatcher.add_handler(show_menu_handler)
+    
 
 
 #    location_handler = MessageHandler(
