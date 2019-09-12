@@ -72,9 +72,9 @@ def get_button_menu(user_id):
     buttons = [[InlineKeyboardButton( _('categories'), callback_data='list_of&category'), 
                 InlineKeyboardButton( _('sellers'), callback_data='list_of&seller')],  
                 [InlineKeyboardButton( _('purchases'), callback_data='list_of&purchase')], 
-                [InlineKeyboardButton( _('orders'), callback_data='/orders')], 
-                [InlineKeyboardButton( _('languages'), callback_data='/langs')],
-                [InlineKeyboardButton( _('help'), callback_data='/help')], 
+                [InlineKeyboardButton( _('orders'), callback_data='orders')], 
+                [InlineKeyboardButton( _('languages'), callback_data='langs')],
+                [InlineKeyboardButton( _('help'), callback_data='help')], 
                 ]
     user, created = User.get_or_create(tg_user_id=user_id)
     if user.is_admin:
@@ -375,8 +375,8 @@ def get_columns_items(columns, type_obj, obj):
 #
 
 def get_button_orders():
-    buttons = [[InlineKeyboardButton( _('by category'), callback_data='/by_category'), 
-                InlineKeyboardButton( _('by seller'), callback_data='/by_seller')]]
+    buttons = [[InlineKeyboardButton( _('by category'), callback_data='/order_by&category'), 
+                InlineKeyboardButton( _('by seller'), callback_data='/order_by&seller')]]
     new_button = InlineKeyboardButton(  
         _('Menu'),
         callback_data='/menu')

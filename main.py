@@ -148,6 +148,11 @@ def main():
                                             pattern='show'
                                             )
     dispatcher.add_handler(show_item_handler)
+    
+    orders_handler = CallbackQueryHandler( orders, 
+                                            pattern='orders'
+                                            )
+    dispatcher.add_handler(orders_handler)
 
 #    location_handler = MessageHandler(
 #                            Filters.location, 

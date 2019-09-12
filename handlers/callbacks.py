@@ -566,7 +566,41 @@ def get_list_items(user, type_obj):
     text = _('List of %s' % text_type )
     keyboard = get_button_list_items(user, type_obj)
     return text, keyboard
-        
+    
+    
+@is_not_bot()        
+@is_allowed_user()
+@lang()
+def orders(updte, context):
+    
+    user, chat_id, message_id = get_update_data(update)
+    keyboard = get_button_orders()
+    text=_('Orders')
+    context.bot.edit_message_text(
+                chat_id=chat_id, 
+                message_id=message_id,
+                text=text,
+                reply_markup=keyboard)
+
+
+@is_not_bot()        
+@is_allowed_user()
+@lang()
+def order_by(update, context):
+    
+    user, chat_id, message_id = get_update_data(update)
+    list_parameters = but_data.split('&')
+    type_obj = list_parameters[1]
+    text = _('summs by %ss and months') %  type_obj
+    keyboard = get_button_order_by(user, type_obj)
+    
+    context.bot.edit_message_text(
+                chat_id=chat_id, 
+                message_id=message_id,
+                text=text,
+                reply_markup=keyboard)
+    
+    
         
 @is_not_bot()        
 @is_allowed_user()
@@ -581,38 +615,17 @@ def private_actions(update, context):
     keyboard = get_button_main()
     type_obj = None
     text = ''
-    nrows = Wait.delete().where(Wait.user == user).execute()
-    if but_data == '/purchases':
-        keyboard = get_button_list_purchase(user)
-        text=_('List Purchase')
-    elif but_data == '/new_category':
+    if but_data == '/new_category':
         #TODO telegram.ReplyKeyboardRemove
         text = show_new_category(user)
     elif but_data == '/new_seller':
         #TODO telegram.ReplyKeyboardRemove
         text = show_new_seller(user)
-    elif but_data == '/orders':
-        keyboard = get_button_orders()
-        text=_('Orders')
-    elif but_data == '/by_seller':
-        text = _('summs by sellers and months')   #show_order_by(user,'seller')
-        keyboard = get_button_order_by(user,'seller')
-    elif but_data == '/by_category':
-        text = _('summs by categories and months')   #show_order_by(user,'category')
-        keyboard = get_button_order_by(user,'category')
     elif but_data == '/help':
         text = show_help()
     elif but_data == '/langs':
         keyboard = get_button_lang()
         text=_('Change language')
-    elif but_data == '/categories':
-        keyboard = get_button_list_categories(user)
-        text = _('List categories')
-        #print('Categories')
-        #print(keyboard)
-    elif but_data == '/sellers':
-        keyboard = get_button_list_sellers(user)
-        text = _('List sellers')
     elif but_data == '/users':
         keyboard = get_button_users()
         text = _('List users')
