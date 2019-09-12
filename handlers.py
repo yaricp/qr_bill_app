@@ -671,9 +671,36 @@ def delitem(update, context):
     if type_obj == 'user':
         send_delete_info_to_user(bot, id_obj)
     text = delete_item(user, type_obj, id_obj)
+    text, keyboard = get_list_items(user, type_obj)
     update.callback_query.answer(_('%s with ID: %s was deleted' %
                                                     (type_obj, id_obj)))
     return True
+    
+
+@is_not_bot()        
+@is_allowed_user()
+@lang()
+def list_items(update, context):
+    but_data = update.callback_query.data
+    user, chat_id, message_id = get_update_data(update)
+    list_parameters = but_data.split('&')
+    type_obj = list_parameters[1]
+    text, keyboard = get_list_items(user, type_obj)
+    update.callback_query.reply(text, reply_markup=keyboard)
+    return True
+    
+    
+
+
+def get_list_items(user, type_obj):
+    text_type = '%ss' % type_obj
+    if type_obj == 'category':
+        text_type = _('categories')
+    text = _('List of %s' % text_type )
+    keyboard = get_button_list_items(user, type_obj)
+    return text, keyboard
+        
+        
                     
 @is_not_bot()        
 @is_allowed_user()

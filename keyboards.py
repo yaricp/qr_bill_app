@@ -73,16 +73,16 @@ def get_button_register():
     
     
 def get_button_menu(user_id):
-    buttons = [[InlineKeyboardButton( _('categories'), callback_data='/categories'), 
-                InlineKeyboardButton( _('sellers'), callback_data='/sellers')],  
-                [InlineKeyboardButton( _('purchases'), callback_data='/purchases')], 
+    buttons = [[InlineKeyboardButton( _('categories'), callback_data='/list_of&category'), 
+                InlineKeyboardButton( _('sellers'), callback_data='/list_of&seller')],  
+                [InlineKeyboardButton( _('purchases'), callback_data='/list_of&purchase')], 
                 [InlineKeyboardButton( _('orders'), callback_data='/orders')], 
                 [InlineKeyboardButton( _('languages'), callback_data='/langs')],
                 [InlineKeyboardButton( _('help'), callback_data='/help')], 
                 ]
     user, created = User.get_or_create(tg_user_id=user_id)
     if user.is_admin:
-        buttons.append([InlineKeyboardButton( _('users'), callback_data='/users')])
+        buttons.append([InlineKeyboardButton( _('users'), callback_data='/list_of&user')])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
     

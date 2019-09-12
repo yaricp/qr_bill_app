@@ -24,6 +24,7 @@ from handlers import (  new_category,
                         purchase, 
                         del_purchase, 
                         delitem, 
+                        list_items, 
                         list_seller,
                         list_category,
                         button, 
@@ -117,6 +118,11 @@ def main():
                                             pattern='delitem'
                                             )
     dispatcher.add_handler(delitem_handler)
+    
+    list_items_handler = CallbackQueryHandler( list_items, 
+                                            pattern='list_of'
+                                            )
+    dispatcher.add_handler(list_items_handler)
 
 
 #    location_handler = MessageHandler(
