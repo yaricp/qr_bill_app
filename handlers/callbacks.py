@@ -571,7 +571,7 @@ def get_list_items(user, type_obj):
 @is_not_bot()        
 @is_allowed_user()
 @lang()
-def orders(updte, context):
+def orders(update, context):
     
     user, chat_id, message_id = get_update_data(update)
     keyboard = get_button_orders()
