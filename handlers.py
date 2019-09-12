@@ -671,7 +671,7 @@ def delitem(update, context):
     if type_obj == 'user':
         send_delete_info_to_user(bot, id_obj)
     text = delete_item(user, type_obj, id_obj)
-    context.bot.callback_query.answer_callback_query(_('%s with ID: %s was deleted' %
+    update.callback_query.answer(_('%s with ID: %s was deleted' %
                                                     (type_obj, id_obj)))
     return True
                     
