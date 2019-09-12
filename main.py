@@ -119,10 +119,7 @@ def main():
                                             pattern='list_of'
                                             )
     dispatcher.add_handler(list_items_handler)
-    show_item_handler = CallbackQueryHandler( show_item, 
-                                            pattern='show'
-                                            )
-    dispatcher.add_handler(show_item_handler)
+    
     
     request_location_item_handler = CallbackQueryHandler( request_location_item, 
                                             pattern='location'
@@ -134,11 +131,21 @@ def main():
                                             )
     dispatcher.add_handler(show_change_seller_handler)
     
+    show_change_category_handler = CallbackQueryHandler( show_change_category, 
+                                            pattern='show_change_category'
+                                            )
+    dispatcher.add_handler(show_change_category_handler)
+    
     register_handler = CallbackQueryHandler( register, 
                                             pattern='register'
                                             )
     dispatcher.add_handler(register_handler)
     
+    
+    show_item_handler = CallbackQueryHandler( show_item, 
+                                            pattern='show'
+                                            )
+    dispatcher.add_handler(show_item_handler)
 
 #    location_handler = MessageHandler(
 #                            Filters.location, 

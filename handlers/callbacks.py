@@ -64,7 +64,33 @@ def error(bot, update, error_msg):
 @lang()
 def show_change_seller(update, context):
     user, chat_id, message_id = get_update_data(update)
+    but_data = update.callback_query.data
+    list_parameters = but_data.split('&')
+    id_obj = list_parameters[1]
+    text = show_purchase_item(user, id_obj)
+    keyboard = get_button_sellers(user, id_item, type_item)
+    context.bot.edit_message_text(
+        chat_od=chat_id, 
+        message_id=message_id, 
+        text=text, 
+        reply_markup=keyboard
+        )
+
+
+@is_not_bot()    
+@is_allowed_user()
+@lang()
+def show_change_category(update, context):
+    user, chat_id, message_id = get_update_data(update)
     text = show_seller_item(user, id_obj)
+    but_data = update.callback_query.data
+    list_parameters = but_data.split('&')
+    type_obj = list_parameters[1]
+    id_obj = list_parameters[2]
+    if type_obj == 'category':
+        text = show_category_item(user, id_obj)
+    elif type_obj == 'seller':
+        text = show_seller_item(user, id_obj)
     keyboard = get_button_categories(user, id_item, type_item)
     context.bot.edit_message_text(
         chat_od=chat_id, 
