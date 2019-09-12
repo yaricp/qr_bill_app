@@ -688,7 +688,10 @@ def change_seller_category_purchase(update, context):
     text = show_purchase_item(user, obj.id)
     keyboard = buttons_for_purchase_item(user, obj.id)
     if action == 'change_seller':
-        change_seller(obj, user, id_link_obj)
+        cat = change_seller(obj, user, id_link_obj)
+        if not cat:
+            keyboard = get_button_categories(user, obj.id, 'purchase')
+            text = _('Please?, choose category of purchase')
     else:
         change_category(obj, user, id_link_obj)
     context.bot.edit_message_text(
