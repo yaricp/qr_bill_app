@@ -309,7 +309,7 @@ def get_button_orders():
                 InlineKeyboardButton( _('by seller'), callback_data='order_by&seller')]]
     new_button = InlineKeyboardButton(  
         _('Menu'),
-        callback_data='/menu')
+        callback_data='menu')
     buttons.append([new_button])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
