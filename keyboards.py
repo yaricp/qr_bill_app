@@ -47,6 +47,8 @@ def get_button_main():
     keyboard = InlineKeyboardMarkup([[new_button]])
     return keyboard
     
+
+    
     
 def get_button_geo():
     geo = KeyboardButton(  
@@ -227,38 +229,38 @@ def get_button_categories(user, id_item, type_item):
     return keyboard
     
     
-def get_button_one_task(user, id):
-    p = Purchase.get_or_none(user=user, id=id)
-    buttons = []
-    seller_name = 'None'
-    if p.seller:
-        try:
-            sel = Seller.get_or_none(id = p.seller_id)
-            seller_name = sel.name
-        except:
-            print('seller not found!')
-    buttons.append([
-                InlineKeyboardButton( 
-                    'X', 
-                    callback_data='delitem&purchase&%s' % str(p.id)), 
+#def get_button_one_task(user, id):
+#    p = Purchase.get_or_none(user=user, id=id)
+#    buttons = []
+#    seller_name = 'None'
+#    if p.seller:
+#        try:
+#            sel = Seller.get_or_none(id = p.seller_id)
+#            seller_name = sel.name
+#        except:
+#            print('seller not found!')
+#    buttons.append([
 #                InlineKeyboardButton( 
-#                    str(p.id), 
+#                    'X', 
+#                    callback_data='delitem&purchase&%s' % str(p.id)), 
+##                InlineKeyboardButton( 
+##                    str(p.id), 
+##                    callback_data='show&purchase&'+str(p.id)),
+#                InlineKeyboardButton(  
+#                    '%s - %s - %s' % (p.summ, p.datetime, seller_name), 
 #                    callback_data='show&purchase&'+str(p.id)),
-                InlineKeyboardButton(  
-                    '%s - %s - %s' % (p.summ, p.datetime, seller_name), 
-                    callback_data='show&purchase&'+str(p.id)),
-                InlineKeyboardButton( 
-                    _('Pic'), 
-                    callback_data='show_picture&purchase&%s' % str(p.id)), 
-                
-                ])
-    new_button = InlineKeyboardButton(  
-        _('Menu'),
-        callback_data='/menu')
-    buttons.append([new_button])
-    keyboard = InlineKeyboardMarkup(buttons)
-    
-    return keyboard
+#                InlineKeyboardButton( 
+#                    _('Pic'), 
+#                    callback_data='show_picture&purchase&%s' % str(p.id)), 
+#                
+#                ])
+#    new_button = InlineKeyboardButton(  
+#        _('Menu'),
+#        callback_data='/menu')
+#    buttons.append([new_button])
+#    keyboard = InlineKeyboardMarkup(buttons)
+#    
+#    return keyboard
     
 def get_button_list_items(user, type_obj):
     list_obj = dict_types[type_obj].select().where(dict_types[type_obj].user == user)
@@ -286,7 +288,7 @@ def get_button_list_items(user, type_obj):
         buttons.append([new_button])
     new_button = InlineKeyboardButton(  
         _('Menu'),
-        callback_data='/menu')
+        callback_data='menu')
     buttons.append([new_button])
     keyboard = InlineKeyboardMarkup(buttons)
     
@@ -314,72 +316,73 @@ def get_columns_items(columns, type_obj, obj):
     
         
 
-def get_button_list_purchase(user):
-    purchases = Purchase.select().where(Purchase.user == user).order_by(Purchase.id.desc()).paginate(1, 10)
-    #count_rows = purchases.count()
-    
-    buttons = []
-    print(purchases)
-    for p in purchases:
-        try:
-            
-            seller_name = 'None'
-            if p.seller_id:
-                try:
-                    sel = Seller.get(id = p.seller_id)
-                    seller_name = sel.name
-                except:
-                    print('seller not found!')
-            #
-            buttons.append([
-                InlineKeyboardButton( 
-                    'X', 
-                    callback_data='delitem&purchase&%s' % str(p.id)), 
+#def get_button_list_purchase(user):
+#    purchases = Purchase.select().where(Purchase.user == user).order_by(Purchase.id.desc()).paginate(1, 10)
+#    #count_rows = purchases.count()
+#    
+#    buttons = []
+#    print(purchases)
+#    for p in purchases:
+#        try:
+#            
+#            seller_name = 'None'
+#            if p.seller_id:
+#                try:
+#                    sel = Seller.get(id = p.seller_id)
+#                    seller_name = sel.name
+#                except:
+#                    print('seller not found!')
+#            #
+#            buttons.append([
 #                InlineKeyboardButton( 
-#                    str(p.id), 
+#                    'X', 
+#                    callback_data='delitem&purchase&%s' % str(p.id)), 
+##                InlineKeyboardButton( 
+##                    str(p.id), 
+##                    callback_data='show&purchase&'+str(p.id)),
+#                InlineKeyboardButton(  
+#                    '%s - %s - %s' % (p.summ, p.datetime, seller_name), 
 #                    callback_data='show&purchase&'+str(p.id)),
-                InlineKeyboardButton(  
-                    '%s - %s - %s' % (p.summ, p.datetime, seller_name), 
-                    callback_data='show&purchase&'+str(p.id)),
-                InlineKeyboardButton( 
-                    _('Pic'), 
-                    callback_data='show_picture&purchase&%s' % str(p.id)), 
-                
-                ])
-        except:
-            print('p: ', p.__dict__)
-    new_button = InlineKeyboardButton(  
-        _('Menu'),
-        callback_data='/menu')
-    buttons.append([new_button])
-    keyboard = InlineKeyboardMarkup(buttons)
-    
-    return keyboard
-    
-
-def get_button_list_categories(user):
-    categories = Category.select().where(Category.user == user)
-    buttons = []
-    for c in categories:
-        buttons.append([
-            InlineKeyboardButton( 
-                'X', 
-                callback_data='delitem&%s&%s' % ('category',  str(c.id))), 
-            InlineKeyboardButton(  
-                c.name, 
-                callback_data='show&category&'+str(c.id))
-            ])
-    new_button = InlineKeyboardButton(  
-        _('New Category'), 
-        callback_data='/new_category')
-    buttons.append([new_button])
-    new_button = InlineKeyboardButton(  
-        _('Menu'),
-        callback_data='/menu')
-    buttons.append([new_button])
-    keyboard = InlineKeyboardMarkup(buttons)
-    return keyboard
-
+#                InlineKeyboardButton( 
+#                    _('Pic'), 
+#                    callback_data='show_picture&purchase&%s' % str(p.id)), 
+#                
+#                ])
+#        except:
+#            print('p: ', p.__dict__)
+#    new_button = InlineKeyboardButton(  
+#        _('Menu'),
+#        callback_data='/menu')
+#    buttons.append([new_button])
+#    keyboard = InlineKeyboardMarkup(buttons)
+#    
+#    return keyboard
+#    
+#
+#def get_button_list_categories(user):
+#    categories = Category.select().where(Category.user == user)
+#    buttons = []
+#    for c in categories:
+#        buttons.append([
+#            InlineKeyboardButton( 
+#                'X', 
+#                callback_data='delitem&%s&%s' % ('category',  str(c.id))), 
+#            InlineKeyboardButton(  
+#                c.name, 
+#                callback_data='show&category&'+str(c.id))
+#            ])
+#    new_button = InlineKeyboardButton(  
+#        _('New Category'), 
+#        callback_data='/new_category')
+#    buttons.append([new_button])
+#    new_button = InlineKeyboardButton(  
+#        _('Menu'),
+#        callback_data='/menu')
+#    buttons.append([new_button])
+#    keyboard = InlineKeyboardMarkup(buttons)
+#    return keyboard
+#
+#
 
 def get_button_orders():
     buttons = [[InlineKeyboardButton( _('by category'), callback_data='/by_category'), 
@@ -392,30 +395,31 @@ def get_button_orders():
     return keyboard
     
 
-def get_button_list_sellers(user):
-    sellers = Seller.select().where(Seller.user == user)
-    buttons = []
-    for s in sellers:
-        buttons.append([
-            InlineKeyboardButton( 
-                'X', 
-                callback_data='delitem&%s&%s' % ('seller',  str(s.id))), 
-            InlineKeyboardButton(  
-                s.name, 
-                callback_data='show&seller&'+str(s.id))
-            ])
-    new_button = InlineKeyboardButton(  
-        _('New Seller'),
-        callback_data='/new_seller')
-    buttons.append([new_button])
-    new_button = InlineKeyboardButton(  
-        _('Menu'),
-        callback_data='/menu')
-    buttons.append([new_button])
-    keyboard = InlineKeyboardMarkup(buttons)
-    return keyboard
-    
-    
+#def get_button_list_sellers(user):
+#    sellers = Seller.select().where(Seller.user == user)
+#    buttons = []
+#    for s in sellers:
+#        buttons.append([
+#            InlineKeyboardButton( 
+#                'X', 
+#                callback_data='delitem&%s&%s' % ('seller',  str(s.id))), 
+#            InlineKeyboardButton(  
+#                s.name, 
+#                callback_data='show&seller&'+str(s.id))
+#            ])
+#    new_button = InlineKeyboardButton(  
+#        _('New Seller'),
+#        callback_data='/new_seller')
+#    buttons.append([new_button])
+#    new_button = InlineKeyboardButton(  
+#        _('Menu'),
+#        callback_data='/menu')
+#    buttons.append([new_button])
+#    keyboard = InlineKeyboardMarkup(buttons)
+#    return keyboard
+#    
+#    
+
 def get_button_del_item(id, type):
     buttons = [[InlineKeyboardButton( _('Delete'), callback_data='delitem&%s&%s' % 
                 (type,  str(id)))]]
