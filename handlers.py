@@ -262,6 +262,13 @@ def set_location(update, context):
             message_id=update.message.reply_to_message.message_id, 
             reply_markup=ReplyKeyboardRemove()
             )
+    else:
+        context.bot.delete_message(
+            chat_id=chat_id,  
+            message_id=message_id)
+        context.bot.delete_message(
+            chat_id=chat_id,  
+            message_id=message_id-1)
     print('LOCATION!')
     print(user_location)
     obj_id = context.user_data['obj_id']
