@@ -4,6 +4,9 @@ from datetime import datetime
 
 from telegram import (InlineKeyboardMarkup, InlineKeyboardButton)
 
+from store.models.seller import Seller
+from store.models.category import Category
+from store.models.purchase import Purchase
 from keyboards import *
 from utils import *
 
@@ -19,15 +22,15 @@ def show_order_by(user, type_c):
     dict_column_size = {}
     table_rows = [[]]
     if type_c == 'seller':
-        list_by_for = dict_types['seller'].select().where(dict_types['seller'].user==user)
+        list_by_for = Seller.select().where(Seller.user==user)
         dict_column_size.update({0:len(('Seller'))})
         table_rows[0].append(('Seller'))
-        by_for_field = dict_types['purchase'].seller
+        by_for_field = Purchase.seller
     else:
-        list_by_for = dict_types['category'].select().where(dict_types['category'].user==user)
+        list_by_for = Category.select().where(Category.user==user)
         dict_column_size.update({0:len(('Category'))})
         table_rows[0].append(('Category'))
-        by_for_field = dict_types['purchase'].category
+        by_for_field = Purchase.category
         
     count_m = 0
     
@@ -50,11 +53,11 @@ def show_order_by(user, type_c):
             month = str(m)
             if m < 10:
                 month = '0'+str(m)
-            summ = (dict_types['purchase']
-                .select(fn.SUM(dict_types['purchase'].summ))
+            summ = (Purchase
+                .select(fn.SUM(Purchase.summ))
                 .where( by_for_field==c, 
                         Purchase.user==user, 
-                        fn.date_part('month', dict_types['purchase'].datetime)==month)
+                        fn.date_part('month', Purchase.datetime)==month)
                 .scalar()
                 )
             if summ: summ = str(round(summ, 2))
@@ -91,8 +94,8 @@ def show_order_by(user, type_c):
                     
                                        
 def show_purchase_item(user, id):
-    purchase = dict_types['purchase'].get(dict_types['purchase'].id==id, 
-                            dict_types['purchase'].user==user)
+    purchase = Purchase.get(Purchase.id==id, 
+                            Purchase.user==user)
     category_name = ''
     seller_name = ''
     if purchase.category:
@@ -142,35 +145,35 @@ dict_show_item = {
 def delete_item(user, typeitem, iditem):
     
     if typeitem == 'user':
-        item_name = dict_types['user'].get(id=iditem).username
+        item_name = User.get(id=iditem).username
         text = _('user %(item)s deleted') %  {'item':item_name}
-        nrows = dict_types['user'].delete().where(dict_types['user'].id == iditem).execute()
+        nrows = User.delete().where(User.id == iditem).execute()
     if typeitem == 'category':
-        for p in dict_types['purchase'].select().where(dict_types['purchase'].category == iditem, 
-                                         dict_types['purchase'].user == user):
+        for p in Purchase.select().where(Purchase.category == iditem, 
+                                         Purchase.user == user):
             p.category = None
             p.save()
-        item_name = dict_types['category'].get(id=iditem).name
+        item_name = Category.get(id=iditem).name
         text = _('category %(item)s deleted') %  {'item':item_name}
-        nrows = dict_types['category'].delete().where(dict_types['category'].id == iditem, 
-                                        dict_types['category'].user == user).execute()
+        nrows = Category.delete().where(Category.id == iditem, 
+                                        Category.user == user).execute()
         
     elif typeitem == 'seller':
-        item_name = dict_types['seller'].get(id=iditem).name
+        item_name = Seller.get(id=iditem).name
         text = _('seller %(item)s deleted') %  {'item':item_name}
-        for p in dict_types['purchase'].select().where(dict_types['purchase'].seller == iditem, 
-                                        dict_types['purchase'].user == user):
+        for p in Purchase.select().where(Purchase.seller == iditem, 
+                                        Purchase.user == user):
             p.seller = None
             p.save()
-        nrows = Seller.delete().where(dict_types['seller'].id == iditem, 
-                                      dict_types['seller'].user == user).execute()
+        nrows = Seller.delete().where(Seller.id == iditem, 
+                                      Seller.user == user).execute()
         
     elif typeitem == 'purchase':
-        item_name = '%s %s' % (dict_types['purchase'].get(id=iditem).datetime, 
-                                dict_types['purchase'].get(id=iditem).summ)
+        item_name = '%s %s' % (Purchase.get(id=iditem).datetime, 
+                                Purchase.get(id=iditem).summ)
         text = _('purchase %s deleted') %  item_name
-        nrows = dict_types['purchase'].delete().where(dict_types['purchase'].id == iditem, 
-                                        dict_types['purchase'].user == user).execute()
+        nrows = Purchase.delete().where(Purchase.id == iditem, 
+                                        Purchase.user == user).execute()
     return text
         
         

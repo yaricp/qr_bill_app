@@ -1,6 +1,6 @@
 import gettext
-from models.language import Language
-from models.user import User
+from store.models.language import Language
+from store.models.user import User
 
 from config import *
 
