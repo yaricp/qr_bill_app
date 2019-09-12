@@ -11,41 +11,9 @@ from store.init_db import initialize_db
 from utils import *
 from config import *
 
-from handlers.callbacks import (
-                            new_category, 
-                            change_seller_category_purchase, 
-                            add_seller_category_purchase, 
-                            name_new_seller_category, 
-                            show_all_sellers, 
-                            show_item_on_map, 
-                            delitem, 
-                            list_items,
-                            show_item, 
-                            list_orders, 
-                            set_location,
-                            set_location_item, 
-                            request_location_item,
-                            cancel,   
-                            show_change_seller)
-from handlers.commands import (
-                            list_purchase,
-                            new_seller, 
-                            new_category, 
-                            purchase, 
-                            del_purchase, 
-                            by_category, 
-                            by_seller,
-                            help, 
-                            about, 
-                            donate, 
-                            menu, 
-                            start, 
-                            change_lang, 
-                            langs )
-from handlers.messages import (
-                            new_photo,
-                            new_video, 
-                            new_text)
+from handlers.callbacks import *
+from handlers.commands import *
+from handlers.messages import *
 
 
 if development:
