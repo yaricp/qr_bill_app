@@ -276,12 +276,15 @@ def set_location_item(update, context):
     keyboard = buttons_for_seller_item(user, obj_id, type_obj)
     save_geo_position('seller', obj_id, geo)
     text = show_seller_item(user, obj_id)
-    context.bot.edit_message_text(
-        chat_id=chat_id, 
-        message_id=message_id, 
-        text=text, 
-        reply_markup=keyboard
-        )
+    context.bot.delete_message(
+            chat_id=chat_id,  
+            message_id=update.message.reply_to_message.message_id, 
+            reply_markup=ReplyKeyboardRemove()
+            )
+    update.message.reply_text(
+            text=text, 
+            reply_markup=keyboard
+            )
     return True
 
 
