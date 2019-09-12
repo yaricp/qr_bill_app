@@ -71,7 +71,7 @@ def show_change_seller(update, context):
     text = show_purchase_item(user, id_obj)
     keyboard = get_button_sellers(user, id_obj)
     context.bot.edit_message_text(
-        chat_od=chat_id, 
+        chat_id=chat_id, 
         message_id=message_id, 
         text=text, 
         reply_markup=keyboard
