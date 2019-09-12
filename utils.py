@@ -6,7 +6,7 @@ from store.models.seller import Seller
 from store.models.category import Category
 from store.models.purchase import Purchase
 
-LOCATION, SELLER, CATEGORY, NAME_SELLER_CATEGORY = range(4)
+START, LOCATION, SELLER, CATEGORY, NAME_SELLER_CATEGORY = range(5)
 
 dict_types = {
         'purchase': Purchase, 
