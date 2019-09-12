@@ -110,8 +110,9 @@ def main():
         allow_reentry=True, 
         persistent=True
     )
-    #
     dispatcher.add_handler(new_bill_handler)
+    
+    
 
 
 #    location_handler = MessageHandler(
