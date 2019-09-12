@@ -810,6 +810,35 @@ def show_item(update, context):
     return True
     
 
+@is_not_bot()        
+@is_allowed_user()
+@lang()
+def show_item_on_map(update, context):
+    but_data = update.callback_query.data
+    user, chat_id, message_id = get_update_data(update)
+    list_parameters = but_data.split('&')
+    type_obj = list_parameters[1]
+    id_obj = list_parameters[2]
+    title, position = show_on_map(type_obj, id_obj)
+    if position:
+        bot.send_venue(chat_id, 
+                    latitude=position[1], 
+                    longitude=position[0], 
+                    address=' ', 
+                    title=title, 
+                    disable_notification=False, 
+                    reply_to_message_id=message_id, 
+                    reply_markup=keyboard
+                    )
+    else:
+        bot.answer_callback_query(
+                    callback_query_id, 
+                    text=_('this seller have not coordinates'), 
+                    show_alert=True
+                    )
+    return True
+    
+
 def get_list_items(user, type_obj):
     text_type = '%ss' % type_obj
     if type_obj == 'category':
@@ -852,16 +881,6 @@ def private_actions(update, context):
     elif but_data == '/by_category':
         text = _('summs by categories and months')   #show_order_by(user,'category')
         keyboard = get_button_order_by(user,'category')
-    elif but_data == '/menu':
-        keyboard = get_button_menu(user)
-        text=_('Menu')
-        bot.delete_message(
-                chat_id=chat_id, 
-                message_id=message_id)
-        bot.send_message(chat_id=chat_id, 
-                        text=text, 
-                        reply_markup=keyboard)
-        return
     elif but_data == '/help':
         text = show_help()
     elif but_data == '/langs':
@@ -910,45 +929,8 @@ def private_actions(update, context):
             else:
                 obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj, 
                                             dict_types[type_obj].user==user )
-            if action == 'on_map':
-                title, position = show_on_map(type_obj, obj.id)
-                if position:
-                    bot.send_venue(chat_id, 
-                                latitude=position[1], 
-                                longitude=position[0], 
-                                address=' ', 
-                                title=title, 
-                                disable_notification=False, 
-                                reply_to_message_id=message_id, 
-                                reply_markup=keyboard
-                                )
-                else:
-                    bot.answer_callback_query(
-                                callback_query_id, 
-                                text=_('this seller have not coordinates'), 
-                                show_alert=True
-                                )
-                return
-            if action == 'location':
-                keyboard = get_button_geo()
-                text_loc =  _('what is location?\nID: %s\n TYPE: %s' % (obj.id, type_obj))
-                text = dict_show_item[type_obj](user, obj.id)
-                bot.delete_message(
-                    chat_id=chat_id,
-                    message_id=message_id, 
-                    )
-                bot.answer_callback_query(
-                    callback_query_id=callback_query_id, 
-                    text=_('send me coordinates of seller please'), 
-                    show_alert=True
-                    )
-                bot.send_message(
-                    chat_id=chat_id,
-                    text=text_loc, 
-                    reply_markup=keyboard
-                    )
-                return   
-            elif action == 'new_category':
+            
+            if action == 'new_category':
                 text = show_new_category(user, type=type_obj, obj_id=id_obj)
             elif action == 'new_seller':
                 text = show_new_seller(user, purchase_id=id_obj)
@@ -977,10 +959,7 @@ def private_actions(update, context):
                     text = _('User %s blocked') % obj.username
                 else:
                     text = _('User %s is not active') % obj.username
-#            elif action == 'delitem':
-#                if type_obj == 'user':
-#                    send_delete_info_to_user(bot, id_obj)
-#                text = delete_item(user, type_obj, id_obj)
+
             elif action == 'show_picture':
                 text = show_purchase_item(user, id_obj)
                 bot.send_photo(
@@ -991,44 +970,6 @@ def private_actions(update, context):
                 return True
     if len(list_parameters) > 3:
         id_link_obj = list_parameters[3]
-
-#        if action == 'change_seller':
-#            keyboard = get_button_sellers(user, obj.id)
-##            Category = Category.get(Category.id==id_link_obj, 
-##                                    Category.user==user)
-#            seller = Seller.get(Seller.id==id_link_obj, 
-#                                Seller.user==user)
-#            obj.seller = seller
-#            obj.save()
-#            text = show_purchase_item(user, obj.id)
-#            #text='seller saved! %s %s %s' % (text,  purchase.datetime,  purchase.summ)
-#        elif action == 'change_category':
-#
-#            category = Category.get(Category.id==id_link_obj, 
-#                                    Category.user==user)
-#            obj.category = category
-#            print('Category: ', category)
-#            obj.save()
-#            if type_obj != 'seller':
-#                keyboard = get_button_geo()
-#                text_loc =  _('what is location?\nID: %s\n TYPE: %s' % (obj.id, type_obj))
-#                text = dict_show_item[type_obj](user, obj.id)
-#                bot.edit_message_text(
-#                    chat_id=chat_id,
-#                    message_id=message_id, 
-#                    text=text
-#                    )
-#                bot.send_message(
-#                    chat_id=chat_id,
-#                    text=text_loc, 
-#                    reply_markup=keyboard
-#                    )
-#
-#                return
-#            else:
-#                keyboard = buttons_for_seller_item(user, id_obj, type_obj)
-#
-#            text += dict_show_item[type_obj](user, obj.id)
 
         if action == 'confirm':
             if id_link_obj == 'yes':

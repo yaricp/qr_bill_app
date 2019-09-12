@@ -20,6 +20,7 @@ from handlers import (  new_category,
                         add_seller_category_purchase, 
                         name_new_seller_category, 
                         show_all_sellers, 
+                        show_item_on_map, 
                         new_seller, 
                         list_purchase,
                         purchase, 
@@ -141,6 +142,11 @@ def main():
                                             pattern='delitem'
                                             )
     dispatcher.add_handler(delitem_handler)
+    
+    show_item_on_map_handler = CallbackQueryHandler( show_item_on_map, 
+                                            pattern='on_map'
+                                            )
+    dispatcher.add_handler(show_item_on_map_handler)
     
     list_items_handler = CallbackQueryHandler( list_items, 
                                             pattern='list_of'
