@@ -259,6 +259,8 @@ def create_category(user, name, purchase_id=None, seller_id=None):
                                 )
         purchase.category = new_category
         purchase.save()
+        purchase.seller.category = new_category
+        purchase.seller.save()
         text += show_purchase_item(user, purchase_id)
     elif seller_id:
         seller = Seller.get(Seller.id==seller_id, 
