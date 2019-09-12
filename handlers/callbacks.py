@@ -39,29 +39,10 @@ dict_keyboard_item = {
 
 
 
-
-@is_not_bot()
-@is_allowed_user()
-@lang()
-def del_purchase(bot, update, args):
-    user = update.message.from_user.id
-    id = args[0]
-    #text = delete_item(user, 'purchase', id)
-    nrows = Purchase.delete().where(Purchase.id == id, 
-                                    Purchase.user == user).execute()
-    text = _('Deleted')
-    keyboard = get_button_menu(user)
-    update.message.reply_text(  text=text,
-                                reply_markup=keyboard)
-
-
 def error(bot, update, error_msg):
     module_logger.warning(_('Update caused error "%s"'), error)
 
-
-
-                                
-                                
+  
 @is_not_bot()    
 @is_allowed_user()
 @lang()
@@ -171,11 +152,6 @@ def get_update_data(update):
         chat_id = update.message.chat.id
         message_id = update.message.message_id
     return user, chat_id, message_id
-    
-
-
-
-
 
 
 def request_location(update, context):
@@ -194,8 +170,6 @@ def request_location(update, context):
             text=text, 
             reply_markup=keyboard
             )
-
-
 
 
 def reply_to_new(update, date_time, summ, user, raw=None, photo_file_id=''):
@@ -242,65 +216,60 @@ def reply_to_new(update, date_time, summ, user, raw=None, photo_file_id=''):
     update.message.reply_text(  text, 
                                 reply_markup=keyboard)        
 
+
 @is_not_bot()
 @lang()
-def button(update, context):
-    chat_id = update.callback_query.message.chat.id
-    message_id = update.callback_query.message.message_id
-    but_data = update.callback_query.data
-    keyboard = get_button_main()
-    if but_data == 'register':
-        username = update.callback_query.from_user.username
-        if not username:
-            username = ''
-        user_id = update.callback_query.from_user.id
-        user = User.get_or_none(tg_user_id=user_id)
-        if not user:
-            user = User(
-                    username=username, 
-                    tg_user_id=user_id,
-                    is_active=True, 
-                    paid_datetime=''
-                    )
-            user.save()
-            admin_text = _('user %(username)s with %(user_id)s\n registered.') % {
-                                                    'username': user.username, 
-                                                    'user_id': str(user.tg_user_id)
-                                                    }
-            for k, v in admins.items():
-                bot.send_message(
-                            v, 
-                            text=admin_text, 
-                            reply_markup=keyboard
-                            )
-
-            text = _('Congratulation! you registered now.\n')
-            bot.edit_message_text(chat_id=chat_id,
-                        message_id=message_id, 
-                        text=text, 
-                        parse_mode=ParseMode.HTML)
-            time.sleep(5)
-#            text = show_about()
-#            bot.send_message(
-#                        chat_id=chat_id,
-#                        text=text)
-#            time.sleep(20)
-            text = show_help()
+def register(update, context):
+    
+    username = update.callback_query.from_user.username
+    if not username:
+        username = ''
+    user_id = update.callback_query.from_user.id
+    user = User.get_or_none(tg_user_id=user_id)
+    if not user:
+        user = User(
+                username=username, 
+                tg_user_id=user_id,
+                is_active=True, 
+                paid_datetime=''
+                )
+        user.save()
+        admin_text = _('user %(username)s with %(user_id)s\n registered.') % {
+                                                'username': user.username, 
+                                                'user_id': str(user.tg_user_id)
+                                                }
+        for k, v in admins.items():
             bot.send_message(
-                        chat_id=chat_id,
-                        text=text, 
-                        reply_markup=keyboard, 
-                        parse_mode=ParseMode.HTML)
-    elif but_data == 'no_register':
-        text = _('Ok! Good luck for you.')
-        text += _('We hope you return. We will glad to work for you.')
+                        v, 
+                        text=admin_text, 
+                        reply_markup=keyboard
+                        )
+
+        text = _('Congratulation! you registered now.\n')
         bot.edit_message_text(chat_id=chat_id,
-                        message_id=message_id, 
-                        text=text, 
-                        parse_mode=ParseMode.HTML)
-    else:
-        private_actions(update, context)
-        return True
+                    message_id=message_id, 
+                    text=text, 
+                    parse_mode=ParseMode.HTML)
+        time.sleep(5)
+
+        text = show_help()
+        bot.send_message(
+                    chat_id=chat_id,
+                    text=text, 
+                    reply_markup=keyboard, 
+                    parse_mode=ParseMode.HTML)
+
+
+@is_not_bot()
+@lang()
+def no_register(update, context):
+    text = _('Ok! Good luck for you.')
+    text += _('We hope you return. We will glad to work for you.')
+    bot.edit_message_text(chat_id=chat_id,
+                    message_id=message_id, 
+                    text=text, 
+                    parse_mode=ParseMode.HTML)
+
        
 @is_not_bot()        
 @is_allowed_user()
@@ -323,6 +292,7 @@ def show_all_sellers(update, context):
                 )
     print('RETURN: ', SELLER)
     return SELLER
+    
 
 @is_not_bot()        
 @is_allowed_user()
@@ -586,7 +556,6 @@ def get_list_items(user, type_obj):
     return text, keyboard
         
         
-                    
 @is_not_bot()        
 @is_allowed_user()
 @lang()

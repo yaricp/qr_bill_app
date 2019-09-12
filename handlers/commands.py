@@ -6,7 +6,6 @@ from keyboards import *
 from views import *
 
 from store.models.user import User
-#from models.purchase import Purchase
 
 
 @is_not_bot()
@@ -62,7 +61,7 @@ def change_lang(update, context):
         keyboard = get_button_main()
         update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
-    return false
+    return False
 
 
 @is_not_bot()
@@ -204,3 +203,17 @@ def by_category(update, context):
                                 reply_markup=keyboard, 
                                 parse_mode=ParseMode.HTML )
                                 
+
+@is_not_bot()
+@is_allowed_user()
+@lang()
+def del_purchase(bot, update, args):
+    user = update.message.from_user.id
+    id = args[0]
+    #text = delete_item(user, 'purchase', id)
+    nrows = Purchase.delete().where(Purchase.id == id, 
+                                    Purchase.user == user).execute()
+    text = _('Deleted')
+    keyboard = get_button_menu(user)
+    update.message.reply_text(  text=text,
+                                reply_markup=keyboard)

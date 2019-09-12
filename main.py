@@ -134,6 +134,11 @@ def main():
                                             )
     dispatcher.add_handler(show_change_seller_handler)
     
+    register_handler = CallbackQueryHandler( register, 
+                                            pattern='register'
+                                            )
+    dispatcher.add_handler(register_handler)
+    
 
 #    location_handler = MessageHandler(
 #                            Filters.location, 
