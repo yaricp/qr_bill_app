@@ -618,6 +618,8 @@ def name_new_seller_category(update, context):
     geo = None
     if geo in context.user_data:
         geo = context.user_data['geo']
+        print('longitude:', geo.longitude)
+        print('latitude:', geo.latitude)
     if action == 'new_seller':
         text = create_seller(   user, 
                                 update.message.text,
