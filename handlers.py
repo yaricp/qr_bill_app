@@ -710,7 +710,7 @@ def list_items(update, context):
     text, keyboard = get_list_items(user, type_obj)
     print('USER_DATA: ', context.user_data)
     print('DIR USER_DATA: ', dir(context.user_data))
-    print('DIR CONTEXT: ', ir(context))
+    print('DIR CONTEXT: ', dir(context))
     context.bot.edit_message_text(
                     chat_id=chat_id, 
                     message_id=message_id,
