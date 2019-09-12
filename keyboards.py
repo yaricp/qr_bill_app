@@ -125,7 +125,6 @@ def get_button_sellers(user, id_item, geo=None):
     
     purchase = Purchase.get(Purchase.id==id_item, 
                             Purchase.user==user)
-    print('PURCHASE: ', purchase)
     sellers = []
     seller_dict_flag = False
     if geo:
@@ -134,15 +133,13 @@ def get_button_sellers(user, id_item, geo=None):
             seller = {'name':row[1], 'id':row[0]}
             sellers.append(seller)
             seller_dict_flag = True
-    print('SELLERS: ', sellers)
     if not sellers:
         sellers = Seller.select().where(Seller.user==user)
-        print('SELLERS: ', sellers)
     menu = []
     buttons = []
     count = 0
     for seller in sellers:
-        print(seller)
+        print(seller.id)
         sel_name = '--'
         if seller_dict_flag:
             sel_name = seller['name']
