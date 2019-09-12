@@ -44,6 +44,8 @@ from handlers import (  new_category,
                         set_location_item, 
                         request_location_item,
                         cancel)
+#from handlers.callbacks import ()
+#from handlers.commands import ()
 
 
 if development:
@@ -211,16 +213,6 @@ def main():
     donate_handler = CommandHandler('donate', donate)
     dispatcher.add_handler(donate_handler)
     
-#    new_msg_handler = MessageHandler(Filters.text, new_text)
-#    dispatcher.add_handler(new_msg_handler)
-#    
-#    new_photo_handler = MessageHandler(Filters.photo, new_photo)
-#    dispatcher.add_handler(new_photo_handler)
-    
-#    new_video_handler = MessageHandler(Filters.video, new_video)
-#    dispatcher.add_handler(new_video_handler)
-
-    #updater.dispatcher.add_handler(CallbackQueryHandler(button))
 
     updater.start_polling()
 

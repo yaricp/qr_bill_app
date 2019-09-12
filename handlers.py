@@ -270,9 +270,17 @@ def request_location_item(update, context):
 def set_location_item(update, context):
     print('set_location_item')
     user, chat_id, message_id = get_update_data(update)
-    user_location = None
     obj_id = context.user_data['obj_id']
     type_obj = context.user_data['type_obj']
+    keyboard = buttons_for_seller_item(user, obj_id, type_obj)
+    save_geo_position('seller', obj_id, geo)
+    text = show_seller_item(user, obj_id)
+    context.bot.edit_message_text(
+        chat_id=chat_id, 
+        message_id=message_id, 
+        text=text, 
+        reply_markup=keyboard
+        )
     return True
 
 
