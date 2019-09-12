@@ -548,7 +548,7 @@ def show_all_sellers(update, context):
     id_obj = list_parameters[2]
     obj = get_item(user, type_obj, id_obj)
     text = show_purchase_item(user, obj.id)
-    keyboard = get_button_sellers(user, id_item)
+    keyboard = get_button_sellers(user, obj.id)
     context.bot.edit_message_text(
                 chat_id=chat_id, 
                 message_id=message_id, 
