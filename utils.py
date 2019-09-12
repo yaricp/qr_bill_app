@@ -5,6 +5,13 @@ from decorators import *
 
 LOCATION, SELLER_CATEGORY, NAME_SELLER_CATEGORY = range(3)
 
+dict_types = {
+        'purchase': Purchase, 
+        'seller': Seller, 
+        'category': Category, 
+        'user': User
+    }
+
 def get_month(m):
     dict_months = {
                     1: _('January'), 

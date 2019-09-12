@@ -22,12 +22,7 @@ run_waiting_command = {
         'new_seller': create_seller
     }
 
-dict_types = {
-        'purchase': Purchase, 
-        'seller': Seller, 
-        'category': Category, 
-        'user': User
-    }
+
 
 dict_show_item = {
         'purchase': show_purchase_item, 

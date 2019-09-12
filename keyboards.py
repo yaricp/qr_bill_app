@@ -82,7 +82,7 @@ def get_button_menu(user_id):
                 ]
     user, created = User.get_or_create(tg_user_id=user_id)
     if user.is_admin:
-        buttons.append([InlineKeyboardButton( _('users'), callback_data='list_of&user')])
+        buttons.append([InlineKeyboardButton( _('users'), callback_data='/users')])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
     
@@ -231,7 +231,7 @@ def get_button_categories(user, id_item, type_item):
     keyboard = InlineKeyboardMarkup(menu)
     return keyboard
     
-
+    
 def get_button_one_task(user, id):
     p = Purchase.get_or_none(user=user, id=id)
     buttons = []
@@ -265,7 +265,59 @@ def get_button_one_task(user, id):
     
     return keyboard
     
+def get_button_list_items(user, type_obj):
+    list_obj = dict_types[type_obj].select().where(dict_types[type_obj].user == user)
+    if type_obj == 'purchase':
+        list_obj = list_obj.order_by(Purchase.id.desc()).paginate(1, 10)
+    buttons = []
+    for obj in list_obj:
+#        if type_obj == 'purchase':
+#            seller_name = 'None'
+#            if obj.seller_id:
+#                try:
+#                    sel = Seller.get(id = p.seller_id)
+#                    seller_name = sel.name
+#                except:
+#                    print('seller not found!')
+        buttons.append([
+            InlineKeyboardButton( 
+                'X', 
+                callback_data='delitem&%s&%s' % (type_obj, str(obj.id))), 
+                get_columns_items(type_obj)
+                ])
+    if type_obj != 'purchase':
+        new_button = InlineKeyboardButton(  
+        _('New %s') % type_obj, 
+        callback_data='new_%s' %type_obj)
+    buttons.append([new_button])
+    new_button = InlineKeyboardButton(  
+        _('Menu'),
+        callback_data='/menu')
+    buttons.append([new_button])
+    keyboard = InlineKeyboardMarkup(buttons)
     
+    return keyboard
+    
+
+def get_columns_items(type_obj):
+    if type_obj == 'purchase':
+        return (InlineKeyboardButton(  
+                    '%s - %s - %s' % (p.summ, p.datetime, seller_name), 
+                    callback_data='show&purchase&'+str(p.id)),
+                InlineKeyboardButton( 
+                    _('Pic'), 
+                    callback_data='show_picture&purchase&%s' % str(p.id)))
+    elif type_obj == 'seller':
+        return InlineKeyboardButton(  
+                s.name, 
+                callback_data='show&seller&'+str(s.id))
+    elif type_obj == 'category':
+        return InlineKeyboardButton(  
+                c.name, 
+                callback_data='show&category&'+str(c.id))
+    
+    
+        
 
 def get_button_list_purchase(user):
     purchases = Purchase.select().where(Purchase.user == user).order_by(Purchase.id.desc()).paginate(1, 10)
