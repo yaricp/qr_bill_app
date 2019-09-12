@@ -32,12 +32,15 @@ def buttons_for_seller_item(user, id_item, type_item):
     return keyboard
     
     
-def buttons_for_purchase_item(user, id_item, type_item):
-    keyboard = get_button_categories(user, id_item, type_item)
-    new_button = InlineKeyboardButton(  
-        _('Menu'),
-        callback_data='/menu')
-    keyboard['inline_keyboard'].append([new_button])
+def buttons_for_purchase_item(user, id_item):
+    buttons = [
+                [InlineKeyboardButton( _('change_seller'), 
+                                        callback_data='show_change_seller&%s' % id_item)], 
+                [InlineKeyboardButton( _('change_category'),
+                                        callback_data='show_change_category&%s' % id_item)],  
+                [InlineKeyboardButton( _('/menu'), callback_data='menu')], 
+                ]
+    keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
     
 
