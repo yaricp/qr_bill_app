@@ -305,7 +305,7 @@ def set_location(update, context):
             text=text, 
             reply_markup=keyboard
             )
-
+    print('RETURN: ', SELLER)
     return SELLER
 
 
