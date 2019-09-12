@@ -353,13 +353,6 @@ def new_photo(update, context):
     user, chat_id, message_id = get_update_data(update)
     bot = context.bot
     print('NEW PHOTO')
-#    print('USER: ', user)
-#    print('CONTEXT: ', context)
-#    print('CONTEXT: ', dir(context))
-#    print('CONTEXT: ', context.__dict__)
-#    print('UPDATE:', update.message.photo[-1].__dict__)
-#    print('UPDATE:', dir(update.message.photo[-1]))
-    nrows = Wait.delete().where(Wait.user == user).execute()
     new_file = update.message.photo[-1].get_file()
     new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
     date_time, summ, raw = scan(image=True, video=False)
@@ -367,7 +360,6 @@ def new_photo(update, context):
     request_location(update, chat_id, 'purchase', purchase_id)
     context.user_data['type_obj'] = 'purchase'
     context.user_data['obj_id'] = purchase_id
-#    print('RETURN: ', LOCATION)
     return LOCATION
 
 
