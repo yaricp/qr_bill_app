@@ -2,4 +2,4 @@
 work_dir=$PWD
 args=("$@")
 echo $args
-$PWD/venv3/bin/python $PWD/migrations/$args
+$PWD/venv3/bin/python $PWD/store/migrations/$args

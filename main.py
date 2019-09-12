@@ -7,7 +7,7 @@ from telegram.ext import MessageHandler, Filters, ConversationHandler
 #from telegram.ext import InlineQueryHandler
 from telegram.ext import CallbackQueryHandler
 
-from init_db import initialize_db
+from store.init_db import initialize_db
 from utils import *
 from config import *
 
