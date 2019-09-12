@@ -166,6 +166,10 @@ def get_button_sellers(user, id_item, geo=None):
        
     menu.append(buttons)
     new_button = InlineKeyboardButton(  
+        _('Show all sellers'),
+        callback_data='show_all_sellers&purchase&%s' % purchase.id)
+    menu.append([new_button])
+    new_button = InlineKeyboardButton(  
         _('New Seller'),
         callback_data='new_seller&purchase&%s' % purchase.id)
     menu.append([new_button])
