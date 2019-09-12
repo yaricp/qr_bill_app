@@ -59,64 +59,7 @@ def error(bot, update, error_msg):
     module_logger.warning(_('Update caused error "%s"'), error)
 
 
-@is_not_bot()
-@lang()
-def new_category(bot, update, args):
-    user = update.message.from_user.id
-    keyboard = get_button_main()
-    name = args[0]
-    text = create_category(user, name)
-    update.message.reply_text(  text=text,
-                                reply_markup=keyboard)
 
-
-@is_not_bot()
-@lang()
-def new_seller(bot, update, args):
-    user = update.message.from_user.id
-    keyboard = get_button_main()
-    name = args[0]
-    text = create_seller(user, name)
-    update.message.reply_text(  text=text,
-                                reply_markup=keyboard)
-
-
-@is_not_bot()
-@is_allowed_user()
-@lang()
-def list_orders(update, context):
-    user = update.message.from_user.id
-    keyboard = get_button_orders(user)
-    update.message.reply_text(  text=_('Orders'),
-                                reply_markup=keyboard)
-
-
-@is_not_bot()                           
-@is_allowed_user()
-@lang()
-def by_seller(update, context):
-    user = update.message.from_user.id
-#    keyboard = get_button_main()
-#    text = show_order_by(user, 'seller')
-    text = 'by sellers'   #show_order_by(user,'category')
-    keyboard = get_button_order_by(user,'seller')
-    update.message.reply_text(  text=text,
-                                reply_markup=keyboard, 
-                                parse_mode=ParseMode.HTML )
-
-
-@is_not_bot()
-@is_allowed_user()
-@lang()
-def by_category(update, context):
-    user = update.message.from_user.id
-#    keyboard = get_button_main()
-#    text = show_order_by(user, 'category')
-    text = 'by categories'   #show_order_by(user,'category')
-    keyboard = get_button_order_by(user,'category')
-    update.message.reply_text(  text=text,
-                                reply_markup=keyboard, 
-                                parse_mode=ParseMode.HTML )
                                 
                                 
 @is_not_bot()    
