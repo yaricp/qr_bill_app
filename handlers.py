@@ -681,7 +681,7 @@ def list_items(update, context):
     list_parameters = but_data.split('&')
     type_obj = list_parameters[1]
     text, keyboard = get_list_items(user, type_obj)
-    update.callback_query.reply(text, reply_markup=keyboard)
+    context.bot.edit_message_text(chat_id, message_id, text, reply_markup=keyboard)
     return True
     
     
