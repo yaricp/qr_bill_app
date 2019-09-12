@@ -6,6 +6,10 @@ from telegram import (InlineKeyboardMarkup, KeyboardButton, InlineKeyboardButton
 from config import *
 from utils import *
 
+from store.models.purchase import Purchase
+from store.models.seller import Seller
+from store.models.category import Category
+
 
 def buttons_for_seller_item(user, id_item, type_item):
     buttons = [
