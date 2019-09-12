@@ -120,7 +120,7 @@ def main():
     dispatcher.add_handler(delitem_handler)
     
     list_items_handler = CallbackQueryHandler( list_items, 
-                                            pattern='list_of'
+                                            pattern='list_of&'
                                             )
     dispatcher.add_handler(list_items_handler)
 
@@ -191,7 +191,7 @@ def main():
 #    new_video_handler = MessageHandler(Filters.video, new_video)
 #    dispatcher.add_handler(new_video_handler)
 
-    updater.dispatcher.add_handler(CallbackQueryHandler(button))
+    #updater.dispatcher.add_handler(CallbackQueryHandler(button))
 
     updater.start_polling()
 
