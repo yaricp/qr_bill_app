@@ -822,6 +822,10 @@ def show_item_on_map(update, context):
     title, position = show_on_map(type_obj, id_obj)
     keyboard = buttons_for_seller_item(user, id_obj, type_obj)
     if position:
+        context.bot.delete_message(
+            chat_id=chat_id,  
+            message_id=message_id, 
+            )
         context.bot.send_venue(chat_id, 
                     latitude=position[1], 
                     longitude=position[0], 
