@@ -807,6 +807,7 @@ def show_item(update, context):
                     chat_id=chat_id, 
                     text=text,
                     reply_markup=keyboard)
+        return True
     elif type_obj == 'user':
         text = show_user_item(user, id_obj)
         
