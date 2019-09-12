@@ -7,6 +7,7 @@ from config import *
 #from models.wait import Wait
 #from models.purchase import Purchase
 from store.actions import *
+from keyboards import *
 from views import *
 from recognize import *
 from decorators import *

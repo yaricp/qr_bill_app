@@ -1,5 +1,6 @@
 from store.actions import *
 from views import *
+from keyboards import *
 from recognize import *
 from decorators import *
 from utils import *
