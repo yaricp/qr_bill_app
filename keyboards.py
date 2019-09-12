@@ -296,12 +296,12 @@ def get_button_list_items(user, type_obj):
 
 def get_columns_items(type_obj, obj):
     if type_obj == 'purchase':
-        return (InlineKeyboardButton(  
+        return [InlineKeyboardButton(  
                     '%s - %s - %s' % (obj.summ, obj.datetime, obj.seller.name), 
                     callback_data='show&purchase&'+str(obj.id)),
                 InlineKeyboardButton( 
                     _('Pic'), 
-                    callback_data='show_picture&purchase&%s' % str(obj.id)))
+                    callback_data='show_picture&purchase&%s' % str(obj.id))]
     elif type_obj == 'seller':
         return InlineKeyboardButton(  
                 obj.name, 
