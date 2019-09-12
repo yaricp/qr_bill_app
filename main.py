@@ -123,6 +123,10 @@ def main():
                                             pattern='list_of'
                                             )
     dispatcher.add_handler(list_items_handler)
+    show_menu_handler = CallbackQueryHandler( menu, 
+                                            pattern='menu'
+                                            )
+    dispatcher.add_handler(show_menu_handler)
 
 
 #    location_handler = MessageHandler(
