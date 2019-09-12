@@ -38,7 +38,7 @@ def buttons_for_purchase_item(user, id_item):
                                         callback_data='show_change_seller&%s' % id_item)], 
                 [InlineKeyboardButton( _('change_category'),
                                         callback_data='show_change_category&%s' % id_item)],  
-                [InlineKeyboardButton( _('/menu'), callback_data='menu')], 
+                [InlineKeyboardButton( _('menu'), callback_data='/menu')], 
                 ]
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
