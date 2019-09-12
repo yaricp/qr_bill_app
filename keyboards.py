@@ -284,7 +284,7 @@ def get_button_list_items(user, type_obj):
         new_button = InlineKeyboardButton(  
         _('New %s') % type_obj, 
         callback_data='new_%s' %type_obj)
-    buttons.append([new_button])
+        buttons.append([new_button])
     new_button = InlineKeyboardButton(  
         _('Menu'),
         callback_data='/menu')
