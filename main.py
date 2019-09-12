@@ -23,6 +23,7 @@ from handlers import (  new_category,
                         list_purchase,
                         purchase, 
                         del_purchase, 
+                        delitem, 
                         list_seller,
                         list_category,
                         button, 
@@ -112,7 +113,10 @@ def main():
     )
     dispatcher.add_handler(new_bill_handler)
     
-    
+    delitem_handler = CallbackQueryHandler( delitem, 
+                                            pattern='delitem'
+                                            )
+    dispatcher.add_handler(delitem_handler)
 
 
 #    location_handler = MessageHandler(
