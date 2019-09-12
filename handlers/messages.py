@@ -46,11 +46,12 @@ def new_video(update, context):
                     text=_('Video uploaded.\nPlease wait. \nRecognize video perhaps take some time.'), 
                     )
     date_time, summ, raw = scan(image=False, video=True)
-    bot.delete_message(
-            update.message.chat.id, 
-            update.message.id+1,
-            )
-    reply_to_new(update, date_time, summ, user, raw, video_file_id)
+    text, purchase_id, double = save_purchase(date_time, summ, user, raw, photo_file_id)
+    request_location(update, context)
+    context.user_data['type_obj'] = 'purchase'
+    context.user_data['obj_id'] = purchase_id
+    print('RETURN: ', LOCATION)
+    return LOCATION
     
 
 @is_not_bot()    

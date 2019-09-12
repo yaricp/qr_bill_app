@@ -140,24 +140,6 @@ def cancel(update, context):
                               reply_markup=ReplyKeyboardRemove())
 
     return ConversationHandler.END
-    
-
-def request_location(update, context):
-    
-    keyboard = get_button_geo()
-    text = _('Please, send me your location and I find seller around you,\n or press /skip_location')
-    if update.message:
-        update.message.reply_text(
-            text=text, 
-            reply_markup=keyboard, 
-            )
-    else:
-        user, chat_id, message_id = get_update_data(update)
-        context.bot.send_message(
-            chat_id=chat_id, 
-            text=text, 
-            reply_markup=keyboard
-            )
 
 
 def reply_to_new(update, date_time, summ, user, raw=None, photo_file_id=''):
