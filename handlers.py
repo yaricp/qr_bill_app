@@ -249,9 +249,29 @@ def by_category(update, context):
 @is_not_bot()    
 @is_allowed_user()
 @lang()
+def cancel_location(update, context):
+    context.bot.delete_message(
+            chat_id=chat_id,  
+            message_id=update.message.reply_to_message.message_id, 
+            reply_markup=ReplyKeyboardRemove()
+            )
+    return SELLER_CATEGORY
+
+
+@is_not_bot()    
+@is_allowed_user()
+@lang()
 def set_location(update, context):
     user, chat_id, message_id = get_update_data(update)
-    user_location = update.message.location
+    user_location = None
+    text = _('Please, choose seller')
+    if update.message.location:
+        user_location = update.message.location
+        context.bot.delete_message(
+            chat_id=chat_id,  
+            message_id=update.message.reply_to_message.message_id, 
+            reply_markup=ReplyKeyboardRemove()
+            )
     print('LOCATION!')
     print(user_location)
     print('MESSAGE_ID: ', update.message.reply_to_message.message_id)
@@ -260,17 +280,13 @@ def set_location(update, context):
     if type_obj != 'seller':
         print('get sellers buttons by geo: ', user_location)
         keyboard = get_button_sellers(user, obj_id, geo=user_location)
-        text = show_purchase_item(user, obj_id)
+        #text = show_purchase_item(user, obj_id)
     else:
         keyboard =  buttons_for_seller_item(user, obj_id, type_obj)
         result = save_geo_position(type_obj, obj_id, user_location)
         print(result)
         text = show_seller_item(user, obj_id)
-    context.bot.delete_message(
-            chat_id=chat_id,  
-            message_id=update.message.reply_to_message.message_id, 
-            reply_markup=ReplyKeyboardRemove()
-            )
+    
     update.message.reply_text(
             text=text, 
             reply_markup=keyboard
