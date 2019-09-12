@@ -24,7 +24,8 @@ from handlers import (  new_category,
                         purchase, 
                         del_purchase, 
                         delitem, 
-                        list_items, 
+                        list_items,
+                        show_item, 
                         list_seller,
                         list_category,
                         button, 
@@ -123,6 +124,10 @@ def main():
                                             pattern='list_of'
                                             )
     dispatcher.add_handler(list_items_handler)
+    show_item_handler = CallbackQueryHandler( show_item, 
+                                            pattern='show'
+                                            )
+    dispatcher.add_handler(show_item_handler)
     show_menu_handler = CallbackQueryHandler( menu, 
                                             pattern='menu'
                                             )

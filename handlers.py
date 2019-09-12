@@ -701,7 +701,35 @@ def list_items(update, context):
     return True
     
     
-
+@is_not_bot()        
+@is_allowed_user()
+@lang()
+def show_item(update, context):
+    but_data = update.callback_query.data
+    user, chat_id, message_id = get_update_data(update)
+    list_parameters = but_data.split('&')
+    type_obj = list_parameters[1]
+    id_obj = list_parameters[2]
+    keyboard = get_button_main()
+    if type_obj == 'purchase':
+        keyboard = buttons_for_purchase_item(user, id_obj, type_obj)
+        text = show_purchase_item(user, id_obj)
+    elif type_obj == 'category':
+        keyboard =  get_button_del_item(id_obj, type_obj)
+        text = show_category_item(user, id_obj)
+    elif type_obj == 'seller':
+        keyboard = buttons_for_seller_item(user, id_obj, type_obj)
+        text = show_seller_item(user, id_obj)
+    elif type_obj == 'user':
+        text = show_user_item(user, id_obj)
+        
+    context.bot.edit_message_text(
+                    chat_id=chat_id, 
+                    message_id=message_id,
+                    text=text,
+                    reply_markup=keyboard)
+    return True
+    
 
 def get_list_items(user, type_obj):
     text_type = '%ss' % type_obj
@@ -845,18 +873,7 @@ def private_actions(update, context):
                 text = show_new_category(user, type=type_obj, obj_id=id_obj)
             elif action == 'new_seller':
                 text = show_new_seller(user, purchase_id=id_obj)
-            elif action == 'show':
-                if type_obj == 'purchase':
-                    keyboard = buttons_for_purchase_item(user, id_obj, type_obj)
-                    text = show_purchase_item(user, id_obj)
-                elif type_obj == 'category':
-                    keyboard =  get_button_del_item(id_obj, type_obj)
-                    text = show_category_item(user, id_obj)
-                elif type_obj == 'seller':
-                    keyboard = buttons_for_seller_item(user, id_obj, type_obj)
-                    text = show_seller_item(user, id_obj)
-                elif type_obj == 'user':
-                    text = show_user_item(user, id_obj)
+            
             elif action == 'activate':
                 if not obj.is_active:
                     obj.is_active = True
