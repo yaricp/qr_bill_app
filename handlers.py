@@ -712,7 +712,7 @@ def show_item(update, context):
     id_obj = list_parameters[2]
     keyboard = get_button_main()
     if type_obj == 'purchase':
-        keyboard = buttons_for_purchase_item(user, id_obj, type_obj)
+        keyboard = buttons_for_purchase_item(user, id_obj)
         text = show_purchase_item(user, id_obj)
     elif type_obj == 'category':
         keyboard =  get_button_del_item(id_obj, type_obj)
