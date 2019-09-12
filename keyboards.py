@@ -149,8 +149,7 @@ def get_button_sellers(user, id_item, geo=None):
             seller_dict_flag = True
     print('SELLERS: ', sellers)
     if not sellers:
-        sellers = Seller.select().where(Seller.user==user, 
-                                    Seller.category==purchase.category)
+        sellers = Seller.select().where(Seller.user==user)
         print('SELLERS: ', sellers)
     menu = []
     buttons = []
