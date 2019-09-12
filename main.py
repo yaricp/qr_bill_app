@@ -159,7 +159,7 @@ def main():
                                             )
     dispatcher.add_handler(order_by_handler)
     
-    langs_handler = CallbackQueryHandler( langs, 
+    langs_handler = CallbackQueryHandler( list_langs, 
                                             pattern='langs'
                                             )
     dispatcher.add_handler(langs_handler)
