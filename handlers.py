@@ -257,6 +257,8 @@ def by_category(update, context):
 def set_location(update, context):
     user, chat_id, message_id = get_update_data(update)
     user_location = None
+    obj_id = context.user_data['obj_id']
+    type_obj = context.user_data['type_obj']
     text = _('Please, choose seller')+ '\n'
     text += show_purchase_item(user, obj_id)
     if update.message.location:
@@ -273,10 +275,6 @@ def set_location(update, context):
         context.bot.delete_message(
             chat_id=chat_id,  
             message_id=message_id-1)
-    print('LOCATION!')
-    print(user_location)
-    obj_id = context.user_data['obj_id']
-    type_obj = context.user_data['type_obj']
     if type_obj != 'seller':
         print('get sellers buttons by geo: ', user_location)
         keyboard = get_button_sellers(user, obj_id, geo=user_location)
