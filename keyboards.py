@@ -10,10 +10,11 @@ from utils import *
 def buttons_for_seller_item(user, id_item, type_item):
     buttons = [
     [InlineKeyboardButton( _('change_category'),
-        callback_data='show_change_category&%s' % id_item)],  
-                
-    [InlineKeyboardButton( _('Location'), 
-        callback_data='location&%s&%s' % ( type_item,id_item)), 
+        callback_data='show_change_category&%s' % id_item),  
+    InlineKeyboardButton( _('set location'), 
+        callback_data='location&%s&%s' % ( type_item,id_item))], 
+    [InlineKeyboardButton( _('show card'), 
+        callback_data='show&%s&%s' % ( type_item,id_item)), 
     InlineKeyboardButton( _('show on map'), 
         callback_data='on_map&%s&%s' % ( type_item,id_item))], 
     [InlineKeyboardButton( _('menu'), callback_data='menu')], 
