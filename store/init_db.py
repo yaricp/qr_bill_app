@@ -1,6 +1,6 @@
 from peewee import *
 from config import *
-from models import *
+from .models import *
 
 def initialize_db():
     print('DB:', db)
