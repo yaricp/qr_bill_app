@@ -117,6 +117,22 @@ def by_category(update, context):
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard, 
                                 parse_mode=ParseMode.HTML )
+                                
+                                
+@is_not_bot()    
+@is_allowed_user()
+@lang()
+def show_change_seller(update, context):
+    user, chat_id, message_id = get_update_data(update)
+    text = show_seller_item(user, id_obj)
+    keyboard = get_button_categories(user, id_item, type_item)
+    context.bot.edit_message_text(
+        chat_od=chat_id, 
+        message_id=message_id, 
+        text=text, 
+        reply_markup=keyboard
+        )
+
 
 @is_not_bot()    
 @is_allowed_user()
