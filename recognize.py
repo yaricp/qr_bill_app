@@ -7,7 +7,7 @@ import cv2
 import pytesseract
 
 from config import *
-from models.language import Language
+from store.models.language import Language
 
 
 def recognize_video():
