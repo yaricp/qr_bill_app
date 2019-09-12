@@ -43,7 +43,7 @@ def buttons_for_purchase_item(user, id_item):
 def get_button_main():
     new_button = InlineKeyboardButton(  
         _('Menu'),
-        callback_data='/menu')
+        callback_data='menu')
     keyboard = InlineKeyboardMarkup([[new_button]])
     return keyboard
     
