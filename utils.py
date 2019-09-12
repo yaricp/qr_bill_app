@@ -2,6 +2,9 @@
 import psycopg2
 
 from decorators import *
+from store.models.seller import Seller
+from store.models.category import Category
+from store.models.purchase import Purchase
 
 LOCATION, SELLER_CATEGORY, NAME_SELLER_CATEGORY = range(3)
 
@@ -12,7 +15,7 @@ dict_types = {
         'user': User
     }
 
-def get_month(m):
+def get_dict_month():
     dict_months = {
                     1: _('January'), 
                     2: _('Februrary'), 
@@ -27,7 +30,7 @@ def get_month(m):
                     11: _('November'), 
                     12: _('December')
                     }
-    return dict_months[m]
+    return dict_months
     
     
 def get_geo_positions(type_obj, id):

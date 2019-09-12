@@ -3,11 +3,6 @@ from datetime import datetime
 from telegram import (InlineKeyboardMarkup, KeyboardButton, InlineKeyboardButton, ReplyKeyboardMarkup)
 
 
-from models.seller import Seller
-from models.category import Category
-from models.purchase import Purchase
-from models.user import User
-
 from config import *
 from utils import *
 
@@ -457,7 +452,7 @@ def get_button_order_by(user, type_c):
     rows.append(InlineKeyboardButton( c_name, callback_data='-' ))
     
     for m in (month_now-2, month_now-1, month_now):
-        rows.append(InlineKeyboardButton( get_month(m), callback_data='-' ))
+        rows.append(InlineKeyboardButton( get_dict_month()[m], callback_data='-' ))
     buttons.append(rows)
     for c in list_by_for:
         rows = []
