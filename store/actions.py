@@ -89,8 +89,6 @@ def change_seller(obj, user,  seller_id, geo):
     
     seller = Seller.get(Seller.id==seller_id, 
                         Seller.user==user)
-    print('SELLER_NAME: ', seller.name)
-    print('SELLER_CAT: ', seller.category)
     obj.category = seller.category
     obj.seller = seller
     obj.save()
