@@ -254,9 +254,13 @@ def by_category(update, context):
 @lang()
 def request_location_item(update, context):
     user, chat_id, message_id = get_update_data(update)
-    obj_id = context.user_data['obj_id']
-    type_obj = context.user_data['type_obj']
-    request_location(update, chat_id, type_obj, obj_id)
+    but_data = update.callback_query.data
+    list_parameters = but_data.split('&')
+    type_obj = list_parameters[1]
+    id_obj = list_parameters[2]
+    context.user_data['type_obj'] = type_obj
+    context.user_data['obj_id'] = id_obj
+    request_location(update)
     return True
 
 
@@ -366,14 +370,14 @@ def new_photo(update, context):
     new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
     date_time, summ, raw = scan(image=True, video=False)
     text, purchase_id, double = save_purchase(date_time, summ, user, raw, photo_file_id)
-    request_location(update, chat_id, 'purchase', purchase_id)
+    request_location(update)
     context.user_data['type_obj'] = 'purchase'
     context.user_data['obj_id'] = purchase_id
     
     return LOCATION
 
 
-def request_location(update, chat_id, type_obj, obj_id):
+def request_location(update):
     
     keyboard = get_button_geo()
     text = _('Please, send me your location and I find seller around you,\n or press /skip_location')

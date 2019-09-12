@@ -71,7 +71,7 @@ def main():
     location_handler = MessageHandler(
                             Filters.location, 
                             set_location)
-    dispatcher.add_handler(location_handle)
+    dispatcher.add_handler(location_handler)
                             
     change_seller_handler = CallbackQueryHandler(  
                                             change_seller_category_purchase, 
