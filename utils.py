@@ -2,7 +2,7 @@
 import psycopg2
 
 from decorators import *
-from keyboards import *
+from keyboards import get_button_geo
 from store.models.seller import Seller
 from store.models.category import Category
 from store.models.purchase import Purchase
