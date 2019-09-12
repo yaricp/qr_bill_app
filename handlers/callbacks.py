@@ -638,8 +638,6 @@ def private_actions(update, context):
         text = show_new_seller(user)
     elif but_data == '/help':
         text = show_help()
-    elif but_data == '/langs':
-        
     elif but_data == '/users':
         keyboard = get_button_users()
         text = _('List users')
