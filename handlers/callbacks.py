@@ -69,7 +69,7 @@ def show_change_seller(update, context):
     list_parameters = but_data.split('&')
     id_obj = list_parameters[1]
     text = show_purchase_item(user, id_obj)
-    keyboard = get_button_sellers(user, id_obj, type_item)
+    keyboard = get_button_sellers(user, id_obj, 'purchase')
     context.bot.edit_message_text(
         chat_od=chat_id, 
         message_id=message_id, 
@@ -91,7 +91,7 @@ def show_change_category(update, context):
         text = show_category_item(user, id_obj)
     elif type_obj == 'seller':
         text = show_seller_item(user, id_obj)
-    keyboard = get_button_categories(user, id_item, type_item)
+    keyboard = get_button_categories(user, id_obj, type_obj)
     context.bot.edit_message_text(
         chat_od=chat_id, 
         message_id=message_id, 
