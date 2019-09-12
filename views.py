@@ -153,6 +153,10 @@ def delete_item(user, typeitem, iditem):
                                          Purchase.user == user):
             p.category = None
             p.save()
+        for s in Seller.select().where( Seller.category == iditem, 
+                                        Seller.user == user):
+            s.category = None
+            s.save()
         item_name = Category.get(id=iditem).name
         text = _('category %(item)s deleted') %  {'item':item_name}
         nrows = Category.delete().where(Category.id == iditem, 
