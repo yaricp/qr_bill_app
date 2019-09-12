@@ -33,6 +33,18 @@ def get_dict_month():
     return dict_months
     
     
+def get_update_data(update):
+    if update.callback_query:
+        user = update.callback_query.from_user.id
+        chat_id = update.callback_query.message.chat.id
+        message_id = update.callback_query.message.message_id
+    else:
+        user = update.message.from_user.id
+        chat_id = update.message.chat.id
+        message_id = update.message.message_id
+    return user, chat_id, message_id
+
+    
 def get_geo_positions(type_obj, id):
     conn = psycopg2.connect(database=PG_BATABASE, 
                             user=PG_USERNAME, 
