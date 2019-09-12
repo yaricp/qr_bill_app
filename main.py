@@ -69,10 +69,7 @@ def main():
     new_photo_handler = MessageHandler(Filters.photo, new_photo)
     new_video_handler = MessageHandler(Filters.video, new_video)
     cancel_handler = CommandHandler('cancel', cancel)
-    set_location_item_handler = MessageHandler(
-                            Filters.location, 
-                            set_location_item)
-    dispatcher.add_handler(set_location_item_handler)
+    
     
     bill_location_handler = MessageHandler(
                             Filters.location, 
@@ -101,7 +98,7 @@ def main():
     show_menu_handler = CallbackQueryHandler( menu, 
                                             pattern='menu'
                                             )
-    dispatcher.add_handler(show_menu_handler)
+    
     
     new_bill_handler = ConversationHandler(
         name='new_bill_conv', 
@@ -131,6 +128,12 @@ def main():
         persistent=True
     )
     dispatcher.add_handler(new_bill_handler)
+    dispatcher.add_handler(show_menu_handler)
+    
+    set_location_item_handler = MessageHandler(
+                            Filters.location, 
+                            set_location_item)
+    dispatcher.add_handler(set_location_item_handler)
     
     delitem_handler = CallbackQueryHandler( delitem, 
                                             pattern='delitem'
