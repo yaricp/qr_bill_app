@@ -840,7 +840,6 @@ def show_item_on_map(update, context):
                     address=' ', 
                     title=title, 
                     disable_notification=False, 
-                    reply_to_message_id=message_id, 
                     reply_markup=keyboard
                     )
     else:
