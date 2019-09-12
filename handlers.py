@@ -820,6 +820,7 @@ def show_item_on_map(update, context):
     type_obj = list_parameters[1]
     id_obj = list_parameters[2]
     title, position = show_on_map(type_obj, id_obj)
+    keyboard = buttons_for_seller_item(user, id_obj, type_obj)
     if position:
         context.bot.send_venue(chat_id, 
                     latitude=position[1], 
