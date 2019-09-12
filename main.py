@@ -40,7 +40,8 @@ from handlers import (  new_category,
                         start, 
                         change_lang, 
                         langs, 
-                        set_location, 
+                        set_location,
+                        set_location_item, 
                         request_location_item,
                         cancel)
 
@@ -68,10 +69,10 @@ def main():
     new_photo_handler = MessageHandler(Filters.photo, new_photo)
     new_video_handler = MessageHandler(Filters.video, new_video)
     cancel_handler = CommandHandler('cancel', cancel)
-    location_handler = MessageHandler(
+    set_location_item_handler = MessageHandler(
                             Filters.location, 
-                            set_location)
-    dispatcher.add_handler(location_handler)
+                            set_location_item)
+    dispatcher.add_handler(set_location_item_handler)
     
     bill_location_handler = MessageHandler(
                             Filters.location, 
