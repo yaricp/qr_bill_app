@@ -84,7 +84,7 @@ def change_category(obj, user, category_id):
     return obj
     
     
-def change_seller(obj, user,  seller_id):
+def change_seller(obj, user,  seller_id, geo):
     
     seller = Seller.get(Seller.id==seller_id, 
                         Seller.user==user)
@@ -93,6 +93,8 @@ def change_seller(obj, user,  seller_id):
     obj.category = seller.category
     obj.seller = seller
     obj.save()
+    if geo: 
+        save_geo_position('seller', new_seller.id, geo)
     return obj
     
     

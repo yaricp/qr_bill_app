@@ -249,8 +249,6 @@ def by_category(update, context):
                                 parse_mode=ParseMode.HTML )
 
 
-
-
 @is_not_bot()    
 @is_allowed_user()
 @lang()
@@ -263,6 +261,7 @@ def set_location(update, context):
     text += show_purchase_item(user, obj_id)
     if update.message.location:
         user_location = update.message.location
+        context.user_data['geo'] = user_location
         context.bot.delete_message(
             chat_id=chat_id,  
             message_id=update.message.reply_to_message.message_id, 
@@ -359,6 +358,7 @@ def new_photo(update, context):
     request_location(update, chat_id, 'purchase', purchase_id)
     context.user_data['type_obj'] = 'purchase'
     context.user_data['obj_id'] = purchase_id
+    
     return LOCATION
 
 
@@ -550,8 +550,13 @@ def change_seller_category_purchase(update, context):
     id_obj = list_parameters[2]
     id_link_obj = list_parameters[3]
     obj = get_item(user, type_obj, id_obj)
+    print('USER DATA: ', context.user_data)
+    geo = None
+    if geo in context.user_data:
+        geo = context.user_data['geo']
+        
     if action == 'change_seller':
-        obj = change_seller(obj, user, id_link_obj)
+        obj = change_seller(obj, user, id_link_obj, geo)
         if not obj.category:
             keyboard = get_button_categories(user, obj.id, 'purchase')
             text = _('Please, choose category of purchase')+'\n'
@@ -609,10 +614,13 @@ def name_new_seller_category(update, context):
     type_obj = context.user_data['type_obj']
     purchase_id = context.user_data['id_obj']
     action = context.user_data['action']
+    if geo in context.user_data:
+        geo = context.user_data['geo']
     if action == 'new_seller':
         text = create_seller(   user, 
                                 update.message.text,
-                                purchase_id=purchase_id
+                                purchase_id=purchase_id, 
+                                geo=geo
                                     )
         keyboard = get_button_categories(user, purchase_id, type_obj)
         context.bot.delete_message(

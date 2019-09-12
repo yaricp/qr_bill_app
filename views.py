@@ -272,10 +272,12 @@ def create_category(user, name, purchase_id=None, seller_id=None):
     return text
     
     
-def create_seller(user, name, purchase_id=None):
+def create_seller(user, name, purchase_id=None, geo=None):
     
     new_seller = Seller(name=name, user=user)
     new_seller.save()
+    if geo:
+        save_geo_position('seller', new_seller.id, geo)
     text = _('Seller created!') + '\n'
     text += _('Now choose category of seller') + '\n' 
     if purchase_id:
