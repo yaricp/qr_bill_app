@@ -273,10 +273,12 @@ def set_location(update, context):
     obj_id = context.user_data['obj_id']
     type_obj = context.user_data['type_obj']
     text = _('Please, choose seller')+ '\n'
-    text += show_purchase_item(user, obj_id)
+    if type_obj == 'purchase':
+        text += show_purchase_item(user, obj_id)
     if update.message.location:
         user_location = update.message.location
-        context.user_data['geo'] = user_location
+        if type_obj == 'purchase':
+            context.user_data['geo'] = user_location
         context.bot.delete_message(
             chat_id=chat_id,  
             message_id=update.message.reply_to_message.message_id, 
