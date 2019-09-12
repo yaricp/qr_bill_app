@@ -297,8 +297,11 @@ def get_button_list_items(user, type_obj):
 
 def get_columns_items(columns, type_obj, obj):
     if type_obj == 'purchase':
+        seller_name = ''
+        if obj.seller:
+            seller_name=obj.seller.name
         columns.append(InlineKeyboardButton(  
-                    '%s - %s - %s' % (obj.summ, obj.datetime, obj.seller.name), 
+                    '%s - %s - %s' % (obj.summ, obj.datetime, seller_name), 
                     callback_data='show&purchase&'+str(obj.id)))
         columns.append(InlineKeyboardButton( 
                     _('Pic'), 
