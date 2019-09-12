@@ -153,6 +153,11 @@ def main():
                                             pattern='orders'
                                             )
     dispatcher.add_handler(orders_handler)
+    
+    order_by_handler = CallbackQueryHandler( order_by, 
+                                            pattern='order_by'
+                                            )
+    dispatcher.add_handler(order_by_handler)
 
 #    location_handler = MessageHandler(
 #                            Filters.location, 
