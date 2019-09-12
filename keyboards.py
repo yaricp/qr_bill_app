@@ -8,22 +8,18 @@ from utils import *
 
 
 def buttons_for_seller_item(user, id_item, type_item):
-    keyboard = get_button_categories(user, id_item, type_item)
-    loc = InlineKeyboardButton(  
-        _('Location'), 
-        callback_data='location&%s&%s' % ( type_item, 
-                                                id_item
-                                                ))
-    on_map = InlineKeyboardButton(  
-        _('show on map'), 
-        callback_data='on_map&%s&%s' % ( type_item, 
-                                                id_item
-                                                ))
-    keyboard['inline_keyboard'].append([loc, on_map])
-    new_button = InlineKeyboardButton(  
-        _('Menu'),
-        callback_data='menu')
-    keyboard['inline_keyboard'].append([new_button])
+    buttons = [
+    [InlineKeyboardButton( _('change_category'),
+        callback_data='show_change_category&%s' % id_item)],  
+                
+    [InlineKeyboardButton( _('Location'), 
+        callback_data='location&%s&%s' % ( type_item,id_item))], 
+    [InlineKeyboardButton( _('show on map'), 
+        callback_data='on_map&%s&%s' % ( type_item,id_item))], 
+    [InlineKeyboardButton( _('menu'), callback_data='menu')], 
+                
+                                                ]
+    keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
     
     
@@ -48,8 +44,6 @@ def get_button_main():
     return keyboard
     
 
-    
-    
 def get_button_geo():
     geo = KeyboardButton(  
         _('location'),

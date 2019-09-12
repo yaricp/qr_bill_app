@@ -41,9 +41,9 @@ from handlers import (  new_category,
                         change_lang, 
                         langs, 
                         set_location, 
+                        request_location_item,
                         cancel)
 
-from config import *
 
 if development:
     import logging
@@ -71,6 +71,7 @@ def main():
     location_handler = MessageHandler(
                             Filters.location, 
                             set_location)
+    dispatcher.add_handler(location_handle)
                             
     change_seller_handler = CallbackQueryHandler(  
                                             change_seller_category_purchase, 
@@ -140,7 +141,10 @@ def main():
                                             )
     dispatcher.add_handler(show_item_handler)
     
-
+    request_location_item_handler = CallbackQueryHandler( request_location_item, 
+                                            pattern='location'
+                                            )
+    dispatcher.add_handler(request_location_item_handler)
 
 #    location_handler = MessageHandler(
 #                            Filters.location, 

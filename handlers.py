@@ -173,6 +173,7 @@ def list_seller(update, context):
 def menu(update, context):
     user, chat_id, message_id = get_update_data(update)
     keyboard = get_button_menu(user)
+    context.user_data.clear()
     if update.callback_query:
         context.bot.edit_message_text(
                         chat_id=chat_id, 
@@ -247,6 +248,16 @@ def by_category(update, context):
     update.message.reply_text(  text=text,
                                 reply_markup=keyboard, 
                                 parse_mode=ParseMode.HTML )
+
+@is_not_bot()    
+@is_allowed_user()
+@lang()
+def request_location_item(update, context):
+    user, chat_id, message_id = get_update_data(update)
+    obj_id = context.user_data['obj_id']
+    type_obj = context.user_data['type_obj']
+    request_location(update, chat_id, type_obj, obj_id)
+    return True
 
 
 @is_not_bot()    
