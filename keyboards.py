@@ -22,7 +22,7 @@ def buttons_for_seller_item(user, id_item, type_item):
     keyboard['inline_keyboard'].append([loc, on_map])
     new_button = InlineKeyboardButton(  
         _('Menu'),
-        callback_data='/menu')
+        callback_data='menu')
     keyboard['inline_keyboard'].append([new_button])
     return keyboard
     
@@ -33,7 +33,7 @@ def buttons_for_purchase_item(user, id_item):
                                         callback_data='show_change_seller&%s' % id_item)], 
                 [InlineKeyboardButton( _('change_category'),
                                         callback_data='show_change_category&%s' % id_item)],  
-                [InlineKeyboardButton( _('menu'), callback_data='/menu')], 
+                [InlineKeyboardButton( _('menu'), callback_data='menu')], 
                 ]
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
@@ -105,7 +105,7 @@ def get_button_users():
         buttons.append(row_but)
     new_button = InlineKeyboardButton(  
         _('Menu'),
-        callback_data='/menu')
+        callback_data='menu')
     buttons.append([new_button])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
@@ -171,7 +171,7 @@ def get_button_sellers(user, id_item, geo=None):
     menu.append([new_button])
     new_button = InlineKeyboardButton(  
         _('Menu'),
-        callback_data='/menu')
+        callback_data='menu')
     menu.append([new_button])
     keyboard = InlineKeyboardMarkup(menu)
     return keyboard
