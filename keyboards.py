@@ -139,7 +139,6 @@ def get_button_sellers(user, id_item, geo=None):
     buttons = []
     count = 0
     for seller in sellers:
-        print(seller.id)
         sel_name = '--'
         if seller_dict_flag:
             sel_name = seller['name']
