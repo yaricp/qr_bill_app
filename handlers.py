@@ -272,6 +272,7 @@ def set_location_item(update, context):
     user, chat_id, message_id = get_update_data(update)
     obj_id = context.user_data['obj_id']
     type_obj = context.user_data['type_obj']
+    geo = update.message.location
     keyboard = buttons_for_seller_item(user, obj_id, type_obj)
     save_geo_position('seller', obj_id, geo)
     text = show_seller_item(user, obj_id)
