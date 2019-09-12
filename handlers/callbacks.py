@@ -637,6 +637,22 @@ def set_lang(update, context):
 @is_not_bot()        
 @is_allowed_user()
 @lang()
+def but_help(update, context):
+    
+    user, chat_id, message_id = get_update_data(update)
+    text = show_help()
+    keyboard = get_button_main()
+    context.bot.edit_message_text(
+                chat_id=chat_id, 
+                message_id=message_id,
+                text=text,
+                reply_markup=keyboard)
+    
+    
+
+@is_not_bot()        
+@is_allowed_user()
+@lang()
 def private_actions(update, context):
     bot = context.bot
     but_data = update.callback_query.data
@@ -653,9 +669,7 @@ def private_actions(update, context):
     elif but_data == '/new_seller':
         #TODO telegram.ReplyKeyboardRemove
         text = show_new_seller(user)
-    elif but_data == '/help':
-        text = show_help()
-    elif but_data == '/users':
+    eelif but_data == '/users':
         keyboard = get_button_users()
         text = _('List users')
     list_parameters = but_data.split('&')
