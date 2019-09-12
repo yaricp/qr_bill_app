@@ -171,8 +171,8 @@ def list_seller(update, context):
 @is_allowed_user()
 @lang()
 def menu(update, context):
-    user_id = update.message.from_user.id
-    keyboard = get_button_menu(user_id)
+    user, chat_id, message_id = get_update_data(update)
+    keyboard = get_button_menu(user)
     update.message.reply_text(  text=_('Menu'),
                                 reply_markup=keyboard)
 
