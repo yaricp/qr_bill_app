@@ -572,12 +572,14 @@ def change_seller_category_purchase(update, context):
         obj = change_category(obj, user, id_link_obj)
     text = show_purchase_item(user, obj.id)
     keyboard = buttons_for_purchase_item(user, obj.id)
+    context.user_data = {}
     context.bot.edit_message_text(
         chat_id=chat_id, 
         message_id=message_id, 
         text=text, 
         reply_markup=keyboard
         )
+        
     return ConversationHandler.END
     
 
@@ -641,6 +643,7 @@ def name_new_seller_category(update, context):
                                 update.message.text, 
                                 purchase_id=purchase_id)
         keyboard = buttons_for_purchase_item(user, purchase_id)
+        context.user_data = {}
         update.message.reply_text(
                     text=text, 
                     reply_markup=keyboard
@@ -705,6 +708,7 @@ def list_items(update, context):
     list_parameters = but_data.split('&')
     type_obj = list_parameters[1]
     text, keyboard = get_list_items(user, type_obj)
+    print('USER_DATA: ', context.user_data)
     context.bot.edit_message_text(
                     chat_id=chat_id, 
                     message_id=message_id,
