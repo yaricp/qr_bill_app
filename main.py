@@ -96,7 +96,7 @@ def main():
                     ],
         states={
             LOCATION: [location_handler, 
-                        CommandHandler('/skip_location', set_location)
+                        CommandHandler('skip_location', set_location)
                         ],
             SELLER_CATEGORY: [  change_seller_handler, 
                                 add_seller_purchase_handler, 
