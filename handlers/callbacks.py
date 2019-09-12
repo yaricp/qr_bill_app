@@ -83,7 +83,6 @@ def show_change_seller(update, context):
 @lang()
 def show_change_category(update, context):
     user, chat_id, message_id = get_update_data(update)
-    text = show_seller_item(user, id_obj)
     but_data = update.callback_query.data
     list_parameters = but_data.split('&')
     type_obj = list_parameters[1]
