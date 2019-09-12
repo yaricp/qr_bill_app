@@ -821,7 +821,7 @@ def show_item_on_map(update, context):
     id_obj = list_parameters[2]
     title, position = show_on_map(type_obj, id_obj)
     if position:
-        bot.send_venue(chat_id, 
+        context.bot.send_venue(chat_id, 
                     latitude=position[1], 
                     longitude=position[0], 
                     address=' ', 
@@ -831,7 +831,7 @@ def show_item_on_map(update, context):
                     reply_markup=keyboard
                     )
     else:
-        bot.answer_callback_query(
+        context.bot.answer_callback_query(
                     callback_query_id, 
                     text=_('this seller have not coordinates'), 
                     show_alert=True
