@@ -78,7 +78,7 @@ def get_button_menu(user_id):
                 ]
     user, created = User.get_or_create(tg_user_id=user_id)
     if user.is_admin:
-        buttons.append([InlineKeyboardButton( _('users'), callback_data='/users')])
+        buttons.append([InlineKeyboardButton( _('users'), callback_data='users')])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
     

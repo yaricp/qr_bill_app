@@ -173,6 +173,11 @@ def main():
                                             pattern='help'
                                             )
     dispatcher.add_handler(help_handler)
+    
+    list_users_handler = CallbackQueryHandler( list_users, 
+                                            pattern='users'
+                                            )
+    dispatcher.add_handler(list_users_handler)
 
 #    location_handler = MessageHandler(
 #                            Filters.location, 

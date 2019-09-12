@@ -647,7 +647,21 @@ def but_help(update, context):
                 message_id=message_id,
                 text=text,
                 reply_markup=keyboard)
+
+
+@is_not_bot()        
+@is_allowed_user()
+@lang()
+def list_users(update, context):
     
+    user, chat_id, message_id = get_update_data(update)
+    keyboard = get_button_users()
+    text = _('List users')
+    context.bot.edit_message_text(
+                chat_id=chat_id, 
+                message_id=message_id,
+                text=text,
+                reply_markup=keyboard)
     
 
 @is_not_bot()        
@@ -669,9 +683,7 @@ def private_actions(update, context):
     elif but_data == '/new_seller':
         #TODO telegram.ReplyKeyboardRemove
         text = show_new_seller(user)
-    elif but_data == '/users':
-        keyboard = get_button_users()
-        text = _('List users')
+    
     list_parameters = but_data.split('&')
 
     if len(list_parameters) > 1:
