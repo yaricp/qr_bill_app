@@ -246,6 +246,8 @@ def by_category(update, context):
                                 parse_mode=ParseMode.HTML )
 
 
+
+
 @is_not_bot()    
 @is_allowed_user()
 @lang()
@@ -353,16 +355,17 @@ def new_photo(update, context):
     new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
     date_time, summ, raw = scan(image=True, video=False)
     text, purchase_id, double = save_purchase(date_time, summ, user, raw, photo_file_id)
-    request_location(update, chat_id, text, 'purchase', purchase_id)
+    request_location(update, chat_id, 'purchase', purchase_id)
     context.user_data['type_obj'] = 'purchase'
     context.user_data['obj_id'] = purchase_id
 #    print('RETURN: ', LOCATION)
     return LOCATION
 
 
-def request_location(update, chat_id, text, type_obj, obj_id):
+def request_location(update, chat_id, type_obj, obj_id):
     
     keyboard = get_button_geo()
+    text = _('Please, send me your location and I find seller around you,\n or press /skip_location')
     update.message.reply_text(
         text=text, 
         reply_markup=keyboard, 

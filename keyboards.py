@@ -54,9 +54,7 @@ def get_button_geo():
     geo = KeyboardButton(  
         _('location'),
         request_location=True)
-    cancel = KeyboardButton(  
-        _('not now'))
-    keyboard = ReplyKeyboardMarkup([[geo,cancel]])
+    keyboard = ReplyKeyboardMarkup([[geo]])
     return keyboard
     
 
