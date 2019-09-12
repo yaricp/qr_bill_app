@@ -274,7 +274,8 @@ def create_seller(user, name, purchase_id=None):
     
     new_seller = Seller(name=name, user=user)
     new_seller.save()
-    text=_('Seller created!\n')
+    text = _('Seller created!') + '\n'
+    text += _('Now choose category of seller') + '\n' 
     if purchase_id:
         purchase = Purchase.get(Purchase.id==purchase_id, 
                                 Purchase.user==user

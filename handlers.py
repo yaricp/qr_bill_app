@@ -628,7 +628,7 @@ def name_new_seller_category(update, context):
         text = create_category( user, 
                                 update.message.text, 
                                 purchase_id=purchase_id)
-        keyboard = buttons_for_purchase_item(user, purchase_id, type_obj)
+        keyboard = buttons_for_purchase_item(user, purchase_id)
         update.message.reply_text(
                     text=text, 
                     reply_markup=keyboard
