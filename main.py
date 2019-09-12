@@ -163,6 +163,11 @@ def main():
                                             pattern='langs'
                                             )
     dispatcher.add_handler(langs_handler)
+    
+    set_lang_handler = CallbackQueryHandler( set_lang, 
+                                            pattern='lang&'
+                                            )
+    dispatcher.add_handler(set_lang_handler)
 
 #    location_handler = MessageHandler(
 #                            Filters.location, 
