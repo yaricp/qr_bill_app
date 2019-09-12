@@ -799,6 +799,14 @@ def show_item(update, context):
     elif type_obj == 'seller':
         keyboard = buttons_for_seller_item(user, id_obj, type_obj)
         text = show_seller_item(user, id_obj)
+        context.bot.delete_message(
+            chat_id=chat_id,  
+            message_id=message_id, 
+            )
+        context.bot.send_message(
+                    chat_id=chat_id, 
+                    text=text,
+                    reply_markup=keyboard)
     elif type_obj == 'user':
         text = show_user_item(user, id_obj)
         
