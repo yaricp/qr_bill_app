@@ -238,6 +238,7 @@ def register(update, context):
         username = ''
     user_id = update.callback_query.from_user.id
     user = User.get_or_none(tg_user_id=user_id)
+    keyboard = get_button_main()
     if not user:
         user = User(
                 username=username, 
