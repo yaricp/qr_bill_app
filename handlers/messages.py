@@ -58,7 +58,7 @@ def new_video(update, context):
                     text=_('Video uploaded.\nPlease wait. \nRecognize video perhaps take some time.'), 
                     )
     date_time, summ, raw = scan(image=False, video=True)
-    text, purchase_id, double = save_purchase(date_time, summ, user, raw, photo_file_id)
+    text, purchase_id, double = save_purchase(date_time, summ, user, raw, video_file_id)
     if double:
         keyboard = buttons_for_purchase_item(user, purchase_id)
         text = _('ATTANTION!\nIts looks like:\n')
