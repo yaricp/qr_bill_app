@@ -709,11 +709,12 @@ def activate(update, context):
         user_text += _('You can send me photo or video with QR code on bill and I try to decode or recognize date and summ.\n')
         user_text += _('Also you can use any programm for decore QR codes and send me result.\n')
         user_text += _('Finally you can send me date and summ in format: dd.mm.yy 123.00')
-        bot.send_message(obj.tg_user_id,             
+        context.bot.send_message(obj.tg_user_id,             
                 text=user_text)
         text = _('User %s activated') % obj.username
     else:
         text = _('User %s is active') % obj.username
+    keyboard = get_button_users()
     context.bot.edit_message_text(
                 chat_id=chat_id, 
                 message_id=message_id,
