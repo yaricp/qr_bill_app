@@ -554,6 +554,8 @@ def show_picture(update, context):
     type_obj = list_parameters[1]
     id_obj = list_parameters[2]
     obj = get_item(user, type_obj, id_obj)
+    print('OBJ: ', obj)
+    print('PIC: ', obj.pic)
     text = show_purchase_item(user, id_obj)
     keyboard = buttons_for_purchase_item(user, id_obj)
     context.bot.send_photo(
