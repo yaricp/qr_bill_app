@@ -25,7 +25,7 @@ def new_photo(update, context):
     new_file = update.message.photo[-1].get_file()
     new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
     date_time, summ, raw = scan(image=True, video=False)
-    text, purchase_id, double = save_purchase(date_time, summ, user, raw, photo_file_id)
+    text, purchase_id, double = save_purchase(date_time, summ, user, raw, photo_file_id=photo_file_id)
     if double:
         keyboard = buttons_for_purchase_item(user, purchase_id)
         text = _('ATTANTION!\nIts looks like:\n')

@@ -21,6 +21,7 @@ def save_purchase(date_time, summ, user, raw=None, photo_file_id=''):
     text = _('summa or datetime not found')
     raw = None
     double = False
+    print('PIC: ', photo_file_id)
     if date_time and summ:
         check_p = Purchase.select().where(Purchase.summ==summ,
                                 Purchase.datetime==date_time, 
