@@ -555,11 +555,11 @@ def show_picture(update, context):
     obj = get_item(user, type_obj, id_obj)
     text = show_purchase_item(user, id_obj)
     keyboard = buttons_for_purchase_item(user, id_obj)
-    try:
-        context.bot.delete_message(
+    context.bot.delete_message(
             chat_id=chat_id, 
             message_id=message_id
             )
+    try:
         context.bot.send_photo(
             update.callback_query.message.chat.id, 
             photo=obj.pic, 
@@ -570,10 +570,8 @@ def show_picture(update, context):
         print('ERROR: ', e)
         if e.message == 'Type of file mismatch':
             try:
-                context.bot.delete_message(
-                    chat_id=chat_id, 
-                    message_id=message_id
-                    )
+                print('ERROR: ', e.__dict__)
+                print('ERROR: ', e)
                 context.bot.send_video(
                     update.callback_query.message.chat.id, 
                     video=obj.pic, 
@@ -581,10 +579,8 @@ def show_picture(update, context):
                     reply_markup=keyboard)
             except Exception as e:
                 if e.message == 'Type of file mismatch':
-                    context.bot.delete_message(
-                        chat_id=chat_id, 
-                        message_id=message_id
-                        )
+                    print('ERROR: ', e.__dict__)
+                    print('ERROR: ', e)
                     context.bot.send_video_note(
                         update.callback_query.message.chat.id, 
                         video_note=obj.pic, 
