@@ -27,7 +27,7 @@ def new_photo(update, context):
     if double:
         keyboard = buttons_for_purchase_item(user, id_obj)
         text = _('ATTANTION!\nIts looks like:\n')
-        text += show_purchase_item(user, id_obj)
+        text += show_purchase_item(user, purchase_id)
         context.bot.send_message(
                     chat_id=chat_id, 
                     text=text,
