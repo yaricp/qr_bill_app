@@ -203,6 +203,16 @@ def main():
                                             pattern='show_picture'
                                             )
     dispatcher.add_handler(show_pic_handler)
+    
+    by_cat_handler = CallbackQueryHandler( by_category, 
+                                            pattern='by_category'
+                                            )
+    dispatcher.add_handler(by_cat_handler)
+    
+    by_sel_handler = CallbackQueryHandler( by_seller, 
+                                            pattern='by_seller'
+                                            )
+    dispatcher.add_handler(by_sel_handler)
 
 #    location_handler = MessageHandler(
 #                            Filters.location, 

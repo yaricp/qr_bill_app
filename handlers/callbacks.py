@@ -608,6 +608,50 @@ def order_by(update, context):
 @is_not_bot()        
 @is_allowed_user()
 @lang()
+def by_category(update, context):
+    
+    user, chat_id, message_id = get_update_data(update)
+    but_data = update.callback_query.data
+    list_parameters = but_data.split('&')
+    cat = list_parameters[1]
+    month = None
+    if len(list_parameters) > 2:
+        month = list_parameters[1]
+    text = _('By Category %s') %  list_parameters[1]  #show_purchases_by(user, list_parameters[1], 'Category')
+    keyboard = get_button_purchases_by(user, cat, 'Category', month)
+            
+    context.bot.edit_message_text(
+                chat_id=chat_id, 
+                message_id=message_id,
+                text=text,
+                reply_markup=keyboard)
+            
+
+@is_not_bot()        
+@is_allowed_user()
+@lang()
+def by_seller(update, context):
+    
+    user, chat_id, message_id = get_update_data(update)
+    but_data = update.callback_query.data
+    list_parameters = but_data.split('&')
+    seller = list_parameters[1]
+    month = None
+    if len(list_parameters) > 2:
+        month = list_parameters[1]
+    text = _('By Seller %s') %  list_parameters[1]  #show_purchases_by(user, list_parameters[1], 'Category')
+    keyboard = get_button_purchases_by(user, seller, 'Seller', month)
+            
+    context.bot.edit_message_text(
+                chat_id=chat_id, 
+                message_id=message_id,
+                text=text,
+                reply_markup=keyboard)
+
+
+@is_not_bot()        
+@is_allowed_user()
+@lang()
 def list_langs(update, context):
     
     user, chat_id, message_id = get_update_data(update)
