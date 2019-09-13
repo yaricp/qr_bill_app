@@ -555,7 +555,7 @@ def show_picture(update, context):
     id_obj = list_parameters[2]
     text = show_purchase_item(user, id_obj)
     keyboard = buttons_for_purchase_item(user, id_obj)
-    bot.send_photo(
+    context.bot.send_photo(
         update.callback_query.message.chat.id, 
         photo=obj.pic, 
         caption=text, 
