@@ -25,7 +25,7 @@ def new_photo(update, context):
     date_time, summ, raw = scan(image=True, video=False)
     text, purchase_id, double = save_purchase(date_time, summ, user, raw, photo_file_id)
     if double:
-        keyboard = buttons_for_purchase_item(user, id_obj)
+        keyboard = buttons_for_purchase_item(user, purchase_id)
         text = _('ATTANTION!\nIts looks like:\n')
         text += show_purchase_item(user, purchase_id)
         context.bot.send_message(
