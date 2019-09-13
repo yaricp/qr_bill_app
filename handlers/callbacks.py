@@ -277,9 +277,12 @@ def register(update, context):
 @is_not_bot()
 @lang()
 def no_register(update, context):
+    
+    user, chat_id, message_id = get_update_data(update)
     text = _('Ok! Good luck for you.')
     text += _('We hope you return. We will glad to work for you.')
-    bot.edit_message_text(chat_id=chat_id,
+    context.bot.edit_message_text(
+                    chat_id=chat_id,
                     message_id=message_id, 
                     text=text, 
                     parse_mode=ParseMode.HTML)
