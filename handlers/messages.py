@@ -50,15 +50,24 @@ def new_video(update, context):
     print('NEW VIDEO')
     user = update.message.from_user.id
     video_file_id = update.message.video.file_id
-    video = bot.getFile(video_file_id)
-    new_file = bot.get_file(video.file_id)
+    video = context.bot.getFile(video_file_id)
+    new_file = context.bot.get_file(video.file_id)
     new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.mp4'))
-    bot.send_message(
+    context.bot.send_message(
                     update.message.chat.id,
                     text=_('Video uploaded.\nPlease wait. \nRecognize video perhaps take some time.'), 
                     )
     date_time, summ, raw = scan(image=False, video=True)
     text, purchase_id, double = save_purchase(date_time, summ, user, raw, photo_file_id)
+    if double:
+        keyboard = buttons_for_purchase_item(user, purchase_id)
+        text = _('ATTANTION!\nIts looks like:\n')
+        text += show_purchase_item(user, purchase_id)
+        context.bot.send_message(
+                    chat_id=chat_id, 
+                    text=text,
+                    reply_markup=keyboard)
+        return ConversationHandler.END
     request_location(update, context)
     context.user_data['type_obj'] = 'purchase'
     context.user_data['obj_id'] = purchase_id
