@@ -616,7 +616,7 @@ def order_by_category(update, context):
     cat = list_parameters[1]
     month = None
     if len(list_parameters) > 2:
-        month = list_parameters[1]
+        month = list_parameters[2]
     text = _('By Category %s') %  list_parameters[1]  #show_purchases_by(user, list_parameters[1], 'Category')
     keyboard = get_button_purchases_by(user, cat, 'Category', month)
             
@@ -638,7 +638,7 @@ def order_by_seller(update, context):
     seller = list_parameters[1]
     month = None
     if len(list_parameters) > 2:
-        month = list_parameters[1]
+        month = list_parameters[2]
     text = _('By Seller %s') %  list_parameters[1]  #show_purchases_by(user, list_parameters[1], 'Category')
     keyboard = get_button_purchases_by(user, seller, 'Seller', month)
             
@@ -814,11 +814,6 @@ def private_actions(update, context):
         else:
             type_obj = list_parameters[1]
             id_obj = list_parameters[2]
-            if type_obj =='user':
-                obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj)
-            else:
-                obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj, 
-                                            dict_types[type_obj].user==user )
             
             if action == 'new_category':
                 text = show_new_category(user, type=type_obj, obj_id=id_obj)
