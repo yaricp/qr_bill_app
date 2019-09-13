@@ -49,7 +49,10 @@ def new_video(update, context):
     raw = None
     print('NEW VIDEO')
     user, chat_id, message_id = get_update_data(update)
-    video_file_id = update.message.video.file_id
+    if update.message.video:
+        video_file_id = update.message.video.file_id
+    if update.message.video_note:
+        video_file_id = update.message.video_note.file_id
     video = context.bot.getFile(video_file_id)
     new_file = context.bot.get_file(video.file_id)
     new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.mp4'))
