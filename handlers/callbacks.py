@@ -679,12 +679,12 @@ def block(update, context):
         obj.save()
         user_text = _('Your account is blocked.\n')
         user_text += _('You can write to administrators of bot.\n')
-        bot.send_message(obj.tg_user_id,             
+        context.bot.send_message(obj.tg_user_id,             
                     text=user_text)
         text = _('User %s blocked') % obj.username
     else:
         text = _('User %s is not active') % obj.username
-
+    keyboard = get_button_users()
     context.bot.edit_message_text(
                 chat_id=chat_id, 
                 message_id=message_id,
