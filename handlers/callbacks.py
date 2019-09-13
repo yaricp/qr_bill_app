@@ -233,6 +233,7 @@ def reply_to_new(update, date_time, summ, user, raw=None, photo_file_id=''):
 @lang()
 def register(update, context):
     
+    user, chat_id, message_id = get_update_data(update)
     username = update.callback_query.from_user.username
     if not username:
         username = ''
