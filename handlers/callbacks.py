@@ -355,6 +355,8 @@ def change_seller_category_purchase(update, context):
     print('END CONVERSATION')
     return ConversationHandler.END
     
+    
+    
 
 @is_not_bot()        
 @is_allowed_user()
@@ -422,6 +424,22 @@ def name_new_seller_category(update, context):
                     )
         print('END CONVERSATION')
         return ConversationHandler.END
+    
+    
+@is_not_bot()        
+@is_allowed_user()
+@lang()
+def add_seller_category(update, context):
+    print('add_seller_category')
+    user, chat_id, message_id = get_update_data(update)
+    action = update.callback_query.data
+    context.user_data['action'] = action
+    context.bot.send_message(
+                chat_id=chat_id, 
+                text=_('Send me name of %s' % trans_type(action))
+                )
+    print('RETURN: ', NAME_SELLER_CATEGORY )
+    return NAME_SELLER_CATEGORY 
     
 
 @is_not_bot()        
@@ -791,38 +809,7 @@ def private_actions(update, context):
     
     list_parameters = but_data.split('&')
 
-    if len(list_parameters) > 1:
-        action = list_parameters[0]
-        #print('action: ',  action)
-        keyboard = get_button_main()
-        if action == '/by_category':
-            text = _('By Category %s') %  list_parameters[1]  #show_purchases_by(user, list_parameters[1], 'Category')
-            keyboard = get_button_purchases_by(user, list_parameters[1], 'Category')
-        elif action == '/by_seller':
-            text = _('By Seller: %s') %  list_parameters[1] #show_purchases_by(user, list_parameters[1], 'Seller')
-            keyboard = get_button_purchases_by(user, list_parameters[1], 'Seller')
-    if len(list_parameters) > 2:
-        list_action = ['/by_category', '/by_category']
-        if action in list_action:
-            month = get_month(int(list_parameters[2]))
-            if action == '/by_category':
-                text = _('By Category %s and month: %s') %  (list_parameters[1], month)  
-                keyboard = get_button_purchases_by(user, list_parameters[1], 'Category', list_parameters[2])
-            elif action == '/by_seller':
-                text = _('By Seller %s and month: %s') %  (list_parameters[1], month)  
-                keyboard = get_button_purchases_by(user, list_parameters[1], 'Seller', list_parameters[2])
-        else:
-            type_obj = list_parameters[1]
-            id_obj = list_parameters[2]
-            
-            if action == 'new_category':
-                text = show_new_category(user, type=type_obj, obj_id=id_obj)
-            elif action == 'new_seller':
-                text = show_new_seller(user, purchase_id=id_obj)
-            
-            
-            
-            
+    
     if len(list_parameters) > 3:
         id_link_obj = list_parameters[3]
 

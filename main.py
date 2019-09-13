@@ -213,6 +213,29 @@ def main():
                                             pattern='by_seller'
                                             )
     dispatcher.add_handler(by_sel_handler)
+    
+    add_seller_handler = CallbackQueryHandler( add_seller_category, 
+                                            pattern='new_seller'
+                                            )
+    add_category_handler = CallbackQueryHandler( add_seller_category, 
+                                            pattern='new_category'
+                                            )
+    new_cat_handler = ConversationHandler(
+        name='new_cat_conv', 
+        entry_points=[
+                    add_category_handler, 
+                    add_seller_handler
+                    ],
+        states={
+            NAME_SELLER_CATEGORY: [ MessageHandler(Filters.text, 
+                                                    name_new_seller_category), ],
+        
+            }, 
+            fallbacks=[cancel_handler, show_menu_handler], 
+            allow_reentry=True, 
+            persistent=True
+        )
+    dispatcher.add_handler(new_cat_handler)
 
 #    location_handler = MessageHandler(
 #                            Filters.location, 
