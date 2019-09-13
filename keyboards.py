@@ -215,39 +215,6 @@ def get_button_categories(user, id_item, type_item):
     return keyboard
     
     
-#def get_button_one_task(user, id):
-#    p = Purchase.get_or_none(user=user, id=id)
-#    buttons = []
-#    seller_name = 'None'
-#    if p.seller:
-#        try:
-#            sel = Seller.get_or_none(id = p.seller_id)
-#            seller_name = sel.name
-#        except:
-#            print('seller not found!')
-#    buttons.append([
-#                InlineKeyboardButton( 
-#                    'X', 
-#                    callback_data='delitem&purchase&%s' % str(p.id)), 
-##                InlineKeyboardButton( 
-##                    str(p.id), 
-##                    callback_data='show&purchase&'+str(p.id)),
-#                InlineKeyboardButton(  
-#                    '%s - %s - %s' % (p.summ, p.datetime, seller_name), 
-#                    callback_data='show&purchase&'+str(p.id)),
-#                InlineKeyboardButton( 
-#                    _('Pic'), 
-#                    callback_data='show_picture&purchase&%s' % str(p.id)), 
-#                
-#                ])
-#    new_button = InlineKeyboardButton(  
-#        _('Menu'),
-#        callback_data='/menu')
-#    buttons.append([new_button])
-#    keyboard = InlineKeyboardMarkup(buttons)
-#    
-#    return keyboard
-    
 def get_button_list_items(user, type_obj):
     list_obj = dict_types[type_obj].select().where(dict_types[type_obj].user == user)
     if type_obj == 'purchase':

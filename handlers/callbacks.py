@@ -400,12 +400,15 @@ def name_new_seller_category(update, context):
     if 'geo' in context.user_data:
         geo = context.user_data['geo']
     if action == 'new_seller':
-        text = create_seller(   user, 
+        text, obj = create_seller(   user, 
                                 update.message.text,
                                 purchase_id=purchase_id, 
                                 geo=geo
                                     )
-        keyboard = get_button_categories(user, purchase_id, type_obj)
+        if type_obj == 'purchase':
+            keyboard = get_button_categories(user, purchase_id, type_obj)
+        else:
+            keyboard = get_button_categories(user, obj.id, 'seller')
         context.bot.delete_message(
                     chat_id=chat_id, 
                     message_id=message_id-2
