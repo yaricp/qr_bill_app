@@ -251,21 +251,21 @@ def register(update, context):
                                                 'user_id': str(user.tg_user_id)
                                                 }
         for k, v in admins.items():
-            bot.send_message(
+            context.bot.send_message(
                         v, 
                         text=admin_text, 
                         reply_markup=keyboard
                         )
 
         text = _('Congratulation! you registered now.\n')
-        bot.edit_message_text(chat_id=chat_id,
+        context.bot.edit_message_text(chat_id=chat_id,
                     message_id=message_id, 
                     text=text, 
                     parse_mode=ParseMode.HTML)
         time.sleep(5)
 
         text = show_help()
-        bot.send_message(
+        context.bot.send_message(
                     chat_id=chat_id,
                     text=text, 
                     reply_markup=keyboard, 
