@@ -229,7 +229,9 @@ def main():
         states={
             NAME_SELLER_CATEGORY: [ MessageHandler(Filters.text, 
                                                     name_new_seller_category), ],
-        
+            CATEGORY: [ change_category_handler,
+                        add_category_handler,
+                        ], 
             }, 
             fallbacks=[cancel_handler, show_menu_handler], 
             allow_reentry=True, 

@@ -389,8 +389,12 @@ def add_seller_category_purchase(update, context):
 def name_new_seller_category(update, context):
     print('name_new_seller_category')
     user, chat_id, message_id = get_update_data(update)
-    type_obj = context.user_data['type_obj']
-    purchase_id = context.user_data['id_obj']
+    type_obj = None
+    purchase_id = None
+    if 'type_obj' in context.user_data:
+        type_obj = context.user_data['type_obj']
+    if 'id_obj' in context.user_data:
+        purchase_id = context.user_data['id_obj']
     action = context.user_data['action']
     geo = None
     if 'geo' in context.user_data:
