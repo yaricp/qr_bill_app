@@ -35,7 +35,7 @@ def main():
 
     
     new_summ_handler = MessageHandler(Filters.regex('^\d\d\d \d\d$'), new_text)
-    new_fn_handler = MessageHandler(Filters.regex('^&fn='), new_text)
+    new_fn_handler = MessageHandler(Filters.regex('.*&fn='), new_text)
     new_photo_handler = MessageHandler(Filters.photo, new_photo)
     new_video_handler = MessageHandler(Filters.video, new_video)
     cancel_handler = CommandHandler('cancel', cancel)
