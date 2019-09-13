@@ -31,10 +31,10 @@ def buttons_for_seller_item(user, id_item, type_item):
 def buttons_for_purchase_item(user, id_item):
     buttons = [
                 [InlineKeyboardButton( _('change_seller'), 
-                                        callback_data='show_change_seller&%s' % id_item)], 
-                [InlineKeyboardButton( _('change_category'),
+                                        callback_data='show_change_seller&%s' % id_item), 
+                InlineKeyboardButton( _('change_category'),
                                         callback_data='show_change_category&purchase&%s' % id_item)],  
-                [InlineKeyboardButton(_('Pic'), 
+                [InlineKeyboardButton(_('Media'), 
                     callback_data='show_picture&purchase&%s' % str(id_item))], 
                 [InlineKeyboardButton( _('menu'), callback_data='menu')], 
                 ]
@@ -260,7 +260,7 @@ def get_columns_items(columns, type_obj, obj):
                     '%s - %s - %s' % (obj.summ, obj.datetime, seller_name), 
                     callback_data='show&purchase&'+str(obj.id)))
         columns.append(InlineKeyboardButton( 
-                    _('Pic'), 
+                    _('Media'), 
                     callback_data='show_picture&purchase&%s' % str(obj.id)))
     elif type_obj == 'seller':
         columns.append(InlineKeyboardButton(  
@@ -388,7 +388,7 @@ def get_button_purchases_by(user, name, by_what, month=None):
                     callback_data='show&purchase&'+str(p.id)))
                     
         rows.append(InlineKeyboardButton( 
-                    _('Pic'), 
+                    _('Media'), 
                     callback_data='show_picture&purchase&%s' % str(p.id)))
         buttons.append(rows)
     new_button = InlineKeyboardButton(  
