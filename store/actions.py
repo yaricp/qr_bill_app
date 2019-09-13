@@ -74,12 +74,14 @@ def get_purchase_item(user, id):
     return text
         
 
-def change_category(obj, user, category_id):
+def change_category(obj, user, category_id, type_obj=None):
     
     category = Category.get(Category.id==category_id, 
                                 Category.user==user)
     obj.category = category
     obj.save()
+    if type_obj and type_obj == 'seller':
+        return obj
     obj.seller.category = category
     obj.seller.save()
     return obj

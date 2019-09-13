@@ -342,7 +342,7 @@ def change_seller_category_purchase(update, context):
             print('RETURN: ', CATEGORY)
             return CATEGORY
     else:
-        obj = change_category(obj, user, id_link_obj)
+        obj = change_category(obj, user, id_link_obj, type_obj)
     text = show_purchase_item(user, obj.id)
     keyboard = buttons_for_purchase_item(user, obj.id)
     context.user_data.clear()
