@@ -588,7 +588,7 @@ def show_item_on_map(update, context):
                     )
     else:
         context.bot.answer_callback_query(
-                    update.callback_query_id, 
+                    update.callback_query.id, 
                     text=_('this seller have not coordinates'), 
                     show_alert=True
                     )
