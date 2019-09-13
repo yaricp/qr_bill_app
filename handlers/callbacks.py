@@ -409,6 +409,7 @@ def name_new_seller_category(update, context):
             keyboard = get_button_categories(user, purchase_id, type_obj)
         else:
             keyboard = get_button_categories(user, obj.id, 'seller')
+            text += show_seller_item(user, obj.id)
         context.bot.delete_message(
                     chat_id=chat_id, 
                     message_id=message_id-2
