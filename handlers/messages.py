@@ -47,8 +47,8 @@ def new_video(update, context):
     date_time = None
     summ = None
     raw = None
+    print('NEW VIDEO')
     user = update.message.from_user.id
-    nrows = Wait.delete().where(Wait.user == user).execute()
     video_file_id = update.message.video.file_id
     video = bot.getFile(video_file_id)
     new_file = bot.get_file(video.file_id)
