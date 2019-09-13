@@ -99,6 +99,9 @@ def change_seller(obj, user,  seller_id, geo):
     
 def get_item(user, type_obj, id_obj):
     
-    obj = dict_types[type_obj].get( dict_types[type_obj].id==id_obj, 
+    if type_obj == 'user':
+        obj = User.get_or_none(id=id_obj)
+    else:
+        obj = dict_types[type_obj].get( dict_types[type_obj].id==id_obj, 
                                     dict_types[type_obj].user==user )
     return obj
