@@ -422,8 +422,8 @@ def name_new_seller_category(update, context):
                                 purchase_id=purchase_id)
         if type_obj == 'purchase':
             keyboard = buttons_for_purchase_item(user, purchase_id)
-        elif type_obj == 'category':
-            keyboard = get_button_list_items(user, type_obj)
+        else:
+            keyboard = get_button_list_items(user, 'category')
         context.user_data.clear()
         update.message.reply_text(
                     text=text, 
