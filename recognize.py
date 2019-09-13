@@ -163,7 +163,10 @@ def parse_text(text):
     list = text.split(' ')
     print('LIST: ', list)
     print(len(list))
-    
+    if len(list) == 1:
+        date_time = datetime.now()
+        summ = list[0]
+        return date_time,  summ
     if len(list) > 1:
         return get_datetime_from_string(list[0]), get_decimal_or_none(list[1])
     list = text.split('&')
