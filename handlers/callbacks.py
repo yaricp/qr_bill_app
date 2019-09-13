@@ -555,6 +555,12 @@ def show_picture(update, context):
     obj = get_item(user, type_obj, id_obj)
     text = show_purchase_item(user, id_obj)
     keyboard = buttons_for_purchase_item(user, id_obj)
+    if not obj.pic:
+        context.bot.answer_callback_query(
+            update.callback_query.id, 
+            text=_('this purchase have not media'), 
+            )
+        return
     context.bot.delete_message(
             chat_id=chat_id, 
             message_id=message_id
