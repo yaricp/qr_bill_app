@@ -34,7 +34,9 @@ def buttons_for_purchase_item(user, id_item):
                                         callback_data='show_change_seller&%s' % id_item), 
                 InlineKeyboardButton( _('change_category'),
                                         callback_data='show_change_category&purchase&%s' % id_item)],  
-                [InlineKeyboardButton(_('Media'), 
+                [InlineKeyboardButton( _('Card'), 
+                    callback_data='show&purchase&'+str(id_item)), 
+                InlineKeyboardButton(_('Media'), 
                     callback_data='show_picture&purchase&%s' % str(id_item))], 
                 [InlineKeyboardButton( _('menu'), callback_data='menu')], 
                 ]
