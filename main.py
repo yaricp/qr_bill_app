@@ -178,6 +178,21 @@ def main():
                                             pattern='users'
                                             )
     dispatcher.add_handler(list_users_handler)
+    
+    block_handler = CallbackQueryHandler( block, 
+                                            pattern='block'
+                                            )
+    dispatcher.add_handler(block_handler)
+    
+    activate_handler = CallbackQueryHandler( activate, 
+                                            pattern='activate'
+                                            )
+    dispatcher.add_handler(activate_handler)
+    
+    show_pic_handler = CallbackQueryHandler( show_picture, 
+                                            pattern='show_picture'
+                                            )
+    dispatcher.add_handler(show_pic_handler)
 
 #    location_handler = MessageHandler(
 #                            Filters.location, 

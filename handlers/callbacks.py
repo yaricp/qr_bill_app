@@ -418,28 +418,6 @@ def name_new_seller_category(update, context):
         print('END CONVERSATION')
         return ConversationHandler.END
     
-    
-    
-#@is_not_bot()        
-#@is_allowed_user()
-#@lang()
-#def add_category_purchase(update, context):
-#    
-#    but_data = update.callback_query.data
-#    user, chat_id, message_id = get_update_data(update)
-#    list_parameters = but_data.split('&')
-#    action = list_parameters[0]
-#    type_obj = list_parameters[1]
-#    id_obj = list_parameters[2]
-#    obj = dict_types[type_obj].get(dict_types[type_obj].id==id_obj, 
-#                                            dict_types[type_obj].user==user )
-#    text = show_new_category(user, type=type_obj, obj_id=id_obj)
-#    context.bot.send_message(
-#                chat_id=chat_id, 
-#                text=_('Send me name of %s' % trans_type(action))
-#                )
-#    return NAME_SELLER_CATEGORY
-    
 
 @is_not_bot()        
 @is_allowed_user()
@@ -523,6 +501,23 @@ def show_item(update, context):
                     message_id=message_id,
                     text=text,
                     reply_markup=keyboard)
+    return True
+    
+    
+@is_not_bot()        
+@is_allowed_user()
+@lang()
+def show_picture(update, context):
+    but_data = update.callback_query.data
+    user, chat_id, message_id = get_update_data(update)
+    list_parameters = but_data.split('&')
+    id_obj = list_parameters[1]
+    text = show_purchase_item(user, id_obj)
+    bot.send_photo(
+        update.callback_query.message.chat.id, 
+        photo=obj.pic, 
+        caption=text, 
+        reply_markup=keyboard)
     return True
     
 
@@ -663,6 +658,63 @@ def list_users(update, context):
                 text=text,
                 reply_markup=keyboard)
     
+    
+@is_not_bot()        
+@is_allowed_user()
+@lang()
+def block(update, context):
+    but_data = update.callback_query.data
+    user, chat_id, message_id = get_update_data(update)
+    list_parameters = but_data.split('&')
+    type_obj = list_parameters[1]
+    id_obj = list_parameters[2]
+    obj = get_item(user, type_obj, id_obj)
+    if obj.is_active:
+        obj.is_active = False
+        obj.save()
+        user_text = _('Your account is blocked.\n')
+        user_text += _('You can write to administrators of bot.\n')
+        bot.send_message(obj.tg_user_id,             
+                    text=user_text)
+        text = _('User %s blocked') % obj.username
+    else:
+        text = _('User %s is not active') % obj.username
+
+    context.bot.edit_message_text(
+                chat_id=chat_id, 
+                message_id=message_id,
+                text=text,
+                reply_markup=keyboard)
+    
+    
+@is_not_bot()        
+@is_allowed_user()
+@lang()
+def activate(update, context):
+    but_data = update.callback_query.data
+    user, chat_id, message_id = get_update_data(update)
+    list_parameters = but_data.split('&')
+    type_obj = list_parameters[1]
+    id_obj = list_parameters[2]
+    obj = get_item(user, type_obj, id_obj)
+    if not obj.is_active:
+        obj.is_active = True
+        obj.save()
+        user_text = _('Your account is activated by admin.\n')
+        user_text += _('You can send me photo or video with QR code on bill and I try to decode or recognize date and summ.\n')
+        user_text += _('Also you can use any programm for decore QR codes and send me result.\n')
+        user_text += _('Finally you can send me date and summ in format: dd.mm.yy 123.00')
+        bot.send_message(obj.tg_user_id,             
+                text=user_text)
+        text = _('User %s activated') % obj.username
+    else:
+        text = _('User %s is active') % obj.username
+    context.bot.edit_message_text(
+                chat_id=chat_id, 
+                message_id=message_id,
+                text=text,
+                reply_markup=keyboard)
+    
 
 @is_not_bot()        
 @is_allowed_user()
@@ -720,39 +772,9 @@ def private_actions(update, context):
             elif action == 'new_seller':
                 text = show_new_seller(user, purchase_id=id_obj)
             
-            elif action == 'activate':
-                if not obj.is_active:
-                    obj.is_active = True
-                    obj.save()
-                    user_text = _('Your account is activated by admin.\n')
-                    user_text += _('You can send me photo or video with QR code on bill and I try to decode or recognize date and summ.\n')
-                    user_text += _('Also you can use any programm for decore QR codes and send me result.\n')
-                    user_text += _('Finally you can send me date and summ in format: dd.mm.yy 123.00')
-                    bot.send_message(obj.tg_user_id,             
-                            text=user_text)
-                    text = _('User %s activated') % obj.username
-                else:
-                    text = _('User %s is active') % obj.username
-            elif action == 'block':
-                if obj.is_active:
-                    obj.is_active = False
-                    obj.save()
-                    user_text = _('Your account is blocked.\n')
-                    user_text += _('You can write to administrators of bot.\n')
-                    bot.send_message(obj.tg_user_id,             
-                                text=user_text)
-                    text = _('User %s blocked') % obj.username
-                else:
-                    text = _('User %s is not active') % obj.username
-
-            elif action == 'show_picture':
-                text = show_purchase_item(user, id_obj)
-                bot.send_photo(
-                    update.callback_query.message.chat.id, 
-                    photo=obj.pic, 
-                    caption=text, 
-                    reply_markup=keyboard)
-                return True
+            
+            
+            
     if len(list_parameters) > 3:
         id_link_obj = list_parameters[3]
 
