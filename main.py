@@ -34,7 +34,10 @@ def main():
     dispatcher = updater.dispatcher
 
     
-    new_summ_handler = MessageHandler(Filters.regex('^\d\d.\d\d.\d\d'), new_text)
+    new_summ_handler1 = MessageHandler(Filters.regex('^\d\d.\d\d.\d\d'), new_text)
+    new_summ_handler2 = MessageHandler(Filters.regex('\d\d.\d\d$'), new_text)
+    new_summ_handler3 = MessageHandler(Filters.regex('\d\d\d.\d\d$'), new_text)
+    new_summ_handler4 = MessageHandler(Filters.regex('\d\d\d\d.\d\d$'), new_text)
     new_fn_handler = MessageHandler(Filters.regex('.*&fn='), new_text)
     new_photo_handler = MessageHandler(Filters.photo, new_photo)
     new_video_handler = MessageHandler(Filters.video, new_video)
@@ -73,7 +76,10 @@ def main():
     new_bill_handler = ConversationHandler(
         name='new_bill_conv', 
         entry_points=[
-                    new_summ_handler, 
+                    new_summ_handler1, 
+                    new_summ_handler2,
+                    new_summ_handler3,
+                    new_summ_handler4,
                     new_fn_handler, 
                     new_photo_handler, 
                     new_video_handler
