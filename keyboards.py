@@ -87,8 +87,9 @@ def get_button_users():
     #this menu show only for admins
     buttons = []
     users = User.select()
-    row_but = []
+    
     for user in users:
+        row_but = []
         if not user.is_admin:
             row_but.append(InlineKeyboardButton( 'x', callback_data='delitem&user&%s' % user.id))
         row_but.append(InlineKeyboardButton( user.username + ' ' + str(user.is_active), 
