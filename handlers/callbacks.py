@@ -563,8 +563,22 @@ def show_picture(update, context):
             caption=text, 
             reply_markup=keyboard)
     except Exception as e:
-        print('ERROR: ', e)
         print('ERROR: ', e.__dict__)
+        print('ERROR: ', e)
+        if e.message == 'Type of file mismatch':
+            try:
+                context.bot.send_video(
+                    update.callback_query.message.chat.id, 
+                    video=obj.pic, 
+                    caption=text, 
+                    reply_markup=keyboard)
+            except Exception as e:
+                if e.message == 'Type of file mismatch':
+                    context.bot.send_video_note(
+                        update.callback_query.message.chat.id, 
+                        video_note=obj.pic, 
+                        caption=text, 
+                        reply_markup=keyboard)
     return True
     
 
