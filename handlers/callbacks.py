@@ -234,10 +234,10 @@ def reply_to_new(update, date_time, summ, user, raw=None, photo_file_id=''):
 def register(update, context):
     
     user, chat_id, message_id = get_update_data(update)
-    username = update.callback_query.from_user.username
-    if not username:
-        username = ''
+    username = update.callback_query.from_user.first_name
     user_id = update.callback_query.from_user.id
+    if not username:
+        username = user_id
     user = User.get_or_none(tg_user_id=user_id)
     keyboard = get_button_main()
     if not user:
