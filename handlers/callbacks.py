@@ -588,7 +588,7 @@ def show_item_on_map(update, context):
                     )
     else:
         context.bot.answer_callback_query(
-                    callback_query_id, 
+                    update.callback_query_id, 
                     text=_('this seller have not coordinates'), 
                     show_alert=True
                     )
@@ -800,50 +800,6 @@ def activate(update, context):
                 message_id=message_id,
                 text=text,
                 reply_markup=keyboard)
-    
-
-@is_not_bot()        
-@is_allowed_user()
-@lang()
-def private_actions(update, context):
-    bot = context.bot
-    but_data = update.callback_query.data
-    callback_query_id = update.callback_query.id
-    user = update.callback_query.from_user.id
-    chat_id = update.callback_query.message.chat.id
-    message_id = update.callback_query.message.message_id
-    keyboard = get_button_main()
-    type_obj = None
-    text = ''
-    if but_data == '/new_category':
-        #TODO telegram.ReplyKeyboardRemove
-        text = show_new_category(user)
-    elif but_data == '/new_seller':
-        #TODO telegram.ReplyKeyboardRemove
-        text = show_new_seller(user)
-    
-    list_parameters = but_data.split('&')
-
-    
-    if len(list_parameters) > 3:
-        id_link_obj = list_parameters[3]
-
-        if action == 'confirm':
-            if id_link_obj == 'yes':
-                obj.confirm = True
-                obj.save()
-                text = _('Confirmed!\n')
-                keyboard = get_button_categories(user, id_obj, type_obj)
-                text += show_purchase_item(user, id_obj)
-            else:
-                text += _('You can send me date and summ like this:\n')
-                text += _('12.01.19 123.00')
-    bot.edit_message_text(chat_id=chat_id,
-                        message_id=message_id, 
-                        text=text, 
-                        reply_markup=keyboard, 
-                        parse_mode=ParseMode.HTML 
-                        )
 
 
 def send_delete_info_to_user(bot, id_obj):
