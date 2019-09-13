@@ -343,7 +343,10 @@ def change_seller_category_purchase(update, context):
             return CATEGORY
     else:
         obj = change_category(obj, user, id_link_obj, type_obj)
-    text = show_purchase_item(user, obj.id)
+    if type_obj == 'purchase':
+        text = show_purchase_item(user, obj.id)
+    else:
+        text = show_seller_item(user, obj.id)
     keyboard = buttons_for_purchase_item(user, obj.id)
     context.user_data.clear()
     context.bot.edit_message_text(
