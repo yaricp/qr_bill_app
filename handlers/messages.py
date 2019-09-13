@@ -20,7 +20,7 @@ def new_photo(update, context):
     user, chat_id, message_id = get_update_data(update)
     bot = context.bot
     print('NEW PHOTO')
-    photo_file_id = update.message.photo[-1].id
+    photo_file_id = update.message.photo[-1].file_id
     print('ID: ', photo_file_id)
     new_file = update.message.photo[-1].get_file()
     new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
