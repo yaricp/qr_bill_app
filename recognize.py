@@ -107,7 +107,8 @@ def parse_raw_text(img, user):
                 'ru': 'rus', 
                 'en': 'eng'
                 }
-    raw_text = pytesseract.image_to_string(img, lang=lang_dict[lang.lang])
+    #raw_text = pytesseract.image_to_string(img, lang=lang_dict[lang.lang])
+    raw_text = pytesseract.image_to_string(img, lang='eng')
     print('raw_text: ', str(raw_text))
     
     rows = raw_text.split('\n')
