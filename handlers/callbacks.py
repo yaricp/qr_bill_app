@@ -524,23 +524,22 @@ def show_item(update, context):
     elif type_obj == 'seller':
         keyboard = buttons_for_seller_item(user, id_obj, type_obj)
         text = show_seller_item(user, id_obj)
-        context.bot.delete_message(
-            chat_id=chat_id,  
-            message_id=message_id, 
-            )
-        context.bot.send_message(
-                    chat_id=chat_id, 
-                    text=text,
-                    reply_markup=keyboard)
-        return True
     elif type_obj == 'user':
         text = show_user_item(user, id_obj)
         
-    context.bot.edit_message_text(
-                    chat_id=chat_id, 
-                    message_id=message_id,
-                    text=text,
-                    reply_markup=keyboard)
+#    context.bot.edit_message_text(
+#                    chat_id=chat_id, 
+#                    message_id=message_id,
+#                    text=text,
+#                    reply_markup=keyboard)
+    context.bot.delete_message(
+        chat_id=chat_id,  
+        message_id=message_id, 
+        )
+    context.bot.send_message(
+                chat_id=chat_id, 
+                text=text,
+                reply_markup=keyboard)
     return True
     
     
@@ -557,6 +556,10 @@ def show_picture(update, context):
     text = show_purchase_item(user, id_obj)
     keyboard = buttons_for_purchase_item(user, id_obj)
     try:
+        context.bot.delete_message(
+            chat_id=chat_id, 
+            message_id=message_id
+            )
         context.bot.send_photo(
             update.callback_query.message.chat.id, 
             photo=obj.pic, 
@@ -567,6 +570,10 @@ def show_picture(update, context):
         print('ERROR: ', e)
         if e.message == 'Type of file mismatch':
             try:
+                context.bot.delete_message(
+                    chat_id=chat_id, 
+                    message_id=message_id
+                    )
                 context.bot.send_video(
                     update.callback_query.message.chat.id, 
                     video=obj.pic, 
@@ -574,6 +581,10 @@ def show_picture(update, context):
                     reply_markup=keyboard)
             except Exception as e:
                 if e.message == 'Type of file mismatch':
+                    context.bot.delete_message(
+                        chat_id=chat_id, 
+                        message_id=message_id
+                        )
                     context.bot.send_video_note(
                         update.callback_query.message.chat.id, 
                         video_note=obj.pic, 
