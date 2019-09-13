@@ -189,6 +189,11 @@ def main():
                                             )
     dispatcher.add_handler(activate_handler)
     
+    register_handler = CallbackQueryHandler( register, 
+                                            pattern='register'
+                                            )
+    dispatcher.add_handler(register_handler)
+    
     show_pic_handler = CallbackQueryHandler( show_picture, 
                                             pattern='show_picture'
                                             )
