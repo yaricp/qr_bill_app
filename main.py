@@ -239,11 +239,7 @@ def main():
         )
     dispatcher.add_handler(new_cat_handler)
 
-#    location_handler = MessageHandler(
-#                            Filters.location, 
-#                            set_location, 
-#                            edited_updates=True)
-#    dispatcher.add_handler(location_handler)
+
     
     start_handler = CommandHandler('start', start)
     dispatcher.add_handler(start_handler)

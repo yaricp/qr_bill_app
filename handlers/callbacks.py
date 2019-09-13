@@ -24,7 +24,6 @@ run_waiting_command = {
     }
 
 
-
 dict_show_item = {
         'purchase': show_purchase_item, 
         'seller': show_seller_item, 
