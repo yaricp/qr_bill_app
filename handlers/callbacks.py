@@ -608,7 +608,7 @@ def order_by(update, context):
 @is_not_bot()        
 @is_allowed_user()
 @lang()
-def by_category(update, context):
+def order_by_category(update, context):
     
     user, chat_id, message_id = get_update_data(update)
     but_data = update.callback_query.data
@@ -630,7 +630,7 @@ def by_category(update, context):
 @is_not_bot()        
 @is_allowed_user()
 @lang()
-def by_seller(update, context):
+def order_by_seller(update, context):
     
     user, chat_id, message_id = get_update_data(update)
     but_data = update.callback_query.data
