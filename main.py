@@ -153,7 +153,7 @@ def main():
     
     
     show_item_handler = CallbackQueryHandler( show_item, 
-                                            pattern='show'
+                                            pattern='show&'
                                             )
     dispatcher.add_handler(show_item_handler)
     
@@ -208,7 +208,7 @@ def main():
     dispatcher.add_handler(no_register_handler)
     
     show_pic_handler = CallbackQueryHandler( show_picture, 
-                                            pattern='show_picture'
+                                            pattern='show_picture&'
                                             )
     dispatcher.add_handler(show_pic_handler)
     
