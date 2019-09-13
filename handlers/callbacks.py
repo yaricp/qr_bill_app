@@ -562,8 +562,8 @@ def show_picture(update, context):
             photo=obj.pic, 
             caption=text, 
             reply_markup=keyboard)
-    except e:
-        print('ERROR: ', e)
+    except BadRequest:
+        print('ERROR: ', BadRequest)
     return True
     
 
