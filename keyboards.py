@@ -94,7 +94,7 @@ def get_button_users():
             row_but.append(InlineKeyboardButton( 'x', callback_data='delitem&user&%s' % user.id))
         row_but.append(InlineKeyboardButton( user.username + ' ' + str(user.is_active), 
                                                 callback_data='show&user&%s' % user.id))
-        row_but.append(InlineKeyboardButton( user.username + ' ' + str(user.is_active), 
+        row_but.append(InlineKeyboardButton( str(user.is_active), 
                                                 callback_data='show&user&%s' % user.id))
         #row_but.append(InlineKeyboardButton( _('make admin'), callback_data='makeadmin&user&%s' % user.id))
         row_but.append(InlineKeyboardButton( _('block'), callback_data='block&user&%s' % user.id))
