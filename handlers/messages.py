@@ -48,7 +48,7 @@ def new_video(update, context):
     summ = None
     raw = None
     print('NEW VIDEO')
-    user = update.message.from_user.id
+    user, chat_id, message_id = get_update_data(update)
     video_file_id = update.message.video.file_id
     video = context.bot.getFile(video_file_id)
     new_file = context.bot.get_file(video.file_id)
