@@ -556,11 +556,14 @@ def show_picture(update, context):
     obj = get_item(user, type_obj, id_obj)
     text = show_purchase_item(user, id_obj)
     keyboard = buttons_for_purchase_item(user, id_obj)
-    context.bot.send_photo(
-        update.callback_query.message.chat.id, 
-        photo=obj.pic, 
-        caption=text, 
-        reply_markup=keyboard)
+    try:
+        context.bot.send_photo(
+            update.callback_query.message.chat.id, 
+            photo=obj.pic, 
+            caption=text, 
+            reply_markup=keyboard)
+    except e:
+        print('ERROR: ', e)
     return True
     
 
