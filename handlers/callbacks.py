@@ -348,7 +348,7 @@ def change_seller_category_purchase(update, context):
         keyboard = buttons_for_purchase_item(user, obj.id)
     else:
         text = show_seller_item(user, obj.id)
-        keyboard = buttons_for_seller_item(user, obj.id)
+        keyboard = buttons_for_seller_item(user, obj.id, type_obj)
     context.user_data.clear()
     context.bot.edit_message_text(
         chat_id=chat_id, 
