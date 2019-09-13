@@ -84,20 +84,20 @@ def get_button_menu(user_id):
     
     
 def get_button_users():
+    #this menu show only for admins
     buttons = []
     users = User.select()
+    row_but = []
     for user in users:
-        row_but = [
-                    InlineKeyboardButton( user.username + ' ' + str(user.is_active), callback_data='show&user&%s' % user.id), 
-                    ]
-        if user.is_admin:
-            row_but = [
-                        InlineKeyboardButton( 'x', callback_data='delitem&user&%s' % user.id),
-                        InlineKeyboardButton( user.username + ' ' + str(user.is_active), callback_data='show&user&%s' % user.id), 
-                        #InlineKeyboardButton( _('make admin'), callback_data='makeadmin&user&%s' % user.id), 
-                        InlineKeyboardButton( _('block'), callback_data='block&user&%s' % user.id), 
-                        InlineKeyboardButton( _('act'), callback_data='activate&user&%s' % user.id)
-                        ]
+        if not user.is_admin:
+            row_but.append(InlineKeyboardButton( 'x', callback_data='delitem&user&%s' % user.id))
+        row_but.append(InlineKeyboardButton( user.username + ' ' + str(user.is_active), 
+                                                callback_data='show&user&%s' % user.id))
+        row_but.append(InlineKeyboardButton( user.username + ' ' + str(user.is_active), 
+                                                callback_data='show&user&%s' % user.id))
+        #row_but.append(InlineKeyboardButton( _('make admin'), callback_data='makeadmin&user&%s' % user.id))
+        row_but.append(InlineKeyboardButton( _('block'), callback_data='block&user&%s' % user.id))
+        row_but.append(InlineKeyboardButton( _('act'), callback_data='activate&user&%s' % user.id))
         buttons.append(row_but)
     new_button = InlineKeyboardButton(  
         _('Menu'),
