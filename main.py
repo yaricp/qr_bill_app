@@ -41,6 +41,7 @@ def main():
     new_fn_handler = MessageHandler(Filters.regex('.*&fn='), new_text)
     new_photo_handler = MessageHandler(Filters.photo, new_photo)
     new_video_handler = MessageHandler(Filters.video, new_video)
+    new_video_note_handler = MessageHandler(Filters.video_note, new_video)
     cancel_handler = CommandHandler('cancel', cancel)
     
     
@@ -82,7 +83,8 @@ def main():
                     new_summ_handler4,
                     new_fn_handler, 
                     new_photo_handler, 
-                    new_video_handler
+                    new_video_handler, 
+                    new_video_note_handler
                     ],
         states={
             LOCATION: [ bill_location_handler, 
