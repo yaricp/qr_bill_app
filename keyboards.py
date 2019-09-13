@@ -399,7 +399,9 @@ def get_button_purchases_by(user, name, by_what, month=None):
             month = '0'+month
         #print('month: ', month)
         purchases = (Purchase.select()
-                .where(Purchase.user==user, by_field==obj, fn.strftime('%m', Purchase.datetime)==month)
+                .where( Purchase.user==user, 
+                        by_field==obj, 
+                        fn.date_part('month', Purchase.datetime)==month)
                 .order_by(Purchase.id.desc())
                 )
     for p in purchases:
