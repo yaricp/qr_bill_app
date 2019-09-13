@@ -90,6 +90,7 @@ def get_button_users():
     
     for user in users:
         row_but = []
+        print('USER: ', user)
         if not user.is_admin:
             row_but.append(InlineKeyboardButton( 'x', callback_data='delitem&user&%s' % user.id))
         row_but.append(InlineKeyboardButton( user.username, 
