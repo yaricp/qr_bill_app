@@ -427,11 +427,10 @@ def delitem(update, context):
     print('DIR CALLBACK: ', dir(update.callback_query))
     user, chat_id, message_id = get_update_data(update)
     list_parameters = but_data.split('&')
-    #action = list_parameters[0]
     type_obj = list_parameters[1]
     id_obj = list_parameters[2]
     if type_obj == 'user':
-        send_delete_info_to_user(bot, id_obj)
+        send_delete_info_to_user(context.bot, id_obj)
     text = delete_item(user, type_obj, id_obj)
     text, keyboard = get_list_items(user, type_obj)
     update.callback_query.answer(_('%s with ID: %s was deleted' %
