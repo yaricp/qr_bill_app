@@ -1,3 +1,5 @@
+from telegram.ext import ConversationHandler
+
 from store.actions import *
 from views import *
 from keyboards import *
@@ -22,6 +24,15 @@ def new_photo(update, context):
     new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
     date_time, summ, raw = scan(image=True, video=False)
     text, purchase_id, double = save_purchase(date_time, summ, user, raw, photo_file_id)
+    if double:
+        keyboard = buttons_for_purchase_item(user, id_obj)
+        text = _('ATTANTION!\nIts looks like:\n')
+        text += show_purchase_item(user, id_obj)
+        context.bot.send_message(
+                    chat_id=chat_id, 
+                    text=text,
+                    reply_markup=keyboard)
+        return ConversationHandler.END
     request_location(update, context)
     context.user_data['type_obj'] = 'purchase'
     context.user_data['obj_id'] = purchase_id
