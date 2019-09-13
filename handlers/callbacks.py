@@ -431,7 +431,7 @@ def delitem(update, context):
     list_parameters = but_data.split('&')
     type_obj = list_parameters[1]
     id_obj = list_parameters[2]
-    text = delete_item(user, type_obj, id_obj)
+    
     
     if type_obj == 'user':
         send_delete_info_to_user(context.bot, id_obj)
@@ -439,6 +439,7 @@ def delitem(update, context):
         text = _('List users')
     else:
         text, keyboard = get_list_items(user, type_obj)
+    text = delete_item(user, type_obj, id_obj)
     update.callback_query.answer(_('%s with ID: %s was deleted' %
                                                     (type_obj, id_obj)))
     context.bot.edit_message_text(
