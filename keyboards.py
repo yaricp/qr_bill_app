@@ -98,7 +98,7 @@ def get_button_users():
         #row_but.append(InlineKeyboardButton( _('make admin'), callback_data='makeadmin&user&%s' % user.id))
         row_but.append(InlineKeyboardButton( _('block'), callback_data='block&user&%s' % user.id))
         row_but.append(InlineKeyboardButton( _('act'), callback_data='activate&user&%s' % user.id))
-        buttons.append(row_but)
+    buttons.append(row_but)
     new_button = InlineKeyboardButton(  
         _('Menu'),
         callback_data='menu')
