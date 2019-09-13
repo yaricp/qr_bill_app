@@ -136,7 +136,11 @@ def menu(update, context):
     keyboard = get_button_menu(user)
     context.user_data.clear()
     if update.callback_query:
-        context.bot.edit_message_text(
+        context.bot.delete_message(
+                        chat_id=chat_id, 
+                        message_id=message_id, 
+                        )
+        context.bot.send_message(
                         chat_id=chat_id, 
                         message_id=message_id, 
                         text=_('Menu'), 
