@@ -493,7 +493,9 @@ def list_items(update, context):
     user, chat_id, message_id = get_update_data(update)
     list_parameters = but_data.split('&')
     type_obj = list_parameters[1]
-    page = list_parameters[2]
+    page = 1
+    if len(list_parameters) >2:
+        page = list_parameters[2]
     text, keyboard = get_list_items(user, type_obj, page)
     print('USER_DATA: ', context.user_data)
     print('DIR USER_DATA: ', dir(context.user_data))
