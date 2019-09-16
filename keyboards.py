@@ -251,12 +251,14 @@ def get_button_list_items(user, type_obj, page=1):
             next_text = '>'
             prev = 1
             next = 2
+            callback_data_next = 'list_of&%s&%s' % (type_obj, str(next))
         elif page == last_page:
             prev_text = '<'
             next_text = '-'
             callback_data_next = '|'
             prev = page - 1
             next = last_page
+            callback_data_prev = 'list_of&%s&%s' % (type_obj, str(prev))
         else:
             prev_text = '<'
             next_text = '>'
