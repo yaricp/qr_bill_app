@@ -219,10 +219,15 @@ def get_button_categories(user, id_item, type_item):
     return keyboard
     
     
-def get_button_list_items(user, type_obj):
+def get_button_list_items(user, type_obj, page=1):
+    total_count = dict_types[type_obj].select().count()
+    last_page = total_count/COUNT_ON_PAGE
+    if total_count//COUNT_ON_PAGE > 0:
+        last_page = total_count/COUNT_ON_PAGE+1
+    
     list_obj = dict_types[type_obj].select().where(dict_types[type_obj].user == user)
-    if type_obj == 'purchase':
-        list_obj = list_obj.order_by(Purchase.id.desc()).paginate(1, 10)
+    #if type_obj == 'purchase':
+    list_obj = list_obj.order_by(Purchase.id.desc()).paginate(1, COUNT_ON_PAGE)
     buttons = []
     for obj in list_obj:
 #        if type_obj == 'purchase':
@@ -238,6 +243,31 @@ def get_button_list_items(user, type_obj):
                 callback_data='delitem&%s&%s' % (type_obj, str(obj.id)))]
         columns = get_columns_items(columns, type_obj, obj)
         buttons.append(columns)
+    if total_count > 10:
+        if page == 1:
+            prev_text = '-'
+            next_text = '>'
+            prev = 1
+            next = 2
+        elif page == last_page:
+            prev_text = '<'
+            next_text = '-'
+            prev = page - 1
+            next = last_page
+        else:
+            prev_text = '<'
+            next_text = '>'
+            prev = page - 1
+            next = page + 1
+        columns = [InlineKeyboardButton( 
+                    prev_text, 
+                    callback_data='list_items&%s&%s' % (type_obj, str(prev))), 
+                    InlineKeyboardButton( 
+                    next_text, 
+                    callback_data='list_items&%s&%s' % (type_obj, str(next)))
+                    ]
+        buttons.append(columns)
+    
     if type_obj != 'purchase':
         new_button = InlineKeyboardButton(  
             _('New %s') % type_obj, 

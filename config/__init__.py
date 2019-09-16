@@ -47,4 +47,4 @@ elif TYPE_DB == 'pgsql':
                             
 
 RADIUS_SEARCH_SELLER = 0.3 
-
+COUNT_ON_PAGE = 10

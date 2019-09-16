@@ -493,7 +493,8 @@ def list_items(update, context):
     user, chat_id, message_id = get_update_data(update)
     list_parameters = but_data.split('&')
     type_obj = list_parameters[1]
-    text, keyboard = get_list_items(user, type_obj)
+    page = list_parameters[2]
+    text, keyboard = get_list_items(user, type_obj, page)
     print('USER_DATA: ', context.user_data)
     print('DIR USER_DATA: ', dir(context.user_data))
     print('DIR CONTEXT: ', dir(context))
@@ -628,12 +629,12 @@ def show_item_on_map(update, context):
     return True
     
 
-def get_list_items(user, type_obj):
+def get_list_items(user, type_obj, page=1):
     text_type = '%ss' % type_obj
     if type_obj == 'category':
         text_type = _('categories')
     text = _('List of %s' % text_type )
-    keyboard = get_button_list_items(user, type_obj)
+    keyboard = get_button_list_items(user, type_obj, page)
     return text, keyboard
     
     
