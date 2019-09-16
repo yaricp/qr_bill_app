@@ -261,10 +261,10 @@ def get_button_list_items(user, type_obj, page=1):
             next = page + 1
         columns = [InlineKeyboardButton( 
                     prev_text, 
-                    callback_data='list_items&%s&%s' % (type_obj, str(prev))), 
+                    callback_data='list_of&%s&%s' % (type_obj, str(prev))), 
                     InlineKeyboardButton( 
                     next_text, 
-                    callback_data='list_items&%s&%s' % (type_obj, str(next)))
+                    callback_data='list_of&%s&%s' % (type_obj, str(next)))
                     ]
         buttons.append(columns)
     
