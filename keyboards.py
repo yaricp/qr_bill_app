@@ -165,7 +165,7 @@ def get_button_sellers(user, id_item, geo=None, radius=RADIUS_SEARCH_SELLER):
     menu.append(buttons)
     if geo:
         new_button = InlineKeyboardButton(  
-            _('Search %s around' % radius*2),
+            _('Search %s around' % (radius*2)),
             callback_data='search_by_radius&purchase&%s' % radius)
         menu.append([new_button])
         new_button = InlineKeyboardButton(  

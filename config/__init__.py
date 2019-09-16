@@ -46,5 +46,5 @@ elif TYPE_DB == 'pgsql':
     migrator = PostgresqlMigrator(db)
                             
 
-RADIUS_SEARCH_SELLER = 0.3 
+RADIUS_SEARCH_SELLER = 300 # meters 
 COUNT_ON_PAGE = 10
