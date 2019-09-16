@@ -227,7 +227,7 @@ def get_button_list_items(user, type_obj, page=1):
     
     list_obj = dict_types[type_obj].select().where(dict_types[type_obj].user == user)
     #if type_obj == 'purchase':
-    list_obj = list_obj.order_by(Purchase.id.desc()).paginate(1, COUNT_ON_PAGE)
+    list_obj = list_obj.order_by(dict_types[type_obj].id.desc()).paginate(1, COUNT_ON_PAGE)
     buttons = []
     for obj in list_obj:
 #        if type_obj == 'purchase':
