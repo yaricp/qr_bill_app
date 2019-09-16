@@ -243,15 +243,18 @@ def get_button_list_items(user, type_obj, page=1):
                 callback_data='delitem&%s&%s' % (type_obj, str(obj.id)))]
         columns = get_columns_items(columns, type_obj, obj)
         buttons.append(columns)
+    
     if total_count > 10:
         if page == 1:
             prev_text = '-'
+            callback_data_prev = '|'
             next_text = '>'
             prev = 1
             next = 2
         elif page == last_page:
             prev_text = '<'
             next_text = '-'
+            callback_data_next = '|'
             prev = page - 1
             next = last_page
         else:
@@ -259,12 +262,15 @@ def get_button_list_items(user, type_obj, page=1):
             next_text = '>'
             prev = page - 1
             next = page + 1
-        columns = [InlineKeyboardButton( 
+            callback_data_prev = 'list_of&%s&%s' % (type_obj, str(prev))
+            callback_data_next = 'list_of&%s&%s' % (type_obj, str(next))
+        
+        columns = [ InlineKeyboardButton( 
                     prev_text, 
-                    callback_data='list_of&%s&%s' % (type_obj, str(prev))), 
+                    callback_data=callback_data_prev), 
                     InlineKeyboardButton( 
                     next_text, 
-                    callback_data='list_of&%s&%s' % (type_obj, str(next)))
+                    callback_data=callback_data_next)
                     ]
         buttons.append(columns)
     
