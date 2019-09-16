@@ -163,7 +163,7 @@ def get_button_sellers(user, id_item, geo=None, radius=RADIUS_SEARCH_SELLER):
                                                             sel_id )))
        
     menu.append(buttons)
-    if geo:
+    if seller_dict_flag:
         new_button = InlineKeyboardButton(  
             _('Search %s around' % (radius*2)),
             callback_data='search_by_radius&purchase&%s' % radius)
