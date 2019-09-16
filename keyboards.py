@@ -246,7 +246,7 @@ def get_button_list_items(user, type_obj, page=1):
     
     if total_count > 10:
         if page == 1:
-            prev_text = '-'
+            prev_text = '|'
             callback_data_prev = '|'
             next_text = '>'
             prev = 1
@@ -254,7 +254,7 @@ def get_button_list_items(user, type_obj, page=1):
             callback_data_next = 'list_of&%s&%s' % (type_obj, str(next))
         elif page == last_page:
             prev_text = '<'
-            next_text = '-'
+            next_text = '|'
             callback_data_next = '|'
             prev = page - 1
             next = last_page
