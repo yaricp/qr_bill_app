@@ -124,14 +124,14 @@ def get_button_lang():
     return keyboard
     
 
-def get_button_sellers(user, id_item, geo=None):
+def get_button_sellers(user, id_item, geo=None, radius=RADIUS_SEARCH_SELLER):
     
     purchase = Purchase.get(Purchase.id==id_item, 
                             Purchase.user==user)
     sellers = []
     seller_dict_flag = False
     if geo:
-        for row in find_sellers_around(geo):
+        for row in find_sellers_around(geo, radius):
             print(row[0])
             seller = {'name':row[1], 'id':row[0]}
             sellers.append(seller)
@@ -163,10 +163,15 @@ def get_button_sellers(user, id_item, geo=None):
                                                             sel_id )))
        
     menu.append(buttons)
-    new_button = InlineKeyboardButton(  
-        _('Show all sellers'),
-        callback_data='show_all_sellers&purchase&%s' % purchase.id)
-    menu.append([new_button])
+    if geo:
+        new_button = InlineKeyboardButton(  
+            _('Search %s around' % radius*2),
+            callback_data='search_by_radius&purchase&%s' % radius)
+        menu.append([new_button])
+        new_button = InlineKeyboardButton(  
+            _('Show all sellers'),
+            callback_data='show_all_sellers&purchase&%s' % purchase.id)
+        menu.append([new_button])
     new_button = InlineKeyboardButton(  
         _('New Seller'),
         callback_data='new_seller&purchase&%s' % purchase.id)

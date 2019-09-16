@@ -497,9 +497,9 @@ def list_items(update, context):
     if len(list_parameters) >2:
         page = int(list_parameters[2])
     text, keyboard = get_list_items(user, type_obj, page)
-    print('USER_DATA: ', context.user_data)
-    print('DIR USER_DATA: ', dir(context.user_data))
-    print('DIR CONTEXT: ', dir(context))
+    #print('USER_DATA: ', context.user_data)
+    #print('DIR USER_DATA: ', dir(context.user_data))
+    #print('DIR CONTEXT: ', dir(context))
     context.bot.edit_message_text(
                     chat_id=chat_id, 
                     message_id=message_id,
