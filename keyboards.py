@@ -221,9 +221,9 @@ def get_button_categories(user, id_item, type_item):
     
 def get_button_list_items(user, type_obj, page=1):
     total_count = dict_types[type_obj].select().count()
-    last_page = total_count/COUNT_ON_PAGE
+    last_page = total_count//COUNT_ON_PAGE
     if total_count % COUNT_ON_PAGE > 0:
-        last_page = total_count/COUNT_ON_PAGE+1
+        last_page = total_count//COUNT_ON_PAGE+1
     
     list_obj = dict_types[type_obj].select().where(dict_types[type_obj].user == user)
     #if type_obj == 'purchase':
