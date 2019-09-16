@@ -495,7 +495,7 @@ def list_items(update, context):
     type_obj = list_parameters[1]
     page = 1
     if len(list_parameters) >2:
-        page = list_parameters[2]
+        page = int(list_parameters[2])
     text, keyboard = get_list_items(user, type_obj, page)
     print('USER_DATA: ', context.user_data)
     print('DIR USER_DATA: ', dir(context.user_data))
