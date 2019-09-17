@@ -132,9 +132,13 @@ def save_media_purchase(update, context):
     result = save_media(id_obj, media_file_id)
     keyboard = buttons_for_purchase_item(user, id_obj)
     context.user_data.clear()
+    context.bot.delete_message(
+                chat_id=chat_id, 
+                message_id=message_id
+                )
     context.bot.edit_message_text(
                 chat_id=chat_id, 
-                message_id=message_id,
+                message_id=message_id-1,
                 text=result,
                 reply_markup=keyboard)
         
