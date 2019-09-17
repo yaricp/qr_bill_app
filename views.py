@@ -94,6 +94,7 @@ def show_order_by(user, type_c):
                     
                                        
 def show_purchase_item(user, id):
+    print('show_purchase_item')
     purchase = Purchase.get(Purchase.id==id, 
                             Purchase.user==user)
     category_name = ''
@@ -111,6 +112,7 @@ def show_purchase_item(user, id):
             'cat':category_name, 
             'user':purchase.user}
                             )
+    print('TEXT: ', text)
     return text
 
 

@@ -68,6 +68,7 @@ def show_change_seller(update, context):
     list_parameters = but_data.split('&')
     id_obj = list_parameters[1]
     text = show_purchase_item(user, id_obj)
+    print('TEXT: ', text)
     keyboard = get_button_sellers(user, id_obj)
     context.bot.edit_message_text(
         chat_id=chat_id, 
