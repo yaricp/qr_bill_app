@@ -877,6 +877,7 @@ def search_by_radius(update, context):
     user, chat_id, message_id = get_update_data(update)
     user_location = None
     obj_id = context.user_data['obj_id']
+    user_location = context.user_data['geo']
     #type_obj = context.user_data['type_obj']
     but_data = update.callback_query.data
     list_parameters = but_data.split('&')
@@ -885,7 +886,6 @@ def search_by_radius(update, context):
     text += show_purchase_item(user, obj_id)
     if update.message.location:
         user_location = update.message.location
-        context.user_data['geo'] = user_location
         context.bot.delete_message(
             chat_id=chat_id,  
             message_id=update.message.reply_to_message.message_id, 
