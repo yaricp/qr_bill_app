@@ -218,7 +218,8 @@ def get_decimal_or_none(text):
     from decimal import Decimal
     try:
         result = Decimal(text)
-    except: if DEVEL: print('error Decimal in '+ text)
+    except: 
+        if DEVEL: print('error Decimal in '+ text)
     return result
     
     
