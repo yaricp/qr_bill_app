@@ -38,18 +38,19 @@ def buttons_for_purchase_item(user, id_item, media=None, has_media=None):
             InlineKeyboardButton( _('change_category'),
                                     callback_data='show_change_category&purchase&%s' % id_item)],  
             ]
+        if has_media:
+            buttons.append([InlineKeyboardButton(_('Media'), 
+                        callback_data='show_picture&purchase&%s' % str(id_item))]
+                        )
+        else:
+            buttons.append([InlineKeyboardButton( _('Set Media'), 
+                        callback_data='set_media&'+str(id_item))])
     else:
         buttons = [
                 [InlineKeyboardButton( _('Card'), 
                                     callback_data='show&purchase&'+str(id_item))]
                     ]
-    if has_media:
-        buttons.append([InlineKeyboardButton(_('Media'), 
-                    callback_data='show_picture&purchase&%s' % str(id_item))]
-                    )
-    else:
-        buttons.append([InlineKeyboardButton( _('Set Media'), 
-                    callback_data='set_media&'+str(id_item))])
+    
                      
     buttons.append([InlineKeyboardButton( _('menu'), callback_data='menu')])
     keyboard = InlineKeyboardMarkup(buttons)
