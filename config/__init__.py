@@ -23,8 +23,10 @@ allowed_users = {'yaricp':'251241715',
 
                 
 admins = {'yaricp':'251241715'}
-DEVEL = int(os.getenv('DEVEL', 1))
-
+DEVEL_ENV = int(os.getenv('DEVEL', 1))
+DEVEL=True
+if DEVEL_ENV == 0:
+    DEVEL=False
 print('DEVEL:', DEVEL)
 
 if DEVEL:
