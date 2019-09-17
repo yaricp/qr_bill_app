@@ -4,6 +4,7 @@ from decorators import *
 from utils import *
 from keyboards import *
 from views import *
+from store.actions import *
 
 
 
@@ -101,10 +102,15 @@ def list_purchase(update, context):
 @lang()
 def purchase(bot, update, args):
     user = update.message.from_user.id
+    if len(args) < 1:
+        update.message.reply_text(  text=_('Needs to send id of purchase.\n /purchase ID'),
+                                reply_markup=keyboard)
+        return
     id = args[0]
-    keyboard = buttons_for_purchase_item(user, id)
+    obj = get_item(user, 'purchase', id)
+    keyboard = buttons_for_purchase_item(user, id, media=False, has_media=obj.pic)
     text = show_purchase_item(user, id_obj)
-    update.message.reply_text(  text=_('Purchase'),
+    update.message.reply_text(  text=text,
                                 reply_markup=keyboard)
                                 
                                 

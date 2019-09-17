@@ -130,7 +130,7 @@ def save_media_purchase(update, context):
     elif update.message.video_note:
         media_file_id = update.message.video_note.file_id
     result = save_media(id_obj, media_file_id)
-    keyboard = buttons_for_purchase_item(user, id_obj)
+    keyboard = buttons_for_purchase_item(user, id_obj, media=False, has_media=True)
     context.user_data.clear()
     context.bot.delete_message(
                 chat_id=chat_id, 

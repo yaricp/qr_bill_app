@@ -352,7 +352,7 @@ def change_seller_category_purchase(update, context):
         obj = change_category(obj, user, id_link_obj, type_obj)
     if type_obj == 'purchase':
         text = show_purchase_item(user, obj.id)
-        keyboard = buttons_for_purchase_item(user, obj.id)
+        keyboard = buttons_for_purchase_item(user, obj.id, media=False, has_media=obj.pic )
     else:
         text = show_seller_item(user, obj.id)
         keyboard = buttons_for_seller_item(user, obj.id, type_obj)
@@ -436,7 +436,7 @@ def name_new_seller_category(update, context):
                                 update.message.text, 
                                 purchase_id=purchase_id)
         if type_obj == 'purchase':
-            keyboard = buttons_for_purchase_item(user, purchase_id)
+            keyboard = buttons_for_purchase_item(user, purchase_id, media=False, has_media=obj.pic)
         else:
             keyboard = get_button_list_items(user, 'category')
         context.user_data.clear()
@@ -527,7 +527,8 @@ def show_item(update, context):
     id_obj = list_parameters[2]
     keyboard = get_button_main()
     if type_obj == 'purchase':
-        keyboard = buttons_for_purchase_item(user, id_obj)
+        obj = get_item(user, type_obj, id_obj)
+        keyboard = buttons_for_purchase_item(user, id_obj, media=False, has_media=obj.pic)
         text = show_purchase_item(user, id_obj)
     elif type_obj == 'category':
         keyboard =  get_button_del_item(id_obj, type_obj)
@@ -565,13 +566,13 @@ def show_picture(update, context):
     id_obj = list_parameters[2]
     obj = get_item(user, type_obj, id_obj)
     text = show_purchase_item(user, id_obj)
-    keyboard = buttons_for_purchase_item(user, id_obj)
-    if not obj.pic:
-        context.bot.answer_callback_query(
-            update.callback_query.id, 
-            text=_('this purchase have not media'), 
-            )
-        return
+    keyboard = buttons_for_purchase_item(user, id_obj, media=True, has_media=obj.pic)
+#    if not obj.pic:
+#        context.bot.answer_callback_query(
+#            update.callback_query.id, 
+#            text=_('this purchase have not media'), 
+#            )
+#        return
     context.bot.delete_message(
             chat_id=chat_id, 
             message_id=message_id
