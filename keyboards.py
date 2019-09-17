@@ -57,7 +57,6 @@ def buttons_for_purchase_item(user, id_item, media=None, has_media=None):
     return keyboard
     
 
-
 def get_button_main():
     new_button = InlineKeyboardButton(  
         _('Menu'),
