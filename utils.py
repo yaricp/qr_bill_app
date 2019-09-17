@@ -85,8 +85,8 @@ def find_sellers_around(geo, radius_mi=RADIUS_SEARCH_SELLER):
                                 user=PG_USERNAME, 
                                 password=PG_PASSWORD)
     curs = conn.cursor()
-    print('Search radius: ', radius_mi/1000)
-    radius = radius_mi/1000
+    print('Search radius: ', int(radius_mi)/1000)
+    radius = int(radius_mi)/1000
     curs.execute(
         'SELECT id,name FROM seller '\
         'WHERE ST_Distance_Sphere(geom, ST_SetSRID(ST_MakePoint('\
