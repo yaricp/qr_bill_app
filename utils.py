@@ -45,9 +45,6 @@ def get_update_data(update):
     return user, chat_id, message_id
     
     
-
-
-    
 def get_geo_positions(type_obj, id):
     conn = psycopg2.connect(database=PG_BATABASE, 
                             user=PG_USERNAME, 

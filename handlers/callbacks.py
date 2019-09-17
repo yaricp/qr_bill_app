@@ -136,7 +136,7 @@ def set_location_item(update, context):
     else:
         context.bot.delete_message(
                 chat_id=chat_id,  
-                message_id=update.message.message_id, 
+                message_id=update.message.message_id-1, 
                 reply_markup=ReplyKeyboardRemove()
                 )
     update.message.reply_text(
