@@ -853,6 +853,7 @@ def send_delete_info_to_user(bot, id_obj):
         bot.send_message(chat_id=tg_user_id, text=text)
     return True
 
+
 @is_not_bot()        
 @is_allowed_user()
 @lang()
@@ -866,6 +867,44 @@ def set_media_purchase(update, context):
                 message_id=message_id,
                 text=_('Please, send me media'))
     return MEDIA
+
+
+@is_not_bot()        
+@is_allowed_user()
+@lang()    
+def search_by_radius(update, context):
+    print('set_location')
+    user, chat_id, message_id = get_update_data(update)
+    user_location = None
+    obj_id = context.user_data['obj_id']
+    type_obj = context.user_data['type_obj']
+    list_parameters = but_data.split('&')
+    radius = list_parameters[1]
+    text = _('Please, choose seller')+ '\n'
+    text += show_purchase_item(user, obj_id)
+    if update.message.location:
+        user_location = update.message.location
+        context.user_data['geo'] = user_location
+        context.bot.delete_message(
+            chat_id=chat_id,  
+            message_id=update.message.reply_to_message.message_id, 
+            reply_markup=ReplyKeyboardRemove()
+            )
+    else:
+        context.bot.delete_message(
+            chat_id=chat_id,  
+            message_id=message_id)
+        context.bot.delete_message(
+            chat_id=chat_id,  
+            message_id=message_id-1)
+    print('get sellers buttons by geo: ', user_location)
+    keyboard = get_button_sellers(user, obj_id, geo=user_location, radius=radius)
+    update.message.reply_text(
+            text=text, 
+            reply_markup=keyboard
+            )
+    print('RETURN: ', SELLER)
+    return SELLER
       
 
 if __name__ == "__main__":

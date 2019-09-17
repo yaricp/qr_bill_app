@@ -93,6 +93,9 @@ def main():
                                             add_seller_category_purchase, 
                                             pattern='new_category&purchase'
                                             )
+    search_by_radius_handler = CallbackQueryHandler( search_by_radius, 
+                                            pattern='search_by_radius'
+                                            )
     show_menu_handler = CallbackQueryHandler( menu, 
                                             pattern='menu'
                                             )
@@ -112,6 +115,7 @@ def main():
                     ],
         states={
             LOCATION: [ bill_location_handler, 
+                        search_by_radius, 
                         CommandHandler('skip_location', set_location)
                         ],
             SELLER: [   change_seller_handler, 
@@ -159,6 +163,8 @@ def main():
                                             pattern='location'
                                             )
     dispatcher.add_handler(request_location_item_handler)
+    
+    
     
     show_change_seller_handler = CallbackQueryHandler( show_change_seller, 
                                             pattern='show_change_seller'
