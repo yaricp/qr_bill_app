@@ -846,6 +846,20 @@ def send_delete_info_to_user(bot, id_obj):
         bot.send_message(chat_id=tg_user_id, text=text)
     return True
 
+@is_not_bot()        
+@is_allowed_user()
+@lang()
+def set_media_purchase(update, context):
+    user, chat_id, message_id = get_update_data(update)
+    but_data = update.callback_query.data
+    list_parameters = but_data.split('&')
+    context.user_data['id'] = list_parameters[1]
+    context.bot.edit_message_text(
+                chat_id=chat_id, 
+                message_id=message_id,
+                text=_('Please, send me media'))
+    return MEDIA
+      
 
 if __name__ == "__main__":
     import doctest

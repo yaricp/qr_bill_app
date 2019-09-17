@@ -107,3 +107,14 @@ def get_item(user, type_obj, id_obj):
         obj = dict_types[type_obj].get( dict_types[type_obj].id==id_obj, 
                                     dict_types[type_obj].user==user )
     return obj
+
+
+def save_media(id,  media_file_id):
+    
+    purchase = Purchase.get_or_none(id)
+    purchase.pic = media_file_id
+    purchase.save()
+    return _('Purchase with media %s saved' % purchase.pic)
+    
+    
+    

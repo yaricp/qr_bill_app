@@ -115,3 +115,28 @@ def new_text(update, context):
     context.user_data['obj_id'] = purchase_id
     print('RETURN: ', LOCATION)
     return LOCATION
+    
+    
+@is_not_bot()        
+@is_allowed_user()
+@lang()
+def save_media_purchase(update, context):
+    user, chat_id, message_id = get_update_data(update)
+    id_obj= context.user_data['id']
+    if update.message.video:
+        media_file_id = update.message.photo[-1].file_id
+    elif update.message.video:
+        media_file_id = update.message.video.file_id
+    elif update.message.video_note:
+        media_file_id = update.message.video_note.file_id
+    result = save_media(id_obj, media_file_id)
+    keyboard = buttons_for_purchase_item(user, id_obj)
+    context.user_data.clear()
+    context.bot.edit_message_text(
+                chat_id=chat_id, 
+                message_id=message_id,
+                text=result,
+                reply_markup=keyboard)
+        
+    return ConversationHandler.END
+    

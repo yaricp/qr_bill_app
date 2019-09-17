@@ -38,6 +38,8 @@ def buttons_for_purchase_item(user, id_item):
                     callback_data='show&purchase&'+str(id_item)), 
                 InlineKeyboardButton(_('Media'), 
                     callback_data='show_picture&purchase&%s' % str(id_item))], 
+                [InlineKeyboardButton( _('Set Media'), 
+                    callback_data='set_media&'+str(id_item))], 
                 [InlineKeyboardButton( _('menu'), callback_data='menu')], 
                 ]
     keyboard = InlineKeyboardMarkup(buttons)
