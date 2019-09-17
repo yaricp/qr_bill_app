@@ -153,7 +153,7 @@ def set_location(update, context):
     user, chat_id, message_id = get_update_data(update)
     user_location = None
     obj_id = context.user_data['obj_id']
-    type_obj = context.user_data['type_obj']
+    #type_obj = context.user_data['type_obj']
     text = _('Please, choose seller')+ '\n'
     text += show_purchase_item(user, obj_id)
     if update.message.location:
@@ -873,7 +873,7 @@ def set_media_purchase(update, context):
 @is_allowed_user()
 @lang()    
 def search_by_radius(update, context):
-    print('set_location')
+    print('search_by_radius')
     user, chat_id, message_id = get_update_data(update)
     user_location = None
     obj_id = context.user_data['obj_id']
@@ -903,7 +903,7 @@ def search_by_radius(update, context):
             text=text, 
             reply_markup=keyboard
             )
-    print('RETURN: ', SELLER)
+    print('RETURN SEARCH RADIUS: ', SELLER)
     return SELLER
       
 
