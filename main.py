@@ -62,7 +62,7 @@ def main():
                                     save_media_purchase),
                     ],
             }, 
-            fallbacks=[cancel_handler, show_menu_handler], 
+            fallbacks=[cancel_handler, ], 
             allow_reentry=True, 
             persistent=True
         )
