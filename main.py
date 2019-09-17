@@ -23,6 +23,7 @@ if development:
 
 def main():
     
+    #if DEVEL: 
     print('TOKEN: ', TOKEN)
     my_persistence = PicklePersistence(filename='work_data')
     updater = Updater(

@@ -12,7 +12,7 @@ import peewee as pw
 
 user_field = pw.CharField(default='')
 
-print(migrator.database.__dict__)
+if DEVEL: print(migrator.database.__dict__)
 
 migrate(
     migrator.add_column('Category', 'user', user_field),

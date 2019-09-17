@@ -56,7 +56,7 @@ def recognize_image(user):
 def adjust_and_decode(gray):
     list_decoded = None
     for i in range(127, 160):
-        print(i)
+        if DEVEL: print(i)
         (thresh, blackAndWhiteImage) = cv2.threshold(gray, i, 255, cv2.THRESH_BINARY)
         cv2.imwrite("image_processed.png",blackAndWhiteImage)
         cv2.imwrite("image_gray.png",gray)
@@ -81,7 +81,7 @@ def parse_qr_code(list_decoded):
     date_time = None
     summ = None
     for rec in list_decoded:
-        print('TYPE_CODE: ', rec.type)
+        if DEVEL: print('TYPE_CODE: ', rec.type)
         type_data = rec.type
         if type_data == 'QRCODE':
             list_data = rec.data.decode("utf-8").split('&')
@@ -93,8 +93,8 @@ def parse_qr_code(list_decoded):
             summ = float(list_data[1].replace('s=', ''))
         elif type_data == 'EAN13':
             list_data = rec.data.decode("utf-8")
-            print(list_data)
-        print('DATA: ', rec.data)
+            if DEVEL: print(list_data)
+        if DEVEL: print('DATA: ', rec.data)
     return date_time, summ
     
 
@@ -102,14 +102,14 @@ def parse_raw_text(img, user):
     date_time = ''
     summ = ''
     lang, created = Language.get_or_create(user=user)
-    print('lang: ', lang.lang)
+    if DEVEL: print('lang: ', lang.lang)
     lang_dict = {
                 'ru': 'rus', 
                 'en': 'eng'
                 }
     raw_text = pytesseract.image_to_string(img, lang=lang_dict[lang.lang])
     #raw_text = pytesseract.image_to_string(img, lang='eng')
-    print('raw_text: ', str(raw_text).encode('utf-8').strip())
+    if DEVEL: print('raw_text: ', str(raw_text).encode('utf-8').strip())
     
     rows = raw_text.split('\n')
     for row in rows:
@@ -129,32 +129,32 @@ def parse_raw_text(img, user):
                         r"(\d{2}\.\d{2}\.\d{2} )",
                         ]
         for exp in list_matches:
-            #print('exp date time :', exp)
+            #if DEVEL: print('exp date time :', exp)
             match = re.search(exp, row)
-            #print(match)
+            #if DEVEL: print(match)
             if match:
-                #print('break')
+                #if DEVEL: print('break')
                 break
         if match:
             date_time = match.group(1).replace(' ', '').replace('.', '-')
             date = date_time[:8]
             date_time = date_time[:8] + ' ' + date_time[8:] + ':00'
-            #print('date: ', date)
-            #print('datetime: ', date_time)
+            #if DEVEL: print('date: ', date)
+            #if DEVEL: print('datetime: ', date_time)
             continue
         list_matches = [r"((|=)\d+(\.|,)\d{1,2}$)", 
 
                         ]
         
         row = row.replace(' ', '')
-        #print('row: ', row)
+        #if DEVEL: print('row: ', row)
         for exp in list_matches:
-            #print('exp: ', exp)
+            #if DEVEL: print('exp: ', exp)
             match = re.search(exp, row)
             if match:
-                #print(match)
+                #if DEVEL: print(match)
                 summ = match.group(1).replace(' ', '').replace('=', '').replace(',', '.')
-                #print('summ', summ)
+                #if DEVEL: print('summ', summ)
                 break
     return date_time,  summ
     
@@ -162,8 +162,8 @@ def parse_raw_text(img, user):
 def parse_text(text):
     
     list = text.split(' ')
-    print('LIST: ', list)
-    print(len(list))
+    if DEVEL: print('LIST: ', list)
+    if DEVEL: print(len(list))
     if len(list) == 1:
         date_time = datetime.now()
         summ = list[0]
@@ -209,7 +209,7 @@ def get_datetime_from_string(text_date):
             date_time = datetime.strptime(text_date, v)
             break
         except:
-            print('error type: ', v)
+            if DEVEL: print('error type: ', v)
     return date_time
     
     
@@ -218,7 +218,7 @@ def get_decimal_or_none(text):
     from decimal import Decimal
     try:
         result = Decimal(text)
-    except: print('error Decimal in '+ text)
+    except: if DEVEL: print('error Decimal in '+ text)
     return result
     
     

@@ -106,7 +106,7 @@ def get_button_users():
     
     for user in users:
         row_but = []
-        print('USER: ', user)
+        if DEVEL: print('USER: ', user)
         if not user.is_admin:
             row_but.append(InlineKeyboardButton( 'x', callback_data='delitem&user&%s' % user.id))
         row_but.append(InlineKeyboardButton( user.username, 
@@ -144,7 +144,7 @@ def get_button_sellers(user, id_item, geo=None, radius=RADIUS_SEARCH_SELLER):
     seller_dict_flag = False
     if geo:
         for row in find_sellers_around(geo, radius):
-            print(row[0])
+            if DEVEL: print(row[0])
             seller = {'name':row[1], 'id':row[0]}
             sellers.append(seller)
             seller_dict_flag = True
@@ -255,7 +255,7 @@ def get_button_list_items(user, type_obj, page=1):
 #                    sel = Seller.get(id = p.seller_id)
 #                    seller_name = sel.name
 #                except:
-#                    print('seller not found!'
+#                    if DEVEL: print('seller not found!'
         columns = [InlineKeyboardButton( 
                 'X', 
                 callback_data='delitem&%s&%s' % (type_obj, str(obj.id)))]
@@ -425,7 +425,7 @@ def get_button_purchases_by(user, name, by_what, month=None):
     if month:
         if int(month) < 10:
             month = '0'+month
-        #print('month: ', month)
+        #if DEVEL: print('month: ', month)
         purchases = (Purchase.select()
                 .where( Purchase.user==user, 
                         by_field==obj, 

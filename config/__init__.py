@@ -25,7 +25,7 @@ allowed_users = {'yaricp':'251241715',
 admins = {'yaricp':'251241715'}
 development = int(os.getenv('DEVEL', 1))
 
-print('DEVEL:', development)
+if DEVEL: print('DEVEL:', development)
 
 if development:
     from config.development import *
@@ -38,8 +38,8 @@ if TYPE_DB == 'sqlite':
         'cache_size': -1024 * 64})
     migrator = SqliteMigrator(db)
 elif TYPE_DB == 'pgsql':
-    #print('Init Postgres DB')
-    #print(PG_BATABASE)
+    #if DEVEL: print('Init Postgres DB')
+    #if DEVEL: print(PG_BATABASE)
     db = pw.PostgresqlDatabase(PG_BATABASE, user=PG_USERNAME, 
                                 password=PG_PASSWORD,
                             host=PG_HOST, port=PG_PORT)

@@ -14,19 +14,19 @@ user_id = '251241715'
 for p in Purchase.select():
     p.user = user_id
     p.save()
-    print('p: ', p.id, ' saved')
+    if DEVEL: print('p: ', p.id, ' saved')
     
 for s in Seller.select():
     s.user = user_id
     s.save()
-    print('s: ', s.id, ' saved')
+    if DEVEL: print('s: ', s.id, ' saved')
     
 for c in Category.select():
     c.user = user_id
     c.save()
-    print('c: ', c.id, ' saved')
+    if DEVEL: print('c: ', c.id, ' saved')
     
 for w in Wait.select():
     w.user = user_id
     w.save()
-    print('w: ', w.id, ' saved')
+    if DEVEL: print('w: ', w.id, ' saved')

@@ -77,7 +77,7 @@ def show_order_by(user, type_c):
     for r in table_rows:
         for c in r:
             
-            #print(dict_column_size[count_r])
+            #if DEVEL: print(dict_column_size[count_r])
             if count_r == 0:
                 text += c.ljust(dict_column_size[count_r]) + '|'
             else:
@@ -89,19 +89,19 @@ def show_order_by(user, type_c):
         count_r = 0
         count_c +=1
     #text += '</pre>'
-    #print(text)
+    #if DEVEL: print(text)
     return text
                     
                                        
 def show_purchase_item(user, id):
-    print('show_purchase_item')
+    if DEVEL: print('show_purchase_item')
     purchase = Purchase.get(Purchase.id==id, 
                             Purchase.user==user)
     category_name = ''
     seller_name = ''
     if purchase.category:
         category_name = purchase.category.name
-        #print('cat: ', category_name)
+        #if DEVEL: print('cat: ', category_name)
     if purchase.seller:
         seller_name = purchase.seller.name
     text = _('ID: %(id)s\nDate Time: %(datetime)s\nSumma: %(summ)s\nSeller: %(seller)s\nCategory: %(cat)s\nUser: %(user)s') % ( 
@@ -112,7 +112,7 @@ def show_purchase_item(user, id):
             'cat':category_name, 
             'user':purchase.user}
                             )
-    print('TEXT: ', text)
+    if DEVEL: print('TEXT: ', text)
     return text
 
 
@@ -349,14 +349,14 @@ def show_donate_link_ru():
     
 def show_purchases_by(user, name, by_what):
     text = ''
-    #print('name: ', name)
+    #if DEVEL: print('name: ', name)
     if by_what == 'Category':
         obj = Category.get_or_none(name=name)
         by_field = Purchase.category
     else:
         obj = Seller.get_or_none(name=name)
         by_field = Purchase.seller
-    #print('obj: ', obj)
+    #if DEVEL: print('obj: ', obj)
     purchases = (Purchase.select()
                 .where(Purchase.user==user, by_field==obj)
                 .order_by(Purchase.id.desc())
@@ -374,7 +374,7 @@ def show_purchases_by(user, name, by_what):
                 'seller':seller_name, 
                 'cat':category_name}
                                 )
-    #print(text)
+    #if DEVEL: print(text)
     return text
     
     

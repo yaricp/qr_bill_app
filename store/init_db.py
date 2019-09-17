@@ -3,7 +3,7 @@ from config import *
 from .models import *
 
 def initialize_db():
-    print('DB:', db)
+    if DEVEL: print('DB:', db)
     db.connect()
     db.create_tables([  category.Category, 
                         purchase.Purchase, 
@@ -18,7 +18,7 @@ def initialize_db():
                                     is_active=True, 
                                     is_admin=True, 
                                     )
-    #print(admin)
+    #if DEVEL: print(admin)
     db.close()
     
 

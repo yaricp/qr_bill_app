@@ -19,9 +19,9 @@ def new_photo(update, context):
     photo_file_id = ''
     user, chat_id, message_id = get_update_data(update)
     bot = context.bot
-    print('NEW PHOTO')
+    if DEVEL: print('NEW PHOTO')
     photo_file_id = update.message.photo[-1].file_id
-    #print('ID: ', photo_file_id)
+    #if DEVEL: print('ID: ', photo_file_id)
     new_file = update.message.photo[-1].get_file()
     new_file.download(os.path.join(PATH_TEMP_FILES,'qrcode.jpg'))
     date_time, summ, raw = scan(image=True, video=False)
@@ -43,7 +43,7 @@ def new_photo(update, context):
     request_location(update, context)
     context.user_data['type_obj'] = 'purchase'
     context.user_data['obj_id'] = purchase_id
-    print('RETURN: ', LOCATION)
+    if DEVEL: print('RETURN: ', LOCATION)
     return LOCATION
     
     
@@ -54,7 +54,7 @@ def new_video(update, context):
     date_time = None
     summ = None
     raw = None
-    print('NEW VIDEO')
+    if DEVEL: print('NEW VIDEO')
     user, chat_id, message_id = get_update_data(update)
     if update.message.video:
         video_file_id = update.message.video.file_id
@@ -86,7 +86,7 @@ def new_video(update, context):
     request_location(update, context)
     context.user_data['type_obj'] = 'purchase'
     context.user_data['obj_id'] = purchase_id
-    print('RETURN: ', LOCATION)
+    if DEVEL: print('RETURN: ', LOCATION)
     return LOCATION
     
 
@@ -113,7 +113,7 @@ def new_text(update, context):
     request_location(update, context)
     context.user_data['type_obj'] = 'purchase'
     context.user_data['obj_id'] = purchase_id
-    print('RETURN: ', LOCATION)
+    if DEVEL: print('RETURN: ', LOCATION)
     return LOCATION
     
     

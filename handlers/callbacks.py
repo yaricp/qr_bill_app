@@ -68,7 +68,7 @@ def show_change_seller(update, context):
     list_parameters = but_data.split('&')
     id_obj = list_parameters[1]
     text = show_purchase_item(user, id_obj)
-    print('TEXT: ', text)
+    if DEVEL: print('TEXT: ', text)
     keyboard = get_button_sellers(user, id_obj)
     context.bot.edit_message_text(
         chat_id=chat_id, 
@@ -119,7 +119,7 @@ def request_location_item(update, context):
 @is_allowed_user()
 @lang()
 def set_location_item(update, context):
-    print('set_location_item')
+    if DEVEL: print('set_location_item')
     user, chat_id, message_id = get_update_data(update)
     obj_id = context.user_data['obj_id']
     type_obj = context.user_data['type_obj']
@@ -150,7 +150,7 @@ def set_location_item(update, context):
 @is_allowed_user()
 @lang()
 def set_location(update, context):
-    print('set_location')
+    if DEVEL: print('set_location')
     user, chat_id, message_id = get_update_data(update)
     user_location = None
     obj_id = context.user_data['obj_id']
@@ -172,13 +172,13 @@ def set_location(update, context):
         context.bot.delete_message(
             chat_id=chat_id,  
             message_id=message_id-1)
-    print('get sellers buttons by geo: ', user_location)
+    if DEVEL: print('get sellers buttons by geo: ', user_location)
     keyboard = get_button_sellers(user, obj_id, geo=user_location)
     update.message.reply_text(
             text=text, 
             reply_markup=keyboard
             )
-    print('RETURN: ', SELLER)
+    if DEVEL: print('RETURN: ', SELLER)
     return SELLER
 
 
@@ -196,12 +196,12 @@ def reply_to_new(update, date_time, summ, user, raw=None, photo_file_id=''):
     text = _('summa or datetime not found')
     raw = None
     if date_time and summ:
-        print('datetime: ', date_time )
-        print('summ: ', summ)
+        if DEVEL: print('datetime: ', date_time )
+        if DEVEL: print('summ: ', summ)
         check_p = Purchase.select().where(Purchase.summ==summ,
                                 Purchase.datetime==date_time, 
                                 Purchase.user==user)
-        print('check_p: ', check_p)
+        if DEVEL: print('check_p: ', check_p)
         if not check_p:
             #confirm = True
             pur = Purchase(name='', 
@@ -299,7 +299,7 @@ def no_register(update, context):
 @is_allowed_user()
 @lang()      
 def show_all_sellers(update, context):
-    print('show_all_sellers')
+    if DEVEL: print('show_all_sellers')
     but_data = update.callback_query.data
     user, chat_id, message_id = get_update_data(update)
     list_parameters = but_data.split('&')
@@ -314,7 +314,7 @@ def show_all_sellers(update, context):
                 text=text, 
                 reply_markup=keyboard
                 )
-    print('RETURN: ', SELLER)
+    if DEVEL: print('RETURN: ', SELLER)
     return SELLER
     
 
@@ -322,7 +322,7 @@ def show_all_sellers(update, context):
 @is_allowed_user()
 @lang()
 def change_seller_category_purchase(update, context):
-    print('change_seller_category_purchase')
+    if DEVEL: print('change_seller_category_purchase')
     but_data = update.callback_query.data
     user, chat_id, message_id = get_update_data(update)
     list_parameters = but_data.split('&')
@@ -346,7 +346,7 @@ def change_seller_category_purchase(update, context):
                 text=text, 
                 reply_markup=keyboard
                 )
-            print('RETURN: ', CATEGORY)
+            if DEVEL: print('RETURN: ', CATEGORY)
             return CATEGORY
     else:
         obj = change_category(obj, user, id_link_obj, type_obj)
@@ -363,7 +363,7 @@ def change_seller_category_purchase(update, context):
         text=text, 
         reply_markup=keyboard
         )
-    print('END CONVERSATION')
+    if DEVEL: print('END CONVERSATION')
     return ConversationHandler.END
     
     
@@ -373,7 +373,7 @@ def change_seller_category_purchase(update, context):
 @is_allowed_user()
 @lang()
 def add_seller_category_purchase(update, context):
-    print('add_seller_category_purchase')
+    if DEVEL: print('add_seller_category_purchase')
     but_data = update.callback_query.data
     user, chat_id, message_id = get_update_data(update)
     list_parameters = but_data.split('&')
@@ -390,7 +390,7 @@ def add_seller_category_purchase(update, context):
                 chat_id=chat_id, 
                 text=_('Send me name of %s' % trans_type(action))
                 )
-    print('RETURN: ', NAME_SELLER_CATEGORY )
+    if DEVEL: print('RETURN: ', NAME_SELLER_CATEGORY )
     return NAME_SELLER_CATEGORY 
         
         
@@ -398,7 +398,7 @@ def add_seller_category_purchase(update, context):
 @is_allowed_user()
 @lang()
 def name_new_seller_category(update, context):
-    print('name_new_seller_category')
+    if DEVEL: print('name_new_seller_category')
     user, chat_id, message_id = get_update_data(update)
     type_obj = None
     purchase_id = None
@@ -429,7 +429,7 @@ def name_new_seller_category(update, context):
                         text=text, 
                         reply_markup=keyboard
                         )
-        print('RETURN: ', CATEGORY)
+        if DEVEL: print('RETURN: ', CATEGORY)
         return CATEGORY
     else:
         text = create_category( user, 
@@ -444,7 +444,7 @@ def name_new_seller_category(update, context):
                     text=text, 
                     reply_markup=keyboard
                     )
-        print('END CONVERSATION')
+        if DEVEL: print('END CONVERSATION')
         return ConversationHandler.END
     
     
@@ -452,7 +452,7 @@ def name_new_seller_category(update, context):
 @is_allowed_user()
 @lang()
 def add_seller_category(update, context):
-    print('add_seller_category')
+    if DEVEL: print('add_seller_category')
     user, chat_id, message_id = get_update_data(update)
     action = update.callback_query.data
     context.user_data['action'] = action
@@ -460,7 +460,7 @@ def add_seller_category(update, context):
                 chat_id=chat_id, 
                 text=_('Send me name of %s' % trans_type(action))
                 )
-    print('RETURN: ', NAME_SELLER_CATEGORY )
+    if DEVEL: print('RETURN: ', NAME_SELLER_CATEGORY )
     return NAME_SELLER_CATEGORY 
     
 
@@ -469,7 +469,7 @@ def add_seller_category(update, context):
 @lang()
 def delitem(update, context):
     but_data = update.callback_query.data
-    print('DIR CALLBACK: ', dir(update.callback_query))
+    if DEVEL: print('DIR CALLBACK: ', dir(update.callback_query))
     user, chat_id, message_id = get_update_data(update)
     list_parameters = but_data.split('&')
     type_obj = list_parameters[1]
@@ -505,9 +505,9 @@ def list_items(update, context):
     if len(list_parameters) >2:
         page = int(list_parameters[2])
     text, keyboard = get_list_items(user, type_obj, page)
-    #print('USER_DATA: ', context.user_data)
-    #print('DIR USER_DATA: ', dir(context.user_data))
-    #print('DIR CONTEXT: ', dir(context))
+    #if DEVEL: print('USER_DATA: ', context.user_data)
+    #if DEVEL: print('DIR USER_DATA: ', dir(context.user_data))
+    #if DEVEL: print('DIR CONTEXT: ', dir(context))
     context.bot.edit_message_text(
                     chat_id=chat_id, 
                     message_id=message_id,
@@ -584,12 +584,12 @@ def show_picture(update, context):
             caption=text, 
             reply_markup=keyboard)
     except Exception as e:
-        print('ERROR: ', e.__dict__)
-        print('ERROR: ', e)
+        if DEVEL: print('ERROR: ', e.__dict__)
+        if DEVEL: print('ERROR: ', e)
         if e.message == 'Type of file mismatch':
             try:
-                print('ERROR: ', e.__dict__)
-                print('ERROR: ', e)
+                if DEVEL: print('ERROR: ', e.__dict__)
+                if DEVEL: print('ERROR: ', e)
                 context.bot.send_video(
                     update.callback_query.message.chat.id, 
                     video=obj.pic, 
@@ -597,8 +597,8 @@ def show_picture(update, context):
                     reply_markup=keyboard)
             except Exception as e:
                 if e.message == 'Type of file mismatch':
-                    print('ERROR: ', e.__dict__)
-                    print('ERROR: ', e)
+                    if DEVEL: print('ERROR: ', e.__dict__)
+                    if DEVEL: print('ERROR: ', e)
                     context.bot.send_video_note(
                         update.callback_query.message.chat.id, 
                         video_note=obj.pic, 
@@ -875,7 +875,7 @@ def set_media_purchase(update, context):
 @is_allowed_user()
 @lang()    
 def search_by_radius(update, context):
-    print('search_by_radius')
+    if DEVEL: print('search_by_radius')
     user, chat_id, message_id = get_update_data(update)
     user_location = None
     obj_id = context.user_data['obj_id']
@@ -886,7 +886,7 @@ def search_by_radius(update, context):
     radius = list_parameters[1]
     text = _('Please, choose seller')+ '\n'
     text += show_purchase_item(user, obj_id)
-    print('get sellers buttons by geo: ', user_location)
+    if DEVEL: print('get sellers buttons by geo: ', user_location)
     keyboard = get_button_sellers(user, obj_id, geo=user_location, radius=radius)
     context.bot.edit_message_text(
         chat_id=chat_id, 
@@ -894,7 +894,7 @@ def search_by_radius(update, context):
         text=text, 
         reply_markup=keyboard
         )
-    print('RETURN SEARCH RADIUS: ', SELLER)
+    if DEVEL: print('RETURN SEARCH RADIUS: ', SELLER)
     return SELLER
       
 
