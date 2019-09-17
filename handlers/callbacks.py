@@ -878,6 +878,7 @@ def search_by_radius(update, context):
     user_location = None
     obj_id = context.user_data['obj_id']
     #type_obj = context.user_data['type_obj']
+    but_data = update.callback_query.data
     list_parameters = but_data.split('&')
     radius = list_parameters[1]
     text = _('Please, choose seller')+ '\n'
