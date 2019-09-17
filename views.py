@@ -112,7 +112,7 @@ def show_purchase_item(user, id):
             'cat':category_name, 
             'user':purchase.user}
                             )
-    if DEVEL: print('TEXT: ', text)
+    #if DEVEL: print('TEXT: ', text)
     return text
 
 
