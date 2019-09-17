@@ -115,11 +115,11 @@ def main():
                     ],
         states={
             LOCATION: [ bill_location_handler, 
-                        search_by_radius_handler, 
                         CommandHandler('skip_location', set_location)
                         ],
             SELLER: [   change_seller_handler, 
                         add_seller_purchase_handler,
+                        search_by_radius_handler,
                         show_all_sellers_handler, 
                         ], 
             CATEGORY: [ change_category_handler,
