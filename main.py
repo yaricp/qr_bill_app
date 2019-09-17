@@ -45,6 +45,30 @@ def main():
     cancel_handler = CommandHandler('cancel', cancel)
     
     
+    start_set_media_handler = CallbackQueryHandler( set_media_purchase, 
+                                            pattern='set_media'
+                                            )
+    set_media_handler = ConversationHandler(
+        name='set_media', 
+        entry_points=[
+                    start_set_media_handler, 
+                    ],
+        states={
+            MEDIA: [MessageHandler(Filters.photo, 
+                                    save_media_purchase),
+                    MessageHandler(Filters.video, 
+                                    save_media_purchase),
+                    MessageHandler(Filters.video_note, 
+                                    save_media_purchase),
+                    ],
+            }, 
+            fallbacks=[cancel_handler, show_menu_handler], 
+            allow_reentry=True, 
+            persistent=True
+        )
+    dispatcher.add_handler(set_media_handler)
+    
+    
     bill_location_handler = MessageHandler(
                             Filters.location, 
                             set_location)
@@ -246,29 +270,6 @@ def main():
             persistent=True
         )
     dispatcher.add_handler(new_cat_handler)
-
-    start_set_media_handler = CallbackQueryHandler( set_media_purchase, 
-                                            pattern='set_media'
-                                            )
-    set_media_handler = ConversationHandler(
-        name='set_media', 
-        entry_points=[
-                    start_set_media_handler, 
-                    ],
-        states={
-            MEDIA: [MessageHandler(Filters.photo, 
-                                    save_media_purchase),
-                    MessageHandler(Filters.video, 
-                                    save_media_purchase),
-                    MessageHandler(Filters.video_note, 
-                                    save_media_purchase),
-                    ],
-            }, 
-            fallbacks=[cancel_handler, show_menu_handler], 
-            allow_reentry=True, 
-            persistent=True
-        )
-    dispatcher.add_handler(set_media_handler)
 
     
     start_handler = CommandHandler('start', start)
