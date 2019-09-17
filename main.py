@@ -16,7 +16,7 @@ from handlers.commands import *
 from handlers.messages import *
 
 
-if development:
+if DEVEL:
     import logging
     logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
