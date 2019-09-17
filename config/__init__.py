@@ -23,11 +23,11 @@ allowed_users = {'yaricp':'251241715',
 
                 
 admins = {'yaricp':'251241715'}
-development = int(os.getenv('DEVEL', 1))
+DEVEL = int(os.getenv('DEVEL', 1))
 
-if DEVEL: print('DEVEL:', development)
+print('DEVEL:', development)
 
-if development:
+if DEVEL:
     from config.development import *
 else:
     from config.production import *
