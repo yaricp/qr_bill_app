@@ -884,7 +884,6 @@ def search_by_radius(update, context):
     radius = list_parameters[1]
     text = _('Please, choose seller')+ '\n'
     text += show_purchase_item(user, obj_id)
-    user_location = update.message.location
     context.bot.delete_message(
         chat_id=chat_id,  
         message_id=update.message.reply_to_message.message_id, 
