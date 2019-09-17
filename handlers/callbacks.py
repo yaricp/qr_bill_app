@@ -877,7 +877,7 @@ def search_by_radius(update, context):
     user, chat_id, message_id = get_update_data(update)
     user_location = None
     obj_id = context.user_data['obj_id']
-    type_obj = context.user_data['type_obj']
+    #type_obj = context.user_data['type_obj']
     list_parameters = but_data.split('&')
     radius = list_parameters[1]
     text = _('Please, choose seller')+ '\n'
