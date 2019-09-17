@@ -43,15 +43,15 @@ def buttons_for_purchase_item(user, id_item, media=None, has_media=None):
                         callback_data='show_picture&purchase&%s' % str(id_item))]
                         )
         else:
-            buttons.append([InlineKeyboardButton( _('Set Media'), 
+            buttons.append([InlineKeyboardButton( _('Set media'), 
                         callback_data='set_media&'+str(id_item))])
     else:
         buttons = [
                 [InlineKeyboardButton( _('Card'), 
-                                    callback_data='show&purchase&'+str(id_item))]
+                                    callback_data='show&purchase&'+str(id_item))], 
+                [InlineKeyboardButton( _('Change media'), 
+                        callback_data='set_media&'+str(id_item))]
                     ]
-    
-                     
     buttons.append([InlineKeyboardButton( _('menu'), callback_data='menu')])
     keyboard = InlineKeyboardMarkup(buttons)
     return keyboard
