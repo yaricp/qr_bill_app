@@ -80,7 +80,7 @@ def save_geo_position(type_obj, id, geo):
     return result
     
     
-def find_sellers_around(geo, radius_mi=RADIUS_SEARCH_SELLER):
+def find_sellers_around(geo, radius_mi=RADIUS_SEARCH_SELLER/1000):
     conn = psycopg2.connect(database=PG_BATABASE, 
                                 user=PG_USERNAME, 
                                 password=PG_PASSWORD)
