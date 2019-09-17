@@ -884,17 +884,14 @@ def search_by_radius(update, context):
     radius = list_parameters[1]
     text = _('Please, choose seller')+ '\n'
     text += show_purchase_item(user, obj_id)
-    context.bot.delete_message(
-        chat_id=chat_id,  
-        message_id=update.message.reply_to_message.message_id, 
-        reply_markup=ReplyKeyboardRemove()
-        )
     print('get sellers buttons by geo: ', user_location)
     keyboard = get_button_sellers(user, obj_id, geo=user_location, radius=radius)
-    update.message.reply_text(
-            text=text, 
-            reply_markup=keyboard
-            )
+    context.bot.edit_message_text(
+        chat_id=chat_id, 
+        message_id=message_id, 
+        text=text, 
+        reply_markup=keyboard
+        )
     print('RETURN SEARCH RADIUS: ', SELLER)
     return SELLER
       
