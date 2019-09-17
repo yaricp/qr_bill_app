@@ -385,35 +385,3 @@ def show_on_map(type_obj, obj_id):
     position = get_geo_positions(type_obj, obj_id)
     return title, position
     
-
-
-
-#def show_donate_form_ru():
-#    text = '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">'\
-#    '<input type="hidden" name="cmd" value="_s-xclick" />'\
-#    '<input type="hidden" name="hosted_button_id" value="F444B9FSAE4XW" />'\
-#    '<input type="image" src="https://www.paypalobjects.com/ru_RU/RU/i/btn/btn_donateCC_LG.gif"'\
-#    ' border="0" name="submit" title="PayPal - The safer, easier way to pay online!"'\
-#    '/>'\
-#    '<img alt="" border="0" src="https://www.paypal.com/ru_RU/i/scr/pixel.gif" width="1"'\
-#    ' height="1" />'\
-#    '</form>'
-#    return text
-    
-    
-#def show_donate_link_en():
-#    text = 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6FQEGNXMVMF8C&source=url'
-#    return text
-#
-#
-#def show_donate_form_en():
-#    text = '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">'\
-#    '<input type="hidden" name="cmd" value="_s-xclick" />'\
-#    '<input type="hidden" name="hosted_button_id" value="6FQEGNXMVMF8C" />'\
-#    '<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif"'\
-#    ' border="0" name="submit" title="PayPal - The safer, easier way to pay online!"'\
-#    ' alt="Donate with PayPal button" />'\
-#    '<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif"'\
-#    ' width="1" height="1" />'\
-#    '</form>'
-#    return text
