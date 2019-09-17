@@ -123,7 +123,7 @@ def new_text(update, context):
 def save_media_purchase(update, context):
     user, chat_id, message_id = get_update_data(update)
     id_obj= context.user_data['id']
-    if update.message.video:
+    if update.message.photo:
         media_file_id = update.message.photo[-1].file_id
     elif update.message.video:
         media_file_id = update.message.video.file_id
