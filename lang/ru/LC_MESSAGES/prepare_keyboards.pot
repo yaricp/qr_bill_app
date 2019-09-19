@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-18 14:51+0700\n"
+"POT-Creation-Date: 2019-09-19 20:27+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,74 +17,137 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: keyboards.py:15 keyboards.py:116 keyboards.py:159
-msgid "Menu"
+#: keyboards.py:16 keyboards.py:38
+msgid "change_category"
 msgstr ""
 
-#: keyboards.py:23 keyboards.py:257
-msgid "Yes"
+#: keyboards.py:18
+msgid "set location"
 msgstr ""
 
-#: keyboards.py:26 keyboards.py:258
-msgid "No"
+#: keyboards.py:20
+msgid "show card"
 msgstr ""
 
-#: keyboards.py:33
-msgid "categories"
+#: keyboards.py:22
+msgid "show on map"
 msgstr ""
 
-#: keyboards.py:34
-msgid "sellers"
-msgstr ""
-
-#: keyboards.py:35
-msgid "purchases"
+#: keyboards.py:24 keyboards.py:55
+msgid "menu"
 msgstr ""
 
 #: keyboards.py:36
+msgid "change_seller"
+msgstr ""
+
+#: keyboards.py:42 keyboards.py:321 keyboards.py:449
+msgid "Media"
+msgstr ""
+
+#: keyboards.py:45
+msgid "Change media"
+msgstr ""
+
+#: keyboards.py:48
+msgid "Set media"
+msgstr ""
+
+#: keyboards.py:52
+msgid "Card"
+msgstr ""
+
+#: keyboards.py:62 keyboards.py:121 keyboards.py:193 keyboards.py:304
+#: keyboards.py:338 keyboards.py:406 keyboards.py:453
+msgid "Menu"
+msgstr ""
+
+#: keyboards.py:70
+msgid "location"
+msgstr ""
+
+#: keyboards.py:78 keyboards.py:354
+msgid "Yes"
+msgstr ""
+
+#: keyboards.py:81 keyboards.py:355
+msgid "No"
+msgstr ""
+
+#: keyboards.py:88
+msgid "categories"
+msgstr ""
+
+#: keyboards.py:89
+msgid "sellers"
+msgstr ""
+
+#: keyboards.py:90
+msgid "purchases"
+msgstr ""
+
+#: keyboards.py:91
 msgid "orders"
 msgstr ""
 
-#: keyboards.py:37
+#: keyboards.py:92
 msgid "languages"
 msgstr ""
 
-#: keyboards.py:38
+#: keyboards.py:93
 msgid "help"
 msgstr ""
 
-#: keyboards.py:42
+#: keyboards.py:97
 msgid "users"
 msgstr ""
 
-#: keyboards.py:54 keyboards.py:62
+#: keyboards.py:117
 msgid "block"
 msgstr ""
 
-#: keyboards.py:55 keyboards.py:63
+#: keyboards.py:118
 msgid "act"
 msgstr ""
 
-#: keyboards.py:112 keyboards.py:241
+#: keyboards.py:181
+#, python-format
+msgid "Search %s meters around"
+msgstr ""
+
+#: keyboards.py:185
+msgid "Show all sellers"
+msgstr ""
+
+#: keyboards.py:189
 msgid "New Seller"
 msgstr ""
 
-#: keyboards.py:153 keyboards.py:214
+#: keyboards.py:230
 msgid "New Category"
 msgstr ""
 
-#: keyboards.py:191
-msgid "Pic"
+#: keyboards.py:299
+#, python-format
+msgid "New %s"
 msgstr ""
 
-#: keyboards.py:222
+#: keyboards.py:335
 msgid "by category"
 msgstr ""
 
-#: keyboards.py:223
+#: keyboards.py:336
 msgid "by seller"
 msgstr ""
 
-#: keyboards.py:249
+#: keyboards.py:346
 msgid "Delete"
+msgstr ""
+
+#: keyboards.py:369
+msgid "Seller"
+msgstr ""
+
+#: keyboards.py:375
+msgid "Category"
 msgstr ""

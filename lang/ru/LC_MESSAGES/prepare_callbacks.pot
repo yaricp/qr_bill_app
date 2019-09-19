@@ -1,0 +1,206 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-19 20:27+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: handlers/callbacks.py:43
+msgid ""
+"Please, send me your location and I find seller around you,\n"
+" or press /skip_location"
+msgstr ""
+
+#: handlers/callbacks.py:59
+#, python-format
+msgid "Update caused error \"%s\""
+msgstr ""
+
+#: handlers/callbacks.py:158 handlers/callbacks.py:887
+msgid "Please, choose seller"
+msgstr ""
+
+#: handlers/callbacks.py:196
+msgid "summa or datetime not found"
+msgstr ""
+
+#: handlers/callbacks.py:218
+msgid "Sorry I not found QR code.\n"
+msgstr ""
+
+#: handlers/callbacks.py:219
+msgid "But I tried to recognize the text and found:\n"
+msgstr ""
+
+#: handlers/callbacks.py:220
+msgid "Date: "
+msgstr ""
+
+#: handlers/callbacks.py:221
+msgid "Sum: "
+msgstr ""
+
+#: handlers/callbacks.py:222
+msgid "Is it true?\n"
+msgstr ""
+
+#: handlers/callbacks.py:228
+msgid ""
+"ATTANTION!\n"
+"Its looks like:\n"
+msgstr ""
+
+#: handlers/callbacks.py:232
+msgid "Sorry! I not found nothing\n"
+msgstr ""
+
+#: handlers/callbacks.py:233
+msgid "You can send me date and summ like this:\n"
+msgstr ""
+
+#: handlers/callbacks.py:234
+msgid "12.01.19 123.00"
+msgstr ""
+
+#: handlers/callbacks.py:258
+#, python-format
+msgid ""
+"user %(username)s with %(user_id)s\n"
+" registered."
+msgstr ""
+
+#: handlers/callbacks.py:269
+msgid "Congratulation! you registered now.\n"
+msgstr ""
+
+#: handlers/callbacks.py:289
+msgid "Ok! Good luck for you."
+msgstr ""
+
+#: handlers/callbacks.py:290
+msgid "We hope you return. We will glad to work for you."
+msgstr ""
+
+#: handlers/callbacks.py:341
+msgid "Please, choose category of purchase"
+msgstr ""
+
+#: handlers/callbacks.py:391 handlers/callbacks.py:461
+#, python-format
+msgid "Send me name of %s"
+msgstr ""
+
+#: handlers/callbacks.py:482 handlers/callbacks.py:784
+msgid "List users"
+msgstr ""
+
+#: handlers/callbacks.py:485
+#, python-format
+msgid "%(type)s with ID: %(id)s was deleted"
+msgstr ""
+
+#: handlers/callbacks.py:637
+msgid "this seller have not coordinates"
+msgstr ""
+
+#: handlers/callbacks.py:646
+msgid "categories"
+msgstr ""
+
+#: handlers/callbacks.py:647
+#, python-format
+msgid "List of %s"
+msgstr ""
+
+#: handlers/callbacks.py:659
+msgid "Orders"
+msgstr ""
+
+#: handlers/callbacks.py:676
+#, python-format
+msgid "summs by %ss and months"
+msgstr ""
+
+#: handlers/callbacks.py:698
+#, python-format
+msgid "By Category %s"
+msgstr ""
+
+#: handlers/callbacks.py:720
+#, python-format
+msgid "By Seller %s"
+msgstr ""
+
+#: handlers/callbacks.py:737
+msgid "Change language"
+msgstr ""
+
+#: handlers/callbacks.py:805
+msgid "Your account is blocked.\n"
+msgstr ""
+
+#: handlers/callbacks.py:806
+msgid "You can write to administrators of bot.\n"
+msgstr ""
+
+#: handlers/callbacks.py:809
+#, python-format
+msgid "User %s blocked"
+msgstr ""
+
+#: handlers/callbacks.py:811
+#, python-format
+msgid "User %s is not active"
+msgstr ""
+
+#: handlers/callbacks.py:833
+msgid "Your account is activated by admin.\n"
+msgstr ""
+
+#: handlers/callbacks.py:834
+msgid ""
+"You can send me photo or video with QR code on bill and I try to decode or "
+"recognize date and summ.\n"
+msgstr ""
+
+#: handlers/callbacks.py:835
+msgid "Also you can use any programm for decore QR codes and send me result.\n"
+msgstr ""
+
+#: handlers/callbacks.py:836
+msgid "Finally you can send me date and summ in format: dd.mm.yy 123.00"
+msgstr ""
+
+#: handlers/callbacks.py:839
+#, python-format
+msgid "User %s activated"
+msgstr ""
+
+#: handlers/callbacks.py:841
+#, python-format
+msgid "User %s is active"
+msgstr ""
+
+#: handlers/callbacks.py:853
+msgid "Sorry, your account has been deleted.\n"
+msgstr ""
+
+#: handlers/callbacks.py:854
+msgid "Please contact to administrators of this bot."
+msgstr ""
+
+#: handlers/callbacks.py:870
+msgid "Please, send me media"
+msgstr ""

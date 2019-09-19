@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-18 14:51+0700\n"
+"POT-Creation-Date: 2019-09-19 20:27+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,19 +17,18 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: views.py:24
-#, python-format
-msgid "Seller: %(seller)s, Summa: %(summ)s\n"
+#: views.py:15
+msgid "seller`s"
 msgstr ""
 
-#: views.py:30
-#, python-format
-msgid "Category: %(cat)s, Summa: %(summ)s\n"
+#: views.py:16
+msgid "category`s"
 msgstr ""
 
-#: views.py:43
+#: views.py:107
 #, python-format
 msgid ""
+"ID: %(id)s\n"
 "Date Time: %(datetime)s\n"
 "Summa: %(summ)s\n"
 "Seller: %(seller)s\n"
@@ -37,243 +36,253 @@ msgid ""
 "User: %(user)s"
 msgstr ""
 
-#: views.py:56
+#: views.py:122
 #, python-format
 msgid "Category: %s"
 msgstr ""
 
-#: views.py:66
+#: views.py:133
 #, python-format
 msgid ""
 "Seller: %(seller)s\n"
-"Category: %(cat)s"
+"Category: %(cat)s\n"
+"Position: %(geo)s"
 msgstr ""
 
-#: views.py:80
+#: views.py:151
 #, python-format
 msgid "user %(item)s deleted"
 msgstr ""
 
-#: views.py:88
+#: views.py:163
 #, python-format
 msgid "category %(item)s deleted"
 msgstr ""
 
-#: views.py:94
+#: views.py:169
 #, python-format
 msgid "seller %(item)s deleted"
 msgstr ""
 
-#: views.py:104
+#: views.py:180
 #, python-format
 msgid "purchase %s deleted"
 msgstr ""
 
-#: views.py:116
+#: views.py:192
 msgid "Please! send me name of category"
 msgstr ""
 
-#: views.py:127
+#: views.py:203
 msgid "Please! send me name of seller"
 msgstr ""
 
-#: views.py:133
+#: views.py:209
 msgid "Help.\n"
 msgstr ""
 
-#: views.py:134
+#: views.py:210
 msgid "main menu"
 msgstr ""
 
-#: views.py:135
+#: views.py:211
 msgid "for adding new category"
 msgstr ""
 
-#: views.py:136
+#: views.py:212
 msgid "for adding new seller"
 msgstr ""
 
-#: views.py:137
+#: views.py:213
 msgid "list of purchases"
 msgstr ""
 
-#: views.py:138
+#: views.py:214
 msgid "list of sellers"
 msgstr ""
 
-#: views.py:139
+#: views.py:215
 msgid "list of categories"
 msgstr ""
 
-#: views.py:140
+#: views.py:216
 msgid "list of orders"
 msgstr ""
 
-#: views.py:141
+#: views.py:217
 msgid "order by category"
 msgstr ""
 
-#: views.py:142
+#: views.py:218
 msgid "order by seller"
 msgstr ""
 
-#: views.py:143
+#: views.py:219
 msgid "list languages"
 msgstr ""
 
-#: views.py:144
+#: views.py:220
 msgid "set language to NAME"
 msgstr ""
 
-#: views.py:145
+#: views.py:221
 msgid "Now available this languages:"
 msgstr ""
 
-#: views.py:148
+#: views.py:224
 msgid "show this help"
 msgstr ""
 
-#: views.py:149
+#: views.py:225
 msgid "About this bot"
 msgstr ""
 
-#: views.py:150
+#: views.py:226
 msgid "Donate"
 msgstr ""
 
-#: views.py:155
+#: views.py:231
 msgid "About.\n"
 msgstr ""
 
-#: views.py:156
+#: views.py:232
 msgid "This bot help you to keep and analize your purchases.\n"
 msgstr ""
 
-#: views.py:157
+#: views.py:233
 msgid ""
 "You can send to bot photo of bill with QR code and bot try to decode QR code "
 "and save this purchase in database.\n"
 msgstr ""
 
-#: views.py:158
+#: views.py:234
 msgid "You can send also video with QR code.\n"
 msgstr ""
 
-#: views.py:159
+#: views.py:235
 msgid ""
 "If bot can`t to recognize QR code you can use any application for decode QR "
 "code and then send to bot result.\n"
 msgstr ""
 
-#: views.py:160
+#: views.py:236
 msgid ""
 "For each purchase bot save link to photo of bill and you can check it "
 "anytime.\n"
 msgstr ""
 
-#: views.py:161
+#: views.py:237
 msgid ""
 "You can create categories and sellers (name of seller) for each purchase.\n"
 msgstr ""
 
-#: views.py:162
+#: views.py:238
 msgid "And then bot can show you reports by sellres and by categories.\n"
 msgstr ""
 
-#: views.py:163
+#: views.py:239
 msgid "If you twice send photo with QR code bot notice about it.\n"
 msgstr ""
 
-#: views.py:164
+#: views.py:240
 msgid "We have more plans to make this bot better. For example:\n"
 msgstr ""
 
-#: views.py:165
+#: views.py:241
 msgid " - make send reports to email each week, month or other period.\n"
 msgstr ""
 
-#: views.py:166
+#: views.py:242
 msgid ""
 " - make connection to third party database what user want (for example for "
 "more strong safety of finance data).\n"
 msgstr ""
 
-#: views.py:167
+#: views.py:243
 msgid " - save geoposition of purchase (it maybe good for travellers).\n"
 msgstr ""
 
-#: views.py:168
+#: views.py:244
 msgid "But notice we work by /donate.\n"
 msgstr ""
 
-#: views.py:169
+#: views.py:245
 msgid ""
 "And how long we will release new features depend of free time and how much "
 "donated we will have.\n"
 msgstr ""
 
-#: views.py:170
+#: views.py:246
 msgid "Now we use simple database on weak server because it cheap.\n"
 msgstr ""
 
-#: views.py:171
+#: views.py:247
 msgid ""
 "Note! This is not commercial service and it can`t guarantee safety your "
 "data.\n"
 msgstr ""
 
-#: views.py:172
+#: views.py:248
 msgid "View on this service as a test of the future commercial solution.\n"
 msgstr ""
 
-#: views.py:173
+#: views.py:249
 msgid "Discuss in chat of channel:https://t.me/qrscanner_order_bot .\n"
 msgstr ""
 
-#: views.py:181
+#: views.py:257
 msgid "Category created!\n"
 msgstr ""
 
-#: views.py:203
-msgid "Seller created!\n"
+#: views.py:283
+msgid "Seller created!"
 msgstr ""
 
-#: views.py:225
+#: views.py:284
+msgid "Now choose category of seller"
+msgstr ""
+
+#: views.py:306
 msgid "Language changed to "
 msgstr ""
 
-#: views.py:244
+#: views.py:325
 msgid "For donate in sberbank-online\n"
 msgstr ""
 
-#: views.py:245
+#: views.py:326
 msgid "Copy this number:\n"
 msgstr ""
 
-#: views.py:246
+#: views.py:327
 msgid "5484 0144 0994 4498\n"
 msgstr ""
 
-#: views.py:247
+#: views.py:328
 msgid "Go to: https://online.sberbank.ru\n"
 msgstr ""
 
-#: views.py:248
+#: views.py:329
 msgid "And then fill number of card in field for payment\n"
 msgstr ""
 
-#: views.py:253
+#: views.py:334
 msgid "Paypal Donate:\n"
 msgstr ""
 
-#: views.py:254
+#: views.py:335
 msgid "https://www.paypal.me/yaricpisarev\n"
 msgstr ""
 
-#: views.py:259
+#: views.py:340
 msgid "Patreon Donate:\n"
 msgstr ""
 
-#: views.py:260
+#: views.py:341
 msgid "https://www.patreon.com/qrscanner_order_bot\n"
+msgstr ""
+
+#: views.py:371
+#, python-format
+msgid "%(datetime)s %(summ)s %(seller)s %(cat)s\n"
 msgstr ""

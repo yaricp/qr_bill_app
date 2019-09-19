@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-18 14:51+0700\n"
+"POT-Creation-Date: 2019-09-19 20:27+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,37 +16,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: pygettext.py 1.5\n"
 
-#: views.py:24
-#, python-format
-msgid "Seller: %(seller)s, Summa: %(summ)s\n"
-msgstr "Продавец: %(seller)s,Сумма: %(summ)s\n"
+#: views.py:15
+msgid "seller`s"
+msgstr ""
 
-#: views.py:30
-#, python-format
-msgid "Category: %(cat)s, Summa: %(summ)s\n"
-msgstr "Категория: %(cat)s,Сумма: %(summ)s\n"
+#: views.py:16
+msgid "category`s"
+msgstr ""
 
-#: views.py:43
+#: views.py:107
 #, python-format
 msgid ""
+"ID: %(id)s\n"
 "Date Time: %(datetime)s\n"
 "Summa: %(summ)s\n"
 "Seller: %(seller)s\n"
 "Category: %(cat)s\n"
 "User: %(user)s"
 msgstr ""
-"Дата: %(datetime)s\n"
-"Сумма: %(summ)s\n"
-"Продавец: %(seller)s\n"
-"Категория: %(cat)s\n"
-"Пользователь: %(user)s"
 
-#: views.py:56
+#: views.py:122
 #, python-format
 msgid "Category: %s"
 msgstr "Категория: %s"
 
-#: views.py:66
+#: views.py:133
 #, python-format
 msgid ""
 "Seller: %(seller)s\n"
@@ -57,320 +51,451 @@ msgstr ""
 "Категория: %(cat)s\n"
 "Координаты: %(geo)s"
 
-#: views.py:80
+#: views.py:151
 #, python-format
 msgid "user %(item)s deleted"
 msgstr "пользователь %(item)s удален"
 
-#: views.py:88
+#: views.py:163
 #, python-format
 msgid "category %(item)s deleted"
 msgstr "категория %(item)s удалена"
 
-#: views.py:94
+#: views.py:169
 #, python-format
 msgid "seller %(item)s deleted"
 msgstr "продавец %(item)s удален"
 
-#: views.py:104
+#: views.py:180
 #, python-format
 msgid "purchase %s deleted"
 msgstr "покупка %s удалена"
 
-#: views.py:116
+#: views.py:192
 msgid "Please! send me name of category"
 msgstr "Вышлите мне пожалуйста имя категории"
 
-#: views.py:127
+#: views.py:203
 msgid "Please! send me name of seller"
 msgstr "Вышлите мне пожалуйста имя продавца"
 
-#: views.py:133
+#: views.py:209
 msgid "Help.\n"
 msgstr "Помощь.\n"
 
-#: views.py:134
+#: views.py:210
 msgid "main menu"
 msgstr "Главное меню"
 
-#: views.py:135
+#: views.py:211
 msgid "for adding new category"
 msgstr "создание новой категории"
 
-#: views.py:136
+#: views.py:212
 msgid "for adding new seller"
 msgstr "создание нового продавца"
 
-#: views.py:137
+#: views.py:213
 msgid "list of purchases"
 msgstr "список покупок"
 
-#: views.py:138
+#: views.py:214
 msgid "list of sellers"
 msgstr "список продавцов"
 
-#: views.py:139
+#: views.py:215
 msgid "list of categories"
 msgstr "список категорий"
 
-#: views.py:140
+#: views.py:216
 msgid "list of orders"
 msgstr "список отчетов"
 
-#: views.py:141
+#: views.py:217
 msgid "order by category"
 msgstr "отчет по категориям"
 
-#: views.py:142
+#: views.py:218
 msgid "order by seller"
 msgstr "отчет по продавцам"
 
-#: views.py:143
+#: views.py:219
 msgid "list languages"
 msgstr "список языков интерфейса"
 
-#: views.py:144
+#: views.py:220
 msgid "set language to NAME"
 msgstr "установка языка NAME"
 
-#: views.py:145
+#: views.py:221
 msgid "Now available this languages:"
 msgstr "Сейчас доступны вот такие языки:"
 
-#: views.py:148
+#: views.py:224
 msgid "show this help"
 msgstr "показывает данное сообщение"
 
-#: views.py:149
+#: views.py:225
 msgid "About this bot"
 msgstr "Об этом боте"
 
-#: views.py:150
+#: views.py:226
 msgid "Donate"
 msgstr "Пожертвования"
 
-#: views.py:155
+#: views.py:231
 msgid "About.\n"
 msgstr "О работе бота.\n"
 
-#: views.py:156
+#: views.py:232
 msgid "This bot help you to keep and analize your purchases.\n"
 msgstr "Этот бот поможет вам сохранить информацию о ваших покупках.\n"
 
-#: views.py:157
+#: views.py:233
 msgid ""
 "You can send to bot photo of bill with QR code and bot try to decode QR code "
 "and save this purchase in database.\n"
 msgstr ""
-"Вы можете выслать боту фото чека с QR кодом и он попытается распознать данные "
-"и сохранит их в базе данных.\n"
+"Вы можете выслать боту фото чека с QR кодом и он попытается распознать "
+"данные и сохранит их в базе данных.\n"
 
-#: views.py:158
+#: views.py:234
 msgid "You can send also video with QR code.\n"
 msgstr "Также Вы можете выслать видео с QR кодом.\n"
 
-#: views.py:159
+#: views.py:235
 msgid ""
 "If bot can`t to recognize QR code you can use any application for decode QR "
 "code and then send to bot result.\n"
 msgstr ""
-"Если бот не может распознать QR код или сумму с датой, то Вы можете использовать "
-" любое приложение для распознавания QR кодов и выслать боту результат полученный в этом приложении.\n"
-#: views.py:160
+"Если бот не может распознать QR код или сумму с датой, то Вы можете "
+"использовать  любое приложение для распознавания QR кодов и выслать боту "
+"результат полученный в этом приложении.\n"
+
+#: views.py:236
 msgid ""
 "For each purchase bot save link to photo of bill and you can check it "
 "anytime.\n"
-msgstr "Для каждой покупки бот сохраняет ссылку на фото чека с QR кодом.\n"
+msgstr ""
+"Для каждой покупки бот сохраняет ссылку на фото чека с QR кодом.\n"
 "И вы можете сверить данные в любое время.\n"
 
-#: views.py:161
+#: views.py:237
 msgid ""
 "You can create categories and sellers (name of seller) for each purchase.\n"
-msgstr "Вы можете создавать свои категории покупок и указать имя продавца товаров или услуг.\n"
+msgstr ""
+"Вы можете создавать свои категории покупок и указать имя продавца товаров "
+"или услуг.\n"
 
-#: views.py:162
+#: views.py:238
 msgid "And then bot can show you reports by sellres and by categories.\n"
 msgstr "Также бот покажет вам отчеты по продавцам и по категориям.\n"
 
-#: views.py:163
+#: views.py:239
 msgid "If you twice send photo with QR code bot notice about it.\n"
-msgstr "Если вы послали одно и тоже фото дважды - бот предупредит вас об этом.\n"
+msgstr ""
+"Если вы послали одно и тоже фото дважды - бот предупредит вас об этом.\n"
 
-#: views.py:164
+#: views.py:240
 msgid "We have more plans to make this bot better. For example:\n"
 msgstr "У нас есть много планов по развитию этого бота. Например:\n"
 
-#: views.py:165
+#: views.py:241
 msgid " - make send reports to email each week, month or other period.\n"
-msgstr " - сделать пересылку отчетов на электронную почту пользователя.\n"
+msgstr ""
+" - сделать пересылку отчетов на электронную почту пользователя.\n"
 "Раз в неделю или в месяц или с другой периодичностью.\n"
 
-#: views.py:166
+#: views.py:242
 msgid ""
 " - make connection to third party database what user want (for example for "
 "more strong safety of finance data).\n"
-msgstr " - сделать соединение со сторонней базой данных, которую захочет пользователь.\n"
-"Например для сохранения своих финансовых данных в более надежном и проверенном месте.\n"
+msgstr ""
+" - сделать соединение со сторонней базой данных, которую захочет "
+"пользователь.\n"
+"Например для сохранения своих финансовых данных в более надежном и "
+"проверенном месте.\n"
 
-#: views.py:167
+#: views.py:243
 msgid " - save geoposition of purchase (it maybe good for travellers).\n"
-msgstr " - сохранение геопозиции покупки (это может быть полезно для путешественников).\n"
+msgstr ""
+" - сохранение геопозиции покупки (это может быть полезно для "
+"путешественников).\n"
 
-#: views.py:168
+#: views.py:244
 msgid "But notice we work by /donate.\n"
-msgstr "Но заметьте  - мы работаем за счет пожетвований от тех кому сервис кажется полезным и нужным.\n"
+msgstr ""
+"Но заметьте  - мы работаем за счет пожетвований от тех кому сервис кажется "
+"полезным и нужным.\n"
 
-#: views.py:169
+#: views.py:245
 msgid ""
 "And how long we will release new features depend of free time and how much "
 "donated we will have.\n"
-msgstr "И как долго будут реализовываться новые фичи зависит от количества и размера "
+msgstr ""
+"И как долго будут реализовываться новые фичи зависит от количества и размера "
 "пожертвований, которые мы получим.\n"
 
-#: views.py:170
+#: views.py:246
 msgid "Now we use simple database on weak server because it cheap.\n"
-msgstr "Сейчас мы используем простую базу данных на слабом сервере, потому что это дешево.\n"
+msgstr ""
+"Сейчас мы используем простую базу данных на слабом сервере, потому что это "
+"дешево.\n"
 
-#: views.py:171
+#: views.py:247
 msgid ""
 "Note! This is not commercial service and it can`t guarantee safety your "
 "data.\n"
-msgstr "Заметьте! Этот сервис не является коммерческим и не может гарантировать сохранность ваших данных.\n"
+msgstr ""
+"Заметьте! Этот сервис не является коммерческим и не может гарантировать "
+"сохранность ваших данных.\n"
 
-#: views.py:172
+#: views.py:248
 msgid "View on this service as a test of the future commercial solution.\n"
 msgstr "Рассматривайте этот сервис как тест будущего коммерческого решения.\n"
 
-#: views.py:173
+#: views.py:249
 msgid "Discuss in chat of channel:https://t.me/qrscanner_order_bot .\n"
 msgstr "Обсуждение в чате канала: https://t.me/qrscanner_order_bot .\n"
 
-#: views.py:181
-#, 
+#: views.py:257
 msgid "Category created!\n"
 msgstr "Категория создана!\n"
 
-#: views.py:203
-#,
-msgid "Seller created!\n"
-msgstr "Продавец создан!\n"
+#: views.py:283
+msgid "Seller created!"
+msgstr ""
 
-#: views.py:225
+#: views.py:284
+msgid "Now choose category of seller"
+msgstr ""
+
+#: views.py:306
 msgid "Language changed to "
 msgstr "Язык изменен на "
 
-#: views.py:244
+#: views.py:325
 msgid "For donate in sberbank-online\n"
 msgstr "Для пожертвований через sberbank-online\n"
 
-#: views.py:245
+#: views.py:326
 msgid "Copy this number:\n"
 msgstr "Скопируйте номер карты:\n"
 
-#: views.py:246
+#: views.py:327
 msgid "5484 0144 0994 4498\n"
 msgstr ""
 
-#: views.py:247
+#: views.py:328
 msgid "Go to: https://online.sberbank.ru\n"
 msgstr "Перейдите по ссылке: https://online.sberbank.ru\n"
 
-#: views.py:248
+#: views.py:329
 msgid "And then fill number of card in field for payment\n"
 msgstr "И после этого вставьте номер карты в поле оплаты\n"
 
-#: views.py:253
+#: views.py:334
 msgid "Paypal Donate:\n"
 msgstr "Пожертвование через PayPal:\n"
 
-#: views.py:254
+#: views.py:335
 msgid "https://www.paypal.me/yaricpisarev\n"
 msgstr ""
 
-#: views.py:259
+#: views.py:340
 msgid "Patreon Donate:\n"
 msgstr "Стать патроном на Патреоне:\n"
 
-#: views.py:260
+#: views.py:341
 msgid "https://www.patreon.com/qrscanner_order_bot\n"
 msgstr ""
 
-#: handlers.py:40
-msgid "Yes! And You are admins this bot!"
+#: views.py:371
+#, python-format
+msgid "%(datetime)s %(summ)s %(seller)s %(cat)s\n"
 msgstr ""
 
-#: handlers.py:42
-msgid "Hello!"
-msgstr "Привет!"
 
-#: handlers.py:45
-msgid "Hi! This bot will store your user_id and username in database.\n"
-msgstr "Привет! Этот бот сохранит ваш user_id и username в своей базе данных.\n"
+#: store/actions.py:21
+msgid "summa or datetime not found"
+msgstr "сумма или дата не найдены"
 
-#: handlers.py:46
+#: store/actions.py:39
+msgid "Sorry I not found QR code.\n"
+msgstr "Извините, я не нашел здесь QR код.\n"
+
+#: store/actions.py:40
+msgid "But I tried to recognize the text and found:\n"
+msgstr "Но я попробовал распознать тексти нашел следующее:\n"
+
+#: store/actions.py:41
+msgid "Date: "
+msgstr "Дата: "
+
+#: store/actions.py:42
+msgid "Sum: "
+msgstr "Сумма: "
+
+#: store/actions.py:43
+msgid "Is it true?\n"
+msgstr "Верно?\n"
+
+#: store/actions.py:45
 msgid ""
-"Keep in mind this service is not commercial in this time and can`t guarantee "
-"safety your data.\n"
+"ATTANTION!\n"
+"Its looks like:\n"
 msgstr ""
-"Имейте виду, что данный сервис не является коммерческим и не может гарантировать сохранность "
-"ваших данных.\n"
+"ВНИМАНИЕ!\n"
+"Это похоже на:\n"
 
-##: handlers.py:47
-#msgid "View on this service as a test of the future commercial solution.\n"
-#msgstr "Рассматривайте этот сервис как тест будущего коммерческого решения.\n"
+#: store/actions.py:50
+msgid "Sorry! I not found nothing\n"
+msgstr "Извините, Я ничего не нашел\n"
 
-#: handlers.py:48
+#: store/actions.py:51
+msgid "You can send me date and summ like this:\n"
+msgstr "Вы можете выслать мне дату и сумму вот так: \n"
+
+#: store/actions.py:52
+msgid "12.01.19 123.00"
+msgstr "12.01.19 123.00"
+
+#: store/actions.py:117
+#, python-format
+msgid "Purchase with media %s saved"
+msgstr "Покупка с медиафайлом %s сохранена"
+
+#: handlers/callbacks.py:43
 msgid ""
-"We work by donates and quality of this service depend values of donates.\n"
+"Please, send me your location and I find seller around you,\n"
+" or press /skip_location"
 msgstr ""
-"Мы работаем на пожертвования и качество сервиса зависит от количества пожертвований.\n"
+"Пожалуйста, вышлите мне вашу локацию и я найду продавцов вокруг вас, \n"
+" или нажмите /skip_location чтобы пропустить этот шаг"
 
-#: handlers.py:49
-msgid "Please don`t send photo of important documents here.\n"
-msgstr "Пожалуйста не высылайте фото важных документов.\n"
 
-#: handlers.py:50
-msgid "But you can use it FREE.\n"
-msgstr "Но вы можете ПОЛЬЗОВАТЬСЯ услугами этого бот совершенно БЕСПЛАТНО!\n"
-
-#: handlers.py:51
-msgid "Do you want to register?"
-msgstr "Хотите зарегистрироваться? "
-
-#: handlers.py:93 handlers.py:414
-msgid "Change language"
-msgstr "Сменить язык"
-
-#: handlers.py:112
-msgid "List Purchases"
-msgstr "Покупки"
-
-#: handlers.py:121
-msgid "List Сategories"
-msgstr "Категории"
-
-#: handlers.py:131
-msgid "List Sellers"
-msgstr "Продавцы"
-
-#: handlers.py:140 handlers.py:409
-msgid "Menu"
-msgstr "Меню"
-
-#: handlers.py:145
+#: handlers/callbacks.py:59
 #, python-format
 msgid "Update caused error \"%s\""
 msgstr ""
 
-#: handlers.py:176 handlers.py:402
+#: handlers/callbacks.py:158 handlers/callbacks.py:887
+msgid "Please, choose seller"
+msgstr "пожалуйста, выберите продавца"
+
+
+msgid ""
+"user %(username)s with %(user_id)s\n"
+" registered."
+msgstr ""
+"пользователь %(username)s с %(user_id)s\n"
+"только что зарегистрировался."
+
+msgid "Congratulation! you registered now.\n"
+msgstr "Поздравляю! Вы зарегистрированы.\n"
+
+msgid "Ok! Good luck for you."
+msgstr "Хорошо! Удачи Вам."
+
+msgid "We hope you return. We will glad to work for you."
+msgstr "Мы надеемся Вы вернетесь. Мы всегда рады работать для Вас."
+
+msgid "List users"
+msgstr "Пользователи"
+
 msgid "Orders"
 msgstr "Отчеты"
 
-#: handlers.py:213
-msgid "summa or datetime not found"
-msgstr "сумма или дата не определена"
+msgid "By Category %s"
+msgstr "По категории %s"
 
-#: handlers.py:236
+#: handlers/callbacks.py:341
+msgid "Please, choose category of purchase"
+msgstr "Пожалуйста, выбирете категорию покупки"
+
+#: handlers/callbacks.py:391 handlers/callbacks.py:461
+#, python-format
+msgid "Send me name of %s"
+msgstr "Вышлите мне имя "
+
+#: handlers/callbacks.py:485
+#, python-format
+msgid "%(type)s with ID: %(id)s was deleted"
+msgstr "%(type)s с ID: %(id)s был удален"
+
+#: handlers/callbacks.py:637
+msgid "this seller have not coordinates"
+msgstr "этот продавец не имеет координат"
+
+#: handlers/callbacks.py:646
+msgid "categories"
+msgstr "категории"
+
+#: handlers/callbacks.py:647
+#, python-format
+msgid "List of %s"
+msgstr "список %s"
+
+#: handlers/callbacks.py:676
+#, python-format
+msgid "summs by %ss and months"
+msgstr "суммы по %s и месяцам"
+
+#: handlers/callbacks.py:720
+#, python-format
+msgid "By Seller %s"
+msgstr "По продавцу %s"
+
+#: handlers/callbacks.py:737
+msgid "Change language"
+msgstr ""
+
+msgid "Your account is blocked.\n"
+msgstr "Ваш аккаунт заблокирован.\n"
+
+msgid "You can write to administrators of bot.\n"
+msgstr "Вы можете связаться с администраторами этого бота.\n"
+
+msgid "User %s blocked"
+msgstr "Пользователь %s блокирован"
+
+msgid "User %s is not active"
+msgstr "Пользователь %s не активен"
+
+msgid "Your account is activated by admin.\n"
+msgstr "Ваш аккаунт активирован администратором.\n"
+
+#: handlers/callbacks.py:834
+msgid ""
+"You can send me photo or video with QR code on bill and I try to decode or "
+"recognize date and summ.\n"
+msgstr "Вы можете выслать мне фото или видео с QR кодом и я попытаюсь раскодировать его или"
+" расчпознать сам текст чека чтобы найти сумму и дату.\n"
+
+#: handlers/callbacks.py:835
+msgid "Also you can use any programm for decore QR codes and send me result.\n"
+msgstr "Также вы можете использовать любую другую программу для распознавания QR кода и выслать мне результат распознавания.\n"
+
+#: handlers/callbacks.py:836
+msgid "Finally you can send me date and summ in format: dd.mm.yy 123.00"
+msgstr "Наконец вы можете выслать мне дату и время в формате: dd.mm.yy 123.00"
+
+msgid "User %s activated"
+msgstr "пользователь %s активирован"
+
+msgid "User %s is active"
+msgstr "Пользователь %s активен"
+
+msgid "Sorry, your account has been deleted.\n"
+msgstr "Извините, ваш аккаунт был удален.\n"
+
+msgid "Please contact to administrators of this bot."
+msgstr "Пожалуйста свяжитесь с администраторами этого бота."
+
+#: handlers/callbacks.py:870
+msgid "Please, send me media"
+msgstr "Пожалуйста, вышлите мне медиафайл"
+
 msgid ""
 "Video uploaded.\n"
 "Please wait. \n"
@@ -379,251 +504,6 @@ msgstr ""
 "Видео загружено.\n"
 "Распознавание видео может занять некоторое время.\n"
 "Подождите пожалуйста."
-
-#: handlers.py:302
-msgid "Sorry I not found QR code.\n"
-msgstr "Извините, я не обнаружил здесь QR код.\n"
-
-#: handlers.py:303
-msgid "But I tried to recognize the text and found:\n"
-msgstr "Но я попытался распознать текст и нашел вот что:\n"
-
-#: handlers.py:304
-msgid "Date: "
-msgstr "Дата: "
-
-#: handlers.py:305
-msgid "Sum: "
-msgstr "Сумма: "
-
-#: handlers.py:306
-msgid "Is it true?\n"
-msgstr "все  верно?\n"
-
-#: handlers.py:311
-msgid ""
-"ATTANTION!\n"
-"Its looks like:\n"
-msgstr ""
-"ВНИМАНИЕ!\n"
-"Это похоже на: \n"
-
-#: handlers.py:315
-msgid "Sorry! I not found nothing\n"
-msgstr "Извините, я ничего не нашел здесь\n"
-
-#: handlers.py:316 handlers.py:527
-msgid "You can send me date and summ like this:\n"
-msgstr "Вышлите мне дату и сумму в формате:\n"
-
-#: handlers.py:317 handlers.py:528
-msgid "12.01.19 123.00"
-msgstr ""
-
-#: handlers.py:341
-#, python-format
-msgid ""
-"user %(username)s with %(user_id)s\n"
-" registered."
-msgstr ""
-"пользователь %(username)s с %(user_id)s\n"
-"только что зарегистрировался."
-
-#: handlers.py:352
-msgid "Congratulation! you registered now.\n"
-msgstr "Поздравляю! Вы зарегистрированы.\n"
-
-#: handlers.py:368
-msgid "Ok! Good luck for you."
-msgstr "Хорошо! Удачи Вам."
-
-#: handlers.py:369
-msgid "We hope you return. We will glad to work for you."
-msgstr "Мы надеемся Вы вернетесь. Мы всегда рады работать для Вас."
-
-#: handlers.py:393
-msgid "List Purchase"
-msgstr "Покупки"
-
-#: handlers.py:417
-msgid "List categories"
-msgstr "Категории"
-
-#: handlers.py:420
-msgid "List sellers"
-msgstr "Продавцы"
-
-#: handlers.py:423
-msgid "List users"
-msgstr "Пользователи"
-
-#: handlers.py:461
-msgid "Your account is activated by admin.\n"
-msgstr "Ваш аккаунт активирован администратором.\n"
-
-#: handlers.py:462
-msgid ""
-"You can send me photo or video with QR code on bill and I try to decode or "
-"recognize date and summ.\n"
-msgstr ""
-"Вы можете выслать мне фото или видео с QR кодом и я попытаюсь распознать "
-"дату и сумму покупки.\n"
-
-#: handlers.py:463
-msgid "Also you can use any programm for decore QR codes and send me result.\n"
-msgstr "Также вы можете использовать любую программу для распознавания QR кодов и "
-"выслать мне результаты этой программы.\n"
-
-#: handlers.py:464
-msgid "Finally you can send me date and summ in format: dd.mm.yy 123.00"
-msgstr "В конце концов Вы можете просто выслать мне дату и сумму покупки просто в формате: dd.mm.yy 123.00"
-
-#: handlers.py:467
-#, python-format
-msgid "User %s activated"
-msgstr "пользователь %s активирован"
-
-#: handlers.py:469
-#, python-format
-msgid "User %s is active"
-msgstr "Пользователь %s активен"
-
-#: handlers.py:474
-msgid "Your account is blocked.\n"
-msgstr "Ваш аккаунт заблокирован.\n"
-
-#: handlers.py:475
-msgid "You can write to administrators of bot.\n"
-msgstr "Вы можете связаться с администраторами этого бота.\n"
-
-#: handlers.py:478
-#, python-format
-msgid "User %s blocked"
-msgstr "Пользователь %s блокирован"
-
-#: handlers.py:480
-#, python-format
-msgid "User %s is not active"
-msgstr "Пользователь %s не активен"
-
-#: handlers.py:523
-msgid "Confirmed!\n"
-msgstr ""
-
-#: handlers.py:538
-msgid "Sorry, your account has been deleted.\n"
-msgstr "Извините, ваш аккаунт был удален.\n"
-
-#: handlers.py:539
-msgid "Please contact to administrators of this bot."
-msgstr "Пожалуйста свяжитесь с администраторами этого бота."
-
-#
-##: keyboards.py:15 keyboards.py:116 keyboards.py:159
-#msgid "Menu"
-#msgstr "Меню"
-
-#: keyboards.py:23 keyboards.py:257
-msgid "Yes"
-msgstr "Да"
-
-#: keyboards.py:26 keyboards.py:258
-msgid "No"
-msgstr "Нет"
-
-#: keyboards.py:33
-msgid "categories"
-msgstr "категории"
-
-#: keyboards.py:34
-msgid "sellers"
-msgstr "продавцы"
-
-#: keyboards.py:35
-msgid "purchases"
-msgstr "покупки"
-
-#: keyboards.py:36
-msgid "orders"
-msgstr "отчеты"
-
-#: keyboards.py:37
-msgid "languages"
-msgstr "языки"
-
-#: keyboards.py:38
-msgid "help"
-msgstr "помощь"
-
-#: keyboards.py:42
-msgid "users"
-msgstr "пользователи"
-
-#: keyboards.py:54 keyboards.py:62
-msgid "block"
-msgstr "блок."
-
-#: keyboards.py:55 keyboards.py:63
-msgid "act"
-msgstr "акт."
-
-#: keyboards.py:112 keyboards.py:241
-msgid "New Seller"
-msgstr "Новый продавец"
-
-#: keyboards.py:153 keyboards.py:214
-msgid "New Category"
-msgstr "Новая категория"
-
-#: keyboards.py:191
-msgid "Pic"
-msgstr "рис."
-
-#: keyboards.py:222
-msgid "by category"
-msgstr "по категориям"
-
-#: keyboards.py:223
-msgid "by seller"
-msgstr "по продавцам"
-
-#: keyboards.py:249
-msgid "Delete"
-msgstr "Удалить"
-
-#: decorators.py:19 decorators.py:21
-msgid "Sorry! it is private bot..."
-msgstr ""
-
-msgid "Month: "
-msgstr "Месяц: "
-
-msgid "Total: "
-msgstr "Всего: "
-
-msgid "By Category %s"
-msgstr "По категории %s"
-
-msgid "By Seller: %s"
-msgstr "По продавцу: %s"
-
-msgid "By Category %s and month: %s"
-msgstr "По категории %s и за месяц: %s"
-
-msgid "By Seller %s and month: %s"
-msgstr "По продавцу %s и за месяц: %s"
-
-msgid "Deleted"
-msgstr "Удалено"
-
-msgid "Purchase"
-msgstr "Покупка"
-
-msgid "Category"
-msgstr "Категория"
-
-msgid "Seller"
-msgstr "Продавец"
 
 msgid "January"
 msgstr "Январь"
@@ -661,8 +541,164 @@ msgstr "Ноябрь"
 msgid "December"
 msgstr "Декабрь"
 
-msgid "summs by categories and months"
-msgstr "суммарно по категориям и месяцам"
+msgid "Hello!"
+msgstr "Привет!"
 
-msgid "summs by sellers and months"
-msgstr "суммарно по продавцам и месяцам"
+msgid "Hi! This bot will store your user_id and username in database.\n"
+msgstr ""
+"Привет! Этот бот сохранит ваш user_id и username в своей базе данных.\n"
+
+msgid ""
+"Keep in mind this service is not commercial in this time and can`t "
+"guarantee safety your data.\n"
+msgstr ""
+"Имейте виду, что данный сервис не является коммерческим и не может "
+"гарантировать сохранность ваших данных.\n"
+
+msgid ""
+"We work by donates and quality of this service depend values of donates.\n"
+msgstr ""
+"Мы работаем на пожертвования и качество сервиса зависит от количества "
+"пожертвований.\n"
+
+msgid "Please don`t send photo of important documents here.\n"
+msgstr "Пожалуйста не высылайте фото важных документов.\n"
+
+msgid "But you can use it FREE.\n"
+msgstr ""
+"Но вы можете ПОЛЬЗОВАТЬСЯ услугами этого бот совершенно БЕСПЛАТНО!\n"
+
+msgid "Do you want to register?"
+msgstr "Хотите зарегистрироваться? "
+
+
+#: keyboards.py:16 keyboards.py:38
+msgid "change_category"
+msgstr "сменить категорию"
+
+#: keyboards.py:18
+msgid "set location"
+msgstr "указать локацию"
+
+#: keyboards.py:20
+msgid "show card"
+msgstr "картоска"
+
+#: keyboards.py:22
+msgid "show on map"
+msgstr "на карте"
+
+#: keyboards.py:24 keyboards.py:55
+msgid "menu"
+msgstr "меню"
+
+#: keyboards.py:36
+msgid "change_seller"
+msgstr "изменить продавца"
+
+#: keyboards.py:42 keyboards.py:321 keyboards.py:449
+msgid "Media"
+msgstr "медиафайл"
+
+#: keyboards.py:45
+msgid "Change media"
+msgstr "изменить медиа"
+
+#: keyboards.py:48
+msgid "Set media"
+msgstr "выбрать медиафайл"
+
+#: keyboards.py:52
+msgid "Card"
+msgstr "Карточка"
+
+#: keyboards.py:62 keyboards.py:121 keyboards.py:193 keyboards.py:304
+#: keyboards.py:338 keyboards.py:406 keyboards.py:453
+msgid "Menu"
+msgstr "Меню"
+
+#: keyboards.py:70
+msgid "location"
+msgstr "локация"
+
+#: keyboards.py:78 keyboards.py:354
+msgid "Yes"
+msgstr "Да"
+
+#: keyboards.py:81 keyboards.py:355
+msgid "No"
+msgstr "Нет"
+
+#: keyboards.py:89
+msgid "sellers"
+msgstr "продавцы"
+
+#: keyboards.py:90
+msgid "purchases"
+msgstr "покупки"
+
+#: keyboards.py:91
+msgid "orders"
+msgstr "отчеты"
+
+#: keyboards.py:92
+msgid "languages"
+msgstr "языки"
+
+#: keyboards.py:93
+msgid "help"
+msgstr "помощь"
+
+#: keyboards.py:97
+msgid "users"
+msgstr "пользователи"
+
+#: keyboards.py:117
+msgid "block"
+msgstr "блок"
+
+#: keyboards.py:118
+msgid "act"
+msgstr "акт"
+
+#: keyboards.py:181
+#, python-format
+msgid "Search %s meters around"
+msgstr "Поиск в %s метров вокруг"
+
+#: keyboards.py:185
+msgid "Show all sellers"
+msgstr "Показать всех продавцов"
+
+#: keyboards.py:189
+msgid "New Seller"
+msgstr "Новый продавец"
+
+#: keyboards.py:230
+msgid "New Category"
+msgstr "Новая категория"
+
+#: keyboards.py:299
+#, python-format
+msgid "New %s"
+msgstr "Новый %s"
+
+#: keyboards.py:335
+msgid "by category"
+msgstr "по категориям"
+
+#: keyboards.py:336
+msgid "by seller"
+msgstr "по продавцам"
+
+#: keyboards.py:346
+msgid "Delete"
+msgstr "Удалить"
+
+#: keyboards.py:369
+msgid "Seller"
+msgstr "Продавец"
+
+#: keyboards.py:375
+msgid "Category"
+msgstr "Категория"
