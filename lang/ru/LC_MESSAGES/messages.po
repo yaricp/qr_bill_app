@@ -438,8 +438,11 @@ msgstr "список %s"
 
 #: handlers/callbacks.py:676
 #, python-format
-msgid "summs by %ss and months"
-msgstr "суммы по %s и месяцам"
+msgid "summs by seller and months"
+msgstr "суммы по продавцам и месяцам"
+
+msgid "summs by category and months"
+msgstr "суммы по категориям и месяцам"
 
 #: handlers/callbacks.py:720
 #, python-format

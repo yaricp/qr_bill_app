@@ -679,7 +679,10 @@ def order_by(update, context):
     but_data = update.callback_query.data
     list_parameters = but_data.split('&')
     type_obj = list_parameters[1]
-    text = _('summs by %ss and months') %  type_obj
+    if type_obj == 'seller':
+        text = _('summs by seller and months')
+    else:
+        text = _('summs by category and months')
     keyboard = get_button_order_by(user, type_obj)
     
     context.bot.edit_message_text(
