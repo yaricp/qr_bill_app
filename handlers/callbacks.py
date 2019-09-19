@@ -645,11 +645,11 @@ def get_list_items(user, type_obj, page=1):
     if type_obj == 'category':
         text_type = _('of categories')
     elif type_obj == 'seller':
-        test_type = _('of sellers')
+        text_type = _('of sellers')
     elif type_obj == 'purchase':
-        test_type = _('of purchases')
+        text_type = _('of purchases')
     else:
-        test_type = _('of users')
+        text_type = _('of users')
     text = _('List %s') % text_type
     keyboard = get_button_list_items(user, type_obj, page)
     return text, keyboard
