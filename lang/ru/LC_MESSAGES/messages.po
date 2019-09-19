@@ -633,9 +633,21 @@ msgstr "Нет"
 msgid "sellers"
 msgstr "продавцы"
 
+msgid "of sellers"
+msgstr "продавцов"
+
+msgid "of categories"
+msgstr "категорий"
+
 #: keyboards.py:90
 msgid "purchases"
 msgstr "покупки"
+
+msgid "of purchases"
+msgstr "покупок"
+
+msgid "of users"
+msgstr "пользователей"
 
 #: keyboards.py:91
 msgid "orders"

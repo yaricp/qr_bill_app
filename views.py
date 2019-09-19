@@ -11,13 +11,28 @@ from keyboards import *
 from utils import *
 
 
-def trans_type(type_obj=None, action=None):
-    if type_obj:
-        if type_obj == 'seller': return _('seller`s')
-        else: return _('category`s')
+def trans_type(type_obj=None, action=None, plural=None, of=None):
+    if plural:
+        if type_obj:
+            if type_obj == 'seller': return _('sellers')
+            else: return _('categories')
+        else:
+            if type_obj == 'new_seller': return _('sellers')
+            else: return _('categories')
+    if of:
+        if type_obj:
+            if type_obj == 'seller': return _('seller`s')
+            else: return _('category`s')
+        else:
+            if type_obj == 'new_seller': return _('seller`s')
+            else: return _('category`s')
     else:
-        if type_obj == 'new_seller': return _('seller`s')
-        else: return _('category`s')
+        if type_obj:
+            if type_obj == 'seller': return _('seller')
+            else: return _('category')
+        else:
+            if type_obj == 'new_seller': return _('seller')
+            else: return _('category')
 
 
 def show_order_by(user, type_c):

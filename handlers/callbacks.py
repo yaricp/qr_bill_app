@@ -643,14 +643,14 @@ def show_item_on_map(update, context):
 def get_list_items(user, type_obj, page=1):
     text_type = ''
     if type_obj == 'category':
-        text_type = _('categories')
+        text_type = _('of categories')
     elif type_obj == 'seller':
-        test_type = _('sellers')
+        test_type = _('of sellers')
     elif type_obj == 'purchase':
-        test_type = _('purchases')
+        test_type = _('of purchases')
     else:
-        test_type = _('users')
-    text = _('List of %s') % text_type
+        test_type = _('of users')
+    text = _('List %s') % text_type
     keyboard = get_button_list_items(user, type_obj, page)
     return text, keyboard
     
