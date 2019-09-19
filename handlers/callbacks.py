@@ -388,7 +388,7 @@ def add_seller_category_purchase(update, context):
     context.user_data['action'] = action
     context.bot.send_message(
                 chat_id=chat_id, 
-                text=_('Send me name of %s') % trans_type(type_obj, of=True)
+                text=_('Send me name of %s') % trans_type(type_obj=type_obj, of=True)
                 )
     if DEVEL: print('RETURN: ', NAME_SELLER_CATEGORY )
     return NAME_SELLER_CATEGORY 
