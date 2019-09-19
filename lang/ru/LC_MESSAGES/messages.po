@@ -582,7 +582,7 @@ msgstr "указать локацию"
 
 #: keyboards.py:20
 msgid "show card"
-msgstr "картоска"
+msgstr "карточка"
 
 #: keyboards.py:22
 msgid "show on map"

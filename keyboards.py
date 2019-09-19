@@ -143,7 +143,7 @@ def get_button_sellers(user, id_item, geo=None, radius=RADIUS_SEARCH_SELLER):
     sellers = []
     seller_dict_flag = False
     if geo:
-        for row in find_sellers_around(geo, radius):
+        for row in find_sellers_around(user, geo, radius):
             if DEVEL: print(row[0])
             seller = {'name':row[1], 'id':row[0]}
             sellers.append(seller)

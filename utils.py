@@ -77,7 +77,7 @@ def save_geo_position(type_obj, id, geo):
     return result
     
     
-def find_sellers_around(geo, radius_mi=RADIUS_SEARCH_SELLER):
+def find_sellers_around(user, geo, radius_mi=RADIUS_SEARCH_SELLER):
     conn = psycopg2.connect(database=PG_BATABASE, 
                                 user=PG_USERNAME, 
                                 password=PG_PASSWORD)
@@ -86,9 +86,9 @@ def find_sellers_around(geo, radius_mi=RADIUS_SEARCH_SELLER):
     radius = int(radius_mi)/1000
     curs.execute(
         'SELECT id,name FROM seller '\
-        'WHERE ST_Distance_Sphere(geom, ST_SetSRID(ST_MakePoint('\
+        'WHERE user=%s, ST_Distance_Sphere(geom, ST_SetSRID(ST_MakePoint('\
         '%s, %s), 4326)) <= %s * 1609.34;', 
-        (geo.longitude, geo.latitude, radius))
+        (user, geo.longitude, geo.latitude, radius))
     if DEVEL: print('found: ', curs)
     
     return curs.fetchall()
