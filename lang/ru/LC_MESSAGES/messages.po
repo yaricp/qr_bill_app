@@ -416,7 +416,7 @@ msgstr "Пожалуйста, выбирете категорию покупки
 #: handlers/callbacks.py:391 handlers/callbacks.py:461
 #, python-format
 msgid "Send me name of %s"
-msgstr "Вышлите мне имя "
+msgstr "Вышлите мне имя %s"
 
 #: handlers/callbacks.py:485
 #, python-format
