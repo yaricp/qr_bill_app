@@ -411,7 +411,7 @@ msgstr "По категории %s"
 
 #: handlers/callbacks.py:341
 msgid "Please, choose category of purchase"
-msgstr "Пожалуйста, выбирете категорию покупки"
+msgstr "Пожалуйста, выберите категорию покупки"
 
 #: handlers/callbacks.py:391 handlers/callbacks.py:461
 #, python-format

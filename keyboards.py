@@ -296,8 +296,12 @@ def get_button_list_items(user, type_obj, page=1):
         buttons.append(columns)
     
     if type_obj != 'purchase':
+        if type_obj == 'seller':
+            txt_btn = _('New Seller')
+        else:
+            txt_btn = _('New Category')
         new_button = InlineKeyboardButton(  
-            _('New %s') % trans_type(type_obj), 
+            txt_btn, 
             callback_data='new_%s' %type_obj
             )
         buttons.append([new_button])
