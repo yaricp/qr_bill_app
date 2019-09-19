@@ -12,6 +12,10 @@ from utils import *
 
 
 def trans_type(type_obj=None, action=None, plural=None, of=None):
+    print('plural: ', plural)
+    print('of: ', of)
+    print('action: ', action)
+    print('type_obj: ', type_obj)
     if plural:
         if type_obj:
             if type_obj == 'seller': return _('sellers')
