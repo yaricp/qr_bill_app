@@ -483,7 +483,7 @@ def delitem(update, context):
     else:
         text, keyboard = get_list_items(user, type_obj)
     update.callback_query.answer(_('Object of type:%(type)s with ID: %(id)s was deleted') %
-                                                    {'type':type_obj, 'id':id_obj})
+                                                    {'type':trans_type(type_obj), 'id':id_obj})
     context.bot.edit_message_text(
                             chat_id=chat_id, 
                             message_id=message_id, 
