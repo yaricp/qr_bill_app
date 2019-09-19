@@ -18,11 +18,11 @@ msgstr ""
 
 #: views.py:15
 msgid "seller`s"
-msgstr ""
+msgstr "продавца"
 
 #: views.py:16
 msgid "category`s"
-msgstr ""
+msgstr "категории"
 
 #: views.py:107
 #, python-format

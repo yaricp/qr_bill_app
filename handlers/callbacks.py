@@ -388,7 +388,7 @@ def add_seller_category_purchase(update, context):
     context.user_data['action'] = action
     context.bot.send_message(
                 chat_id=chat_id, 
-                text=_('Send me name of %s' % trans_type(action))
+                text=_('Send me name of %s') % trans_type(type_obj)
                 )
     if DEVEL: print('RETURN: ', NAME_SELLER_CATEGORY )
     return NAME_SELLER_CATEGORY 
@@ -458,7 +458,7 @@ def add_seller_category(update, context):
     context.user_data['action'] = action
     context.bot.send_message(
                 chat_id=chat_id, 
-                text=_('Send me name of %s') % trans_type(action)
+                text=_('Send me name of %s') % trans_type(action=action)
                 )
     if DEVEL: print('RETURN: ', NAME_SELLER_CATEGORY )
     return NAME_SELLER_CATEGORY 
@@ -482,8 +482,8 @@ def delitem(update, context):
         text = _('List users')
     else:
         text, keyboard = get_list_items(user, type_obj)
-    update.callback_query.answer(_('%(type)s with ID: %(id)s was deleted' %
-                                                    {'type':type_obj, 'id':id_obj}))
+    update.callback_query.answer(_('%(type)s with ID: %(id)s was deleted') %
+                                                    {'type':type_obj, 'id':id_obj})
     context.bot.edit_message_text(
                             chat_id=chat_id, 
                             message_id=message_id, 
@@ -641,9 +641,15 @@ def show_item_on_map(update, context):
     
 
 def get_list_items(user, type_obj, page=1):
-    text_type = '%ss' % type_obj
+    text_type = ''
     if type_obj == 'category':
         text_type = _('categories')
+    elif type_obj == 'seller':
+        test_type = _('sellers')
+    elif type_obj == 'purchase':
+        test_type = _('purchases')
+    else:
+        test_type = _('users')
     text = _('List of %s') % text_type
     keyboard = get_button_list_items(user, type_obj, page)
     return text, keyboard
