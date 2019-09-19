@@ -23,7 +23,7 @@ def trans_type(type_obj=None, action=None, plural=None, of=None):
         else:
             if type_obj == 'new_seller': return _('sellers')
             else: return _('categories')
-    elif of:
+    elif action:
         if type_obj:
             if type_obj == 'seller': return _('seller`s')
             else: return _('category`s')
