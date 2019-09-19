@@ -264,11 +264,11 @@ msgstr "Категория создана!\n"
 
 #: views.py:283
 msgid "Seller created!"
-msgstr ""
+msgstr "Продавец создан!"
 
 #: views.py:284
 msgid "Now choose category of seller"
-msgstr ""
+msgstr "Теперь выберите категорию продавца"
 
 #: views.py:306
 msgid "Language changed to "
@@ -420,8 +420,8 @@ msgstr "Вышлите мне имя %s"
 
 #: handlers/callbacks.py:485
 #, python-format
-msgid "%(type)s with ID: %(id)s was deleted"
-msgstr "%(type)s с ID: %(id)s был удален"
+msgid "Object of type:%(type)s with ID: %(id)s was deleted"
+msgstr "Объект типа:%(type)s с ID: %(id)s был удален"
 
 #: handlers/callbacks.py:637
 msgid "this seller have not coordinates"
