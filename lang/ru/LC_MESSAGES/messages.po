@@ -433,7 +433,7 @@ msgstr "категории"
 
 #: handlers/callbacks.py:647
 #, python-format
-msgid "List of %s"
+msgid "List %s"
 msgstr "список %s"
 
 #: handlers/callbacks.py:676
