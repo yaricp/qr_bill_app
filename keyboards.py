@@ -5,6 +5,7 @@ from telegram import (InlineKeyboardMarkup, KeyboardButton, InlineKeyboardButton
 
 from config import *
 from utils import *
+from views import trans_type
 
 from store.models.purchase import Purchase
 from store.models.seller import Seller
@@ -296,7 +297,7 @@ def get_button_list_items(user, type_obj, page=1):
     
     if type_obj != 'purchase':
         new_button = InlineKeyboardButton(  
-            _('New %s') % type_obj, 
+            _('New %s') % trans_type(type_obj), 
             callback_data='new_%s' %type_obj
             )
         buttons.append([new_button])
