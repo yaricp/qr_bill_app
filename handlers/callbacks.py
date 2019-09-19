@@ -458,7 +458,7 @@ def add_seller_category(update, context):
     context.user_data['action'] = action
     context.bot.send_message(
                 chat_id=chat_id, 
-                text=_('Send me name of %s' % trans_type(action))
+                text=_('Send me name of %s') % trans_type(action)
                 )
     if DEVEL: print('RETURN: ', NAME_SELLER_CATEGORY )
     return NAME_SELLER_CATEGORY 
@@ -644,7 +644,7 @@ def get_list_items(user, type_obj, page=1):
     text_type = '%ss' % type_obj
     if type_obj == 'category':
         text_type = _('categories')
-    text = _('List of %s' % text_type )
+    text = _('List of %s') % text_type
     keyboard = get_button_list_items(user, type_obj, page)
     return text, keyboard
     
