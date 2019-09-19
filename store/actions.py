@@ -114,7 +114,7 @@ def save_media(id, media_file_id):
     purchase = Purchase.get_or_none(id=id)
     purchase.pic = media_file_id
     purchase.save()
-    return _('Purchase with media %s saved' % purchase.pic)
+    return _('Purchase with media %s saved') % purchase.pic
     
     
     
