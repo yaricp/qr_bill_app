@@ -176,16 +176,16 @@ def get_button_sellers(user, id_item, geo=None, radius=RADIUS_SEARCH_SELLER):
                                                             sel_id )))
        
     menu.append(buttons)
-    if seller_dict_flag:
-        new_radius = int(radius)+100
-        new_button = InlineKeyboardButton(  
-            _('Search %s meters around' % new_radius),
-            callback_data='search_by_radius&%s' % new_radius)
-        menu.append([new_button])
-        new_button = InlineKeyboardButton(  
-            _('Show all sellers'),
-            callback_data='show_all_sellers&purchase&%s' % purchase.id)
-        menu.append([new_button])
+    #if seller_dict_flag:
+    new_radius = int(radius)+100
+    new_button = InlineKeyboardButton(  
+        _('Search %s meters around' % new_radius),
+        callback_data='search_by_radius&%s' % new_radius)
+    menu.append([new_button])
+    new_button = InlineKeyboardButton(  
+        _('Show all sellers'),
+        callback_data='show_all_sellers&purchase&%s' % purchase.id)
+    menu.append([new_button])
     new_button = InlineKeyboardButton(  
         _('New Seller'),
         callback_data='new_seller&purchase&%s' % purchase.id)
