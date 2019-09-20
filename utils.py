@@ -87,8 +87,7 @@ def find_sellers_around(user, geo, radius_mi=RADIUS_SEARCH_SELLER):
     curs.execute(
         'SELECT id,name FROM seller '\
         'WHERE user=\'%s\' AND ST_Distance_Sphere(geom, ST_SetSRID(ST_MakePoint('\
-        '%s, %s), 4326)) <= %s * 1609.34;', 
-        (user, geo.longitude, geo.latitude, radius))
+        '%s, %s), 4326)) <= %s * 1609.34;' % (user, geo.longitude, geo.latitude, radius))
     if DEVEL: print('found: ', curs)
-    
-    return curs.fetchall()
+    result = curs.fetchall()
+    return result
