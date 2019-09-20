@@ -149,8 +149,8 @@ def get_button_sellers(user, id_item, geo=None, radius=RADIUS_SEARCH_SELLER):
             seller = {'name':row[1], 'id':row[0]}
             sellers.append(seller)
             seller_dict_flag = True
-    if not sellers:
-        sellers = Seller.select().where(Seller.user==user)
+#    if not sellers:
+#        sellers = Seller.select().where(Seller.user==user)
     menu = []
     buttons = []
     count = 0
@@ -177,7 +177,7 @@ def get_button_sellers(user, id_item, geo=None, radius=RADIUS_SEARCH_SELLER):
        
     menu.append(buttons)
     if seller_dict_flag:
-        new_radius = int(radius)*2
+        new_radius = int(radius)+100
         new_button = InlineKeyboardButton(  
             _('Search %s meters around' % new_radius),
             callback_data='search_by_radius&%s' % new_radius)
