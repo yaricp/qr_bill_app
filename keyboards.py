@@ -152,7 +152,7 @@ def get_button_sellers(user, id_item, geo=None, radius=RADIUS_SEARCH_SELLER):
             seller_dict_flag = True
     else:
         sellers = Seller.select().where(Seller.user==user)
-    pmenu = []
+    menu = []
     buttons = []
     count = 0
     for seller in sellers:
