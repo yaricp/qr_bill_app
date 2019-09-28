@@ -34,6 +34,7 @@ def get_dict_month():
     
     
 def get_update_data(update):
+    
     if update.callback_query:
         user = update.callback_query.from_user.id
         chat_id = update.callback_query.message.chat.id
@@ -42,6 +43,8 @@ def get_update_data(update):
         user = update.message.from_user.id
         chat_id = update.message.chat.id
         message_id = update.message.message_id
+    print('USER: ', user)
+    print('CHAT_ID: ', chat_id)
     return user, chat_id, message_id
     
     
