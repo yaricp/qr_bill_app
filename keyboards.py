@@ -321,7 +321,10 @@ def get_columns_items(columns, type_obj, obj):
         if obj.seller:
             seller_name=obj.seller.name
         columns.append(InlineKeyboardButton(  
-                    '%s - %s - %s' % (obj.summ, obj.datetime, seller_name), 
+                    '%s - %s' % (obj.summ, seller_name), 
+                    callback_data='show&purchase&'+str(obj.id)))
+        columns.append(InlineKeyboardButton(  
+                    obj.datetime, 
                     callback_data='show&purchase&'+str(obj.id)))
         columns.append(InlineKeyboardButton( 
                     _('Media'), 
