@@ -4,7 +4,8 @@ import peewee as pw
 from playhouse.migrate import *
 
 REQUEST_KWARGS={
-    'proxy_url': 'socks5://80.211.38.123:1080',
+    #'proxy_url': 'socks5://80.211.38.123:1080',
+    'proxy_url': 'socks5://80.211.38.123:12312',
     # Optional, if you need authentication:
     'urllib3_proxy_kwargs': {
         'username': 'user123321',
