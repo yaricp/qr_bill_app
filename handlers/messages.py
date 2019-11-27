@@ -87,6 +87,11 @@ def new_video(update, context):
                     text=text,
                     reply_markup=keyboard)
         return ConversationHandler.END
+    elif not purchase_id:
+        context.bot.send_message(
+                    chat_id=chat_id, 
+                    text=text)
+        return ConversationHandler.END
     request_location(update, context)
     context.user_data['type_obj'] = 'purchase'
     context.user_data['obj_id'] = purchase_id
