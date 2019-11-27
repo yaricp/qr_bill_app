@@ -74,7 +74,11 @@ def new_video(update, context):
                     )
     date_time, summ, raw = scan(image=False, video=True)
     text, purchase_id, double = save_purchase(date_time, summ, user, raw, video_file_id)
+    print(text)
+    print(purchase_id)
+    print(double)
     if double:
+        print('double found')
         keyboard = buttons_for_purchase_item(user, purchase_id)
         text = _('ATTANTION!\nIts looks like:\n')
         text += show_purchase_item(user, purchase_id)
