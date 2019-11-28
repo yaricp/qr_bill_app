@@ -36,9 +36,9 @@ def main():
 
     
     new_summ_handler1 = MessageHandler(Filters.regex('^\d\d.\d\d.\d\d'), new_text)
-    new_summ_handler2 = MessageHandler(Filters.regex('\d\d.\d\d$'), new_text)
-    new_summ_handler3 = MessageHandler(Filters.regex('\d\d\d.\d\d$'), new_text)
-    new_summ_handler4 = MessageHandler(Filters.regex('\d\d\d\d.\d\d$'), new_text)
+    new_summ_handler2 = MessageHandler(Filters.regex('^\d\d.\d\d$'), new_text)
+    new_summ_handler3 = MessageHandler(Filters.regex('^\d\d\d.\d\d$'), new_text)
+    new_summ_handler4 = MessageHandler(Filters.regex('^\d\d\d\d.\d\d$'), new_text)
     new_fn_handler = MessageHandler(Filters.regex('.*&fn='), new_text)
     new_photo_handler = MessageHandler(Filters.photo, new_photo)
     new_video_handler = MessageHandler(Filters.video, new_video)
