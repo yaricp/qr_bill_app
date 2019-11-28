@@ -455,6 +455,7 @@ def add_seller_category(update, context):
     if DEVEL: print('add_seller_category')
     user, chat_id, message_id = get_update_data(update)
     action = update.callback_query.data
+    print('ACTION: ', action)
     context.user_data['action'] = action
     context.bot.send_message(
                 chat_id=chat_id, 
