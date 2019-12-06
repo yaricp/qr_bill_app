@@ -109,8 +109,8 @@ def new_text(update, context):
     photo_file_id = ''
     user, chat_id, message_id = get_update_data(update)
     date_time, summ = parse_text(update.message.text)
-    print('DATE: ', date_time)
-    print('SUMM: ', summ)
+    #print('DATE: ', date_time)
+    #print('SUMM: ', summ)
     text, purchase_id, double = save_purchase(date_time, summ, user)
     if double:
         keyboard = buttons_for_purchase_item(user, purchase_id)
