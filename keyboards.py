@@ -402,7 +402,7 @@ def get_button_order_by(user, type_c):
         if c.name:
             c_name = c.name
         rows.append(InlineKeyboardButton( c_name, callback_data='%s&%s' % (command, c_name) ))
-        for m in (month_now-2, month_now-1, month_now):
+        for m in list_month_of_reports:
             month = str(m)
             if m < 10:
                 month = '0'+str(m)
