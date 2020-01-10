@@ -386,7 +386,13 @@ def get_button_order_by(user, type_c):
         command = 'by_category'
     rows.append(InlineKeyboardButton( c_name, callback_data='-' ))
     
-    for m in (month_now-2, month_now-1, month_now):
+    months = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    count_month_reports = 3
+    list_month_of_reports = months[0 if month_now - n < 0 else month_now - n: month_now]
+    if len(list_month_of_reports) < count_month_reports:
+        list_month_of_reports = months[month_now - count_month_reports:12] + list_month_of_reports
+    
+    for m in list_month_of_reports:
         rows.append(InlineKeyboardButton( get_dict_month()[m], callback_data='-' ))
     buttons.append(rows)
     for c in list_by_for:
