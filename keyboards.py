@@ -388,7 +388,7 @@ def get_button_order_by(user, type_c):
     
     months = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     count_month_reports = 3
-    list_month_of_reports = months[0 if month_now - n < 0 else month_now - n: month_now]
+    list_month_of_reports = months[0 if month_now - count_month_reports < 0 else month_now - count_month_reports: month_now]
     if len(list_month_of_reports) < count_month_reports:
         list_month_of_reports = months[month_now - count_month_reports:12] + list_month_of_reports
     
