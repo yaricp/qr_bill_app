@@ -15,7 +15,7 @@ from utils import *
 def search_seller(update, context):
     """Handle the inline query."""
     query = update.inline_query.query
-    user, chat_id, message_id = get_update_data(update)
+    user, query_id = get_update_data(update)
 
     print('QUERY: ', query)
     
