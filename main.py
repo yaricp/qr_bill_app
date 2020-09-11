@@ -75,10 +75,34 @@ def main():
                             Filters.location, 
                             set_location)
                             
-    change_seller_handler = CallbackQueryHandler(  
-                                            change_seller_category_purchase, 
-                                            pattern='change_seller'
+    #change_seller_handler = CallbackQueryHandler(  
+    #                                        change_seller_category_purchase, 
+    #                                        pattern='change_seller'
+    #                                        )
+    
+    show_change_seller_handler = CallbackQueryHandler( show_change_seller, 
+                                            pattern='show_change_seller'
                                             )
+    
+
+    change_seller_handler = ConversationHandler(
+        name='change_seller_handler', 
+        entry_points=[
+                      show_change_seller_handler,
+                    ],
+        states={
+            SELLER: [  
+                        change_seller_category_purchase, 
+                        MessageHandler(Filters.text, set_seller),
+                        ], 
+        fallbacks=[cancel_handler, show_menu_handler], 
+        allow_reentry=True, 
+        persistent=True
+
+    )
+    
+
+
     show_all_sellers_handler = CallbackQueryHandler(  
                                             show_all_sellers, 
                                             pattern='show_all_sellers'
@@ -168,9 +192,6 @@ def main():
     
     
     
-    show_change_seller_handler = CallbackQueryHandler( show_change_seller, 
-                                            pattern='show_change_seller'
-                                            )
     dispatcher.add_handler(show_change_seller_handler)
     
     show_change_category_handler = CallbackQueryHandler( show_change_category, 
@@ -268,7 +289,9 @@ def main():
                     ],
         states={
             NAME_SELLER_CATEGORY: [ MessageHandler(Filters.text, 
-                                                    name_new_seller_category), ],
+                                                    name_new_seller_category),
+                                    #MessageHandler(Filters.text, set_seller), 
+                                   ],
             CATEGORY: [ change_category_handler,
                         add_category_handler,
                         ], 
