@@ -370,6 +370,7 @@ def get_button_confirm(id):
 def get_button_order_by(user, type_c):
     
     month_now = datetime.now().month
+    year_now = datetime.now().year
     buttons = [] 
     rows = []
     if type_c == 'seller':
@@ -409,9 +410,11 @@ def get_button_order_by(user, type_c):
 
             summ = (Purchase
                 .select(fn.SUM(Purchase.summ))
-                .where( by_for_field==c, 
-                        Purchase.user==user, 
-                        fn.date_part('month', Purchase.datetime)==month)
+                .where( by_for_field == c,
+                        Purchase.user == user,
+                        fn.date_part('month', Purchase.datetime) == month,
+                        fn.date_part('year', Purchase.datetime) == year_now
+                        )
                 .scalar()
                 )
             if summ: summ = str(round(summ, 2))
@@ -427,7 +430,9 @@ def get_button_order_by(user, type_c):
     
     
 def get_button_purchases_by(user, name, by_what, month=None):
+
     buttons = []
+    year_now = datetime.now().year
     if by_what == 'Category':
         obj = Category.get_or_none(name=name)
         by_field = Purchase.category
@@ -443,9 +448,10 @@ def get_button_purchases_by(user, name, by_what, month=None):
             month = '0'+month
         #if DEVEL: print('month: ', month)
         purchases = (Purchase.select()
-                .where( Purchase.user==user, 
-                        by_field==obj, 
-                        fn.date_part('month', Purchase.datetime)==month)
+                .where( Purchase.user == user,
+                        by_field == obj,
+                        fn.date_part('month', Purchase.datetime) == month,
+                        fn.date_part('year', Purchase.datetime) == year_now)
                 .order_by(Purchase.id.desc())
                 )
     for p in purchases:

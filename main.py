@@ -14,6 +14,7 @@ from config import *
 from handlers.callbacks import *
 from handlers.commands import *
 from handlers.messages import *
+from handlers.inlinequeries import *
 
 
 if DEVEL:
@@ -330,7 +331,9 @@ def main():
     donate_handler = CommandHandler('donate', donate)
     dispatcher.add_handler(donate_handler)
     
-
+    search_seller_handler = SearchSellerHandler(search_seller)
+    dispatcher.add_handler(search_seller_handler)
+    
     updater.start_polling()
 
 if __name__ == '__main__':
