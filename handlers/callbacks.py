@@ -76,6 +76,7 @@ def show_change_seller(update, context):
         text=text, 
         reply_markup=keyboard
         )
+    return SELLER
 
 
 @is_not_bot()    
