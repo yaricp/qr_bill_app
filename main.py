@@ -109,8 +109,30 @@ def main():
     search_by_radius_handler = CallbackQueryHandler( search_by_radius, 
                                             pattern='search_by_radius'
                                             )
+    list_items_handler = CallbackQueryHandler( list_items, 
+                                            pattern='list_of'
+                                            )
+    dispatcher.add_handler(list_items_handler)
     
-    
+    change_seller_handler = ConversationHandler(
+        name='change_seller_handler', 
+        entry_points=[
+                      show_change_seller_handler,
+                    ],
+        states={
+            SELLER: [  
+                        change_seller_category_purchase, 
+                        MessageHandler(Filters.text, set_seller),
+                        ],
+            },
+        fallbacks=[cancel_handler, show_menu_handler], 
+        allow_reentry=True, 
+        persistent=True
+
+    )
+    dispatcher.add_handler(change_seller_handler)
+
+
     new_bill_handler = ConversationHandler(
         name='new_bill_conv', 
         entry_points=[
@@ -163,10 +185,6 @@ def main():
                                             )
     dispatcher.add_handler(show_item_on_map_handler)
     
-    list_items_handler = CallbackQueryHandler( list_items, 
-                                            pattern='list_of'
-                                            )
-    dispatcher.add_handler(list_items_handler)
     
     
     request_location_item_handler = CallbackQueryHandler( request_location_item, 
@@ -265,24 +283,7 @@ def main():
     add_category_handler = CallbackQueryHandler( add_seller_category, 
                                             pattern='new_category'
                                             )
-    change_seller_handler = ConversationHandler(
-        name='change_seller_handler', 
-        entry_points=[
-                      show_change_seller_handler,
-                    ],
-        states={
-            SELLER: [  
-                        change_seller_category_purchase, 
-                        MessageHandler(Filters.text, set_seller),
-                        ],
-            },
-        fallbacks=[cancel_handler, show_menu_handler], 
-        allow_reentry=True, 
-        persistent=True
-
-    )
-    dispatcher.add_handler(change_seller_handler)
-
+    
 
 
     new_cat_handler = ConversationHandler(
