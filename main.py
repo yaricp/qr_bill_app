@@ -83,6 +83,9 @@ def main():
     show_change_seller_handler = CallbackQueryHandler( show_change_seller, 
                                             pattern='show_change_seller'
                                             )
+    show_menu_handler = CallbackQueryHandler( menu, 
+                                            pattern='menu'
+                                            )
     
 
     change_seller_handler = ConversationHandler(
@@ -122,9 +125,6 @@ def main():
                                             )
     search_by_radius_handler = CallbackQueryHandler( search_by_radius, 
                                             pattern='search_by_radius'
-                                            )
-    show_menu_handler = CallbackQueryHandler( menu, 
-                                            pattern='menu'
                                             )
     
     
