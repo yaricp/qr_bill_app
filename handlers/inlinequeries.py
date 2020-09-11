@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import time
+import logging
+from uuid import uuid4
 
 from telegram import InlineQueryResultArticle, ParseMode, InputTextMessageContent
 from telegram import ParseMode, ReplyKeyboardRemove
