@@ -208,7 +208,7 @@ def main():
                       show_change_seller_handler,
                     ],
         states={
-            SELLER: [  
+            CHANGE_SELLER: [  
                         change_seller_category_purchase, 
                         MessageHandler(Filters.text, set_seller),
                         ],
