@@ -369,7 +369,7 @@ def change_seller_category_purchase(update, context):
                 chat_id=chat_id, 
                 message_id=message_id, 
                 text=text, 
-                reply_markup=keyboard
+                #reply_markup=keyboard
                 )
             if DEVEL: print('RETURN: ', CATEGORY)
             return CATEGORY
