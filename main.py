@@ -88,24 +88,7 @@ def main():
                                             )
     
 
-    change_seller_handler = ConversationHandler(
-        name='change_seller_handler', 
-        entry_points=[
-                      show_change_seller_handler,
-                    ],
-        states={
-            SELLER: [  
-                        change_seller_category_purchase, 
-                        MessageHandler(Filters.text, set_seller),
-                        ],
-            },
-        fallbacks=[cancel_handler, show_menu_handler], 
-        allow_reentry=True, 
-        persistent=True
-
-    )
-    dispatcher.add_handler(change_seller_handler)
-
+    
 
     show_all_sellers_handler = CallbackQueryHandler(  
                                             show_all_sellers, 
@@ -282,6 +265,26 @@ def main():
     add_category_handler = CallbackQueryHandler( add_seller_category, 
                                             pattern='new_category'
                                             )
+    change_seller_handler = ConversationHandler(
+        name='change_seller_handler', 
+        entry_points=[
+                      show_change_seller_handler,
+                    ],
+        states={
+            SELLER: [  
+                        change_seller_category_purchase, 
+                        MessageHandler(Filters.text, set_seller),
+                        ],
+            },
+        fallbacks=[cancel_handler, show_menu_handler], 
+        allow_reentry=True, 
+        persistent=True
+
+    )
+    dispatcher.add_handler(change_seller_handler)
+
+
+
     new_cat_handler = ConversationHandler(
         name='new_cat_conv', 
         entry_points=[
