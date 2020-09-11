@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import time
 
+from telegram import InlineQueryResultArticle, ParseMode, InputTextMessageContent
 from telegram import ParseMode, ReplyKeyboardRemove
 from telegram.ext import InlineQueryResultArticle
 
