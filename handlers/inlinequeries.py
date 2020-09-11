@@ -17,11 +17,7 @@ def search_seller(update, context):
     query = update.inline_query.query
     user, query_id = get_update_data(update)
 
-    print('QUERY: ', query)
-    
     sellers = Seller.select().where(Seller.user==user, Seller.name.contains(query))
-    for s in sellers:
-        print("SELLER: ", s.name)
     
     results = [
         InlineQueryResultArticle(

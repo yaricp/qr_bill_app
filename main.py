@@ -94,7 +94,8 @@ def main():
             SELLER: [  
                         change_seller_category_purchase, 
                         MessageHandler(Filters.text, set_seller),
-                        ], 
+                        ],
+            },
         fallbacks=[cancel_handler, show_menu_handler], 
         allow_reentry=True, 
         persistent=True
