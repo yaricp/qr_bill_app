@@ -328,11 +328,12 @@ def set_seller(update, context):
     obj = get_item(user, 'purchase', id_obj)
     id_link_obj = Seller.select().where(name=update.message.text)
     obj = change_seller(obj, user, id_link_obj, geo)
-    text += show_purchase_item(user, obj.id)
-            context.bot.edit_message_text(
-                chat_id=chat_id,.
-                message_id=message_id,.
-                text=text,.
+    text = show_purchase_item(user, obj.id)
+    keyboard = buttons_for_purchase_item(user, obj.id, media=False, has_media=obj.pic )
+    context.bot.edit_message_text(
+                chat_id=chat_id,
+                message_id=message_id,
+                text=text,
                 reply_markup=keyboard
                 )
     return ConversationHandler.END
