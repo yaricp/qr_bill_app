@@ -19,7 +19,7 @@ def search_seller(update, context):
 
     print('QUERY: ', query)
     
-    sellers = Seller.select().where(Seller.user==user)
+    sellers = Seller.select().where(Seller.user==user, Seller.name.contains(query))
     for s in sellers:
         print("SELLER: ", s.name)
     
@@ -29,4 +29,5 @@ def search_seller(update, context):
             title=s.name,
             input_message_content=InputTextMessageContent(
                 s.name )) for s in sellers]
+    update.inline_query.answer(results)
 
