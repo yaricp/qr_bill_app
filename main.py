@@ -4,7 +4,7 @@ from telegram.ext import Updater
 from telegram.ext.picklepersistence import PicklePersistence
 from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler, Filters, ConversationHandler
-#from telegram.ext import InlineQueryHandler
+from telegram.ext import InlineQueryHandler
 from telegram.ext import CallbackQueryHandler
 
 from store.init_db import initialize_db
@@ -331,7 +331,7 @@ def main():
     donate_handler = CommandHandler('donate', donate)
     dispatcher.add_handler(donate_handler)
     
-    search_seller_handler = SearchSellerHandler(search_seller)
+    search_seller_handler = InlineQueryHandler(search_seller)
     dispatcher.add_handler(search_seller_handler)
     
     updater.start_polling()
