@@ -25,7 +25,7 @@ allowed_users = {'yaricp':'251241715',
                 
 admins = {'yaricp':'251241715'}
 DEVEL_ENV = int(os.getenv('DEVEL', 1))
-TOKEN = int(os.getenv('TOKEN'))
+TOKEN = os.getenv('TOKEN')
 DEVEL=True
 if DEVEL_ENV == 0:
     DEVEL=False
