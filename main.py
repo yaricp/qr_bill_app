@@ -113,89 +113,7 @@ def main():
                                             pattern='list_of'
                                             )
     dispatcher.add_handler(list_items_handler)
-    
-    change_seller_handler = ConversationHandler(
-        name='change_seller_handler', 
-        entry_points=[
-                      show_change_seller_handler,
-                    ],
-        states={
-            SELLER: [  
-                        change_seller_category_purchase, 
-                        MessageHandler(Filters.text, set_seller),
-                        ],
-            },
-        fallbacks=[cancel_handler, show_menu_handler], 
-        allow_reentry=True, 
-        persistent=True
 
-    )
-    dispatcher.add_handler(change_seller_handler)
-
-
-    new_bill_handler = ConversationHandler(
-        name='new_bill_conv', 
-        entry_points=[
-                    new_summ_handler1, 
-                    new_summ_handler2,
-                    new_summ_handler3,
-                    new_summ_handler4,
-                    new_fn_handler, 
-                    new_photo_handler, 
-                    new_video_handler, 
-                    new_video_note_handler
-                    ],
-        states={
-            LOCATION: [ bill_location_handler, 
-                        CommandHandler('skip_location', set_location)
-                        ],
-            SELLER: [   change_seller_handler, 
-                        add_seller_purchase_handler,
-                        search_by_radius_handler,
-                        show_all_sellers_handler,
-                        MessageHandler(Filters.text, set_seller),
-                        ], 
-            CATEGORY: [ change_category_handler,
-                        add_category_purchase_handler,
-                        ], 
-            NAME_SELLER_CATEGORY: [ MessageHandler(Filters.text, 
-                                                    name_new_seller_category), ],
-            }, 
-        fallbacks=[cancel_handler, show_menu_handler], 
-        allow_reentry=True, 
-        persistent=True
-    )
-    dispatcher.add_handler(new_bill_handler)
-    dispatcher.add_handler(show_menu_handler)
-    
-    dispatcher.add_handler(change_category_handler)
-    
-    set_location_item_handler = MessageHandler(
-                            Filters.location, 
-                            set_location_item)
-    dispatcher.add_handler(set_location_item_handler)
-    
-    delitem_handler = CallbackQueryHandler( delitem, 
-                                            pattern='delitem'
-                                            )
-    dispatcher.add_handler(delitem_handler)
-    
-    show_item_on_map_handler = CallbackQueryHandler( show_item_on_map, 
-                                            pattern='on_map'
-                                            )
-    dispatcher.add_handler(show_item_on_map_handler)
-    
-    
-    
-    request_location_item_handler = CallbackQueryHandler( request_location_item, 
-                                            pattern='location'
-                                            )
-    dispatcher.add_handler(request_location_item_handler)
-    
-    
-    
-    dispatcher.add_handler(show_change_seller_handler)
-    
     show_change_category_handler = CallbackQueryHandler( show_change_category, 
                                             pattern='show_change_category'
                                             )
@@ -286,6 +204,91 @@ def main():
     
 
 
+
+    
+    change_seller_handler = ConversationHandler(
+        name='change_seller_handler', 
+        entry_points=[
+                      show_change_seller_handler,
+                    ],
+        states={
+            SELLER: [  
+                        change_seller_category_purchase, 
+                        MessageHandler(Filters.text, set_seller),
+                        ],
+            },
+        fallbacks=[cancel_handler, show_menu_handler], 
+        allow_reentry=True, 
+        persistent=True
+
+    )
+    dispatcher.add_handler(change_seller_handler)
+
+
+    new_bill_handler = ConversationHandler(
+        name='new_bill_conv', 
+        entry_points=[
+                    new_summ_handler1, 
+                    new_summ_handler2,
+                    new_summ_handler3,
+                    new_summ_handler4,
+                    new_fn_handler, 
+                    new_photo_handler, 
+                    new_video_handler, 
+                    new_video_note_handler
+                    ],
+        states={
+            LOCATION: [ bill_location_handler, 
+                        CommandHandler('skip_location', set_location)
+                        ],
+            SELLER: [   change_seller_handler, 
+                        add_seller_purchase_handler,
+                        search_by_radius_handler,
+                        show_all_sellers_handler,
+                        MessageHandler(Filters.text, set_seller),
+                        ], 
+            CATEGORY: [ change_category_handler,
+                        add_category_purchase_handler,
+                        ], 
+            NAME_SELLER_CATEGORY: [ MessageHandler(Filters.text, 
+                                                    name_new_seller_category), ],
+            }, 
+        fallbacks=[cancel_handler, show_menu_handler], 
+        allow_reentry=True, 
+        persistent=True
+    )
+    dispatcher.add_handler(new_bill_handler)
+    dispatcher.add_handler(show_menu_handler)
+    
+    dispatcher.add_handler(change_category_handler)
+    
+    set_location_item_handler = MessageHandler(
+                            Filters.location, 
+                            set_location_item)
+    dispatcher.add_handler(set_location_item_handler)
+    
+    delitem_handler = CallbackQueryHandler( delitem, 
+                                            pattern='delitem'
+                                            )
+    dispatcher.add_handler(delitem_handler)
+    
+    show_item_on_map_handler = CallbackQueryHandler( show_item_on_map, 
+                                            pattern='on_map'
+                                            )
+    dispatcher.add_handler(show_item_on_map_handler)
+    
+    
+    
+    request_location_item_handler = CallbackQueryHandler( request_location_item, 
+                                            pattern='location'
+                                            )
+    dispatcher.add_handler(request_location_item_handler)
+    
+    
+    
+    dispatcher.add_handler(show_change_seller_handler)
+    
+    
     new_cat_handler = ConversationHandler(
         name='new_cat_conv', 
         entry_points=[
