@@ -20,6 +20,7 @@ def search_seller(update, context):
     print('QUERY: ', query)
     
     sellers = Seller.select().where(Seller.user==user)
+    print("SELLER: ", sellers)
     results = [
         InlineQueryResultArticle(
             id=uuid4(),
