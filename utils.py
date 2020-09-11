@@ -42,12 +42,13 @@ def get_update_data(update):
     elif update.inline_query:
         user = update.inline_query.from_user.id
         query_id = update.inline_query.id
+        return user, query_id
     else:
         user = update.message.from_user.id
         chat_id = update.message.chat.id
         message_id = update.message.message_id
-    print('USER: ', user)
-    print('CHAT_ID: ', chat_id)
+    #print('USER: ', user)
+    #print('CHAT_ID: ', chat_id)
     return user, chat_id, message_id
     
     
