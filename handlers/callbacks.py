@@ -59,7 +59,7 @@ def error(bot, update, error_msg):
     module_logger.warning(_('Update caused error "%s"'), error)
 
   
-@is_not_bot()    
+@is_not_bot()
 @is_allowed_user()
 @lang()
 def show_change_seller(update, context):
