@@ -87,7 +87,7 @@ def change_category(obj, user, category_id, type_obj=None):
     return obj
     
     
-def change_seller(obj, user,  seller_id, geo):
+def change_seller(obj, user,  seller_id, geo=None):
     
     seller = Seller.get(Seller.id==seller_id, 
                         Seller.user==user)

@@ -6,7 +6,7 @@ from telegram.ext import ConversationHandler
 
 from config import *
 #from models.wait import Wait
-#from models.purchase import Purchase
+from store.models.seller import Seller
 from store.actions import *
 from keyboards import *
 from views import *
@@ -317,6 +317,26 @@ def show_all_sellers(update, context):
     if DEVEL: print('RETURN: ', SELLER)
     return SELLER
     
+
+@is_not_bot()        
+@is_allowed_user()
+@lang()
+def set_seller(update, context):
+    
+    user, chat_id, message_id = get_update_data(update)
+    obj_id = context.user_data['obj_id']
+    obj = get_item(user, 'purchase', id_obj)
+    id_link_obj = Seller.select().where(name=update.message.text)
+    obj = change_seller(obj, user, id_link_obj, geo)
+    text += show_purchase_item(user, obj.id)
+            context.bot.edit_message_text(
+                chat_id=chat_id,.
+                message_id=message_id,.
+                text=text,.
+                reply_markup=keyboard
+                )
+    return ConversationHandler.END
+
 
 @is_not_bot()        
 @is_allowed_user()
