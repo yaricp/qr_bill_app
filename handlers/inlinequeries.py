@@ -8,28 +8,22 @@ from telegram import ParseMode, ReplyKeyboardRemove
 
 from config import *
 #from models.wait import Wait
-#from models.purchase import Purchase
+from models.seller import Seller
+from utils import *
 
 
 def search_seller(update, context):
     """Handle the inline query."""
     query = update.inline_query.query
+    user, chat_id, message_id = get_update_data(update)
+
+    print('QUERY: ', query)
+    
+    sellers = Seller.select().where(Seller.user==user)
     results = [
         InlineQueryResultArticle(
             id=uuid4(),
-            title="Caps",
+            title=s.name,
             input_message_content=InputTextMessageContent(
-                query.upper())),
-        InlineQueryResultArticle(
-            id=uuid4(),
-            title="Bold",
-            input_message_content=InputTextMessageContent(
-                "*{}*".format(escape_markdown(query)),
-                parse_mode=ParseMode.MARKDOWN)),
-        InlineQueryResultArticle(
-            id=uuid4(),
-            title="Italic",
-            input_message_content=InputTextMessageContent(
-                "_{}_".format(escape_markdown(query)),
-                parse_mode=ParseMode.MARKDOWN))]
+                s.name )) for s in sellers]
 
