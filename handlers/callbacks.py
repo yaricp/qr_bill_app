@@ -325,7 +325,8 @@ def set_seller(update, context):
     
     user, chat_id, message_id = get_update_data(update)
     obj_id = context.user_data['obj_id']
-    obj = get_item(user, 'purchase', id_obj)
+    print('ID: ', obj_id)
+    obj = get_item(user, 'purchase', obj_id)
     id_link_obj = Seller.select().where(name=update.message.text)
     obj = change_seller(obj, user, id_link_obj, geo)
     text = show_purchase_item(user, obj.id)
