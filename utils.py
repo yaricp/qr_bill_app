@@ -39,6 +39,10 @@ def get_update_data(update):
         user = update.callback_query.from_user.id
         chat_id = update.callback_query.message.chat.id
         message_id = update.callback_query.message.message_id
+    elif update.inline_query:
+        user = update.inline_query.from_user.id
+        chat_id = update.inline_query.chat.id
+        message_id = update.inline_query.message_id
     else:
         user = update.message.from_user.id
         chat_id = update.message.chat.id
