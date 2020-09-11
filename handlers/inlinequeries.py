@@ -8,7 +8,7 @@ from telegram import ParseMode, ReplyKeyboardRemove
 
 from config import *
 #from models.wait import Wait
-from models.seller import Seller
+from store.models.seller import Seller
 from utils import *
 
 
