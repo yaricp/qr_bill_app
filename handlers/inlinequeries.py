@@ -2,7 +2,7 @@
 import time
 
 from telegram import ParseMode, ReplyKeyboardRemove
-from telegram.ext import ConversationHandler
+from telegram.ext import InlineQueryResultArticle
 
 from config import *
 #from models.wait import Wait
