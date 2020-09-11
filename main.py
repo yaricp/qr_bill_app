@@ -75,10 +75,10 @@ def main():
                             Filters.location, 
                             set_location)
                             
-    #change_seller_handler = CallbackQueryHandler(  
-    #                                        change_seller_category_purchase, 
-    #                                        pattern='change_seller'
-    #                                        )
+    change_seller_handler = CallbackQueryHandler(  
+                                            change_seller_category_purchase, 
+                                            pattern='change_seller'
+                                            )
     
     show_change_seller_handler = CallbackQueryHandler( show_change_seller, 
                                             pattern='show_change_seller'
@@ -202,22 +202,22 @@ def main():
                                             pattern='new_category'
                                             )
 
-    change_seller_handler = ConversationHandler(
-        name='change_seller_handler', 
-        entry_points=[
-                      show_change_seller_handler,
-                    ],
-        states={
-            CHANGE_SELLER: [  
-                        change_seller_category_purchase, 
-                        MessageHandler(Filters.text, set_seller),
-                        ],
-            },
-        fallbacks=[cancel_handler, show_menu_handler], 
-        allow_reentry=True, 
-        persistent=True
-
-    )
+#    change_seller_handler = ConversationHandler(
+#        name='change_seller_handler', 
+#        entry_points=[
+#                      show_change_seller_handler,
+#                    ],
+#        states={
+#            CHANGE_SELLER: [  
+#                        change_seller_category_purchase, 
+#                        MessageHandler(Filters.text, set_seller),
+#                        ],
+#            },
+#        fallbacks=[cancel_handler, show_menu_handler], 
+#        allow_reentry=True, 
+#        persistent=True
+#
+#    )
     dispatcher.add_handler(change_seller_handler)
 
 
