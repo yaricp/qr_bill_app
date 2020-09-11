@@ -334,11 +334,10 @@ def set_seller(update, context):
     obj = change_seller(obj, user, id_link_obj)
     text = show_purchase_item(user, obj.id)
     keyboard = buttons_for_purchase_item(user, obj.id, media=False, has_media=obj.pic )
-    context.bot.edit_message_text(
+    context.bot.send_message(
                 chat_id=chat_id,
-                message_id=message_id,
                 text=text,
-                #reply_markup=keyboard
+                reply_markup=keyboard
                 )
     return ConversationHandler.END
 
