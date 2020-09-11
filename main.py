@@ -86,7 +86,7 @@ def main():
     show_menu_handler = CallbackQueryHandler( menu, 
                                             pattern='menu'
                                             )
-    
+    dispatcher.add_handler(show_menu_handler)
 
     
 
@@ -201,11 +201,7 @@ def main():
     add_category_handler = CallbackQueryHandler( add_seller_category, 
                                             pattern='new_category'
                                             )
-    
 
-
-
-    
     change_seller_handler = ConversationHandler(
         name='change_seller_handler', 
         entry_points=[
@@ -258,7 +254,7 @@ def main():
         persistent=True
     )
     dispatcher.add_handler(new_bill_handler)
-    dispatcher.add_handler(show_menu_handler)
+    
     
     dispatcher.add_handler(change_category_handler)
     
@@ -286,7 +282,7 @@ def main():
     
     
     
-    dispatcher.add_handler(show_change_seller_handler)
+    #dispatcher.add_handler(show_change_seller_handler)
     
     
     new_cat_handler = ConversationHandler(
