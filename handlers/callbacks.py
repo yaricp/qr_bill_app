@@ -325,12 +325,8 @@ def set_seller(update, context):
     
     user, chat_id, message_id = get_update_data(update)
     obj_id = context.user_data['obj_id']
-    print('ID: ', obj_id)
     obj = get_item(user, 'purchase', obj_id)
-    print('NAME: ', update.message.text)
-    print('MESS_ID: ', message_id)
     id_link_obj = Seller.select().where(Seller.name==update.message.text)[0].id
-    print("ID SELL: ",id_link_obj)
     obj = change_seller(obj, user, id_link_obj)
     text = show_purchase_item(user, obj.id)
     keyboard = buttons_for_purchase_item(user, obj.id, media=False, has_media=obj.pic )
@@ -426,6 +422,7 @@ def name_new_seller_category(update, context):
     user, chat_id, message_id = get_update_data(update)
     type_obj = None
     purchase_id = None
+    print('name_new_seller')
     if 'type_obj' in context.user_data:
         type_obj = context.user_data['type_obj']
     if 'id_obj' in context.user_data:
@@ -435,6 +432,7 @@ def name_new_seller_category(update, context):
     if 'geo' in context.user_data:
         geo = context.user_data['geo']
     if action == 'new_seller':
+        print('new_seller')
         text, obj = create_seller(   user, 
                                 update.message.text,
                                 purchase_id=purchase_id, 
