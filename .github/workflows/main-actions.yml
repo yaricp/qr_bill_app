@@ -1,0 +1,502 @@
+name: prepare images for all productions
+on:
+  push:
+    branches:
+      - main
+
+env:
+  VERSION: "2.0.3"
+  RESOURCE_NUM_CPU_PG: 1
+  RESOURCE_MEMORY_PG: 1000M
+  RESOURCE_NUM_CPU_API: 1
+  RESOURCE_MEMORY_API: 1000M
+  RESOURCE_NUM_CPU_SORTER: 0.5
+  RESOURCE_MEMORY_SORTER: 2000M
+  RESOURCE_NUM_CPU_REDIS: 1
+  RESOURCE_MEMORY_REDIS: 2000M
+  RESOURCE_NUM_CPU_TG: 0.5
+  RESOURCE_MEMORY_TG: 250M
+  RESOURCE_NUM_CPU_TRASSIR: 0.5
+  RESOURCE_MEMORY_TRASSIR: 250M
+  RESOURCE_NUM_CPU_PGADMIN: 0.5
+  RESOURCE_MEMORY_PGADMIN: 250M
+  RESOURCE_NUM_CPU_FRONTEND: 0.5
+  RESOURCE_MEMORY_FRONTEND: 500M
+  RESOURCE_NUM_CPU_RAY_MONTAGE: 4
+  RESOURCE_MEMORY_RAY_MONTAGE: 14000M
+  RAY_MONTAGE_DEFAULT_COUNT_ACTORS: 10
+  REGISTRY: ghcr.io
+  COMPANY: droneselfiecompany
+  IMAGE_NAME_FRONTEND: frontend
+  IMAGE_NAME_API: rest_api
+  IMAGE_NAME_RAY_MONTAGE: ray_montage
+  IMAGE_NAME_SORTER: incoming_sorter
+  IMAGE_NAME_TELEGRAM_BOT: telegram_bot
+  IMAGE_NAME_TRASSIR_CLIENT: trassir_client
+  NAME_IMAGE_REST_API_PACKAGES: rest_api_packages
+  NAME_IMAGE_MONTAGE_PACKAGES: ray_montage_packages
+  TELEGRAM_REG_BOT_TOKEN: "7182600499:AAGWEpLwZnNTY-AzMPAMniN-IJG4umDdePQ"
+  TELEGRAM_SUPPORT_CHAT_ID: "1212312313213"
+  GOPRO_CAMERA_COMMAND: "!S!30E"
+  RAY_DASHBOARD_MONTAGE_PORT: 8265
+  POSTGRES_DB: db
+  POSTGRES_USER: pguser
+  REDIS_HOST: redis
+  REDIS_PORT: 6379
+  AWS_S3_BUCKET_NAME: skypark-megatroll-sochi
+  AWS_CLOUDFRONT_URL: https://storage.yandexcloud.net/
+  NAME_ATTRACTION: MegaTroll
+  MAIL_NAME_ATTRACTION: MegaTroll
+  ORIGINS: http://192.168.0.2:3223,http://192.168.195.180:3223,http://192.168.0.2,http://192.168.195.180
+  LETTER_SERVER: T
+  DEFAULT_DEVICES: '{"DroneMega":{"sn":"drone", "type": "share"}}'
+  PACKAGE_TYPES: drone-gopro
+  DICT_TYPES_PACKAGES: '{"gopro-drone":{"use_individual_device":"False"}}'
+  SOURCE_TYPES: share,individual,intro,introfly,logo,music,outro,droneout,silent
+  DEFAULT_SOURCES: '{"intro":"/mnt/goprosync/auxiliary_files/mega/IntroMega.mp4","logo":"/mnt/goprosync/auxiliary_files/mega/logosMega.png","music":"/mnt/goprosync/auxiliary_files/mega/musicMega.mp3","outro":"/mnt/goprosync/auxiliary_files/mega/OutroMega.mp4","silent":"/mnt/goprosync/auxiliary_files/mega/silent.mp3"}'
+
+# newzipline, megatroll-server, moscow, moscow-1, moscow-2
+# backend-test-server
+# ubuntu-22.04
+
+jobs:
+  rebuild-images-prod:
+    runs-on: backend-test-server
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.PAT_RUNNER }}
+      - name: build and push image with installed rest_api packages by Poetry.
+        env:
+          INSTALL_DEV: 'false'
+        run: |
+          docker build --build-arg INSTALL_DEV=${INSTALL_DEV} \
+          -t ${{ env.REGISTRY }}/${{ env.COMPANY }}/rest_api_packages:prod \
+          -f ./docker/rest_api_packages.dockerfile ./backend/;
+          docker push ${{ env.REGISTRY }}/${{ env.COMPANY }}/rest_api_packages:prod      
+      - name: build and push image with montage packages
+        env:
+          INSTALL_DEV: "False"
+        run: |
+          echo "${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.NAME_IMAGE_MONTAGE_PACKAGES }}:prod";
+          docker build --build-arg INSTALL_DEV=${INSTALL_DEV} \
+          -t ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.NAME_IMAGE_MONTAGE_PACKAGES }}:prod \
+          -f ./docker/ray/ray_montage_packages.dockerfile ./backend/montage;
+          docker images;
+          docker push ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.NAME_IMAGE_MONTAGE_PACKAGES }}:prod;
+      - name: Build new rest_api image. 
+        env:
+          INSTALL_DEV: "False"
+          APP_MONTAGE_PORT: 8006
+          APP_EMO_PORT: 8007
+          RAY_DASHBOARD_EMO_PORT: 8265
+          RAY_DASHBOARD_MONTAGE_PORT: 8266
+          NAME_IMAGE_REST_API_PACKAGES: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.NAME_IMAGE_REST_API_PACKAGES }}:prod
+          NAME_IMAGE_API: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:prod
+          NAME_IMAGE_FRONTEND: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_FRONTEND }}:prod
+          NAME_IMAGE_SORTER: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_SORTER }}:prod
+        run: docker-compose build api;
+      - name: Push new rest_api image.
+        run: |
+          docker push ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:prod;
+      - name: Build new sorter image.
+        env:
+          INSTALL_DEV: "False"
+          NAME_IMAGE_REST_API_PACKAGES: ${{ env.REGISTRY }}/${{ env.COMPANY }}/rest_api_packages:prod
+          NAME_IMAGE_CELERY_PACKAGES: ${{ env.REGISTRY }}/${{ env.COMPANY }}/celery_packages:prod
+          NAME_IMAGE_API: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:prod
+          NAME_IMAGE_CELERY: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_CELERY }}:prod
+          NAME_IMAGE_FRONTEND: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_FRONTEND }}:prod
+          NAME_IMAGE_SORTER: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_SORTER }}:prod
+          APP_MONTAGE_PORT: 8006
+          APP_EMO_PORT: 8007
+          RAY_DASHBOARD_EMO_PORT: 8265
+          RAY_DASHBOARD_MONTAGE_PORT: 8266
+        run: docker-compose build sorter;
+      - name: Push new sorter image.
+        run: |
+          docker push ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_SORTER }}:prod;
+      - name: Build new ray montage image.
+        env:
+          INSTALL_DEV: "False"
+          NAME_IMAGE_REST_API_PACKAGES: ${{ env.REGISTRY }}/${{ env.COMPANY }}/rest_api_packages:prod
+          NAME_IMAGE_MONTAGE_PACKAGES: ${{ env.REGISTRY }}/${{ env.COMPANY }}/{{ env.NAME_IMAGE_MONTAGE_PACKAGES }}:prod
+          NAME_IMAGE_API: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:prod
+          NAME_IMAGE_RAY_MONTAGE: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_RAY_MONTAGE }}:prod
+          NAME_IMAGE_RAY_EMOTIONS: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_RAY_EMOTIONS }}:prod
+          NAME_IMAGE_FRONTEND: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_FRONTEND }}:prod
+          NAME_IMAGE_SORTER: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_SORTER }}:prod
+          RAY_DASHBOARD_EMO_PORT: ${{ env.RAY_DASHBOARD_EMO_PORT }}
+          RAY_DASHBOARD_MONTAGE_PORT: ${{ env.RAY_DASHBOARD_MONTAGE_PORT }}
+          APP_MONTAGE_PORT: ${{ env.APP_MONTAGE_PORT }}
+        run: docker-compose build montage;
+      - name: Push new ray montage image.
+        run: |
+          docker push ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_RAY_MONTAGE }}:prod;
+      - name: Build new tg image.
+        env:
+          INSTALL_DEV: "False"
+          NAME_IMAGE_REST_API_PACKAGES: ${{ env.REGISTRY }}/${{ env.COMPANY }}/rest_api_packages:prod
+          NAME_IMAGE_MONTAGE_PACKAGES: ${{ env.REGISTRY }}/${{ env.COMPANY }}/{{ env.NAME_IMAGE_MONTAGE_PACKAGES }}:prod
+          NAME_IMAGE_API: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:prod
+          NAME_IMAGE_RAY_EMOTIONS: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_RAY_EMOTIONS }}:prod
+          NAME_IMAGE_RAY_MONTAGE: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_RAY_MONTAGE }}:prod
+          NAME_IMAGE_FRONTEND: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_FRONTEND }}:prod
+          NAME_IMAGE_SORTER: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_SORTER }}:prod
+          NAME_IMAGE_TELEGRAM_BOT: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TELEGRAM_BOT }}:prod
+          NAME_IMAGE_TRASSIR_CLIENT: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TRASSIR_CLIENT }}:prod
+          RAY_DASHBOARD_EMO_PORT: 8265
+          RAY_DASHBOARD_MONTAGE_PORT: 8266
+          RAY_MONTAGE_NUM_CPU: 1
+          RAY_MONTAGE_MEMORY: 500
+          RAY_EMO_NUM_CPU: 1
+          RAY_EMO_MEMORY: 200
+        run: docker-compose build tg;
+      - name: Push new tg image.
+        run: |
+          docker push ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TELEGRAM_BOT }}:prod;
+      - name: Build new trassir image.
+        env:
+          INSTALL_DEV: "False"
+          NAME_IMAGE_REST_API_PACKAGES: ${{ env.REGISTRY }}/${{ env.COMPANY }}/rest_api_packages:prod
+          NAME_IMAGE_MONTAGE_PACKAGES: ${{ env.REGISTRY }}/${{ env.COMPANY }}/{{ env.NAME_IMAGE_MONTAGE_PACKAGES }}:prod
+          NAME_IMAGE_API: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:prod
+          NAME_IMAGE_RAY_EMOTIONS: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_RAY_EMOTIONS }}:prod
+          NAME_IMAGE_RAY_MONTAGE: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_RAY_MONTAGE }}:prod
+          NAME_IMAGE_FRONTEND: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_FRONTEND }}:prod
+          NAME_IMAGE_SORTER: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_SORTER }}:prod
+          NAME_IMAGE_TELEGRAM_BOT: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TELEGRAM_BOT }}:prod
+          NAME_IMAGE_TRASSIR_CLIENT: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TRASSIR_CLIENT }}:prod
+        run: docker-compose build trassir;
+      - name: Push new trassir image.
+        run: |
+          docker push ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TRASSIR_CLIENT }}:prod;
+      - name: build new prod image frontend
+        env:
+          NAME_IMAGE_FRONTEND: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_FRONTEND }}:prod
+        run: |
+          cd frontend;
+          git checkout main;
+          git pull;
+          ls -a;
+          echo "start build frontend";
+          echo -e "VUE_APP_ENV=production" > .env;
+          echo -e "VUE_APP_THIS_HOST_API=true" >> .env;
+          echo -e "VUE_APP_I18N_LOCALE=en" >> .env;
+          echo -e "VUE_APP_I18N_FALLBACK_LOCALE=en" >> .env;
+          echo -e "VUE_APP_NAME=Zipline" >> .env;
+          docker build --build-arg NAME_IMAGE_PACKAGES=${{ env.REGISTRY }}/${{ env.COMPANY }}/frontend_packages:latest \
+          -t ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_FRONTEND }}:prod \
+          -f ./docker/frontend/Dockerfile .;
+          docker push ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_FRONTEND }}:prod
+
+  deploy-production:
+    needs: rebuild-images-prod
+    runs-on: [moscow-2,]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - name: install docker and docker-compose
+        run: |
+          sudo apt update -y;
+          sudo apt install -y docker.io;
+          sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose;
+          sudo chmod +x /usr/local/bin/docker-compose;
+          # docker-compose;
+      - name: Prepare folders for logs and for alembic versions
+        run: |
+          sudo mkdir -p /mnt/goprosync;
+          sudo mkdir -p /mnt/goprosync/disk-s3;
+          sudo mkdir -p /mnt/goprosync/videos;
+          sudo mkdir -p /mnt/goprosync/auxiliary_files/static;
+          sudo mkdir -p /mnt/goprosync/backups/local;
+          sudo mkdir -p /mnt/goprosync/mails/templates;
+          mkdir -p /home/githubrunner/docker-compose-area/production;
+          mkdir -p /home/githubrunner/docker-compose-area/production/grafana;
+          mkdir -p /home/githubrunner/docker-compose-area/production/prometheus;
+          cp backend/grafana/* /home/githubrunner/docker-compose-area/production/grafana;
+          cp backend/prometheus/* /home/githubrunner/docker-compose-area/production/prometheus;
+          cd /home/githubrunner/docker-compose-area/production;
+          mkdir -p backend/alembic/versions;
+          sudo usermod -a -G docker githubrunner;
+      - name: Prepare folders for Frontend nd copy all files
+        run: |
+          ls -a;
+          ls -a nginx/auth;
+          mkdir -p /home/githubrunner/docker-compose-area/production/frontend/nginx/certs;
+          mkdir -p /home/githubrunner/docker-compose-area/production/frontend/nginx/conf.d;
+          mkdir -p /home/githubrunner/docker-compose-area/production/frontend/nginx/auth;
+          sudo cp nginx/certs/* /home/githubrunner/docker-compose-area/production/frontend/nginx/certs;
+          sudo cp nginx/conf.d/* /home/githubrunner/docker-compose-area/production/frontend/nginx/conf.d;
+          sudo cp -a nginx/auth/. /home/githubrunner/docker-compose-area/production/frontend/nginx/auth;
+      - name: Copy docker files to work folder
+        run: cp prod-docker-compose.yml /home/githubrunner/docker-compose-area/production/docker-compose.yml
+      - name: prepare cron files and scripts
+        run: |
+          sudo mkdir -p /var/log/video_remover;
+          sudo touch /var/log/video_remover/remove.log;
+          sudo mkdir -p /var/log/database_backup;
+          sudo touch /var/log/database_backup/backup_db.log;
+          sudo mkdir -p /mnt/goprosync/backups/local;
+          sudo cp ubuntu_system/cron.d/remove_old_video.cron /etc/cron.d/remove_old_video;
+          sudo cp ubuntu_system/cron.d/backup.cron /etc/cron.d/backup;
+          sudo sed -i -e 's/root/root env POSTGRES_USER=${{ env.POSTGRES_USER }} POSTGRES_DB=${{ env.POSTGRES_DB }} /g' /etc/cron.d/backup;
+          sudo cp ubuntu_system/cron.d/copy_files_sdcard.cron /etc/cron.d/copy_files_sdcard;
+          sudo cp tools/remove_old_video.sh /usr/local/bin/remove_old_video.sh;
+          sudo cp tools/backup_database.sh /usr/local/bin/backup_database.sh;
+          sudo cp tools/start_copy_files_from_sdcard.sh /usr/local/bin/start_copy_files_from_sdcard.sh
+          sudo systemctl restart cron;
+      - name: Make backup DB before deploy
+        run: sudo env POSTGRES_USER=${{ env.POSTGRES_USER }} POSTGRES_DB=${{ env.POSTGRES_DB }} tools/./backup_database.sh
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.PAT_RUNNER }}
+      - name: pull latest packages images
+        run: |
+          docker pull ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.NAME_IMAGE_REST_API_PACKAGES }}:prod;
+          docker pull ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.NAME_IMAGE_MONTAGE_PACKAGES }}:prod;
+      - name: remove old previous images
+        run: |
+          if ! [[ $(docker images| grep "${{ env.IMAGE_NAME_API }}:prod_prev") == "" ]]; then docker rmi ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:prod_prev; fi
+          if ! [[ $(docker images| grep "${{ env.IMAGE_NAME_SORTER }}:prod_prev") == "" ]]; then docker rmi ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_SORTER }}:prod_prev; fi
+          if ! [[ $(docker images| grep "${{ env.IMAGE_NAME_RAY_MONTAGE }}:prod_prev") == "" ]]; then docker rmi ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_RAY_MONTAGE }}:prod_prev; fi
+          if ! [[ $(docker images| grep "${{ env.IMAGE_NAME_TELEGRAM_BOT }}:prod_prev") == "" ]]; then docker rmi ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TELEGRAM_BOT }}:prod_prev; fi
+          if ! [[ $(docker images| grep "${{ env.IMAGE_NAME_TRASSIR_CLIENT }}:prod_prev") == "" ]]; then docker rmi ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TRASSIR_CLIENT }}:prod_prev; fi
+          if ! [[ $(docker images| grep "${{ env.IMAGE_NAME_FRONTEND }}:prod_prev") == "" ]]; then docker rmi ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_FRONTEND }}:prod_prev; fi
+      - name: make tag prev for old prod version images
+        run: |
+          if ! [[ $(docker images | grep "${{ env.IMAGE_NAME_API }}:" | grep "prod") == "" ]]; then docker tag ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:prod ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:prod_prev; fi
+          if ! [[ $(docker images | grep "${{ env.IMAGE_NAME_SORTER }}:" | grep "prod") == "" ]]; then docker tag ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_SORTER }}:prod ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_SORTER }}:prod_prev; fi
+          if ! [[ $(docker images | grep "${{ env.IMAGE_NAME_RAY_MONTAGE }}:" | grep "prod") == "" ]]; then docker tag ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_RAY_MONTAGE }}:prod ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_RAY_MONTAGE }}:prod_prev; fi
+          if ! [[ $(docker images | grep "${{ env.IMAGE_NAME_TELEGRAM_BOT }}" | grep "prod") == "" ]]; then docker tag ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TELEGRAM_BOT }}:prod ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TELEGRAM_BOT }}:prod_prev; fi
+          if ! [[ $(docker images | grep "${{ env.IMAGE_NAME_TRASSIR_CLIENT }}" | grep "prod") == "" ]]; then docker tag ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TRASSIR_CLIENT }}:prod ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TRASSIR_CLIENT }}:prod_prev; fi
+          if ! [[ $(docker images | grep "${{ env.IMAGE_NAME_FRONTEND }}" | grep "prod") == "" ]]; then docker tag ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_FRONTEND }}:prod ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_FRONTEND }}:prod_prev; fi
+      - name: Pull all latest images
+        env:
+          NAME_IMAGE_API: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:prod
+          NAME_IMAGE_SORTER: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_SORTER }}:prod
+          NAME_IMAGE_RAY_MONTAGE: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_RAY_MONTAGE }}:prod
+          NAME_IMAGE_TELEGRAM_BOT: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TELEGRAM_BOT }}:prod
+          NAME_IMAGE_TRASSIR_CLIENT: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TRASSIR_CLIENT }}:prod
+          NAME_IMAGE_FRONTEND: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_FRONTEND }}:prod
+        run: |
+          hostname;
+          cd /home/githubrunner/docker-compose-area/production;
+          docker-compose pull api;
+          docker-compose pull sorter;
+          docker-compose pull montage;
+          docker-compose pull tg;
+          docker-compose pull frontend;
+          docker-compose pull trassir;
+      - name: stop old images
+        run: |
+          cd /home/githubrunner/docker-compose-area/production;
+          $(docker-compose ps > /dev/null 2>&1); if [ $? -eq 0 ]; then docker-compose down; echo "Docker down"; else echo "Not started"; fi
+      - name: start new images
+        env:
+          NAME_IMAGE_API: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:prod
+          NAME_IMAGE_FRONTEND: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_FRONTEND }}:prod
+          NAME_IMAGE_SORTER: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_SORTER }}:prod
+          NAME_IMAGE_RAY_MONTAGE: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_RAY_MONTAGE }}:prod
+          NAME_IMAGE_TELEGRAM_BOT: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TELEGRAM_BOT }}:prod
+          NAME_IMAGE_TRASSIR_CLIENT: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TRASSIR_CLIENT }}:prod
+          VERSION: ${{ env.VERSION }}
+          RESOURCE_NUM_CPU_PG: ${{ env.RESOURCE_NUM_CPU_PG }}
+          RESOURCE_MEMORY_PG: ${{ env.RESOURCE_MEMORY_PG }}
+          RESOURCE_NUM_CPU_API: ${{ env.RESOURCE_NUM_CPU_API }}
+          RESOURCE_MEMORY_API: ${{ env.RESOURCE_MEMORY_API }}
+          RESOURCE_NUM_CPU_SORTER: ${{ env.RESOURCE_NUM_CPU_SORTER }}
+          RESOURCE_MEMORY_SORTER: ${{ env.RESOURCE_MEMORY_SORTER }}
+          RESOURCE_NUM_CPU_REDIS: ${{ env.RESOURCE_NUM_CPU_REDIS }}
+          RESOURCE_MEMORY_REDIS: ${{ env.RESOURCE_MEMORY_REDIS }}
+          RESOURCE_NUM_CPU_TG: ${{ env.RESOURCE_NUM_CPU_TG }}
+          RESOURCE_MEMORY_TG: ${{ env.RESOURCE_MEMORY_TG }}
+          RESOURCE_NUM_CPU_TRASSIR: ${{ env.RESOURCE_NUM_CPU_TRASSIR }}
+          RESOURCE_MEMORY_TRASSIR: ${{ env.RESOURCE_MEMORY_TRASSIR }}
+          RESOURCE_NUM_CPU_PGADMIN: ${{ env.RESOURCE_NUM_CPU_PGADMIN }}
+          RESOURCE_MEMORY_PGADMIN: ${{ env.RESOURCE_MEMORY_PGADMIN }}
+          RESOURCE_NUM_CPU_FRONTEND: ${{ env.RESOURCE_NUM_CPU_FRONTEND }}
+          RESOURCE_MEMORY_FRONTEND: ${{ env.RESOURCE_MEMORY_FRONTEND }}
+          RESOURCE_NUM_CPU_RAY_MONTAGE: ${{ env.RESOURCE_NUM_CPU_RAY_MONTAGE }}
+          RESOURCE_MEMORY_RAY_MONTAGE: ${{ env.RESOURCE_MEMORY_RAY_MONTAGE }}
+          RAY_MONTAGE_DEFAULT_COUNT_ACTORS: ${{ env.RAY_MONTAGE_DEFAULT_COUNT_ACTORS }}
+          POSTGRES_HOST: pg
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          PGADMIN_DEFAULT_EMAIL: ${{ secrets.PGADMIN_DEFAULT_EMAIL }}
+          PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
+          REDIS_HOST: ${{ env.REDIS_HOST }}
+          REDIS_PORT: ${{ env.REDIS_PORT }}
+          RAY_DASHBOARD_MONTAGE_PORT: ${{ env.RAY_DASHBOARD_MONTAGE_PORT }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_FLIGHT_CHAT_ID: ${{ secrets.TELEGRAM_FLIGHT_CHAT_ID_MEGA }}
+          TELEGRAM_REG_BOT_TOKEN : ${{ env.TELEGRAM_REG_BOT_TOKEN }}
+          TELEGRAM_SUPPORT_CHAT_ID: ${{ env.TELEGRAM_SUPPORT_CHAT_ID }}
+          GOPRO_CAMERA_COMMAND: ${{ env.GOPRO_CAMERA_COMMAND }}
+          MASTER_EMAIL: skypark-postman@droneselfie.tech
+          SMTP_SERVER: smtp.yandex.ru
+          SMTP_SERVER_PORT: 587
+          SMTP_SERVER_PASSWORD: ${{ secrets.SMTP_SERVER_PASSWORD }}
+          MAIL_NAME_ATTRACTION: ${{ env.MAIL_NAME_ATTRACTION }}
+          VIDEO_SOURCES_DIR: /mnt/goprosync/videos
+          STATIC_SOURCES_DIR: /mnt/goprosync/auxiliary_files
+          DATABASE_URL: postgresql+psycopg2://${{ env.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@pg/${{ env.POSTGRES_DB }}
+          S3_DISK_DIR: /mnt/goprosync/disk-s3/NEW_SERVICE
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          API_PREFIX: ${{ secrets.API_PREFIX }}
+          ORIGINS: ${{ env.ORIGINS }}
+          MONTAGE_CALLBACK_URL: http://localhost${{ secrets.API_PREFIX }}/montage
+          MATCHING_VIDEO_TO_TICKET_DELTA: 3
+          DEFAULT_DEVICES: ${{ env.DEFAULT_DEVICES }}
+          PACKAGE_TYPES: ${{ env.PACKAGE_TYPES }}
+          DICT_TYPES_PACKAGES: ${{ env.DICT_TYPES_PACKAGES }}
+          SOURCE_TYPES: ${{ env.SOURCE_TYPES }}
+          DEFAULT_SOURCES: ${{ env.DEFAULT_SOURCES }}
+          AUTHENTICATION_URL: http://localhost${{ secrets.API_PREFIX }}/auth/login
+          VIDEO2_URL: http://localhost${{ secrets.API_PREFIX }}/video2
+          GET_DEVICES_LIST_URL: http://localhost${{ secrets.API_PREFIX }}/devices/
+          UVICORN_WORKERS: 4
+          DEBUG: 'False'
+          AWS_UPLOAD_TEST: False
+          REST_API_TIMEOUT: 5
+          INSTALL_DEV: 'false'
+          TIME_ZONE: 0
+          DEFAULT_LANG: ru
+          POSTSALE: False
+          TRIM_SOURCE: True
+          USE_QR_IN_SOURCE: False
+          DEFAULT_PACKAGETYPE: gopro
+          SYSTEM_LOGO_STATIC_TYPE: system_logo
+          LETTER_SERVER: ${{ env.LETTER_SERVER }}
+          API_LOGIN: ${{ secrets.API_LOGIN }}
+          API_PASSWORD: ${{ secrets.API_PASSWORD }}
+          AWS_ENDPOINT_URL: https://storage.yandexcloud.net
+          AWS_S3_BUCKET_NAME: ${{ env.AWS_S3_BUCKET_NAME }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ru-central1
+          AWS_CLOUDFRONT_URL: ${{ env.AWS_CLOUDFRONT_URL }}
+          TEST_EMAIL: yaricp@gmail.com
+          NAME_ATTRACTION: ${{ env.NAME_ATTRACTION }}
+          PERSONAL_CABINET_URL: https://mediachannel.skypark.ru/api/v1
+          PERSONAL_CABINET_AUTHENTICATION_URL: link-server
+          PERSONAL_CABINET_LOGIN_URL: https://mediachannel.skypark.ru/login?link=
+          PERSONAL_CABINET_GET_ATTRACTIONS: attractions
+          PERSONAL_CABINET_CREATE_TICKET: tickets
+          CAMERAS: C3461325039159,C3461324923228
+          MOBILE_RESOLUTION: 720x480
+          VALIDATION_DURATION_RANGE: 10,3600
+          FFMPEG_THREADS: 6
+          VIDEO_BITRATE: 15M
+          VIDEO_SPEED_RENDER_PRESET: fast
+          CELERY_TASKS_RETRIES: 10
+          CELERY_TASKS_COUNTDOWN: 1800
+          CELERYD_MAX_TASKS_PER_CHILD: 25
+          JSON_PATH: /mnt/goprosync/json-data
+          JSON_API_URL: https://manifest.skypark.dev.defa.ru/api/toe-tag/notification
+          JSON_API_TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgxL2FwaS9sb2dpbiIsImlhdCI6MTY2MDYyODg1MSwiZXhwIjoxNjYwNjMyNDUxLCJuYmYiOjE2NjA2Mjg4NTEsImp0aSI6Im4xRGVBTHI3eU1xQkg4YmUiLCJzdWIiOiI0IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.MQdnWEY4Fcp_DASvDxbmKPWGzEhFiVH3fEqhX8HpLf8
+          DICT_RESOURCES_FOR_ACTORS_AND_TASKS: '{"RayActorMediaPackageCreator": {"memory": 250, "cpu": 0.25}, "task_download_video_trassir": {"memory": 1200, "cpu": 0.25}, "task_gopromax360_convert": {"memory": 300, "cpu": 0.25}, "task_load_files_to_s3": {"memory": 1800, "cpu": 0.25}, "task_montage_video": {"memory": 2000, "cpu": 2}, "task_search_emotion": {"memory": 1300, "cpu": 2}, "task_search_qr_in_video": {"memory": 250, "cpu": 0.25}, "task_change_status_package_in_dashboard": {"memory": 260, "cpu": 0.1}}'
+          EMO_SHOW_BOXES: false
+          EMO_BUCKET_CROP_Y: 55
+          EMO_BUCKET_CROP_HEIGHT: 800
+          EMO_BUCKET_CROP_X: 100
+          EMO_BUCKET_CROP_WIDTH: 1750
+          EMO_START_CROP_Y: 350
+          EMO_START_CROP_HEIGHT: 350
+          EMO_START_CROP_X: 550
+          EMO_START_CROP_WIDTH: 650
+          EMO_ZIP_CROP_Y: 50
+          EMO_ZIP_CROP_HEIGHT: 1030
+          EMO_ZIP_CROP_X: 50
+          EMO_ZIP_CROP_WIDTH: 1870
+          EMO_SIZE_FILTER_BOX: 70,150
+          EMO_SEARCH_PERIOD: 0.5
+          EMO_SEARCH_INTERVAL: 7
+          EMO_VOLUME_EMOTION: 0.5
+          EMO_PREVIEW_SIZE: 195,110
+          SORTER_API_LOGIN: ${{ secrets.API_LOGIN }}
+          SORTER_API_PASSWORD: ${{ secrets.API_PASSWORD }}
+          SORTER_DEBUG_API: 'False'
+          SORTER_AUTHENTICATION_URL: http://api/api/v1/auth/login
+          SORTER_VIDEO2_URL: http://api/api/v1/video2
+          SORTER_GET_DEVICES_LIST_URL: http://api/api/v1/devices/
+          SORTER_GET_TYPES_LIST_URL: http://api/api/v1/sourcetypes
+          SORTER_CONVERTER_360_URL: http://api/api/v1/gopromax_360_convert
+          TRASSIR_URL_SERVER: ''
+          TRASSIR_USER: ''
+          TRASSIR_PASSWORD: ''
+          TRASSIR_SEARCH_VIDEO_DELTA: 8
+          TRASSIR_NETWORK_TIMEOUT: 10
+          TRASSIR_DOWNLOAD_WAIT_TIME: 10
+          IPFS_SERVER_URI: https://droneselfie.storage.api2.merklebot.com
+          IPFS_API_TOKEN: Fi59NlKWuYf5cLfzJyyTSuw0fxLs91KSFm0Ds32HCOXf9Fm3nlfruw1P4R1XxJRTS54GMEkKJib-9PngyuIAqQ
+          IPFS_SERVER_TIMEOUT: 10
+          IPFS_UPLOAD_TIMEOUT: 1800
+          IPFS_NEEDS_UPLOAD: true
+        run: |
+          cd /home/githubrunner/docker-compose-area/production;
+          docker-compose up -d;
+          sleep 10;
+          docker-compose ps -a;
+      - name: Sync .env file
+        run: |
+          sleep 10;
+          cd /home/githubrunner/docker-compose-area/production;
+          touch .env;
+          mv .env .env_old;
+          echo -e "NAME_IMAGE_API=${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:prod" > .env;
+          echo -e "NAME_IMAGE_FRONTEND=${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_FRONTEND }}:prod" >> .env;
+          echo -e "NAME_IMAGE_SORTER=${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_SORTER }}:prod" >> .env;
+          echo -e "NAME_IMAGE_RAY_MONTAGE=${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_RAY_MONTAGE }}:prod" >> .env;
+          echo -e "NAME_IMAGE_TELEGRAM_BOT=${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TELEGRAM_BOT }}:prod" >> .env;
+          echo -e "NAME_IMAGE_TRASSIR_CLIENT=${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TRASSIR_CLIENT }}:prod" >> .env;
+          echo -e "RESOURCE_NUM_CPU_PG=1" >> .env;
+          echo -e "RESOURCE_MEMORY_PG=1000M" >> .env;
+          echo -e "RESOURCE_NUM_CPU_API=1" >> .env;
+          echo -e "RESOURCE_MEMORY_API=1000M" >> .env;
+          echo -e "RESOURCE_NUM_CPU_SORTER=0.5" >> .env;
+          echo -e "RESOURCE_MEMORY_SORTER=2000M" >> .env;
+          echo -e "RESOURCE_NUM_CPU_REDIS=1" >> .env;
+          echo -e "RESOURCE_MEMORY_REDIS=2000M" >> .env;
+          echo -e "RESOURCE_NUM_CPU_TG=0.5" >> .env;
+          echo -e "RESOURCE_MEMORY_TG=250M" >> .env;
+          echo -e "RESOURCE_NUM_CPU_TRASSIR=0.5" >> .env;
+          echo -e "RESOURCE_MEMORY_TRASSIR=250M" >> .env;
+          echo -e "RESOURCE_NUM_CPU_PGADMIN=0.5" >> .env;
+          echo -e "RESOURCE_MEMORY_PGADMIN=250M" >> .env;
+          echo -e "RESOURCE_NUM_CPU_FRONTEND=0.5" >> .env;
+          echo -e "RESOURCE_MEMORY_FRONTEND=500M" >> .env;
+          echo -e "RESOURCE_NUM_CPU_RAY_MONTAGE=4" >> .env;
+          echo -e "RESOURCE_MEMORY_RAY_MONTAGE=14000M" >> .env;
+          var=$(docker-compose exec -T api env);
+          echo "$var" >> .env;
+          var=$(docker-compose exec -T pg env);
+          echo "$var" >> .env;
+          var=$(docker-compose exec -T pgadmin4 env);
+          echo "$var" >> .env;
+          var=$(docker-compose exec -T montage env);
+          echo "$var" >> .env;
+          var=$(docker-compose exec -T sorter env);
+          echo "$var" >> .env;
+          var=$(docker-compose exec -T tg env);
+          echo "$var" >> .env;
+          var=$(docker-compose exec -T trassir env);
+          echo "$var" >> .env;
+          var=$(docker-compose exec -T redis env);
+          echo "$var" >> .env;
+          var=$(docker-compose exec -T frontend env);
+          echo "$var" >> .env;

@@ -1,0 +1,17 @@
+./backend/.venv/*
+./backend/auxiliary_files/*
+./backend/logs/*
+**/__pycache__/*
+.venv/*
+logs/*
+auxiliary_files/*
+.env/*
+env/*
+venv/*
+*.venv*
+*logs*
+*auxiliary_files*
+.env
+/mnt/*
+./incoming_sorter/tests/files/*
+./incoming_sorter/logs/*
