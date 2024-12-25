@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 from sqlalchemy import (
-    UUID, INTEGER, Column, VARCHAR, ForeignKey, DATETIME, DECIMAL
+    UUID, INTEGER, Column, VARCHAR, ForeignKey, TIMESTAMP, DECIMAL
 )
 from sqlalchemy import func
 from sqlalchemy.orm import relationship
@@ -21,7 +21,7 @@ class Purchase(Model):
         UUID, primary_key=True, nullable=False, unique=True,
         default=uuid4
     )
-    datetime = Column(DATETIME, nullable=False)
+    created = Column(TIMESTAMP, nullable=False)
     name = Column(VARCHAR(150), nullable=False)
     price = Column(DECIMAL, nullable=False)
     value = Column(DECIMAL, nullable=False)

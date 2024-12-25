@@ -15,10 +15,8 @@ echo "DEBUG: $DEBUG";
 if test "$DEBUG" = "true" || test "$DEBUG" = "True"
   then
     echo "start in reload mode"
-    # uvicorn api:app --host 0.0.0.0 --port 80 --reload --workers $UVICORN_WORKERS
-    poetry run uvicorn api:app --host 0.0.0.0 --port 80 --reload --workers $UVICORN_WORKERS
+    poetry run uvicorn backend.api:app --host 0.0.0.0 --port 80 --reload --workers $UVICORN_WORKERS
   else
     echo "start in work mode"
-    # uvicorn api:app --host 0.0.0.0 --port 80 --workers $UVICORN_WORKERS --forwarded-allow-ips='*'
-    poetry run uvicorn api:app --host 0.0.0.0 --port 80 --workers $UVICORN_WORKERS --forwarded-allow-ips='*'
+    poetry run uvicorn backend.api:app --host 0.0.0.0 --port 80 --workers $UVICORN_WORKERS --forwarded-allow-ips='*'
 fi

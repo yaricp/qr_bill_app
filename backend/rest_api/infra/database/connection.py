@@ -27,15 +27,15 @@ else:
         database_config.DATABASE_NAME
     )
 
-engine: AsyncEngine = create_async_engine(
-    url=DATABASE_URL,
-    pool_pre_ping=database_config.DATABASE_POOL_PRE_PING,
-    pool_recycle=database_config.DATABASE_POOL_RECYCLE,
-    echo=database_config.DATABASE_ECHO,
-)
+# engine: AsyncEngine = create_async_engine(
+#     url=DATABASE_URL,
+#     pool_pre_ping=database_config.DATABASE_POOL_PRE_PING,
+#     pool_recycle=database_config.DATABASE_POOL_RECYCLE,
+#     echo=database_config.DATABASE_ECHO,
+# )
 
-session_factory: async_sessionmaker = async_sessionmaker(
-    bind=engine,
-    autoflush=database_config.DATABASE_AUTO_FLUSH,
-    expire_on_commit=database_config.DATABASE_EXPIRE_ON_COMMIT
-)
+# session_factory: async_sessionmaker = async_sessionmaker(
+#     bind=engine,
+#     autoflush=database_config.DATABASE_AUTO_FLUSH,
+#     expire_on_commit=database_config.DATABASE_EXPIRE_ON_COMMIT
+# )

@@ -18,10 +18,11 @@ class Seller(Model):
     )
     name = Column(VARCHAR(150), nullable=False)
     address = Column(VARCHAR(150), nullable=True)
-    position = Column(
-        Geometry(geometry_type="POINT", srid=4326, spatial_index=True),
-        nullable=True
-    )
+    # position = Column(
+    #     Geometry(geometry_type="POINT", srid=4326),
+    #     nullable=True
+    # )
+    # , spatial_index=True
 
     def __repr__(self):
         return f"Seller {self.name} with id - <{self.id}>"

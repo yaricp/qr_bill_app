@@ -1,9 +1,11 @@
 # version: "3.9"
 
+
 services:
   pg:
     restart: always
-    image: postgres:latest
+    # image: postgis/postgis:latest
+    image: postgres:latest 
     volumes:
       - pgdata:/var/lib/postgresql/data/
     environment:
@@ -28,6 +30,9 @@ services:
     image: ${NAME_IMAGE_API}
     ports:
       - "8080:80"
+    volumes:
+      - ./backend/rest_api:/backend
+      - ./backend/rest_api/alembic:/alembic
     build:
       context: ./backend/rest_api/
       dockerfile: Dockerfile

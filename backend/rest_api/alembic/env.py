@@ -3,6 +3,7 @@ import sys
 from logging.config import fileConfig
 
 from alembic import context
+# from geoalchemy2 import alembic_helpers
 from sqlalchemy import create_engine
 
 sys.path.append(os.getcwd()[:-8])
@@ -44,12 +45,17 @@ def run_migrations_offline():
     script output.
 
     """
+
+    # include_object=alembic_helpers.include_object,
+    # process_revision_directives=alembic_helpers.writer,
+    # render_item=alembic_helpers.render_item,
+
     url = DATABASE_URL
     context.configure(
         url=url,
         target_metadata=target_metadata,
         literal_binds=True,
-        dialect_opts={"paramstyle": "named"},
+        dialect_opts={"paramstyle": "named"}
     )
 
     with context.begin_transaction():

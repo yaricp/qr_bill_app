@@ -1,3 +1,4 @@
+from uuid import uuid4
 from hashlib import sha256
 
 from sqlalchemy import INTEGER, Column, VARCHAR, UUID
@@ -7,9 +8,12 @@ from .base import Model
 
 class User(Model):
     """Model of user object in DB"""
-    __tablename__ = 'users'
+    __tablename__ = "users"
 
-    id = Column(UUID, primary_key=True, )
+    id = Column(
+        UUID, primary_key=True, nullable=False, unique=True,
+        default=uuid4
+    )
     email = Column(VARCHAR(200), nullable=True)
     login = Column(VARCHAR(150), nullable=True)
     tg_name = Column(VARCHAR(150), nullable=True)
@@ -23,4 +27,4 @@ class User(Model):
         return True
 
     def __repr__(self):
-        return f'User {self.id}'
+        return f"User {self.id}"

@@ -1,27 +1,15 @@
 from fastapi import APIRouter
 
-from backend.config import URLPathsConfig
-
-from backend.partner.api.v1.endpoints import (
-    partners, users, licenses, attractions,
-    attraction_aggregates, partner_aggregates
+from ..config import URLPathsConfig
+from .endpoints import (
+    sellers, users, purchases, categories
 )
 
 api_router = APIRouter()
 api_router.include_router(
-    attraction_aggregates.router,
-    prefix=URLPathsConfig.PREFIX + "/attraction_aggregates",
-    tags=["Attraction Aggregates"]
-)
-api_router.include_router(
-    partner_aggregates.router,
-    prefix=URLPathsConfig.PREFIX + "/partner_aggregates",
-    tags=["Partner Aggregates"]
-)
-api_router.include_router(
-    attractions.router,
-    prefix=URLPathsConfig.PREFIX + "/attractions",
-    tags=["Attractions"]
+    sellers.router,
+    prefix=URLPathsConfig.PREFIX + "/sellers",
+    tags=["Sellers"]
 )
 api_router.include_router(
     users.router,
@@ -29,12 +17,12 @@ api_router.include_router(
     tags=["Users"]
 )
 api_router.include_router(
-    partners.router,
-    prefix=URLPathsConfig.PREFIX + "/partners",
-    tags=["Partners"]
+    purchases.router,
+    prefix=URLPathsConfig.PREFIX + "/purchases",
+    tags=["Purchases"]
 )
 api_router.include_router(
-    licenses.router,
-    prefix=URLPathsConfig.PREFIX + "/licenses",
-    tags=["Licenses"]
+    categories.router,
+    prefix=URLPathsConfig.PREFIX + "/categories",
+    tags=["Categories"]
 )

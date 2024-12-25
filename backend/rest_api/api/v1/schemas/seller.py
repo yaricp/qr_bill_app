@@ -5,39 +5,39 @@ from pydantic import BaseModel
 
 
 # Shared properties
-class UserBase(BaseModel):
+class SellerBase(BaseModel):
     id: Optional[UUID] = None
-    email: Optional[str] = None
-    tg_name: Optional[str] = None
-    tg_id: Optional[int] = None
+    name: Optional[str] = None
+    address: Optional[str] = None
+    # phone: Optional[str] = None
 
 
-class UserCreate(BaseModel):
-    email: str
-    password: str
+class SellerCreate(BaseModel):
+    name: str
+    address: str
+    # phone: str
 
 
 # Properties to receive on item update
-class UserUpdate(UserBase):
+class SellerUpdate(SellerBase):
     id: UUID
 
 
 # Properties shared by models stored in DB
-class UserInDBBase(UserBase):
+class SellerInDBBase(SellerBase):
     id: UUID
-    email: str
-    tg_name: Optional[str] = None
-    tg_id: Optional[int] = None
+    name: str
+    address: str
 
     class Config:
         orm_mode = True
 
 
 # Properties to return to client
-class User(UserInDBBase):
+class Seller(SellerInDBBase):
     pass
 
 
 # Properties properties stored in DB
-class UserInDB(UserInDBBase):
+class SellerInDB(SellerInDBBase):
     pass
