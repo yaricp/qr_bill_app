@@ -14,10 +14,13 @@ COPY poetry.lock /
 
 RUN poetry install
 
+RUN mkdir /backend
+
 WORKDIR /
 
 COPY /api /backend/api
 COPY /app /backend/app
+COPY /infra /backend/infra
 COPY main.py /
 COPY /scripts /scripts
 COPY start.sh /

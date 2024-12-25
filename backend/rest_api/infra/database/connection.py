@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine, AsyncEngine, async_sessionmaker
 )
 
-from backend.core.infra.database.config import database_config
+from .config import database_config
 
 
 """

@@ -6,8 +6,10 @@ from alembic import context
 from sqlalchemy import create_engine
 
 sys.path.append(os.getcwd()[:-8])
+print("python path: ", os.getcwd())
 
-from database.models import Model
+from backend.infra.database.connection import DATABASE_URL
+from backend.infra.database.models import Model
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -42,7 +44,7 @@ def run_migrations_offline():
     script output.
 
     """
-    url = os.environ.get('DATABASE_URL')
+    url = DATABASE_URL
     context.configure(
         url=url,
         target_metadata=target_metadata,

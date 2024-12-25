@@ -4,7 +4,7 @@ from sqlalchemy import (
     UUID, DateTime
 )
 
-from backend.core.infra.database.metadata import mapper_registry
+from .metadata import mapper_registry
 
 
 partners_table = Table(

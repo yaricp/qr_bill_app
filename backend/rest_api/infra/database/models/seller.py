@@ -1,0 +1,27 @@
+from uuid import uuid4
+
+from geoalchemy2 import Geometry, WKBElement
+from sqlalchemy import (
+    UUID, Column, VARCHAR
+)
+
+from .base import Model
+
+
+class Seller(Model):
+    """Model of seller"""
+    __tablename__ = "seller"
+
+    id = Column(
+        UUID, primary_key=True, nullable=False, unique=True,
+        default=uuid4
+    )
+    name = Column(VARCHAR(150), nullable=False)
+    address = Column(VARCHAR(150), nullable=True)
+    position = Column(
+        Geometry(geometry_type="POINT", srid=4326, spatial_index=True),
+        nullable=True
+    )
+
+    def __repr__(self):
+        return f"Seller {self.name} with id - <{self.id}>"
