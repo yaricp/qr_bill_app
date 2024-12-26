@@ -42,15 +42,20 @@ services:
     depends_on:
       - pg
 
-
-  # - redis
-
-  # tg:
-  #   restart: always
-  #   image: ${NAME_IMAGE_TELEGRAM_BOT}
-  #   container_name: tg
-  #   # volumes:
-  #   #  - ./backend/telegram_bot/logs:/app/logs
+  tg:
+    restart: always
+    image: ${NAME_IMAGE_TELEGRAM_BOT}
+    container_name: tg
+    env_file:
+      - .env
+    command: /./start.sh
+    depends_on:
+      - api
+    build:
+      context: ./backend/tg_bot
+      
+    # volumes:
+    #  - ./backend/telegram_bot/logs:/app/logs
   #   environment:
   #     REST_API_URI: "http://api/api/v1/"
   #     REST_API_TICKET: "tickets/"
@@ -69,11 +74,7 @@ services:
   #     REST_API_PASSWORD: ${API_PASSWORD}
   #     REST_API_CUSTOMER: "customer"
   #     REST_API_TIMEOUT: 5
-  #   depends_on:
-  #     - api
-  #     - montage
-  #   build:
-  #     context: ./backend/tg_bot
+    
 
   # redis:
   #   image: bitnami/redis:latest
