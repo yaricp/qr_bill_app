@@ -2,10 +2,15 @@ from fastapi import APIRouter
 
 from ..config import URLPathsConfig
 from .endpoints import (
-    sellers, users, purchases, categories
+    goods, sellers, users, categories, bills, units
 )
 
 api_router = APIRouter()
+api_router.include_router(
+    bills.router,
+    prefix=URLPathsConfig.PREFIX + "/bills",
+    tags=["Bills"]
+)
 api_router.include_router(
     sellers.router,
     prefix=URLPathsConfig.PREFIX + "/sellers",
@@ -17,9 +22,14 @@ api_router.include_router(
     tags=["Users"]
 )
 api_router.include_router(
-    purchases.router,
-    prefix=URLPathsConfig.PREFIX + "/purchases",
-    tags=["Purchases"]
+    goods.router,
+    prefix=URLPathsConfig.PREFIX + "/goods",
+    tags=["Goods"]
+)
+api_router.include_router(
+    units.router,
+    prefix=URLPathsConfig.PREFIX + "/units",
+    tags=["Units"]
 )
 api_router.include_router(
     categories.router,

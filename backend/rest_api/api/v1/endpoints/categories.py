@@ -2,7 +2,6 @@ from uuid import UUID
 from typing import List, MutableSequence
 
 from fastapi import APIRouter, Depends
-# from loguru import logger
 
 from ..services.category import (
     get_category, create_category, get_all_categories,

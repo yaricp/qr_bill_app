@@ -1,58 +1,54 @@
 from uuid import UUID
+from typing import Optional, List
 from datetime import datetime
 from decimal import Decimal
 
-from typing import Optional
-
 from pydantic import BaseModel
+
+from .goods import Goods
+from .seller import Seller
 
 
 # Shared properties
-class PurchaseBase(BaseModel):
+class BillBase(BaseModel):
     id: Optional[UUID] = None
-    name: Optional[str] = None
     created: Optional[datetime] = None
-    price: Optional[Decimal] = None
     value: Optional[Decimal] = None
-    user_id: Optional[UUID] = None
-    category_id: Optional[UUID] = None
+    payment_method: Optional[str] = None
+    picture_path: Optional[str] = None
     seller_id: Optional[UUID] = None
+    user_id: Optional[UUID] = None
 
 
-class PurchaseCreate(BaseModel):
-    name: str
+class BillCreate(BillBase):
     created: datetime
-    price: Decimal
     value: Decimal
-    user_id: UUID
     seller_id: UUID
-    category_id: Optional[UUID] = None
 
 
-class PurchaseUpdate(PurchaseBase):
+# Properties to receive on item update
+class BillUpdate(BillBase):
     id: UUID
 
 
 # Properties shared by models stored in DB
-class PurchaseInDBBase(PurchaseBase):
+class BillInDBBase(BillBase):
     id: UUID
-    name: str
     created: datetime
-    price: Decimal
     value: Decimal
-    user_id: UUID
     seller_id: UUID
-    category_id: Optional[UUID] = None
+    seller: Seller
+    goods_list: List[Goods] = []
 
     class Config:
         orm_mode = True
 
 
 # Properties to return to client
-class Purchase(PurchaseInDBBase):
+class Bill(BillInDBBase):
     pass
 
 
 # Properties properties stored in DB
-class PurchaseInDB(PurchaseInDBBase):
+class BillInDB(BillInDBBase):
     pass

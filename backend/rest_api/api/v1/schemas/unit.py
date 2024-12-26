@@ -5,22 +5,22 @@ from pydantic import BaseModel
 
 
 # Shared properties
-class CategoryBase(BaseModel):
+class UnitBase(BaseModel):
     id: Optional[UUID] = None
     name: Optional[str] = None
 
 
-class CategoryCreate(BaseModel):
+class UnitCreate(BaseModel):
     name: str
 
 
 # Properties to receive on item update
-class CategoryUpdate(CategoryBase):
+class UnitUpdate(UnitBase):
     id: UUID
 
 
 # Properties shared by models stored in DB
-class CategoryInDBBase(CategoryBase):
+class UnitInDBBase(UnitBase):
     id: UUID
     name: str
 
@@ -29,10 +29,10 @@ class CategoryInDBBase(CategoryBase):
 
 
 # Properties to return to client
-class Category(CategoryInDBBase):
+class Unit(UnitInDBBase):
     pass
 
 
 # Properties properties stored in DB
-class CategoryInDB(CategoryInDBBase):
+class UnitInDB(UnitInDBBase):
     pass
