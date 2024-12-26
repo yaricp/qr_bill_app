@@ -49,6 +49,8 @@ services:
     env_file:
       - .env
     command: /./start.sh
+    volumes:
+      - ./backend/tg_bot/app:/bot
     depends_on:
       - api
     build:

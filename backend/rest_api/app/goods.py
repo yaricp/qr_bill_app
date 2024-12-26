@@ -3,7 +3,10 @@ from datetime import datetime
 from loguru import logger
 
 from ..infra.database import db_session
-from ..infra.database.models import Goods as GoodsORM
+from ..infra.database.models import (
+    Goods as GoodsORM, Seller as SellerORM
+)
+
 
 from .entities.goods import Goods, GoodsCreate
 
@@ -66,3 +69,24 @@ class GoodsCommands:
 
     def delete_goods(self):
         pass
+
+    async def list_group_by_name(
+        self, offset: int, limit: int
+    ) -> list:
+        if offset and limit:
+            result = GoodsORM.query.count().group_by(
+                name
+            ).offset(offset).limit(limit)
+        else:
+            result = GoodsORM.query.count().group_by(
+                name
+            ).all()
+        return result
+
+    async def goods_by_name_group_by_sellers(
+        self, name: str
+    ) -> list:
+        result = GoodsORM.query.filter_by(
+            name=name
+        ).join(SellerORM).group_by(seller_id)
+        return result

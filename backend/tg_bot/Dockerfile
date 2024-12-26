@@ -18,9 +18,7 @@ RUN mkdir /bot
 
 WORKDIR /
 
-COPY /handlers /bot
-COPY /lang /backend/app
-COPY main.py /
+COPY /app /bot
 COPY /scripts /scripts
 COPY start.sh /
 
