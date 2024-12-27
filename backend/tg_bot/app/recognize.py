@@ -33,8 +33,8 @@ def recognize_video():
     return None, None, True
 
 
-def recognize_image(user):
-    image_file_path = os.path.join("temp_files", "qrcode.mp4")
+def recognize_image(image_file_path: str) -> tuple:
+    # image_file_path = os.path.join("temp_files", "qrcode.mp4")
     image = cv2.imread(image_file_path)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     list_decoded = decode(gray)

@@ -1,5 +1,14 @@
 #!/bin/sh
 
+echo "Prepare GRPC server"
+
+poetry run python -m grpc_tools.protoc -I /grpc_proto --python_out=/backend/infra/grpc_server --pyi_out=/backend/infra/grpc_server --grpc_python_out=/backend/infra/grpc_server /grpc_proto/grpc.proto
+
+echo "Start GRPC Server"
+
+poetry run python /backend/infra/grpc_server/server.py &
+
+
 echo "Migrations"
 
 poetry run alembic revision --autogenerate -m 'init'
@@ -20,3 +29,4 @@ if test "$DEBUG" = "true" || test "$DEBUG" = "True"
     echo "start in work mode"
     poetry run uvicorn backend.api:app --host 0.0.0.0 --port 80 --workers $UVICORN_WORKERS --forwarded-allow-ips='*'
 fi
+

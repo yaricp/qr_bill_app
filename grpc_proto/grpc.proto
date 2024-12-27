@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+service RestApiGRPC {
+  // Sends a greeting
+  rpc SendBillUrl (BillUrl) returns (BillInfo) {}
+  // Sends another greeting
+  rpc GetTotalSumm (google.protobuf.Empty) returns (TotalSumm) {}
+}
+
+// The request message containing the user's name.
+message BillUrl {
+  string url = 1;
+}
+
+// The response message containing the greetings
+message BillInfo {
+  string date = 1;
+  string seller = 2;
+  float summ = 3;
+}
+
+message TotalSumm {
+  float summ = 1;
+}

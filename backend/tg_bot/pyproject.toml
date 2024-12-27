@@ -12,6 +12,8 @@ pydantic-settings = "^2.7.0"
 pyzbar = "^0.1.9"
 opencv-python = "^4.10.0.84"
 loguru = "^0.7.3"
+grpcio = "^1.68.1"
+grpcio-tools = "^1.68.1"
 
 
 [build-system]

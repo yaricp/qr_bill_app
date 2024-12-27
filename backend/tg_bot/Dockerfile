@@ -1,6 +1,7 @@
 FROM python:3.12
 
 RUN apt update && apt upgrade -y
+RUN apt-get install -y libgl1 libzbar0
 # RUN apt install -y protobuf-compiler
 
 RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python3 && \

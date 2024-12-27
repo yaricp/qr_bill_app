@@ -33,8 +33,7 @@ async def get_url_handler(message: Message):
     user_id = str(message.from_user.id)
     user_lang = get_user_lang(user_id)
     result_bill = send_bill_url(
-        url=message.text,
-        user_id=user_id
+        url=message.text, user_id=user_id
     )
 
     await message.answer(
