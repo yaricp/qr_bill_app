@@ -2,11 +2,11 @@
 
 echo "Prepare GRPC server"
 
-poetry run python -m grpc_tools.protoc -I /grpc_proto --python_out=/backend/infra/grpc_server --pyi_out=/backend/infra/grpc_server --grpc_python_out=/backend/infra/grpc_server /grpc_proto/grpc.proto
+# poetry run python -m grpc_tools.protoc -I /grpc_proto --python_out=/backend/infra/grpc_server --pyi_out=/backend/infra/grpc_server --grpc_python_out=/backend/infra/grpc_server /grpc_proto/grpc.proto
 
 echo "Start GRPC Server"
 
-poetry run python /backend/infra/grpc_server/server.py &
+poetry run python /backend/start_grpc_server.py &
 
 
 echo "Migrations"

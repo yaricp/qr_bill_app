@@ -22,6 +22,9 @@ class BillCommands:
 
     def __init__(self):
         self.params = {}
+        self.url_patterns = [
+            "?", "#", "mapr.tax.gov.me/ic/#/verify?"
+        ]
         self.referer_fiscal_service_url = (
             f"{bill_config.FISCAL_SERVICE_HOSTNAME}{bill_config.FISCAL_SERVICE_URI}"
         )
@@ -59,7 +62,9 @@ class BillCommands:
             )
         return bill
 
-    async def parse_link_save_bill(self, income_link: str) -> List[Goods]:
+    async def parse_link_save_bill(self, income_link: str) -> Bill:
+        if not self.validate_url(income_link):
+            raise Exception("Wrong URL")
         self.params = self.get_params_from_income_url(url=income_link)
         data_bill = await self.get_data_from_fiscal_api(**self.params)
         logger.info(f"items: {data_bill.items()}")
@@ -127,6 +132,14 @@ class BillCommands:
         logger.info(f"result_dict: {result_dict}")
         return result_dict
 
+    def validate_url(self, income_link: str) -> bool:
+        for pattern in self.url_patterns:
+            logger.info(f"pattern: {pattern}")
+            logger.info(f"income_link: {income_link}")
+            if income_link.find(pattern) == -1:
+                return False
+        return True
+
     async def get_data_from_fiscal_api(self, **kwargs) -> dict:
         params = {
             "iic": kwargs["iic"],
@@ -143,3 +156,6 @@ class BillCommands:
         )
         result_data = json.loads(result.content)
         return result_data
+
+    async def get_total_summ(self) -> float:
+        return 1700.0
