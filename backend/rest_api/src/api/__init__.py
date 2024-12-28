@@ -6,8 +6,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi_login import LoginManager
 
-from backend.infra.database.connection import DATABASE_URL
-from backend.infra.database.metadata import metadata
+from ..infra.database.connection import DATABASE_URL
+from ..infra.database.metadata import metadata
 
 from .config import (
     cors_config, url_peths_config, security_config 

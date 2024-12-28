@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\ngrpc.proto\x1a\x1bgoogle/protobuf/empty.proto\"\x16\n\x07\x42illUrl\x12\x0b\n\x03url\x18\x01 \x01(\t\"6\n\x08\x42illInfo\x12\x0c\n\x04\x64\x61te\x18\x01 \x01(\t\x12\x0e\n\x06seller\x18\x02 \x01(\t\x12\x0c\n\x04summ\x18\x03 \x01(\x02\"\x19\n\tTotalSumm\x12\x0c\n\x04summ\x18\x01 \x01(\x02\x32i\n\x0bRestApiGRPC\x12$\n\x0bSendBillUrl\x12\x08.BillUrl\x1a\t.BillInfo\"\x00\x12\x34\n\x0cGetTotalSumm\x12\x16.google.protobuf.Empty\x1a\n.TotalSumm\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\ngrpc.proto\x1a\x1bgoogle/protobuf/empty.proto\"\x16\n\x07\x42illUrl\x12\x0b\n\x03url\x18\x01 \x01(\t\"G\n\x08\x42illInfo\x12\x0c\n\x04\x64\x61te\x18\x01 \x01(\t\x12\x0e\n\x06seller\x18\x02 \x01(\t\x12\x0f\n\x07\x61\x64\x64ress\x18\x03 \x01(\t\x12\x0c\n\x04summ\x18\x04 \x01(\x02\"\x19\n\tTotalSumm\x12\x0c\n\x04summ\x18\x01 \x01(\x02\x32i\n\x0bRestApiGRPC\x12$\n\x0bSendBillUrl\x12\x08.BillUrl\x1a\t.BillInfo\"\x00\x12\x34\n\x0cGetTotalSumm\x12\x16.google.protobuf.Empty\x1a\n.TotalSumm\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -35,9 +35,9 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_BILLURL']._serialized_start=43
   _globals['_BILLURL']._serialized_end=65
   _globals['_BILLINFO']._serialized_start=67
-  _globals['_BILLINFO']._serialized_end=121
-  _globals['_TOTALSUMM']._serialized_start=123
-  _globals['_TOTALSUMM']._serialized_end=148
-  _globals['_RESTAPIGRPC']._serialized_start=150
-  _globals['_RESTAPIGRPC']._serialized_end=255
+  _globals['_BILLINFO']._serialized_end=138
+  _globals['_TOTALSUMM']._serialized_start=140
+  _globals['_TOTALSUMM']._serialized_end=165
+  _globals['_RESTAPIGRPC']._serialized_start=167
+  _globals['_RESTAPIGRPC']._serialized_end=272
 # @@protoc_insertion_point(module_scope)

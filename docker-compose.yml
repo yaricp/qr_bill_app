@@ -34,7 +34,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./backend/rest_api:/backend
+      - ./backend/rest_api/src:/src
       - ./backend/rest_api/alembic:/alembic
       - ./grpc_proto:/grpc_proto
     build:

@@ -12,14 +12,16 @@ class BillUrl(_message.Message):
     def __init__(self, url: _Optional[str] = ...) -> None: ...
 
 class BillInfo(_message.Message):
-    __slots__ = ("date", "seller", "summ")
+    __slots__ = ("date", "seller", "address", "summ")
     DATE_FIELD_NUMBER: _ClassVar[int]
     SELLER_FIELD_NUMBER: _ClassVar[int]
+    ADDRESS_FIELD_NUMBER: _ClassVar[int]
     SUMM_FIELD_NUMBER: _ClassVar[int]
     date: str
     seller: str
+    address: str
     summ: float
-    def __init__(self, date: _Optional[str] = ..., seller: _Optional[str] = ..., summ: _Optional[float] = ...) -> None: ...
+    def __init__(self, date: _Optional[str] = ..., seller: _Optional[str] = ..., address: _Optional[str] = ..., summ: _Optional[float] = ...) -> None: ...
 
 class TotalSumm(_message.Message):
     __slots__ = ("summ",)

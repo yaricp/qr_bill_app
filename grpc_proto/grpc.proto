@@ -18,7 +18,8 @@ message BillUrl {
 message BillInfo {
   string date = 1;
   string seller = 2;
-  float summ = 3;
+  string address = 3;
+  float summ = 4;
 }
 
 message TotalSumm {

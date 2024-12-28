@@ -14,21 +14,23 @@ COPY poetry.lock /
 
 RUN poetry install
 
-RUN mkdir /backend
+RUN mkdir /src
 
 WORKDIR /
 
-COPY /api /backend/api
-COPY /app /backend/app
-COPY /infra /backend/infra
-COPY main.py /
-COPY /scripts /scripts
-COPY start.sh /
 COPY /alembic /alembic
 COPY alembic.ini /
+COPY /src /src
+# COPY /api /backend/api
+# COPY /app /backend/app
+# COPY /infra /backend/infra
+COPY /scripts /scripts
+# COPY main.py /
+COPY start.sh /
+COPY start_grpc_server.py /
 
 # Changing permissions for correct work inside docker:
 RUN chmod +x /start.sh
-# RUN chmod +x /scripts/*
+RUN chmod +x /scripts/*
 
 ENTRYPOINT [ "/bin/bash", "-l", "-c" ]

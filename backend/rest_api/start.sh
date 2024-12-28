@@ -6,7 +6,7 @@ echo "Prepare GRPC server"
 
 echo "Start GRPC Server"
 
-poetry run python /backend/start_grpc_server.py &
+poetry run python start_grpc_server.py &
 
 
 echo "Migrations"
@@ -24,9 +24,9 @@ echo "DEBUG: $DEBUG";
 if test "$DEBUG" = "true" || test "$DEBUG" = "True"
   then
     echo "start in reload mode"
-    poetry run uvicorn backend.api:app --host 0.0.0.0 --port 80 --reload --workers $UVICORN_WORKERS
+    poetry run uvicorn src.api:app --host 0.0.0.0 --port 80 --reload --workers $UVICORN_WORKERS
   else
     echo "start in work mode"
-    poetry run uvicorn backend.api:app --host 0.0.0.0 --port 80 --workers $UVICORN_WORKERS --forwarded-allow-ips='*'
+    poetry run uvicorn src.api:app --host 0.0.0.0 --port 80 --workers $UVICORN_WORKERS --forwarded-allow-ips='*'
 fi
 
