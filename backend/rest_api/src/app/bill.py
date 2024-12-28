@@ -19,6 +19,18 @@ from .goods import GoodsCommands
 from .config import bill_config
 
 
+class BillQueries:
+
+    def __init__(self):
+        pass
+
+    async def get_all_bills(self):
+        return BillORM.query.all()
+
+    async def get_bill(self, id: UUID):
+        return BillORM.query.get(id)
+
+
 class BillCommands:
 
     def __init__(self):

@@ -21,11 +21,11 @@ class SellerQueries:
     def __init__(self):
         pass
 
-    def get_all_sellers(self):
-        pass
+    async def get_all_sellers(self):
+        return SellerORM.query.all()
 
-    def get_seller(self):
-        pass
+    async def get_seller(self, id: UUID):
+        return SellerORM.query.get(id)
 
 
 class SellerCommands:

@@ -19,13 +19,13 @@ so its defined in each dependency body.
 
 
 async def get_all_categories() -> List[Category]:
-    cat_views = CategoryViews()
+    cat_views = CategoryQueries()
     return await cat_views.get_all_categories()
 
 
 async def get_category(id: UUID) -> Category:
     cat_query = CategoryQueries()
-    return await cat_query.get_attraction(attraction_id=id)
+    return await cat_query.get_category(id=id)
 
 
 # -----Actions-----

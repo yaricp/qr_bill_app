@@ -18,12 +18,12 @@ so its defined in each dependency body.
 
 async def get_all_goods() -> List[Goods]:
     goods_views: GoodsQueries = GoodsQueries()
-    return await goods_views.get_all_goodss()
+    return await goods_views.get_all_goods()
 
 
 async def get_goods(id: UUID) -> Goods:
     goods_views: GoodsQueries = GoodsQueries()
-    return await goods_views.get_goods(goods_id=id)
+    return await goods_views.get_goods(id=id)
 
 
 # --------Actions (commands) ---------

@@ -25,11 +25,11 @@ class GoodsQueries:
     def __init__(self):
         pass
 
-    def get_all_goods(self):
-        pass
+    async def get_all_goods(self):
+        return GoodsORM.query.all()
 
-    def get_goods(self):
-        pass
+    async def get_goods(self, id: UUID):
+        return GoodsORM.query.get(id)
 
 
 class GoodsCommands:

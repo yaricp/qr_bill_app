@@ -11,10 +11,10 @@ class UserViews:
 
 class UserQueries:
 
-    def __init__():
+    async def __init__():
         pass
 
-    def get_or_create_user():
+    async def get_or_create_user():
         pass
 
 

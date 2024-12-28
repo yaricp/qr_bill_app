@@ -21,11 +21,11 @@ class UnitQueries:
     def __init__(self):
         pass
 
-    def get_all_units(self):
-        pass
+    async def get_all_units(self):
+        return UnitORM.query.all()
 
-    def get_unit(self):
-        pass
+    async def get_unit(self, id: UUID):
+        return UnitORM.query.get(id)
 
 
 class UnitCommands:

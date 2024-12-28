@@ -23,7 +23,7 @@ async def get_all_units() -> List[Unit]:
 
 async def get_unit(id: UUID) -> Unit:
     unit_views: UnitQueries = UnitQueries()
-    return await unit_views.get_unit(unit_id=id)
+    return await unit_views.get_unit(id=id)
 
 
 # --------Actions (commands) ---------
