@@ -1,9 +1,7 @@
 import os
 import cv2
-from datetime import datetime
 from pyzbar.pyzbar import decode
 
-from config import tg_bot_config
 from utils import get_logger
 
 
@@ -33,37 +31,34 @@ def recognize_video():
     return None, None, True
 
 
-def recognize_image(image_file_path: str) -> tuple:
-    # image_file_path = os.path.join("temp_files", "qrcode.mp4")
+def recognize_image(image_file_path: str) -> str | None:
+    logger.info(f"image_file_path: {image_file_path}")
     image = cv2.imread(image_file_path)
+    logger.info(f"image: {image}")
+
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     list_decoded = decode(gray)
     if list_decoded:
-        date_time, summ = parse_qr_code(list_decoded)
-        return date_time, summ, False
+        return parse_qr_code(list_decoded)
     list_decoded, adj_img = adjust_and_decode(gray)
     if list_decoded:
-        date_time, summ = parse_qr_code(list_decoded)
-        return date_time, summ, False
-    date_time, summ = parse_raw_text(adj_img, user)
-    if date_time or summ:
-        return date_time, summ, True
-    else:
-        return None, None, True
+        return parse_qr_code(list_decoded)
+    return None
 
 
 def adjust_and_decode(gray):
     list_decoded = None
     for i in range(127, 160):
-        if DEVEL: print(i)
+        logger.info(f"i: {i}")
         (thresh, blackAndWhiteImage) = cv2.threshold(gray, i, 255, cv2.THRESH_BINARY)
         cv2.imwrite("image_processed.png", blackAndWhiteImage)
         cv2.imwrite("image_gray.png", gray)
         list_decoded = decode(blackAndWhiteImage)
         if list_decoded:
+            logger.info(f"list_decoded: {list_decoded}")
             break
     return list_decoded, blackAndWhiteImage
-    
+
 
 # def scan(user='251241715', image=False, video=True):
 #     date_time = None
@@ -74,24 +69,14 @@ def adjust_and_decode(gray):
 #     if video:
 #         date_time, summ, raw = recognize_video()
 #     return date_time, summ, raw
-        
+
 
 def parse_qr_code(list_decoded):
-    date_time = None
-    summ = None
+    url = None
     for rec in list_decoded:
         logger.info(f"TYPE_CODE: {rec.type}")
         type_data = rec.type
         if type_data == 'QRCODE':
-            list_data = rec.data.decode("utf-8").split('&')
-            temp_datetime = '%Y%m%dT%H%M'
-            str_date_time = list_data[0].replace('t=', '')
-            if len(str_date_time.split('T')[1]) == 6:
-                temp_datetime = '%Y%m%dT%H%M%S'
-            date_time = datetime.strptime(str_date_time, temp_datetime)
-            summ = float(list_data[1].replace('s=', ''))
-        elif type_data == 'EAN13':
-            list_data = rec.data.decode("utf-8")
-            if DEVEL: print(list_data)
-        if DEVEL: print('DATA: ', rec.data)
-    return date_time, summ
+            url = rec.data.decode("utf-8")
+            logger.info(f"url: {url}")
+    return url

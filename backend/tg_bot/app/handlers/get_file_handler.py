@@ -15,13 +15,7 @@ from config import tg_bot_config
 logger = get_logger(__name__)
 
 
-@router.message(F.document.func(
-    lambda x: True if x and x.mime_type in [
-        "application/zip",
-        "application/vnd.ms-pki.stl",
-        "application/octet-stream"
-    ] else False
-))
+@router.message(F.photo)
 async def get_pic_qr_handler(message: Message):
     """_summary_
 
@@ -29,22 +23,36 @@ async def get_pic_qr_handler(message: Message):
         message (Message): _description_
     """
     user_id = str(message.from_user.id)
-    file_id = str(message.document.file_id)
-    file_unique_id = str(message.document.file_unique_id)
-    filename = str(message.document.file_name)
+    logger.info(f"message.photo: {message.photo}")
+    file_id = str(message.photo[-1].file_id)
+    file_unique_id = str(message.photo[-1].file_unique_id)
     file = await bot.get_file(file_id)
     file_path = file.file_path
+
     user_file_path = os.path.join(
-        tg_bot_config.QR_PIC_DIR, user_id,
-        f"{file_unique_id}_{filename}"
+        tg_bot_config.QR_PIC_DIR, user_id 
     )
-    await bot.download_file(file_path, user_file_path)
+    # f"{file_unique_id}"
+    if not os.path.exists(user_file_path):
+        os.makedirs(user_file_path)
+
+    user_file_fullname = os.path.join(
+        user_file_path, file_unique_id
+    )
+    await bot.download_file(file_path, user_file_fullname)
+
+    # picture = FSInputFile(user_file_fullname)
+    # await message.reply_photo(picture)
+
     user_lang = get_user_lang(user_id)
 
-    url = recognize_image(user_file_path)
-    result_bill = send_bill_url(
-        url=url, user_id=user_id
-    )
+    url = recognize_image(user_file_fullname)
+    logger.info(f"url : {url}")
+    if not url:
+        await message.answer(
+            "Maybe its not a QR of bill."
+        )
+    result_bill = send_bill_url(url=url, user_id=user_id)
 
     await message.answer(
         result_parse_bill_view(

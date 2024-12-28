@@ -14,7 +14,7 @@ class GoodsBase(BaseModel):
     quantity: Optional[Decimal] = None
     unit_price_before_vat: Optional[Decimal] = None
     unit_price_after_vat: Optional[Decimal] = None
-    rebate: Optional[Decimal] = None
+    rebate: Optional[Decimal] = Decimal(0.0)
     rebate_reducing: Optional[bool] = None
     price_before_vat: Optional[Decimal] = None
     vat_rate: Optional[Decimal] = None

@@ -14,10 +14,10 @@ class SellerBase(BaseModel):
     # phone: Optional[str] = None
 
 
-class SellerCreate(BaseModel):
+class SellerCreate(SellerBase):
     official_name: str
-    address: str
-    city: str
+    # address: str
+    # city: str
     # phone: str
 
 
@@ -31,8 +31,8 @@ class SellerInDBBase(SellerBase):
     id: UUID
     name: str
     official_name: str
-    address: str
-    city: str
+    # address: str
+    # city: str
 
     class Config:
         orm_mode = True

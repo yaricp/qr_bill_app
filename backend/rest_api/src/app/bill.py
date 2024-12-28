@@ -1,6 +1,7 @@
 import json
 from uuid import UUID
 from typing import List
+from decimal import Decimal
 from requests import post
 from loguru import logger
 from datetime import datetime
@@ -98,12 +99,13 @@ class BillCommands:
             unit_db = await self.unit_commands.get_or_create(
                 incoming_item=incoming_unit
             )
+            logger.info(f"in_goods: {in_goods}")
             incoming_goods = GoodsCreate(
                 name=in_goods["name"],
                 quantity=in_goods["quantity"],
                 unit_price_before_vat=in_goods["unitPriceBeforeVat"],
                 unit_price_after_vat=in_goods["unitPriceAfterVat"],
-                rebate=in_goods["rebate"],
+                rebate=in_goods["rebate"] if in_goods["rebate"] else Decimal(0.0),
                 rebate_reducing=in_goods["rebateReducing"],
                 price_before_vat=in_goods["priceBeforeVat"],
                 vat_rate=in_goods["vatRate"],

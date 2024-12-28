@@ -54,8 +54,15 @@ class SellerCommands:
     async def create_seller(self, incoming_item: SellerCreate) -> Seller:
         logger.info(f"incoming_item: {incoming_item}")
         incoming_item_dict = incoming_item.dict()
-        if "name" not in incoming_item_dict:
-            incoming_item_dict["name"] = incoming_item.official_name[:5]
+        logger.info(f"incoming_item_dict: {incoming_item_dict}")
+        if not incoming_item_dict["name"]:
+            if len(incoming_item.official_name) > 5:
+                incoming_item_dict["name"] = incoming_item.official_name[:5]
+            else:
+                incoming_item_dict["name"] = incoming_item.official_name
+        logger.info(
+            f"incoming_item_dict[name]: {incoming_item_dict['name']}"
+        )
         seller = SellerORM(**incoming_item_dict)
         db_session.add(seller)
         db_session.commit()
