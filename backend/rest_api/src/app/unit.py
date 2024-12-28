@@ -41,14 +41,14 @@ class UnitCommands:
         return unit
 
     async def get_or_create(self, incoming_item: UnitCreate) -> Unit:
-        seller = await self.get_by_name(
+        unit = await self.get_by_name(
             incoming_item=incoming_item
         )
-        if not seller:
-            seller = await self.create_unit(
+        if not unit:
+            unit = await self.create_unit(
                 incoming_item=incoming_item
             )
-        return seller
+        return unit
 
     async def create_unit(self, incoming_item: UnitCreate) -> Unit:
         logger.info(f"incoming_item: {incoming_item}")

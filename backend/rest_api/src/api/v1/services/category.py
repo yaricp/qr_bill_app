@@ -33,7 +33,7 @@ async def get_category(id: UUID) -> Category:
 
 async def create_category(category_data: CategoryCreate) -> Category:
     cat_command = CategoryCommands()
-    command_result = await cat_command.create_attraction(
+    command_result = await cat_command.create_category(
         category_data
     )
     return command_result
@@ -41,13 +41,13 @@ async def create_category(category_data: CategoryCreate) -> Category:
 
 async def update_category(category_data: CategoryUpdate) -> Category:
     cat_command = CategoryCommands()
-    command_result = await cat_command.update_attraction(
-        category_data
+    command_result = await cat_command.update_category(
+        incoming_item=category_data
     )
     return command_result
 
 
 async def delete_category(id: UUID) -> Category:
     cat_command = CategoryCommands()
-    command_result = await cat_command.delete_attraction(id=id)
+    command_result = await cat_command.delete_category(id=id)
     return command_result
