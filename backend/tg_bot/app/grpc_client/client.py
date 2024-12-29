@@ -27,5 +27,4 @@ class GPRCClient:
                 BillUrl(url=url)
             )
         logger.info(f"response: {response}")
-        logger.info(f"dir(response): {dir(response)}")
         return MessageToDict(response)

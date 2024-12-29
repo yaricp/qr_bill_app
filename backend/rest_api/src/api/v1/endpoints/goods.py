@@ -7,10 +7,12 @@ from fastapi import APIRouter, Depends
 
 from ..services.goods import (
     get_goods, create_goods, get_all_goods,
-    update_goods, delete_goods
+    update_goods, delete_goods, list_count_group_by_name,
+    list_summ_group_by_name
 )
 from ..schemas.goods import (
-    Goods, GoodsCreate, GoodsUpdate
+    Goods, GoodsCreate, GoodsUpdate, GoodsCountByName,
+    GoodsSummByName
 )
 
 
@@ -33,7 +35,7 @@ async def create_goods_route(
 
 
 @router.get("/", response_model=List[Goods])
-async def get_all_goodss_route():
+async def get_all_goods_route():
     goodss: MutableSequence[
         Goods
     ] = await get_all_goods()
@@ -62,4 +64,20 @@ async def delete_goods_route(id: UUID):
     result: Goods = await delete_goods(
         id=id
     )
+    return result
+
+
+@router.get("/count_by_name/", response_model=List[GoodsCountByName])
+async def count_by_name_goods_route() -> List[GoodsCountByName]:
+    result: List[
+        GoodsCountByName
+    ] = await list_count_group_by_name()
+    return result
+
+
+@router.get("/summ_by_name/", response_model=List[GoodsSummByName])
+async def summ_by_name_goods_route() -> List[GoodsSummByName]:
+    result: List[
+        GoodsSummByName
+    ] = await list_summ_group_by_name()
     return result

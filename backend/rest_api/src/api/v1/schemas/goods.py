@@ -94,3 +94,13 @@ class Goods(GoodsInDBBase):
 # Properties properties stored in DB
 class GoodsInDB(GoodsInDBBase):
     pass
+
+
+class GoodsCountByName(BaseModel):
+    name: str
+    count: int
+
+
+class GoodsSummByName(BaseModel):
+    name: str
+    summ: Decimal

@@ -86,7 +86,7 @@ class BillCommands:
         logger.info(f"bill_seller: {bill_seller}")
         logger.info(f"income_goods_items: {income_goods_items}")
         incoming_seller = SellerCreate(
-            official_name=bill_seller["name"],
+            official_name=bill_seller["name"].strip(),
             address=bill_seller["address"],
             city=bill_seller["town"],
         )
@@ -113,7 +113,7 @@ class BillCommands:
             )
             logger.info(f"in_goods: {in_goods}")
             incoming_goods = GoodsCreate(
-                name=in_goods["name"],
+                name=in_goods["name"].strip(),
                 quantity=in_goods["quantity"],
                 unit_price_before_vat=in_goods["unitPriceBeforeVat"],
                 unit_price_after_vat=in_goods["unitPriceAfterVat"],

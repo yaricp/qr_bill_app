@@ -1,6 +1,7 @@
 from uuid import UUID
 from datetime import datetime
 from loguru import logger
+from sqlalchemy.sql import func
 
 from ..infra.database import db_session
 from ..infra.database.models import (
@@ -70,17 +71,19 @@ class GoodsCommands:
     def delete_goods(self):
         pass
 
-    async def list_group_by_name(
-        self, offset: int, limit: int
-    ) -> list:
-        if offset and limit:
-            result = GoodsORM.query.count().group_by(
-                name
-            ).offset(offset).limit(limit)
-        else:
-            result = GoodsORM.query.count().group_by(
-                name
-            ).all()
+    async def list_count_group_by_name(self) -> list:
+        result = db_session.query(
+            GoodsORM.name, func.count(GoodsORM.id).label("count")
+        ).group_by(GoodsORM.name).all()
+        return result
+    
+    async def list_summ_group_by_name(self) -> list:
+        result = db_session.query(
+            GoodsORM.name, func.sum(
+                GoodsORM.price_after_vat
+            ).label("summ")
+        ).group_by(GoodsORM.name).all()
+        logger.info(f"result[:5] = {result[:5]}")
         return result
 
     async def goods_by_name_group_by_sellers(
