@@ -8,7 +8,7 @@ from fastapi import APIRouter, Depends
 from ..services.goods import (
     get_goods, create_goods, get_all_goods,
     update_goods, delete_goods, list_count_group_by_name,
-    list_summ_group_by_name
+    list_summ_group_by_name, strip_all_names
 )
 from ..schemas.goods import (
     Goods, GoodsCreate, GoodsUpdate, GoodsCountByName,
@@ -80,4 +80,10 @@ async def summ_by_name_goods_route() -> List[GoodsSummByName]:
     result: List[
         GoodsSummByName
     ] = await list_summ_group_by_name()
+    return result
+
+
+@router.get("/strip_all_names/", response_model=bool)
+async def strip_all_names_goods_route() -> bool:
+    result: bool = await strip_all_names()
     return result

@@ -45,7 +45,7 @@ async def update_goods(
 ) -> Goods:
     goods_command = GoodsCommands()
     command_result = await goods_command.update_goods(
-        **goods_data.model_dump()
+        incoming_item=goods_data
     )
     return command_result
 
@@ -69,4 +69,10 @@ async def list_summ_group_by_name() -> List[GoodsSummByName]:
     result: List[
         GoodsSummByName
     ] = await goods_command.list_summ_group_by_name()
+    return result
+
+
+async def strip_all_names() -> bool:
+    goods_command = GoodsCommands()
+    result: bool = await goods_command.strip_all_names()
     return result

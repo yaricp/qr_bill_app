@@ -9,7 +9,7 @@ from ..infra.database.models import (
 )
 
 
-from .entities.goods import Goods, GoodsCreate
+from .entities.goods import Goods, GoodsCreate, GoodsUpdate
 
 
 class GoodsViews:
@@ -65,10 +65,16 @@ class GoodsCommands:
         logger.info(f"goods: {goods}")
         return goods
 
-    def update_goods(self):
-        pass
+    async def update_goods(self, incoming_item: GoodsUpdate) -> Goods:
+        found_goods = GoodsORM.query.get(incoming_item.id)
+        incoming_item_dict = incoming_item.dict()
+        for key, value in incoming_item_dict.items():
+            if value != None:
+                setattr(found_goods, key, value)
+        db_session.commit()
+        return found_goods
 
-    def delete_goods(self):
+    async def delete_goods(self):
         pass
 
     async def list_count_group_by_name(self) -> list:
@@ -76,7 +82,7 @@ class GoodsCommands:
             GoodsORM.name, func.count(GoodsORM.id).label("count")
         ).group_by(GoodsORM.name).all()
         return result
-    
+
     async def list_summ_group_by_name(self) -> list:
         result = db_session.query(
             GoodsORM.name, func.sum(
@@ -93,3 +99,12 @@ class GoodsCommands:
             name=name
         ).join(SellerORM).group_by(seller_id)
         return result
+
+    async def strip_all_names(self) -> bool:
+        for goods in GoodsORM.query.all():
+            new_goods = GoodsUpdate(
+                id=goods.id,
+                name=goods.name.strip()
+            )
+            await self.update_goods(incoming_item=new_goods)
+        return True
