@@ -87,8 +87,8 @@ class BillCommands:
         logger.info(f"income_goods_items: {income_goods_items}")
         incoming_seller = SellerCreate(
             official_name=bill_seller["name"].strip(),
-            address=bill_seller["address"],
-            city=bill_seller["town"],
+            address=bill_seller["address"].strip(),
+            city=bill_seller["town"].strip(),
         )
         seller_db = await self.seller_commands.get_or_create(
             incoming_item=incoming_seller
@@ -97,7 +97,7 @@ class BillCommands:
         incoming_bill = BillCreate(
             created=data_bill["dateTimeCreated"],
             value=data_bill["totalPrice"],
-            payment_method=data_bill["paymentMethod"][0]["type"],
+            payment_method=data_bill["paymentMethod"][0]["type"].strip(),
             seller_id=seller_db.id
         )
         logger.info(f"incoming_bill: {incoming_bill}")
@@ -106,7 +106,7 @@ class BillCommands:
         )
         for in_goods in income_goods_items:
             incoming_unit = UnitCreate(
-                name=in_goods["unit"]
+                name=in_goods["unit"].strip()
             )
             unit_db = await self.unit_commands.get_or_create(
                 incoming_item=incoming_unit
