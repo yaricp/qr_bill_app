@@ -8,13 +8,18 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@j-t-mcc/vue3-chartjs": "^2.0.0",
     "@popperjs/core": "^2.11.8",
+    "@types/chart.js": "^2.9.41",
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.7",
+    "chartjs-plugin-zoom": "^2.2.0",
     "core-js": "^3.8.3",
     "jquery": "^3.7.1",
     "popper.js": "^1.16.1",
     "vue": "^3.2.13",
+    "vue-chartjs": "^5.3.2",
     "vue-router": "4"
   },
   "devDependencies": {

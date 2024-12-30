@@ -1,5 +1,6 @@
 from uuid import UUID
 from typing import List
+from loguru import logger
 
 from ....app.goods import GoodsQueries, GoodsCommands
 
@@ -56,19 +57,24 @@ async def delete_goods(id: UUID) -> Goods:
     return command_result
 
 
-async def list_count_group_by_name() -> List[GoodsCountByName]:
+async def list_count_group_by_name(
+    first_of: int
+) -> List[GoodsCountByName]:
     goods_command = GoodsCommands()
+    logger.info(f"first_of: {first_of}")
     result: List[
         GoodsCountByName
-    ] = await goods_command.list_count_group_by_name()
+    ] = await goods_command.list_count_group_by_name(first_of=first_of)
     return result
 
 
-async def list_summ_group_by_name() -> List[GoodsSummByName]:
+async def list_summ_group_by_name(
+    first_of: int
+) -> List[GoodsSummByName]:
     goods_command = GoodsCommands()
     result: List[
         GoodsSummByName
-    ] = await goods_command.list_summ_group_by_name()
+    ] = await goods_command.list_summ_group_by_name(first_of=first_of)
     return result
 
 

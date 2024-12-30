@@ -7,14 +7,14 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import GoodsDataService from "@/services/goods";
-import Goods from "@/interfaces/goods";
+import { IGoods } from "@/interfaces/goods";
 import ResponseData from "@/interfaces/ResponseData";
 
 export default defineComponent({
   name: "analitics-page",
   data() {
     return {
-      currentGoods: {} as Goods,
+      currentGoods: {} as IGoods,
       message: "",
     };
   },

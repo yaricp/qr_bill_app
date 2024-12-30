@@ -26,7 +26,7 @@
   <script lang="ts">
   import { defineComponent } from "vue";
   import GoodsDataService from "@/services/goods";
-  import Goods from "@/interfaces/goods";
+  import { IGoods } from "@/interfaces/goods";
   import ResponseData from "@/interfaces/ResponseData";
   
   export default defineComponent({
@@ -36,7 +36,7 @@
         goods: {
           id: null,
           name: ""
-        } as Goods,
+        } as IGoods,
         submitted: false,
       };
     },
@@ -59,7 +59,7 @@
   
       newGoods() {
         this.submitted = false;
-        this.goods = {} as Goods;
+        this.goods = {} as IGoods;
       },
     },
   });

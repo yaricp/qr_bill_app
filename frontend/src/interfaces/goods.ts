@@ -1,4 +1,4 @@
-export default interface Tutorial {
+export interface IGoods {
     id: null;
     name: string;
     quantity: number;
@@ -14,3 +14,13 @@ export default interface Tutorial {
     bill_id: string;
     category_id: string;
   }
+
+export interface ICountGoodsByName {
+    name: string;
+    count: number;
+  }
+
+export interface ISummGoodsByName {
+  name: string;
+  summ: number;
+}

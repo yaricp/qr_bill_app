@@ -12,3 +12,5 @@ declare module 'vue/types/vue' {
     $router: VueRouter
   }
 }
+
+declare module '@j-t-mcc/vue3-chartjs'

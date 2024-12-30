@@ -2,7 +2,7 @@ from uuid import UUID
 from typing import List, MutableSequence
 
 from fastapi import APIRouter, Depends
-# from loguru import logger
+from loguru import logger
 
 
 from ..services.goods import (
@@ -68,18 +68,19 @@ async def delete_goods_route(id: UUID):
 
 
 @router.get("/count_by_name/", response_model=List[GoodsCountByName])
-async def count_by_name_goods_route() -> List[GoodsCountByName]:
+async def count_by_name_goods_route(first_of: int = 0) -> List[GoodsCountByName]:
+    logger.info(f"first_of: {first_of}")
     result: List[
         GoodsCountByName
-    ] = await list_count_group_by_name()
+    ] = await list_count_group_by_name(first_of=first_of)
     return result
 
 
 @router.get("/summ_by_name/", response_model=List[GoodsSummByName])
-async def summ_by_name_goods_route() -> List[GoodsSummByName]:
+async def summ_by_name_goods_route(first_of: int = 0) -> List[GoodsSummByName]:
     result: List[
         GoodsSummByName
-    ] = await list_summ_group_by_name()
+    ] = await list_summ_group_by_name(first_of=first_of)
     return result
 
 

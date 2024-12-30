@@ -2,6 +2,7 @@ from uuid import UUID
 from datetime import datetime
 from loguru import logger
 from sqlalchemy.sql import func
+from sqlalchemy import desc
 
 from ..infra.database import db_session
 from ..infra.database.models import (
@@ -77,19 +78,42 @@ class GoodsCommands:
     async def delete_goods(self):
         pass
 
-    async def list_count_group_by_name(self) -> list:
-        result = db_session.query(
-            GoodsORM.name, func.count(GoodsORM.id).label("count")
-        ).group_by(GoodsORM.name).all()
+    async def list_count_group_by_name(
+        self, first_of: int = 0
+    ) -> list:
+        logger.info(f"first_of: {first_of}")
+        if first_of:
+            result = db_session.query(
+                GoodsORM.name, func.count(GoodsORM.id).label("count")
+            ).group_by(
+                GoodsORM.name
+            ).order_by(desc("count")).limit(first_of)
+        else:
+            result = db_session.query(
+                GoodsORM.name, func.count(GoodsORM.id).label("count")
+            ).group_by(
+                GoodsORM.name
+            ).order_by(desc("count")).all()
         return result
 
-    async def list_summ_group_by_name(self) -> list:
-        result = db_session.query(
-            GoodsORM.name, func.sum(
-                GoodsORM.price_after_vat
-            ).label("summ")
-        ).group_by(GoodsORM.name).all()
-        logger.info(f"result[:5] = {result[:5]}")
+    async def list_summ_group_by_name(
+        self, first_of: int = 0
+    ) -> list:
+        if first_of:
+            result = db_session.query(
+                GoodsORM.name,
+                func.sum(GoodsORM.price_after_vat).label("summ")
+            ).group_by(
+                GoodsORM.name
+            ).order_by(desc("summ")).limit(first_of)
+        else:
+            result = db_session.query(
+                GoodsORM.name,
+                func.sum(GoodsORM.price_after_vat).label("summ")
+            ).group_by(
+                GoodsORM.name
+            ).order_by(desc("summ")).all()
+        # logger.info(f"result[:5] = {result[:5]}")
         return result
 
     async def goods_by_name_group_by_sellers(

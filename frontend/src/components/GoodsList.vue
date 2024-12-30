@@ -66,15 +66,15 @@
   <script lang="ts">
   import { defineComponent } from "vue";
   import GoodsDataService from "@/services/goods";
-  import Goods from "@/interfaces/goods";
+  import { IGoods } from "@/interfaces/goods";
   import ResponseData from "@/interfaces/ResponseData";
   
   export default defineComponent({
     name: "goods-list",
     data() {
       return {
-        goods_list: [] as Goods[],
-        currentGoods: {} as Goods,
+        goods_list: [] as IGoods[],
+        currentGoods: {} as IGoods,
         currentIndex: -1,
         name: "",
       };
@@ -101,11 +101,11 @@
   
       refreshList() {
         this.retrieveGoods();
-        this.currentGoods = {} as Goods;
+        this.currentGoods = {} as IGoods;
         this.currentIndex = -1;
       },
   
-      setActiveGoods(tutorial: Goods, index = -1) {
+      setActiveGoods(tutorial: IGoods, index = -1) {
         this.currentGoods = tutorial;
         this.currentIndex = index;
       },
@@ -114,7 +114,7 @@
         GoodsDataService.findByName(this.name)
           .then((response: ResponseData) => {
             this.goods_list = response.data;
-            this.setActiveGoods({} as Goods);
+            this.setActiveGoods({} as IGoods);
             console.log(response.data);
           })
           .catch((e: Error) => {

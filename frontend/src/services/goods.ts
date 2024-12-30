@@ -25,6 +25,14 @@ class GoodsDataService {
   findByName(name: string): Promise<any> {
     return http.get(`/goods?name=${name}`);
   }
+
+  getCountGoodsByName(first_of: number): Promise<any> {
+    return http.get(`/goods/count_by_name/?first_of=${first_of}`);
+  }
+
+  getSummGoodsByName(first_of: number): Promise<any> {
+    return http.get(`/goods/summ_by_name/?first_of=${first_of}`);
+  }
 }
 
 export default new GoodsDataService();
