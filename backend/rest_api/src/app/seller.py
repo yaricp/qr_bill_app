@@ -1,5 +1,7 @@
 from uuid import UUID
 from loguru import logger
+from sqlalchemy.sql import func
+from sqlalchemy import desc
 
 from ..infra.database import db_session
 from ..infra.database.models.seller import Seller as SellerORM
@@ -26,6 +28,21 @@ class SellerQueries:
 
     async def get_seller(self, id: UUID):
         return SellerORM.query.get(id)
+
+    async def get_sellers_order_by_count_goods(self):
+        return db_session.query(
+            SellerORM.name, func.count(SellerORM.goods).label("count_goods")
+        ).group_by(SellerORM.name).order_by(desc("count_goods")).all()
+
+    async def get_sellers_order_by_count_bills(self):
+        return db_session.query(
+            SellerORM.name, func.count(SellerORM.bills).label("count_bills")
+        ).group_by(SellerORM.name).order_by(desc("count_bills")).all()
+
+    async def get_sellers_order_by_summ_bills(self):
+        return db_session.query(
+            SellerORM.name, func.sum(SellerORM.bills).label("summ_bills")
+        ).group_by(SellerORM.name).order_by(desc("summ_bills")).all()
 
 
 class SellerCommands:
@@ -54,8 +71,11 @@ class SellerCommands:
     async def create_seller(self, incoming_item: SellerCreate) -> Seller:
         logger.info(f"incoming_item: {incoming_item}")
         incoming_item_dict = incoming_item.dict()
+        name_exists = False
         logger.info(f"incoming_item_dict: {incoming_item_dict}")
-        if not incoming_item_dict["name"]:
+        if "name" in incoming_item_dict and incoming_item_dict["name"]:
+            name_exists = True
+        if not name_exists:
             if len(incoming_item.official_name) > 5:
                 incoming_item_dict["name"] = incoming_item.official_name[:5]
             else:

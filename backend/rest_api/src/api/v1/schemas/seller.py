@@ -46,3 +46,8 @@ class Seller(SellerInDBBase):
 # Properties properties stored in DB
 class SellerInDB(SellerInDBBase):
     pass
+
+
+class SellerByCountGoods(BaseModel):
+    name: str
+    count_goods: int

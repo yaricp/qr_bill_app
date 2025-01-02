@@ -4,7 +4,7 @@ from typing import List
 from ....app.seller import SellerQueries, SellerCommands
 
 from ..schemas.seller import (
-    Seller, SellerCreate, SellerUpdate
+    Seller, SellerCreate, SellerUpdate, SellerByCountGoods
 )
 
 
@@ -26,6 +26,11 @@ async def get_seller(id: UUID) -> Seller:
     return await query.get_seller(id=id)
 
 
+async def order_by_count_goods() -> List[SellerByCountGoods]:
+    query: SellerQueries = SellerQueries()
+    return await query.get_sellers_order_by_count_goods()
+
+
 # ------Actons(Commands)-------
 
 
@@ -33,9 +38,7 @@ async def create_seller(
     seller_data: SellerCreate
 ) -> Seller:
     command = SellerCommands()
-    command_result = await command.create_seller(
-        **seller_data.model_dump()
-    )
+    command_result = await command.create_seller(seller_data)
     return command_result
 
 
@@ -45,7 +48,7 @@ async def update_seller(
 
     command = SellerCommands()
     command_result = await command.update_seller(
-        **seller_data.model_dump()
+        seller_data
     )
     return command_result
 

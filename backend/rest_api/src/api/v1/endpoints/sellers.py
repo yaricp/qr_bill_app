@@ -5,10 +5,10 @@ from fastapi import APIRouter
 
 from ..services.seller import (
     get_seller, create_seller, get_all_sellers,
-    update_seller, delete_seller
+    update_seller, delete_seller, order_by_count_goods
 )
 from ..schemas.seller import (
-    Seller, SellerCreate, SellerUpdate
+    Seller, SellerCreate, SellerUpdate, SellerByCountGoods
 )
 
 
@@ -18,7 +18,7 @@ router = APIRouter()
 @router.post("/", response_model=Seller)
 async def create_seller_route(
     *, item_in: SellerCreate
-) -> str:
+) -> Seller:
     """
     Create new seller.
     """
@@ -52,3 +52,9 @@ async def update_seller_route(
 async def delete_seller_route(id: UUID):
     seller: Seller = await delete_seller(id=id)
     return seller
+
+
+@router.get("/order_by_count_goods/", response_model=List[SellerByCountGoods])
+async def order_by_count_goods_route() -> List[SellerByCountGoods]:
+    result: List[SellerByCountGoods] = await order_by_count_goods()
+    return result

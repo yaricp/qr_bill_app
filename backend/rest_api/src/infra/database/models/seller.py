@@ -1,6 +1,7 @@
 from uuid import uuid4
 
 # from geoalchemy2 import Geometry, WKBElement
+from sqlalchemy.orm import relationship
 from sqlalchemy import UUID, Column, VARCHAR
 
 from .base import Model
@@ -18,6 +19,8 @@ class Seller(Model):
     official_name = Column(VARCHAR(250), nullable=False)
     address = Column(VARCHAR(150), nullable=True)
     city = Column(VARCHAR(50), nullable=True)
+    bills_list = relationship("Bill")
+    goods_list = relationship("Goods")
     # position = Column(
     #     Geometry(geometry_type="POINT", srid=4326),
     #     nullable=True

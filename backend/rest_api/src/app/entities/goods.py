@@ -60,6 +60,7 @@ class GoodsCreate(BaseModel):
     price_after_vat:  Decimal
     unit_id: UUID
     bill_id: UUID
+    seller_id: UUID
 
 
 class GoodsUpdate(GoodsBase):

@@ -33,51 +33,6 @@ class GoodsQueries:
     async def get_goods(self, id: UUID):
         return GoodsORM.query.get(id)
 
-
-class GoodsCommands:
-
-    def __init__(self):
-        pass
-
-    async def get_by_name_bill_id(self, incoming_item: GoodsCreate) -> Goods:
-        goods = GoodsORM.query.filter(
-            GoodsORM.name == incoming_item.name,
-            GoodsORM.bill_id == incoming_item.bill_id
-        ).first()
-        logger.info(f"goods: {goods}")
-        return goods
-
-    async def get_or_create(self, incoming_item: GoodsCreate) -> Goods:
-        goods = await self.get_by_name_bill_id(
-            incoming_item=incoming_item
-        )
-        if not goods:
-            goods = await self.create_goods(
-                incoming_item=incoming_item
-            )
-        return goods
-
-    async def create_goods(self, incoming_item: GoodsCreate) -> Goods:
-        logger.info(f"incoming_item: {incoming_item}")
-        incoming_item_dict = incoming_item.dict()
-        goods = GoodsORM(**incoming_item_dict)
-        db_session.add(goods)
-        db_session.commit()
-        logger.info(f"goods: {goods}")
-        return goods
-
-    async def update_goods(self, incoming_item: GoodsUpdate) -> Goods:
-        found_goods = GoodsORM.query.get(incoming_item.id)
-        incoming_item_dict = incoming_item.dict()
-        for key, value in incoming_item_dict.items():
-            if value != None:
-                setattr(found_goods, key, value)
-        db_session.commit()
-        return found_goods
-
-    async def delete_goods(self):
-        pass
-
     async def list_count_group_by_name(
         self, first_of: int = 0
     ) -> list:
@@ -123,6 +78,51 @@ class GoodsCommands:
             name=name
         ).join(SellerORM).group_by(seller_id)
         return result
+
+
+class GoodsCommands:
+
+    def __init__(self):
+        pass
+
+    async def get_by_name_bill_id(self, incoming_item: GoodsCreate) -> Goods:
+        goods = GoodsORM.query.filter(
+            GoodsORM.name == incoming_item.name,
+            GoodsORM.bill_id == incoming_item.bill_id
+        ).first()
+        logger.info(f"goods: {goods}")
+        return goods
+
+    async def get_or_create(self, incoming_item: GoodsCreate) -> Goods:
+        goods = await self.get_by_name_bill_id(
+            incoming_item=incoming_item
+        )
+        if not goods:
+            goods = await self.create_goods(
+                incoming_item=incoming_item
+            )
+        return goods
+
+    async def create_goods(self, incoming_item: GoodsCreate) -> Goods:
+        logger.info(f"incoming_item: {incoming_item}")
+        incoming_item_dict = incoming_item.dict()
+        goods = GoodsORM(**incoming_item_dict)
+        db_session.add(goods)
+        db_session.commit()
+        logger.info(f"goods: {goods}")
+        return goods
+
+    async def update_goods(self, incoming_item: GoodsUpdate) -> Goods:
+        found_goods = GoodsORM.query.get(incoming_item.id)
+        incoming_item_dict = incoming_item.dict()
+        for key, value in incoming_item_dict.items():
+            if value != None:
+                setattr(found_goods, key, value)
+        db_session.commit()
+        return found_goods
+
+    async def delete_goods(self):
+        pass
 
     async def strip_all_names(self) -> bool:
         for goods in GoodsORM.query.all():

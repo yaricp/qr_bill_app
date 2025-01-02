@@ -124,7 +124,8 @@ class BillCommands:
                 vat_amount=in_goods["vatAmount"],
                 price_after_vat=in_goods["priceAfterVat"],
                 unit_id=unit_db.id,
-                bill_id=bill_db.id
+                bill_id=bill_db.id,
+                seller_id=seller_db.id
             )
             logger.info(f"incoming_goods: {incoming_goods}")
             goods_db = await self.goods_commands.get_or_create(

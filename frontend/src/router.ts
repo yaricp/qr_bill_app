@@ -4,9 +4,21 @@ import { RouteRecordRaw } from "vue-router";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    alias: "/analytics",
-    name: "analytics",
-    component: () => import("./components/Analytics.vue"),
+    alias: "/goods_analytics",
+    name: "goods_analytics",
+    component: () => import("./components/GoodsAnalytics.vue"),
+  },
+  {
+    path: "/qr_scanner",
+    alias: "/qr_scanner",
+    name: "qr_scanner",
+    component: () => import("./components/QRScanner.vue"),
+  },
+  {
+    path: "/seller_analytics",
+    alias: "/seller_analytics",
+    name: "seller_analytics",
+    component: () => import("./components/SellerAnalytics.vue"),
   },
   {
     path: "/goods/",

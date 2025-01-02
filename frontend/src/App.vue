@@ -4,7 +4,13 @@
       <router-link to="/" class="navbar-brand">Qr Bill Collector</router-link>
       <div class="navbar-nav mr-auto">
         <li class="nav-item">
-          <router-link to="/analytics" class="nav-link">Analytics</router-link>
+          <router-link to="/qr_scanner" class="nav-link">QRScanner</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/goods_analytics" class="nav-link">Goods Analytics</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/seller_analytics" class="nav-link">Seller Analytics</router-link>
         </li>
         <li class="nav-item">
           <router-link to="/goods" class="nav-link">Goods</router-link>

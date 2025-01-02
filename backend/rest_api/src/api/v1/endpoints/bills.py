@@ -5,10 +5,10 @@ from fastapi import APIRouter, Depends
 
 from ..services.bill import (
     get_bill, get_all_bills, parse_link_bill,
-    update_bill, delete_bill, scan_qr_picture
+    update_bill, delete_bill, scan_qr_picture, create_bill
 )
 from ..schemas.bill import (
-    Bill, BillCreateByURL, BillUpdate
+    Bill, BillCreateByURL, BillUpdate, BillCreate
 )
 
 
@@ -25,6 +25,19 @@ async def parse_url_bill_route(
     Parse url link of bill.
     """
     bill = await parse_link_bill(link=item_in.link)
+    return bill
+
+
+@router.post(
+    "/", response_model=Bill
+)
+async def create_bill_route(
+    *, item_in: BillCreate
+) -> Bill:
+    """
+    Create bill.
+    """
+    bill = await create_bill(item_in)
     return bill
 
 
