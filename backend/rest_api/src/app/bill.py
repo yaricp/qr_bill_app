@@ -36,7 +36,7 @@ class BillCommands:
     def __init__(self):
         self.params = {}
         self.url_patterns = [
-            "?", "#", "mapr.tax.gov.me/ic/#/verify?"
+            "?", "#", "mapr.tax.gov.me", "ic", "verify?"
         ]
         self.referer_fiscal_service_url = (
             f"{bill_config.FISCAL_SERVICE_HOSTNAME}{bill_config.FISCAL_SERVICE_URI}"
@@ -85,10 +85,16 @@ class BillCommands:
         income_goods_items = data_bill["items"]
         logger.info(f"bill_seller: {bill_seller}")
         logger.info(f"income_goods_items: {income_goods_items}")
+        correct_address = None
+        if bill_seller["address"]:
+            correct_address = bill_seller["address"].strip()
+        correct_town = None
+        if bill_seller["town"]:
+            correct_town = bill_seller["town"].strip()
         incoming_seller = SellerCreate(
             official_name=bill_seller["name"].strip(),
-            address=bill_seller["address"].strip(),
-            city=bill_seller["town"].strip(),
+            address=correct_address,
+            city=correct_town,
         )
         seller_db = await self.seller_commands.get_or_create(
             incoming_item=incoming_seller
@@ -106,7 +112,9 @@ class BillCommands:
         )
         for in_goods in income_goods_items:
             incoming_unit = UnitCreate(
-                name=in_goods["unit"].strip()
+                name=in_goods["unit"].strip().replace(
+                    ".", ""
+                ).lower()
             )
             unit_db = await self.unit_commands.get_or_create(
                 incoming_item=incoming_unit
