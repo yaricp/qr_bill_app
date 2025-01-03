@@ -21,6 +21,7 @@ uvicorn = "^0.34.0"
 loguru = "^0.7.3"
 grpcio = "^1.68.1"
 grpcio-tools = "^1.68.1"
+python-multipart = "^0.0.20"
 
 
 [build-system]

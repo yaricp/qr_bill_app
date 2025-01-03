@@ -12,7 +12,7 @@ from .category import Category
 from .bill import Bill
 from .unit import Unit
 from .seller import Seller
-# from .user import User
+from .user import User
 
 
 class Goods(Model):
@@ -45,6 +45,13 @@ class Goods(Model):
         nullable=False
     )
     bill = relationship("Bill")
+
+    user_id = Column(
+        UUID,
+        ForeignKey(User.id, ondelete="CASCADE"),
+        nullable=True
+    )
+    user = relationship("User")
 
     seller_id = Column(
         UUID,

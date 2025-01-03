@@ -39,7 +39,7 @@ class GoodsQueries:
         logger.info(f"first_of: {first_of}")
         if first_of:
             result = db_session.query(
-                GoodsORM.name, func.count(GoodsORM.id).label("count")
+                GoodsORM.name, func.sum(GoodsORM.quantity).label("count")
             ).group_by(
                 GoodsORM.name
             ).order_by(desc("count")).limit(first_of)

@@ -98,7 +98,7 @@ class GoodsInDB(GoodsInDBBase):
 
 class GoodsCountByName(BaseModel):
     name: str
-    count: int
+    count: Decimal
 
 
 class GoodsSummByName(BaseModel):

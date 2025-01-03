@@ -58,10 +58,10 @@ class SecurityConfig(BaseSettings):
     SECRET_KEY: str
 
 
-cors_config: CORSConfig = CORSConfig()
-url_peths_config: URLPathsConfig = URLPathsConfig()
-security_config: SecurityConfig = SecurityConfig()
+class UserLoginConfig(BaseSettings):
+    TOKEN_EXPIRY_TIME: int
 
-# router_config: RouterConfig = RouterConfig()
-# uvicorn_config: UvicornConfig = UvicornConfig()
-# links_config: LinksConfig = LinksConfig()
+
+cors_config: CORSConfig = CORSConfig()
+security_config: SecurityConfig = SecurityConfig()
+user_login_config: UserLoginConfig = UserLoginConfig()

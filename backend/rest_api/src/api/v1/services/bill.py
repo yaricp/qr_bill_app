@@ -22,7 +22,9 @@ async def get_bill(id: UUID) -> Bill:
 # -------Commands-------
 
 
-async def parse_link_bill(link: str) -> Bill:
+async def parse_link_bill(
+    link: str, user_id: UUID
+) -> Bill:
     bill_commands: BillCommands = BillCommands()
     return await bill_commands.parse_link_save_bill(link)
 

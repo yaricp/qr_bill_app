@@ -26,6 +26,7 @@ class UserUpdate(UserBase):
 class UserInDBBase(UserBase):
     id: UUID
     email: str
+    password_hash: str
     tg_name: Optional[str] = None
     tg_id: Optional[int] = None
 

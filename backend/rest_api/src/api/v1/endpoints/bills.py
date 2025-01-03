@@ -1,8 +1,10 @@
 from uuid import UUID
 from typing import List, MutableSequence
 
-from fastapi import APIRouter, Depends
+from fastapi import Depends
+# APIRouter,
 
+from ... import app, manager
 from ..services.bill import (
     get_bill, get_all_bills, parse_link_bill,
     update_bill, delete_bill, scan_qr_picture, create_bill
@@ -10,29 +12,37 @@ from ..services.bill import (
 from ..schemas.bill import (
     Bill, BillCreateByURL, BillUpdate, BillCreate
 )
+from ...config import URLPathsConfig
 
 
-router = APIRouter()
+@app.get(
+    URLPathsConfig.PREFIX + "/bills", tags=['Bills'], response_model=List[Bill]
+)
+async def get_all_bills_route(user=Depends(manager)) -> List[Bill]:
+    bills: List[Bill] = await get_all_bills()
+    return bills
 
 
-@router.post(
-    "/parse_url", response_model=Bill
+@app.post(
+    URLPathsConfig.PREFIX + "/bills/parse_url", tags=['Bills'], response_model=Bill
 )
 async def parse_url_bill_route(
-    *, item_in: BillCreateByURL
+    item_in: BillCreateByURL, user=Depends(manager)
 ) -> Bill:
     """
     Parse url link of bill.
     """
-    bill = await parse_link_bill(link=item_in.link)
+    bill = await parse_link_bill(
+        link=item_in.link, user_id=user.id
+    )
     return bill
 
 
-@router.post(
-    "/", response_model=Bill
+@app.post(
+    URLPathsConfig.PREFIX + "/bills", tags=['Bills'], response_model=Bill
 )
 async def create_bill_route(
-    *, item_in: BillCreate
+    *, item_in: BillCreate, user=Depends(manager)
 ) -> Bill:
     """
     Create bill.
@@ -41,27 +51,29 @@ async def create_bill_route(
     return bill
 
 
-@router.get("/", response_model=List[Bill])
-async def get_all_bills_route() -> List[Bill]:
-    bills: List[Bill] = await get_all_bills()
-    return bills
-
-
-@router.get("/{id}", response_model=Bill)
-async def get_bill_route(id: UUID) -> Bill:
+@app.get(
+    URLPathsConfig.PREFIX + "/bills/{id}", tags=['Bills'], response_model=Bill
+)
+async def get_bill_route(id: UUID, user=Depends(manager)) -> Bill:
     bill: Bill = await get_bill(id=id)
     return bill
 
 
-@router.put("/{id}", response_model=Bill)
-async def put_bill_route(id: UUID, item_in: BillUpdate) -> Bill:
+@app.put(
+    URLPathsConfig.PREFIX + "/bills/{id}", tags=['Bills'], response_model=Bill
+)
+async def put_bill_route(
+    id: UUID, item_in: BillUpdate, user=Depends(manager)
+) -> Bill:
     bill: Bill = await update_bill(
         id=id, unit_data=item_in
     )
     return bill
 
 
-@router.delete("/{id}", response_model=Bill)
-async def delete_bill_route(id: UUID) -> Bill:
+@app.delete(
+    URLPathsConfig.PREFIX + "/bills/{id}", tags=['Bills'], response_model=Bill
+)
+async def delete_bill_route(id: UUID, user=Depends(manager)) -> Bill:
     bill: Bill = await delete_bill(id=id)
     return bill
