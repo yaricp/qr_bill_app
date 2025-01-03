@@ -72,7 +72,9 @@ def login_route(
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/", response_model=List[User]
+    URLPathsConfig.PREFIX + "/users",
+    tags=['Users'],
+    response_model=List[User]
 )
 async def read_users_route() -> List[User]:
     """

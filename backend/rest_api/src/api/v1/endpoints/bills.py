@@ -2,9 +2,9 @@ from uuid import UUID
 from typing import List, MutableSequence
 
 from fastapi import Depends
-# APIRouter,
 
 from ... import app, manager
+from ...config import URLPathsConfig
 from ..services.bill import (
     get_bill, get_all_bills, parse_link_bill,
     update_bill, delete_bill, scan_qr_picture, create_bill
@@ -12,7 +12,7 @@ from ..services.bill import (
 from ..schemas.bill import (
     Bill, BillCreateByURL, BillUpdate, BillCreate
 )
-from ...config import URLPathsConfig
+
 
 
 @app.get(
