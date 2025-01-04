@@ -19,12 +19,12 @@ so its defined in each dependency body.
 
 @manager.user_loader()
 def load_user(email: str) -> User:
-    if email == "admin":
-        return User(
-            id=UUID("0858baa8-1913-4fec-86ca-ca72b2f407a5"),
-            email="admin",
-            password_hash="8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
-        )
+    # if email == "admin":
+    #     return User(
+    #         id=UUID("0858baa8-1913-4fec-86ca-ca72b2f407a5"),
+    #         email="admin",
+    #         password_hash="8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
+    #     )
     users_queries: UserQueries = UserQueries()
     return users_queries.get_user_by_email(email)
 

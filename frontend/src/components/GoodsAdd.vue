@@ -23,7 +23,7 @@
     </div>
   </template>
   
-  <script lang="ts">
+<script lang="ts">
   import { defineComponent } from "vue";
   import GoodsDataService from "@/services/goods";
   import { IGoods } from "@/interfaces/goods";
@@ -63,7 +63,7 @@
       },
     },
   });
-  </script>
+</script>
   
   <style>
   .submit-form {

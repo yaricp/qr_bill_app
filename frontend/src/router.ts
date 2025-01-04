@@ -36,11 +36,42 @@ const routes: Array<RouteRecordRaw> = [
     name: "add",
     component: () => import("./components/GoodsAdd.vue"),
   },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("./components/user/Login.vue"),
+  },
+  {
+    path: "/register",
+    name: "register",
+    component: () => import("./components/user/Register.vue"),
+  },
+  {
+    path: "/profile",
+    name: "profile",
+    // lazy-loaded
+    component: () => import("./components/user/Profile.vue"),
+  }
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const publicPages = ['/login', '/register', '/home'];
+  const authRequired = !publicPages.includes(to.path);
+  const tokenStorage = localStorage.getItem('token');
+
+  // trying to access a restricted page + not logged in
+  // redirect to login page
+  if (authRequired && !tokenStorage) {
+    console.log("Redirect to login")
+    next('/login');
+  } else {
+    next();
+  }
 });
 
 export default router;

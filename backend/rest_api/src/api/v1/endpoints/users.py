@@ -42,19 +42,17 @@ async def register_route(
     URLPathsConfig.PREFIX + '/auth/login',
     tags=['Authentication']
 )
-def login_route(
-    data: OAuth2PasswordRequestForm = Depends()
-) -> dict:
+def login_route(data: OAuth2PasswordRequestForm = Depends()) -> dict:
     """Endpoint for login user"""
-    name = data.username
+    email = data.username
     password = data.password
-    logger.info(f"name: {name}")
+    logger.info(f"name: {email}")
     logger.info(f"password: {password}")
     # if name != "admin" or password != "admin":
     logger.info(f"pass encoded: {sha256(password.encode()).hexdigest()}")
-    
-    user = load_user(name)
-    
+
+    user = load_user(email)
+
     if not user:
         # you can also use your own HTTPException
         raise InvalidCredentialsException
@@ -62,7 +60,7 @@ def login_route(
         raise InvalidCredentialsException
 
     access_token = manager.create_access_token(
-        data=dict(sub=name), expires=timedelta(
+        data=dict(sub=email), expires=timedelta(
             hours=user_login_config.TOKEN_EXPIRY_TIME
         )
     )
