@@ -27,14 +27,14 @@ class GoodsQueries:
     def __init__(self):
         pass
 
-    async def get_all_goods(self):
-        return GoodsORM.query.all()
+    async def get_all_goods(self, user_id: UUID):
+        return GoodsORM.query.filter_by(user_id=user_id).all()
 
     async def get_goods(self, id: UUID):
         return GoodsORM.query.get(id)
 
     async def list_count_group_by_name(
-        self, first_of: int = 0
+        self, user_id: UUID, first_of: int = 0
     ) -> list:
         logger.info(f"first_of: {first_of}")
         if first_of:
@@ -52,7 +52,7 @@ class GoodsQueries:
         return result
 
     async def list_summ_group_by_name(
-        self, first_of: int = 0
+        self, user_id: UUID, first_of: int = 0
     ) -> list:
         if first_of:
             result = db_session.query(
@@ -72,7 +72,7 @@ class GoodsQueries:
         return result
 
     async def goods_by_name_group_by_sellers(
-        self, name: str
+        self, name: str, user_id: UUID
     ) -> list:
         result = GoodsORM.query.filter_by(
             name=name
@@ -121,7 +121,7 @@ class GoodsCommands:
         db_session.commit()
         return found_goods
 
-    async def delete_goods(self):
+    async def delete_goods(self, user_id: UUID):
         pass
 
     async def strip_all_names(self) -> bool:

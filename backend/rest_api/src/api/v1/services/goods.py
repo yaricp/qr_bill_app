@@ -18,9 +18,9 @@ so its defined in each dependency body.
 # -------Views---------
 
 
-async def get_all_goods() -> List[Goods]:
+async def get_all_goods(user_id: UUID) -> List[Goods]:
     goods_views: GoodsQueries = GoodsQueries()
-    return await goods_views.get_all_goods()
+    return await goods_views.get_all_goods(user_id=user_id)
 
 
 async def get_goods(id: UUID) -> Goods:
@@ -29,23 +29,27 @@ async def get_goods(id: UUID) -> Goods:
 
 
 async def list_count_group_by_name(
-    first_of: int
+    first_of: int, user_id: UUID
 ) -> List[GoodsCountByName]:
     goods_queries: GoodsQueries = GoodsQueries()
     logger.info(f"first_of: {first_of}")
     result: List[
         GoodsCountByName
-    ] = await goods_queries.list_count_group_by_name(first_of=first_of)
+    ] = await goods_queries.list_count_group_by_name(
+        first_of=first_of, user_id=user_id
+    )
     return result
 
 
 async def list_summ_group_by_name(
-    first_of: int
+    first_of: int, user_id: UUID
 ) -> List[GoodsSummByName]:
     goods_queries: GoodsQueries = GoodsQueries()
     result: List[
         GoodsSummByName
-    ] = await goods_queries.list_summ_group_by_name(first_of=first_of)
+    ] = await goods_queries.list_summ_group_by_name(
+        first_of=first_of, user_id=user_id
+    )
     return result
 
 
@@ -72,9 +76,11 @@ async def update_goods(
     return command_result
 
 
-async def delete_goods(id: UUID) -> Goods:
+async def delete_goods(id: UUID, user_id: UUID) -> Goods:
     goods_command = GoodsCommands()
-    command_result = await goods_command.delete_goods(id=id)
+    command_result = await goods_command.delete_goods(
+        id=id, user_id=user_id
+    )
     return command_result
 
 

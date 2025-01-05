@@ -19,7 +19,7 @@ from ..schemas.bill import (
     URLPathsConfig.PREFIX + "/bills", tags=['Bills'], response_model=List[Bill]
 )
 async def get_all_bills_route(user=Depends(manager)) -> List[Bill]:
-    bills: List[Bill] = await get_all_bills()
+    bills: List[Bill] = await get_all_bills(user_id=user.id)
     return bills
 
 
@@ -47,6 +47,7 @@ async def create_bill_route(
     """
     Create bill.
     """
+    item_in.user_id = user.id
     bill = await create_bill(item_in)
     return bill
 
@@ -65,8 +66,9 @@ async def get_bill_route(id: UUID, user=Depends(manager)) -> Bill:
 async def put_bill_route(
     id: UUID, item_in: BillUpdate, user=Depends(manager)
 ) -> Bill:
+    item_in.user_id = user.id
     bill: Bill = await update_bill(
-        id=id, unit_data=item_in
+        id=id, bill_data=item_in
     )
     return bill
 
@@ -75,5 +77,5 @@ async def put_bill_route(
     URLPathsConfig.PREFIX + "/bills/{id}", tags=['Bills'], response_model=Bill
 )
 async def delete_bill_route(id: UUID, user=Depends(manager)) -> Bill:
-    bill: Bill = await delete_bill(id=id)
+    bill: Bill = await delete_bill(id=id, user_id=user.id)
     return bill

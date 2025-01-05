@@ -24,6 +24,7 @@ class BillCreate(BillBase):
     created: datetime
     value: Decimal
     seller_id: UUID
+    user_id: UUID
 
 
 # Properties to receive on item update

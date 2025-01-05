@@ -61,6 +61,7 @@ class GoodsCreate(BaseModel):
     unit_id: UUID
     bill_id: UUID
     seller_id: UUID
+    user_id: UUID
 
 
 class GoodsUpdate(GoodsBase):

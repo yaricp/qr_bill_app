@@ -24,8 +24,8 @@ class BillQueries:
     def __init__(self):
         pass
 
-    async def get_all_bills(self):
-        return BillORM.query.all()
+    async def get_all_bills(self, user_id: UUID):
+        return BillORM.query.filter_by(user_id=user_id).all()
 
     async def get_bill(self, id: UUID):
         return BillORM.query.get(id)
@@ -61,21 +61,29 @@ class BillCommands:
         return bill
 
     async def get_by_datetime(
-        self, created: datetime
+        self, created: datetime, user_id: UUID
     ) -> Bill:
-        return BillORM.query.filter_by(created=created).first()
+        return BillORM.query.filter_by(
+            created=created,
+            user_id=user_id
+        ).first()
 
     async def get_or_create(
         self, incoming_item: BillCreate
     ) -> Bill:
-        bill = await self.get_by_datetime(incoming_item.created)
+        bill = await self.get_by_datetime(
+            created=incoming_item.created,
+            user_id=incoming_item.user_id
+        )
         if not bill:
             bill = await self.create_new_bill(
                 incoming_item=incoming_item
             )
         return bill
 
-    async def parse_link_save_bill(self, income_link: str) -> Bill:
+    async def parse_link_save_bill(
+        self, income_link: str, user_id: UUID
+    ) -> Bill:
         if not self.validate_url(income_link):
             raise Exception("Wrong URL")
         self.params = self.get_params_from_income_url(url=income_link)
@@ -104,7 +112,8 @@ class BillCommands:
             created=data_bill["dateTimeCreated"],
             value=data_bill["totalPrice"],
             payment_method=data_bill["paymentMethod"][0]["type"].strip(),
-            seller_id=seller_db.id
+            seller_id=seller_db.id,
+            user_id=user_id
         )
         logger.info(f"incoming_bill: {incoming_bill}")
         bill_db = await self.get_or_create(
@@ -133,7 +142,8 @@ class BillCommands:
                 price_after_vat=in_goods["priceAfterVat"],
                 unit_id=unit_db.id,
                 bill_id=bill_db.id,
-                seller_id=seller_db.id
+                seller_id=seller_db.id,
+                user_id=user_id
             )
             logger.info(f"incoming_goods: {incoming_goods}")
             goods_db = await self.goods_commands.get_or_create(

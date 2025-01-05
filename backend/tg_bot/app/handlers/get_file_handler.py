@@ -22,7 +22,7 @@ async def get_pic_qr_handler(message: Message):
     Args:
         message (Message): _description_
     """
-    user_id = str(message.from_user.id)
+    user_id = message.from_user.id
     logger.info(f"message.photo: {message.photo}")
     file_id = str(message.photo[-1].file_id)
     file_unique_id = str(message.photo[-1].file_unique_id)
@@ -30,7 +30,7 @@ async def get_pic_qr_handler(message: Message):
     file_path = file.file_path
 
     user_file_path = os.path.join(
-        tg_bot_config.QR_PIC_DIR, user_id 
+        tg_bot_config.QR_PIC_DIR, str(user_id)
     )
     # f"{file_unique_id}"
     if not os.path.exists(user_file_path):

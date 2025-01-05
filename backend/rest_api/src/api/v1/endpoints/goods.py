@@ -29,6 +29,7 @@ async def create_goods_route(
     """
     Create new goods.
     """
+    goods_data.user_id = user.id
     goods = await create_goods(goods_data=item_in)
     return goods
 
@@ -41,7 +42,7 @@ async def create_goods_route(
 async def get_all_goods_route(user=Depends(manager)):
     goodss: MutableSequence[
         Goods
-    ] = await get_all_goods()
+    ] = await get_all_goods(user_id=user.id)
     return goodss
 
 
@@ -64,6 +65,7 @@ async def put_goods_route(
     id: UUID, item_in: GoodsUpdate, user=Depends(manager)
 ):
     item_in.id = id
+    item_in.user_id = user.id
     goods: Goods = await update_goods(goods_data=item_in)
     return goods
 
@@ -74,7 +76,9 @@ async def put_goods_route(
     response_model=Goods
 )
 async def delete_goods_route(id: UUID, user=Depends(manager)):
-    result: Goods = await delete_goods(id=id)
+    result: Goods = await delete_goods(
+        id=id, user_id=user.id
+    )
     return result
 
 
@@ -89,7 +93,9 @@ async def count_by_name_goods_route(
     logger.info(f"first_of: {first_of}")
     result: List[
         GoodsCountByName
-    ] = await list_count_group_by_name(first_of=first_of)
+    ] = await list_count_group_by_name(
+        first_of=first_of, user_id=user.id
+    )
     return result
 
 
@@ -103,7 +109,9 @@ async def summ_by_name_goods_route(
 ) -> List[GoodsSummByName]:
     result: List[
         GoodsSummByName
-    ] = await list_summ_group_by_name(first_of=first_of)
+    ] = await list_summ_group_by_name(
+        first_of=first_of, user_id=user.id
+    )
     return result
 
 
