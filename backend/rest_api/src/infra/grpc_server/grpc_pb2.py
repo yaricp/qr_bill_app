@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\ngrpc.proto\x1a\x1bgoogle/protobuf/empty.proto\"\x16\n\x07\x42illUrl\x12\x0b\n\x03url\x18\x01 \x01(\t\"G\n\x08\x42illInfo\x12\x0c\n\x04\x64\x61te\x18\x01 \x01(\t\x12\x0e\n\x06seller\x18\x02 \x01(\t\x12\x0f\n\x07\x61\x64\x64ress\x18\x03 \x01(\t\x12\x0c\n\x04summ\x18\x04 \x01(\x02\"\x19\n\tTotalSumm\x12\x0c\n\x04summ\x18\x01 \x01(\x02\x32i\n\x0bRestApiGRPC\x12$\n\x0bSendBillUrl\x12\x08.BillUrl\x1a\t.BillInfo\"\x00\x12\x34\n\x0cGetTotalSumm\x12\x16.google.protobuf.Empty\x1a\n.TotalSumm\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\ngrpc.proto\x1a\x1bgoogle/protobuf/empty.proto\"\x16\n\x07\x42illUrl\x12\x0b\n\x03url\x18\x01 \x01(\t\"G\n\x08\x42illInfo\x12\x0c\n\x04\x64\x61te\x18\x01 \x01(\t\x12\x0e\n\x06seller\x18\x02 \x01(\t\x12\x0f\n\x07\x61\x64\x64ress\x18\x03 \x01(\t\x12\x0c\n\x04summ\x18\x04 \x01(\x02\"\x19\n\tTotalSumm\x12\x0c\n\x04summ\x18\x01 \x01(\x02\"\x1e\n\x08TgUserID\x12\x12\n\ntg_user_id\x18\x01 \x01(\x05\"\x18\n\x08UserLang\x12\x0c\n\x04lang\x18\x01 \x01(\t\"4\n\x10UserLangEditForm\x12\x12\n\ntg_user_id\x18\x01 \x01(\x05\x12\x0c\n\x04lang\x18\x02 \x01(\t\"\x17\n\x08LoginURL\x12\x0b\n\x03url\x18\x01 \x01(\t2\x91\x02\n\x0bRestApiGRPC\x12$\n\x0bSendBillUrl\x12\x08.BillUrl\x1a\t.BillInfo\"\x00\x12\x34\n\x0cGetTotalSumm\x12\x16.google.protobuf.Empty\x1a\n.TotalSumm\"\x00\x12)\n\x0fGetOrCreateUser\x12\t.TgUserID\x1a\t.UserLang\"\x00\x12%\n\x0bGetUserLang\x12\t.TgUserID\x1a\t.UserLang\"\x00\x12-\n\x0bSetUserLang\x12\x11.UserLangEditForm\x1a\t.UserLang\"\x00\x12%\n\x0bGetLoginURL\x12\t.TgUserID\x1a\t.LoginURL\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -38,6 +38,14 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_BILLINFO']._serialized_end=138
   _globals['_TOTALSUMM']._serialized_start=140
   _globals['_TOTALSUMM']._serialized_end=165
-  _globals['_RESTAPIGRPC']._serialized_start=167
-  _globals['_RESTAPIGRPC']._serialized_end=272
+  _globals['_TGUSERID']._serialized_start=167
+  _globals['_TGUSERID']._serialized_end=197
+  _globals['_USERLANG']._serialized_start=199
+  _globals['_USERLANG']._serialized_end=223
+  _globals['_USERLANGEDITFORM']._serialized_start=225
+  _globals['_USERLANGEDITFORM']._serialized_end=277
+  _globals['_LOGINURL']._serialized_start=279
+  _globals['_LOGINURL']._serialized_end=302
+  _globals['_RESTAPIGRPC']._serialized_start=305
+  _globals['_RESTAPIGRPC']._serialized_end=578
 # @@protoc_insertion_point(module_scope)

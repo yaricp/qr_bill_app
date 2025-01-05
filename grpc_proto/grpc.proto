@@ -7,6 +7,11 @@ service RestApiGRPC {
   rpc SendBillUrl (BillUrl) returns (BillInfo) {}
   // Sends another greeting
   rpc GetTotalSumm (google.protobuf.Empty) returns (TotalSumm) {}
+  // Get or Create user
+  rpc GetOrCreateUser (TgUserID) returns (UserLang) {}
+  rpc GetUserLang (TgUserID) returns (UserLang) {}
+  rpc SetUserLang (UserLangEditForm) returns (UserLang) {}
+  rpc GetLoginURL (TgUserID) returns (LoginURL) {}
 }
 
 // The request message containing the user's name.
@@ -24,4 +29,21 @@ message BillInfo {
 
 message TotalSumm {
   float summ = 1;
+}
+
+message TgUserID {
+  int32 tg_user_id = 1;
+}
+
+message UserLang {
+  string lang = 1;
+}
+
+message UserLangEditForm {
+  int32 tg_user_id = 1;
+  string lang = 2;
+}
+
+message LoginURL {
+  string url = 1;
 }

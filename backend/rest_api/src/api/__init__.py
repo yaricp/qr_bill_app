@@ -38,4 +38,7 @@ manager = LoginManager(
 )
 
 #app.include_router(api_router)
-from .v1.endpoints import bills, sellers, users, categories, units, goods  # noqa: F401
+from .v1.endpoints import (
+    bills, sellers, users, categories, units, login_links,
+    goods
+)

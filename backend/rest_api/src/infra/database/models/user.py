@@ -14,11 +14,13 @@ class User(Model):
         UUID, primary_key=True, nullable=False, unique=True,
         default=uuid4
     )
-    email = Column(VARCHAR(200), nullable=True)
+    email = Column(VARCHAR(150), nullable=True)
+    phone = Column(VARCHAR(14), nullable=True)
     login = Column(VARCHAR(150), nullable=True)
     tg_name = Column(VARCHAR(150), nullable=True)
     tg_id = Column(INTEGER)
-    password_hash = Column(VARCHAR(4000), nullable=False)
+    password_hash = Column(VARCHAR(4000), nullable=True)
+    lang = Column(VARCHAR(4), nullable=False, default="ru")
 
     def set_password_hash(self, password: str) -> bool:
         self.password_hash = sha256(password.encode()).hexdigest()

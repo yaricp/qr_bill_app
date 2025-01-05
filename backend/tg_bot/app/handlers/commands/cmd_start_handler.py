@@ -16,10 +16,12 @@ logger = get_logger(__name__)
     Command("start"),
 )
 async def cmd_start_handler(message: Message):
-    tg_user_id = name = str(message.from_user.id)
+    tg_user_id = message.from_user.id
+    name = str(message.from_user.id)
+    logger.info(f"type of tg_uder_id: {type(tg_user_id)}")
     if message.from_user.username:
         name = message.from_user.username
-    user_db = get_or_create_user(tg_user_id, name)
+    user_db = get_or_create_user(tg_user_id)
     user_lang = get_user_lang(tg_user_id)
     await message.answer(
         start_view(name, lang=user_lang),

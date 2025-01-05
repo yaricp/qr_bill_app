@@ -61,7 +61,7 @@ def login_route(data: OAuth2PasswordRequestForm = Depends()) -> dict:
 
     access_token = manager.create_access_token(
         data=dict(sub=email), expires=timedelta(
-            hours=user_login_config.TOKEN_EXPIRY_TIME
+            hours=user_login_config.TOKEN_EXPIRY_TIME_HOURS
         )
     )
 

@@ -59,7 +59,7 @@ class SecurityConfig(BaseSettings):
 
 
 class UserLoginConfig(BaseSettings):
-    TOKEN_EXPIRY_TIME: int
+    TOKEN_EXPIRY_TIME_HOURS: int
 
 
 cors_config: CORSConfig = CORSConfig()

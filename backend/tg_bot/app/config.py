@@ -1,8 +1,4 @@
-from dataclasses import dataclass
-from enum import Enum
-
 from pydantic_settings import BaseSettings
-from typing import List, Tuple
 
 
 class TelegramBotConfig(BaseSettings):

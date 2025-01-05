@@ -45,6 +45,26 @@ class RestApiGRPCStub(object):
                 request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
                 response_deserializer=grpc__pb2.TotalSumm.FromString,
                 _registered_method=True)
+        self.GetOrCreateUser = channel.unary_unary(
+                '/RestApiGRPC/GetOrCreateUser',
+                request_serializer=grpc__pb2.TgUserID.SerializeToString,
+                response_deserializer=grpc__pb2.UserLang.FromString,
+                _registered_method=True)
+        self.GetUserLang = channel.unary_unary(
+                '/RestApiGRPC/GetUserLang',
+                request_serializer=grpc__pb2.TgUserID.SerializeToString,
+                response_deserializer=grpc__pb2.UserLang.FromString,
+                _registered_method=True)
+        self.SetUserLang = channel.unary_unary(
+                '/RestApiGRPC/SetUserLang',
+                request_serializer=grpc__pb2.UserLangEditForm.SerializeToString,
+                response_deserializer=grpc__pb2.UserLang.FromString,
+                _registered_method=True)
+        self.GetLoginURL = channel.unary_unary(
+                '/RestApiGRPC/GetLoginURL',
+                request_serializer=grpc__pb2.TgUserID.SerializeToString,
+                response_deserializer=grpc__pb2.LoginURL.FromString,
+                _registered_method=True)
 
 
 class RestApiGRPCServicer(object):
@@ -64,6 +84,31 @@ class RestApiGRPCServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetOrCreateUser(self, request, context):
+        """Get or Create user
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetUserLang(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def SetUserLang(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetLoginURL(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_RestApiGRPCServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -76,6 +121,26 @@ def add_RestApiGRPCServicer_to_server(servicer, server):
                     servicer.GetTotalSumm,
                     request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                     response_serializer=grpc__pb2.TotalSumm.SerializeToString,
+            ),
+            'GetOrCreateUser': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetOrCreateUser,
+                    request_deserializer=grpc__pb2.TgUserID.FromString,
+                    response_serializer=grpc__pb2.UserLang.SerializeToString,
+            ),
+            'GetUserLang': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetUserLang,
+                    request_deserializer=grpc__pb2.TgUserID.FromString,
+                    response_serializer=grpc__pb2.UserLang.SerializeToString,
+            ),
+            'SetUserLang': grpc.unary_unary_rpc_method_handler(
+                    servicer.SetUserLang,
+                    request_deserializer=grpc__pb2.UserLangEditForm.FromString,
+                    response_serializer=grpc__pb2.UserLang.SerializeToString,
+            ),
+            'GetLoginURL': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetLoginURL,
+                    request_deserializer=grpc__pb2.TgUserID.FromString,
+                    response_serializer=grpc__pb2.LoginURL.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -132,6 +197,114 @@ class RestApiGRPC(object):
             '/RestApiGRPC/GetTotalSumm',
             google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
             grpc__pb2.TotalSumm.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetOrCreateUser(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/RestApiGRPC/GetOrCreateUser',
+            grpc__pb2.TgUserID.SerializeToString,
+            grpc__pb2.UserLang.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetUserLang(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/RestApiGRPC/GetUserLang',
+            grpc__pb2.TgUserID.SerializeToString,
+            grpc__pb2.UserLang.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def SetUserLang(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/RestApiGRPC/SetUserLang',
+            grpc__pb2.UserLangEditForm.SerializeToString,
+            grpc__pb2.UserLang.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetLoginURL(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/RestApiGRPC/GetLoginURL',
+            grpc__pb2.TgUserID.SerializeToString,
+            grpc__pb2.LoginURL.FromString,
             options,
             channel_credentials,
             insecure,
