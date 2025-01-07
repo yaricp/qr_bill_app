@@ -12,10 +12,10 @@ from ..services.login_link import countdown_deleting_login_link
 @app.get(
     URLPathsConfig.PREFIX + "/login_links/countdown/{id}",
     tags=['Login links'],
-    response_model=bool
+    response_model=dict
 )
 async def login_links_countdown_route(
     id, background_tasks: BackgroundTasks
-) -> bool:
+) -> dict:
     background_tasks.add_task(countdown_deleting_login_link, id)
     return {"message": "Start countdown for deleting login link"}

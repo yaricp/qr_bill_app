@@ -40,14 +40,6 @@
           <div>
             <label><strong>Name:</strong></label> {{ currentGoods.title }}
           </div>
-          <!-- <div>
-            <label><strong>Description:</strong></label>
-            {{ currentTutorial.description }}
-          </div>
-          <div>
-            <label><strong>Status:</strong></label>
-            {{ currentTutorial.published ? "Published" : "Pending" }}
-          </div> -->
   
           <router-link
             :to="'/goods/' + currentGoods.id"
@@ -64,10 +56,13 @@
   </template>
   
   <script lang="ts">
+  import axios, {AxiosError} from "axios";
   import { defineComponent } from "vue";
   import GoodsDataService from "@/services/goods";
   import { IGoods } from "@/interfaces/goods";
   import ResponseData from "@/interfaces/ResponseData";
+  import { useStore } from '@/store';
+  import { checkTokenExpired } from "@/http-common";
   
   export default defineComponent({
     name: "goods-list",
@@ -79,39 +74,36 @@
         name: "",
       };
     },
+    computed: {
+      authToken() {
+        const store = useStore();
+        console.log("store: ", store);
+        return store.state.auth.token;
+      },
+    },
     methods: {
       async retrieveGoods() {
         try {
-          let response = await GoodsDataService.getAll();
+          let response = await GoodsDataService.getAll(
+            this.authToken
+          );
           this.goods_list = response.data;
           console.log(response.data);
         } catch(e) {
-          console.log(e);
+          checkTokenExpired(e);
         }
-        
-        // GoodsDataService.getAll()
-        //   .then((response: ResponseData) => {
-        //     this.goods_list = response.data;
-        //     console.log(response.data);
-        //   })
-        //   .catch((e: Error) => {
-        //     console.log(e);
-        //   });
       },
-  
       refreshList() {
         this.retrieveGoods();
         this.currentGoods = {} as IGoods;
         this.currentIndex = -1;
       },
-  
       setActiveGoods(tutorial: IGoods, index = -1) {
         this.currentGoods = tutorial;
         this.currentIndex = index;
       },
-  
       searchName() {
-        GoodsDataService.findByName(this.name)
+        GoodsDataService.findByName(this.name, this.authToken)
           .then((response: ResponseData) => {
             this.goods_list = response.data;
             this.setActiveGoods({} as IGoods);

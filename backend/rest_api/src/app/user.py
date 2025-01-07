@@ -24,11 +24,21 @@ class UserQueries:
     def __init__(self):
         pass
 
-    async def get_user_by_email(self, email: str) -> User:
+    def get_user_by_login_link(self, link: str) -> User | None:
+        db_link = LoginLinkORM.query.filter_by(link=link).first()
+        if db_link:
+            return db_link.user
+        return None
+
+    def get_user_by_email(self, email: str) -> User:
         user = UserORM.query.filter_by(email=email).first()
         return user
 
-    async def get_user_by_tg_id(self, tg_id: str) -> User:
+    def get_user_by_login(self, login: str) -> User:
+        user = UserORM.query.filter_by(login=login).first()
+        return user
+
+    def get_user_by_tg_id(self, tg_id: str) -> User:
         user = UserORM.query.filter_by(tg_id=tg_id).first()
         return user
 
@@ -106,4 +116,5 @@ class UserCommands:
             logger.error(f"Error: {err}")
         frontend_prefix = login_link_config.FRONTEND_APP_LOGIN_LINK_PREFIX
         result_link = f"{frontend_prefix}{login_link.link}"
+        logger.info(f"result_link: {result_link}")
         return result_link

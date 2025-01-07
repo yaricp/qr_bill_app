@@ -30,9 +30,10 @@
 import { defineComponent } from "vue";
 import GoodsDataService from "@/services/goods";
 import { ICountGoodsByName, ISummGoodsByName } from "@/interfaces/goods";
-import ResponseData from "@/interfaces/ResponseData";
 import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+import { useStore } from '@/store';
+import { checkTokenExpired } from "@/http-common";
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
@@ -61,28 +62,34 @@ export default defineComponent({
       message: "",
     };
   },
-  methods: {
-    
+  computed: {
+    authToken() {
+      const store = useStore();
+      console.log("store: ", store);
+      return store.state.auth.token;
+    },
+  },
+  methods: { 
     async retrieveCountGoodsByName() {
       try {
         let response = await GoodsDataService.getCountGoodsByName(
-          this.first_of_by_count
+          this.first_of_by_count, this.authToken
         );
         this.goods_list_by_count = response.data;
         console.log(response.data);
       } catch(e) {
-        console.log(e);
+        checkTokenExpired(e);
       }
     },
     async retrieveSummGoodsByName() {
       try {
         let response = await GoodsDataService.getSummGoodsByName(
-          this.first_of_by_summ
+          this.first_of_by_summ, this.authToken
         );
         this.goods_list_by_summ = response.data;
         console.log(response.data);
       } catch(e) {
-        console.log(e);
+        checkTokenExpired(e);
       }
     },
     async fillChartDataCountByName() {

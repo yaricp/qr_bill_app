@@ -16,9 +16,17 @@ class AuthService {
         return response.data.access_token;
       });
   }
+  
+  login_by_tg(link: string): Promise<any> {
+    return axios
+      .post(`${apiUrl}/auth/login_by_tg`, {"link": link})
+      .then(response => {
+        return response.data.access_token;
+      });
+  }
 
   logout() {
-    localStorage.removeItem('user');
+    localStorage.removeItem('token');
   }
 
   register(user: IUserLogin) {

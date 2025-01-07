@@ -1,5 +1,6 @@
 from uuid import UUID
 from typing import List, MutableSequence
+from loguru import logger
 
 from fastapi import Depends
 
@@ -7,10 +8,12 @@ from ... import app, manager
 from ...config import URLPathsConfig
 from ..services.seller import (
     get_seller, create_seller, get_all_sellers,
-    update_seller, delete_seller, order_by_count_goods
+    update_seller, delete_seller, order_by_count_goods,
+    list_summ_group_by_name, list_count_group_by_name
 )
 from ..schemas.seller import (
-    Seller, SellerCreate, SellerUpdate, SellerByCountGoods
+    Seller, SellerCreate, SellerUpdate, SellerByCountGoods,
+    SellerCountByName, SellerSummByName
 )
 
 
@@ -71,6 +74,39 @@ async def update_seller_route(
 async def delete_seller_route(id: UUID, user=Depends(manager)):
     seller: Seller = await delete_seller(id=id)
     return seller
+
+
+@app.get(
+    URLPathsConfig.PREFIX + "/sellers/count_by_name/",
+    tags=['Sellers'],
+    response_model=List[SellerCountByName]
+)
+async def count_by_name_seller_route(
+    first_of: int = 0, user=Depends(manager)
+) -> List[SellerCountByName]:
+    logger.info(f"first_of: {first_of}")
+    result: List[
+        SellerCountByName
+    ] = await list_count_group_by_name(
+        first_of=first_of, user_id=user.id
+    )
+    return result
+
+
+@app.get(
+    URLPathsConfig.PREFIX + "/sellers/summ_by_name/",
+    tags=['Sellers'],
+    response_model=List[SellerSummByName]
+)
+async def summ_by_name_seller_route(
+    first_of: int = 0, user=Depends(manager)
+) -> List[SellerSummByName]:
+    result: List[
+        SellerSummByName
+    ] = await list_summ_group_by_name(
+        first_of=first_of, user_id=user.id
+    )
+    return result
 
 
 @app.get(

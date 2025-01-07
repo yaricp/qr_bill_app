@@ -12,24 +12,27 @@ import {
 import { State as RootState } from '@/store';
 
 import AuthService from '@/services/auth.service';
-import { IUserLogin } from "@/interfaces/users";
+// import { IUserLogin } from "@/interfaces/users";
 
 // Declare state
 export type State = {
   loggedIn: boolean;
-  token: string | null;
+  token: string;
 }
 
 // Create initial state
 
 let token;
 let local_db_user = localStorage.getItem('token');
+
 if (local_db_user){
   token = JSON.parse(local_db_user);
 }
+
 export const initialState = token
   ? { loggedIn: true , token }
-  : { loggedIn: false , token: null };
+  : { loggedIn: false , token: "" };
+
 const state: State = initialState;
 
 // Setup store type
@@ -54,13 +57,33 @@ const state: State = initialState;
 //   ): ReturnType<Actions[K]>
 // }
 
-
 export const AuthModule: Module<State, RootState> = {
   namespaced: true,
   state,
   actions: {
     login({ commit }, user) {
       return AuthService.login(user).then(
+        token => {
+          console.log('loginSuccess');
+          console.log('token:', token);
+          if (token){
+            console.log("save to localStorage");
+            localStorage.setItem(
+              'token', JSON.stringify(token)
+            );
+            console.log("commit to loginSuccess");
+            commit('loginSuccess', token);
+          }
+          return Promise.resolve(token);
+        },
+        error => {
+          commit('loginFailure');
+          return Promise.reject(error);
+        }
+      );
+    },
+    login_by_tg({ commit }, link) {
+      return AuthService.login_by_tg(link).then(
         token => {
           console.log('loginSuccess');
           console.log('token:', token);
@@ -104,11 +127,11 @@ export const AuthModule: Module<State, RootState> = {
     },
     loginFailure(state) {
       state.loggedIn = false;
-      state.token = null;
+      state.token = "";
     },
     logout(state) {
       state.loggedIn = false;
-      state.token = null;
+      state.token = "";
     },
     registerSuccess(state) {
       state.loggedIn = false;

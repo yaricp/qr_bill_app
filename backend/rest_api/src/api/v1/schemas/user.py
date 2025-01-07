@@ -8,8 +8,12 @@ from pydantic import BaseModel
 class UserBase(BaseModel):
     id: Optional[UUID] = None
     email: Optional[str] = None
+    phone: Optional[str] = None
+    login: Optional[str] = None
     tg_name: Optional[str] = None
     tg_id: Optional[int] = None
+    lang: Optional[str] = None
+    password: Optional[str] = None
 
 
 class UserCreate(BaseModel):
@@ -25,10 +29,7 @@ class UserUpdate(UserBase):
 # Properties shared by models stored in DB
 class UserInDBBase(UserBase):
     id: UUID
-    email: str
-    password_hash: str
-    tg_name: Optional[str] = None
-    tg_id: Optional[int] = None
+    lang: str
 
     class Config:
         orm_mode = True
@@ -42,3 +43,7 @@ class User(UserInDBBase):
 # Properties properties stored in DB
 class UserInDB(UserInDBBase):
     pass
+
+
+class LoginLinkData(BaseModel):
+    link: str

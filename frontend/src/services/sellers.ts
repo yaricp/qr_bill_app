@@ -1,5 +1,6 @@
 
 import http from "@/http-common";
+import { authHeaders } from './';
 
 class SellerDataService {
   getAll(): Promise<any> {
@@ -26,12 +27,18 @@ class SellerDataService {
     return http.get(`/sellers?name=${name}`);
   }
 
-  getCountSellerByName(first_of: number): Promise<any> {
-    return http.get(`/sellers/count_by_name/?first_of=${first_of}`);
+  getCountSellerByName(first_of: number, token: string): Promise<any> {
+    return http.get(
+      `/sellers/count_by_name/?first_of=${first_of}`,
+      authHeaders(token)
+    );
   }
 
-  getSummSellerByName(first_of: number): Promise<any> {
-    return http.get(`/sellers/summ_by_name/?first_of=${first_of}`);
+  getSummSellerByName(first_of: number, token: string): Promise<any> {
+    return http.get(
+      `/sellers/summ_by_name/?first_of=${first_of}`,
+      authHeaders(token)
+    );
   }
 }
 

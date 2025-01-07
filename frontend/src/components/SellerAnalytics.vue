@@ -30,9 +30,10 @@
 import { defineComponent } from "vue";
 import SellerDataService from "@/services/sellers";
 import { ICountSellerByName, ISummSellerByName } from "@/interfaces/seller";
-import ResponseData from "@/interfaces/ResponseData";
-import { Bar } from 'vue-chartjs'
+import { Bar } from 'vue-chartjs';
+import { useStore } from '@/store';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+import { checkTokenExpired } from "@/http-common";
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
@@ -61,28 +62,34 @@ export default defineComponent({
       message: "",
     };
   },
+  computed: {
+    authToken() {
+      const store = useStore();
+      console.log("store: ", store);
+      return store.state.auth.token;
+    },
+  },
   methods: {
-    
     async retrieveCountSellerByName() {
       try {
         let response = await SellerDataService.getCountSellerByName(
-          this.first_of_by_count
+          this.first_of_by_count, this.authToken
         );
         this.goods_list_by_count = response.data;
         console.log(response.data);
       } catch(e) {
-        console.log(e);
+        checkTokenExpired(e);
       }
     },
     async retrieveSummSellerByName() {
       try {
         let response = await SellerDataService.getSummSellerByName(
-          this.first_of_by_summ
+          this.first_of_by_summ, this.authToken
         );
         this.goods_list_by_summ = response.data;
         console.log(response.data);
       } catch(e) {
-        console.log(e);
+        checkTokenExpired(e);
       }
     },
     async fillChartDataCountByName() {

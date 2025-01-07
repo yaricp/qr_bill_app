@@ -47,6 +47,7 @@
   import GoodsDataService from "@/services/goods";
   import { IGoods } from "@/interfaces/goods";
   import ResponseData from "@/interfaces/ResponseData";
+  import { useStore } from '@/store';
   
   export default defineComponent({
     name: "goods-detail",
@@ -56,9 +57,16 @@
         message: "",
       };
     },
+    computed: {
+      authToken() {
+        const store = useStore();
+        console.log("store: ", store);
+        return store.state.auth.token;
+      },
+    },
     methods: {
       getGoods(id: any) {
-        GoodsDataService.get(id)
+        GoodsDataService.get(id, this.authToken)
           .then((response: ResponseData) => {
             this.currentGoods = response.data;
             console.log(response.data);
@@ -67,9 +75,12 @@
             console.log(e);
           });
       },
-  
       updateGoods() {
-        GoodsDataService.update(this.currentGoods.id, this.currentGoods)
+        GoodsDataService.update(
+          this.currentGoods.id,
+          this.currentGoods,
+          this.authToken
+        )
           .then((response: ResponseData) => {
             console.log(response.data);
             this.message = "The tutorial was updated successfully!";
@@ -78,9 +89,10 @@
             console.log(e);
           });
       },
-  
       deleteGoods() {
-        GoodsDataService.delete(this.currentGoods.id)
+        GoodsDataService.delete(
+          this.currentGoods.id, this.authToken
+        )
           .then((response: ResponseData) => {
             console.log(response.data);
             this.$router.push({ name: "tutorials" });

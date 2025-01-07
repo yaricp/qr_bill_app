@@ -60,7 +60,7 @@ class RestApiGRPC(grpc_pb2_grpc.RestApiGRPCServicer):
     async def GetUserLang(
         self, request, context: grpc.aio.ServicerContext
     ) -> UserLang:
-        user = await self.user_queries.get_user_by_tg_id(
+        user = self.user_queries.get_user_by_tg_id(
             tg_id=request.tg_user_id
         )
         return UserLang(lang=user.lang)
@@ -86,6 +86,7 @@ class RestApiGRPC(grpc_pb2_grpc.RestApiGRPCServicer):
         url = await self.user_commands.create_temp_login_link_by_tg_id(
             tg_id=request.tg_user_id
         )
+        logger.info(f"url: {url} in method of GRPC SErver")
         return LoginURL(url=url)
 
 

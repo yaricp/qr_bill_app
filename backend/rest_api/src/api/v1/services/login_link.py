@@ -1,4 +1,5 @@
 from uuid import UUID
+from loguru import logger
 
 from ....app.login_link import LoginLinkCommands
 
@@ -26,6 +27,7 @@ so its defined in each dependency body.
 
 
 def countdown_deleting_login_link(id: UUID) -> bool:
+    logger.info(f"id: {id}")
     login_link_commands = LoginLinkCommands()
     result = False
     command_result = login_link_commands.countdown_deleting(id=id)

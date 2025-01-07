@@ -1,13 +1,14 @@
 import authHeader from './auth-header';
+import { authHeaders } from '.';
 import http from "@/http-common";
 
 class UserService {
-  getPublicContent() {
-    return http.get('/users');
+  getUsers(token: string) {
+    return http.get('/users', authHeaders(token));
   }
 
-  getUserBoard() {
-    return http.get('/user', { headers: authHeader() });
+  getUserProfile(token: string) {
+    return http.get('/user', authHeaders(token));
   }
 
   getAdminBoard() {

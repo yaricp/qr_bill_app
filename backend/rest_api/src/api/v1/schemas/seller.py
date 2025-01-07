@@ -1,5 +1,6 @@
 from uuid import UUID
 from typing import Optional
+from decimal import Decimal
 
 from pydantic import BaseModel
 
@@ -51,3 +52,13 @@ class SellerInDB(SellerInDBBase):
 class SellerByCountGoods(BaseModel):
     name: str
     count_goods: int
+
+
+class SellerCountByName(BaseModel):
+    name: str
+    count: int
+
+
+class SellerSummByName(BaseModel):
+    name: str
+    summ: Decimal

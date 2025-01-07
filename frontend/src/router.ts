@@ -37,9 +37,19 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("./components/GoodsAdd.vue"),
   },
   {
+    path: "/logout",
+    name: "logout",
+    component: () => import("./components/user/Logout.vue"),
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("./components/user/Login.vue"),
+  },
+  {
+    path: "/login_by_tg/:link",
+    name: "login_by_tg",
+    component: () => import("./components/user/LoginByTG.vue"),
   },
   {
     path: "/register",
@@ -49,7 +59,6 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/profile",
     name: "profile",
-    // lazy-loaded
     component: () => import("./components/user/Profile.vue"),
   }
 ];
@@ -60,13 +69,19 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/login', '/register', '/home'];
-  const authRequired = !publicPages.includes(to.path);
+  const publicPages = [
+    '/login', '/login_by_tg/', '/register', '/home'
+  ];
+  console.log("to.path", to.path)
+  let authRequired = !publicPages.includes(to.path);
+  
   const tokenStorage = localStorage.getItem('token');
 
   // trying to access a restricted page + not logged in
   // redirect to login page
-  if (authRequired && !tokenStorage) {
+  if (to.path.includes("/login_by_tg/")) {
+    next();
+  } else if (authRequired && !tokenStorage) {
     console.log("Redirect to login")
     next('/login');
   } else {

@@ -5,6 +5,7 @@ from sqlalchemy import desc
 
 from ..infra.database import db_session
 from ..infra.database.models.seller import Seller as SellerORM
+from ..infra.database.models.bill import Bill as BillORM
 
 from .entities.seller import Seller, SellerCreate
 
@@ -29,17 +30,35 @@ class SellerQueries:
     async def get_seller(self, id: UUID):
         return SellerORM.query.get(id)
 
-    async def get_sellers_order_by_count_goods(self):
+    async def get_sellers_order_by_count_goods(
+        self,
+        first_of: int,
+        user_id: UUID
+    ):
         return db_session.query(
-            SellerORM.name, func.count(SellerORM.goods).label("count_goods")
+            BillORM.name, func.count(SellerORM.goods).label("count_goods")
         ).group_by(SellerORM.name).order_by(desc("count_goods")).all()
 
-    async def get_sellers_order_by_count_bills(self):
+    async def get_sellers_order_by_count_bills(
+        self,
+        first_of: int,
+        user_id: UUID
+    ):
+        logger.info(f"user_id: {user_id}")
         return db_session.query(
-            SellerORM.name, func.count(SellerORM.bills).label("count_bills")
-        ).group_by(SellerORM.name).order_by(desc("count_bills")).all()
+            BillORM.user_id,
+            func.count(BillORM.id).label("count")
+        ).where(
+            BillORM.user_id == user_id
+        ).join(SellerORM).group_by(
+            SellerORM.official_name
+        ).order_by(desc("count")).all()
 
-    async def get_sellers_order_by_summ_bills(self):
+    async def get_sellers_order_by_summ_bills(
+        self,
+        first_of: int,
+        user_id: UUID
+    ):
         return db_session.query(
             SellerORM.name, func.sum(SellerORM.bills).label("summ_bills")
         ).group_by(SellerORM.name).order_by(desc("summ_bills")).all()

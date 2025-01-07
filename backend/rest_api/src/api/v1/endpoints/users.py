@@ -17,7 +17,7 @@ from ..services.user import (
     get_all_users,
     register_new_user
 )
-from ..schemas.user import User, UserCreate
+from ..schemas.user import User, UserCreate, LoginLinkData
 
 
 @app.post(
@@ -42,7 +42,7 @@ async def register_route(
     URLPathsConfig.PREFIX + '/auth/login',
     tags=['Authentication']
 )
-def login_route(data: OAuth2PasswordRequestForm = Depends()) -> dict:
+async def login_route(data: OAuth2PasswordRequestForm = Depends()) -> dict:
     """Endpoint for login user"""
     email = data.username
     password = data.password
@@ -51,7 +51,7 @@ def login_route(data: OAuth2PasswordRequestForm = Depends()) -> dict:
     # if name != "admin" or password != "admin":
     logger.info(f"pass encoded: {sha256(password.encode()).hexdigest()}")
 
-    user = load_user(email)
+    user = load_user(email_or_link=email)
 
     if not user:
         # you can also use your own HTTPException
@@ -69,6 +69,32 @@ def login_route(data: OAuth2PasswordRequestForm = Depends()) -> dict:
             'token_type': 'bearer', }
 
 
+@app.post(
+    URLPathsConfig.PREFIX + '/auth/login_by_tg',
+    tags=['Authentication']
+)
+async def login_by_tg_route(data: LoginLinkData) -> dict:
+    """Endpoint for login user"""
+    link = data.link
+    logger.info(f"link: {link}")
+
+    user = load_user(email_or_link=link)
+
+    if not user:
+        # you can also use your own HTTPException
+        raise InvalidCredentialsException
+
+    logger.info(f"user.tg_id: {user.tg_id}")
+    access_token = manager.create_access_token(
+        data=dict(sub=str(user.tg_id)), expires=timedelta(
+            hours=user_login_config.TOKEN_EXPIRY_TIME_HOURS
+        )
+    )
+    logger.info(f"access_token: {access_token}")
+    return {'access_token': access_token,
+            'token_type': 'bearer', }
+
+
 @app.get(
     URLPathsConfig.PREFIX + "/users",
     tags=['Users'],
@@ -80,3 +106,20 @@ async def read_users_route() -> List[User]:
     """
     users: List[User] = await get_all_users()
     return users
+
+
+@app.get(
+    URLPathsConfig.PREFIX + "/user",
+    tags=['Users'],
+    response_model=User
+)
+async def read_user_profile_route(
+    user=Depends(manager)
+) -> User:
+    """
+    Retrieve user profile.
+    """
+    logger.info(f"user.password_hash: {user.password_hash}")
+    if user.password_hash:
+        user.password = "*****"
+    return user

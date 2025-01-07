@@ -1,49 +1,74 @@
 <template>
-    <div class="container">
+    <div class="container" v-if="currentUser">
       <header class="jumbotron">
         <h3>
-          <strong>{{currentUser.username}}</strong> Profile
+          Profile with ID:
+          <strong>{{ currentUser.id }}</strong>
         </h3>
       </header>
       <p>
-        <strong>Token:</strong>
-        {{currentUser.accessToken.substring(0, 20)}} ... {{currentUser.accessToken.substr(currentUser.accessToken.length - 20)}}
+        <strong>Id:</strong>
+        {{ currentUser.id }}
       </p>
       <p>
-        <strong>Id:</strong>
-        {{currentUser.id}}
+        <strong>Login:</strong>
+        {{ currentUser.login }}
       </p>
       <p>
         <strong>Email:</strong>
-        {{currentUser.email}}
+        {{ currentUser.email }}
       </p>
-      <strong>Authorities:</strong>
-      <ul>
-        <li v-for="role in currentUser.roles" :key="role">{{role}}</li>
-      </ul>
+      <p>
+        <strong>tg_id:</strong>
+        {{ currentUser.tg_id }}
+      </p>
+      <p>
+        <strong>password:</strong>
+        {{ currentUser.password_hash }}
+      </p>
     </div>
-  </template>
+</template>
   
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useStore } from "@/store";
+import UserService from "@/services/users";
+import { IUser } from "@/interfaces/users";
+import { checkTokenExpired } from "@/http-common";
 
 export default defineComponent({
   name: 'profile-page',
-  // setup () {
-  //     const store = useStore();
-  // },
+  data() {
+    return {
+      currentUser: {} as IUser,
+    }
+  },
   computed: {
     currentToken() {
       const store = useStore();
       return store.state.auth.token;
     }
   },
-  mounted() {
+  methods: {
+    async retrieveUser() {
+      console.log("start get User from server");
+      try {
+        let response = await UserService.getUserProfile(
+          this.currentToken
+        );
+        console.log(response.data);
+        this.currentUser = response.data;
+      } catch(e) {
+        checkTokenExpired(e);
+      }
+    } 
+  },
+  async mounted() {
     if (!this.currentToken) {
       this.$router.push('/login');
     }
-    
+    console.log("before retrieve User");
+    await this.retrieveUser();
   }
 });
 </script>

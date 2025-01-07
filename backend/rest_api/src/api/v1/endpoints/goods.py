@@ -16,6 +16,18 @@ from ..schemas.goods import (
     GoodsSummByName
 )
 
+from ..services.user import load_user
+from fastapi import FastAPI, Request, Response
+from fastapi.security import OAuth2PasswordBearer, SecurityScopes
+
+
+def local_manager(
+    request: Request,
+    security_scopes: SecurityScopes = None
+):
+    logger.info(f"request: {request}")
+    logger.info(f"security_scopes.scopes: {security_scopes.scopes}")
+    return load_user(email_or_link="admin@admin.ru")
 
 
 @app.post(
@@ -40,6 +52,7 @@ async def create_goods_route(
     response_model=List[Goods]
 )
 async def get_all_goods_route(user=Depends(manager)):
+    logger.info(f"user.id: {user.id}")
     goodss: MutableSequence[
         Goods
     ] = await get_all_goods(user_id=user.id)

@@ -28,6 +28,7 @@
   import GoodsDataService from "@/services/goods";
   import { IGoods } from "@/interfaces/goods";
   import ResponseData from "@/interfaces/ResponseData";
+  import { useStore } from '@/store';
   
   export default defineComponent({
     name: "add-goods",
@@ -40,13 +41,20 @@
         submitted: false,
       };
     },
+    computed: {
+      authToken() {
+        const store = useStore();
+        console.log("store: ", store);
+        return store.state.auth.token;
+      },
+    },
     methods: {
       saveGoods() {
         let data = {
           name: this.goods.name
         };
   
-        GoodsDataService.create(data)
+        GoodsDataService.create(data,this.authToken)
           .then((response: ResponseData) => {
             this.goods.id = response.data.id;
             console.log(response.data);
@@ -56,7 +64,6 @@
             console.log(e);
           });
       },
-  
       newGoods() {
         this.submitted = false;
         this.goods = {} as IGoods;

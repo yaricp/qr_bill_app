@@ -1,31 +1,31 @@
-
 import http from "@/http-common";
+import { authHeaders } from './'
 
 import { IBillUrl } from "@/interfaces/bills";
 
 class BillDataService {
-  getAll(): Promise<any> {
-    return http.get("/bills");
+  getAll(token: string): Promise<any> {
+    return http.get("/bills", authHeaders(token));
   }
 
-  get(id: any): Promise<any> {
-    return http.get(`/bills/${id}`);
+  get(id: any, token: string): Promise<any> {
+    return http.get(`/bills/${id}`, authHeaders(token));
   }
 
-  create(data: any): Promise<any> {
-    return http.post("/bills", data);
+  create(data: any, token: string): Promise<any> {
+    return http.post("/bills", data, authHeaders(token));
   }
 
-  update(id: any, data: any): Promise<any> {
-    return http.put(`/bills/${id}`, data);
+  update(id: any, data: any, token: string): Promise<any> {
+    return http.put(`/bills/${id}`, data, authHeaders(token));
   }
 
-  delete(id: any): Promise<any> {
-    return http.delete(`/bills/${id}`);
+  delete(id: any, token: string): Promise<any> {
+    return http.delete(`/bills/${id}`, authHeaders(token));
   }
 
-  sendUrl(url_data: IBillUrl): Promise<any> {
-    return http.post(`/bills/parse_url`, url_data);
+  sendUrl(url_data: IBillUrl, token: string): Promise<any> {
+    return http.post(`/bills/parse_url`, url_data, authHeaders(token));
   }
 
 }

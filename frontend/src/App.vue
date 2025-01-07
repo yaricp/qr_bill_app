@@ -16,9 +16,6 @@
           <router-link to="/goods" class="nav-link">Goods</router-link>
         </li>
         <li class="nav-item">
-          <router-link to="/add" class="nav-link">Add</router-link>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" @click.prevent="logOut">
             <font-awesome-icon icon="sign-out-alt" /> LogOut
           </a>
