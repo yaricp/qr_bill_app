@@ -21,6 +21,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("./components/SellerAnalytics.vue"),
   },
   {
+    path: "/category_analytics",
+    alias: "/category_analytics",
+    name: "category_analytics",
+    component: () => import("./components/CategoryAnalytics.vue"),
+  },
+  {
     path: "/goods/",
     name: "goods",
     component: () => import("./components/Goods.vue"),

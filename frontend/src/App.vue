@@ -7,6 +7,9 @@
           <router-link to="/qr_scanner" class="nav-link">QRScanner</router-link>
         </li>
         <li class="nav-item">
+          <router-link to="/category_analytics" class="nav-link">Category Analytics</router-link>
+        </li>
+        <li class="nav-item">
           <router-link to="/goods_analytics" class="nav-link">Goods Analytics</router-link>
         </li>
         <li class="nav-item">

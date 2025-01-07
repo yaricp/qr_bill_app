@@ -65,11 +65,6 @@
         <p>Please click on a Categories...</p>
       </div>
     </div>
-    <b-modal v-if="showedCreateCategoryForm" id="modal-1" title="BootstrapVue">
-      <p class="my-4">Hello from modal!</p>
-    </b-modal>
-    <b-button v-b-modal="'my-modal'">Show Modal</b-button>
-    <b-modal id="my-modal">Hello From My Modal!</b-modal>
   </div>
 </template>
   
@@ -80,10 +75,10 @@
   import ResponseData from "@/interfaces/ResponseData";
   import { useStore } from '@/store';
   import { checkTokenExpired } from "@/http-common";
+
   
   export default defineComponent({
     name: "categories-list",
-    compatConfig: { MODE: 3 },
     data() {
       return {
         cat_list: [] as ICategory[],

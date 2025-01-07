@@ -40,13 +40,13 @@ class GoodsQueries:
         if first_of:
             result = db_session.query(
                 GoodsORM.name, func.sum(GoodsORM.quantity).label("count")
-            ).group_by(
+            ).where(GoodsORM.user_id == user_id).group_by(
                 GoodsORM.name
             ).order_by(desc("count")).limit(first_of)
         else:
             result = db_session.query(
-                GoodsORM.name, func.count(GoodsORM.id).label("count")
-            ).group_by(
+                GoodsORM.name, func.sum(GoodsORM.quantity).label("count")
+            ).where(GoodsORM.user_id == user_id).group_by(
                 GoodsORM.name
             ).order_by(desc("count")).all()
         return result
@@ -58,14 +58,14 @@ class GoodsQueries:
             result = db_session.query(
                 GoodsORM.name,
                 func.sum(GoodsORM.price_after_vat).label("summ")
-            ).group_by(
+            ).where(GoodsORM.user_id == user_id).group_by(
                 GoodsORM.name
             ).order_by(desc("summ")).limit(first_of)
         else:
             result = db_session.query(
                 GoodsORM.name,
                 func.sum(GoodsORM.price_after_vat).label("summ")
-            ).group_by(
+            ).where(GoodsORM.user_id == user_id).group_by(
                 GoodsORM.name
             ).order_by(desc("summ")).all()
         # logger.info(f"result[:5] = {result[:5]}")
@@ -74,9 +74,15 @@ class GoodsQueries:
     async def goods_by_name_group_by_sellers(
         self, name: str, user_id: UUID
     ) -> list:
-        result = GoodsORM.query.filter_by(
-            name=name
-        ).join(SellerORM).group_by(seller_id)
+        result = GoodsORM.query(
+            SellerORM.name,
+            func.sum(GoodsORM.quantity).label("count")
+        ).join(SellerORM).where(
+            GoodsORM.user_id == user_id,
+            GoodsORM.name == name
+        ).group_by(
+            SellerORM.name
+        ).order_by(desc("count")).all()
         return result
 
 
