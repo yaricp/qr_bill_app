@@ -22,19 +22,13 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/goods/",
-    alias: "/goods",
     name: "goods",
-    component: () => import("./components/GoodsList.vue"),
+    component: () => import("./components/Goods.vue"),
   },
   {
-    path: "/goods/:id",
-    name: "goods-details",
-    component: () => import("./components/GoodsDetails.vue"),
-  },
-  {
-    path: "/goods/add",
-    name: "add",
-    component: () => import("./components/GoodsAdd.vue"),
+    path: "/categories",
+    name: "categories",
+    component: () => import("./components/Categories.vue"),
   },
   {
     path: "/logout",

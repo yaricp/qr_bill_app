@@ -2,7 +2,7 @@ from uuid import UUID
 from typing import List
 
 from ....app.category import (
-    CategoryViews, CategoryQueries, CategoryCommands
+    CategoryQueries, CategoryCommands
 )
 
 from ..schemas.category import (
@@ -18,14 +18,16 @@ so its defined in each dependency body.
 # ----Views----
 
 
-async def get_all_categories() -> List[Category]:
+async def get_all_categories(user_id: UUID) -> List[Category]:
     cat_views = CategoryQueries()
-    return await cat_views.get_all_categories()
+    return await cat_views.get_all_categories(user_id=user_id)
 
 
-async def get_category(id: UUID) -> Category:
+async def get_category(id: UUID, user_id: UUID) -> Category:
     cat_query = CategoryQueries()
-    return await cat_query.get_category(id=id)
+    return await cat_query.get_category(
+        id=id, user_id=user_id
+    )
 
 
 # -----Actions-----

@@ -13,6 +13,9 @@
           <router-link to="/seller_analytics" class="nav-link">Seller Analytics</router-link>
         </li>
         <li class="nav-item">
+          <router-link to="/categories" class="nav-link">Categories</router-link>
+        </li>
+        <li class="nav-item">
           <router-link to="/goods" class="nav-link">Goods</router-link>
         </li>
         <li class="nav-item">

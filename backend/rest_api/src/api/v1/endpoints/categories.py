@@ -25,6 +25,7 @@ async def create_category_route(
     """
     Create new category.
     """
+    item_in.user_id = user.id
     category = await create_category(
         category_data=item_in
     )
@@ -39,7 +40,7 @@ async def create_category_route(
 async def get_all_categorys_route(user=Depends(manager)):
     categorys: MutableSequence[
         Category
-    ] = await get_all_categories()
+    ] = await get_all_categories(user_id=user.id)
     return categorys
 
 
@@ -49,7 +50,7 @@ async def get_all_categorys_route(user=Depends(manager)):
     response_model=Category
 )
 async def get_category_route(id: UUID, user=Depends(manager)):
-    category: Category = await get_category(id=id)
+    category: Category = await get_category(id=id, user_id=user.id)
     return category
 
 
@@ -62,6 +63,7 @@ async def put_category_route(
     id: UUID, item_in: CategoryUpdate, user=Depends(manager)
 ):
     item_in.id = id
+    item_in.user_id = user.id
     category: Category = await update_category(
         category_data=item_in
     )
@@ -74,7 +76,5 @@ async def put_category_route(
     response_model=Category
 )
 async def delete_category_route(id: UUID, user=Depends(manager)):
-    result: Category = await delete_category(
-        id=id
-    )
+    result: Category = await delete_category(id=id)
     return result
