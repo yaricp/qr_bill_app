@@ -5,14 +5,14 @@
           <input
             type="text"
             class="form-control"
-            placeholder="Search by name"
-            v-model="name"
+            placeholder="Filter by name"
+            v-model="filter_name"
           />
           <div class="input-group-append">
             <button
               class="btn btn-outline-secondary"
               type="button"
-              @click="searchName"
+              @click="filterByName"
             >
               Search
             </button>
@@ -71,7 +71,7 @@
         goods_list: [] as IGoods[],
         currentGoods: {} as IGoods,
         currentIndex: -1,
-        name: "",
+        filter_name: "",
       };
     },
     computed: {
@@ -102,16 +102,11 @@
         this.currentGoods = tutorial;
         this.currentIndex = index;
       },
-      searchName() {
-        GoodsDataService.findByName(this.name, this.authToken)
-          .then((response: ResponseData) => {
-            this.goods_list = response.data;
-            this.setActiveGoods({} as IGoods);
-            console.log(response.data);
-          })
-          .catch((e: Error) => {
-            console.log(e);
-          });
+      filterByName() {
+        this.goods_list = this.goods_list.filter(
+          (item) => { item.name == this.filter_name}
+        );
+
       },
     },
     mounted() {

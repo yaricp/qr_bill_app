@@ -21,6 +21,15 @@
       </div>
     </div>
     <div class="col-md-12">
+      <button
+        class="btn btn-outline-secondary"
+        type="button"
+        @click="saveGategorizedGoods"
+      >
+        Save
+      </button>
+    </div>
+    <div class="col-md-12">
       <h4>Goods List</h4>
       <ul class="list-group">
         <li
