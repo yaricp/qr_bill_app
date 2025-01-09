@@ -2,20 +2,21 @@
     <div class="list row">
       <div class="col-md-8">
         <div class="input-group mb-3">
-          <input
+          Filter: <input
             type="text"
             class="form-control"
             placeholder="Filter by name"
             v-model="filter_name"
+            @keyup="filterByName"
           />
           <div class="input-group-append">
-            <button
+            <!-- <button
               class="btn btn-outline-secondary"
               type="button"
               @click="filterByName"
             >
               Search
-            </button>
+            </button> -->
           </div>
         </div>
       </div>
@@ -104,9 +105,8 @@
       },
       filterByName() {
         this.goods_list = this.goods_list.filter(
-          (item) => { item.name == this.filter_name}
+          (item) => { return item.name.includes(this.filter_name)}
         );
-
       },
     },
     mounted() {

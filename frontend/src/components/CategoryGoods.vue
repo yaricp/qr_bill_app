@@ -31,6 +31,13 @@
     </div>
     <div class="col-md-12">
       <h4>Goods List</h4>
+      Filter: <input
+            type="text"
+            class="form-control"
+            placeholder="Filter by name"
+            v-model="filter_name"
+            @keyup="filterByName"
+          />
       <ul class="list-group">
         <li
           class="list-group-item"
@@ -48,7 +55,7 @@
             class="form-check-label" 
             for="flexCheckDefault"
           >
-            {{ goods.name }} {{ goods.checked }}
+            {{ goods.name }}
           </label> 
         </li>
       </ul>
@@ -74,19 +81,19 @@
   import { ICategorizedGoods } from "@/interfaces/goods";
   import { useStore } from '@/store';
   import { checkTokenExpired } from "@/http-common";
-import { IGoods, IUncategorizedGoods } from "@/interfaces/goods";
-import { string } from "yup";
+  import { IGoods, IUncategorizedGoods } from "@/interfaces/goods";
 
-  
   export default defineComponent({
     name: "categories-list",
     compatConfig: { MODE: 3 },
     data() {
       return {
         cat_list: [] as ICategory[],
+        full_goods_list: [] as IUncategorizedGoods[],
         goods_list: [] as IUncategorizedGoods[],
         currentCat: {} as ICategory,
         list_goods_for_save: [] as IGoods[],
+        filter_name : "" as string
       }
     },
     computed: {
@@ -149,6 +156,7 @@ import { string } from "yup";
                 checked: false
             })
         }
+        this.full_goods_list = this.goods_list;
         await this.$nextTick();
         console.log("this.goods_list:", this.goods_list)
       },
@@ -188,6 +196,7 @@ import { string } from "yup";
           );
           console.log("saveGategorizedGoods response.data", response.data);
           await this.getAllGoods(this.currentCat.id);
+          this.filter_name = "";
         } catch(e) {
           checkTokenExpired(e);
         }
@@ -206,6 +215,11 @@ import { string } from "yup";
         } else {
           await this.retrieveUncategorizedGoods(cat_id);
         }
+      },
+      filterByName() {
+        this.goods_list = this.full_goods_list.filter(
+          (item) => { return item.name.includes(this.filter_name)}
+        );
       }
     },
     async mounted() {
