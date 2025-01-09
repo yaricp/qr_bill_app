@@ -19,6 +19,7 @@ import { Html5QrcodeScanner } from "html5-qrcode";
 import { useStore } from '@/store';
 import BillDataService from "@/services/bills";
 import { checkTokenExpired } from "@/http-common";
+import { ICategory } from "@/interfaces/categories";
 
 export default defineComponent({
     name: "qrscanner-page",
@@ -31,7 +32,7 @@ export default defineComponent({
             message: "" as string,
             found: false as boolean,
             html5QrcodeScanner: undefined as any,
-            result: {}
+            result: {},
         };
     },
     computed: {

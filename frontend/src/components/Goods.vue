@@ -27,7 +27,7 @@
             :class="{ active: index == currentIndex }"
             v-for="(goods, index) in goods_list"
             :key="index"
-            @click="setActiveGood(goods, index)"
+            @click="setActiveGoods(goods, index)"
           >
             {{ goods.name }}
           </li>

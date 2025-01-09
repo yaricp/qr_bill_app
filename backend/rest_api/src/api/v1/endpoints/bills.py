@@ -7,12 +7,13 @@ from ... import app, manager
 from ...config import URLPathsConfig
 from ..services.bill import (
     get_bill, get_all_bills, parse_link_bill,
-    update_bill, delete_bill, scan_qr_picture, create_bill
+    update_bill, delete_bill, scan_qr_picture,
+    create_bill, get_uncategorized_goods_bill
 )
 from ..schemas.bill import (
     Bill, BillCreateByURL, BillUpdate, BillCreate
 )
-
+from ..schemas.goods import Goods
 
 
 @app.get(
@@ -58,6 +59,20 @@ async def create_bill_route(
 async def get_bill_route(id: UUID, user=Depends(manager)) -> Bill:
     bill: Bill = await get_bill(id=id)
     return bill
+
+
+@app.get(
+    URLPathsConfig.PREFIX + "/bills/{id}/uncategorized_goods/{cat_id}",
+    tags=['Bills'],
+    response_model=List[Goods]
+)
+async def uncategorized_goods_bill_route(
+    id: UUID, cat_id: UUID, user=Depends(manager)
+) -> List[Goods]:
+    goods_list: List[Goods] = await get_uncategorized_goods_bill(
+        id=id, cat_id=cat_id, user_id=user.id
+    )
+    return goods_list
 
 
 @app.put(

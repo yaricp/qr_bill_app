@@ -44,16 +44,14 @@ async def get_pic_qr_handler(message: Message):
     # picture = FSInputFile(user_file_fullname)
     # await message.reply_photo(picture)
 
-    user_lang = get_user_lang(user_id)
-
     url = recognize_image(user_file_fullname)
     logger.info(f"url : {url}")
     if not url:
         await message.answer(
             "Maybe its not a QR of bill."
         )
-    result_bill = send_bill_url(url=url, user_id=user_id)
-
+    result_bill = await send_bill_url(url=url, user_id=user_id)
+    user_lang = await get_user_lang(user_id)
     await message.answer(
         result_parse_bill_view(
             text=result_bill, lang=user_lang

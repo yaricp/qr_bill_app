@@ -17,5 +17,7 @@ logger = get_logger(__name__)
 )
 async def cmd_about_handler(message: Message):
     user_id = str(message.from_user.id)
-    user_lang = get_user_lang(user_id)
-    await message.answer(about_view(lang=user_lang), parse_mode="HTML")
+    user_lang = await get_user_lang(user_id)
+    await message.answer(
+        about_view(lang=user_lang), parse_mode="HTML"
+    )

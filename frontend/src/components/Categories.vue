@@ -1,92 +1,93 @@
 <template>
   <div class="list row">
-    <div class="col-md-8">
+    <div class="col-md-12">
       <div class="input-group mb-3">
         <input
           type="text"
           class="form-control"
-          placeholder="Search by name"
-          v-model="search_name"
+          placeholder="name of a new category"
+          v-model="new_name_category"
         />
         <div class="input-group-append">
           <button
             class="btn btn-outline-secondary"
             type="button"
-            @click="searchName"
+            @click="addCategory"
           >
-            Search
+            Add
           </button>
         </div>
       </div>
     </div>
-    <div class="col-md-6">
-      <b-button
-        class="btn btn-outline-secondary"
-        type="button"
-        @click="showNewCategory"
-      >
-        Add
-      </b-button>
-      <b-button id="show-btn" @click="$bvModal.show('bv-modal-example')">
-        Open Modal
-      </b-button>
-    </div>
-    <div class="col-md-6">
+    <div class="col-md-12">
       <h4>Categories List</h4>
       <ul class="list-group">
         <li
           class="list-group-item"
-          :class="{ active: index == currentIndex }"
           v-for="(cat, index) in cat_list"
           :key="index"
-          @click="setActiveCat(cat, index)"
         >
-          {{ cat.name }}
+          <div class="col-md-6">
+            <span v-if="!editButtonShowed(index)">
+              {{ cat.name }}
+            </span>
+            <span v-if="editButtonShowed(index)">
+              <input 
+                type="text"
+                class="form-control"
+                v-model="currentCat.name"
+              />
+            </span>
+          </div>
+          <div class="col-md-6">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              v-if="!editButtonShowed(index)"
+              @click="showEdit(index, cat)"
+            >
+              Edit
+            </button>
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              v-if="editButtonShowed(index)"
+              @click="saveCategory(index, cat)"
+            >
+              Save
+            </button>
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              @click="delCategory(index, cat)"
+            >
+              Del
+            </button>
+          </div>
         </li>
       </ul>
-
-    </div>
-    <div class="col-md-6">
-      <div v-if="currentCat.id">
-        <h4>Tutorial</h4>
-        <div>
-          <label><strong>Name:</strong></label> 
-          {{ currentCat.name }}
-        </div>
-
-        <router-link
-          :to="currentCat.id"
-          class="badge badge-warning"
-          >Edit</router-link
-        >
-      </div>
-      <div v-else>
-        <br />
-        <p>Please click on a Categories...</p>
-      </div>
     </div>
   </div>
 </template>
   
-  <script lang="ts">
+<script lang="ts">
   import { defineComponent } from "vue";
   import CategoriesService from "@/services/categories";
   import { ICategory } from "@/interfaces/categories";
-  import ResponseData from "@/interfaces/ResponseData";
   import { useStore } from '@/store';
   import { checkTokenExpired } from "@/http-common";
 
   
   export default defineComponent({
     name: "categories-list",
+    compatConfig: { MODE: 3 },
     data() {
       return {
         cat_list: [] as ICategory[],
         currentCat: {} as ICategory,
         currentIndex: -1,
         new_name_category: "",
-        search_name: "",
-        showedCreateCategoryForm: false
+        showedCreateCategoryForm: false as boolean,
       };
     },
     computed: {
@@ -117,6 +118,8 @@
           );
           this.cat_list.push(response.data);
           console.log(response.data);
+          this.new_name_category = "";
+          // this.refreshList();
         } catch(e) {
           checkTokenExpired(e);
         }
@@ -133,19 +136,42 @@
         this.currentCat = tutorial;
         this.currentIndex = index;
       },
-      searchName() {
-        CategoriesService.findByName(
-          this.search_name, this.authToken
-        )
-          .then((response: ResponseData) => {
-            this.cat_list = response.data;
-            this.setActiveCat({} as ICategory);
-            console.log(response.data);
-          })
-          .catch((e: Error) => {
-            console.log(e);
-          });
+      async delCategory(index: number, cat: ICategory) {
+        try {
+          let response = await CategoriesService.delete(
+            cat.id,
+            this.authToken
+          );
+          this.cat_list.splice(index, 1);
+          console.log(response.data);
+        } catch(e) {
+          checkTokenExpired(e);
+        }
       },
+      editButtonShowed(index: number){
+        if(index == this.currentIndex){
+          return true;
+        } else {
+          return false;
+        }
+      },
+      showEdit(index: number, cat: ICategory){
+        this.currentIndex = index;
+        this.currentCat = cat;
+      },
+      async saveCategory(index: number, cat: ICategory) {
+        this.currentIndex = -1;
+        try {
+          let response = await CategoriesService.update(
+            cat.id, cat, this.authToken
+          );
+          this.cat_list[index] = response.data;
+          console.log(response.data);
+        } catch(e) {
+          checkTokenExpired(e);
+        }
+        this.currentCat = {} as ICategory;
+      }
     },
     mounted() {
       this.retrieveCategories();

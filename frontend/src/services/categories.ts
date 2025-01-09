@@ -8,7 +8,7 @@ class CategoriesService {
     return http.get("/categories", authHeaders(token));
   }
 
-  get(id: ICategory, token: string): Promise<any> {
+  get(id: string, token: string): Promise<any> {
     return http.get(`/categories/${id}`, authHeaders(token));
   }
 
@@ -16,11 +16,11 @@ class CategoriesService {
     return http.post("/categories", data, authHeaders(token));
   }
 
-  update(id: ICategory, data: any, token: string): Promise<any> {
+  update(id: string, data: ICategory, token: string): Promise<any> {
     return http.put(`/categories/${id}`, data, authHeaders(token));
   }
 
-  delete(id: any, token: string): Promise<any> {
+  delete(id: string, token: string): Promise<any> {
     return http.delete(`/categories/${id}`, authHeaders(token));
   }
 

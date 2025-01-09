@@ -1,5 +1,3 @@
-from sqlalchemy.event import listens_for
-
 from .base import Model
 from .seller import Seller
 from .goods import Goods

@@ -1,14 +1,15 @@
 from uuid import uuid4
-
+from typing import List, Set
 from sqlalchemy import (
-    UUID, Column, ForeignKey, Integer, BOOLEAN, VARCHAR, DECIMAL
+    UUID, Column, ForeignKey, Integer, BOOLEAN,
+    VARCHAR, DECIMAL
 )
-# from sqlalchemy import func
-from sqlalchemy.orm import relationship
-# from sqlalchemy.ext.hybrid import hybrid_property
 
-from .base import Model
-from .category import Category
+from sqlalchemy.orm import (
+    relationship, Mapped, mapped_column
+)
+
+from .base import Model, association_goods_category
 from .bill import Bill
 from .unit import Unit
 from .seller import Seller
@@ -60,12 +61,10 @@ class Goods(Model):
     )
     seller = relationship("Seller")
 
-    category_id = Column(
-        UUID,
-        ForeignKey(Category.id, ondelete="CASCADE"),
-        nullable=True
+    categories: Mapped[Set["Category"]] = relationship(
+        secondary=association_goods_category,
+        back_populates="goods"
     )
-    category = relationship("Category")
 
     def __repr__(self):
         return f"Goods {self.name} with id - <{self.id}>"

@@ -104,3 +104,8 @@ class GoodsCountByName(BaseModel):
 class GoodsSummByName(BaseModel):
     name: str
     summ: Decimal
+
+
+class CategoryGoods(BaseModel):
+    goods_id: UUID
+    cat_id: UUID

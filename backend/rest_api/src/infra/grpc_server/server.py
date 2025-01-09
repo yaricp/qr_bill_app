@@ -32,8 +32,20 @@ class RestApiGRPC(grpc_pb2_grpc.RestApiGRPCServicer):
         self, request, context: grpc.aio.ServicerContext
     ) -> BillInfo:
         logger.info(f"request.name: {request.url}")
-        result_bill = await self.bill_commands.parse_link_save_bill(request.url)
-        logger.info(f"result_bill: {result_bill}")
+        # result_bill = BillInfo(
+        #     date="user not found",
+        #     seller="user not found",
+        #     address="user not found",
+        #     summ=0.0
+        # )
+        user = await self.user_commands.register_user_by_tg_id(
+            tg_id=request.tg_user_id
+        )
+        if user:
+            result_bill = await self.bill_commands.parse_link_save_bill(
+                request.url, user_id=user.id
+            )
+            logger.info(f"result_bill: {result_bill}")
         return BillInfo(
             date=str(result_bill.created),
             seller=result_bill.seller.official_name,
@@ -44,7 +56,9 @@ class RestApiGRPC(grpc_pb2_grpc.RestApiGRPCServicer):
     async def GetTotalSumm(
         self, request, context: grpc.aio.ServicerContext
     ) -> TotalSumm:
-        total_summ = await self.bill_commands.get_total_summ()
+        total_summ = await self.bill_commands.get_total_summ(
+            user_id=request.tg_user_id
+        )
         return TotalSumm(
             summ=total_summ
         )

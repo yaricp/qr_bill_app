@@ -1,6 +1,7 @@
 
 import http from "@/http-common";
-import { authHeaders } from './';
+import { authHeaders } from "./";
+import { ICategorizedGoods } from "@/interfaces/goods";
 
 class GoodsDataService {
   getAll(token: string): Promise<any> {
@@ -25,6 +26,20 @@ class GoodsDataService {
 
   findByName(name: string, token: string): Promise<any> {
     return http.get(`/goods?name=${name}`, authHeaders(token));
+  }
+
+  getUncategorized(cat_id: string, token: string): Promise<any> {
+    return http.get(
+      `/goods/uncategorized/${cat_id}`, authHeaders(token)
+    );
+  }
+
+  saveCategorized(
+    data: ICategorizedGoods[], token: string
+  ): Promise<any> {
+    return http.post(
+      `/goods/save_categorized/`, data, authHeaders(token)
+    );
   }
 
   getCountGoodsByName(first_of: number, token: string): Promise<any> {

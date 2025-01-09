@@ -6,7 +6,7 @@ from ....app.goods import GoodsQueries, GoodsCommands
 
 from ..schemas.goods import (
     Goods, GoodsCreate, GoodsUpdate, GoodsCountByName,
-    GoodsSummByName
+    GoodsSummByName, CategoryGoods
 )
 
 
@@ -53,6 +53,18 @@ async def list_summ_group_by_name(
     return result
 
 
+async def list_uncategorized_goods(
+    user_id: UUID, cat_id: UUID
+) -> List[Goods]:
+    goods_queries: GoodsQueries = GoodsQueries()
+    result: List[
+        Goods
+    ] = await goods_queries.list_uncategorized_goods(
+        user_id=user_id, cat_id=cat_id
+    )
+    return result
+
+
 # --------Actions (commands) ---------
 
 
@@ -62,6 +74,17 @@ async def create_goods(
     goods_command = GoodsCommands()
     command_result = await goods_command.create_goods(
         goods_data
+    )
+    return command_result
+
+
+async def save_categorized_goods(
+    goods_data: List[CategoryGoods]
+) -> bool:
+    goods_command = GoodsCommands()
+    logger.info(f"goods_data: {goods_data}")
+    command_result = await goods_command.save_categorized_goods(
+        goods_data=goods_data
     )
     return command_result
 

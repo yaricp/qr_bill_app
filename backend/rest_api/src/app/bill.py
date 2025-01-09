@@ -8,6 +8,7 @@ from datetime import datetime
 
 from ..infra.database import db_session
 from ..infra.database.models import Bill as BillORM
+from ..infra.database.models import Goods as GoodsORM
 
 from .entities.unit import Unit, UnitCreate
 from .entities.bill import Bill, BillCreate
@@ -29,6 +30,19 @@ class BillQueries:
 
     async def get_bill(self, id: UUID):
         return BillORM.query.get(id)
+
+    async def get_uncategorized_goods(
+        self, bill_id: UUID, cat_id: UUID, user_id: UUID
+    ) -> List[Goods]:
+        result = []
+        user_goods = GoodsORM.query.filter_by(
+            bill_id=bill_id, user_id=user_id
+        ).all()
+        for u_goods in user_goods:
+            if cat_id not in [item.id for item in u_goods.categories]:
+                result.append(u_goods)
+
+        return result
 
 
 class BillCommands:
@@ -52,7 +66,9 @@ class BillCommands:
     async def get_by_id(self, id: UUID) -> Bill:
         return BillORM.query.get(id)
 
-    async def create_new_bill(self, incoming_item: BillCreate) -> Bill:
+    async def create_new_bill(
+        self, incoming_item: BillCreate
+    ) -> Bill:
         incoming_item_dict = incoming_item.dict()
         bill = BillORM(**incoming_item_dict)
         db_session.add(bill)
@@ -190,5 +206,5 @@ class BillCommands:
         result_data = json.loads(result.content)
         return result_data
 
-    async def get_total_summ(self) -> float:
+    async def get_total_summ(self, user_id: UUID) -> float:
         return 1700.0

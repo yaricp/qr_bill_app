@@ -4,6 +4,7 @@ from typing import List
 from ....app.bill import BillCommands, BillQueries
 
 from ..schemas.bill import Bill, BillUpdate, BillCreate
+from ..schemas.goods import Goods
 
 
 # -----Views-----
@@ -18,6 +19,14 @@ async def get_bill(id: UUID) -> Bill:
     query: BillQueries = BillQueries()
     return await query.get_bill(id=id)
 
+
+async def get_uncategorized_goods_bill(
+    id: UUID, cat_id: UUID, user_id: UUID
+) -> List[Goods]:
+    query: BillQueries = BillQueries()
+    return await query.get_uncategorized_goods(
+        bill_id=id, cat_id=cat_id, user_id=user_id
+    )
 
 # -------Commands-------
 

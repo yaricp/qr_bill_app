@@ -1,5 +1,5 @@
 export interface IGoods {
-    id: null;
+    id: string;
     name: string;
     quantity: number;
     unit_price_before_vat: number;
@@ -23,4 +23,15 @@ export interface ICountGoodsByName {
 export interface ISummGoodsByName {
   name: string;
   summ: number;
+}
+
+export interface IUncategorizedGoods {
+  id: string;
+  name: string;
+  checked: boolean;
+}
+
+export interface ICategorizedGoods {
+  goods_id: string;
+  cat_id: string;
 }

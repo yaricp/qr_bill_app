@@ -8,9 +8,10 @@ from pydantic import BaseModel
 class CategoryBase(BaseModel):
     id: Optional[UUID] = None
     name: Optional[str] = None
+    user_id: Optional[UUID] = None
 
 
-class CategoryCreate(BaseModel):
+class CategoryCreate(CategoryBase):
     name: str
 
 

@@ -29,12 +29,12 @@ async def get_url_handler(message: Message):
         message (Message): _description_
     """
 
-    logger.info(f"text: {message.text}")
+    logger.info(f"get_url_handler text: {message.text}")
     user_id = message.from_user.id
-    user_lang = get_user_lang(user_id)
-    result_bill = send_bill_url(
+    result_bill = await send_bill_url(
         url=message.text, user_id=user_id
     )
+    user_lang = await get_user_lang(user_id)
 
     await message.answer(
         result_parse_bill_view(

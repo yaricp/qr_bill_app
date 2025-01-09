@@ -9,11 +9,12 @@ from ...config import URLPathsConfig
 from ..services.goods import (
     get_goods, create_goods, get_all_goods,
     update_goods, delete_goods, list_count_group_by_name,
-    list_summ_group_by_name, strip_all_names
+    list_summ_group_by_name, strip_all_names,
+    list_uncategorized_goods, save_categorized_goods
 )
 from ..schemas.goods import (
     Goods, GoodsCreate, GoodsUpdate, GoodsCountByName,
-    GoodsSummByName
+    GoodsSummByName, CategoryGoods
 )
 
 from ..services.user import load_user
@@ -41,9 +42,28 @@ async def create_goods_route(
     """
     Create new goods.
     """
-    goods_data.user_id = user.id
+    item_in.user_id = user.id
     goods = await create_goods(goods_data=item_in)
     return goods
+
+
+@app.post(
+    URLPathsConfig.PREFIX + "/goods/save_categorized/",
+    tags=['Goods'],
+    response_model=bool
+)
+async def save_categorized_goods_route(
+    data_in: List[CategoryGoods], user=Depends(manager)
+) -> bool:
+    """
+    Create new goods.
+    """
+    # for goods in data_in:
+    #     goods.user_id = user.id
+    result = await save_categorized_goods(
+        goods_data=data_in
+    )
+    return result
 
 
 @app.get(
@@ -91,6 +111,23 @@ async def put_goods_route(
 async def delete_goods_route(id: UUID, user=Depends(manager)):
     result: Goods = await delete_goods(
         id=id, user_id=user.id
+    )
+    return result
+
+
+@app.get(
+    URLPathsConfig.PREFIX + "/goods/uncategorized/{cat_id}",
+    tags=['Goods'],
+    response_model=List[Goods]
+)
+async def uncategorized_goods_route(
+    cat_id: UUID,
+    user=Depends(manager)
+) -> List[Goods]:
+    result: List[
+        Goods
+    ] = await list_uncategorized_goods(
+        user_id=user.id, cat_id=cat_id
     )
     return result
 

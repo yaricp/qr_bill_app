@@ -22,16 +22,16 @@ class GPRCClient:
         self.api_address =  f"{tg_bot_config.GRPC_HOST}"\
                             f":{tg_bot_config.GRPC_PORT}"
 
-    def send_bill_url(self, url: str) -> dict:
+    async def send_bill_url(self, url: str) -> dict:
         with grpc.insecure_channel(self.api_address) as channel:
             stub = RestApiGRPCStub(channel)
             response = stub.SendBillUrl(
-                BillUrl(url=url)
+                BillUrl(url=url, tg_user_id=self.user_id)
             )
         logger.info(f"response: {response}")
         return MessageToDict(response)
 
-    def get_or_create_user(self) -> dict:
+    async def get_or_create_user(self) -> dict:
         with grpc.insecure_channel(self.api_address) as channel:
             stub = RestApiGRPCStub(channel)
             response = stub.GetOrCreateUser(
@@ -40,7 +40,7 @@ class GPRCClient:
         logger.info(f"response: {response}")
         return response.lang
 
-    def get_user_lang(self) -> dict:
+    async def get_user_lang(self) -> dict:
         with grpc.insecure_channel(self.api_address) as channel:
             stub = RestApiGRPCStub(channel)
             response = stub.GetUserLang(
@@ -49,7 +49,7 @@ class GPRCClient:
         logger.info(f"response: {response}")
         return response.lang
 
-    def set_user_lang(self, lang: str) -> dict:
+    async def set_user_lang(self, lang: str) -> dict:
         with grpc.insecure_channel(self.api_address) as channel:
             stub = RestApiGRPCStub(channel)
             response = stub.SetUserLang(
@@ -61,7 +61,7 @@ class GPRCClient:
         logger.info(f"response: {response}")
         return MessageToDict(response)
 
-    def get_login_url(self) -> dict:
+    async def get_login_url(self) -> dict:
         with grpc.insecure_channel(self.api_address) as channel:
             stub = RestApiGRPCStub(channel)
             response = stub.GetLoginURL(

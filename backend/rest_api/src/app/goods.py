@@ -1,16 +1,21 @@
 from uuid import UUID
+from typing import List
 from datetime import datetime
 from loguru import logger
 from sqlalchemy.sql import func
 from sqlalchemy import desc
 
 from ..infra.database import db_session
+from ..infra.database.models.base import association_goods_category
 from ..infra.database.models import (
-    Goods as GoodsORM, Seller as SellerORM
+    Goods as GoodsORM, Seller as SellerORM,
+    Category as CategoryORM
 )
 
 
-from .entities.goods import Goods, GoodsCreate, GoodsUpdate
+from .entities.goods import (
+    Goods, GoodsCreate, GoodsUpdate, CategoryGoods
+)
 
 
 class GoodsViews:
@@ -85,6 +90,19 @@ class GoodsQueries:
         ).order_by(desc("count")).all()
         return result
 
+    async def list_uncategorized_goods(
+        self, user_id: UUID, cat_id: UUID
+    ) -> List[Goods]:
+        result = []
+        user_goods = GoodsORM.query.filter_by(
+            user_id=user_id
+        ).all()
+        for u_goods in user_goods:
+            if cat_id not in [item.id for item in u_goods.categories]:
+                result.append(u_goods)
+
+        return result
+
 
 class GoodsCommands:
 
@@ -117,6 +135,24 @@ class GoodsCommands:
         db_session.commit()
         logger.info(f"goods: {goods}")
         return goods
+
+    async def save_categorized_goods(
+        self, goods_data: List[CategoryGoods]
+    ) -> bool:
+        try:
+            for item in goods_data:
+                goods = GoodsORM.query.get(item.goods_id)
+                cat = CategoryORM.query.get(item.cat_id)
+                goods.categories.add(cat)
+                db_session.commit()
+                # db_session.bulk_update_mappings(
+                #     association_goods_category, goods_data
+                # )
+            return True
+        except Exception as err:
+            logger.error(f"Error: {err}")
+            return False
+        return True
 
     async def update_goods(self, incoming_item: GoodsUpdate) -> Goods:
         found_goods = GoodsORM.query.get(incoming_item.id)

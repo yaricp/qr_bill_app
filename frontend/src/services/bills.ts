@@ -28,6 +28,15 @@ class BillDataService {
     return http.post(`/bills/parse_url`, url_data, authHeaders(token));
   }
 
+  getUncategorizedGoods(
+    id: string, cat_id: string, token: string
+  ): Promise<any> {
+    return http.get(
+      `/bills/${id}/uncategorized_goods/${cat_id}`,
+      authHeaders(token)
+    );
+  }
+
 }
 
 export default new BillDataService();

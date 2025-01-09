@@ -18,9 +18,9 @@ logger = get_logger(__name__)
 )
 async def cmd_create_link_handler(message: Message):
     tg_user_id = message.from_user.id
-    url = get_login_url(tg_user_id)
+    url = await get_login_url(tg_user_id)
     time_expiry = get_time_expiry_login_url()
-    user_lang = get_user_lang(tg_user_id)
+    user_lang = await get_user_lang(tg_user_id)
     reply_mess = await message.answer(
         login_url_created_view(
             url=url,

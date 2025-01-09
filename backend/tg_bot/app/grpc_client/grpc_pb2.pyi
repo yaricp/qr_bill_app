@@ -6,10 +6,12 @@ from typing import ClassVar as _ClassVar, Optional as _Optional
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class BillUrl(_message.Message):
-    __slots__ = ("url",)
+    __slots__ = ("url", "tg_user_id")
     URL_FIELD_NUMBER: _ClassVar[int]
+    TG_USER_ID_FIELD_NUMBER: _ClassVar[int]
     url: str
-    def __init__(self, url: _Optional[str] = ...) -> None: ...
+    tg_user_id: int
+    def __init__(self, url: _Optional[str] = ..., tg_user_id: _Optional[int] = ...) -> None: ...
 
 class BillInfo(_message.Message):
     __slots__ = ("date", "seller", "address", "summ")
@@ -24,10 +26,12 @@ class BillInfo(_message.Message):
     def __init__(self, date: _Optional[str] = ..., seller: _Optional[str] = ..., address: _Optional[str] = ..., summ: _Optional[float] = ...) -> None: ...
 
 class TotalSumm(_message.Message):
-    __slots__ = ("summ",)
+    __slots__ = ("summ", "tg_user_id")
     SUMM_FIELD_NUMBER: _ClassVar[int]
+    TG_USER_ID_FIELD_NUMBER: _ClassVar[int]
     summ: float
-    def __init__(self, summ: _Optional[float] = ...) -> None: ...
+    tg_user_id: int
+    def __init__(self, summ: _Optional[float] = ..., tg_user_id: _Optional[int] = ...) -> None: ...
 
 class TgUserID(_message.Message):
     __slots__ = ("tg_user_id",)

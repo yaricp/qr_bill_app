@@ -81,6 +81,7 @@ class CategoryCommands:
     ) -> Category:
         cat = CategoryORM.query.filter_by(
             id=id
-        ).delete()
+        ).first()
+        db_session.delete(cat)
         db_session.commit()
         return cat

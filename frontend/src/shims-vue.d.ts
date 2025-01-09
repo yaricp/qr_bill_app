@@ -7,6 +7,11 @@ declare module '*.vue' {
   export default component
 }
 
+// declare module '*.vue' {
+//   import Vue from 'vue';
+//   export default Vue;
+// }
+
 declare module 'vue/types/vue' {
   interface Vue {
     $router: VueRouter
@@ -14,3 +19,5 @@ declare module 'vue/types/vue' {
 }
 
 declare module '@j-t-mcc/vue3-chartjs'
+
+declare module 'bootstrap/dist/js/bootstrap.bundle'

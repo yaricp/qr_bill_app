@@ -96,3 +96,8 @@ class Goods(GoodsInDBBase):
 # Properties properties stored in DB
 class GoodsInDB(GoodsInDBBase):
     pass
+
+
+class CategoryGoods(BaseModel):
+    goods_id: UUID
+    cat_id: UUID
