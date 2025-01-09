@@ -1,3 +1,5 @@
+import { ICategory } from "./categories";
+
 export interface IGoods {
     id: string;
     name: string;
@@ -13,6 +15,7 @@ export interface IGoods {
     unit_id: string;
     bill_id: string;
     category_id: string;
+    categories: ICategory[];
   }
 
 export interface ICountGoodsByName {

@@ -9,15 +9,6 @@
             v-model="filter_name"
             @keyup="filterByName"
           />
-          <div class="input-group-append">
-            <!-- <button
-              class="btn btn-outline-secondary"
-              type="button"
-              @click="filterByName"
-            >
-              Search
-            </button> -->
-          </div>
         </div>
       </div>
       <div class="col-md-6">
@@ -25,10 +16,9 @@
         <ul class="list-group">
           <li
             class="list-group-item"
-            :class="{ active: index == currentIndex }"
             v-for="(goods, index) in goods_list"
             :key="index"
-            @click="setActiveGoods(goods, index)"
+            @click="goToGoods(goods)"
           >
             {{ goods.name }}
           </li>
@@ -57,11 +47,9 @@
   </template>
   
   <script lang="ts">
-  import axios, {AxiosError} from "axios";
   import { defineComponent } from "vue";
   import GoodsDataService from "@/services/goods";
   import { IGoods } from "@/interfaces/goods";
-  import ResponseData from "@/interfaces/ResponseData";
   import { useStore } from '@/store';
   import { checkTokenExpired } from "@/http-common";
   
@@ -99,9 +87,10 @@
         this.currentGoods = {} as IGoods;
         this.currentIndex = -1;
       },
-      setActiveGoods(tutorial: IGoods, index = -1) {
-        this.currentGoods = tutorial;
-        this.currentIndex = index;
+      goToGoods(goods: IGoods) {
+        this.$router.push({
+          name: "goods_detail", params: { goods_id: goods.id}
+        });
       },
       filterByName() {
         this.goods_list = this.goods_list.filter(
