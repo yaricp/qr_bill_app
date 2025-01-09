@@ -73,7 +73,7 @@ class GoodsQueries:
             ).where(GoodsORM.user_id == user_id).group_by(
                 GoodsORM.name
             ).order_by(desc("summ")).all()
-        # logger.info(f"result[:5] = {result[:5]}")
+        logger.info(f"result[:5] = {result[:5]}")
         return result
 
     async def goods_by_name_group_by_sellers(

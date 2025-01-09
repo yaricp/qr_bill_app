@@ -35,9 +35,21 @@ class SellerQueries:
         first_of: int,
         user_id: UUID
     ):
-        return db_session.query(
-            BillORM.name, func.count(SellerORM.goods).label("count_goods")
-        ).group_by(SellerORM.name).order_by(desc("count_goods")).all()
+        if first_of:
+            result = db_session.query(
+                BillORM.name,
+                func.count(SellerORM.goods).label("count_goods")
+            ).where(BillORM.user_id == user_id).group_by(
+                SellerORM.name
+            ).order_by(desc("count_goods")).limit(first_of)
+        else:
+            result = db_session.query(
+                BillORM.name,
+                func.count(SellerORM.goods).label("count_goods")
+            ).where(BillORM.user_id == user_id).group_by(
+                SellerORM.name
+            ).order_by(desc("count_goods")).all()
+        return result
 
     async def get_sellers_order_by_count_bills(
         self,
@@ -45,23 +57,51 @@ class SellerQueries:
         user_id: UUID
     ):
         logger.info(f"user_id: {user_id}")
-        return db_session.query(
-            BillORM.user_id,
-            func.count(BillORM.id).label("count")
-        ).where(
-            BillORM.user_id == user_id
-        ).join(SellerORM).group_by(
-            SellerORM.official_name
-        ).order_by(desc("count")).all()
+        if first_of:
+            result = db_session.query(
+                SellerORM.official_name.label("name"),
+                func.count(BillORM.id).label("count")
+            ).where(
+                BillORM.user_id == user_id
+            ).join(SellerORM).group_by(
+                SellerORM.official_name
+            ).order_by(desc("count")).limit(first_of)
+        else:
+            result = db_session.query(
+                SellerORM.official_name.label("name"),
+                func.count(BillORM.id).label("count")
+            ).where(
+                BillORM.user_id == user_id
+            ).join(SellerORM).group_by(
+                SellerORM.official_name
+            ).order_by(desc("count")).all()
+        return result
 
     async def get_sellers_order_by_summ_bills(
         self,
         first_of: int,
         user_id: UUID
     ):
-        return db_session.query(
-            SellerORM.name, func.sum(SellerORM.bills).label("summ_bills")
-        ).group_by(SellerORM.name).order_by(desc("summ_bills")).all()
+        if first_of:
+            result = db_session.query(
+                SellerORM.official_name.label("name"),
+                func.sum(BillORM.value).label("summ")
+            ).where(
+                BillORM.user_id == user_id
+            ).join(SellerORM).group_by(
+                SellerORM.official_name
+            ).order_by(desc("summ")).limit(first_of)
+        else:
+            result = db_session.query(
+                SellerORM.official_name.label("name"),
+                func.sum(BillORM.value).label("summ")
+            ).where(
+                BillORM.user_id == user_id
+            ).join(SellerORM).group_by(
+                SellerORM.official_name
+            ).order_by(desc("summ")).all()
+
+        return result
 
 
 class SellerCommands:

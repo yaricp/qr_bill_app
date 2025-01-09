@@ -51,8 +51,13 @@ async def list_count_group_by_name(
 async def list_summ_group_by_name(
     first_of: int, user_id: UUID
 ) -> List[SellerSummByName]:
-    query: SellerQueries = SellerQueries()
-    return []
+    queries: SellerQueries = SellerQueries()
+    result: List[
+        SellerSummByName
+    ] = await queries.get_sellers_order_by_summ_bills(
+        first_of=first_of, user_id=user_id
+    )
+    return result
 
 
 # ------Actons(Commands)-------
