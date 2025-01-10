@@ -1,7 +1,8 @@
 export interface IBill {
     id: null;
     created: string;
-    summ: number;
+    value: number;
+    image?: string;
 }
 
 export interface IBillUrl {

@@ -23,6 +23,9 @@
           <router-link to="/categories" class="nav-link">Categories</router-link>
         </li>
         <li class="nav-item">
+          <router-link to="/bills" class="nav-link">Bills</router-link>
+        </li>
+        <li class="nav-item">
           <router-link to="/goods" class="nav-link">Goods</router-link>
         </li>
         <li class="nav-item">
