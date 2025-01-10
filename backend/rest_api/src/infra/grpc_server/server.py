@@ -14,6 +14,7 @@ from .grpc_pb2 import (
 from ...app.bill import BillCommands
 from ...app.user import UserCommands, UserQueries
 from ...app.entities.user import UserUpdate
+from ...app.entities.bill import BillCreateByURL
 
 from .config import grpc_server_config
 
@@ -42,8 +43,12 @@ class RestApiGRPC(grpc_pb2_grpc.RestApiGRPCServicer):
             tg_id=request.tg_user_id
         )
         if user:
+            income_bill = BillCreateByURL(
+                link=request.url,
+                image=""
+            )
             result_bill = await self.bill_commands.parse_link_save_bill(
-                request.url, user_id=user.id
+                income_bill, user_id=user.id
             )
             logger.info(f"result_bill: {result_bill}")
         return BillInfo(
