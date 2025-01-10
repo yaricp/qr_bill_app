@@ -1,5 +1,6 @@
 from uuid import UUID
 from typing import Optional
+from decimal import Decimal
 
 from pydantic import BaseModel
 
@@ -37,3 +38,13 @@ class Category(CategoryInDBBase):
 # Properties properties stored in DB
 class CategoryInDB(CategoryInDBBase):
     pass
+
+
+class CategoryCountByName(BaseModel):
+    name: str
+    count: Decimal
+
+
+class CategorySummByName(BaseModel):
+    name: str
+    summ: Decimal

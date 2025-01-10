@@ -6,16 +6,18 @@ from fastapi import Depends
 from ... import app, manager
 from ...config import URLPathsConfig
 from ..services.category import (
-    get_category, create_category, get_all_categories,
-    update_category, delete_category
+    get_category, get_all_categories,
+    update_category, delete_category, create_category,
+    count_goods_by_name_categories, summ_goods_by_name_categories
 )
 from ..schemas.category import (
-    Category, CategoryCreate, CategoryUpdate
+    Category, CategoryCreate, CategoryUpdate,
+    CategoryCountByName, CategorySummByName
 )
 
 
 @app.post(
-    URLPathsConfig.PREFIX + "/categories",
+    URLPathsConfig.PREFIX + "/categories/",
     tags=['Categories'],
     response_model=Category
 )
@@ -33,15 +35,15 @@ async def create_category_route(
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/categories",
+    URLPathsConfig.PREFIX + "/categories/",
     tags=['Categories'],
     response_model=List[Category]
 )
-async def get_all_categorys_route(user=Depends(manager)):
-    categorys: MutableSequence[
+async def get_all_categories_route(user=Depends(manager)):
+    categories: List[
         Category
     ] = await get_all_categories(user_id=user.id)
-    return categorys
+    return categories
 
 
 @app.get(
@@ -78,3 +80,35 @@ async def put_category_route(
 async def delete_category_route(id: UUID, user=Depends(manager)):
     result: Category = await delete_category(id=id)
     return result
+
+
+@app.get(
+    URLPathsConfig.PREFIX + "/categories/count_goods_by_name/",
+    tags=['Categories'],
+    response_model=List[CategoryCountByName]
+)
+async def count_goods_by_name_route(
+    first_of: int = 0, user=Depends(manager)
+) -> List[CategoryCountByName]:
+    categories: List[
+        CategoryCountByName
+    ] = await count_goods_by_name_categories(
+        first_of=first_of, user_id=user.id
+    )
+    return categories
+
+
+@app.get(
+    URLPathsConfig.PREFIX + "/categories/summ_goods_by_name/",
+    tags=['Categories'],
+    response_model=List[CategorySummByName]
+)
+async def summ_goods_by_name_route(
+    first_of: int = 0, user=Depends(manager)
+) -> List[CategorySummByName]:
+    categories: List[
+        CategorySummByName
+    ] = await summ_goods_by_name_categories(
+        first_of=first_of, user_id=user.id
+    )
+    return categories

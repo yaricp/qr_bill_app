@@ -6,7 +6,8 @@ from ....app.category import (
 )
 
 from ..schemas.category import (
-    Category, CategoryCreate, CategoryUpdate
+    Category, CategoryCreate, CategoryUpdate,
+    CategoryCountByName, CategorySummByName
 )
 
 
@@ -27,6 +28,24 @@ async def get_category(id: UUID, user_id: UUID) -> Category:
     cat_query = CategoryQueries()
     return await cat_query.get_category(
         id=id, user_id=user_id
+    )
+
+
+async def count_goods_by_name_categories(
+    first_of: int, user_id: UUID
+) -> CategoryCountByName:
+    cat_query = CategoryQueries()
+    return await cat_query.count_goods_by_name(
+        first_of=first_of, user_id=user_id
+    )
+
+
+async def summ_goods_by_name_categories(
+    first_of: int, user_id: UUID
+) -> CategorySummByName:
+    cat_query = CategoryQueries()
+    return await cat_query.summ_goods_by_name(
+        first_of=first_of, user_id=user_id
     )
 
 

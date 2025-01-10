@@ -1,10 +1,18 @@
 <template>
     <div>
-      <h4>Analitics</h4>
+      <h4>{{ main_header }}</h4>
+      <p></p>
+      <hr>
+      <p></p>
+      <p>{{ plot_header_by_count }}</p>
       <p>
         First from all by count: 
         <input v-model="first_of_by_count">
-        <button @click="fillChartDataCountByName"/>
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          @click="fillChartDataCountByName"
+        >Start</button>
       </p>
       <Bar
         v-if="loaded_by_count"
@@ -12,10 +20,16 @@
         :options="chartOptions"
         :data="chartDataCountByName"
       />
+      <hr>
+      <p>{{ plot_header_by_summ }}</p>
       <p>
         First from all by summ: 
         <input v-model="first_of_by_summ">
-        <button @click="fillChartDataSummByName"/>
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          @click="fillChartDataSummByName"
+        >Start</button>
       </p>
       <Bar
         v-if="loaded_by_summ"
@@ -28,11 +42,11 @@
   
 <script lang="ts">
 import { defineComponent } from "vue";
-import GoodsDataService from "@/services/goods";
-import { ICountGoodsByName, ISummGoodsByName } from "@/interfaces/goods";
-import { Bar } from 'vue-chartjs'
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+import CategoryDataService from "@/services/categories";
+import { ICountSellerByName, ISummSellerByName } from "@/interfaces/seller";
+import { Bar } from 'vue-chartjs';
 import { useStore } from '@/store';
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
 import { checkTokenExpired } from "@/http-common";
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
@@ -42,6 +56,9 @@ export default defineComponent({
   components: { Bar },
   data() {
     return {
+      main_header: "Analytics Goods by categories" as string,
+      plot_header_by_count: "Quantities goods by categories" as string,
+      plot_header_by_summ: "Total price goods by categories" as string,
       loaded_by_count: false,
       loaded_by_summ: false,
       first_of_by_count: 10 as number,
@@ -57,8 +74,8 @@ export default defineComponent({
       chartOptions: {
         responsive: true
       },
-      goods_list_by_count: [] as ICountGoodsByName[],
-      goods_list_by_summ: [] as ISummGoodsByName[],
+      goods_list_by_count: [] as ICountSellerByName[],
+      goods_list_by_summ: [] as ISummSellerByName[],
       message: "",
     };
   },
@@ -69,10 +86,10 @@ export default defineComponent({
       return store.state.auth.token;
     },
   },
-  methods: { 
-    async retrieveCountGoodsByName() {
+  methods: {
+    async retrieveCountGoodsByNameCategories() {
       try {
-        let response = await GoodsDataService.getCountGoodsByName(
+        let response = await CategoryDataService.getCountGoodsByNameCategory(
           this.first_of_by_count, this.authToken
         );
         this.goods_list_by_count = response.data;
@@ -81,9 +98,9 @@ export default defineComponent({
         checkTokenExpired(e);
       }
     },
-    async retrieveSummGoodsByName() {
+    async retrieveSummGoodsByNameCategories() {
       try {
-        let response = await GoodsDataService.getSummGoodsByName(
+        let response = await CategoryDataService.getSummGoodsByNameCategory(
           this.first_of_by_summ, this.authToken
         );
         this.goods_list_by_summ = response.data;
@@ -94,7 +111,7 @@ export default defineComponent({
     },
     async fillChartDataCountByName() {
       this.loaded_by_count = false;
-      await this.retrieveCountGoodsByName();
+      await this.retrieveCountGoodsByNameCategories();
       let count_goods_by_name_labels = [] as Array<string>;
       let count_goods_by_name_values = [] as Array<number>;
       for (const item of this.goods_list_by_count) {
@@ -107,7 +124,7 @@ export default defineComponent({
     },
     async fillChartDataSummByName() {
       this.loaded_by_summ = false;
-      await this.retrieveSummGoodsByName();
+      await this.retrieveSummGoodsByNameCategories();
       let summ_goods_by_name_labels = [] as Array<string>;
       let summ_goods_by_name_values = [] as Array<number>;
       for (const item of this.goods_list_by_summ) {

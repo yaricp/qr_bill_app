@@ -6,7 +6,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/",
     alias: "/goods_analytics",
     name: "goods_analytics",
-    component: () => import("./components/GoodsAnalytics.vue"),
+    component: () => import("./components/analytics/GoodsAnalytics.vue"),
   },
   {
     path: "/qr_scanner",
@@ -18,28 +18,28 @@ const routes: Array<RouteRecordRaw> = [
     path: "/seller_analytics",
     alias: "/seller_analytics",
     name: "seller_analytics",
-    component: () => import("./components/SellerAnalytics.vue"),
+    component: () => import("./components/analytics/SellerAnalytics.vue"),
   },
   {
     path: "/category_analytics",
     alias: "/category_analytics",
     name: "category_analytics",
-    component: () => import("./components/CategoryAnalytics.vue"),
+    component: () => import("./components/analytics/CategoryAnalytics.vue"),
   },
   {
     path: "/goods/",
     name: "goods",
-    component: () => import("./components/Goods.vue"),
+    component: () => import("./components/list_objects/Goods.vue"),
   },
   {
     path: "/goods_detail/:goods_id",
     name: "goods_detail",
-    component: () => import("./components/GoodsDetail.vue"),
+    component: () => import("./components/objects/GoodsDetail.vue"),
   },
   {
     path: "/categories",
     name: "categories",
-    component: () => import("./components/Categories.vue"),
+    component: () => import("./components/list_objects/Categories.vue"),
   },
   {
     path: "/category_goods/:bill_id",

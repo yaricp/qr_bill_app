@@ -5,7 +5,7 @@ import { ICategory, ICreateCategory } from "@/interfaces/categories";
 
 class CategoriesService {
   getAll(token: string): Promise<any> {
-    return http.get("/categories", authHeaders(token));
+    return http.get("/categories/", authHeaders(token));
   }
 
   get(id: string, token: string): Promise<any> {
@@ -13,7 +13,7 @@ class CategoriesService {
   }
 
   create(data: ICreateCategory, token: string): Promise<any> {
-    return http.post("/categories", data, authHeaders(token));
+    return http.post("/categories/", data, authHeaders(token));
   }
 
   update(id: string, data: ICategory, token: string): Promise<any> {
@@ -25,19 +25,23 @@ class CategoriesService {
   }
 
   findByName(name: string, token: string): Promise<any> {
-    return http.get(`/categories?name=${name}`, authHeaders(token));
+    return http.get(`/categories/?name=${name}`, authHeaders(token));
   }
 
-  getCountGoodsByName(first_of: number, token: string): Promise<any> {
+  getCountGoodsByNameCategory(
+    first_of: number, token: string
+  ): Promise<any> {
     return http.get(
-      `/categories/count_by_name/?first_of=${first_of}`,
+      `/categories/count_goods_by_name/?first_of=${first_of}`,
       authHeaders(token)
     );
   }
 
-  getSummGoodsByName(first_of: number, token: string): Promise<any> {
+  getSummGoodsByNameCategory(
+    first_of: number, token: string
+  ): Promise<any> {
     return http.get(
-      `/categories/summ_by_name/?first_of=${first_of}`,
+      `/categories/summ_goods_by_name/?first_of=${first_of}`,
       authHeaders(token)
     );
   }

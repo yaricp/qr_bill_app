@@ -184,7 +184,9 @@ class BillCommands:
         for item in parsed_param:
             key_value = item.split("=")
             result_dict[key_value[0]] = key_value[1]
-        result_dict["crtd"] = result_dict["crtd"].replace("%20", " ")
+        result_dict["crtd"] = result_dict[
+            "crtd"
+        ].replace("%20", " ").replace("%2B", " ")
         logger.info(f"result_dict: {result_dict}")
         return result_dict
 
@@ -207,10 +209,13 @@ class BillCommands:
             "Referer": self.referer_fiscal_service_url,
             "Origin": self.origin_fiscal_service
         }
+        logger.info(f"headers: {headers}")
         result = post(
             url=self.fiscal_service_api_url, headers=headers, data=params
         )
+        logger.info(f"result: {result}")
         result_data = json.loads(result.content)
+        logger.info(f"result_data: {result_data}")
         return result_data
 
     async def get_total_summ(self, user_id: UUID) -> float:
