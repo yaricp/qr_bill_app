@@ -7,13 +7,16 @@ from fastapi import Depends
 from ... import app, manager
 from ...config import URLPathsConfig
 from ..services.seller import (
-    get_seller, create_seller, get_all_sellers,
-    update_seller, delete_seller, order_by_count_goods,
-    list_summ_group_by_name, list_count_group_by_name
+    get_seller, create_seller,
+    update_seller, delete_seller, get_all_sellers,
+    list_summ_bills_group_by_name_seller,
+    list_count_bills_group_by_name_seller,
+    list_count_goods_group_by_name_seller
 )
 from ..schemas.seller import (
-    Seller, SellerCreate, SellerUpdate, SellerByCountGoods,
-    SellerCountByName, SellerSummByName
+    Seller, SellerCreate, SellerUpdate,
+    CountBillsByNameSeller, CountGoodsByNameSeller,
+    SummBillsByNameSeller
 )
 
 
@@ -77,43 +80,49 @@ async def delete_seller_route(id: UUID, user=Depends(manager)):
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/sellers/count_by_name/",
+    URLPathsConfig.PREFIX + "/sellers/count_bills_by_name/",
     tags=['Sellers'],
-    response_model=List[SellerCountByName]
+    response_model=List[CountBillsByNameSeller]
 )
-async def count_by_name_seller_route(
+async def count_bills_by_name_seller_route(
     first_of: int = 0, user=Depends(manager)
-) -> List[SellerCountByName]:
+) -> List[CountBillsByNameSeller]:
     logger.info(f"first_of: {first_of}")
     result: List[
-        SellerCountByName
-    ] = await list_count_group_by_name(
+        CountBillsByNameSeller
+    ] = await list_count_bills_group_by_name_seller(
         first_of=first_of, user_id=user.id
     )
     return result
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/sellers/summ_by_name/",
+    URLPathsConfig.PREFIX + "/sellers/summ_bills_by_name/",
     tags=['Sellers'],
-    response_model=List[SellerSummByName]
+    response_model=List[SummBillsByNameSeller]
 )
-async def summ_by_name_seller_route(
+async def summ_bills_by_name_seller_route(
     first_of: int = 0, user=Depends(manager)
-) -> List[SellerSummByName]:
+) -> List[SummBillsByNameSeller]:
     result: List[
-        SellerSummByName
-    ] = await list_summ_group_by_name(
+        SummBillsByNameSeller
+    ] = await list_summ_bills_group_by_name_seller(
         first_of=first_of, user_id=user.id
     )
     return result
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/sellers/order_by_count_goods/",
+    URLPathsConfig.PREFIX + "/sellers/count_goods_by_name/",
     tags=['Sellers'],
-    response_model=List[SellerByCountGoods]
+    response_model=List[CountGoodsByNameSeller]
 )
-async def order_by_count_goods_route(user=Depends(manager)) -> List[SellerByCountGoods]:
-    result: List[SellerByCountGoods] = await order_by_count_goods()
+async def count_goods_order_by_seller_route(
+    first_of: int = 0, user=Depends(manager)
+) -> List[CountGoodsByNameSeller]:
+    result: List[
+        CountGoodsByNameSeller
+    ] = await list_count_goods_group_by_name_seller(
+        first_of=first_of, user_id=user.id
+    )
     return result

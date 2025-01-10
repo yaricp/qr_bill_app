@@ -4,8 +4,9 @@ from typing import List
 from ....app.seller import SellerQueries, SellerCommands
 
 from ..schemas.seller import (
-    Seller, SellerCreate, SellerUpdate, SellerByCountGoods,
-    SellerCountByName, SellerSummByName
+    Seller, SellerCreate, SellerUpdate,
+    CountGoodsByNameSeller, CountBillsByNameSeller,
+    SummBillsByNameSeller
 )
 
 
@@ -27,33 +28,36 @@ async def get_seller(id: UUID) -> Seller:
     return await queries.get_seller(id=id)
 
 
-async def order_by_count_goods(
+async def list_count_goods_group_by_name_seller(
     first_of: int, user_id: UUID
-) -> List[SellerByCountGoods]:
-    queries: SellerQueries = SellerQueries()
-    return await queries.get_sellers_order_by_count_goods(
-        first_of=first_of, user_id=user_id
-    )
-
-
-async def list_count_group_by_name(
-    first_of: int, user_id: UUID
-) -> List[SellerCountByName]:
+) -> List[CountGoodsByNameSeller]:
     queries: SellerQueries = SellerQueries()
     result: List[
-        SellerCountByName
+        CountGoodsByNameSeller
+    ] = await queries.get_sellers_order_by_count_goods(
+        first_of=first_of, user_id=user_id
+    )
+    return result
+
+
+async def list_count_bills_group_by_name_seller(
+    first_of: int, user_id: UUID
+) -> List[CountBillsByNameSeller]:
+    queries: SellerQueries = SellerQueries()
+    result: List[
+        CountBillsByNameSeller
     ] = await queries.get_sellers_order_by_count_bills(
         first_of=first_of, user_id=user_id
     )
     return result
 
 
-async def list_summ_group_by_name(
+async def list_summ_bills_group_by_name_seller(
     first_of: int, user_id: UUID
-) -> List[SellerSummByName]:
+) -> List[SummBillsByNameSeller]:
     queries: SellerQueries = SellerQueries()
     result: List[
-        SellerSummByName
+        SummBillsByNameSeller
     ] = await queries.get_sellers_order_by_summ_bills(
         first_of=first_of, user_id=user_id
     )

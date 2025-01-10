@@ -1,4 +1,5 @@
 from uuid import UUID
+from typing import List
 from loguru import logger
 from sqlalchemy.sql import func
 from sqlalchemy import desc
@@ -6,8 +7,12 @@ from sqlalchemy import desc
 from ..infra.database import db_session
 from ..infra.database.models.seller import Seller as SellerORM
 from ..infra.database.models.bill import Bill as BillORM
+from ..infra.database.models.goods import Goods as GoodsORM
 
-from .entities.seller import Seller, SellerCreate
+from .entities.seller import (
+    Seller, SellerCreate, CountBillsByNameSeller,
+    CountGoodsByNameSeller, SummBillsByNameSeller
+)
 
 
 class SellerViews:
@@ -31,31 +36,31 @@ class SellerQueries:
         return SellerORM.query.get(id)
 
     async def get_sellers_order_by_count_goods(
-        self,
-        first_of: int,
-        user_id: UUID
-    ):
+        self, first_of: int, user_id: UUID
+    ) -> List[CountGoodsByNameSeller]:
         if first_of:
             result = db_session.query(
-                BillORM.name,
-                func.count(SellerORM.goods).label("count_goods")
-            ).where(BillORM.user_id == user_id).group_by(
+                SellerORM.name,
+                func.sum(GoodsORM.quantity).label("count")
+            ).join(SellerORM.goods_list).filter(
+                GoodsORM.user_id == user_id
+            ).group_by(
                 SellerORM.name
-            ).order_by(desc("count_goods")).limit(first_of)
+            ).order_by(desc("count")).limit(first_of)
         else:
             result = db_session.query(
-                BillORM.name,
-                func.count(SellerORM.goods).label("count_goods")
-            ).where(BillORM.user_id == user_id).group_by(
+                SellerORM.name,
+                func.sum(GoodsORM.quantity).label("count")
+            ).join(SellerORM.goods_list).filter(
+                GoodsORM.user_id == user_id
+            ).group_by(
                 SellerORM.name
-            ).order_by(desc("count_goods")).all()
+            ).order_by(desc("count")).all()
         return result
 
     async def get_sellers_order_by_count_bills(
-        self,
-        first_of: int,
-        user_id: UUID
-    ):
+        self, first_of: int, user_id: UUID
+    ) -> List[CountBillsByNameSeller]:
         logger.info(f"user_id: {user_id}")
         if first_of:
             result = db_session.query(
@@ -78,10 +83,8 @@ class SellerQueries:
         return result
 
     async def get_sellers_order_by_summ_bills(
-        self,
-        first_of: int,
-        user_id: UUID
-    ):
+        self, first_of: int, user_id: UUID
+    ) -> List[SummBillsByNameSeller]:
         if first_of:
             result = db_session.query(
                 SellerORM.official_name.label("name"),

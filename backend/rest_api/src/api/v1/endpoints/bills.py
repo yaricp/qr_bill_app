@@ -25,7 +25,8 @@ async def get_all_bills_route(user=Depends(manager)) -> List[Bill]:
 
 
 @app.post(
-    URLPathsConfig.PREFIX + "/bills/parse_url", tags=['Bills'], response_model=Bill
+    URLPathsConfig.PREFIX + "/bills/parse_url",
+    tags=['Bills'], response_model=Bill
 )
 async def parse_url_bill_route(
     item_in: BillCreateByURL, user=Depends(manager)
@@ -34,7 +35,7 @@ async def parse_url_bill_route(
     Parse url link of bill.
     """
     bill = await parse_link_bill(
-        link=item_in.link, user_id=user.id
+        link_image_data=item_in, user_id=user.id
     )
     return bill
 

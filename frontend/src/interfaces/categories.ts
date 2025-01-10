@@ -7,3 +7,13 @@ export interface ICategory {
 export interface ICreateCategory {
     name: string;
 }
+
+export interface ICountCategoryByName {
+    name: string;
+    count: number;
+}
+
+export interface ISummCategoryByName {
+    name: string;
+    summ: number;
+}

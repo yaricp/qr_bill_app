@@ -115,22 +115,55 @@ class GoodsCommands:
     def __init__(self):
         pass
 
-    async def get_by_name_bill_id(self, incoming_item: GoodsCreate) -> Goods:
+    async def get_goods_by_fiscal_id(
+        self, incoming_item: GoodsCreate
+    ) -> Goods:
         goods = GoodsORM.query.filter(
+            GoodsORM.fiscal_id == incoming_item.fiscal_id,
+            GoodsORM.name == incoming_item.name,
+            GoodsORM.quantity == incoming_item.quantity,
+            GoodsORM.bill_id == incoming_item.bill_id
+        ).first()
+        logger.info(f"goods: {goods}")
+        return goods
+
+    async def get_by_name_bill_id_with_empty_fiscal_id(
+        self, incoming_item: GoodsCreate
+    ) -> Goods:
+        goods = GoodsORM.query.filter(
+            GoodsORM.fiscal_id == None,
             GoodsORM.name == incoming_item.name,
             GoodsORM.bill_id == incoming_item.bill_id
         ).first()
         logger.info(f"goods: {goods}")
         return goods
 
-    async def get_or_create(self, incoming_item: GoodsCreate) -> Goods:
-        goods = await self.get_by_name_bill_id(
+    async def get_or_create(
+        self, incoming_item: GoodsCreate
+    ) -> Goods:
+
+        goods = await self.get_goods_by_fiscal_id(
             incoming_item=incoming_item
         )
-        if not goods:
-            goods = await self.create_goods(
-                incoming_item=incoming_item
+        if goods:
+            return goods
+
+        goods = await self.get_by_name_bill_id_with_empty_fiscal_id(
+            incoming_item=incoming_item
+        )
+        if goods:
+            logger.info(f"Added fiscal_id for : {goods}")
+            data_for_update = GoodsUpdate(
+                id=goods.id,
+                fiscal_id=incoming_item.fiscal_id
             )
+            goods = await self.update_goods(data_for_update)
+            logger.info(f"updated : {goods}")
+            return goods
+        logger.info(f"Create a new goods : {incoming_item}!")
+        goods = await self.create_goods(
+            incoming_item=incoming_item
+        )
         return goods
 
     async def create_goods(self, incoming_item: GoodsCreate) -> Goods:

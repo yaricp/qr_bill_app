@@ -49,16 +49,16 @@ class SellerInDB(SellerInDBBase):
     pass
 
 
-class SellerByCountGoods(BaseModel):
+class CountGoodsByNameSeller(BaseModel):
     name: str
-    count_goods: int
+    count: Decimal
 
 
-class SellerCountByName(BaseModel):
+class CountBillsByNameSeller(BaseModel):
     name: str
     count: int
 
 
-class SellerSummByName(BaseModel):
+class SummBillsByNameSeller(BaseModel):
     name: str
     summ: Decimal

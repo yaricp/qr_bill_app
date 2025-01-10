@@ -3,7 +3,9 @@ from typing import List
 
 from ....app.bill import BillCommands, BillQueries
 
-from ..schemas.bill import Bill, BillUpdate, BillCreate
+from ..schemas.bill import (
+    Bill, BillUpdate, BillCreate, BillCreateByURL
+)
 from ..schemas.goods import Goods
 
 
@@ -32,11 +34,11 @@ async def get_uncategorized_goods_bill(
 
 
 async def parse_link_bill(
-    link: str, user_id: UUID
+    link_image_data: BillCreateByURL, user_id: UUID
 ) -> Bill:
     bill_commands: BillCommands = BillCommands()
     return await bill_commands.parse_link_save_bill(
-        income_link=link, user_id=user_id
+        income_link=link_image_data, user_id=user_id
     )
 
 

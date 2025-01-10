@@ -4,38 +4,55 @@
       <p></p>
       <hr>
       <p></p>
-      <p>{{ plot_header_by_count }}</p>
+      <p>{{ plot_header_by_count_bills }}</p>
       <p>
-        First from all by count: 
-        <input v-model="first_of_by_count">
+        First from all: 
+        <input v-model="first_of_by_count_bills">
         <button
           class="btn btn-outline-secondary"
           type="button"
-          @click="fillChartDataCountByName"
+          @click="fillChartDataCountBillsByNameSeller"
         >Start</button>
       </p>
       <Bar
-        v-if="loaded_by_count"
+        v-if="loaded_by_count_bills"
         id="my-chart-id1"
         :options="chartOptions"
-        :data="chartDataCountByName"
+        :data="chartDataCountBillsByName"
       />
       <hr>
-      <p>{{ plot_header_by_summ }}</p>
+      <p>{{ plot_header_by_summ_bills }}</p>
       <p>
-        First from all by summ: 
-        <input v-model="first_of_by_summ">
+        First from all: 
+        <input v-model="first_of_by_summ_bills">
         <button
           class="btn btn-outline-secondary"
           type="button"
-          @click="fillChartDataSummByName"
+          @click="fillChartDataSummBillsByNameSeller"
         >Start</button>
       </p>
       <Bar
-        v-if="loaded_by_summ"
+        v-if="loaded_by_summ_bills"
         id="my-chart-id2"
         :options="chartOptions"
-        :data="chartDataSummByName"
+        :data="chartDataSummBillsByName"
+      />
+      <hr>
+      <p>{{ plot_header_by_quantity_goods }}</p>
+      <p>
+        First from all: 
+        <input v-model="first_of_by_quantity_goods">
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          @click="fillChartDataCountGoodsByNameSeller"
+        >Start</button>
+      </p>
+      <Bar
+        v-if="loaded_by_quantity_goods"
+        id="my-chart-id2"
+        :options="chartOptions"
+        :data="chartDataCountGoodsByName"
       />
     </div>
 </template>
@@ -56,26 +73,34 @@ export default defineComponent({
   components: { Bar },
   data() {
     return {
-      main_header: "Analytics Goods by Sellers" as string,
-      plot_header_by_count: "Quantities goods by sellers" as string,
-      plot_header_by_summ: "Total price goods by sellers" as string,
-      loaded_by_count: false,
-      loaded_by_summ: false,
-      first_of_by_count: 10 as number,
-      first_of_by_summ: 10 as number,
-      chartDataCountByName: {
+      main_header: "Analytics Bills and Goods by Sellers" as string,
+      plot_header_by_count_bills: "Count bills by sellers" as string,
+      plot_header_by_summ_bills: "Total price bills by sellers" as string,
+      plot_header_by_quantity_goods: "Total quantity goods by sellers" as string,
+      loaded_by_count_bills: false as boolean,
+      loaded_by_summ_bills: false as boolean,
+      loaded_by_quantity_goods: false as boolean,
+      first_of_by_count_bills: 10 as number,
+      first_of_by_summ_bills: 10 as number,
+      first_of_by_quantity_goods: 10 as number,
+      chartDataCountBillsByName: {
         labels: [ 'January', 'February', 'March' ],
         datasets: [ { data: [40, 20, 12] } ]
       },
-      chartDataSummByName: {
+      chartDataSummBillsByName: {
+        labels: [ 'January', 'February', 'March' ],
+        datasets: [ { data: [40, 20, 12] } ]
+      },
+      chartDataCountGoodsByName: {
         labels: [ 'January', 'February', 'March' ],
         datasets: [ { data: [40, 20, 12] } ]
       },
       chartOptions: {
         responsive: true
       },
-      goods_list_by_count: [] as ICountSellerByName[],
-      goods_list_by_summ: [] as ISummSellerByName[],
+      bills_list_by_count: [] as ICountSellerByName[],
+      bills_list_by_summ: [] as ISummSellerByName[],
+      goods_list_by_quantity: [] as ICountSellerByName[],
       message: "",
     };
   },
@@ -87,58 +112,83 @@ export default defineComponent({
     },
   },
   methods: {
-    async retrieveCountSellerByName() {
+    async retrieveCountBillsByNameSeller() {
       try {
-        let response = await SellerDataService.getCountSellerByName(
-          this.first_of_by_count, this.authToken
+        let response = await SellerDataService.getCountBillsByNameSeller(
+          this.first_of_by_count_bills, this.authToken
         );
-        this.goods_list_by_count = response.data;
+        this.bills_list_by_count = response.data;
         console.log(response.data);
       } catch(e) {
         checkTokenExpired(e);
       }
     },
-    async retrieveSummSellerByName() {
+    async retrieveSummBillsByNameSeller() {
       try {
-        let response = await SellerDataService.getSummSellerByName(
-          this.first_of_by_summ, this.authToken
+        let response = await SellerDataService.getSummBillsByNameSeller(
+          this.first_of_by_summ_bills, this.authToken
         );
-        this.goods_list_by_summ = response.data;
+        this.bills_list_by_summ = response.data;
         console.log(response.data);
       } catch(e) {
         checkTokenExpired(e);
       }
     },
-    async fillChartDataCountByName() {
-      this.loaded_by_count = false;
-      await this.retrieveCountSellerByName();
+    async retrieveCountGoodsByNameSeller() {
+      try {
+        let response = await SellerDataService.getCountGoodsByNameSeller(
+          this.first_of_by_quantity_goods, this.authToken
+        );
+        this.goods_list_by_quantity = response.data;
+        console.log(response.data);
+      } catch(e) {
+        checkTokenExpired(e);
+      }
+    },
+    async fillChartDataCountBillsByNameSeller() {
+      this.loaded_by_count_bills = false;
+      await this.retrieveCountBillsByNameSeller();
+      let count_bills_by_name_labels = [] as Array<string>;
+      let count_bills_by_name_values = [] as Array<number>;
+      for (const item of this.bills_list_by_count) {
+        count_bills_by_name_labels.push(item["name"]);
+        count_bills_by_name_values.push(item["count"]);
+      }
+      this.chartDataCountBillsByName.datasets[0].data = count_bills_by_name_values;
+      this.chartDataCountBillsByName.labels = count_bills_by_name_labels;
+      this.loaded_by_count_bills = true;
+    },
+    async fillChartDataSummBillsByNameSeller() {
+      this.loaded_by_summ_bills = false;
+      await this.retrieveSummBillsByNameSeller();
+      let summ_bills_by_name_labels = [] as Array<string>;
+      let summ_bills_by_name_values = [] as Array<number>;
+      for (const item of this.bills_list_by_summ) {
+        summ_bills_by_name_labels.push(item["name"]);
+        summ_bills_by_name_values.push(item["summ"]);
+      }
+      this.chartDataSummBillsByName.datasets[0].data = summ_bills_by_name_values;
+      this.chartDataSummBillsByName.labels = summ_bills_by_name_labels;
+      this.loaded_by_summ_bills = true;
+    },
+    async fillChartDataCountGoodsByNameSeller() {
+      this.loaded_by_quantity_goods = false;
+      await this.retrieveCountGoodsByNameSeller();
       let count_goods_by_name_labels = [] as Array<string>;
       let count_goods_by_name_values = [] as Array<number>;
-      for (const item of this.goods_list_by_count) {
+      for (const item of this.goods_list_by_quantity) {
         count_goods_by_name_labels.push(item["name"]);
         count_goods_by_name_values.push(item["count"]);
       }
-      this.chartDataCountByName.datasets[0].data = count_goods_by_name_values;
-      this.chartDataCountByName.labels = count_goods_by_name_labels;
-      this.loaded_by_count = true;
+      this.chartDataCountGoodsByName.datasets[0].data = count_goods_by_name_values;
+      this.chartDataCountGoodsByName.labels = count_goods_by_name_labels;
+      this.loaded_by_quantity_goods = true;
     },
-    async fillChartDataSummByName() {
-      this.loaded_by_summ = false;
-      await this.retrieveSummSellerByName();
-      let summ_goods_by_name_labels = [] as Array<string>;
-      let summ_goods_by_name_values = [] as Array<number>;
-      for (const item of this.goods_list_by_summ) {
-        summ_goods_by_name_labels.push(item["name"]);
-        summ_goods_by_name_values.push(item["summ"]);
-      }
-      this.chartDataSummByName.datasets[0].data = summ_goods_by_name_values;
-      this.chartDataSummByName.labels = summ_goods_by_name_labels;
-      this.loaded_by_summ = true;
-    }
   },
   async mounted() {
-    this.fillChartDataCountByName();
-    this.fillChartDataSummByName();  
+    this.fillChartDataCountBillsByNameSeller();
+    this.fillChartDataSummBillsByNameSeller(); 
+    this.fillChartDataCountGoodsByNameSeller();
   }
 
 });

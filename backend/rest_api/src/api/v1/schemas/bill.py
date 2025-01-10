@@ -28,6 +28,7 @@ class BillCreate(BaseModel):
 
 class BillCreateByURL(BaseModel):
     link: str
+    image: str
 
 
 # Properties to receive on item update

@@ -13,6 +13,7 @@ from .category import Category
 # Shared properties
 class GoodsBase(BaseModel):
     id: Optional[UUID] = None
+    fiscal_id: Optional[int] = None
     name: Optional[str] = None
     quantity: Optional[Decimal] = None
     unit_price_before_vat: Optional[Decimal] = None
@@ -51,6 +52,7 @@ class GoodsBase(BaseModel):
 
 
 class GoodsCreate(BaseModel):
+    fiscal_id: int
     name: str
     quantity: Decimal
     unit_price_before_vat: Decimal

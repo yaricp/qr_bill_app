@@ -53,3 +53,8 @@ class Bill(BillInDBBase):
 # Properties properties stored in DB
 class BillInDB(BillInDBBase):
     pass
+
+
+class BillCreateByURL(BaseModel):
+    link: str
+    image: str

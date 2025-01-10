@@ -27,16 +27,23 @@ class SellerDataService {
     return http.get(`/sellers?name=${name}`);
   }
 
-  getCountSellerByName(first_of: number, token: string): Promise<any> {
+  getCountBillsByNameSeller(first_of: number, token: string): Promise<any> {
     return http.get(
-      `/sellers/count_by_name/?first_of=${first_of}`,
+      `/sellers/count_bills_by_name/?first_of=${first_of}`,
       authHeaders(token)
     );
   }
 
-  getSummSellerByName(first_of: number, token: string): Promise<any> {
+  getSummBillsByNameSeller(first_of: number, token: string): Promise<any> {
     return http.get(
-      `/sellers/summ_by_name/?first_of=${first_of}`,
+      `/sellers/summ_bills_by_name/?first_of=${first_of}`,
+      authHeaders(token)
+    );
+  }
+
+  getCountGoodsByNameSeller(first_of: number, token: string): Promise<any> {
+    return http.get(
+      `/sellers/count_goods_by_name/?first_of=${first_of}`,
       authHeaders(token)
     );
   }

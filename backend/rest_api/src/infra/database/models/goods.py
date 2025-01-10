@@ -1,13 +1,11 @@
 from uuid import uuid4
-from typing import List, Set
+from typing import Set
 from sqlalchemy import (
-    UUID, Column, ForeignKey, Integer, BOOLEAN,
+    UUID, Column, ForeignKey, Integer, BIGINT, BOOLEAN,
     VARCHAR, DECIMAL
 )
 
-from sqlalchemy.orm import (
-    relationship, Mapped, mapped_column
-)
+from sqlalchemy.orm import relationship, Mapped
 
 from .base import Model, association_goods_category
 from .bill import Bill
@@ -24,6 +22,7 @@ class Goods(Model):
         UUID, primary_key=True, nullable=False, unique=True,
         default=uuid4
     )
+    fiscal_id = Column(BIGINT, nullable=True)
     name = Column(VARCHAR(150), nullable=False)
     quantity = Column(DECIMAL(6, 4), nullable=False)
     unit_price_before_vat = Column(DECIMAL(6, 4), nullable=False)

@@ -11,7 +11,7 @@ from ..infra.database.models import Bill as BillORM
 from ..infra.database.models import Goods as GoodsORM
 
 from .entities.unit import Unit, UnitCreate
-from .entities.bill import Bill, BillCreate
+from .entities.bill import Bill, BillCreate, BillCreateByURL
 from .entities.goods import Goods, GoodsCreate
 from .entities.seller import Seller, SellerCreate
 from .unit import UnitCommands
@@ -105,11 +105,13 @@ class BillCommands:
         return bill
 
     async def parse_link_save_bill(
-        self, income_link: str, user_id: UUID
+        self, income_link: BillCreateByURL, user_id: UUID
     ) -> Bill:
-        if not self.validate_url(income_link):
+        if not self.validate_url(income_link.link):
             raise Exception("Wrong URL")
-        self.params = self.get_params_from_income_url(url=income_link)
+        self.params = self.get_params_from_income_url(
+            url=income_link.link
+        )
         data_bill = await self.get_data_from_fiscal_api(**self.params)
         logger.info(f"items: {data_bill.items()}")
         bill_seller = data_bill["seller"]
@@ -136,7 +138,8 @@ class BillCommands:
             value=data_bill["totalPrice"],
             payment_method=data_bill["paymentMethod"][0]["type"].strip(),
             seller_id=seller_db.id,
-            user_id=user_id
+            user_id=user_id,
+            image=income_link.image
         )
         logger.info(f"incoming_bill: {incoming_bill}")
         bill_db = await self.get_or_create(
@@ -153,6 +156,7 @@ class BillCommands:
             )
             logger.info(f"in_goods: {in_goods}")
             incoming_goods = GoodsCreate(
+                fiscal_id=int(in_goods["id"]),
                 name=in_goods["name"].strip(),
                 quantity=in_goods["quantity"],
                 unit_price_before_vat=in_goods["unitPriceBeforeVat"],
@@ -186,7 +190,9 @@ class BillCommands:
             result_dict[key_value[0]] = key_value[1]
         result_dict["crtd"] = result_dict[
             "crtd"
-        ].replace("%20", " ").replace("%2B", " ")
+        ].replace("%20", " ").replace(
+            "%2B", " "
+        ).replace("%3A", ":")
         logger.info(f"result_dict: {result_dict}")
         return result_dict
 

@@ -24,7 +24,7 @@ class Bill(Model):
     created = Column(TIMESTAMP, nullable=False)
     value = Column(DECIMAL(6, 2), nullable=False)
     payment_method = Column(VARCHAR(50), nullable=True)
-    picture_path = Column(VARCHAR(255), nullable=True)
+    image = Column(VARCHAR(30000), nullable=True)
 
     seller_id = Column(
         UUID,
