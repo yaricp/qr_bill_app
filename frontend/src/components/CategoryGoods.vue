@@ -1,6 +1,12 @@
 <template>
-    <div class="list row">
+  <div class="list row">
     <div class="col-md-12">
+      <h3>{{ main_header }}</h3>
+    </div>
+    <div class="col-md-12">
+      <div class="input-group mb-3">
+        <p>Choose category for items below</p>
+      </div>
       <div class="input-group mb-3">
         <select 
           class="form-select"
@@ -17,28 +23,55 @@
             {{ cat.name }}
           </option>
         </select>
-        
       </div>
-    </div>
+    </div>  
     <div class="col-md-12">
       <button
         class="btn btn-outline-secondary"
         type="button"
         @click="saveGategorizedGoods"
       >
-        Save
+        Save category for selected items
       </button>
     </div>
     <div class="col-md-12">
       <h4>Goods List</h4>
-      Filter: <input
-            type="text"
-            class="form-control"
-            placeholder="Filter by name"
-            v-model="filter_name"
-            @keyup="filterByName"
-          />
+      Filter: 
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Filter by name"
+        v-model="filter_name"
+        @keyup="filterByName"
+      />
       <ul class="list-group">
+        <li class="list-group-item">
+          <input 
+            class="form-check-input" 
+            type="checkbox" 
+            v-model="show_all_categories" 
+            id="flexCheckAllCat"
+          > &nbsp;&nbsp;&nbsp;&nbsp;
+          <label 
+            class="form-check-label" 
+            for="flexCheckAllCat"
+          >
+            Show with other categories
+          </label>
+        </li>
+        <li class="list-group-item">
+          <input 
+            class="form-check-input" 
+            type="checkbox" 
+            v-model="checked_all" 
+            id="flexCheckedAll"
+            @change="checkedAll"
+          > &nbsp;&nbsp;&nbsp;&nbsp;
+            <label 
+              class="form-check-label" 
+              for="flexCheckedAll"
+            >Check/Uncheck All</label>
+        </li>
         <li
           class="list-group-item"
           v-for="(goods, index) in goods_list"
@@ -46,16 +79,34 @@
         >
           <input 
             class="form-check-input" 
-            type="checkbox" 
-            :value="goods.checked" 
+            type="checkbox"
+            v-model="goods.checked" 
             id="flexCheckDefault"
-            @change="goodsChecked(index)"
           > &nbsp;&nbsp;&nbsp;&nbsp;
           <label 
             class="form-check-label" 
             for="flexCheckDefault"
           >
-            {{ goods.name }}
+            <div>
+              {{ goods.name }}
+               - 
+              (<span 
+                v-for="(cat_name, index) in goods.categories"
+                :key="index"
+              > {{ cat_name }}, &nbsp;
+            </span>)
+            
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+            >
+              <router-link
+                :to="'/goods_detail/' + goods.id"
+                class="badge badge-warning"
+              >Details</router-link>
+            </button>
+            </div>
+            
           </label> 
         </li>
       </ul>
@@ -66,7 +117,7 @@
         type="button"
         @click="saveGategorizedGoods"
       >
-        Save
+        Save category for selected items
       </button>
     </div>
   </div>
@@ -88,12 +139,16 @@
     compatConfig: { MODE: 3 },
     data() {
       return {
+        main_header: "" as string,
+        currentBillID: "" as string,
         cat_list: [] as ICategory[],
         full_goods_list: [] as IUncategorizedGoods[],
         goods_list: [] as IUncategorizedGoods[],
         currentCat: {} as ICategory,
         list_goods_for_save: [] as IGoods[],
-        filter_name : "" as string
+        filter_name : "" as string,
+        show_all_categories: false as boolean,
+        checked_all: false as boolean
       }
     },
     computed: {
@@ -116,11 +171,11 @@
         }
       },
       async retrieveBillUncategorizedGoods(
-        cat_id: string, id: string
+        id: string, cat_id?: string
       ) {
         try {
           let response = await BillDataService.getUncategorizedGoods(
-            id, cat_id, this.authToken
+            id, this.authToken, cat_id 
           );
           console.log(
             "retrieveBillUncategorizedGoods result: ",
@@ -131,10 +186,10 @@
           checkTokenExpired(e);
         }
       },
-      async retrieveUncategorizedGoods(cat_id: string) {
+      async retrieveUncategorizedGoods(cat_id?: string) {
         try {
           let response = await GoodsDataService.getUncategorized(
-            cat_id, this.authToken
+            this.authToken, cat_id
           );
           console.log(
             "retrieveUncategorizedGoodsresult: ",
@@ -146,35 +201,35 @@
         }
       }, 
       async fillGoodsList(goods_list: IGoods[]){
-
         this.goods_list = [];
         await this.$nextTick();
         for (let goods of goods_list){
+          let list_cat_names: string[] = goods.categories.map(
+            (item) => item.name
+          );
             this.goods_list.push({
                 id: goods.id,
                 name: goods.name,
-                checked: false
+                checked: false,
+                categories: list_cat_names
             })
         }
         this.full_goods_list = this.goods_list;
-        await this.$nextTick();
+        // await this.$nextTick();
         console.log("this.goods_list:", this.goods_list)
       },
       async categorySelected(){
         console.log("categorySelected", this.currentCat);
         try {
-          await this.getAllGoods(this.currentCat.id);
+          console.log("this.show_all_categories: ", this.show_all_categories);
+          if (this.show_all_categories){
+            await this.getAllGoods(this.currentCat.id);
+          } else {
+            await this.getAllGoods();
+          }
         } catch(e) {
           checkTokenExpired(e);
         }
-      },
-      goodsChecked(index: number) {
-        if (this.goods_list[index].checked){
-          this.goods_list[index].checked = false;
-        } else {
-          this.goods_list[index].checked = true;
-        }
-        console.log("this.goods_list: ", this.goods_list);
       },
       async saveGategorizedGoods() {
         console.log("saveGategorizedGoods");
@@ -195,23 +250,25 @@
             goods_for_save_list, this.authToken
           );
           console.log("saveGategorizedGoods response.data", response.data);
-          await this.getAllGoods(this.currentCat.id);
+          if (this.show_all_categories){
+            await this.getAllGoods(this.currentCat.id);
+          } else {
+            await this.getAllGoods();
+          }
           this.filter_name = "";
+          this.checked_all = false;
+          this.show_all_categories = false;
         } catch(e) {
           checkTokenExpired(e);
         }
       },
-      async getAllGoods(cat_id: string) {
+      async getAllGoods(cat_id?: string ) {
         console.log("cat_id: ", cat_id);
-        console.log(
-          "this.$route.params: ", this.$route.params
-        );
-
-        let bill_id = this.$route.params.bill_id;
-        console.log("typeof bill_id: ", typeof bill_id)
-        if (typeof bill_id == "string") {
-          console.log("bill_id: ", bill_id);
-          await this.retrieveBillUncategorizedGoods(cat_id, bill_id);
+        if (this.currentBillID) {
+          console.log("this.currentBillID: ", this.currentBillID);
+          await this.retrieveBillUncategorizedGoods(
+            this.currentBillID, cat_id
+          );
         } else {
           await this.retrieveUncategorizedGoods(cat_id);
         }
@@ -220,11 +277,32 @@
         this.goods_list = this.full_goods_list.filter(
           (item) => { return item.name.includes(this.filter_name)}
         );
+      },
+      checkedAll(){
+        console.log('checkedAll');
+        if (this.checked_all){
+          this.goods_list.map((item) => item.checked = true);
+        } else {
+          this.goods_list.map((item) => item.checked = false);
+        }
       }
     },
     async mounted() {
-        await this.retrieveCategories();
-        // await this.getAllGoods();
+
+      let bill_id = this.$route.params.bill_id;
+      console.log("bill_id:", bill_id)
+      if (typeof bill_id == "string") {
+        console.log("bill_id: ", bill_id);
+        console.log("typeof bill_id: ", typeof bill_id);
+        this.currentBillID = String(bill_id);
+      }
+      if(this.currentBillID){
+        this.main_header = "Uncategorized items for bill with ID: " + this.currentBillID; 
+      } else {
+        this.main_header = "All your uncategorized items";
+      }
+      await this.retrieveCategories();
+      await this.getAllGoods();
     }
 })
 </script>

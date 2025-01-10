@@ -17,7 +17,7 @@ class UserBase(BaseModel):
 
 
 class UserCreate(BaseModel):
-    email: str
+    login: str
     password: str
 
 
@@ -46,4 +46,4 @@ class UserInDB(UserInDBBase):
 
 
 class LoginLinkData(BaseModel):
-    link: str
+    link: UUID

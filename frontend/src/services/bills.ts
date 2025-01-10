@@ -29,10 +29,10 @@ class BillDataService {
   }
 
   getUncategorizedGoods(
-    id: string, cat_id: string, token: string
+    id: string, token: string, cat_id?: string
   ): Promise<any> {
     return http.get(
-      `/bills/${id}/uncategorized_goods/${cat_id}`,
+      `/bills/${id}/uncategorized_goods/${cat_id ? cat_id : ""}`,
       authHeaders(token)
     );
   }

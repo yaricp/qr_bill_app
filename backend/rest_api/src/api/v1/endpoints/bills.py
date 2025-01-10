@@ -66,11 +66,25 @@ async def get_bill_route(id: UUID, user=Depends(manager)) -> Bill:
     tags=['Bills'],
     response_model=List[Goods]
 )
-async def uncategorized_goods_bill_route(
+async def uncategorized_goods_bill_cat_route(
     id: UUID, cat_id: UUID, user=Depends(manager)
 ) -> List[Goods]:
     goods_list: List[Goods] = await get_uncategorized_goods_bill(
-        id=id, cat_id=cat_id, user_id=user.id
+        id=id, user_id=user.id, cat_id=cat_id
+    )
+    return goods_list
+
+
+@app.get(
+    URLPathsConfig.PREFIX + "/bills/{id}/uncategorized_goods/",
+    tags=['Bills'],
+    response_model=List[Goods]
+)
+async def uncategorized_goods_bill_route(
+    id: UUID, user=Depends(manager)
+) -> List[Goods]:
+    goods_list: List[Goods] = await get_uncategorized_goods_bill(
+        id=id, user_id=user.id
     )
     return goods_list
 

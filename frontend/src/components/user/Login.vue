@@ -1,16 +1,11 @@
 <template>
     <div class="col-md-12">
       <div class="card card-container">
-        <img
-          id="profile-img"
-          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-          class="profile-img-card"
-        />
         <Form @submit="handleLogin" :validation-schema="schema">
           <div class="form-group">
-            <label for="email">Email</label>
-            <Field name="email" type="text" class="form-control" />
-            <ErrorMessage name="email" class="error-feedback" />
+            <label for="login">Login</label>
+            <Field name="login" type="text" class="form-control" />
+            <ErrorMessage name="login" class="error-feedback" />
           </div>
           <div class="form-group">
             <label for="password">Password</label>
@@ -44,6 +39,7 @@
   import * as yup from "yup";
   import { useStore } from '@/store';
   import { IUserLogin } from "@/interfaces/users";
+  import AuthService from "@/services/auth";
   
   export default defineComponent({
     name: "login-page",
@@ -55,15 +51,13 @@
     },
     data() {
       const schema = yup.object().shape({
-        email: yup
+        login: yup
         .string()
-        .required("Email is required!")
-        .email("Email is invalid!"),
+        .required("Login is required!"),
         password: yup
         .string()
         .required("Password is required!"),
       });
-    
       return {
         loading: false,
         message: "",
@@ -83,23 +77,17 @@
       }
     },
     methods: {
-      handleLogin(user: IUserLogin) {
+      async handleLogin(user: IUserLogin) {
         this.loading = true;
-        this.$store.dispatch("auth/login", user).then(
-          () => {
-            console.log("before go to profile");
-            this.$router.push("/profile");
-          },
-          (error) => {
-            this.loading = false;
-            this.message =
-              (error.response &&
-                error.response.data &&
-                error.response.data.message) ||
-              error.message ||
-              error.toString();
-          }
-        );
+        try {
+          await this.$store.dispatch("auth/login", user);
+          console.log("before go to profile");
+          this.$router.push("/profile");
+        } catch(error) {
+          console.log("Error: ", error);
+          this.loading = false;
+          this.message = "Problems with authorizate";
+        }
       },
     },
 });

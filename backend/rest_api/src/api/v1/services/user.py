@@ -19,35 +19,47 @@ so its defined in each dependency body.
 
 
 @manager.user_loader()
-def check_user_auth(email_login_tg: str) -> User:
-    logger.info(f"email_login_tg: {email_login_tg}")
+def check_user_auth(email_login_tg_link: str | UUID) -> User:
+    logger.info(f"email_login_tg: {email_login_tg_link}")
     users_queries: UserQueries = UserQueries()
-    if email_login_tg.find("@") != -1:
+    if isinstance(email_login_tg_link, UUID):
+        user = users_queries.get_user_by_login_link(
+            link=str(email_login_tg_link)
+        )
+        if user:
+            return user
+    if str(email_login_tg_link).find("@") != -1:
         logger.info("try search by email")
-        user = users_queries.get_user_by_email(email_login_tg)
+        user = users_queries.get_user_by_email(email_login_tg_link)
         logger.info(f"found by email: {user}")
         if user:
             return user
+    logger.info("Try search user by login")
+    user = users_queries.get_user_by_login(
+        login=str(email_login_tg_link)
+    )
+    if user:
+        return user
     logger.info("Try search user by tg_id")
     user = users_queries.get_user_by_tg_id(
-        tg_id=email_login_tg
+        tg_id=int(email_login_tg_link)
     )
-    if user:
-        return user
-    return users_queries.get_user_by_login(
-        login=email_login_tg
-    )
+    return user
 
 
-def load_user(email_or_link: str) -> User:
-    logger.info(f"email_or_link: {email_or_link}")
-    users_queries: UserQueries = UserQueries()
-    user = users_queries.get_user_by_login_link(
-        link=email_or_link
-    )
-    if user:
-        return user
-    return users_queries.get_user_by_email(email_or_link)
+# def load_user(email_or_link: str) -> User:
+#     logger.info(f"email_or_link: {email_or_link}")
+#     users_queries: UserQueries = UserQueries()
+#     user = users_queries.get_user_by_login_link(
+#         link=email_or_link
+#     )
+#     if user:
+#         return user
+#     user = users_queries.get_user_by_login(email_or_link)
+#     if user:
+#         return user
+#     user = users_queries.get_user_by_email(email_or_link)
+#     return user
 
 
 async def get_user_by_login_link(link: str) -> User:
@@ -67,5 +79,15 @@ async def register_new_user(user_data: UserCreate) -> User:
     user_commands: UserCommands = UserCommands()
     command_result = await user_commands.register_user(
         user_data=user_data
+    )
+    return command_result
+
+
+async def create_login_password_user(
+    user_id: UUID, user_data: UserCreate
+) -> User:
+    user_commands: UserCommands = UserCommands()
+    command_result = await user_commands.create_login_password_user(
+        user_id=user_id, user_data=user_data
     )
     return command_result

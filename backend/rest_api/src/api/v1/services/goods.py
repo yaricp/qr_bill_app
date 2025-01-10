@@ -54,7 +54,7 @@ async def list_summ_group_by_name(
 
 
 async def list_uncategorized_goods(
-    user_id: UUID, cat_id: UUID
+    user_id: UUID, cat_id: UUID | None = None
 ) -> List[Goods]:
     goods_queries: GoodsQueries = GoodsQueries()
     result: List[
@@ -74,6 +74,17 @@ async def create_goods(
     goods_command = GoodsCommands()
     command_result = await goods_command.create_goods(
         goods_data
+    )
+    return command_result
+
+
+async def update_goods_categories(
+    goods_id: UUID, goods_data: List[CategoryGoods]
+) -> bool:
+    goods_command = GoodsCommands()
+    logger.info(f"goods_data: {goods_data}")
+    command_result = await goods_command.update_goods_categories(
+        goods_id=goods_id, goods_data=goods_data
     )
     return command_result
 

@@ -91,15 +91,21 @@ class GoodsQueries:
         return result
 
     async def list_uncategorized_goods(
-        self, user_id: UUID, cat_id: UUID
+        self, user_id: UUID, cat_id: UUID | None = None
     ) -> List[Goods]:
         result = []
         user_goods = GoodsORM.query.filter_by(
             user_id=user_id
         ).all()
         for u_goods in user_goods:
-            if cat_id not in [item.id for item in u_goods.categories]:
-                result.append(u_goods)
+            if cat_id:
+                if cat_id not in [item.id for item in u_goods.categories]:
+                    result.append(u_goods)
+            else:
+                logger.info(f"u_goods.categories: {u_goods.categories}")
+                if not u_goods.categories:
+                    logger.info(f"added: {u_goods}")
+                    result.append(u_goods)
 
         return result
 
@@ -136,18 +142,35 @@ class GoodsCommands:
         logger.info(f"goods: {goods}")
         return goods
 
+    async def update_goods_categories(
+        self, goods_id: UUID, goods_data: List[CategoryGoods]
+    ) -> bool:
+        goods = GoodsORM.query.get(goods_id)
+        list_for_remove = [old_cat for old_cat in goods.categories]
+        for old_cat in list_for_remove:
+            goods.categories.remove(old_cat)
+        for item in goods_data:
+            new_cat = CategoryORM.query.get(item.cat_id)
+            goods.categories.add(new_cat)
+        try:
+            db_session.add(goods)
+            db_session.commit()
+        except Exception as err:
+            logger.error(f"Error: {err}")
+            return False
+        return True
+
     async def save_categorized_goods(
         self, goods_data: List[CategoryGoods]
     ) -> bool:
+        logger.info(f"goods_data: {goods_data}")
         try:
             for item in goods_data:
                 goods = GoodsORM.query.get(item.goods_id)
                 cat = CategoryORM.query.get(item.cat_id)
+                logger.info(f"cat: {cat}")
                 goods.categories.add(cat)
                 db_session.commit()
-                # db_session.bulk_update_mappings(
-                #     association_goods_category, goods_data
-                # )
             return True
         except Exception as err:
             logger.error(f"Error: {err}")

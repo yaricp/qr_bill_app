@@ -38,7 +38,7 @@ class UserQueries:
         user = UserORM.query.filter_by(login=login).first()
         return user
 
-    def get_user_by_tg_id(self, tg_id: str) -> User:
+    def get_user_by_tg_id(self, tg_id: int) -> User:
         user = UserORM.query.filter_by(tg_id=tg_id).first()
         return user
 
@@ -50,6 +50,21 @@ class UserCommands:
 
     def __init__(self):
         pass
+
+    async def create_login_password_user(
+        self, user_id: UUID, user_data: UserCreate
+    ) -> User:
+        user = UserORM.query.get(user_id)
+        if user:
+            password_hash = sha256(
+                user_data.password.encode()
+            ).hexdigest()
+            user.login = user_data.login
+            user.password_hash = password_hash
+            db_session.commit()
+            db_session.refresh(user)
+            logger.info(f"user: {user}")
+        return user
 
     async def register_user_by_email(
         self, incoming_item: UserCreate

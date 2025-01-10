@@ -11,7 +11,7 @@ import {
 
 import { State as RootState } from '@/store';
 
-import AuthService from '@/services/auth.service';
+import AuthService from '@/services/auth';
 // import { IUserLogin } from "@/interfaces/users";
 
 // Declare state
@@ -61,47 +61,41 @@ export const AuthModule: Module<State, RootState> = {
   namespaced: true,
   state,
   actions: {
-    login({ commit }, user) {
-      return AuthService.login(user).then(
-        token => {
-          console.log('loginSuccess');
-          console.log('token:', token);
-          if (token){
-            console.log("save to localStorage");
-            localStorage.setItem(
-              'token', JSON.stringify(token)
-            );
-            console.log("commit to loginSuccess");
-            commit('loginSuccess', token);
-          }
-          return Promise.resolve(token);
-        },
-        error => {
-          commit('loginFailure');
-          return Promise.reject(error);
+    async login({ commit }, user) {
+      try {
+        let token = await AuthService.login(user);
+        console.log('loginSuccess');
+        console.log('token:', token);
+        if (token){
+          console.log("save to localStorage");
+          localStorage.setItem(
+            'token', JSON.stringify(token)
+          );
+          console.log("commit to loginSuccess");
+          commit('loginSuccess', token);
         }
-      );
+      } catch(e) {
+        console.log("commit loginFailure");
+        commit('loginFailure');
+      }
     },
-    login_by_tg({ commit }, link) {
-      return AuthService.login_by_tg(link).then(
-        token => {
-          console.log('loginSuccess');
-          console.log('token:', token);
-          if (token){
-            console.log("save to localStorage");
-            localStorage.setItem(
-              'token', JSON.stringify(token)
-            );
-            console.log("commit to loginSuccess");
-            commit('loginSuccess', token);
-          }
-          return Promise.resolve(token);
-        },
-        error => {
-          commit('loginFailure');
-          return Promise.reject(error);
+    async login_by_tg({ commit }, link) {
+      try {
+        let token = await AuthService.login_by_tg(link);
+        console.log('loginSuccess');
+        console.log('token:', token);
+        if (token){
+          console.log("save to localStorage");
+          localStorage.setItem(
+            'token', JSON.stringify(token)
+          );
+          console.log("commit to loginSuccess");
+          commit('loginSuccess', token);
         }
-      );
+      } catch(e) {
+        console.log("commit loginFailure");
+        commit('loginFailure');
+      }
     },
     logout({ commit }) {
       AuthService.logout();

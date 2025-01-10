@@ -13,9 +13,10 @@ from ... import app, manager
 from ...config import URLPathsConfig, user_login_config
 
 from ..services.user import (
-    load_user,
+    check_user_auth,
     get_all_users,
-    register_new_user
+    register_new_user,
+    create_login_password_user
 )
 from ..schemas.user import User, UserCreate, LoginLinkData
 
@@ -26,32 +27,34 @@ from ..schemas.user import User, UserCreate, LoginLinkData
     response_model=User
 )
 async def register_route(
-        create_user_data: UserCreate
+    create_user_data: UserCreate
 ) -> User:
     """Endpoint for register user in system"""
     logger.info(
         f'Register user: login="{create_user_data.login}" '
         f'email="{create_user_data.email}"'
     )
-    user = register_new_user(create_user_data)
-
+    user = await register_new_user(create_user_data)
     return user
 
 
 @app.post(
-    URLPathsConfig.PREFIX + '/auth/login',
+    URLPathsConfig.PREFIX + '/auth/login/',
     tags=['Authentication']
 )
-async def login_route(data: OAuth2PasswordRequestForm = Depends()) -> dict:
+async def login_route(
+    data: OAuth2PasswordRequestForm = Depends()
+) -> dict:
     """Endpoint for login user"""
-    email = data.username
+    login = data.username
     password = data.password
-    logger.info(f"name: {email}")
+    logger.info(f"name: {login}")
     logger.info(f"password: {password}")
-    # if name != "admin" or password != "admin":
     logger.info(f"pass encoded: {sha256(password.encode()).hexdigest()}")
 
-    user = load_user(email_or_link=email)
+    user = check_user_auth(email_login_tg_link=login)
+
+    logger.info(f"found user: {user}")
 
     if not user:
         # you can also use your own HTTPException
@@ -60,7 +63,7 @@ async def login_route(data: OAuth2PasswordRequestForm = Depends()) -> dict:
         raise InvalidCredentialsException
 
     access_token = manager.create_access_token(
-        data=dict(sub=email), expires=timedelta(
+        data=dict(sub=login), expires=timedelta(
             hours=user_login_config.TOKEN_EXPIRY_TIME_HOURS
         )
     )
@@ -77,8 +80,9 @@ async def login_by_tg_route(data: LoginLinkData) -> dict:
     """Endpoint for login user"""
     link = data.link
     logger.info(f"link: {link}")
+    logger.info(f"type(link): {type(link)}")
 
-    user = load_user(email_or_link=link)
+    user = check_user_auth(email_login_tg_link=link)
 
     if not user:
         # you can also use your own HTTPException
@@ -95,12 +99,30 @@ async def login_by_tg_route(data: LoginLinkData) -> dict:
             'token_type': 'bearer', }
 
 
+@app.post(
+    URLPathsConfig.PREFIX + '/users/',
+    tags=['Users'],
+    response_model=User
+)
+async def create_login_password_route(
+    create_user_data: UserCreate, user=Depends(manager)
+) -> User:
+    """Create login and password for existed user"""
+    logger.info(
+        f'Register user: login="{create_user_data.login}" '
+    )
+    user = await create_login_password_user(
+        user_id=user.id, user_data=create_user_data
+    )
+    return user
+
+
 @app.get(
     URLPathsConfig.PREFIX + "/users",
     tags=['Users'],
     response_model=List[User]
 )
-async def read_users_route() -> List[User]:
+async def read_users_route(user=Depends(manager)) -> List[User]:
     """
     Retrieve users.
     """

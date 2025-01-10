@@ -1,4 +1,6 @@
 import { ICategory } from "./categories";
+import { ISeller } from "./seller";
+import { IUnit } from "./units";
 
 export interface IGoods {
     id: string;
@@ -12,9 +14,9 @@ export interface IGoods {
     vat_rate: number;
     vat_amount: number;
     price_after_vat: number;
-    unit_id: string;
+    unit: IUnit;
     bill_id: string;
-    category_id: string;
+    seller: ISeller;
     categories: ICategory[];
   }
 
@@ -32,6 +34,7 @@ export interface IUncategorizedGoods {
   id: string;
   name: string;
   checked: boolean;
+  categories: string[];
 }
 
 export interface ICategorizedGoods {

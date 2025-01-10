@@ -35,29 +35,22 @@
         return store.state.auth.loggedIn;
       },
     },
-    created() {
+    async created() {
       console.log("this.loggedIn", this.loggedIn);
       if (this.loggedIn) {
-        this.$router.push("/goods");
+        this.$router.push("/profile");
       } else {
         this.loading = true;
         let link = this.$route.params.link
         console.log("link", link);
-        this.$store.dispatch("auth/login_by_tg", link).then(
-          () => {
-            console.log("before go to goods");
-            this.$router.push("/goods");
-          },
-          (error) => {
-            this.loading = false;
-            this.message =
-              (error.response &&
-                error.response.data &&
-                error.response.data.message) ||
-              error.message ||
-              error.toString();
-          }
-        );
+        try {
+          await this.$store.dispatch("auth/login_by_tg", link);
+          console.log("before go to profile");
+          this.$router.push("/profile");
+        } catch(error) {
+          this.loading = false;
+          this.message = "Problems with authorizate";
+        }
       }
     }
 });

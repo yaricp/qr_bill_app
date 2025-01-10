@@ -52,11 +52,11 @@ export default defineComponent({
                 this.message = "Wrong URL!"
             }
             this.found = true;
-            let result = await this.sendUrlToServer(qrCodeMessage);
+            await this.sendUrlToServer(qrCodeMessage);
             // show found results
-            this.found = false;
-            this.test_mess = "";
-            this.html5QrcodeScanner.resume();
+            // this.found = false;
+            // this.test_mess = "";
+            // this.html5QrcodeScanner.resume();
         },
         checkUrl(q_message: string) {
             for (let pattern of this.url_patterns){
@@ -73,8 +73,12 @@ export default defineComponent({
                     this.authToken
                 );
                 this.message = "sent to server successful!"
-                console.log(response.data);
-                return response.data
+                console.log("sendUrlToServer result: ", response.data);
+                this.html5QrcodeScanner.clear();
+                this.$router.push({ 
+                    name: "category_goods_bill_id",
+                    params: {bill_id: response.data.id}
+                })
             } catch(e) {
                 checkTokenExpired(e);
             }

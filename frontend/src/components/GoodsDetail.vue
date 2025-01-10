@@ -1,53 +1,54 @@
 <template>
     <div class="list row">
       <div class="col-md-8">
-        <div class="input-group mb-3">
-          Filter: <input
-            type="text"
-            class="form-control"
-            placeholder="Filter by name"
-            v-model="filter_name"
-            @keyup="filterByName"
-          />
-          <div class="input-group-append">
-            <!-- <button
-              class="btn btn-outline-secondary"
-              type="button"
-              @click="filterByName"
-            >
-              Search
-            </button> -->
-          </div>
-        </div>
       </div>
       <div class="col-md-6">
-        <h4>Goods List</h4>
+        <h4>Goods Details</h4>
         <ul class="list-group">
           <li
             class="list-group-item"
-            :class="{ active: index == currentIndex }"
-            v-for="(goods, index) in goods_list"
-            :key="index"
-            @click="setActiveGoods(goods, index)"
+            v-for="key in Object.keys(currentGoods)"
+            :key="key"
           >
-            {{ goods.name }}
+            {{ key }}: {{ currentGoods[key] }}
           </li>
         </ul>
   
       </div>
       <div class="col-md-6">
-        <div v-if="currentGoods.id">
-          <h4>Tutorial</h4>
+        <h4>Categories</h4>
           <div>
-            <label><strong>Name:</strong></label> {{ currentGoods.title }}
+            <ul class="list-group">
+              <li
+                class="list-group-item"
+                v-for="(cat, index) in goods_cat_list"
+                :key="index"
+              >
+                <input 
+                  class="form-check-input" 
+                  type="checkbox" 
+                  v-model="cat.checked" 
+                  id="flexCheckDefault"
+                > &nbsp;&nbsp;&nbsp;&nbsp;
+                <label 
+                  class="form-check-label" 
+                  for="flexCheckDefault"
+                >
+                  {{ cat.name }} - {{ cat.checked }}
+                </label>
+
+              </li>
+            </ul>
           </div>
-  
-          <router-link
-            :to="'/goods/' + currentGoods.id"
-            class="badge badge-warning"
-            >Edit</router-link
+          <div class="col-md-12">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            @click="saveGoodsGategories"
           >
-        </div>
+            Save
+          </button>
+    </div>
       </div>
     </div>
   </template>
@@ -65,6 +66,7 @@
     name: "goods-detail-page",
     data() {
       return {
+        currentGoodsID: "" as string,
         currentGoods: {} as IGoods,
         full_cat_list: [] as ICategory[],
         goods_cat_list: [] as IUncategorizedGoods[]
@@ -78,77 +80,97 @@
       },
     },
     methods: {
-        async retrieveCategories() {
+      async retrieveCategories() {
+          try {
+              let response = await CategoriesService.getAll(
+                  this.authToken
+              );
+              this.full_cat_list = response.data;
+              console.log(response.data);
+          } catch(e) {
+              checkTokenExpired(e);
+          }
+      },
+      async retrieveGoodsDetail() {
+          if (this.currentGoodsID) {
             try {
-                let response = await CategoriesService.getAll(
-                    this.authToken
-                );
-                this.full_cat_list = response.data;
-                console.log(response.data);
+              let response = await GoodsDataService.get(
+                this.currentGoodsID, this.authToken
+              );
+              console.log(
+                "retrieveGoodsDetail result:", response.data
+              );
+              this.currentGoods = response.data;
+              this.prepareListCategories();
             } catch(e) {
-                checkTokenExpired(e);
+              checkTokenExpired(e);
+            }    
+          } else {
+            alert("empty Goods ID!!");
+          }
+      },
+      async saveGoodsGategories() {
+          console.log("saveGoodsGategories");
+          let goods_for_save_list = [] as ICategorizedGoods[];
+          for (let cat of this.goods_cat_list) {
+              if (cat.checked) {
+                  goods_for_save_list.push({
+                      goods_id: this.currentGoods.id,
+                      cat_id: cat.id
+                  })
+              }
+          }
+          console.log(
+              "goods_for_save_list: ", goods_for_save_list
+          );
+          console.log("typeof this.currentGoodsID:", typeof this.currentGoodsID);
+          try {
+              let response = await GoodsDataService.updateCategory(
+                this.currentGoodsID, goods_for_save_list, this.authToken
+              );
+              console.log("saveGategorizedGoods response.data", response.data);
+              if (!response.data){
+                alert("Server error!!");
+                return;
+              }
+              this.retrieveGoodsDetail();
+              this.prepareListCategories();
+          } catch(e) {
+              checkTokenExpired(e);
+          }
+      },
+      prepareListCategories() {
+        this.goods_cat_list = [];
+        for (let cat of this.full_cat_list) {
+            let checked_cat = false;
+            let current_cat_ids = []; 
+            for (let good_cat of this.currentGoods.categories){
+              current_cat_ids.push(good_cat.id);
             }
-        },
-        async retrieveGoodsDetail() {
-            let goods_id = this.$route.params.goods_id;
-            if (typeof goods_id == "string") {
-                console.log("goods_id: ", goods_id);
-                try {
-                    let response = await GoodsDataService.get(
-                        goods_id, this.authToken
-                    );
-                    console.log(
-                        "retrieveGoodsDetail result:", response.data
-                    );
-                    this.currentGoods = response.data;
-                    this.prepareListCategories();
-                } catch(e) {
-                    checkTokenExpired(e);
-                }    
+            console.log("current_cat_ids: ", current_cat_ids);
+            console.log("cat.id: ", cat.id);
+            if (current_cat_ids.includes(cat.id)) {
+              checked_cat = true;
+              console.log("checked_cat: ", checked_cat);
             }
-        },
-        async saveGoodsGategories() {
-            console.log("saveGoodsGategories");
-            let goods_for_save_list = [] as ICategorizedGoods[];
-            for (let cat of this.goods_cat_list) {
-                if (cat.checked) {
-                    goods_for_save_list.push({
-                        goods_id: this.currentGoods.id,
-                        cat_id: cat.id
-                    })
-                }
-            }
-            console.log(
-                "goods_for_save_list: ", goods_for_save_list
-            );
-            try {
-                let response = await GoodsDataService.saveCategorized(
-                    goods_for_save_list, this.authToken
-                );
-                console.log("saveGategorizedGoods response.data", response.data);
-                this.currentGoods = response.data;
-            } catch(e) {
-                checkTokenExpired(e);
-            }
-        },
-        prepareListCategories() {
-            this.goods_cat_list = [];
-            for (let cat of this.full_cat_list) {
-                let checked_cat = false;
-                if (this.currentGoods.categories.includes(cat)) {
-                    checked_cat = true;
-                }
-                this.goods_cat_list.push({
-                    id: cat.id,
-                    name: cat.name,
-                    checked: checked_cat
-                })
-            }
+            this.goods_cat_list.push({
+                id: cat.id,
+                name: cat.name,
+                checked: checked_cat,
+                categories: []
+            })
         }
+      }
     },
-    mounted() {
-        this.retrieveCategories();
-        this.retrieveGoodsDetail();
+    async mounted() {
+      let goods_id = await this.$route.params.goods_id;
+      if (typeof goods_id == "string") {
+        console.log("goods_id: ", goods_id);
+        console.log("typeof goods_id: ", typeof goods_id);
+        this.currentGoodsID = String(goods_id);
+      }
+      this.retrieveCategories();
+      this.retrieveGoodsDetail();
     },
   });
   </script>

@@ -25,24 +25,6 @@
         </ul>
   
       </div>
-      <div class="col-md-6">
-        <div v-if="currentGoods.id">
-          <h4>Tutorial</h4>
-          <div>
-            <label><strong>Name:</strong></label> {{ currentGoods.title }}
-          </div>
-  
-          <router-link
-            :to="'/goods/' + currentGoods.id"
-            class="badge badge-warning"
-            >Edit</router-link
-          >
-        </div>
-        <div v-else>
-          <br />
-          <p>Please click on a Goods...</p>
-        </div>
-      </div>
     </div>
   </template>
   
@@ -58,8 +40,7 @@
     data() {
       return {
         goods_list: [] as IGoods[],
-        currentGoods: {} as IGoods,
-        currentIndex: -1,
+        full_goods_list: [] as IGoods[],
         filter_name: "",
       };
     },
@@ -77,15 +58,11 @@
             this.authToken
           );
           this.goods_list = response.data;
+          this.full_goods_list = this.goods_list;
           console.log(response.data);
         } catch(e) {
           checkTokenExpired(e);
         }
-      },
-      refreshList() {
-        this.retrieveGoods();
-        this.currentGoods = {} as IGoods;
-        this.currentIndex = -1;
       },
       goToGoods(goods: IGoods) {
         this.$router.push({
@@ -93,7 +70,7 @@
         });
       },
       filterByName() {
-        this.goods_list = this.goods_list.filter(
+        this.goods_list = this.full_goods_list.filter(
           (item) => { return item.name.includes(this.filter_name)}
         );
       },

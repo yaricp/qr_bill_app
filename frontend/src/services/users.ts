@@ -1,18 +1,24 @@
-import authHeader from './auth-header';
-import { authHeaders } from '.';
+import authHeader from "./auth-header";
+import { authHeaders } from ".";
 import http from "@/http-common";
+import { IUser, IUserLogin } from "@/interfaces/users";
 
 class UserService {
-  getUsers(token: string) {
-    return http.get('/users', authHeaders(token));
+
+  createUser(user_data: IUserLogin, token: string): Promise<any> {
+    return http.post('/users/', user_data, authHeaders(token));
   }
 
-  getUserProfile(token: string) {
-    return http.get('/user', authHeaders(token));
+  getUsers(token: string): Promise<any> {
+    return http.get('/users/', authHeaders(token));
   }
 
-  getAdminBoard() {
-    return http.get('/admin', { headers: authHeader() });
+  getUserProfile(token: string): Promise<any> {
+    return http.get('/user/', authHeaders(token));
+  }
+
+  getAdminBoard(token: string): Promise<any>{
+    return http.get('/admin/', authHeaders(token));
   }
 }
 

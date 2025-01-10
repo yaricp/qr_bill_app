@@ -10,25 +10,13 @@ from ..services.goods import (
     get_goods, create_goods, get_all_goods,
     update_goods, delete_goods, list_count_group_by_name,
     list_summ_group_by_name, strip_all_names,
-    list_uncategorized_goods, save_categorized_goods
+    list_uncategorized_goods, save_categorized_goods,
+    update_goods_categories
 )
 from ..schemas.goods import (
     Goods, GoodsCreate, GoodsUpdate, GoodsCountByName,
     GoodsSummByName, CategoryGoods
 )
-
-from ..services.user import load_user
-from fastapi import FastAPI, Request, Response
-from fastapi.security import OAuth2PasswordBearer, SecurityScopes
-
-
-def local_manager(
-    request: Request,
-    security_scopes: SecurityScopes = None
-):
-    logger.info(f"request: {request}")
-    logger.info(f"security_scopes.scopes: {security_scopes.scopes}")
-    return load_user(email_or_link="admin@admin.ru")
 
 
 @app.post(
@@ -56,12 +44,27 @@ async def save_categorized_goods_route(
     data_in: List[CategoryGoods], user=Depends(manager)
 ) -> bool:
     """
-    Create new goods.
+    Assosiate category to several goods.
     """
-    # for goods in data_in:
-    #     goods.user_id = user.id
     result = await save_categorized_goods(
         goods_data=data_in
+    )
+    return result
+
+
+@app.post(
+    URLPathsConfig.PREFIX + "/goods/update_category/{goods_id}",
+    tags=['Goods'],
+    response_model=bool
+)
+async def update_categorized_goods_route(
+    goods_id: UUID, data_in: List[CategoryGoods], user=Depends(manager)
+) -> bool:
+    """
+    Update categories for one good.
+    """
+    result = await update_goods_categories(
+        goods_id=goods_id, goods_data=data_in
     )
     return result
 
@@ -120,14 +123,25 @@ async def delete_goods_route(id: UUID, user=Depends(manager)):
     tags=['Goods'],
     response_model=List[Goods]
 )
+async def uncategorized_goods_cat_route(
+    cat_id: UUID, user=Depends(manager)
+) -> List[Goods]:
+    result: List[Goods] = await list_uncategorized_goods(
+        user_id=user.id, cat_id=cat_id
+    )
+    return result
+
+
+@app.get(
+    URLPathsConfig.PREFIX + "/goods/uncategorized/",
+    tags=['Goods'],
+    response_model=List[Goods]
+)
 async def uncategorized_goods_route(
-    cat_id: UUID,
     user=Depends(manager)
 ) -> List[Goods]:
-    result: List[
-        Goods
-    ] = await list_uncategorized_goods(
-        user_id=user.id, cat_id=cat_id
+    result: List[Goods] = await list_uncategorized_goods(
+        user_id=user.id
     )
     return result
 

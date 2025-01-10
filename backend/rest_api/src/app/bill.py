@@ -32,16 +32,23 @@ class BillQueries:
         return BillORM.query.get(id)
 
     async def get_uncategorized_goods(
-        self, bill_id: UUID, cat_id: UUID, user_id: UUID
+        self, bill_id: UUID, user_id: UUID, cat_id: UUID | None = None
     ) -> List[Goods]:
         result = []
-        user_goods = GoodsORM.query.filter_by(
+        bill_goods = GoodsORM.query.filter_by(
             bill_id=bill_id, user_id=user_id
         ).all()
-        for u_goods in user_goods:
-            if cat_id not in [item.id for item in u_goods.categories]:
-                result.append(u_goods)
-
+        for u_goods in bill_goods:
+            if cat_id:
+                logger.info(f"u_goods.categories: {u_goods.categories}")
+                if cat_id not in [item.id for item in u_goods.categories]:
+                    result.append(u_goods)
+            else:
+                logger.info(f"u_goods.categories: {u_goods.categories}")
+                if not u_goods.categories:
+                    logger.info(f"added: {u_goods}")
+                    result.append(u_goods)
+        logger.info(f"get_uncategorized_goods result: {result}")
         return result
 
 

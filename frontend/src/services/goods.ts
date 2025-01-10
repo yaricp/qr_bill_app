@@ -28,9 +28,9 @@ class GoodsDataService {
     return http.get(`/goods?name=${name}`, authHeaders(token));
   }
 
-  getUncategorized(cat_id: string, token: string): Promise<any> {
+  getUncategorized(token: string, cat_id?: string): Promise<any> {
     return http.get(
-      `/goods/uncategorized/${cat_id}`, authHeaders(token)
+      `/goods/uncategorized/${cat_id ? cat_id : ""}`, authHeaders(token)
     );
   }
 
@@ -39,6 +39,16 @@ class GoodsDataService {
   ): Promise<any> {
     return http.post(
       `/goods/save_categorized/`, data, authHeaders(token)
+    );
+  }
+
+  updateCategory(
+    goods_id: string, data: ICategorizedGoods[], token: string
+  ): Promise<any> {
+    return http.post(
+      `/goods/update_category/${goods_id}`,
+      data,
+      authHeaders(token)
     );
   }
 

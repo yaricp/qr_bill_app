@@ -1,10 +1,13 @@
 from uuid import UUID
-from datetime import datetime
+from typing import List
+# from datetime import datetime
 from decimal import Decimal
-
 from typing import Optional
-
 from pydantic import BaseModel
+
+from .unit import Unit
+from .seller import Seller
+from .category import Category
 
 
 # Shared properties
@@ -81,8 +84,10 @@ class GoodsInDBBase(GoodsBase):
     vat_rate: Decimal
     vat_amount: Decimal
     price_after_vat:  Decimal
-    unit_id: UUID
+    seller: Seller
+    unit: Unit
     bill_id: UUID
+    categories: List[Category]
 
     class Config:
         orm_mode = True
