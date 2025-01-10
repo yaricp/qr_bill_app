@@ -275,3 +275,4 @@ jobs:
           echo -e "NAME_IMAGE_API=${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:test" >> .env;
           echo -e "NAME_IMAGE_FRONTEND=${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_FRONTEND }}:test" >> .env;
           echo -e "NAME_IMAGE_TELEGRAM_BOT=${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TELEGRAM_BOT }}:test" >> .env;
+
