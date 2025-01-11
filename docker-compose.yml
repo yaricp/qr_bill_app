@@ -36,6 +36,7 @@ services:
     volumes:
       - ./backend/rest_api/src:/src
       - ./backend/rest_api/alembic:/alembic
+      - ./backend/rest_api/alembic/versions:/alembic/versions
       - ./grpc_proto:/grpc_proto
     build:
       context: ./backend/rest_api/

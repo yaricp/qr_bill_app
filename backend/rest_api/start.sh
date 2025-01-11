@@ -2,7 +2,12 @@
 
 echo "Prepare GRPC server"
 
-# poetry run python -m grpc_tools.protoc -I /grpc_proto --python_out=/backend/infra/grpc_server --pyi_out=/backend/infra/grpc_server --grpc_python_out=/backend/infra/grpc_server /grpc_proto/grpc.proto
+bash /scripts/prepare_grpc_proto.sh
+
+echo "change /src/infra/grpc_server/grpc_pb2_grpc.py"
+echo "  from: 'import grpc_pb2 as grpc__pb2'"
+echo " to: 'from . import grpc_pb2 as grpc__pb2'"
+sed 's/import grpc_pb2 as grpc__pb2/from . import grpc_pb2 as grpc__pb2/' /src/infra/grpc_server/grpc_pb2_grpc.py
 
 echo "Start GRPC Server"
 
