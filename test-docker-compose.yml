@@ -34,7 +34,6 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./backend/rest_api/src:/src
       - ./backend/rest_api/alembic:/alembic
       - ./grpc_proto:/grpc_proto
     build:
@@ -92,16 +91,11 @@ services:
       TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${TIME_LIFE_TEMP_LOGIN_LINK_MIN}
     command: /./start.sh
     volumes:
-      - ./backend/tg_bot/app:/bot
       - ./grpc_proto:/grpc_proto
     depends_on:
       - api
     build:
       context: ./backend/tg_bot
-
-
-    # volumes:
-    #  - ./backend/telegram_bot/logs:/app/logs
 
 volumes:
   pgdata: {}
