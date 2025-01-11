@@ -15,9 +15,11 @@ COPY poetry.lock /
 RUN poetry install
 
 RUN mkdir /bot
+RUN mkdir /grpc_proto
 
 WORKDIR /
 
+COPY ../../grpc_proto/grpc.proto /grpc_proto/grpc.proto
 COPY /app /bot
 COPY /scripts /scripts
 COPY start.sh /

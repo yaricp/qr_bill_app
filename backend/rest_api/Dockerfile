@@ -15,9 +15,11 @@ COPY poetry.lock /
 RUN poetry install
 
 RUN mkdir /src
+RUN mkdir /grpc_proto
 
 WORKDIR /
 
+COPY ../../grpc_proto/grpc.proto /grpc_proto/grpc.proto
 COPY /alembic /alembic
 COPY alembic.ini /
 COPY /src /src
