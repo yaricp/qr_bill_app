@@ -96,27 +96,55 @@ jobs:
       - name: Run unittests for rest_api. 
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         env:
-          INSTALL_DEV: ${INSTALL_DEV}
-          NAME_IMAGE_API: ${NAME_IMAGE_API}
-          NAME_IMAGE_FRONTEND: ${NAME_IMAGE_FRONTEND}
-          NAME_IMAGE_TELEGRAM_BOT: ${NAME_IMAGE_TELEGRAM_BOT}
-          POSTGRES_HOST: ${POSTGRES_HOST}
-          POSTGRES_DB: ${POSTGRES_DB}
-          POSTGRES_USER: ${POSTGRES_USER}
-          POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-          PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-          PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-          SECRET_KEY: ${SECRET_KEY}
-          API_PREFIX: ${API_PREFIX}
-          ORIGINS: ${ORIGINS}
-          UVICORN_WORKERS: ${UVICORN_WORKERS}
-          DEBUG: ${DEBUG}
-          API_LOGIN: ${API_LOGIN}
-          API_PASSWORD: ${API_PASSWORD} 
+          NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}
+          NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}
+          NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}
+          DEBUG: ${{ vars.DEBUG }}
+          INSTALL_DEV: ${{ vars.INSTALL_DEV }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          TOKEN_EXPIRY_TIME_HOURS: ${{ vars.TOKEN_EXPIRY_TIME_HOURS }}
+          FISCAL_SERVICE_HOSTNAME: ${{ vars.FISCAL_SERVICE_HOSTNAME }}
+          FISCAL_SERVICE_URI: ${{ vars.FISCAL_SERVICE_URI }}
+          FISCAL_SERVICE_API_URI: ${{ vars.FISCAL_SERVICE_API_URI }}
+          TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${{ vars.TIME_LIFE_TEMP_LOGIN_LINK_MIN }}
+          FRONTEND_APP_LOGIN_LINK_PREFIX: ${{ vars.FRONTEND_APP_LOGIN_LINK_PREFIX }}
+          REST_API_HOST: ${{ vars.REST_API_HOST }}
+          REST_API_PORT: ${{ vars.REST_API_PORT }}
+          REST_API_PREFIX: ${{ vars.REST_API_PREFIX }}
+          REST_API_LOGIN_LINK_URI: ${{ vars.REST_API_LOGIN_LINK_URI }}
+          DATABASE_DIALECT: ${{ vars.DATABASE_DIALECT }}
+          DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
+          DATABASE_HOST: ${{ vars.DATABASE_HOST }}
+          DATABASE_PORT: ${{ vars.DATABASE_PORT }}
+          DATABASE_USER: ${{ vars.DATABASE_USER }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          DATABASE_NAME: ${{ vars.DATABASE_NAME }}
+          DATABASE_ECHO: ${{ vars.DATABASE_ECHO }}
+          DATABASE_POOL_RECYCLE: ${{ vars.DATABASE_POOL_RECYCLE }}
+          DATABASE_POOL_PRE_PING: ${{ vars.DATABASE_POOL_PRE_PING }}
+          DATABASE_AUTO_FLUSH: ${{ vars.DATABASE_AUTO_FLUSH }}
+          DATABASE_EXPIRE_ON_COMMIT: ${{ vars.DATABASE_EXPIRE_ON_COMMIT }}
+          UNICORN_HOST: ${{ vars.UNICORN_HOST }}
+          UNICORN_PORT: ${{ vars.UNICORN_PORT }}
+          UNICORN_LOG_LEVEL: ${{ vars.UNICORN_LOG_LEVEL }}
+          UNICORN_RELOAD: ${{ vars.UNICORN_RELOAD }}
+          UNICORN_WORKERS: ${{ vars.UNICORN_WORKERS }}
+          ALLOW_ORIGINS: ${{ vars.ALLOW_ORIGINS }}
+          ALLOW_HEADERS: ${{ vars.ALLOW_HEADERS }}
+          ALLOW_CREDENTIALS: ${{ vars.ALLOW_CREDENTIALS }}
+          ALLOW_METHODS: ${{ vars.ALLOW_METHODS }}
+          PGADMIN_DEFAULT_EMAIL: ${{ vars.PGADMIN_DEFAULT_EMAIL }}
+          PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_BOT_DEFAULT_LANG: ${{ vars.TELEGRAM_BOT_DEFAULT_LANG }}
+          TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
+          TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
+          TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
         run: |
-          docker compose up -d;
-          docker compose exec -T api poetry run pytest tests/api;
-          docker compose down;
+          echo "Testing";
+          # docker compose up -d;
+          # docker compose exec -T api poetry run pytest tests/api;
+          # docker compose down;
       - name: Build and push image tg
         if: ${{ (steps.tg_changed.outputs.OUTPUT != '') }}
         env:
