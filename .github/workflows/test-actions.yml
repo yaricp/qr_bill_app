@@ -274,11 +274,11 @@ jobs:
       #     docker rmi ${{ vars.NAME_IMAGE_API }}:test_prev;
       #     docker rmi ${{ vars.NAME_IMAGE_FRONTEND }}:test_prev;
       #     docker rmi ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test_prev;
-      # - name: make tag to old stable version images
-      #   run: |
-      #     docker tag ${{ vars.NAME_IMAGE_API }}:test ${{ vars.NAME_IMAGE_API }}:test_prev;
-      #     docker tag ${{ vars.NAME_IMAGE_FRONTEND }}:test ${{ vars.NAME_IMAGE_FRONTEND }}:test_prev;
-      #     docker tag ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test_prev;
+      - name: make tag to old stable version images
+        run: |
+          docker tag ${{ vars.NAME_IMAGE_API }}:test ${{ vars.NAME_IMAGE_API }}:test_prev;
+          docker tag ${{ vars.NAME_IMAGE_FRONTEND }}:test ${{ vars.NAME_IMAGE_FRONTEND }}:test_prev;
+          docker tag ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test_prev;
       - name: Pull new images
         env:
           NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:test
@@ -425,7 +425,7 @@ jobs:
         run: cd /home/yaricp/docker-compose-area/test && docker-compose up -d
       - name: Sync .env file
         run: |
-          cd /home/githubrunner/docker-compose-area/test;
+          cd /home/yaricp/docker-compose-area/test;
           var=$(docker-compose exec -T api env);
           mv .env .env_old;
           echo "$var" > .env;
