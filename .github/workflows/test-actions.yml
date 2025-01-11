@@ -80,6 +80,14 @@ jobs:
           ALLOW_HEADERS: ${{ vars.ALLOW_HEADERS }}
           ALLOW_CREDENTIALS: ${{ vars.ALLOW_CREDENTIALS }}
           ALLOW_METHODS: ${{ vars.ALLOW_METHODS }}
+          PGADMIN_DEFAULT_EMAIL: ${{ vars.PGADMIN_DEFAULT_EMAIL }}
+          PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_BOT_DEFAULT_LANG: ${{ vars.TELEGRAM_BOT_DEFAULT_LANG }}
+          TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
+          TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
+          TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
+          TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${{ vars.TIME_LIFE_TEMP_LOGIN_LINK_MIN }}
         run: |
           docker compose build api;
           docker compose pull api;
