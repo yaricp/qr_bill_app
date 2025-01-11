@@ -21,11 +21,7 @@ WORKDIR /
 COPY /alembic /alembic
 COPY alembic.ini /
 COPY /src /src
-# COPY /api /backend/api
-# COPY /app /backend/app
-# COPY /infra /backend/infra
 COPY /scripts /scripts
-# COPY main.py /
 COPY start.sh /
 COPY start_grpc_server.py /
 
