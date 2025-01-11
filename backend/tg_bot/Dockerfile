@@ -25,4 +25,8 @@ COPY start.sh /
 RUN chmod +x /start.sh
 RUN chmod +x /scripts/*
 
+RUN bash /scripts/prepare_grpc_proto.sh
+RUN cp /src/infra/grpc_server/grpc_pb2_grpc.py /src/infra/grpc_server/grpc_pb2_grpc.py.orig
+RUN sed 's/import grpc_pb2/from . import grpc_pb2/g' /src/infra/grpc_server/grpc_pb2_grpc.py.orig > /src/infra/grpc_server/grpc_pb2_grpc.py
+
 ENTRYPOINT [ "/bin/bash", "-l", "-c" ]
