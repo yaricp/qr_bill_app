@@ -29,7 +29,7 @@ services:
 
   api:
     restart: always
-    image: ${NAME_IMAGE_API}
+    image: ${NAME_IMAGE_API}:test
     container_name: api
     ports:
       - "8080:80"
@@ -82,7 +82,7 @@ services:
 
   tg:
     restart: always
-    image: ${NAME_IMAGE_TELEGRAM_BOT}
+    image: ${NAME_IMAGE_TELEGRAM_BOT}:test
     container_name: tg
     environment:
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}

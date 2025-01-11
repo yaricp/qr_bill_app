@@ -5,6 +5,7 @@ on:
       - dev
 
 jobs:
+  
   test-build-images:
     runs-on: ubuntu-latest
     permissions:
@@ -326,7 +327,6 @@ jobs:
           TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
         run: |
-          users
           cd /home/yaricp/docker-compose-area/test;
           docker-compose pull api tg;
       - name: Stop old images
@@ -379,7 +379,7 @@ jobs:
       - name: Start new images
         env:
           NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:test
-          NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}:test
+          # NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}:test
           NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test
           DEBUG: ${{ vars.DEBUG }}
           INSTALL_DEV: ${{ vars.INSTALL_DEV }}
