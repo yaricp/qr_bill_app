@@ -40,23 +40,22 @@ jobs:
         run: |
           OUTPUT=$( git diff HEAD\^ HEAD -- backend/tg_bot | tail -1) &&
           echo "::set-output name=OUTPUT::$OUTPUT"
-      - name: Check changes in docker montage
-        id: docker_montage_changes
+      - name: Check changes in frontend
+        id: frontend_changes
         run: |
-          OUTPUT=$( git diff HEAD\^ HEAD -- backend/montage/Dockerfile | tail -1) &&
+          OUTPUT=$( git diff HEAD\^ HEAD -- frontend | tail -1) &&
           echo "::set-output name=OUTPUT::$OUTPUT"
-      - name: Build rest_api image. 
+      - name: Build and push rest_api image. 
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         env:
           INSTALL_DEV: "True"
-          NAME_IMAGE_REST_API_PACKAGES: ${{ env.REGISTRY }}/${{ env.COMPANY }}/rest_api_packages:test
           NAME_IMAGE_API: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:test
           NAME_IMAGE_FRONTEND: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_FRONTEND }}:test
         run: |
-          docker compose build api;
-          docker tag ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:test;
+          docker-compose build api;
+          docker-compose pull api;
       - name: Run unittests for rest_api. 
-        if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '') || (steps.docker_api_changes.outputs.OUTPUT != '')}}
+        if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         env:
           INSTALL_DEV: "True"
           NAME_IMAGE_API: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:test
@@ -82,12 +81,13 @@ jobs:
           docker compose up -d;
           docker compose exec -T api poetry run pytest tests/api;
           docker compose down;
-      - name: push image rest api if backend was changed
-        if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '') || (steps.docker_api_changes.outputs.OUTPUT != '') }}
-        run: |
-          docker push ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:test;
-      - name: Run tg_bot build image if telegram_bot changed 
+      - name: Build and push image tg
         if: ${{ (steps.tg_changed.outputs.OUTPUT != '') }}
+        run: |
+          docker-compose build tg;
+          docker-compose push tg;
+      - name: Build and push image frontend 
+        if: ${{ (steps.frontend_changes.outputs.OUTPUT != '') }}
         env:
           INSTALL_DEV: "True"
           NAME_IMAGE_API: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:test
@@ -110,8 +110,8 @@ jobs:
           API_LOGIN: admin
           API_PASSWORD: "admin"
         run: |
-          docker compose build tg;
-          docker push ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TELEGRAM_BOT }}:test;
+          docker-compose build frontend;
+          docker-compose push frontend;
    
 # - name: install docker and docker-compose
 #         run: |
