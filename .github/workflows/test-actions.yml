@@ -284,6 +284,12 @@ jobs:
           NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:test
           NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}:test
           NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test
+          PGADMIN_DEFAULT_EMAIL: ${{ vars.PGADMIN_DEFAULT_EMAIL }}
+          PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
+          DATABASE_HOST: ${{ vars.DATABASE_HOST }}
+          DATABASE_USER: ${{ vars.DATABASE_USER }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          DATABASE_NAME: ${{ vars.DATABASE_NAME }}
         run: |
           cd /home/githubrunner/docker-compose-area/test;
           docker-compose pull api tg frontend;
