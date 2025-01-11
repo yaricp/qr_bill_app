@@ -480,9 +480,9 @@ jobs:
           echo "$var" >> .env;
           var=$(docker-compose exec -T tg env);
           echo "$var" >> .env;
-          var=$(docker-compose exec -T frontend env);
-          echo "$var" >> .env;
+          # var=$(docker-compose exec -T frontend env);
+          # echo "$var" >> .env;
           echo -e "NAME_IMAGE_API=${{ vars.NAME_IMAGE_API }}:test" >> .env;
-          echo -e "NAME_IMAGE_FRONTEND=${{ vars.NAME_IMAGE_FRONTEND }}:test" >> .env;
+          # echo -e "NAME_IMAGE_FRONTEND=${{ vars.NAME_IMAGE_FRONTEND }}:test" >> .env;
           echo -e "NAME_IMAGE_TELEGRAM_BOT=${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test" >> .env;
 
