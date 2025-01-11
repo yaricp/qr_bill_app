@@ -29,4 +29,6 @@ COPY start_grpc_server.py /
 RUN chmod +x /start.sh
 RUN chmod +x /scripts/*
 
+RUN cat start.sh
+
 ENTRYPOINT [ "/bin/bash", "-l", "-c" ]
