@@ -50,6 +50,19 @@ jobs:
           NAME_IMAGE_API: ${NAME_IMAGE_API}
           NAME_IMAGE_FRONTEND: ${NAME_IMAGE_FRONTEND}
           NAME_IMAGE_TELEGRAM_BOT: ${NAME_IMAGE_TELEGRAM_BOT}
+          POSTGRES_HOST: ${POSTGRES_HOST}
+          POSTGRES_DB: ${POSTGRES_DB}
+          POSTGRES_USER: ${POSTGRES_USER}
+          POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+          PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+          PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+          SECRET_KEY: ${SECRET_KEY}
+          API_PREFIX: ${API_PREFIX}
+          ORIGINS: ${ORIGINS}
+          UVICORN_WORKERS: ${UVICORN_WORKERS}
+          DEBUG: ${DEBUG}
+          API_LOGIN: ${API_LOGIN}
+          API_PASSWORD: ${API_PASSWORD}
         run: |
           docker compose build api;
           docker compose pull api;
