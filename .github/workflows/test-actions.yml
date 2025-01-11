@@ -52,8 +52,8 @@ jobs:
           NAME_IMAGE_API: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:test
           NAME_IMAGE_FRONTEND: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_FRONTEND }}:test
         run: |
-          docker-compose build api;
-          docker-compose pull api;
+          docker compose build api;
+          docker compose pull api;
       - name: Run unittests for rest_api. 
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         env:
@@ -84,8 +84,8 @@ jobs:
       - name: Build and push image tg
         if: ${{ (steps.tg_changed.outputs.OUTPUT != '') }}
         run: |
-          docker-compose build tg;
-          docker-compose push tg;
+          docker compose build tg;
+          docker compose push tg;
       - name: Build and push image frontend 
         if: ${{ (steps.frontend_changes.outputs.OUTPUT != '') }}
         env:
@@ -110,8 +110,8 @@ jobs:
           API_LOGIN: admin
           API_PASSWORD: "admin"
         run: |
-          docker-compose build frontend;
-          docker-compose push frontend;
+          docker compose build frontend;
+          docker compose push frontend;
    
 # - name: install docker and docker-compose
 #         run: |
