@@ -422,22 +422,21 @@ jobs:
           TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
         run: cd /home/githubrunner/docker-compose-area/test && docker-compose up -d
-      
-        # - name: Sync .env file
-        # run: |
-        #   cd /home/githubrunner/docker-compose-area/test;
-        #   var=$(docker-compose exec -T api env);
-        #   mv .env .env_old;
-        #   echo "$var" > .env;
-        #   var=$(docker-compose exec -T pg env);
-        #   echo "$var" >> .env;
-        #   var=$(docker-compose exec -T pgadmin4 env);
-        #   echo "$var" >> .env;
-        #   var=$(docker-compose exec -T tg env);
-        #   echo "$var" >> .env;
-        #   var=$(docker-compose exec -T frontend env);
-        #   echo "$var" >> .env;
-        #   echo -e "NAME_IMAGE_API=${{ vars.NAME_IMAGE_API }}:test" >> .env;
-        #   echo -e "NAME_IMAGE_FRONTEND=${{ vars.NAME_IMAGE_FRONTEND }}:test" >> .env;
-        #   echo -e "NAME_IMAGE_TELEGRAM_BOT=${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test" >> .env;
+      - name: Sync .env file
+        run: |
+          cd /home/githubrunner/docker-compose-area/test;
+          var=$(docker-compose exec -T api env);
+          mv .env .env_old;
+          echo "$var" > .env;
+          var=$(docker-compose exec -T pg env);
+          echo "$var" >> .env;
+          var=$(docker-compose exec -T pgadmin4 env);
+          echo "$var" >> .env;
+          var=$(docker-compose exec -T tg env);
+          echo "$var" >> .env;
+          var=$(docker-compose exec -T frontend env);
+          echo "$var" >> .env;
+          echo -e "NAME_IMAGE_API=${{ vars.NAME_IMAGE_API }}:test" >> .env;
+          echo -e "NAME_IMAGE_FRONTEND=${{ vars.NAME_IMAGE_FRONTEND }}:test" >> .env;
+          echo -e "NAME_IMAGE_TELEGRAM_BOT=${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test" >> .env;
 
