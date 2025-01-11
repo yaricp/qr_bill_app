@@ -10,10 +10,10 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data/
     environment:
-      POSTGRES_HOST: ${POSTGRES_HOST}
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: ${DATABASE_HOST}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
 
   pgadmin4:
     image: dpage/pgadmin4:latest
@@ -40,8 +40,41 @@ services:
     build:
       context: ./backend/rest_api/
       dockerfile: Dockerfile
-    env_file:
-      - .env
+    environment:
+      DEBUG: ${DEBUG}
+      INSTALL_DEV: ${INSTALL_DEV}
+      SECRET_KEY: ${SECRET_KEY}
+      TOKEN_EXPIRY_TIME_HOURS: ${TOKEN_EXPIRY_TIME_HOURS}
+      FISCAL_SERVICE_HOSTNAME: ${FISCAL_SERVICE_HOSTNAME}
+      FISCAL_SERVICE_URI: ${FISCAL_SERVICE_URI}
+      FISCAL_SERVICE_API_URI: ${FISCAL_SERVICE_API_URI}
+      TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${TIME_LIFE_TEMP_LOGIN_LINK_MIN}
+      FRONTEND_APP_LOGIN_LINK_PREFIX: ${FRONTEND_APP_LOGIN_LINK_PREFIX}
+      REST_API_HOST: ${REST_API_HOST}
+      REST_API_PORT: ${REST_API_PORT}
+      REST_API_PREFIX: ${REST_API_PREFIX}
+      REST_API_LOGIN_LINK_URI: ${REST_API_LOGIN_LINK_URI}
+      DATABASE_DIALECT: ${DATABASE_DIALECT}
+      DATABASE_DRIVER: ${DATABASE_DRIVER}
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_ECHO: ${DATABASE_ECHO}
+      DATABASE_POOL_RECYCLE: ${DATABASE_POOL_RECYCLE}
+      DATABASE_POOL_PRE_PING: ${DATABASE_POOL_PRE_PING}
+      DATABASE_AUTO_FLUSH: ${DATABASE_AUTO_FLUSH}
+      DATABASE_EXPIRE_ON_COMMIT: ${DATABASE_EXPIRE_ON_COMMIT}
+      UNICORN_HOST: ${UNICORN_HOST}
+      UNICORN_PORT: ${UNICORN_PORT}
+      UNICORN_LOG_LEVEL: ${UNICORN_LOG_LEVEL}
+      UNICORN_RELOAD: ${UNICORN_RELOAD}
+      UNICORN_WORKERS: ${UNICORN_WORKERS}
+      ALLOW_ORIGINS: ${ALLOW_ORIGINS}
+      ALLOW_HEADERS: ${ALLOW_HEADERS}
+      ALLOW_CREDENTIALS: ${ALLOW_CREDENTIALS}
+      ALLOW_METHODS: ${ALLOW_METHODS}
     command: /./start.sh
     depends_on:
       - pg
@@ -50,8 +83,13 @@ services:
     restart: always
     image: ${NAME_IMAGE_TELEGRAM_BOT}
     container_name: tg
-    env_file:
-      - .env
+    environment:
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      TELEGRAM_BOT_DEFAULT_LANG: ${TELEGRAM_BOT_DEFAULT_LANG}
+      TELEGRAM_ADMIN_CHAT_ID: ${TELEGRAM_ADMIN_CHAT_ID}
+      TELEGRAM_GRPC_HOST: ${TELEGRAM_GRPC_HOST}
+      TELEGRAM_GRPC_PORT: ${TELEGRAM_GRPC_PORT}
+      TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${TIME_LIFE_TEMP_LOGIN_LINK_MIN}
     command: /./start.sh
     volumes:
       - ./backend/tg_bot/app:/bot
@@ -68,3 +106,83 @@ services:
 volumes:
   pgdata: {}
 
+
+
+  #   environment:
+  #     REST_API_URI: "http://api/api/v1/"
+  #     REST_API_TICKET: "tickets/"
+  #     REST_API_DEVICE: "devices/"
+  #     REST_API_SETTING: "settings/"
+  #     REST_API_TYPESOURCE: "sourcetypes/"
+  #     REST_API_SOURCE: "sources/"
+  #     REST_API_SOURCE_BY_TYPESOURCE: "sources/by_typesource/"
+  #     REST_API_IPFSUSER: "ipfsusers/"
+  #     REST_API_IPFSUSER_BY_CUSTOMER: "ipfsusers/by_customer/"
+  #     REST_API_TYPEPACKAGE: "packagetypes/"
+  #     REST_API_MONTAGE: "montages/"
+  #     REST_API_VIDEOMANAGER: "video-manager"
+  #     REST_API_AUTHENTICATION_URL: "auth/login"
+  #     REST_API_USER: ${API_LOGIN}
+  #     REST_API_PASSWORD: ${API_PASSWORD}
+  #     REST_API_CUSTOMER: "customer"
+  #     REST_API_TIMEOUT: 5
+    
+
+  # redis:
+  #   image: bitnami/redis:latest
+  #   restart: always
+  #   environment:
+  #     ALLOW_EMPTY_PASSWORD: "true"
+
+  # cadvisor:
+  #   restart: always
+  #   image: gcr.io/cadvisor/cadvisor
+  #   container_name: cadvisor
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   ports:
+  #     - 8088:8080
+
+  # hostm:
+  #   image: quay.io/prometheus/node-exporter:latest
+  #   container_name: hostm
+  #   command:
+  #     - '--path.rootfs=/host'
+  #   # network_mode: host
+  #   pid: host
+  #   restart: unless-stopped
+  #   expose:
+  #     - 9100
+  #   volumes:
+  #     - '/:/host:ro,rslave'
+
+  # prom:
+  #   restart: always
+  #   image: prom/prometheus
+  #   container_name: prom
+  #   volumes:
+  #     - ./prometheus:/etc/prometheus
+  #     - prometheus_data:/prometheus
+  #     - /tmp:/tmp
+  #   expose:
+  #     - 9090
+  #   ports:
+  #     - 9090:9090
+  #   depends_on:
+  #     - montage
+
+  # grafana:
+  #   restart: always
+  #   image: grafana/grafana-enterprise
+  #   container_name: grafana
+  #   volumes:
+  #     - grafana_data:/var/lib/grafana
+  #     - ./grafana:/etc/grafana
+  #     - /tmp:/tmp
+  #   expose:
+  #     - 3000
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - montage
+  #     - prom
