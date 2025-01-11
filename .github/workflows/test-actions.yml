@@ -327,7 +327,7 @@ jobs:
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
         run: |
           cd /home/githubrunner/docker-compose-area/test;
-          docker-compose pull api tg frontend;
+          docker-compose pull api tg;
       - name: Stop old images
         env:
           NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:test
