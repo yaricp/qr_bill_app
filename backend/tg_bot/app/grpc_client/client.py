@@ -19,8 +19,8 @@ class GPRCClient:
 
     def __init__(self, user_id: int):
         self.user_id = user_id
-        self.api_address =  f"{grpc_config.GRPC_HOST}"\
-                            f":{grpc_config.GRPC_PORT}"
+        self.api_address =  f"{grpc_config.TELEGRAM_GRPC_HOST}"\
+                            f":{grpc_config.TELEGRAM_GRPC_PORT}"
 
     async def send_bill_url(self, url: str) -> dict:
         with grpc.insecure_channel(self.api_address) as channel:
