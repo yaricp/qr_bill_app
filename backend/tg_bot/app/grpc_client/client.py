@@ -9,7 +9,7 @@ from .grpc_pb2 import (
 )
 
 # from bot.utils import get_logger
-from config import tg_bot_config
+from .config import grpc_config
 from loguru import logger
 
 # logger = get_logger(__name__)
@@ -19,8 +19,8 @@ class GPRCClient:
 
     def __init__(self, user_id: int):
         self.user_id = user_id
-        self.api_address =  f"{tg_bot_config.GRPC_HOST}"\
-                            f":{tg_bot_config.GRPC_PORT}"
+        self.api_address =  f"{grpc_config.GRPC_HOST}"\
+                            f":{grpc_config.GRPC_PORT}"
 
     async def send_bill_url(self, url: str) -> dict:
         with grpc.insecure_channel(self.api_address) as channel:

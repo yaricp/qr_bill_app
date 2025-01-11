@@ -42,16 +42,16 @@ class CORSConfig(BaseSettings):
     ALLOW_METHODS: List[str]
 
 
-class UvicornConfig(BaseSettings):
-    HOST: str = '0.0.0.0'
-    PORT: int = 8000
-    LOG_LEVEL: str = 'info'
-    RELOAD: bool = True
+# class UvicornConfig(BaseSettings):
+#     HOST: str = '0.0.0.0'
+#     PORT: int = 8000
+#     LOG_LEVEL: str = 'info'
+#     RELOAD: bool = True
 
 
-class LinksConfig(BaseSettings):
-    HTTP_PROTOCOL: str
-    DOMAIN: str
+# class LinksConfig(BaseSettings):
+#     HTTP_PROTOCOL: str
+#     DOMAIN: str
 
 
 class SecurityConfig(BaseSettings):
