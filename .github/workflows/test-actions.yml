@@ -46,23 +46,23 @@ jobs:
       - name: Build and push rest_api image. 
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         env:
-          INSTALL_DEV: ${{ env.INSTALL_DEV }}
-          NAME_IMAGE_API: ${{ env.NAME_IMAGE_API }}
-          NAME_IMAGE_FRONTEND: ${{ env.NAME_IMAGE_FRONTEND }}
-          NAME_IMAGE_TELEGRAM_BOT: ${{ env.NAME_IMAGE_TELEGRAM_BOT }}
-          POSTGRES_HOST: ${{ env.POSTGRES_HOST }}
-          POSTGRES_DB: ${{ env.POSTGRES_DB }}
-          POSTGRES_USER: ${{ env.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-          PGADMIN_DEFAULT_EMAIL: ${{ env.PGADMIN_DEFAULT_EMAIL }}
-          PGADMIN_DEFAULT_PASSWORD: ${{ env.PGADMIN_DEFAULT_PASSWORD }}
-          SECRET_KEY: ${{ env.SECRET_KEY }}
-          API_PREFIX: ${{ env.API_PREFIX }}
-          ORIGINS: ${{ env.ORIGINS }}
-          UVICORN_WORKERS: ${{ env.UVICORN_WORKERS }}
-          DEBUG: ${{ env.DEBUG }}
-          API_LOGIN: ${{ env.API_LOGIN }}
-          API_PASSWORD: ${{ env.API_PASSWORD }}
+          INSTALL_DEV: ${{ vars.INSTALL_DEV }}
+          NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}
+          NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}
+          NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}
+          POSTGRES_HOST: ${{ vars.POSTGRES_HOST }}
+          POSTGRES_DB: ${{ vars.POSTGRES_DB }}
+          POSTGRES_USER: ${{ vars.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ vars.POSTGRES_PASSWORD }}
+          PGADMIN_DEFAULT_EMAIL: ${{ vars.PGADMIN_DEFAULT_EMAIL }}
+          PGADMIN_DEFAULT_PASSWORD: ${{ vars.PGADMIN_DEFAULT_PASSWORD }}
+          SECRET_KEY: ${{ vars.SECRET_KEY }}
+          API_PREFIX: ${{ vars.API_PREFIX }}
+          ORIGINS: ${{ vars.ORIGINS }}
+          UVICORN_WORKERS: ${{ vars.UVICORN_WORKERS }}
+          DEBUG: ${{ vars.DEBUG }}
+          API_LOGIN: ${{ vars.API_LOGIN }}
+          API_PASSWORD: ${{ vars.API_PASSWORD }}
         run: |
           docker compose build api;
           docker compose pull api;
