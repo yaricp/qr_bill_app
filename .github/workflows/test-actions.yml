@@ -87,7 +87,6 @@ jobs:
           TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
           TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
-          TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${{ vars.TIME_LIFE_TEMP_LOGIN_LINK_MIN }}
         run: |
           docker compose build api;
           docker compose pull api;
