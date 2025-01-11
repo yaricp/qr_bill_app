@@ -13,6 +13,3 @@ sed 's/import grpc_pb2 as grpc__pb2/from . import grpc_pb2 as grpc__pb2/' /src/i
 echo "Start main TG bot"
 
 poetry run python3 /bot/main.py
-
-
-
