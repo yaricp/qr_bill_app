@@ -254,10 +254,10 @@ jobs:
           fetch-depth: 2
       - name: Prepare folders and configs
         run: |
-          mkdir -p /home/githubrunner/docker-compose-area/test/grafana
-          mkdir -p /home/githubrunner/docker-compose-area/test/prometheus
+          mkdir -p /home/yaricp/docker-compose-area/test/grafana
+          mkdir -p /home/yaricp/docker-compose-area/test/prometheus
       - name: Copy docker files to work folder
-        run: cp test-docker-compose.yml /home/githubrunner/docker-compose-area/test/docker-compose.yml
+        run: cp test-docker-compose.yml /home/yaricp/docker-compose-area/test/docker-compose.yml
       - name: Check changes in backend/rest_api
         id: rest_api_changed
         run: |
@@ -375,7 +375,7 @@ jobs:
           TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
           TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
-        run: cd /home/githubrunner/docker-compose-area/test && docker-compose down
+        run: cd /home/yaricp/docker-compose-area/test && docker-compose down
       - name: Start new images
         env:
           NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:test
@@ -422,7 +422,7 @@ jobs:
           TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
           TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
-        run: cd /home/githubrunner/docker-compose-area/test && docker-compose up -d
+        run: cd /home/yaricp/docker-compose-area/test && docker-compose up -d
       - name: Sync .env file
         run: |
           cd /home/githubrunner/docker-compose-area/test;
