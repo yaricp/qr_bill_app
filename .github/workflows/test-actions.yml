@@ -53,16 +53,13 @@ jobs:
           POSTGRES_HOST: ${{ vars.POSTGRES_HOST }}
           POSTGRES_DB: ${{ vars.POSTGRES_DB }}
           POSTGRES_USER: ${{ vars.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ vars.POSTGRES_PASSWORD }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           PGADMIN_DEFAULT_EMAIL: ${{ vars.PGADMIN_DEFAULT_EMAIL }}
-          PGADMIN_DEFAULT_PASSWORD: ${{ vars.PGADMIN_DEFAULT_PASSWORD }}
-          SECRET_KEY: ${{ vars.SECRET_KEY }}
-          API_PREFIX: ${{ vars.API_PREFIX }}
+          PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
           ORIGINS: ${{ vars.ORIGINS }}
           UVICORN_WORKERS: ${{ vars.UVICORN_WORKERS }}
           DEBUG: ${{ vars.DEBUG }}
-          API_LOGIN: ${{ vars.API_LOGIN }}
-          API_PASSWORD: ${{ vars.API_PASSWORD }}
         run: |
           docker compose build api;
           docker compose pull api;
