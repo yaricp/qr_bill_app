@@ -198,9 +198,9 @@ jobs:
       - name: Build and push image frontend 
         if: ${{ (steps.frontend_changes.outputs.OUTPUT != '') }}
         env:
-          NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}
-          NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}
-          NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}
+          NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:test
+          NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}:test
+          NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test
           DEBUG: ${{ vars.DEBUG }}
           INSTALL_DEV: ${{ vars.INSTALL_DEV }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -277,118 +277,72 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.PAT_RUNNER }}
-      - name: pull latest packages images
-        run: |
-          docker pull ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.NAME_IMAGE_REST_API_PACKAGES }}:test;
-          #  pull ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.NAME_IMAGE_CELERY_FER }}:last;
-          docker pull ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.NAME_IMAGE_MONTAGE_PACKAGES }}:test;
       - name: delete old previous images
         run: |
-          docker rmi ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:test_prev;
-          docker rmi ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TELEGRAM_BOT }}:test_prev;
+          docker rmi ${{ vars.NAME_IMAGE_API }}:test_prev;
+          docker rmi ${{ vars.NAME_IMAGE_FRONTEND }}:test_prev;
+          docker rmi ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test_prev;
       - name: make tag to old stable version images
         run: |
-          docker tag ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:test ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:test_prev;
-          docker tag ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TELEGRAM_BOT }}:test ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TELEGRAM_BOT }}:test_prev;
+          docker tag ${{ vars.NAME_IMAGE_API }}:test ${{ vars.NAME_IMAGE_API }}:test_prev;
+          docker tag ${{ vars.NAME_IMAGE_FRONTEND }}:test ${{ vars.NAME_IMAGE_FRONTEND }}:test_prev;
+          docker tag ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test_prev;
       - name: Pull new images
         env:
-          NAME_IMAGE_API: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:test
-          NAME_IMAGE_FRONTEND: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_FRONTEND }}:test
-          NAME_IMAGE_TELEGRAM_BOT: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TELEGRAM_BOT }}:test
+          NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:test
+          NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}:test
+          NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test
         run: |
           cd /home/githubrunner/docker-compose-area/test;
-          docker-compose pull sorter;
-          docker-compose pull api;
-          docker-compose pull montage;
-          docker-compose pull tg;
-          docker-compose pull trassir;
+          docker-compose pull api tg frontend;
       - name: Stop old images
         run: cd /home/githubrunner/docker-compose-area/test && docker-compose down
       - name: start new images
         env:
-          NAME_IMAGE_API: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:test
-          NAME_IMAGE_RAY_MONTAGE: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_RAY_MONTAGE }}:test
-          NAME_IMAGE_FRONTEND: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_FRONTEND }}:test
-          NAME_IMAGE_SORTER: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_SORTER }}:test
-          NAME_IMAGE_TELEGRAM_BOT: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TELEGRAM_BOT }}:test
-          NAME_IMAGE_TRASSIR_CLIENT: ${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TRASSIR_CLIENT }}:test
-          VERSION: ${{ env.VERSION }}
-          POSTGRES_HOST: pg
-          POSTGRES_DB: megatroll_db
-          POSTGRES_USER: megatroll
-          POSTGRES_PASSWORD: somepass
-          PGADMIN_DEFAULT_EMAIL: DroneSelfieAccess@gmail.com
-          PGADMIN_DEFAULT_PASSWORD: somepass
-          REDIS_HOST: redis
-          REDIS_PORT: 6379
-          APP_MONTAGE_PORT: 8006
-          RAY_DASHBOARD_MONTAGE_PORT: ${{ env.RAY_DASHBOARD_MONTAGE_PORT }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TEST_TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_FLIGHT_CHAT_ID: ${{ secrets.TEST_TELEGRAM_FLIGHT_CHAT_ID }}
-          TELEGRAM_REG_BOT_TOKEN : ${{ env.TELEGRAM_REG_BOT_TOKEN }}
-          TELEGRAM_REG_BOT_READY_MESSAGE: "test messaage"
-          TELEGRAM_SUPPORT_CHAT_ID: ${{ env.TELEGRAM_SUPPORT_CHAT_ID }}
-          GOPRO_CAMERA_COMMAND: ${{ env.GOPRO_CAMERA_COMMAND }}
-          MASTER_EMAIL: pr@droneselfie.tech
-          SMTP_SERVER: smtp.yandex.ru
-          SMTP_SERVER_PORT: 587
-          SMTP_SERVER_PASSWORD: ${{ secrets.TEST_SMTP_SERVER_PASSWORD }}
-          MAIL_NAME_ATTRACTION: MegaTroll
-          VIDEO_SOURCES_DIR: /mnt/goprosync/test_videos
-          STATIC_SOURCES_DIR: /mnt/goprosync/auxiliary_files
-          FINAL_VIDEO_PREFIX: sky-park-
-          OUTPUT_VIDEO: video.mp4
-          MOBILE_RESOLUTION: 720x480
-          VIDEO_SPEED_RENDER_PRESET: fast
-          DATABASE_URL: postgresql+psycopg2://megatroll:somepass@pg/megatroll_db
-          S3_DISK_DIR: /mnt/goprosync/disk-s3/TEST_NEW_SERVICE
-          SECRET_KEY: "123123123123123123123123123123123123123123123"
-          API_PREFIX: /api/v1
-          ORIGINS: http://localhost:8080,https://192.168.195.205,http://192.168.195.205
-          MATCHING_VIDEO_TO_TICKET_DELTA: 3
-          DEFAULT_DEVICES: '{"DroneZip":{"sn":"678567345", "type": "share"},"GoproStart":{"sn":"C3461324923228", "type": "share"},"GoproBucket":{"sn":"C3461325039159", "type": "share"},"DroneMega": {"sn": "345345345", "type":"share"}}'
-          PACKAGE_TYPES: 2gopro,drone+2gopro,gopro,drone,drone+gopro
-          DICT_TYPES_PACKAGES: '{"gopro+drone":{"use_individual_device":"True","share_devices":["DroneZip"]},"drone":{"use_individual_device":"False","share_devices":["DroneZip"]},"gopro":{"use_individual_device":"True","share_devices":[]},"2gopro":{"use_individual_device":"False","share_devices":["GoproStart","GoproBucket"]},"drone+2gopro":{"use_individual_device":"False","share_devices":["GoproStart","GoproBucket","DroneMega"]}}'
-          SOURCE_TYPES: share,individual,intro,introfly_summer,logo,music,outro,droneout_summer,silent,intro_fly
-          DEFAULT_SOURCES: '{"intro":"/mnt/goprosync/auxiliary_files/IntroMega.mp4","introfly_summer":"/mnt/goprosync/auxiliary_files/introfly_summer.mp4","logo":"/mnt/goprosync/auxiliary_files/Logos.png","music":"/mnt/goprosync/auxiliary_files/musicMega.mp3","outro":"/mnt/goprosync/auxiliary_files/OutroMega.mp4","droneout_summer":"/mnt/goprosync/auxiliary_files/droneout_summer.mp4","silent":"/mnt/goprosync/auxiliary_files/silent.mp3","intro_fly":"/mnt/goprosync/auxiliary_files/introfly_summer.mp4","drone_out":"/mnt/goprosync/auxiliary_files/droneout_summer.mp4"}'
-          AUTHENTICATION_URL: http://localhost/api/v1/auth/login
-          VIDEO2_URL: http://localhost/api/v1/video2
-          GET_DEVICES_LIST_URL: http://localhost/api/v1/devices/
-          UVICORN_WORKERS: 2
-          DEBUG: "False"
-          REST_API_TIMEOUT: 5
-          TIME_ZONE: 0
-          DEFAULT_LANG: ru
-          POSTSALE: True
-          TRIM_SOURCE: True
-          USE_QR_IN_SOURCE: True
-          DEFAULT_PACKAGETYPE: gopro
-          SYSTEM_LOGO_STATIC_TYPE: system_logo
-          INSTALL_DEV: "false"
-          LETTER_SERVER: "T"
-          API_LOGIN: admin
-          API_PASSWORD: "admin"
-          AWS_S3_BUCKET_NAME: drone-selfie-server-dev-1
-          AWS_ACCESS_KEY_ID: ${{ secrets.TEST_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.TEST_AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: eu-west-1
-          AWS_CLOUDFRONT_URL: https://drone-selfie-server-dev-1.s3.amazonaws.com/
-          TEST_EMAIL: yaricp@gmail.com
-          TEST_CAMERA_BUCKET: C3461325039159
-          TEST_CAMERA_START: C3461324923228
-          CAMERAS: C3461325039159,C3461324923228
-          NAME_ATTRACTION: MegaTroll
-          PERSONAL_CABINET_URL: http://192.168.195.205:85/api/v1
-          PERSONAL_CABINET_AUTHENTICATION_URL: link-server
-          PERSONAL_CABINET_LOGIN_URL: http://192.168.195.205:85/login?link=
-          PERSONAL_CABINET_GET_ATTRACTIONS: attractions
-          PERSONAL_CABINET_CREATE_TICKET: tickets
-          VALIDATION_DURATION_RANGE: 10,3600
-          FFMPEG_THREADS: 3
-          VIDEO_BITRATE: 15M
-          JSON_PATH: /mnt/goprosync/json-data
-          JSON_API_URL: https://manifest.skypark.dev.defa.ru/api/toe-tag/notification
-          JSON_API_TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgxL2FwaS9sb2dpbiIsImlhdCI6MTY2MDYyODg1MSwiZXhwIjoxNjYwNjMyNDUxLCJuYmYiOjE2NjA2Mjg4NTEsImp0aSI6Im4xRGVBTHI3eU1xQkg4YmUiLCJzdWIiOiI0IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.MQdnWEY4Fcp_DASvDxbmKPWGzEhFiVH3fEqhX8HpLf8
+          NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:test
+          NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}:test
+          NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test
+          DEBUG: ${{ vars.DEBUG }}
+          INSTALL_DEV: ${{ vars.INSTALL_DEV }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          TOKEN_EXPIRY_TIME_HOURS: ${{ vars.TOKEN_EXPIRY_TIME_HOURS }}
+          FISCAL_SERVICE_HOSTNAME: ${{ vars.FISCAL_SERVICE_HOSTNAME }}
+          FISCAL_SERVICE_URI: ${{ vars.FISCAL_SERVICE_URI }}
+          FISCAL_SERVICE_API_URI: ${{ vars.FISCAL_SERVICE_API_URI }}
+          TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${{ vars.TIME_LIFE_TEMP_LOGIN_LINK_MIN }}
+          FRONTEND_APP_LOGIN_LINK_PREFIX: ${{ vars.FRONTEND_APP_LOGIN_LINK_PREFIX }}
+          REST_API_HOST: ${{ vars.REST_API_HOST }}
+          REST_API_PORT: ${{ vars.REST_API_PORT }}
+          REST_API_PREFIX: ${{ vars.REST_API_PREFIX }}
+          REST_API_LOGIN_LINK_URI: ${{ vars.REST_API_LOGIN_LINK_URI }}
+          DATABASE_DIALECT: ${{ vars.DATABASE_DIALECT }}
+          DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
+          DATABASE_HOST: ${{ vars.DATABASE_HOST }}
+          DATABASE_PORT: ${{ vars.DATABASE_PORT }}
+          DATABASE_USER: ${{ vars.DATABASE_USER }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          DATABASE_NAME: ${{ vars.DATABASE_NAME }}
+          DATABASE_ECHO: ${{ vars.DATABASE_ECHO }}
+          DATABASE_POOL_RECYCLE: ${{ vars.DATABASE_POOL_RECYCLE }}
+          DATABASE_POOL_PRE_PING: ${{ vars.DATABASE_POOL_PRE_PING }}
+          DATABASE_AUTO_FLUSH: ${{ vars.DATABASE_AUTO_FLUSH }}
+          DATABASE_EXPIRE_ON_COMMIT: ${{ vars.DATABASE_EXPIRE_ON_COMMIT }}
+          UNICORN_HOST: ${{ vars.UNICORN_HOST }}
+          UNICORN_PORT: ${{ vars.UNICORN_PORT }}
+          UNICORN_LOG_LEVEL: ${{ vars.UNICORN_LOG_LEVEL }}
+          UNICORN_RELOAD: ${{ vars.UNICORN_RELOAD }}
+          UNICORN_WORKERS: ${{ vars.UNICORN_WORKERS }}
+          ALLOW_ORIGINS: ${{ vars.ALLOW_ORIGINS }}
+          ALLOW_HEADERS: ${{ vars.ALLOW_HEADERS }}
+          ALLOW_CREDENTIALS: ${{ vars.ALLOW_CREDENTIALS }}
+          ALLOW_METHODS: ${{ vars.ALLOW_METHODS }}
+          PGADMIN_DEFAULT_EMAIL: ${{ vars.PGADMIN_DEFAULT_EMAIL }}
+          PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_BOT_DEFAULT_LANG: ${{ vars.TELEGRAM_BOT_DEFAULT_LANG }}
+          TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
+          TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
+          TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
         run: cd /home/githubrunner/docker-compose-area/test && docker-compose up -d
       - name: Sync .env file
         run: |
@@ -404,7 +358,7 @@ jobs:
           echo "$var" >> .env;
           var=$(docker-compose exec -T frontend env);
           echo "$var" >> .env;
-          echo -e "NAME_IMAGE_API=${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_API }}:test" >> .env;
-          echo -e "NAME_IMAGE_FRONTEND=${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_FRONTEND }}:test" >> .env;
-          echo -e "NAME_IMAGE_TELEGRAM_BOT=${{ env.REGISTRY }}/${{ env.COMPANY }}/${{ env.IMAGE_NAME_TELEGRAM_BOT }}:test" >> .env;
+          echo -e "NAME_IMAGE_API=${{ vars.NAME_IMAGE_API }}:test" >> .env;
+          echo -e "NAME_IMAGE_FRONTEND=${{ vars.NAME_IMAGE_FRONTEND }}:test" >> .env;
+          echo -e "NAME_IMAGE_TELEGRAM_BOT=${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test" >> .env;
 
