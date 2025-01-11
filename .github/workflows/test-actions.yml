@@ -131,8 +131,6 @@ jobs:
         run: |
           mkdir -p /home/githubrunner/docker-compose-area/test/grafana
           mkdir -p /home/githubrunner/docker-compose-area/test/prometheus
-          cp backend/grafana/* /home/githubrunner/docker-compose-area/test/grafana
-          cp backend/prometheus/* /home/githubrunner/docker-compose-area/test/prometheus
       - name: Copy docker files to work folder
         run: cp test-docker-compose.yml /home/githubrunner/docker-compose-area/test/docker-compose.yml
       - name: Check changes in backend/rest_api
