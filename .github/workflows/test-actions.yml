@@ -327,7 +327,7 @@ jobs:
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
         run: |
           users
-          cd /home/githubrunner/docker-compose-area/test;
+          cd /home/yaricp/docker-compose-area/test;
           docker-compose pull api tg;
       - name: Stop old images
         env:
