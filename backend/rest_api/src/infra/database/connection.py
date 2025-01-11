@@ -26,4 +26,3 @@ else:
         database_config.DATABASE_PORT,
         database_config.DATABASE_NAME
     )
-
