@@ -29,4 +29,3 @@ if test "$DEBUG" = "true" || test "$DEBUG" = "True"
     echo "start in work mode"
     poetry run uvicorn src.api:app --host 0.0.0.0 --port 80 --workers $UVICORN_WORKERS --forwarded-allow-ips='*'
 fi
-
