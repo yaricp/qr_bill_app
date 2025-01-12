@@ -276,7 +276,7 @@ jobs:
       - name: delete old previous images
         run: |
           docker rmi ${{ vars.NAME_IMAGE_API }}:test_prev;
-          # docker rmi ${{ vars.NAME_IMAGE_FRONTEND }}:test_prev;
+          docker rmi ${{ vars.NAME_IMAGE_FRONTEND }}:test_prev;
           docker rmi ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test_prev;
       - name: make tag to old stable version images
         run: |

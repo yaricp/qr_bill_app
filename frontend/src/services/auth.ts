@@ -12,7 +12,7 @@ class AuthService {
     params.append('username', user.login);
     params.append('password', user.password);
     try {
-      let response = await axios.post(`${apiUrl}/auth/login/`, params);
+      let response = await axios.post(`${apiUrl}${prefixUrl}/auth/login/`, params);
       return response.data.access_token;
     } catch(e) {
       console.log("Error login", e);
@@ -22,7 +22,7 @@ class AuthService {
   async login_by_tg(link: string): Promise<any> {
     try {
       let response = await axios.post(
-        `${apiUrl}/auth/login_by_tg`, {"link": link}
+        `${apiUrl}${prefixUrl}/auth/login_by_tg`, {"link": link}
       );
       return response.data.access_token;
     } catch(e) {

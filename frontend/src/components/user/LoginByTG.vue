@@ -12,7 +12,6 @@
   import { defineComponent } from "vue";
   import { ErrorMessage } from "vee-validate";
   import { useStore } from '@/store';
-  // import { useRoute } from 'vue-router'
 
   
   export default defineComponent({
