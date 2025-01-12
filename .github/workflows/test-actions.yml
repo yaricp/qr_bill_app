@@ -188,7 +188,7 @@ jobs:
         run: |
           docker compose build tg;
           docker compose push tg;
-      - name: Build and push image frontend 
+      - name: Build and push image front 
         if: ${{ (steps.frontend_changes.outputs.OUTPUT != '') }}
         env:
           NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:test
