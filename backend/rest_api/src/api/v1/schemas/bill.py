@@ -16,7 +16,6 @@ class BillBase(BaseModel):
     value: Optional[Decimal] = None
     image: Optional[str] = None
     payment_method: Optional[str] = None
-    picture_path: Optional[str] = None
     seller_id: Optional[UUID] = None
     user_id: Optional[UUID] = None
 

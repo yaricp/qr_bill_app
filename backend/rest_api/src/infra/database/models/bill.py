@@ -42,12 +42,5 @@ class Bill(Model):
 
     goods_list = relationship("Goods")
 
-    # category_id = Column(
-    #     UUID,
-    #     ForeignKey(Category.id, ondelete="CASCADE"),
-    #     nullable=True
-    # )
-    # category = relationship("Category")
-
     def __repr__(self):
         return f"Bill {self.created} - {self.value} with id - <{self.id}>"
