@@ -100,6 +100,7 @@ services:
   front:
     restart: always
     image: ${NAME_IMAGE_FRONTEND}
+    container_name: front
     # build:
     #   context: ./frontend
     #   args:
@@ -114,7 +115,7 @@ services:
       - "443:443"
     volumes:
       - ./frontend/nginx/conf.d:/etc/nginx/conf.d
-      - ./frontend/nginx/letsencrypt:/etc/nginx/letsencrypt
+      - ./frontend/nginx/letsencrypt:/etc/letsencrypt
     depends_on:
       - api
       
