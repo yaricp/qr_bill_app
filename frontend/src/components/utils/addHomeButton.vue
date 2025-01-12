@@ -1,12 +1,13 @@
 <template>
     <div>
       !@<button
+        class="btn btn-outline-secondary add-button"
+        type="button"
         v-if="deferredPrompt"
         ref="addBtn"
-        class="add-button"
         @click="clickCallback"
       >
-        Add
+        Install QRacun to device
       </button>
     </div>
 </template>

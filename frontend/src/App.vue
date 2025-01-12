@@ -4,41 +4,82 @@
       
       <router-link to="/" class="navbar-brand">Qr Bill<br>Collector</router-link>
       <div class="navbar-nav mr-auto">
+        
         <li class="nav-item">
           <router-link to="/qr_scanner" class="nav-link">QRScanner</router-link>
         </li>
-        <li class="nav-item">
-          <router-link to="/category_analytics" class="nav-link">Category Analytics</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/goods_analytics" class="nav-link">Goods Analytics</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/seller_analytics" class="nav-link">Seller Analytics</router-link>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Analytics
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
+            <li>
+              <router-link to="/category_analytics" class="dropdown-item">
+                Category Analytics
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/goods_analytics" class="dropdown-item">
+                Goods Analytics
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/seller_analytics" class="dropdown-item">
+                Seller Analytics
+              </router-link>
+            </li>
+          </ul>
         </li>
         <li class="nav-item">
           <router-link to="/category_goods" class="nav-link">Categorize<br>your goods</router-link>
         </li>
-        <li class="nav-item">
-          <router-link to="/categories" class="nav-link">Categories</router-link>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Objects
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
+            <li>
+              <router-link to="/categories" class="dropdown-item">
+                Categories
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/bills" class="dropdown-item">
+                Bills
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/goods" class="dropdown-item">
+                Goods
+              </router-link>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            User
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
+            <li>
+              <router-link to="/profile" class="dropdown-item">
+                Profile
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/logout" class="dropdown-item">
+                Logout
+              </router-link>
+            </li>
+          </ul>
         </li>
         <li class="nav-item">
-          <router-link to="/bills" class="nav-link">Bills</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/goods" class="nav-link">Goods</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/profile" class="nav-link">Profile</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/logout" class="nav-link">Logout</router-link>
+          <add-to-home-screen/>
         </li>
       </div>
     </nav>
 
     <div class="container mt-3">
-      <add-to-home-screen/>
+      
       <router-view />
     </div>
   </div>
