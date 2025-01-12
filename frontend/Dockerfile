@@ -21,5 +21,6 @@ FROM nginx:stable-alpine as production-stage
 RUN apk add certbot
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 COPY nginx/conf.d/* /etc/nginx/conf.d/
+COPY nginx/conf.d/qracun.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

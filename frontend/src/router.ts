@@ -83,6 +83,8 @@ const routes: Array<RouteRecordRaw> = [
   }
 ];
 
+// base: process.env.BASE_URL,
+
 const router = createRouter({
   history: createWebHistory(),
   routes,

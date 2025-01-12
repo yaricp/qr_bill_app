@@ -100,20 +100,21 @@ services:
   front:
     restart: always
     image: ${NAME_IMAGE_FRONTEND}
-    build:
-      context: ./frontend
-      args:
-        VUE_APP_ENV: ${VUE_APP_ENV}
-        VUE_APP_THIS_HOST_API: ${VUE_APP_THIS_HOST_API}
-        VUE_APP_PREFIX: ${VUE_APP_PREFIX}
-        VUE_APP_API_PROD: ${VUE_APP_API_PROD}
-        VUE_APP_API_STAG: ${VUE_APP_API_STAG}
-        VUE_APP_API_DEV: ${VUE_APP_API_DEV}
+    # build:
+    #   context: ./frontend
+    #   args:
+    #     VUE_APP_ENV: ${VUE_APP_ENV}
+    #     VUE_APP_THIS_HOST_API: ${VUE_APP_THIS_HOST_API}
+    #     VUE_APP_PREFIX: ${VUE_APP_PREFIX}
+    #     VUE_APP_API_PROD: ${VUE_APP_API_PROD}
+    #     VUE_APP_API_STAG: ${VUE_APP_API_STAG}
+    #     VUE_APP_API_DEV: ${VUE_APP_API_DEV}
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./frontend/nginx/certs:/etc/nginx/certs
+      - ./frontend/nginx/conf.d:/etc/nginx/conf.d
+      - ./frontend/nginx/letsencrypt:/etc/nginx/letsencrypt
     depends_on:
       - api
       

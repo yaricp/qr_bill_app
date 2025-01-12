@@ -8,10 +8,12 @@ let envApiUrl = '';
 console.log("window.location.origin: ", window.location.origin)
 console.log('ENV: ', env);
 console.log("Api address: ", envApiUrl);
-if (this_host_api === 'true') {
-  envApiUrl = window.location.origin;
-} else if (env === 'production') {
-  envApiUrl = `${process.env.VUE_APP_API_PROD}`;
+ if (env === 'production') {
+  if (this_host_api === 'true') {
+    envApiUrl = window.location.origin;
+  } else {
+    envApiUrl = `${process.env.VUE_APP_API_PROD}`;
+  }
 } else if (env === 'staging') {
   envApiUrl = `${process.env.VUE_APP_API_STAG}`;
 } else {
