@@ -242,8 +242,8 @@ jobs:
           VUE_APP_API_STAG: ${{ vars.VUE_APP_API_STAG }}
           VUE_APP_API_DEV: ${{ vars.VUE_APP_API_DEV }}
         run: |
-          docker compose build frontend;
-          docker compose push frontend;
+          docker compose build front;
+          docker compose push front;
 
 # - name: install docker and docker-compose
 #         run: |
