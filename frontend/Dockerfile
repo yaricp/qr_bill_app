@@ -20,6 +20,6 @@ RUN yarn build
 FROM nginx:stable-alpine as production-stage
 RUN apk add certbot
 COPY --from=build-stage /app/dist /usr/share/nginx/html
-COPY nginx/conf.d/* nginx/conf.d
+COPY nginx/conf.d/* /etc/nginx/conf.d/
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
