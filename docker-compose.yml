@@ -106,7 +106,7 @@ services:
 
   front:
     restart: always
-    image: ${NAME_IMAGE_FRONTEND}:test
+    image: ${NAME_IMAGE_FRONTEND}
     build:
       context: ./frontend
       args:
