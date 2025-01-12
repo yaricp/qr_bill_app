@@ -1,6 +1,6 @@
 import axios from 'axios';
-// import { apiUrl } from '@/env';
-const apiUrl = 'http://localhost:8080/api/v1';
+import { apiUrl, prefixUrl } from '@/env';
+// const apiUrl = 'http://localhost:8080/api/v1';
 
 import http from "@/http-common";
 import { IUserLogin } from "@/interfaces/users";
@@ -17,11 +17,6 @@ class AuthService {
     } catch(e) {
       console.log("Error login", e);
     }
-    // return axios
-    //   .post(`${apiUrl}/auth/login/`, params)
-    //   .then(response => {
-    //     return response.data.access_token;
-    //   });
   }
   
   async login_by_tg(link: string): Promise<any> {
@@ -33,11 +28,6 @@ class AuthService {
     } catch(e) {
       console.log("Error login", e);
     }
-    // return axios
-    //   .post(`${apiUrl}/auth/login_by_tg`, {"link": link})
-    //   .then(response => {
-    //     return response.data.access_token;
-    //   });
   }
 
   logout() {

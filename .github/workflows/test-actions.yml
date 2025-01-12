@@ -235,10 +235,16 @@ jobs:
           TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
           TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
+          VUE_APP_ENV: ${{ vars.VUE_APP_ENV }}
+          VUE_APP_THIS_HOST_API: ${{ vars.VUE_APP_THIS_HOST_API }}
+          VUE_APP_PREFIX: ${{ vars.VUE_APP_PREFIX }}
+          VUE_APP_API_PROD: ${{ vars.VUE_APP_API_PROD }}
+          VUE_APP_API_STAG: ${{ vars.VUE_APP_API_STAG }}
+          VUE_APP_API_DEV: ${{ vars.VUE_APP_API_DEV }}
         run: |
           docker compose build frontend;
           docker compose push frontend;
-   
+
 # - name: install docker and docker-compose
 #         run: |
 #           sudo apt update -y;
@@ -325,7 +331,7 @@ jobs:
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
         run: |
           cd /home/yaricp/docker-compose-area/test;
-          docker-compose pull api tg;
+          docker-compose pull api tg front;
       - name: Stop old images
         env:
           NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:test
@@ -376,7 +382,7 @@ jobs:
       - name: Start new images
         env:
           NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:test
-          # NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}:test
+          NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}:test
           NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test
           DEBUG: ${{ vars.DEBUG }}
           INSTALL_DEV: ${{ vars.INSTALL_DEV }}
@@ -419,6 +425,12 @@ jobs:
           TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
           TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
+          VUE_APP_ENV: ${{ vars.VUE_APP_ENV }}
+          VUE_APP_THIS_HOST_API: ${{ vars.VUE_APP_THIS_HOST_API }}
+          VUE_APP_PREFIX: ${{ vars.VUE_APP_PREFIX }}
+          VUE_APP_API_PROD: ${{ vars.VUE_APP_API_PROD }}
+          VUE_APP_API_STAG: ${{ vars.VUE_APP_API_STAG }}
+          VUE_APP_API_DEV: ${{ vars.VUE_APP_API_DEV }}
         run: cd /home/yaricp/docker-compose-area/test && docker-compose up -d
       - name: Sync .env file
         env:
@@ -466,6 +478,12 @@ jobs:
           TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
           TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
+          VUE_APP_ENV: ${{ vars.VUE_APP_ENV }}
+          VUE_APP_THIS_HOST_API: ${{ vars.VUE_APP_THIS_HOST_API }}
+          VUE_APP_PREFIX: ${{ vars.VUE_APP_PREFIX }}
+          VUE_APP_API_PROD: ${{ vars.VUE_APP_API_PROD }}
+          VUE_APP_API_STAG: ${{ vars.VUE_APP_API_STAG }}
+          VUE_APP_API_DEV: ${{ vars.VUE_APP_API_DEV }}
         run: |
           cd /home/yaricp/docker-compose-area/test;
           var=$(docker-compose exec -T api env);
@@ -477,9 +495,9 @@ jobs:
           echo "$var" >> .env;
           var=$(docker-compose exec -T tg env);
           echo "$var" >> .env;
-          # var=$(docker-compose exec -T frontend env);
-          # echo "$var" >> .env;
+          var=$(docker-compose exec -T front env);
+          echo "$var" >> .env;
           echo -e "NAME_IMAGE_API=${{ vars.NAME_IMAGE_API }}:test" >> .env;
-          # echo -e "NAME_IMAGE_FRONTEND=${{ vars.NAME_IMAGE_FRONTEND }}:test" >> .env;
+          echo -e "NAME_IMAGE_FRONTEND=${{ vars.NAME_IMAGE_FRONTEND }}:test" >> .env;
           echo -e "NAME_IMAGE_TELEGRAM_BOT=${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test" >> .env;
 

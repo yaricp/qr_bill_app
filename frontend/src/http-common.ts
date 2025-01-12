@@ -1,8 +1,9 @@
 import axios, { AxiosInstance } from "axios";
+import { apiUrl, prefixUrl } from '@/env';
 import router from "@/router";
 
 const apiClient: AxiosInstance = axios.create({
-  baseURL: "http://localhost:8080/api/v1",
+  baseURL: `${apiUrl}${prefixUrl}`,
   headers: {
     "Content-type": "application/json",
   },
