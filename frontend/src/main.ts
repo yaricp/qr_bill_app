@@ -7,6 +7,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import * as bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
 import './assets/main.css';
 import { FontAwesomeIcon } from './plugins/font-awesome';
+// import AddToHomescreen from '@owliehq/vue-addtohomescreen';
+import './registerServiceWorker';
 
 
 createApp(App)
@@ -16,4 +18,7 @@ createApp(App)
 .mount("#app");
 
 // .provide('bootstrap', bootstrap)
+// .use(AddToHomescreen, {
+//     buttonColor: 'blue',
+// })
 

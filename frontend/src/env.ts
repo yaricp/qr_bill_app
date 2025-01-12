@@ -1,5 +1,6 @@
-const env = process.env.VUE_APP_ENV;
-const prefix = process.env.VUE_APP_PREFIX;
+const env = process.env.VUE_APP_ENV || "dev";
+const prefix = process.env.VUE_APP_PREFIX || "/api/v1";
+const dep_api = process.env.VUE_APP_API_DEV || "http://localhost:8080";
 const this_host_api = process.env.VUE_APP_THIS_HOST_API;
 console.log('prefix: ', prefix)
 console.log('this_host_api: ', this_host_api)
@@ -17,7 +18,7 @@ console.log("Api address: ", envApiUrl);
 } else if (env === 'staging') {
   envApiUrl = `${process.env.VUE_APP_API_STAG}`;
 } else {
-  envApiUrl = `${process.env.VUE_APP_API_DEV}`;
+  envApiUrl = dep_api;
 }
 
 console.log("Api address: ", envApiUrl);

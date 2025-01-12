@@ -38,6 +38,7 @@
     </nav>
 
     <div class="container mt-3">
+      <add-to-home-screen/>
       <router-view />
     </div>
   </div>
@@ -45,9 +46,11 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import AddToHomeScreen from "@/components/utils/addHomeButton.vue";
 
 export default defineComponent({
   name: "App",
+  components: {AddToHomeScreen},
   methods: {
     logOut() {
       this.$store.dispatch('auth/logout');
