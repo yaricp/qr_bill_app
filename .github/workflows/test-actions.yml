@@ -281,7 +281,7 @@ jobs:
       - name: make tag to old stable version images
         run: |
           docker tag ${{ vars.NAME_IMAGE_API }}:test ${{ vars.NAME_IMAGE_API }}:test_prev;
-          # docker tag ${{ vars.NAME_IMAGE_FRONTEND }}:test ${{ vars.NAME_IMAGE_FRONTEND }}:test_prev;
+          docker tag ${{ vars.NAME_IMAGE_FRONTEND }}:test ${{ vars.NAME_IMAGE_FRONTEND }}:test_prev;
           docker tag ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test_prev;
       - name: Pull new images
         env:
