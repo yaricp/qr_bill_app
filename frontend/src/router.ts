@@ -4,15 +4,15 @@ import { RouteRecordRaw } from "vue-router";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    alias: "/goods_analytics",
-    name: "goods_analytics",
-    component: () => import("./components/analytics/GoodsAnalytics.vue"),
-  },
-  {
-    path: "/qr_scanner",
     alias: "/qr_scanner",
     name: "qr_scanner",
     component: () => import("./components/QRScanner.vue"),
+  },
+  {
+    path: "/goods_analytics",
+    alias: "/goods_analytics",
+    name: "goods_analytics",
+    component: () => import("./components/analytics/GoodsAnalytics.vue"),
   },
   {
     path: "/seller_analytics",
@@ -32,12 +32,17 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("./components/list_objects/Bills.vue"),
   },
   {
+    path: "/bill_detail/:id",
+    name: "bill_detail",
+    component: () => import("./components/objects/BillDetail.vue"),
+  },
+  {
     path: "/goods/",
     name: "goods",
     component: () => import("./components/list_objects/Goods.vue"),
   },
   {
-    path: "/goods_detail/:goods_id",
+    path: "/goods_detail/:id",
     name: "goods_detail",
     component: () => import("./components/objects/GoodsDetail.vue"),
   },
@@ -92,7 +97,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const publicPages = [
-    '/login', '/login_by_tg/', '/register', '/home'
+    '/login', '/login_by_tg/', '/register'
   ];
   console.log("to.path", to.path)
   let authRequired = !publicPages.includes(to.path);

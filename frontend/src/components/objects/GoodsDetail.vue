@@ -163,7 +163,7 @@
       }
     },
     async mounted() {
-      let goods_id = await this.$route.params.goods_id;
+      let goods_id = await this.$route.params.id;
       if (typeof goods_id == "string") {
         console.log("goods_id: ", goods_id);
         console.log("typeof goods_id: ", typeof goods_id);

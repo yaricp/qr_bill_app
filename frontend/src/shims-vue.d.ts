@@ -7,6 +7,7 @@ declare module '*.vue' {
   export default component
 }
 
+/* eslint-disable */
 // declare module '*.vue' {
 //   import Vue from 'vue';
 //   export default Vue;

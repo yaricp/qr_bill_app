@@ -37,7 +37,7 @@
     async created() {
       console.log("this.loggedIn", this.loggedIn);
       if (this.loggedIn) {
-        this.$router.push("/profile");
+        this.$router.push("/qr_scanner");
       } else {
         this.loading = true;
         let link = this.$route.params.link
@@ -45,7 +45,7 @@
         try {
           await this.$store.dispatch("auth/login_by_tg", link);
           console.log("before go to profile");
-          this.$router.push("/profile");
+          this.$router.push("/qr_scanner");
         } catch(error) {
           this.loading = false;
           this.message = "Problems with authorizate";

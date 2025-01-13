@@ -39,7 +39,6 @@
   import * as yup from "yup";
   import { useStore } from '@/store';
   import { IUserLogin } from "@/interfaces/users";
-  import AuthService from "@/services/auth";
   
   export default defineComponent({
     name: "login-page",
@@ -73,7 +72,7 @@
     },
     created() {
       if (this.loggedIn) {
-        this.$router.push("/profile");
+        this.$router.push("/qr_scanner");
       }
     },
     methods: {
@@ -82,7 +81,7 @@
         try {
           await this.$store.dispatch("auth/login", user);
           console.log("before go to profile");
-          this.$router.push("/profile");
+          this.$router.push("/qr_scanner");
         } catch(error) {
           console.log("Error: ", error);
           this.loading = false;

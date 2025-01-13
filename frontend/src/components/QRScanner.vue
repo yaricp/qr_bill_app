@@ -9,9 +9,7 @@
         </div>
         <div><p>{{ message }}</p></div>
         <div><p>
-            <img 
-                :src="picture"
-            />
+            <img :src="picture" />
         </p></div>
     </main>
 </template>
@@ -59,7 +57,7 @@ export default defineComponent({
     computed: {
       authToken() {
         const store = useStore();
-        console.log("store: ", store);
+        // console.log("store: ", store);
         return store.state.auth.token;
       },
       qrscannerStatusMessage(){
@@ -101,7 +99,7 @@ export default defineComponent({
         getPhoto() {
             // if (!this.hasUserMedia) return null;
             const canvas = this.getCanvas();
-            console.log("this.jpeg_quality: ", this.jpeg_quality);
+            // console.log("this.jpeg_quality: ", this.jpeg_quality);
             return canvas.toDataURL(
                 this.screenshotFormat, this.jpeg_quality
             );
@@ -128,7 +126,7 @@ export default defineComponent({
         async sendUrlToServer(link: string){
             try {
                 this.picture = this.getPhoto();
-                console.log(this.picture);
+                // console.log(this.picture);
                 let response = await BillDataService.sendUrl(
                     {"link": link, "image": this.picture},
                     this.authToken
@@ -161,7 +159,7 @@ export default defineComponent({
         }
     },
     async mounted() {
-        this.calculateSizes();
+        // this.calculateSizes();
         let config = {
             fps: this.fps ? this.fps : 10,
             qrbox: this.qrboxFunction,

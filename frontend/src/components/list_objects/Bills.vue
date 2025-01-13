@@ -1,7 +1,7 @@
 <template>
     <div class="list row">
       <div class="col-md-8">
-        <div class="input-group mb-3">
+        <!-- <div class="input-group mb-3">
           Filter by date: <input
             type="text"
             class="form-control"
@@ -9,11 +9,17 @@
             v-model="filter_created"
             @keyup="filterByCreated"
           />
-        </div>
+        </div> -->
       </div>
       <div class="col-md-6">
         <h4>Bills List</h4>
-        <ul class="list-group">
+        <TableComponent 
+          v-if="itemsReady"
+          :data="items" 
+          :fields="fields"
+          :go_to_object="go_to_object"
+        />
+        <!-- <ul class="list-group">
           <li
             class="list-group-item"
             v-for="(bill, index) in bills_list"
@@ -26,8 +32,7 @@
                 <img :src="bill.image"/>
             </p>
           </li>
-        </ul>
-  
+        </ul> -->
       </div>
     </div>
   </template>
@@ -38,14 +43,22 @@
   import { useStore } from '@/store';
   import { checkTokenExpired } from "@/http-common";
   import { IBill } from "@/interfaces/bills";
+  import TableComponent from '@/components/utils/TableComponent.vue';
   
   export default defineComponent({
     name: "bills-list",
+    components: { TableComponent },
     data() {
       return {
         bills_list: [] as IBill[],
         full_bills_list: [] as IBill[],
         filter_created: "",
+        itemsReady: false as boolean,
+        go_to_object: "bill_detail" as string,
+        fields: [
+          "Created", "Seller", "Summ", "Image", "ID"
+        ],
+        items: [] as Array<Object>
       };
     },
     computed: {
@@ -63,10 +76,27 @@
           );
           this.bills_list = response.data;
           this.full_bills_list = this.bills_list;
-          console.log(response.data);
+          this.prepareTableItems();
+          // console.log(response.data);
         } catch(e) {
           checkTokenExpired(e);
         }
+      },
+      prepareTableItems(){
+        this.itemsReady = false;
+        let items = [];
+        for (let bill of this.bills_list){
+          items.push({
+            "Created": bill.created,
+            "Seller": bill.seller.official_name,
+            "Summ": Number(bill.value),
+            "Image": bill.image,
+            "ID": bill.id
+          })
+        }
+        this.items = items;
+        // console.log(this.items);
+        this.itemsReady = true;
       },
       goToBill(bill: IBill) {
         // this.$router.push({
@@ -74,9 +104,11 @@
         // });
       },
       filterByCreated() {
+        
         this.bills_list = this.full_bills_list.filter(
           (item) => { return item.created.includes(this.filter_created)}
         );
+        this.prepareTableItems();
       },
     },
     mounted() {

@@ -1,6 +1,7 @@
 export interface ISeller {
     id: null;
     name: string;
+    official_name: string;
     address: string;
   }
 
