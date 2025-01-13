@@ -17,10 +17,10 @@ logger = get_logger(__name__)
     Command("create_link"),
 )
 async def cmd_create_link_handler(message: Message):
-    tg_user_id = message.from_user.id
-    url = await get_login_url(tg_user_id)
+    user_id = message.from_user.id
+    url = await get_login_url(user_id)
     time_expiry = get_time_expiry_login_url()
-    user_lang = await get_user_lang(tg_user_id)
+    user_lang = await get_user_lang(user_id)
     reply_mess = await message.answer(
         login_url_created_view(
             url=url,
@@ -30,8 +30,6 @@ async def cmd_create_link_handler(message: Message):
         parse_mode="HTML"
     )
     logger.info(f"Here we wait for {time_expiry} sec")
-    await sleep(time_expiry * 60)
     await message.delete()
-    result = await reply_mess.delete()
-    logger.info(f"Here we deleted message after {time_expiry} sec")
-    logger.info(f"result: {result}")
+    await sleep(time_expiry * 60)
+    await reply_mess.delete()

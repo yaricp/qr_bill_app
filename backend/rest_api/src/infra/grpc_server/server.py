@@ -87,16 +87,19 @@ class RestApiGRPC(grpc_pb2_grpc.RestApiGRPCServicer):
     async def SetUserLang(
         self, request, context: grpc.aio.ServicerContext
     ) -> UserLang:
-        user_db = await self.user_queries.get_by_tg_id(
-            request.tg_user_id
+        logger.info("SetUserLang")
+        user_db = self.user_queries.get_user_by_tg_id(
+            tg_id=request.tg_user_id
         )
         user_income = UserUpdate(
             id=user_db.id,
             lang=request.lang
         )
+        logger.info(f"user_income: {user_income}")
         user = await self.user_commands.edit_user(
             user_income
         )
+        logger.info(f"changed user lang: {user.lang}")
         return UserLang(lang=user.lang)
 
     async def GetLoginURL(

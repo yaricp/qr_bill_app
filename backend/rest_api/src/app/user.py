@@ -101,7 +101,9 @@ class UserCommands:
         for key, value in incoming_item_dict.items():
             if value != None:
                 setattr(found_user, key, value)
+        logger.info(f"incoming_item_dict: {incoming_item_dict}")
         db_session.commit()
+        logger.info(f"found_user.lang: {found_user.lang}")
         return found_user
 
     async def create_temp_login_link_by_tg_id(

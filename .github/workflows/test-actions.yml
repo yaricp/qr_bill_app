@@ -78,11 +78,13 @@ jobs:
           ALLOW_METHODS: ${{ vars.ALLOW_METHODS }}
           PGADMIN_DEFAULT_EMAIL: ${{ vars.PGADMIN_DEFAULT_EMAIL }}
           PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
+          TELEGRAM_LANGUAGES: ${{ vars.TELEGRAM_LANGUAGES }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_BOT_DEFAULT_LANG: ${{ vars.TELEGRAM_BOT_DEFAULT_LANG }}
           TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
           TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
+          TELEGRAM_WEBAPP_ADDRESS: ${{ vars.TELEGRAM_WEBAPP_ADDRESS }}
         run: |
           docker compose build api;
           docker compose push api;
@@ -128,11 +130,13 @@ jobs:
           ALLOW_METHODS: ${{ vars.ALLOW_METHODS }}
           PGADMIN_DEFAULT_EMAIL: ${{ vars.PGADMIN_DEFAULT_EMAIL }}
           PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
+          TELEGRAM_LANGUAGES: ${{ vars.TELEGRAM_LANGUAGES }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_BOT_DEFAULT_LANG: ${{ vars.TELEGRAM_BOT_DEFAULT_LANG }}
           TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
           TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
+          TELEGRAM_WEBAPP_ADDRESS: ${{ vars.TELEGRAM_WEBAPP_ADDRESS }}
         run: |
           echo "Testing";
           # docker compose up -d;
@@ -180,11 +184,13 @@ jobs:
           ALLOW_METHODS: ${{ vars.ALLOW_METHODS }}
           PGADMIN_DEFAULT_EMAIL: ${{ vars.PGADMIN_DEFAULT_EMAIL }}
           PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
+          TELEGRAM_LANGUAGES: ${{ vars.TELEGRAM_LANGUAGES }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_BOT_DEFAULT_LANG: ${{ vars.TELEGRAM_BOT_DEFAULT_LANG }}
           TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
           TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
+          TELEGRAM_WEBAPP_ADDRESS: ${{ vars.TELEGRAM_WEBAPP_ADDRESS }}
         run: |
           docker compose build tg;
           docker compose push tg;
@@ -230,11 +236,13 @@ jobs:
           ALLOW_METHODS: ${{ vars.ALLOW_METHODS }}
           PGADMIN_DEFAULT_EMAIL: ${{ vars.PGADMIN_DEFAULT_EMAIL }}
           PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
+          TELEGRAM_LANGUAGES: ${{ vars.TELEGRAM_LANGUAGES }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_BOT_DEFAULT_LANG: ${{ vars.TELEGRAM_BOT_DEFAULT_LANG }}
           TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
           TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
+          TELEGRAM_WEBAPP_ADDRESS: ${{ vars.TELEGRAM_WEBAPP_ADDRESS }}
           VUE_APP_ENV: ${{ vars.VUE_APP_ENV }}
           VUE_APP_THIS_HOST_API: ${{ vars.VUE_APP_THIS_HOST_API }}
           VUE_APP_PREFIX: ${{ vars.VUE_APP_PREFIX }}
@@ -324,11 +332,13 @@ jobs:
           ALLOW_METHODS: ${{ vars.ALLOW_METHODS }}
           PGADMIN_DEFAULT_EMAIL: ${{ vars.PGADMIN_DEFAULT_EMAIL }}
           PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
+          TELEGRAM_LANGUAGES: ${{ vars.TELEGRAM_LANGUAGES }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_BOT_DEFAULT_LANG: ${{ vars.TELEGRAM_BOT_DEFAULT_LANG }}
           TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
           TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
+          TELEGRAM_WEBAPP_ADDRESS: ${{ vars.TELEGRAM_WEBAPP_ADDRESS }}
         run: |
           cd /home/yaricp/docker-compose-area/test;
           docker-compose pull api tg front;
@@ -373,11 +383,13 @@ jobs:
           ALLOW_METHODS: ${{ vars.ALLOW_METHODS }}
           PGADMIN_DEFAULT_EMAIL: ${{ vars.PGADMIN_DEFAULT_EMAIL }}
           PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
+          TELEGRAM_LANGUAGES: ${{ vars.TELEGRAM_LANGUAGES }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_BOT_DEFAULT_LANG: ${{ vars.TELEGRAM_BOT_DEFAULT_LANG }}
           TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
           TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
+          TELEGRAM_WEBAPP_ADDRESS: ${{ vars.TELEGRAM_WEBAPP_ADDRESS }}
         run: cd /home/yaricp/docker-compose-area/test && docker-compose down
       - name: Start new images
         env:
@@ -420,17 +432,14 @@ jobs:
           ALLOW_METHODS: ${{ vars.ALLOW_METHODS }}
           PGADMIN_DEFAULT_EMAIL: ${{ vars.PGADMIN_DEFAULT_EMAIL }}
           PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
+          TELEGRAM_LANGUAGES: ${{ vars.TELEGRAM_LANGUAGES }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_BOT_DEFAULT_LANG: ${{ vars.TELEGRAM_BOT_DEFAULT_LANG }}
           TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
           TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
-          VUE_APP_ENV: ${{ vars.VUE_APP_ENV }}
-          VUE_APP_THIS_HOST_API: ${{ vars.VUE_APP_THIS_HOST_API }}
-          VUE_APP_PREFIX: ${{ vars.VUE_APP_PREFIX }}
-          VUE_APP_API_PROD: ${{ vars.VUE_APP_API_PROD }}
-          VUE_APP_API_STAG: ${{ vars.VUE_APP_API_STAG }}
-          VUE_APP_API_DEV: ${{ vars.VUE_APP_API_DEV }}
+          TELEGRAM_WEBAPP_ADDRESS: ${{ vars.TELEGRAM_WEBAPP_ADDRESS }}
+          
         run: cd /home/yaricp/docker-compose-area/test && docker-compose up -d
       - name: Sync .env file
         env:
@@ -473,21 +482,17 @@ jobs:
           ALLOW_METHODS: ${{ vars.ALLOW_METHODS }}
           PGADMIN_DEFAULT_EMAIL: ${{ vars.PGADMIN_DEFAULT_EMAIL }}
           PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
+          TELEGRAM_LANGUAGES: ${{ vars.TELEGRAM_LANGUAGES }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_BOT_DEFAULT_LANG: ${{ vars.TELEGRAM_BOT_DEFAULT_LANG }}
           TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
           TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
-          VUE_APP_ENV: ${{ vars.VUE_APP_ENV }}
-          VUE_APP_THIS_HOST_API: ${{ vars.VUE_APP_THIS_HOST_API }}
-          VUE_APP_PREFIX: ${{ vars.VUE_APP_PREFIX }}
-          VUE_APP_API_PROD: ${{ vars.VUE_APP_API_PROD }}
-          VUE_APP_API_STAG: ${{ vars.VUE_APP_API_STAG }}
-          VUE_APP_API_DEV: ${{ vars.VUE_APP_API_DEV }}
+          TELEGRAM_WEBAPP_ADDRESS: ${{ vars.TELEGRAM_WEBAPP_ADDRESS }}
         run: |
           cd /home/yaricp/docker-compose-area/test;
-          var=$(docker-compose exec -T api env);
           mv .env .env_old;
+          var=$(docker-compose exec -T api env); 
           echo "$var" > .env;
           var=$(docker-compose exec -T pg env);
           echo "$var" >> .env;

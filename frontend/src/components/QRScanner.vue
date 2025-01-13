@@ -24,10 +24,6 @@ import { Html5QrcodeScanner } from "html5-qrcode";
 import { useStore } from '@/store';
 import BillDataService from "@/services/bills";
 import { checkTokenExpired } from "@/http-common";
-import { string } from "yup";
-import { ref } from 'vue'
-
-const qrScanner = ref(null);
 
 export default defineComponent({
     name: "qrscanner-page",
@@ -67,7 +63,7 @@ export default defineComponent({
     methods: {
         calculateSizes() {
             let factor = this.windowHeight/this.windowWidth;
-            this.width = this.width * factor;
+            this.height = this.height * factor;
         },
         getCanvas() {
             // if (!this.hasUserMedia) return null;
