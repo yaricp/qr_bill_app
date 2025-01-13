@@ -1,15 +1,13 @@
 <template>
     <main>
-        <div><p>Test mess: {{ test_mess }}</p></div>
-        <div
-            v-if="html5QrcodeScanner"
-        >
-            <p>Status Scanner: {{ html5QrcodeScanner.getState() }}</p>
+        <!-- <div><p>Test mess: {{ test_mess }}</p></div> -->
+        <div v-if="html5QrcodeScanner" >
+            <p>{{ qrscannerStatusMessage }}</p>
         </div>
         <div>
             <div ref="qr-scanner" id="qr-scanner"/>
         </div>
-        <div><p>Message: {{ message }}</p></div>
+        <div><p>{{ message }}</p></div>
         <div><p>
             <img 
                 :src="picture"
@@ -30,6 +28,11 @@ export default defineComponent({
     data() {
         return {
             url_patterns: ["https://", "ic/", "mapr"] as Array<string>,
+            status_messages: {
+                1: "Choose camera for scanning",
+                2: "Scan you bill with QR code",
+                3: "Sending result to server"
+            } as any,
             qrbox: 640 as number,
             percentage: 0.7 as number,
             fps: 10 as number,
@@ -59,6 +62,10 @@ export default defineComponent({
         console.log("store: ", store);
         return store.state.auth.token;
       },
+      qrscannerStatusMessage(){
+        let status = this.html5QrcodeScanner.getState();
+        return this.status_messages[Number(status)];
+      }
     },
     methods: {
         calculateSizes() {
@@ -103,16 +110,12 @@ export default defineComponent({
             this.test_mess += qrCodeMessage;
             this.html5QrcodeScanner.pause();
             if (this.checkUrl(qrCodeMessage)){
-                this.message = "Correct URL!"
+                this.message = "Found Correct URL"
             } else {
                 this.message = "Wrong URL!"
             }
             this.found = true;
             await this.sendUrlToServer(qrCodeMessage);
-            // show found results
-            // this.found = false;
-            // this.test_mess = "";
-            // this.html5QrcodeScanner.resume();
         },
         checkUrl(q_message: string) {
             for (let pattern of this.url_patterns){

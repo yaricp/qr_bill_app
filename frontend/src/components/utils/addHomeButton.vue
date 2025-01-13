@@ -1,6 +1,6 @@
 <template>
     <div>
-      !@<button
+      <button
         class="btn btn-outline-secondary add-button"
         type="button"
         v-if="deferredPrompt"
