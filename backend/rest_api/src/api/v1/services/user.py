@@ -19,7 +19,7 @@ so its defined in each dependency body.
 
 
 @manager.user_loader()
-def check_user_auth(email_login_tg_link: str | UUID) -> User:
+def check_user_auth(email_login_tg_link: str | UUID) -> User | None:
     logger.info(f"email_login_tg: {email_login_tg_link}")
     users_queries: UserQueries = UserQueries()
     if isinstance(email_login_tg_link, UUID):
@@ -41,10 +41,14 @@ def check_user_auth(email_login_tg_link: str | UUID) -> User:
     if user:
         return user
     logger.info("Try search user by tg_id")
-    user = users_queries.get_user_by_tg_id(
-        tg_id=int(email_login_tg_link)
-    )
-    return user
+    try:
+        user = users_queries.get_user_by_tg_id(
+            tg_id=int(email_login_tg_link)
+        )
+        return user
+    except ValueError as err:
+        logger.error(f"Err: {err}")
+        return None
 
 
 # def load_user(email_or_link: str) -> User:
