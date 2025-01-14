@@ -20,7 +20,7 @@ from ..schemas.goods import (
 
 
 @app.post(
-    URLPathsConfig.PREFIX + "/goods",
+    URLPathsConfig.PREFIX + "/goods/",
     tags=['Goods'],
     response_model=Goods
 )
@@ -70,7 +70,7 @@ async def update_categorized_goods_route(
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/goods",
+    URLPathsConfig.PREFIX + "/goods/",
     tags=['Goods'],
     response_model=List[Goods]
 )

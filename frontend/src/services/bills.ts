@@ -5,7 +5,7 @@ import { IBillUrl } from "@/interfaces/bills";
 
 class BillDataService {
   getAll(token: string): Promise<any> {
-    return http.get("/bills", authHeaders(token));
+    return http.get("/bills/", authHeaders(token));
   }
 
   get(id: any, token: string): Promise<any> {
@@ -13,7 +13,7 @@ class BillDataService {
   }
 
   create(data: any, token: string): Promise<any> {
-    return http.post("/bills", data, authHeaders(token));
+    return http.post("/bills/", data, authHeaders(token));
   }
 
   update(id: any, data: any, token: string): Promise<any> {
@@ -25,7 +25,7 @@ class BillDataService {
   }
 
   sendUrl(url_data: IBillUrl, token: string): Promise<any> {
-    return http.post(`/bills/parse_url`, url_data, authHeaders(token));
+    return http.post(`/bills/parse_url/`, url_data, authHeaders(token));
   }
 
   getUncategorizedGoods(

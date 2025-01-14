@@ -17,7 +17,7 @@ class AuthService {
   async login_by_tg(link: string): Promise<any> {
     try {
       let response = await axios.post(
-        `${apiUrl}${prefixUrl}/auth/login_by_tg`, {"link": link}
+        `${apiUrl}${prefixUrl}/auth/login_by_tg/`, {"link": link}
       );
       return response.data.access_token;
     } catch(e) {
@@ -30,7 +30,7 @@ class AuthService {
   }
 
   register(user: IUserLogin) {
-    return http.post('/register', {
+    return http.post('/register/', {
       username: user.login,
       password: user.password
     });

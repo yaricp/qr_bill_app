@@ -1,4 +1,3 @@
-import authHeader from "./auth-header";
 import { authHeaders } from ".";
 import http from "@/http-common";
 import { IUser, IUserLogin } from "@/interfaces/users";
@@ -14,6 +13,7 @@ class UserService {
   }
 
   getUserProfile(token: string): Promise<any> {
+    console.log("http: ", http)
     return http.get('/user/', authHeaders(token));
   }
 

@@ -22,7 +22,7 @@ from ..schemas.user import User, UserCreate, LoginLinkData
 
 
 @app.post(
-    URLPathsConfig.PREFIX + '/auth/register',
+    URLPathsConfig.PREFIX + '/auth/register/',
     tags=['Authentication'],
     response_model=User
 )
@@ -73,7 +73,7 @@ async def login_route(
 
 
 @app.post(
-    URLPathsConfig.PREFIX + '/auth/login_by_tg',
+    URLPathsConfig.PREFIX + '/auth/login_by_tg/',
     tags=['Authentication']
 )
 async def login_by_tg_route(data: LoginLinkData) -> dict:
@@ -118,7 +118,7 @@ async def create_login_password_route(
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/users",
+    URLPathsConfig.PREFIX + "/users/",
     tags=['Users'],
     response_model=List[User]
 )
@@ -131,7 +131,7 @@ async def read_users_route(user=Depends(manager)) -> List[User]:
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/user",
+    URLPathsConfig.PREFIX + "/user/",
     tags=['Users'],
     response_model=User
 )

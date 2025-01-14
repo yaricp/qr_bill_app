@@ -5,7 +5,7 @@ import { ICategorizedGoods } from "@/interfaces/goods";
 
 class GoodsDataService {
   getAll(token: string): Promise<any> {
-    return http.get("/goods", authHeaders(token));
+    return http.get("/goods/", authHeaders(token));
   }
 
   get(id: any, token: string): Promise<any> {
@@ -13,7 +13,7 @@ class GoodsDataService {
   }
 
   create(data: any, token: string): Promise<any> {
-    return http.post("/goods", data, authHeaders(token));
+    return http.post("/goods/", data, authHeaders(token));
   }
 
   update(id: any, data: any, token: string): Promise<any> {
@@ -25,7 +25,7 @@ class GoodsDataService {
   }
 
   findByName(name: string, token: string): Promise<any> {
-    return http.get(`/goods?name=${name}`, authHeaders(token));
+    return http.get(`/goods/?name=${name}`, authHeaders(token));
   }
 
   getUncategorized(token: string, cat_id?: string): Promise<any> {

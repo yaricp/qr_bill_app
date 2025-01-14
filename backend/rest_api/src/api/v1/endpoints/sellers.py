@@ -21,7 +21,7 @@ from ..schemas.seller import (
 
 
 @app.post(
-    URLPathsConfig.PREFIX + "/sellers",
+    URLPathsConfig.PREFIX + "/sellers/",
     tags=['Sellers'],
     response_model=Seller
 )
@@ -36,7 +36,7 @@ async def create_seller_route(
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/sellers",
+    URLPathsConfig.PREFIX + "/sellers/",
     tags=['Sellers'],
     response_model=List[Seller]
 )

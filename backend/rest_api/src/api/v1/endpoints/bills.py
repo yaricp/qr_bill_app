@@ -1,5 +1,5 @@
 from uuid import UUID
-from typing import List, MutableSequence
+from typing import List
 
 from fastapi import Depends
 
@@ -17,7 +17,8 @@ from ..schemas.goods import Goods
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/bills", tags=['Bills'], response_model=List[Bill]
+    URLPathsConfig.PREFIX + "/bills/",
+    tags=['Bills'], response_model=List[Bill]
 )
 async def get_all_bills_route(user=Depends(manager)) -> List[Bill]:
     bills: List[Bill] = await get_all_bills(user_id=user.id)
@@ -25,7 +26,7 @@ async def get_all_bills_route(user=Depends(manager)) -> List[Bill]:
 
 
 @app.post(
-    URLPathsConfig.PREFIX + "/bills/parse_url",
+    URLPathsConfig.PREFIX + "/bills/parse_url/",
     tags=['Bills'], response_model=Bill
 )
 async def parse_url_bill_route(
@@ -41,7 +42,8 @@ async def parse_url_bill_route(
 
 
 @app.post(
-    URLPathsConfig.PREFIX + "/bills", tags=['Bills'], response_model=Bill
+    URLPathsConfig.PREFIX + "/bills/",
+    tags=['Bills'], response_model=Bill
 )
 async def create_bill_route(
     *, item_in: BillCreate, user=Depends(manager)
@@ -55,7 +57,8 @@ async def create_bill_route(
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/bills/{id}", tags=['Bills'], response_model=Bill
+    URLPathsConfig.PREFIX + "/bills/{id}",
+    tags=['Bills'], response_model=Bill
 )
 async def get_bill_route(id: UUID, user=Depends(manager)) -> Bill:
     bill: Bill = await get_bill(id=id)
@@ -91,7 +94,8 @@ async def uncategorized_goods_bill_route(
 
 
 @app.put(
-    URLPathsConfig.PREFIX + "/bills/{id}", tags=['Bills'], response_model=Bill
+    URLPathsConfig.PREFIX + "/bills/{id}",
+    tags=['Bills'], response_model=Bill
 )
 async def put_bill_route(
     id: UUID, item_in: BillUpdate, user=Depends(manager)
@@ -104,7 +108,8 @@ async def put_bill_route(
 
 
 @app.delete(
-    URLPathsConfig.PREFIX + "/bills/{id}", tags=['Bills'], response_model=Bill
+    URLPathsConfig.PREFIX + "/bills/{id}",
+    tags=['Bills'], response_model=Bill
 )
 async def delete_bill_route(id: UUID, user=Depends(manager)) -> Bill:
     bill: Bill = await delete_bill(id=id, user_id=user.id)

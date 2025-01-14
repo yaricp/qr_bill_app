@@ -4,7 +4,7 @@ import { authHeaders } from './';
 
 class SellerDataService {
   getAll(): Promise<any> {
-    return http.get("/sellers");
+    return http.get("/sellers/");
   }
 
   get(id: any): Promise<any> {
@@ -12,7 +12,7 @@ class SellerDataService {
   }
 
   create(data: any): Promise<any> {
-    return http.post("/sellers", data);
+    return http.post("/sellers/", data);
   }
 
   update(id: any, data: any): Promise<any> {
@@ -24,7 +24,7 @@ class SellerDataService {
   }
 
   findByName(name: string): Promise<any> {
-    return http.get(`/sellers?name=${name}`);
+    return http.get(`/sellers/?name=${name}`);
   }
 
   getCountBillsByNameSeller(first_of: number, token: string): Promise<any> {

@@ -15,7 +15,7 @@ from ..schemas.unit import (
 
 
 @app.post(
-    URLPathsConfig.PREFIX + "/units",
+    URLPathsConfig.PREFIX + "/units/",
     tags=['Units'],
     response_model=Unit
 )
@@ -30,7 +30,7 @@ async def create_unit_route(
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/units",
+    URLPathsConfig.PREFIX + "/units/",
     tags=['Units'],
     response_model=List[Unit]
 )
