@@ -8,15 +8,10 @@ import { IUserLogin } from "@/interfaces/users";
 class AuthService {
   
   async login(user: IUserLogin): Promise<any> {
-    const params = new URLSearchParams();
-    params.append('username', user.login);
-    params.append('password', user.password);
-    try {
-      let response = await axios.post(`${apiUrl}${prefixUrl}/auth/login/`, params);
-      return response.data.access_token;
-    } catch(e) {
-      console.log("Error login", e);
-    }
+    const formData = new FormData();
+    formData.append("username", user.login);
+    formData.append("password", user.password)
+    return await axios.post(`${apiUrl}${prefixUrl}/auth/login/`, formData);
   }
   
   async login_by_tg(link: string): Promise<any> {

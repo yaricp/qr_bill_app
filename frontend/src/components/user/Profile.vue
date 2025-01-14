@@ -208,6 +208,7 @@ export default defineComponent({
         );
         console.log("retrieveUser: ", response.data);
         this.currentUser = response.data;
+        this.currentUser.login = response.data.username;
       } catch(e) {
         checkTokenExpired(e);
       }

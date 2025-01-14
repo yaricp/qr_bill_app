@@ -74,8 +74,12 @@ export const AuthModule: Module<State, RootState> = {
           console.log("commit to loginSuccess");
           commit('loginSuccess', token);
         }
-      } catch(e) {
-        console.log("commit loginFailure");
+      } catch(e: any) {
+        console.log("err:", e);
+        if(e.status == 401){
+          return 401;
+        }
+        console.log("commit loginFailure: ", e);
         commit('loginFailure');
       }
     },
@@ -93,7 +97,8 @@ export const AuthModule: Module<State, RootState> = {
           commit('loginSuccess', token);
         }
       } catch(e) {
-        console.log("commit loginFailure");
+        console.log("err:", e);
+        console.log("commit loginFailure: ", e);
         commit('loginFailure');
       }
     },

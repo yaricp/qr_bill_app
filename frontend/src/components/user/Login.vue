@@ -30,6 +30,13 @@
           </div>
         </Form>
       </div>
+      <div class="card card-container">
+        you can use 
+        <a href="https://t.me/qracun_bot">
+          https://t.me/qracun_bot
+        </a>
+         bot to generte login link. 
+      </div>
     </div>
 </template>
   
@@ -79,9 +86,18 @@
       async handleLogin(user: IUserLogin) {
         this.loading = true;
         try {
-          await this.$store.dispatch("auth/login", user);
-          console.log("before go to profile");
-          this.$router.push("/qr_scanner");
+          let response = await this.$store.dispatch("auth/login", user);
+          console.log("response: ", response);
+          if(this.loggedIn){
+            this.$router.push("/qr_scanner");
+          } else {
+            if (response == 401){
+              this.message = "Wrong login or password!";
+            } else {
+              this.message = "Problems with authorizate";
+            }
+            this.loading = false;
+          }
         } catch(error) {
           console.log("Error: ", error);
           this.loading = false;
