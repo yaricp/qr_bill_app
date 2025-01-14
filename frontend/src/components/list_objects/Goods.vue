@@ -66,10 +66,10 @@
         for (let goods of this.goods_list){
           items.push({
             "Name": goods.name,
-            "Price": goods.unit_price_after_vat,
+            "Price": Number(goods.unit_price_after_vat),
             "Unit": goods.unit.name,
-            "Quantity": goods.quantity,
-            "Summ": goods.price_after_vat,
+            "Quantity": Number(goods.quantity),
+            "Summ": Number(goods.price_after_vat),
             "Seller": goods.seller.official_name,
             "ID": goods.id
           })
