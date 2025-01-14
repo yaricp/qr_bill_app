@@ -1,14 +1,15 @@
 <template>
     <div>
-        <div class="searchBar">
+        <div class="searchBar" v-if="showSearch">
             <!-- Filter Search -->
             <div class="input-group mb-5">
+                Filter:
                 <input 
                     type="search" 
                     class="form-control" 
                     v-model="search_name" 
                     @keyup="filterData"
-                    placeholder="Name" 
+                    :placeholder="field_search"
                     aria-label="name"
                     aria-describedby="button-addon2">
             </div>
@@ -70,6 +71,7 @@ export default defineComponent({
     },
     data: () => {
         return {
+            showSearch: false as boolean,
             search_name: "" as string,
             reverseSorted: false as boolean,
             inner_data: [] as Object[] | undefined,
@@ -129,6 +131,9 @@ export default defineComponent({
         }
     },
     mounted() {
+        if (this.$props.field_search){
+            this.showSearch = true;
+        }
         this.inner_data = this.$props.data;
     },
 })

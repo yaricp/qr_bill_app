@@ -21,14 +21,19 @@
           <span v-if="login_password_open_for_edit">
             <input type="text" v-model="currentUser.login">
           </span>
+          &nbsp;&nbsp;
           <span>
             <button
+              class="btn btn-outline-secondary"
+              type="button"
               v-if="!login_password_open_for_edit"
               @click="login_password_open_for_edit =!login_password_open_for_edit"
             >
               Change
             </button>
             <button
+              class="btn btn-outline-secondary"
+              type="button"
               v-if="login_password_created && login_password_open_for_edit"
               @click="login_password_open_for_edit =!login_password_open_for_edit"
             >
@@ -75,12 +80,16 @@
         <div class="col"></div>
         <div class="col">
           <button 
-            v-if="login_password_created"
+            class="btn btn-outline-secondary"
+            type="button"
+            v-if="login_password_created && login_password_open_for_edit"
             @click="saveUserLoginPassword"
           >
             Update Login and/or password
           </button>
           <button 
+            class="btn btn-outline-secondary"
+            type="button"
             v-if="!login_password_created"
             @click="saveUserLoginPassword"
           >
@@ -121,8 +130,14 @@
       <div class="row">
         <div class="col"></div>
         <div class="col">
-          <button v-if="!email_linked">Link Email</button>
-          <button v-if="email_linked && email_open_for_edit">Relink Email</button>
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            v-if="!email_linked">Link Email</button>
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            v-if="email_linked && email_open_for_edit">Relink Email</button>
         </div>
       </div>
       <div class="row">
@@ -135,14 +150,19 @@
           <span v-if="tg_open_for_edit">
             <input type="text" v-model="currentUser.tg_id">
           </span>
+          &nbsp;&nbsp;
           <span>
             <button
+              class="btn btn-outline-secondary"
+              type="button"
               v-if="!tg_open_for_edit" 
               @click="tg_open_for_edit =!tg_open_for_edit"
             >
               Change
             </button>
             <button
+              class="btn btn-outline-secondary"
+              type="button"
               v-if="tg_linked && tg_open_for_edit" 
               @click="tg_open_for_edit =!tg_open_for_edit"
             >
@@ -158,8 +178,14 @@
       <div class="row">
         <div class="col"></div>
         <div class="col">
-          <button v-if="!tg_linked">Link Telegram</button>
-          <button v-if="tg_linked && tg_open_for_edit">Relink Telegram</button>
+          <button 
+            class="btn btn-outline-secondary"
+            type="button"
+            v-if="!tg_linked">Link Telegram</button>
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            v-if="tg_linked && tg_open_for_edit">Relink Telegram</button>
         </div>
       </div>
     </div>
@@ -208,7 +234,6 @@ export default defineComponent({
         );
         console.log("retrieveUser: ", response.data);
         this.currentUser = response.data;
-        this.currentUser.login = response.data.username;
       } catch(e) {
         checkTokenExpired(e);
       }
