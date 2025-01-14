@@ -6,7 +6,7 @@ class TelegramBotConfig(BaseSettings):
     TELEGRAM_BOT_DEFAULT_LANG: str
     TELEGRAM_WEBAPP_ADDRESS: str
     TELEGRAM_LANGUAGES: list
-    TELEGRAM_QR_PIC_DIR: list
+    TELEGRAM_QR_PIC_DIR: str
 
 
 tg_bot_config: TelegramBotConfig = TelegramBotConfig()
