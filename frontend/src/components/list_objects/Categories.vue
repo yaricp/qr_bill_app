@@ -1,71 +1,75 @@
 <template>
-  <div class="list row">
-    <div class="col-md-12">
-      <div class="input-group mb-3">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="name of a new category"
-          v-model="new_name_category"
-        />
-        <div class="input-group-append">
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            @click="addCategory"
-          >
-            Add
-          </button>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="name of a new category"
+            v-model="new_name_category"
+          />
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              @click="addCategory"
+            >
+              Add
+            </button>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-md-12">
-      <h4>Categories List</h4>
-      <ul class="list-group">
-        <li
-          class="list-group-item"
-          v-for="(cat, index) in cat_list"
-          :key="index"
+    <div class="row">
+      <div class="col-md-12">
+        <h4>Categories List</h4>
+      </div>
+    </div>
+    <div 
+      class="list row" 
+      v-for="(cat, index) in cat_list"
+      :key="index"
+    >
+      <div class="col-md-10">
+        <span v-if="!editButtonShowed(index)">
+          {{ cat.name }}
+        </span>
+        <span v-if="editButtonShowed(index)">
+          <input 
+            type="text"
+            class="form-control"
+            v-model="currentCat.name"
+          />
+        </span>
+      </div>
+      <div class="col-md-1">
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          v-if="!editButtonShowed(index)"
+          @click="showEdit(index, cat)"
         >
-          <div class="col-md-6">
-            <span v-if="!editButtonShowed(index)">
-              {{ cat.name }}
-            </span>
-            <span v-if="editButtonShowed(index)">
-              <input 
-                type="text"
-                class="form-control"
-                v-model="currentCat.name"
-              />
-            </span>
-          </div>
-          <div class="col-md-6">
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              v-if="!editButtonShowed(index)"
-              @click="showEdit(index, cat)"
-            >
-              Edit
-            </button>
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              v-if="editButtonShowed(index)"
-              @click="saveCategory(index, cat)"
-            >
-              Save
-            </button>
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              @click="delCategory(index, cat)"
-            >
-              Del
-            </button>
-          </div>
-        </li>
-      </ul>
+          Edit
+        </button>
+      </div>
+      <div class="col-md-1">
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          v-if="editButtonShowed(index)"
+          @click="saveCategory(index, cat)"
+        >
+          Save
+        </button>
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          @click="delCategory(index, cat)"
+        >
+          Del
+        </button>
+      </div>
     </div>
   </div>
 </template>

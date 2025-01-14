@@ -30,7 +30,7 @@ async def get_pic_qr_handler(message: Message):
     file_path = file.file_path
 
     user_file_path = os.path.join(
-        tg_bot_config.QR_PIC_DIR, str(user_id)
+        tg_bot_config.TELEGRAM_QR_PIC_DIR, str(user_id)
     )
     # f"{file_unique_id}"
     if not os.path.exists(user_file_path):

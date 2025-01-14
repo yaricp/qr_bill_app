@@ -42,7 +42,7 @@
         itemsReady: false as boolean,
         go_to_object: "goods_detail" as string,
         fields: [
-          "Name", "Price", "Quantity", "Summ", "Seller", "ID"
+          "Name", "Price", "Unit", "Quantity", "Summ", "Seller", "ID"
         ],
         items: [] as Array<Object>
       };
@@ -76,6 +76,7 @@
           items.push({
             "Name": goods.name,
             "Price": goods.unit_price_after_vat,
+            "Unit": goods.unit.name,
             "Quantity": goods.quantity,
             "Summ": goods.price_after_vat,
             "Seller": goods.seller.official_name,
@@ -83,14 +84,8 @@
           })
         }
         this.items = items;
-        // console.log(this.items);
         this.itemsReady = true;
         await this.$nextTick();
-      },
-      goToGoods(goods: IGoods) {
-        this.$router.push({
-          name: "goods_detail", params: { goods_id: goods.id}
-        });
       },
       async filterByName() {
         this.goods_list = this.full_goods_list.filter(

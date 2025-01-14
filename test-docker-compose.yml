@@ -91,9 +91,11 @@ services:
       TELEGRAM_GRPC_PORT: ${TELEGRAM_GRPC_PORT}
       TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${TIME_LIFE_TEMP_LOGIN_LINK_MIN}
       TELEGRAM_WEBAPP_ADDRESS: ${TELEGRAM_WEBAPP_ADDRESS}
+      TELEGRAM_QR_PIC_DIR: ${TELEGRAM_QR_PIC_DIR}
     command: /./start.sh
     volumes:
       - ./grpc_proto:/grpc_proto
+      - /qracun_pictures:/qracun_pictures
     depends_on:
       - api
     build:
