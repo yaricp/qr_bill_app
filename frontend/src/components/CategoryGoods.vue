@@ -164,7 +164,7 @@
           let response = await CategoriesService.getAll(
             this.authToken
           );
-          this. cat_list = response.data;
+          this.cat_list = response.data;
           console.log(response.data);
         } catch(e) {
           checkTokenExpired(e);
@@ -275,8 +275,21 @@
       },
       filterByName() {
         this.goods_list = this.full_goods_list.filter(
-          (item) => { return item.name.includes(this.filter_name)}
+          (item) => { 
+            return item.name.toLowerCase().indexOf(
+              this.filter_name.toLowerCase()
+            ) != -1
+          }
         );
+
+        // this.inner_data = this.$props.data.filter(
+        //         (item: any) => {return (
+        //             item.name.toLowerCase().indexOf(
+        //                 this.search_name.toLowerCase()
+        //             ) != -1
+        //         )}
+        //     )
+
       },
       checkedAll(){
         console.log('checkedAll');
@@ -290,10 +303,7 @@
     async mounted() {
 
       let bill_id = this.$route.params.bill_id;
-      console.log("bill_id:", bill_id)
       if (typeof bill_id == "string") {
-        console.log("bill_id: ", bill_id);
-        console.log("typeof bill_id: ", typeof bill_id);
         this.currentBillID = String(bill_id);
       }
       if(this.currentBillID){
@@ -302,6 +312,9 @@
         this.main_header = "All your uncategorized items";
       }
       await this.retrieveCategories();
+      if (!this.cat_list.length){
+        this.$router.push({name: "categories"})
+      }
       await this.getAllGoods();
     }
 })

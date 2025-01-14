@@ -63,16 +63,20 @@ export const AuthModule: Module<State, RootState> = {
   actions: {
     async login({ commit }, user) {
       try {
-        let token = await AuthService.login(user);
+        let response = await AuthService.login(user);
         console.log('loginSuccess');
-        console.log('token:', token);
-        if (token){
+        console.log('response.data:', response.data);
+        if (response.data && response.data.access_token){
+          let token = response.data.access_token;
           console.log("save to localStorage");
           localStorage.setItem(
             'token', JSON.stringify(token)
           );
           console.log("commit to loginSuccess");
           commit('loginSuccess', token);
+        } else {
+          console.log("commit loginFailure: ");
+          commit('loginFailure');
         }
       } catch(e: any) {
         console.log("err:", e);

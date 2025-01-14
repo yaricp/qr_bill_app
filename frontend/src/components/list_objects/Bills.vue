@@ -1,16 +1,5 @@
 <template>
     <div class="list row">
-      <div class="col-md-8">
-        <!-- <div class="input-group mb-3">
-          Filter by date: <input
-            type="text"
-            class="form-control"
-            placeholder="Filter by name"
-            v-model="filter_created"
-            @keyup="filterByCreated"
-          />
-        </div> -->
-      </div>
       <div class="col-md-6">
         <h4>Bills List</h4>
         <TableComponent 
@@ -18,21 +7,8 @@
           :data="items" 
           :fields="fields"
           :go_to_object="go_to_object"
+          :field_search="field_search"
         />
-        <!-- <ul class="list-group">
-          <li
-            class="list-group-item"
-            v-for="(bill, index) in bills_list"
-            :key="index"
-            @click="goToBill(bill)"
-          >
-            <p>
-                {{ bill.created }} - 
-                {{ bill.value }} 
-                <img :src="bill.image"/>
-            </p>
-          </li>
-        </ul> -->
       </div>
     </div>
   </template>
@@ -55,6 +31,7 @@
         filter_created: "",
         itemsReady: false as boolean,
         go_to_object: "bill_detail" as string,
+        field_search: "Seller" as string,
         fields: [
           "Created", "Seller", "Summ", "Image", "ID"
         ],

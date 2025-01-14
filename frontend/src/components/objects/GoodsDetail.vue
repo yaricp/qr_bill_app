@@ -4,16 +4,12 @@
       </div>
       <div class="col-md-6">
         <h4>Goods Details</h4>
-        <ul class="list-group">
-          <li
-            class="list-group-item"
-            v-for="key in Object.keys(currentGoods)"
-            :key="key"
-          >
-            {{ key }}: {{ currentGoods[key] }}
-          </li>
-        </ul>
-  
+        <TableComponent 
+          v-if="itemsReady"
+          :data="items" 
+          :fields="fields"
+          :go_to_object="go_to_object"
+        />
       </div>
       <div class="col-md-6">
         <h4>Categories</h4>
@@ -61,15 +57,23 @@
   import { ICategory } from "@/interfaces/categories";
   import { useStore } from '@/store';
   import { checkTokenExpired } from "@/http-common";
+  import TableComponent from '@/components/utils/TableComponent.vue';
   
   export default defineComponent({
     name: "goods-detail-page",
+    components: { TableComponent },
     data() {
       return {
         currentGoodsID: "" as string,
         currentGoods: {} as IGoods,
         full_cat_list: [] as ICategory[],
-        goods_cat_list: [] as IUncategorizedGoods[]
+        goods_cat_list: [] as IUncategorizedGoods[],
+        itemsReady: false as boolean,
+        go_to_object: "bills" as string,
+        fields: [
+          "Field", "Value"
+        ],
+        items: [] as Array<Object>
       };
     },
     computed: {
@@ -101,6 +105,7 @@
                 "retrieveGoodsDetail result:", response.data
               );
               this.currentGoods = response.data;
+              this.prepareTableItems();
               this.prepareListCategories();
             } catch(e) {
               checkTokenExpired(e);
@@ -108,6 +113,38 @@
           } else {
             alert("empty Goods ID!!");
           }
+      },
+      prepareTableItems(){
+        this.itemsReady = false;
+        let items = [];
+        for (let key of Object.keys(this.currentGoods)){
+          if (
+            key == "id" 
+            || key == "seller_id" 
+            || key == "user_id" 
+            || key == "image"
+            || key == "bill_id"
+            || key == "unit_id"
+            || key == "categories"
+          ){
+            continue;
+          }
+          let value_obj = Object(this.currentGoods)[String(key)];
+          let value = value_obj;
+          if (key == "seller"){
+            value = "";
+            value += value_obj.official_name + ", ";
+            value += value_obj.address;
+          } else if (key == "unit") {
+            value = value_obj.name;
+          }
+          items.push({
+              "Field": key,
+              "Value": value,
+            })
+        }
+        this.items = items;
+        this.itemsReady = true;
       },
       async saveGoodsGategories() {
           console.log("saveGoodsGategories");

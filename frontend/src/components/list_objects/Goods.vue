@@ -1,16 +1,5 @@
 <template>
     <div class="list row">
-      <div class="col-md-8">
-        <div class="input-group mb-3">
-          Filter: <input
-            type="text"
-            class="form-control"
-            placeholder="Filter by name"
-            v-model="filter_name"
-            @keyup="filterByName"
-          />
-        </div>
-      </div>
       <div class="col-md-6">
         <h4>Goods List</h4>
         <TableComponent 
@@ -18,6 +7,7 @@
           :data="items" 
           :fields="fields"
           :go_to_object="go_to_object"
+          :field_search="field_search"
         />
       </div>
     </div>
@@ -41,6 +31,7 @@
         filter_name: "",
         itemsReady: false as boolean,
         go_to_object: "goods_detail" as string,
+        field_search: "Name" as string,
         fields: [
           "Name", "Price", "Unit", "Quantity", "Summ", "Seller", "ID"
         ],

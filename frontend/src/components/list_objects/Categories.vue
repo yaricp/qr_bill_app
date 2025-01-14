@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+    <div class="row" v-if="!cat_list">
+      <h4>Create your own categories</h4>
+    </div>
     <div class="row">
       <div class="col-md-12">
         <div class="input-group mb-3">
@@ -21,56 +24,59 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-12">
-        <h4>Categories List</h4>
-      </div>
-    </div>
-    <div 
-      class="list row" 
-      v-for="(cat, index) in cat_list"
-      :key="index"
-    >
-      <div class="col-md-10">
-        <span v-if="!editButtonShowed(index)">
-          {{ cat.name }}
-        </span>
-        <span v-if="editButtonShowed(index)">
-          <input 
-            type="text"
-            class="form-control"
-            v-model="currentCat.name"
-          />
-        </span>
-      </div>
-      <div class="col-md-1">
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          v-if="!editButtonShowed(index)"
-          @click="showEdit(index, cat)"
-        >
-          Edit
-        </button>
-      </div>
-      <div class="col-md-1">
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          v-if="editButtonShowed(index)"
-          @click="saveCategory(index, cat)"
-        >
-          Save
-        </button>
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          @click="delCategory(index, cat)"
-        >
-          Del
-        </button>
-      </div>
-    </div>
+    <div class="row"><h3>Categories</h3></div>
+    <table id="tableComponent" class="table table-bordered table-striped">
+      <thead>
+          <tr>
+            <th>Name</th><th>&nbsp;</th><th>Actions</th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr 
+          v-for="(cat, index) in cat_list"
+          :key="index">
+          <td>
+            <span v-if="!editButtonShowed(index)">
+              {{ cat.name }}
+            </span>
+            <span v-if="editButtonShowed(index)">
+              <input 
+                type="text"
+                class="form-control"
+                v-model="currentCat.name"
+              />
+            </span>
+          </td>
+          <td>
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              v-if="!editButtonShowed(index)"
+              @click="showEdit(index, cat)"
+            >
+              Edit
+            </button>
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              v-if="editButtonShowed(index)"
+              @click="saveCategory(index, cat)"
+            >
+              Save
+            </button>
+          </td>
+          <td>
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              @click="delCategory(index, cat)"
+            >
+              Del
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
   

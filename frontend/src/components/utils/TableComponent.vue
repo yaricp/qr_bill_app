@@ -1,5 +1,18 @@
 <template>
     <div>
+        <div class="searchBar">
+            <!-- Filter Search -->
+            <div class="input-group mb-5">
+                <input 
+                    type="search" 
+                    class="form-control" 
+                    v-model="search_name" 
+                    @keyup="filterData"
+                    placeholder="Name" 
+                    aria-label="name"
+                    aria-describedby="button-addon2">
+            </div>
+        </div>
         <table id="tableComponent" class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -52,10 +65,12 @@ export default defineComponent({
     props: {
         go_to_object: { type: string },
         data: { type: Array<Object> },
-        fields: { type: Array<string> }
+        fields: { type: Array<string> },
+        field_search: { type: string }
     },
     data: () => {
         return {
+            search_name: "" as string,
             reverseSorted: false as boolean,
             inner_data: [] as Object[] | undefined,
             inner_fields: [] as string[] | undefined
@@ -99,6 +114,18 @@ export default defineComponent({
                 name: String(this.$props.go_to_object),
                 params: {id: id}
             });
+        },
+        filterData(){
+            if (!this.$props.data){
+                return;
+            }
+            this.inner_data = this.$props.data.filter(
+                (item: any) => {return (
+                    item[String(this.$props.field_search)].toLowerCase().indexOf(
+                        this.search_name.toLowerCase()
+                    ) != -1
+                )}
+            )
         }
     },
     mounted() {
