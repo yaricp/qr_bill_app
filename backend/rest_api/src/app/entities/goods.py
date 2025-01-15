@@ -52,7 +52,6 @@ class GoodsBase(BaseModel):
 
 
 class GoodsCreate(BaseModel):
-    fiscal_id: int
     name: str
     quantity: Decimal
     unit_price_before_vat: Decimal
