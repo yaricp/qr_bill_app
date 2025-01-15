@@ -26,7 +26,6 @@ class GoodsBase(BaseModel):
     price_after_vat: Optional[Decimal] = None
     unit_id: Optional[UUID] = None
     bill_id: Optional[UUID] = None
-    category_id: Optional[UUID] = None
 
 
     {
