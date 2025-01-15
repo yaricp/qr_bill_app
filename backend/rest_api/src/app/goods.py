@@ -133,7 +133,7 @@ class GoodsCommands:
         goods = GoodsORM.query.filter(
             GoodsORM.name == incoming_item.name,
             GoodsORM.quantity == incoming_item.quantity,
-            GoodsORM.priceAfterVat == incoming_item.priceAfterVat,
+            GoodsORM.price_after_vat == incoming_item.price_after_vat,
             GoodsORM.bill_id == incoming_item.bill_id
         ).first()
         logger.info(f"goods: {goods}")
