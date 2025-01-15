@@ -155,8 +155,9 @@ class BillCommands:
                 incoming_item=incoming_unit
             )
             logger.info(f"in_goods: {in_goods}")
+            fiscal_id = int(in_goods["id"]) if in_goods["id"] else None
             incoming_goods = GoodsCreate(
-                fiscal_id=int(in_goods["id"]),
+                fiscal_id=fiscal_id,
                 name=in_goods["name"].strip(),
                 quantity=in_goods["quantity"],
                 unit_price_before_vat=in_goods["unitPriceBeforeVat"],

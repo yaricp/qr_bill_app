@@ -127,6 +127,18 @@ class GoodsCommands:
         logger.info(f"goods: {goods}")
         return goods
 
+    async def get_goods_by_name_quantity_summ(
+        self, incoming_item: GoodsCreate
+    ) -> Goods:
+        goods = GoodsORM.query.filter(
+            GoodsORM.name == incoming_item.name,
+            GoodsORM.quantity == incoming_item.quantity,
+            GoodsORM.priceAfterVat == incoming_item.priceAfterVat,
+            GoodsORM.bill_id == incoming_item.bill_id
+        ).first()
+        logger.info(f"goods: {goods}")
+        return goods
+
     async def get_by_name_bill_id_with_empty_fiscal_id(
         self, incoming_item: GoodsCreate
     ) -> Goods:
@@ -141,10 +153,15 @@ class GoodsCommands:
     async def get_or_create(
         self, incoming_item: GoodsCreate
     ) -> Goods:
+        if incoming_item.fiscal_id:
+            goods = await self.get_goods_by_fiscal_id(
+                incoming_item=incoming_item
+            )
+        else:
+            goods = await self.get_goods_by_name_quantity_summ(
+                incoming_item=incoming_item
+            )
 
-        goods = await self.get_goods_by_fiscal_id(
-            incoming_item=incoming_item
-        )
         if goods:
             return goods
 
