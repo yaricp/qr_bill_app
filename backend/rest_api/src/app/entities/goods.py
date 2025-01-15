@@ -51,7 +51,7 @@ class GoodsBase(BaseModel):
     }
 
 
-class GoodsCreate(BaseModel):
+class GoodsCreate(GoodsBase):
     name: str
     quantity: Decimal
     unit_price_before_vat: Decimal
