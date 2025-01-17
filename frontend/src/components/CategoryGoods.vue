@@ -1,8 +1,10 @@
 <template>
-  <div class="list row">
+  <div class="row">
     <div class="col-md-12">
       <h3>{{ main_header }}</h3>
     </div>
+  </div>
+  <div class="row">
     <div class="col-md-12">
       <div class="input-group mb-3">
         <p>Choose category for items below</p>
@@ -24,7 +26,9 @@
           </option>
         </select>
       </div>
-    </div>  
+    </div>
+  </div>
+  <div class="row">
     <div class="col-md-12">
       <button
         class="btn btn-outline-secondary"
@@ -34,8 +38,14 @@
         Save category for selected items
       </button>
     </div>
+  </div>
+  <div class="row">
     <div class="col-md-12">
       <h4>Goods List</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
       Filter: 
       <input
         type="text"
@@ -44,73 +54,75 @@
         v-model="filter_name"
         @keyup="filterByName"
       />
-      <ul class="list-group">
-        <li class="list-group-item">
-          <input 
-            class="form-check-input" 
-            type="checkbox" 
-            v-model="show_all_categories" 
-            id="flexCheckAllCat"
-          > &nbsp;&nbsp;&nbsp;&nbsp;
-          <label 
-            class="form-check-label" 
-            for="flexCheckAllCat"
-          >
-            Show with other categories
-          </label>
-        </li>
-        <li class="list-group-item">
-          <input 
-            class="form-check-input" 
-            type="checkbox" 
-            v-model="checked_all" 
-            id="flexCheckedAll"
-            @change="checkedAll"
-          > &nbsp;&nbsp;&nbsp;&nbsp;
-            <label 
-              class="form-check-label" 
-              for="flexCheckedAll"
-            >Check/Uncheck All</label>
-        </li>
-        <li
-          class="list-group-item"
-          v-for="(goods, index) in goods_list"
-          :key="index"
-        >
-          <input 
-            class="form-check-input" 
-            type="checkbox"
-            v-model="goods.checked" 
-            id="flexCheckDefault"
-          > &nbsp;&nbsp;&nbsp;&nbsp;
-          <label 
-            class="form-check-label" 
-            for="flexCheckDefault"
-          >
-            <div>
-              {{ goods.name }}
-               - 
-              (<span 
-                v-for="(cat_name, index) in goods.categories"
-                :key="index"
-              > {{ cat_name }}, &nbsp;
-            </span>)
-            
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-            >
-              <router-link
-                :to="'/goods_detail/' + goods.id"
-                class="badge badge-warning"
-              >Details</router-link>
-            </button>
-            </div>
-            
-          </label> 
-        </li>
-      </ul>
     </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-1">
+      <input 
+        class="form-check-input" 
+        type="checkbox" 
+        v-model="show_all_categories" 
+        id="flexCheckAllCat"
+      >
+    </div>
+    <div class="col-md-11">
+      <b> Show with other categories</b>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-1">
+      <input 
+        class="form-check-input" 
+        type="checkbox" 
+        v-model="checked_all" 
+        id="flexCheckedAll"
+        @change="checkedAll"
+      >
+    </div>
+    <div class="col-md-11">
+      <b>Check/Uncheck All</b>
+    </div>
+  </div>
+  <div
+    class="row"
+    v-for="(goods, index) in goods_list"
+    :key="index"
+  >
+    <div class="col-md-1">
+      <input 
+        class="form-check-input" 
+        type="checkbox"
+        v-model="goods.checked" 
+        id="flexCheckDefault"
+      >
+    </div>
+    <div class="col-md-5">
+      {{ goods.name }}
+    </div>
+    <div class="col-md-4">
+      <span 
+        v-for="(cat_name, index) in goods.categories"
+        :key="index"
+      > {{ cat_name }}, &nbsp;
+      </span>
+    </div>
+    <div class="col-md-2">
+      <router-link
+        :to="'/goods_detail/' + goods.id"
+      >Details</router-link>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <hr>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-md-12">
       <button
         class="btn btn-outline-secondary"
@@ -119,6 +131,11 @@
       >
         Save category for selected items
       </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <hr>
     </div>
   </div>
 </template>
