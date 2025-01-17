@@ -171,7 +171,7 @@ export default defineComponent({
         }
         for (let cam of cameras) {
             console.log("cam.name: ", cam.label);
-            if (cam.label.includes("rare")){
+            if (cam.label.includes("rear") || cam.label.includes("back")){
                 this.currentCameraID = cam.id;
                 this.currentCameraName = cam.label;
                 console.log("choosen");
