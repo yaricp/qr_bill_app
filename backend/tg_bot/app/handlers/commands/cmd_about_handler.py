@@ -22,5 +22,5 @@ async def cmd_about_handler(message: Message):
         about_view(lang=user_lang), parse_mode="HTML"
     )
     await message.delete()
-    await sleep(60)
-    await ans.delete()
+    # await sleep(60)
+    # await ans.delete()

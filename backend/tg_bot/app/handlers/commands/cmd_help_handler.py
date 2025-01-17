@@ -23,5 +23,5 @@ async def cmd_help_handler(message: Message):
         parse_mode="HTML"
     )
     await message.delete()
-    await sleep(60)
-    await ans.delete()
+    # await sleep(60)
+    # await ans.delete()

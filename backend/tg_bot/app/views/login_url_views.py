@@ -17,7 +17,7 @@ def login_url_created_view(
     """
     dict_text = {
         "ru": "Используй эту временную ссылку для авторизации в веб"\
-            f' приложении: <a href="{url}">{url}</a> \n'\
+            f'-приложении: <a href="{url}">{url}</a> \n'\
             f"Она активна только {time_expiry} минут.",
         "en": "Use this link to log in to the web application: "\
             f"<a href='{url}'>{url}</a>\n"\
