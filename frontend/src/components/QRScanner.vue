@@ -12,6 +12,7 @@
             <img :src="picture" />
         </p></div>
         <div><p>Test mess: {{ test_mess }}</p></div>
+        <div>{{currentCameraName}}</div>
     </main>
 </template>
 
@@ -40,6 +41,7 @@ export default defineComponent({
             found: false as boolean,
             html5QrcodeScanner: undefined as any,
             currentCameraID: "" as string,
+            currentCameraName: "" as string,
             hasUserMedia: false as boolean,
             video: "" as any,
             src: "" as String,
@@ -165,9 +167,13 @@ export default defineComponent({
         let cameras = await Html5Qrcode.getCameras();
         console.log("cameras: ", cameras);
         for (let cam of cameras) {
+            this.test_mess += cam.label + ", ";
+        }
+        for (let cam of cameras) {
             console.log("cam.name: ", cam.label);
             if (cam.label.includes("rare")){
                 this.currentCameraID = cam.id;
+                this.currentCameraName = cam.label;
                 console.log("choosen");
                 console.log("cam.name: ", cam.label);
                 console.log("cam.id: ", cam.id);
@@ -176,6 +182,7 @@ export default defineComponent({
         }
         if (this.currentCameraID == ""){
             this.currentCameraID = cameras[0].id;
+            this.currentCameraName = cameras[0].label;
         }
         console.log("this.currentCameraID: ", this.currentCameraID);
         let config = {
