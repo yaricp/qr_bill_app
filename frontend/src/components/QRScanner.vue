@@ -1,6 +1,6 @@
 <template>
     <main>
-        <!-- <div><p>Test mess: {{ test_mess }}</p></div> -->
+        
         <div v-if="html5QrcodeScanner" >
             <p>{{ qrscannerStatusMessage }}</p>
         </div>
@@ -11,12 +11,13 @@
         <div><p>
             <img :src="picture" />
         </p></div>
+        <div><p>Test mess: {{ test_mess }}</p></div>
     </main>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { Html5QrcodeScanner } from "html5-qrcode";
+import { Html5QrcodeScanner, Html5Qrcode } from "html5-qrcode";
 import { useStore } from '@/store';
 import BillDataService from "@/services/bills";
 import { checkTokenExpired } from "@/http-common";
@@ -38,6 +39,7 @@ export default defineComponent({
             message: "" as string,
             found: false as boolean,
             html5QrcodeScanner: undefined as any,
+            currentCameraID: "" as string,
             hasUserMedia: false as boolean,
             video: "" as any,
             src: "" as String,
@@ -160,18 +162,40 @@ export default defineComponent({
     },
     async mounted() {
         // this.calculateSizes();
+        let cameras = await Html5Qrcode.getCameras();
+        console.log("cameras: ", cameras);
+        for (let cam of cameras) {
+            console.log("cam.name: ", cam.label);
+            if (cam.label.includes("rare")){
+                this.currentCameraID = cam.id;
+                console.log("choosen");
+                console.log("cam.name: ", cam.label);
+                console.log("cam.id: ", cam.id);
+                break;
+            } 
+        }
+        if (this.currentCameraID == ""){
+            this.currentCameraID = cameras[0].id;
+        }
+        console.log("this.currentCameraID: ", this.currentCameraID);
         let config = {
             fps: this.fps ? this.fps : 10,
             qrbox: this.qrboxFunction,
             // aspectRatio: 3 / 2,
-            disableFlip: true,
+            disableFlip: true
         };
-        this.html5QrcodeScanner = new Html5QrcodeScanner(
-            "qr-scanner", config, true
+        // this.html5QrcodeScanner = new Html5QrcodeScanner(
+        //     "qr-scanner", config, true
+        // );
+        this.html5QrcodeScanner = new Html5Qrcode("qr-scanner");
+        // this.html5QrcodeScanner.qrCodeSuccessCallback=this.onScanSuccess
+        this.html5QrcodeScanner.start(
+            this.currentCameraID, config,
+            this.onScanSuccess  
         );
-        this.html5QrcodeScanner.render(
-            this.onScanSuccess, undefined
-        );
+        // this.html5QrcodeScanner.render(
+        //     this.onScanSuccess, undefined
+        // );
     }
 })
 </script>
