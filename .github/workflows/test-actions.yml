@@ -270,6 +270,8 @@ jobs:
           mkdir -p /home/yaricp/docker-compose-area/test/prometheus
       - name: Copy docker files to work folder
         run: |
+          cp ./ubuntu_system/cron.d/* /etc/cron.d/;
+          cp ./ubuntu_system/usr_local_bin/* /usr/local/bin/;
           cp ./grpc_proto/* /home/yaricp/docker-compose-area/test/grpc_proto/;
           cp test-docker-compose.yml /home/yaricp/docker-compose-area/test/docker-compose.yml
       - name: Log in to the Container registry
