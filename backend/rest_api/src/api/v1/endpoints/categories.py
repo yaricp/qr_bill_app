@@ -88,12 +88,12 @@ async def delete_category_route(id: UUID, user=Depends(manager)):
     response_model=List[CategoryCountByName]
 )
 async def count_goods_by_name_route(
-    first_of: int = 0, user=Depends(manager)
+    first_of: int = 0, delta_month: int = 1, user=Depends(manager)
 ) -> List[CategoryCountByName]:
     categories: List[
         CategoryCountByName
     ] = await count_goods_by_name_categories(
-        first_of=first_of, user_id=user.id
+        first_of=first_of, user_id=user.id, delta_month=delta_month
     )
     return categories
 
@@ -104,11 +104,11 @@ async def count_goods_by_name_route(
     response_model=List[CategorySummByName]
 )
 async def summ_goods_by_name_route(
-    first_of: int = 0, user=Depends(manager)
+    first_of: int = 0, delta_month: int = 1, user=Depends(manager)
 ) -> List[CategorySummByName]:
     categories: List[
         CategorySummByName
     ] = await summ_goods_by_name_categories(
-        first_of=first_of, user_id=user.id
+        first_of=first_of, user_id=user.id, delta_month=delta_month
     )
     return categories

@@ -1,1 +1,1 @@
-0 0 * * * root env POSTGRES_USER=pguser POSTGRES_DB=db /usr/local/bin/backup_database.sh >> /var/log/database_backup/backup_db.log 2>&1
+0 0 * * * root env POSTGRES_USER=db_user POSTGRES_DB=db /usr/local/bin/backup_database.sh >> /var/log/database_backup/backup_db.log 2>&1

@@ -29,19 +29,19 @@ class CategoriesService {
   }
 
   getCountGoodsByNameCategory(
-    first_of: number, token: string
+    first_of: number, delta_month: number, token: string
   ): Promise<any> {
     return http.get(
-      `/categories/count_goods_by_name/?first_of=${first_of}`,
+      `/categories/count_goods_by_name/?first_of=${first_of}&delta_month=${delta_month}`,
       authHeaders(token)
     );
   }
 
   getSummGoodsByNameCategory(
-    first_of: number, token: string
+    first_of: number, delta_month: number, token: string
   ): Promise<any> {
     return http.get(
-      `/categories/summ_goods_by_name/?first_of=${first_of}`,
+      `/categories/summ_goods_by_name/?first_of=${first_of}&delta_month=${delta_month}`,
       authHeaders(token)
     );
   }

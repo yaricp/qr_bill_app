@@ -1,19 +1,44 @@
 <template>
-    <div>
-      <h4>{{ main_header }}</h4>
-      <p></p>
-      <hr>
-      <p></p>
-      <p>{{ plot_header_by_count }}</p>
-      <p>
-        First from all by count: 
-        <input v-model="first_of_by_count">
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          @click="fillChartDataCountByName"
-        >Start</button>
-      </p>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h4>{{ main_header }}</h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <hr>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p>{{ plot_header_by_count }}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p>
+            First from all by count: 
+            <input v-model="first_of_by_count">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              @click="fillChartDataCountByName"
+            >Start</button>
+          </p>
+        </div>
+        <div class="col">
+          <p>
+            Show by months: 
+            <input 
+              class="form-check-input" 
+              type="checkbox" 
+              v-model="loaded_by_count" 
+              id="flexCheckedAll"
+            >
+          </p>
+        </div>
+      </div>
       <Bar
         v-if="loaded_by_count"
         id="my-chart-id1"
@@ -90,7 +115,7 @@ export default defineComponent({
     async retrieveCountGoodsByNameCategories() {
       try {
         let response = await CategoryDataService.getCountGoodsByNameCategory(
-          this.first_of_by_count, this.authToken
+          this.first_of_by_count, 1, this.authToken
         );
         this.goods_list_by_count = response.data;
         console.log(response.data);
@@ -101,7 +126,7 @@ export default defineComponent({
     async retrieveSummGoodsByNameCategories() {
       try {
         let response = await CategoryDataService.getSummGoodsByNameCategory(
-          this.first_of_by_summ, this.authToken
+          this.first_of_by_summ, 1, this.authToken
         );
         this.goods_list_by_summ = response.data;
         console.log(response.data);

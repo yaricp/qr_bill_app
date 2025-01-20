@@ -32,20 +32,20 @@ async def get_category(id: UUID, user_id: UUID) -> Category:
 
 
 async def count_goods_by_name_categories(
-    first_of: int, user_id: UUID
+    first_of: int, user_id: UUID, delta_month: int = 1
 ) -> CategoryCountByName:
     cat_query = CategoryQueries()
     return await cat_query.count_goods_by_name(
-        first_of=first_of, user_id=user_id
+        first_of=first_of, user_id=user_id, delta_month=delta_month
     )
 
 
 async def summ_goods_by_name_categories(
-    first_of: int, user_id: UUID
+    first_of: int, user_id: UUID, delta_month: int = 1
 ) -> CategorySummByName:
     cat_query = CategoryQueries()
     return await cat_query.summ_goods_by_name(
-        first_of=first_of, user_id=user_id
+        first_of=first_of, user_id=user_id, delta_month=delta_month
     )
 
 

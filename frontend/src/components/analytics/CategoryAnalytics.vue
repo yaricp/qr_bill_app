@@ -1,43 +1,132 @@
 <template>
-    <div>
-      <h4>{{ main_header }}</h4>
-      <p></p>
-      <hr>
-      <p></p>
-      <p>{{ plot_header_by_count }}</p>
-      <p>
-        First from all by count: 
-        <input v-model="first_of_by_count">
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          @click="fillChartDataCountByName"
-        >Start</button>
-      </p>
-      <Bar
-        v-if="loaded_by_count"
-        id="my-chart-id1"
-        :options="chartOptions"
-        :data="chartDataCountByName"
-      />
-      <hr>
-      <p>{{ plot_header_by_summ }}</p>
-      <p>
-        First from all by summ: 
-        <input v-model="first_of_by_summ">
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          @click="fillChartDataSummByName"
-        >Start</button>
-      </p>
-      <Bar
-        v-if="loaded_by_summ"
-        id="my-chart-id2"
-        :options="chartOptions"
-        :data="chartDataSummByName"
-      />
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h4>{{ main_header }}</h4>
+      </div>
     </div>
+    <div class="row">
+      <div class="col">
+        <hr>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-11">
+        Options
+      </div>
+      <div class="col-md-1">
+        <button 
+          v-if="showedOptions"
+          class="btn btn-outline-secondary"
+          @click="showedOptions=!showedOptions"
+        >
+          -
+        </button>
+        <button 
+          v-if="!showedOptions"
+          class="btn btn-outline-secondary"
+          type="button"
+          @click="showedOptions=!showedOptions"
+        >
+          +
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <hr>
+      </div>
+    </div>
+    <div class="row" v-if="showedOptions">
+      <div class="col">
+        <p>
+          Show current month: 
+          <input 
+            class="form-check-input" 
+            type="checkbox" 
+            v-model="showedByMonths" 
+            id="flexCheckedAll"
+            @change="byMonthsChecked"
+          >
+        </p>
+      </div>
+      <div class="col" v-if="showedByMonths">
+        <p>Month: {{ getCurrentMonthName() }}</p>
+      </div>
+    </div>
+    <div class="row" v-if="showedOptions">
+      <div class="col">
+        <hr>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p>
+          {{ plot_header_by_count }}&nbsp;
+          <span v-if="showedByMonths">for {{ getCurrentMonthName() }}</span> 
+        </p>
+      </div>
+    </div>
+    <div class="row" v-if="showedOptions">
+      <div class="col">
+        <p>
+          First from all by count: 
+          <input v-model="first_of_by_count" size=3>
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            @click="fillChartDataCountByName"
+          >Start</button>
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <Bar
+          v-if="loaded_by_count"
+          id="my-chart-id1"
+          :options="chartOptions"
+          :data="chartDataCountByName"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <hr>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p>
+          {{ plot_header_by_summ }}&nbsp;
+          <span v-if="showedByMonths">for {{ getCurrentMonthName() }}</span> 
+        </p>
+      </div>
+    </div>
+    <div class="row" v-if="showedOptions">
+      <div class="col">
+        <p>
+          First from all by summ: 
+          <input v-model="first_of_by_summ">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            @click="fillChartDataSummByName"
+          >Start</button>
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <Bar
+          v-if="loaded_by_summ"
+          id="my-chart-id2"
+          :options="chartOptions"
+          :data="chartDataSummByName"
+        />
+      </div>
+    </div>
+  </div>
 </template>
   
 <script lang="ts">
@@ -61,6 +150,10 @@ export default defineComponent({
       plot_header_by_summ: "Total price goods by categories" as string,
       loaded_by_count: false,
       loaded_by_summ: false,
+      showedByMonths: false as boolean,
+      showedOptions: false as boolean,
+      choosen_month: "curr" as string,
+      delta_month: 1 as number,
       first_of_by_count: 10 as number,
       first_of_by_summ: 10 as number,
       chartDataCountByName: {
@@ -90,7 +183,7 @@ export default defineComponent({
     async retrieveCountGoodsByNameCategories() {
       try {
         let response = await CategoryDataService.getCountGoodsByNameCategory(
-          this.first_of_by_count, this.authToken
+          this.first_of_by_count, this.delta_month, this.authToken
         );
         this.goods_list_by_count = response.data;
         console.log(response.data);
@@ -101,7 +194,7 @@ export default defineComponent({
     async retrieveSummGoodsByNameCategories() {
       try {
         let response = await CategoryDataService.getSummGoodsByNameCategory(
-          this.first_of_by_summ, this.authToken
+          this.first_of_by_summ, this.delta_month, this.authToken
         );
         this.goods_list_by_summ = response.data;
         console.log(response.data);
@@ -134,9 +227,36 @@ export default defineComponent({
       this.chartDataSummByName.datasets[0].data = summ_goods_by_name_values;
       this.chartDataSummByName.labels = summ_goods_by_name_labels;
       this.loaded_by_summ = true;
+    },
+    async byMonthsChecked() {
+      if (this.showedByMonths){
+        this.delta_month = 0;
+      } else {
+        this.delta_month = 1;
+      }
+      await this.fillChartDataCountByName();
+      await this.fillChartDataSummByName();
+    },
+    getCurrentMonthName(delta_month?: number){
+      const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+      if (this.delta_month == 0){
+        let d = new Date();
+        return month[d.getMonth()];
+      }  
     }
   },
   async mounted() {
+    console.log("this.$route.params: ", this.$route.params);
+
+    let by_months = this.$route.params.by_months;
+      if (typeof by_months == "string") {
+        console.log("by_months: ", by_months);
+        if (by_months == "1") {
+          this.showedByMonths = true;
+          this.delta_month = 0;
+        }
+      }
+    await this.$nextTick();
     this.fillChartDataCountByName();
     this.fillChartDataSummByName();  
   }

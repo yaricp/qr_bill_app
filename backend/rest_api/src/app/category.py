@@ -1,12 +1,19 @@
 from uuid import UUID
-from datetime import datetime
+from datetime import datetime, timedelta
 from sqlalchemy.sql import func
 from sqlalchemy import desc
 from loguru import logger
 
+from ..utils import (
+    get_last_day_of_month_by_datetime,
+    get_fisrt_day_month_by_delta_month
+)
 from ..infra.database import db_session
-from ..infra.database.models import Category as CategoryORM
-from ..infra.database.models import Goods as GoodsORM
+from ..infra.database.models import (
+    Bill as BillORM,
+    Goods as GoodsORM,
+    Category as CategoryORM
+)
 
 from .entities.category import (
     Category, CategoryCreate, CategoryUpdate
@@ -30,54 +37,143 @@ class CategoryQueries:
         ).first()
 
     async def count_goods_by_name(
-        self, first_of: int, user_id: UUID
+        self, first_of: int, user_id: UUID, delta_month: int = -1
     ):
+        logger.info(f"first_of: {first_of}")
+        logger.info(f"delta_month: {delta_month}")
         if first_of:
-            result = db_session.query(
-                CategoryORM.name,
-                func.sum(GoodsORM.quantity).label("count")
-            ).join(CategoryORM.goods).filter(
-                CategoryORM.user_id == user_id,
-                GoodsORM.user_id == user_id,
-            ).group_by(
-                CategoryORM.name
-            ).order_by(desc("count")).limit(first_of)
+            if delta_month != 1:
+                prev_month_date = get_fisrt_day_month_by_delta_month(
+                    delta_month
+                )
+                logger.info(f"prev_month_date: {prev_month_date}")
+                next_month_date = get_last_day_of_month_by_datetime(
+                    prev_month_date
+                )
+                logger.info(f"next_month_date: {next_month_date}")
+
+                result = db_session.query(
+                    CategoryORM.name,
+                    func.sum(GoodsORM.quantity).label("count")
+                ).join(CategoryORM.goods).join(GoodsORM.bill).filter(
+                    CategoryORM.user_id == user_id,
+                    GoodsORM.user_id == user_id,
+                    BillORM.created >= prev_month_date,
+                    BillORM.created <= next_month_date
+                ).group_by(
+                    CategoryORM.name
+                ).order_by(desc("count")).limit(first_of)
+            else:
+                result = db_session.query(
+                    CategoryORM.name,
+                    func.sum(GoodsORM.quantity).label("count")
+                ).join(CategoryORM.goods).filter(
+                    CategoryORM.user_id == user_id,
+                    GoodsORM.user_id == user_id
+                ).group_by(
+                    CategoryORM.name
+                ).order_by(desc("count")).limit(first_of)
         else:
-            result = db_session.query(
-                CategoryORM.name,
-                func.sum(GoodsORM.quantity).label("count")
-            ).join(CategoryORM.goods).filter(
-                CategoryORM.user_id == user_id,
-                GoodsORM.user_id == user_id,
-            ).group_by(
-                CategoryORM.name
-            ).order_by(desc("count")).all()
+            if delta_month != 1:
+                prev_month_date = get_fisrt_day_month_by_delta_month(
+                    delta_month
+                )
+                logger.info(f"prev_month_date: {prev_month_date}")
+                next_month_date = get_last_day_of_month_by_datetime(
+                    prev_month_date
+                )
+                logger.info(f"next_month_date: {next_month_date}")
+                result = db_session.query(
+                    CategoryORM.name,
+                    func.sum(GoodsORM.quantity).label("count")
+                ).join(CategoryORM.goods).filter(
+                    CategoryORM.user_id == user_id,
+                    GoodsORM.user_id == user_id,
+                    BillORM.created >= prev_month_date,
+                    BillORM.created <= next_month_date
+                ).group_by(
+                    CategoryORM.name
+                ).order_by(desc("count")).all()
+            else:
+                result = db_session.query(
+                    CategoryORM.name,
+                    func.sum(GoodsORM.quantity).label("count")
+                ).join(CategoryORM.goods).filter(
+                    CategoryORM.user_id == user_id,
+                    GoodsORM.user_id == user_id
+                ).group_by(
+                    CategoryORM.name
+                ).order_by(desc("count")).all()
 
         return result
 
     async def summ_goods_by_name(
-        self, first_of: int, user_id: UUID
+        self, first_of: int, user_id: UUID, delta_month: int = -1
     ):
+        logger.info(f"first_of: {first_of}")
+        logger.info(f"delta_month: {delta_month}")
         if first_of:
-            result = db_session.query(
-                CategoryORM.name,
-                func.sum(GoodsORM.price_after_vat).label("summ")
-            ).join(CategoryORM.goods).filter(
-                CategoryORM.user_id == user_id,
-                GoodsORM.user_id == user_id,
-            ).group_by(
-                CategoryORM.name
-            ).order_by(desc("summ")).limit(first_of)
+            if delta_month != 1:
+                prev_month_date = get_fisrt_day_month_by_delta_month(
+                    delta_month
+                )
+                logger.info(f"prev_month_date: {prev_month_date}")
+                next_month_date = get_last_day_of_month_by_datetime(
+                    prev_month_date
+                )
+                logger.info(f"next_month_date: {next_month_date}")
+                result = db_session.query(
+                    CategoryORM.name,
+                    func.sum(GoodsORM.price_after_vat).label("summ")
+                ).join(CategoryORM.goods).join(GoodsORM.bill).filter(
+                    CategoryORM.user_id == user_id,
+                    GoodsORM.user_id == user_id,
+                    BillORM.created >= prev_month_date,
+                    BillORM.created <= next_month_date
+                ).group_by(
+                    CategoryORM.name
+                ).order_by(desc("summ")).limit(first_of)
+            else:
+                result = db_session.query(
+                    CategoryORM.name,
+                    func.sum(GoodsORM.price_after_vat).label("summ")
+                ).join(CategoryORM.goods).filter(
+                    CategoryORM.user_id == user_id,
+                    GoodsORM.user_id == user_id,
+                ).group_by(
+                    CategoryORM.name
+                ).order_by(desc("summ")).limit(first_of)
         else:
-            result = db_session.query(
-                CategoryORM.name,
-                func.sum(GoodsORM.price_after_vat).label("summ")
-            ).join(CategoryORM.goods).filter(
-                CategoryORM.user_id == user_id,
-                GoodsORM.user_id == user_id,
-            ).group_by(
-                CategoryORM.name
-            ).order_by(desc("summ")).all()
+            if delta_month != 1:
+                prev_month_date = get_fisrt_day_month_by_delta_month(
+                    delta_month
+                )
+                logger.info(f"prev_month_date: {prev_month_date}")
+                next_month_date = get_last_day_of_month_by_datetime(
+                    prev_month_date
+                )
+                logger.info(f"next_month_date: {next_month_date}")
+                result = db_session.query(
+                    CategoryORM.name,
+                    func.sum(GoodsORM.price_after_vat).label("summ")
+                ).join(CategoryORM.goods).join(GoodsORM.bill).filter(
+                    CategoryORM.user_id == user_id,
+                    GoodsORM.user_id == user_id,
+                    BillORM.created >= prev_month_date,
+                    BillORM.created <= next_month_date
+                ).group_by(
+                    CategoryORM.name
+                ).order_by(desc("summ")).all()
+            else:
+                result = db_session.query(
+                    CategoryORM.name,
+                    func.sum(GoodsORM.price_after_vat).label("summ")
+                ).join(CategoryORM.goods).filter(
+                    CategoryORM.user_id == user_id,
+                    GoodsORM.user_id == user_id,
+                ).group_by(
+                    CategoryORM.name
+                ).order_by(desc("summ")).all()
         return result
 
 

@@ -14,6 +14,14 @@
               Categorize your goods
             </router-link>
           </li>
+          <li class="nav-item">
+            <router-link
+              :to="{ name: 'category_analytics', params: { by_months: 1 }}" 
+              class="nav-link"
+            >
+              Analytics by Categories for month
+            </router-link>
+          </li>
         </div>
         <button
           class="navbar-toggler"

@@ -21,7 +21,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("./components/analytics/SellerAnalytics.vue"),
   },
   {
-    path: "/category_analytics",
+    path: "/category_analytics/:by_months",
     alias: "/category_analytics",
     name: "category_analytics",
     component: () => import("./components/analytics/CategoryAnalytics.vue"),
