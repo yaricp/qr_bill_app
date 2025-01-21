@@ -23,7 +23,7 @@ class UserCreate(BaseModel):
 
 # Properties to receive on item update
 class UserUpdate(UserBase):
-    id: UUID
+    pass
 
 
 # Properties shared by models stored in DB

@@ -95,3 +95,8 @@ async def create_login_password_user(
         user_id=user_id, user_data=user_data
     )
     return command_result
+
+
+async def update_user(user_profile: UserUpdate) -> User:
+    user_commands: UserCommands = UserCommands()
+    return await user_commands.edit_user(user_profile)

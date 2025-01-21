@@ -3,17 +3,39 @@
       <div class="row">
         <header class="jumbotron">
           <h3>
-            Profile with ID:
-            <strong>{{ currentUser.id }}</strong>
+            {{ $t("profile.main_header") }}
           </h3>
         </header>
       </div>
       <div class="row">
-        <div class="col"><strong>Id:</strong></div>
+        <hr/>
+      </div>
+      <div class="row">
+        <div class="col"><strong>{{ $t('profile.change_lang')}}</strong></div>
+        <div class="col">
+          <div class="locale-changer">
+            <select 
+              v-model="$i18n.locale"
+              @change="langChanged()"
+            >
+              <option 
+                v-for="locale in $i18n.availableLocales" 
+                :key="`locale-${locale}`" 
+                :value="locale">{{ locale }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <hr/>
+      </div>
+      <div class="row">
+        <div class="col"><strong>{{ $t("profile.id") }}:</strong></div>
         <div class="col">{{ currentUser.id }}</div>
       </div>
       <div class="row">
-        <div class="col"><strong>Login:</strong></div>
+        <div class="col"><strong>{{ $t("profile.login") }}:</strong></div>
         <div class="col">
           <span 
             v-if="login_password_created && !login_password_open_for_edit"
@@ -29,7 +51,7 @@
               v-if="!login_password_open_for_edit"
               @click="login_password_open_for_edit =!login_password_open_for_edit"
             >
-              Change
+            {{ $t("profile.btn_change") }}
             </button>
             <button
               class="btn btn-outline-secondary"
@@ -37,7 +59,7 @@
               v-if="login_password_created && login_password_open_for_edit"
               @click="login_password_open_for_edit =!login_password_open_for_edit"
             >
-              Close
+            {{ $t("profile.btn_close") }}
             </button>
           </span> 
         </div>
@@ -47,7 +69,7 @@
         <div class="col">{{ login_mess }}</div>
       </div>
       <div class="row">
-        <div class="col"><strong>password:</strong></div>
+        <div class="col"><strong>{{ $t("profile.password") }}:</strong></div>
         <div class="col">
           <span 
             v-if="login_password_created && !login_password_open_for_edit"
@@ -62,7 +84,7 @@
         <div class="col">{{ password1_mess }}</div>
       </div>
       <div class="row">
-        <div class="col"><strong>repeat password:</strong></div>
+        <div class="col"><strong>{{ $t("profile.password2") }}:</strong></div>
         <div class="col">
           <span 
             v-if="login_password_created && !login_password_open_for_edit"
@@ -85,7 +107,7 @@
             v-if="login_password_created && login_password_open_for_edit"
             @click="saveUserLoginPassword"
           >
-            Update Login and/or password
+            {{ $t("profile.btn_update") }}
           </button>
           <button 
             class="btn btn-outline-secondary"
@@ -93,7 +115,7 @@
             v-if="!login_password_created"
             @click="saveUserLoginPassword"
           >
-            Create Login and password
+          {{ $t("profile.btn_create") }}
           </button>
         </div>
       </div>
@@ -101,7 +123,7 @@
         <hr/>
       </div>
       <div class="row">
-        <div class="col"><strong>Email:</strong></div>
+        <div class="col"><strong>{{ $t("profile.email") }}:</strong></div>
         <div class="col">
           <span v-if="email_linked && !email_open_for_edit"> {{ currentUser.email }} </span>
           <span v-if="email_open_for_edit">
@@ -112,13 +134,13 @@
               v-if="!email_open_for_edit"
               @click="email_open_for_edit =!email_open_for_edit"
             >
-              Change
+            {{ $t("profile.btn_change") }}
             </button>
             <button
               v-if="email_linked && email_open_for_edit"
               @click="email_open_for_edit =!email_open_for_edit"
             >
-              Close
+            {{ $t("profile.btn_close") }}
             </button>
           </span> 
         </div>
@@ -133,18 +155,20 @@
           <button
             class="btn btn-outline-secondary"
             type="button"
-            v-if="!email_linked">Link Email</button>
+            v-if="!email_linked">{{ $t("profile.btn_link_email") }}</button>
           <button
             class="btn btn-outline-secondary"
             type="button"
-            v-if="email_linked && email_open_for_edit">Relink Email</button>
+            v-if="email_linked && email_open_for_edit">
+            {{ $t("profile.btn_relink_email") }}
+          </button>
         </div>
       </div>
       <div class="row">
         <hr/>
       </div>
       <div class="row">
-        <div class="col"><strong>tg_id:</strong></div>
+        <div class="col"><strong>{{ $t("profile.tg_id") }}:</strong></div>
         <div class="col">
           <span v-if="tg_linked && !tg_open_for_edit"> {{ currentUser.tg_id }} </span>
           <span v-if="tg_open_for_edit">
@@ -158,7 +182,7 @@
               v-if="!tg_open_for_edit" 
               @click="tg_open_for_edit =!tg_open_for_edit"
             >
-              Change
+            {{ $t("profile.btn_change") }}
             </button>
             <button
               class="btn btn-outline-secondary"
@@ -166,7 +190,7 @@
               v-if="tg_linked && tg_open_for_edit" 
               @click="tg_open_for_edit =!tg_open_for_edit"
             >
-              Close
+            {{ $t("profile.btn_close") }}
             </button>
           </span> 
         </div>
@@ -181,11 +205,15 @@
           <button 
             class="btn btn-outline-secondary"
             type="button"
-            v-if="!tg_linked">Link Telegram</button>
+            v-if="!tg_linked">
+            {{ $t("profile.btn_link_tg") }}
+          </button>
           <button
             class="btn btn-outline-secondary"
             type="button"
-            v-if="tg_linked && tg_open_for_edit">Relink Telegram</button>
+            v-if="tg_linked && tg_open_for_edit">
+            {{ $t("profile.btn_relink_tg") }}
+          </button>
         </div>
       </div>
     </div>
@@ -282,6 +310,18 @@ export default defineComponent({
         this.password2_mess = "passwords do not match";
         return false;
       }
+    }, 
+    async langChanged(){
+      let lang  = this.$i18n.locale;
+      let user_profile = {
+        id: this.currentUser.id,
+        lang: lang,
+        token: this.authToken
+      }
+      let result = await this.$store.dispatch(
+        "auth/change_lang", lang
+      );
+
     }
   },
   async mounted() {

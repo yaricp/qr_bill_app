@@ -10,18 +10,15 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 // import * as bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
 import './assets/main.css';
 import { FontAwesomeIcon } from './plugins/font-awesome';
-// import AddToHomescreen from '@owliehq/vue-addtohomescreen';
+import i18n from './plugins/i18n';
 import './registerServiceWorker';
 
 
 createApp(App)
 .use(router)
 .use(store)
+.use(i18n)
 .component("font-awesome-icon", FontAwesomeIcon)
 .mount("#app");
 
-// .provide('bootstrap', bootstrap)
-// .use(AddToHomescreen, {
-//     buttonColor: 'blue',
-// })
 

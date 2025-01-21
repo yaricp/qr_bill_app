@@ -13,8 +13,14 @@ class UserService {
   }
 
   getUserProfile(token: string): Promise<any> {
-    console.log("http: ", http)
     return http.get('/user/', authHeaders(token));
+  }
+
+  updateUserProfile(
+    user_profile: Object,
+    token: string
+  ): Promise<any> {
+    return http.put('/user/', user_profile, authHeaders(token));
   }
 
   getAdminBoard(token: string): Promise<any>{

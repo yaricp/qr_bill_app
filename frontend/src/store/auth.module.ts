@@ -12,26 +12,34 @@ import {
 import { State as RootState } from '@/store';
 
 import AuthService from '@/services/auth';
+import UserService from '@/services/users';
 // import { IUserLogin } from "@/interfaces/users";
 
 // Declare state
 export type State = {
   loggedIn: boolean;
   token: string;
+  lang: string;
 }
 
 // Create initial state
 
 let token;
-let local_db_user = localStorage.getItem('token');
+let local_db_token = localStorage.getItem('token');
 
-if (local_db_user){
-  token = JSON.parse(local_db_user);
+if (local_db_token){
+  token = JSON.parse(local_db_token);
+}
+let lang = "en";
+let local_db_lang = localStorage.getItem('lang');
+
+if (local_db_lang){
+  lang = JSON.parse(local_db_lang);
 }
 
 export const initialState = token
-  ? { loggedIn: true , token }
-  : { loggedIn: false , token: "" };
+  ? { loggedIn: true , token, lang }
+  : { loggedIn: false , token: "", lang };
 
 const state: State = initialState;
 
@@ -74,6 +82,11 @@ export const AuthModule: Module<State, RootState> = {
           );
           console.log("commit to loginSuccess");
           commit('loginSuccess', token);
+          response = await UserService.getUserProfile(token);
+          console.log('getUserProfile response.data:', response.data);
+          let lang = response.data.lang;
+          console.log("commit to save lang");
+          commit('langCommit', lang);
         } else {
           console.log("commit loginFailure: ");
           commit('loginFailure');
@@ -121,12 +134,41 @@ export const AuthModule: Module<State, RootState> = {
           return Promise.reject(error);
         }
       );
+    },
+    async change_lang({ commit }, lang) {
+      try {
+        console.log("lang: ", lang);
+        let user_profile = {
+          lang: lang
+        }
+        let response  = await UserService.updateUserProfile(
+          user_profile,
+          state.token
+        )
+        if (response.status == 200 && response.data) {
+          let lang = response.data.lang;
+          console.log("commit to save lang");
+          commit('langCommit', lang);
+        } else {
+          console.log("Something wrong with saving user profile");
+        }
+
+      } catch(e) {
+        console.log("Error:", e);
+      }
     }
   },
   mutations: {
     loginSuccess(state, token) {
       state.loggedIn = true;
       state.token = token;
+    },
+    langCommit(state, lang) {
+      console.log("save lang to localStorage");
+      localStorage.setItem(
+        'lang', JSON.stringify(lang)
+      );
+      state.lang = lang;
     },
     loginFailure(state) {
       state.loggedIn = false;

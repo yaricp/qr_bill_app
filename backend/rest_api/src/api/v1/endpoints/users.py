@@ -13,12 +13,15 @@ from ... import app, manager
 from ...config import URLPathsConfig, user_login_config
 
 from ..services.user import (
+    update_user,
     check_user_auth,
     get_all_users,
     register_new_user,
     create_login_password_user
 )
-from ..schemas.user import User, UserCreate, LoginLinkData
+from ..schemas.user import (
+    User, UserCreate, LoginLinkData, UserUpdate
+)
 
 
 @app.post(
@@ -144,4 +147,21 @@ async def read_user_profile_route(
     logger.info(f"user.password_hash: {user.password_hash}")
     if user.password_hash:
         user.password = "*****"
+    return user
+
+
+@app.put(
+    URLPathsConfig.PREFIX + "/user/",
+    tags=['Users'],
+    response_model=User
+)
+async def update_user_profile_route(
+    user_profile: UserUpdate,
+    user=Depends(manager)
+) -> User:
+    """
+    Update user profile.
+    """
+    user_profile.id = user.id
+    user = await update_user(user_profile)
     return user

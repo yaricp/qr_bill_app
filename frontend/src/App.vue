@@ -3,15 +3,18 @@
     <nav class="navbar navbar-expand-lg bg-light">
       <div class="container-fluid" v-if="loggedIn">
         <a class="navbar-brand" href="#">
-          Qr Bill<br>Collector
+          QRacun<br>
+          {{ $t('hello') }}
         </a>
         <div class="navbar-nav">
           <li class="nav-item">
-            <router-link to="/qr_scanner" class="nav-link">QRScanner</router-link>
+            <router-link to="/qr_scanner" class="nav-link">
+              {{ $t("menu.scanner") }}
+            </router-link>
           </li>
           <li class="nav-item">
             <router-link to="/category_goods" class="nav-link">
-              Categorize your goods
+              {{ $t("menu.cat_goods") }}
             </router-link>
           </li>
           <li class="nav-item">
@@ -19,7 +22,7 @@
               :to="{ name: 'category_analytics', params: { by_months: 1 }}" 
               class="nav-link"
             >
-              Analytics by Categories for month
+            {{ $t("menu.cat_month_analytic") }}
             </router-link>
           </li>
         </div>
@@ -38,68 +41,68 @@
         <div class="navbar-nav">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Analytics
+              {{ $t("menu.analytics.head") }}
             </a>
             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownMenuButton1">
               <li>
                 <router-link to="/category_analytics" class="dropdown-item">
-                  Category Analytics
+                  {{ $t("menu.analytics.categories") }}
                 </router-link>
               </li>
               <li>
                 <router-link to="/goods_analytics" class="dropdown-item">
-                  Goods Analytics
+                  {{ $t("menu.analytics.goods") }}
                 </router-link>
               </li>
               <li>
                 <router-link to="/seller_analytics" class="dropdown-item">
-                  Seller Analytics
+                  {{ $t("menu.analytics.sellers") }}
                 </router-link>
               </li>
             </ul>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Objects
+              {{ $t("menu.lists.head") }}
             </a>
             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownMenuButton1">
               <li>
                 <router-link to="/categories" class="dropdown-item">
-                  Categories
+                  {{ $t("menu.lists.categories") }}
                 </router-link>
               </li>
               <li>
                 <router-link to="/bills" class="dropdown-item">
-                  Bills
+                  {{ $t("menu.lists.bills") }}
                 </router-link>
               </li>
               <li>
                 <router-link to="/goods" class="dropdown-item">
-                  Goods
+                  {{ $t("menu.lists.goods") }}
                 </router-link>
               </li>
             </ul>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              User
+              {{ $t("menu.user.head") }}
             </a>
             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownMenuButton1">
               <li>
                 <router-link to="/profile" class="dropdown-item">
-                  Profile
+                  {{ $t("menu.user.profile") }}
                 </router-link>
               </li>
               <li>
                 <router-link to="/logout" class="dropdown-item">
-                  Logout
+                  {{ $t("menu.user.logout") }}
                 </router-link>
               </li>
             </ul>
           </li>
         </div>
         </div>
-      </div> 
+      </div>
       <div><add-to-home-screen/></div>
       <div>&nbsp;&nbsp;&nbsp;</div>
     </nav>
@@ -114,22 +117,29 @@ import { defineComponent } from "vue";
 import AddToHomeScreen from "@/components/utils/addHomeButton.vue";
 import { useStore } from '@/store';
 
+
 export default defineComponent({
   name: "App",
   components: {AddToHomeScreen},
   computed: {
       loggedIn() {
         const store = useStore();
-        console.log("store: ", store);
         return store.state.auth.token ? true: false;
       },
+      lang() {
+        const store = useStore();
+        return store.state.auth.lang;
+      }
     },
   methods: {
     logOut() {
       this.$store.dispatch('auth/logout');
       this.$router.push('/login');
     }
-  }
+  },
+  mounted() {
+    this.$i18n.locale = this.lang;
+  },
 });
 </script>
 
