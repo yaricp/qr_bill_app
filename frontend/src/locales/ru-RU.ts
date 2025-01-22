@@ -50,7 +50,7 @@ export default {
     first_column: {
       created: "создан",
       value: "сумма",
-      payment_method: "медот оплаты",
+      payment_method: "метод оплаты",
       seller: "продавец",
       goods_list: "список товаров",
       name: "наименование",
