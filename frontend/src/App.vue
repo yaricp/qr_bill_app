@@ -4,7 +4,6 @@
       <div class="container-fluid" v-if="loggedIn">
         <a class="navbar-brand" href="#">
           QRacun<br>
-          {{ $t('hello') }}
         </a>
         <div class="navbar-nav">
           <li class="nav-item">
