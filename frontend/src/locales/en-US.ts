@@ -173,7 +173,7 @@ export default {
       btn_cat_goods: "Categorize goods this bill"
     },
     goods: {
-      head: "Goods Details",
+      head: "Bill Item Details",
       cats: "Categories",
       btn_save: "Save"
     }
