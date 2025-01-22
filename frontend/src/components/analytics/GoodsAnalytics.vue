@@ -1,43 +1,73 @@
 <template>
-    <div>
-      <h4>{{ main_header }}</h4>
-      <p></p>
-      <hr>
-      <p></p>
-      <p>{{ plot_header_by_count }}</p>
-      <p>
-        First from all by count: 
-        <input v-model="first_of_by_count">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h4>{{ main_header }}</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <hr>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p>{{ plot_header_by_count }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        {{ $t("analytics.goods.first_by_count") }}&nbsp;
+        <input v-model="first_of_by_count" size="3">&nbsp;
         <button
           class="btn btn-outline-secondary"
           type="button"
           @click="fillChartDataCountByName"
-        >Start</button>
-      </p>
-      <Bar
-        v-if="loaded_by_count"
-        id="my-chart-id1"
-        :options="chartOptions"
-        :data="chartDataCountByName"
-      />
-      <hr>
-      <p>{{ plot_header_by_summ }}</p>
-      <p>
-        First from all by summ: 
-        <input v-model="first_of_by_summ">
+        >{{ $t("analytics.goods.btn_update") }}</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <Bar
+          v-if="loaded_by_count"
+          id="my-chart-id1"
+          :options="chartOptions"
+          :data="chartDataCountByName"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <hr>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p>{{ plot_header_by_summ }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        {{ $t("analytics.goods.first_by_summ") }}&nbsp;
+        <input v-model="first_of_by_summ" size="3">&nbsp;
         <button
           class="btn btn-outline-secondary"
           type="button"
           @click="fillChartDataSummByName"
-        >Start</button>
-      </p>
-      <Bar
-        v-if="loaded_by_summ"
-        id="my-chart-id2"
-        :options="chartOptions"
-        :data="chartDataSummByName"
-      />
+        >{{ $t("analytics.goods.btn_update") }}</button>
+      </div>
     </div>
+    <div class="row">
+      <div class="col">
+        <Bar
+          v-if="loaded_by_summ"
+          id="my-chart-id2"
+          :options="chartOptions"
+          :data="chartDataSummByName"
+        />
+      </div>
+    </div>
+  </div>
 </template>
   
 <script lang="ts">
@@ -56,9 +86,9 @@ export default defineComponent({
   components: { Bar },
   data() {
     return {
-      main_header: "Analytics Goods" as string,
-      plot_header_by_count: "Quantities goods by names" as string,
-      plot_header_by_summ: "Total price goods by names" as string,
+      main_header: this.$t("analytics.goods.header.main") as string,
+      plot_header_by_count: this.$t("analytics.goods.header.by_count") as string,
+      plot_header_by_summ: this.$t("analytics.goods.header.by_summ") as string,
       loaded_by_count: false,
       loaded_by_summ: false,
       first_of_by_count: 10 as number,

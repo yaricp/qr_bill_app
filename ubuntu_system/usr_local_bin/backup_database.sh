@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "start `date +%d-%m-%Y"_"%H_%M_%S`";
+
 # check path to folders
 mkdir -p /backups/local;
 mkdir -p /var/log/database_backup/;

@@ -12,7 +12,7 @@
     </div>
     <div class="row">
       <div class="col-md-11">
-        Options
+        {{ $t("analytics.cat.options") }}
       </div>
       <div class="col-md-1">
         <button 
@@ -40,7 +40,7 @@
     <div class="row" v-if="showedOptions">
       <div class="col">
         <p>
-          Show current month: 
+          {{ $t("analytics.cat.show_by_month") }}&nbsp;
           <input 
             class="form-check-input" 
             type="checkbox" 
@@ -51,7 +51,7 @@
         </p>
       </div>
       <div class="col" v-if="showedByMonths">
-        <p>Month: {{ getCurrentMonthName() }}</p>
+        <p>{{ $t("analytics.cat.month") }}&nbsp;&nbsp;{{ getCurrentMonthName() }}</p>
       </div>
     </div>
     <div class="row" v-if="showedOptions">
@@ -70,13 +70,13 @@
     <div class="row" v-if="showedOptions">
       <div class="col">
         <p>
-          First from all by count: 
-          <input v-model="first_of_by_count" size=3>
+          {{ $t("analytics.cat.first_by_count") }}&nbsp;
+          <input v-model="first_of_by_count" size=3>&nbsp;
           <button
             class="btn btn-outline-secondary"
             type="button"
             @click="fillChartDataCountByName"
-          >Start</button>
+          >{{ $t("analytics.cat.btn_update") }}</button>
         </p>
       </div>
     </div>
@@ -106,13 +106,13 @@
     <div class="row" v-if="showedOptions">
       <div class="col">
         <p>
-          First from all by summ: 
-          <input v-model="first_of_by_summ">
+          {{ $t("analytics.cat.first_by_summ") }}&nbsp;
+          <input v-model="first_of_by_summ" size="3">&nbsp;
           <button
             class="btn btn-outline-secondary"
             type="button"
             @click="fillChartDataSummByName"
-          >Start</button>
+          >{{ $t("analytics.cat.btn_update") }}</button>
         </p>
       </div>
     </div>
@@ -145,9 +145,9 @@ export default defineComponent({
   components: { Bar },
   data() {
     return {
-      main_header: "Analytics Goods by categories" as string,
-      plot_header_by_count: "Quantities goods by categories" as string,
-      plot_header_by_summ: "Total price goods by categories" as string,
+      main_header: this.$t("analytics.cat.header.main") as string,
+      plot_header_by_count: this.$t("analytics.cat.header.by_count") as string,
+      plot_header_by_summ: this.$t("analytics.cat.header.by_summ") as string,
       loaded_by_count: false,
       loaded_by_summ: false,
       showedByMonths: false as boolean,
@@ -238,7 +238,11 @@ export default defineComponent({
       await this.fillChartDataSummByName();
     },
     getCurrentMonthName(delta_month?: number){
-      const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+      const month = [
+        "January","February","March","April","May",
+        "June","July","August","September","October",
+        "November","December"
+      ];
       if (this.delta_month == 0){
         let d = new Date();
         return month[d.getMonth()];

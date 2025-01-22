@@ -7,7 +7,7 @@
   <div class="row">
     <div class="col-md-12">
       <div class="input-group mb-3">
-        <p>Choose category for items below</p>
+        <p>{{ $t("cat_goods.tip1") }}</p>
       </div>
       <div class="input-group mb-3">
         <select 
@@ -16,7 +16,7 @@
           @change="categorySelected"
           v-model="currentCat"
         >
-          <option selected>Open this select menu</option>
+          <option selected>{{ $t("cat_goods.tip2") }}</option>
           <option 
             v-for="(cat, index) in cat_list"
             :key="index"
@@ -35,22 +35,22 @@
         type="button"
         @click="saveGategorizedGoods"
       >
-        Save category for selected items
+      {{ $t("cat_goods.btn_save") }}
       </button>
     </div>
   </div>
   <div class="row">
     <div class="col-md-12">
-      <h4>Goods List</h4>
+      <h4>{{ $t("cat_goods.goods_list") }}</h4>
     </div>
   </div>
   <div class="row">
     <div class="col-md-12">
-      Filter: 
+      <!-- {{ $t("cat_goods.filter") }}:  -->
       <input
         type="text"
         class="form-control"
-        placeholder="Filter by name"
+        :placeholder="$t('cat_goods.filter')"
         v-model="filter_name"
         @keyup="filterByName"
       />
@@ -61,20 +61,20 @@
       <hr>
     </div>
   </div>
-  <div class="row">
+  <div class="list row">
     <div class="col-md-1">
       <input 
-        class="form-check-input" 
-        type="checkbox" 
-        v-model="show_all_categories" 
-        id="flexCheckAllCat"
-      >
+          class="form-check-input" 
+          type="checkbox" 
+          v-model="show_all_categories" 
+          id="flexCheckAllCat"
+        >
     </div>
     <div class="col-md-11">
-      <b> Show with other categories</b>
+      <b>{{ $t("cat_goods.show_other_cat") }}</b>
     </div>
   </div>
-  <div class="row">
+  <div class="list row">
     <div class="col-md-1">
       <input 
         class="form-check-input" 
@@ -85,11 +85,11 @@
       >
     </div>
     <div class="col-md-11">
-      <b>Check/Uncheck All</b>
+      <b>{{ $t("cat_goods.check_uncheck_all") }}</b>
     </div>
   </div>
   <div
-    class="row"
+    class="list row"
     v-for="(goods, index) in goods_list"
     :key="index"
   >
@@ -129,7 +129,7 @@
         type="button"
         @click="saveGategorizedGoods"
       >
-        Save category for selected items
+      {{ $t("cat_goods.btn_save") }}
       </button>
     </div>
   </div>
@@ -324,9 +324,9 @@
         this.currentBillID = String(bill_id);
       }
       if(this.currentBillID){
-        this.main_header = "Uncategorized items for bill with ID: " + this.currentBillID; 
+        this.main_header = this.$t("cat_goods.head.bill") + ": " + this.currentBillID; 
       } else {
-        this.main_header = "All your uncategorized items";
+        this.main_header = this.$t("cat_goods.head.all");
       }
       await this.retrieveCategories();
       if (!this.cat_list.length){

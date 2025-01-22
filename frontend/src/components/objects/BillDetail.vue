@@ -1,7 +1,7 @@
 <template>
-    <div class="list row">
+    <div class="row">
       <div class="col">
-        <h4>Bill Details</h4>
+        <h4>{{ $t("objects.bill.head") }}</h4>
       </div>
       <div class="col">
         <button
@@ -9,21 +9,22 @@
           type="button"
           @click="goToCategorizing()"
         > 
-        Categorize goods
+        {{ $t("objects.bill.btn_cat_goods") }}
         </button>
       </div>
     </div>
-    <div class="list row">
+    <div class="row">
       <div class="col">
         <TableComponent 
           v-if="itemsReady"
           :data="items" 
           :fields="fields"
           :go_to_object="go_to_object"
+          :translate_first_column="translate_first_column"
         />
       </div>
     </div>
-    <div class="list row">
+    <div class="row">
       <div class="col">
         <img :src="currentBill.image">
       </div>
@@ -46,6 +47,7 @@
         currentBillID: "" as string,
         currentBill: {} as IBill,
         itemsReady: false as boolean,
+        translate_first_column: true as boolean,
         go_to_object: "category_goods_bill_id" as string,
         fields: [
           "Field", "Value"

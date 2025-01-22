@@ -1,15 +1,15 @@
 <template>
-    <div>
+    <div class="container">
         <div class="searchBar" v-if="showSearch">
             <!-- Filter Search -->
             <div class="input-group mb-5">
-                Filter:
+                {{ $t("filter.title") }}&nbsp;
                 <input 
                     type="search" 
                     class="form-control" 
                     v-model="search_name" 
                     @keyup="filterData"
-                    :placeholder="field_search"
+                    :placeholder="$t('filter.filter_names.' + field_search)"
                     aria-label="name"
                     aria-describedby="button-addon2">
             </div>
@@ -18,11 +18,11 @@
             <thead>
                 <tr>
                     <th  
-                        v-for="field in fields"
-                        :key="field"
+                        v-for="(field, key) in fields"
+                        :key="key"
                         @click="sortTable(field)" 
                     > 
-                        {{ field }} 
+                        {{ $t("table.fields."+field) }} 
                         <i class="bi bi-sort-alpha-down" aria-label='Sort Icon'></i>
                     </th>
                 </tr>
@@ -30,14 +30,21 @@
             <tbody>
                 <tr v-for="item in inner_data" :key="item">
                     <td 
-                        v-for="field in fields" :key="field"
+                        v-for="(field, key) in fields" :key="key"
                     >
                         <div v-if="!isFieldID(field)">
-                            <p v-if="!isImage(item[field])">{{ item[field] }}</p>
                             <img 
                                 v-if="isImage(item[field])" 
                                 :src="item[field]"
                             >
+                            <p v-else-if="translate_first_column && key == 0">
+                                {{ $t("table.first_column." + item[field]) }}
+                            </p>
+                            <p v-else >
+                                {{ item[field] }}
+                            </p>
+                            
+                            
                         </div>
                         <div v-if="isFieldID(field)">
                             <button
@@ -54,12 +61,9 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from "vue";
+import { defineComponent } from "vue";
 import { orderBy } from 'lodash';
-import { string } from "yup";
-
-// let sort = ref(false);
-// let updatedList = ref([]as Array<Object>)
+import { boolean, string } from "yup";
 
 export default defineComponent({
     name: 'table-component-page',
@@ -67,7 +71,8 @@ export default defineComponent({
         go_to_object: { type: string },
         data: { type: Array<Object> },
         fields: { type: Array<string> },
-        field_search: { type: string }
+        field_search: { type: string },
+        translate_first_column: { type: boolean }
     },
     data: () => {
         return {

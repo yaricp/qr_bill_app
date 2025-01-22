@@ -1,19 +1,28 @@
 <template>
-    <div class="list row">
-      <div class="col-md-8">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h4>{{ $t("objects.goods.head") }}</h4>
       </div>
+    </div>
+    <div class="row">
       <div class="col-md-6">
-        <h4>Goods Details</h4>
         <TableComponent 
           v-if="itemsReady"
           :data="items" 
           :fields="fields"
           :go_to_object="go_to_object"
+          :translate_first_column="translate_first_column"
         />
       </div>
       <div class="col-md-6">
-        <h4>Categories</h4>
-          <div>
+        <div class="row">
+          <div class="col">
+            <h4>{{ $t("objects.goods.cats") }}</h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
             <ul class="list-group">
               <li
                 class="list-group-item"
@@ -36,17 +45,21 @@
               </li>
             </ul>
           </div>
-          <div class="col-md-12">
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            @click="saveGoodsGategories"
-          >
-            Save
-          </button>
-    </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              @click="saveGoodsGategories"
+            >
+              {{ $t("objects.goods.btn_save") }}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
 </template>
   
   <script lang="ts">
@@ -69,6 +82,7 @@
         full_cat_list: [] as ICategory[],
         goods_cat_list: [] as IUncategorizedGoods[],
         itemsReady: false as boolean,
+        translate_first_column: true as boolean,
         go_to_object: "bills" as string,
         fields: [
           "Field", "Value"

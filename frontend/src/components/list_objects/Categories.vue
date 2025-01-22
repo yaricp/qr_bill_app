@@ -1,34 +1,41 @@
 <template>
   <div class="container">
     <div class="row" v-if="!cat_list">
-      <h4>Create your own categories</h4>
+      <div class="col">
+        <h4>!{{ $t("lists.cat.empty_list_tip") }}</h4>
+      </div>
     </div>
     <div class="row">
-      <div class="col-md-12">
+      <div class="col">
         <div class="input-group mb-3">
           <input
             type="text"
             class="form-control"
-            placeholder="name of a new category"
+            :placeholder="$t('lists.cat.add_cat_placeholder')"
             v-model="new_name_category"
           />
           <div class="input-group-append">
+            &nbsp;
             <button
               class="btn btn-outline-secondary"
               type="button"
               @click="addCategory"
             >
-              Add
+              {{ $t("lists.cat.btn_add") }}
             </button>
           </div>
         </div>
       </div>
     </div>
-    <div class="row"><h3>Categories</h3></div>
+    <div class="row" v-if="cat_list">
+      <h3>Categories</h3>
+    </div>
     <table id="tableComponent" class="table table-bordered table-striped">
       <thead>
           <tr>
-            <th>Name</th><th>&nbsp;</th><th>Actions</th>
+            <th>{{ $t("table.fields.Name") }}</th>
+            <th>&nbsp;</th>
+            <th>{{ $t("table.fields.Actions") }}</th>
           </tr>
       </thead>
       <tbody>
@@ -54,7 +61,7 @@
               v-if="!editButtonShowed(index)"
               @click="showEdit(index, cat)"
             >
-              Edit
+            {{ $t("lists.cat.btn_edit") }}
             </button>
             <button
               class="btn btn-outline-secondary"
@@ -62,7 +69,7 @@
               v-if="editButtonShowed(index)"
               @click="saveCategory(index, cat)"
             >
-              Save
+            {{ $t("lists.cat.btn_save") }}
             </button>
           </td>
           <td>
@@ -71,7 +78,7 @@
               type="button"
               @click="delCategory(index, cat)"
             >
-              Del
+            {{ $t("lists.cat.btn_del") }}
             </button>
           </td>
         </tr>

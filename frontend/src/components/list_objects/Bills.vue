@@ -1,7 +1,7 @@
 <template>
-    <div class="list row">
-      <div class="col-md-6">
-        <h4>Bills List</h4>
+    <div class="row">
+      <div class="col">
+        <h4>{{ $t("lists.bills.head") }}</h4>
         <TableComponent 
           v-if="itemsReady"
           :data="items" 

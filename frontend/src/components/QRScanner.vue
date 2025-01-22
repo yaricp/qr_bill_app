@@ -1,19 +1,36 @@
 <template>
-    <main>
-        
-        <div v-if="html5QrcodeScanner" >
-            <p>{{ qrscannerStatusMessage }}</p>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h3>{{ $t("scanner.head") }}</h3>
+            </div>
         </div>
-        <div>
-            <div ref="qr-scanner" id="qr-scanner"/>
+        <div class="row" v-if="html5QrcodeScanner">
+            <div class="col">
+                <p>{{ qrscannerStatusMessage }}</p>
+            </div>
         </div>
-        <div><p>{{ message }}</p></div>
-        <div><p>
-            <img :src="picture" />
-        </p></div>
-        <!-- <div><p>Test mess: {{ test_mess }}</p></div>
-        <div>{{currentCameraName}}</div> -->
-    </main>
+        <div class="row">
+            <div class="col">
+                <div ref="qr-scanner" id="qr-scanner"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>{{ message }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <img :src="picture" />
+            </div>
+        </div>
+        <!-- <div class="row">
+            <div class="col">
+                <p>Test mess: {{ test_mess }}</p>
+            </div>
+        </div> -->
+    </div>
 </template>
 
 <script lang="ts">
@@ -29,9 +46,9 @@ export default defineComponent({
         return {
             url_patterns: ["https://", "ic/", "mapr"] as Array<string>,
             status_messages: {
-                1: "Choose camera for scanning",
-                2: "Scan you bill with QR code",
-                3: "Sending result to server"
+                1: this.$t("scanner.status.1"),
+                2: this.$t("scanner.status.2"),
+                3: this.$t("scanner.status.3")
             } as any,
             qrbox: 640 as number,
             percentage: 0.7 as number,
@@ -112,9 +129,9 @@ export default defineComponent({
             this.test_mess += qrCodeMessage;
             this.html5QrcodeScanner.pause();
             if (this.checkUrl(qrCodeMessage)){
-                this.message = "Found Correct URL"
+                this.message = this.$t("scanner.message.correct_url");
             } else {
-                this.message = "Wrong URL!"
+                this.message = this.$t("scanner.message.wrong_url");
             }
             this.found = true;
             await this.sendUrlToServer(qrCodeMessage);
@@ -135,7 +152,7 @@ export default defineComponent({
                     {"link": link, "image": this.picture},
                     this.authToken
                 );
-                this.message = "sent to server successful!"
+                this.message = this.$t("scanner.message.sent_to_server");
                 this.html5QrcodeScanner.clear();
                 this.$router.push({ 
                     name: "category_goods_bill_id",

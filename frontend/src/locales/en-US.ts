@@ -3,6 +3,14 @@ import sellers from "@/services/sellers";
 export default {
   hello: "hello",
   yes: "yes",
+  install_btn: "Install QRacun",
+  filter: {
+    title: "Filter:",
+    filter_names: {
+      Seller: "by name of seller",
+      Name: "by name"
+    }
+  },
   menu: {
     scanner: "QR Scanner",
     cat_goods: "Categorize your goods",
@@ -26,6 +34,40 @@ export default {
       logout: "Logout"
     }
   },
+  table: {
+    fields:{
+      Created: "Created",
+      Seller: "Seller",
+      Summ: "Summ",
+      Image: "Image",
+      ID: "ID",
+      Quantity: "Quantity",
+      Unit: "Unit",
+      Price: "Price",
+      Name: "Name",
+      Actions: "Actions",
+      Field: "Field",
+      Value: "Value"
+    },
+    first_column: {
+      created: "created",
+      value: "value",
+      payment_method: "payment method",
+      seller: "seller",
+      goods_list: "goods list",
+      name: "name",
+      quantity: "quantity",
+      unit_price_before_vat: "unit price before vat",
+      unit_price_after_vat: "unit price after vat",
+      rebate: "rebate",
+      rebate_reducing: "rebate reducing",
+      price_before_vat: "price before vat",
+      vat_rate: "vat rate",
+      vat_amount: "vat amount",
+      price_after_vat: "price after vat",
+      unit: "unit"
+    }
+  },
   profile: {
     main_header: "User Profile",
     id: "User ID in system",
@@ -43,5 +85,97 @@ export default {
     btn_close: "Close",
     btn_link_tg: "Link Telegram",
     btn_relink_tg: "Relink Telegram"
+  },
+  scanner: {
+    head: "QR Scanner",
+    status: {
+      1: "Choose camera for scanning",
+      2: "Scan you bill with QR code",
+      3: "Sending result to server"
+    },
+    message: {
+      wrong_url: "Wrong URL!",
+      correct_url: "Found Correct URL",
+      sent_to_server: "sent to server successful!"
+    }
+  },
+  cat_goods: {
+    head: {
+      bill: "Uncategorized items for bill with ID",
+      all: "All your uncategorized items"
+    },
+    tip1: "Choose category for items below",
+    tip2: "Categories",
+    goods_list: "Goods List",
+    filter: "Filter",
+    show_other_cat: "Show goods with other categories",
+    check_uncheck_all: "Check/Uncheck All",
+    btn_save: "Save category for selected items"
+  },
+  analytics: {
+    cat: {
+      header: {
+        main: "Analytics Goods by categories",
+        by_count: "Quantities goods by categories",
+        by_summ: "Total price goods by categories",
+      },
+      show_by_month: "Show current month:",
+      month: "Month:",
+      first_by_count: "First from all by count:",
+      btn_update: "Update",
+      first_by_summ: "First from all by summ:",
+      options: "Options"
+    },
+    goods: {
+      header: {
+        main: "Analytics Goods",
+        by_count: "Quantities goods by names",
+        by_summ: "Total price goods by names",
+      },
+      first_by_count: "First from all by count:",
+      btn_update: "Update",
+      first_by_summ: "First from all by summ:",
+      options: "Options"
+    },
+    sellers: {
+      header: {
+        main: "Analytics Bills and Goods by Sellers",
+        by_count_bills: "Count bills by sellers",
+        by_summ_bills: "Total price bills by sellers",
+        by_count_goods: "Total quantity goods by sellers"
+      },
+      first_by_count: "First from all by count:",
+      btn_update: "Update",
+      first_by_summ: "First from all by summ:",
+      first_goods_by_summ: "First from all by count goods:",
+    }
+  },
+  lists: {
+    cat: {
+      head: "Categories List",
+      empty_list_tip: "Create your own categories",
+      add_cat_placeholder: "name of a new category",
+      btn_add: "Add",
+      btn_del: "Delete",
+      btn_edit: "Edit",
+      btn_save: "Save"
+    },
+    goods: {
+      head: "Goods List"
+    },
+    bills: {
+      head: "Bills List"
+    }
+  },
+  objects: {
+    bill: {
+      head: "Bill Details",
+      btn_cat_goods: "Categorize goods this bill"
+    },
+    goods: {
+      head: "Goods Details",
+      cats: "Categories",
+      btn_save: "Save"
+    }
   }
 }

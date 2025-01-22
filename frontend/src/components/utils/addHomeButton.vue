@@ -7,7 +7,7 @@
         ref="addBtn"
         @click="clickCallback"
       >
-        Install QRacun to device
+        {{ $t("install_btn") }}
       </button>
     </div>
 </template>

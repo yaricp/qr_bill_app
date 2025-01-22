@@ -1,60 +1,104 @@
 <template>
-    <div>
-      <h4>{{ main_header }}</h4>
-      <p></p>
-      <hr>
-      <p></p>
-      <p>{{ plot_header_by_count_bills }}</p>
-      <p>
-        First from all: 
-        <input v-model="first_of_by_count_bills">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h4>{{ main_header }}</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <hr/>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p>{{ plot_header_by_count_bills }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        {{ $t("analytics.sellers.first_by_count") }}&nbsp;
+        <input v-model="first_of_by_count_bills" size="3">&nbsp;
         <button
           class="btn btn-outline-secondary"
           type="button"
           @click="fillChartDataCountBillsByNameSeller"
-        >Start</button>
-      </p>
-      <Bar
-        v-if="loaded_by_count_bills"
-        id="my-chart-id1"
-        :options="chartOptions"
-        :data="chartDataCountBillsByName"
-      />
-      <hr>
-      <p>{{ plot_header_by_summ_bills }}</p>
-      <p>
-        First from all: 
-        <input v-model="first_of_by_summ_bills">
+        >{{ $t("analytics.sellers.btn_update") }}</button>
+      </div>
+    </div> 
+    <div class="row">
+      <div class="col">
+        <Bar
+          v-if="loaded_by_count_bills"
+          id="my-chart-id1"
+          :options="chartOptions"
+          :data="chartDataCountBillsByName"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <hr>
+      </div>
+    </div> 
+    <div class="row">
+      <div class="col">
+        <p>{{ plot_header_by_summ_bills }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        {{ $t("analytics.sellers.first_by_summ") }}&nbsp; 
+        <input v-model="first_of_by_summ_bills" size="3">&nbsp;
         <button
           class="btn btn-outline-secondary"
           type="button"
           @click="fillChartDataSummBillsByNameSeller"
-        >Start</button>
-      </p>
-      <Bar
-        v-if="loaded_by_summ_bills"
-        id="my-chart-id2"
-        :options="chartOptions"
-        :data="chartDataSummBillsByName"
-      />
-      <hr>
-      <p>{{ plot_header_by_quantity_goods }}</p>
-      <p>
-        First from all: 
-        <input v-model="first_of_by_quantity_goods">
+        >{{ $t("analytics.sellers.btn_update") }}</button>
+      </div>
+    </div> 
+    <div class="row">
+      <div class="col">
+        <Bar
+          v-if="loaded_by_summ_bills"
+          id="my-chart-id2"
+          :options="chartOptions"
+          :data="chartDataSummBillsByName"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <hr>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p>{{ plot_header_by_quantity_goods }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        {{ $t("analytics.sellers.first_goods_by_summ") }}&nbsp; 
+        <input v-model="first_of_by_quantity_goods" size="3">&nbsp;
         <button
           class="btn btn-outline-secondary"
           type="button"
           @click="fillChartDataCountGoodsByNameSeller"
-        >Start</button>
-      </p>
-      <Bar
-        v-if="loaded_by_quantity_goods"
-        id="my-chart-id2"
-        :options="chartOptions"
-        :data="chartDataCountGoodsByName"
-      />
+        >{{ $t("analytics.sellers.btn_update") }}</button>
+      </div>
     </div>
+    <div class="row">
+      <div class="col">
+        <Bar
+          v-if="loaded_by_quantity_goods"
+          id="my-chart-id2"
+          :options="chartOptions"
+          :data="chartDataCountGoodsByName"
+        />
+      </div>
+    </div>  
+  </div>
 </template>
   
 <script lang="ts">
@@ -73,10 +117,10 @@ export default defineComponent({
   components: { Bar },
   data() {
     return {
-      main_header: "Analytics Bills and Goods by Sellers" as string,
-      plot_header_by_count_bills: "Count bills by sellers" as string,
-      plot_header_by_summ_bills: "Total price bills by sellers" as string,
-      plot_header_by_quantity_goods: "Total quantity goods by sellers" as string,
+      main_header: this.$t("analytics.sellers.header.main") as string,
+      plot_header_by_count_bills: this.$t("analytics.sellers.header.by_count_bills") as string,
+      plot_header_by_summ_bills: this.$t("analytics.sellers.header.by_summ_bills") as string,
+      plot_header_by_quantity_goods: this.$t("analytics.sellers.header.by_count_goods") as string,
       loaded_by_count_bills: false as boolean,
       loaded_by_summ_bills: false as boolean,
       loaded_by_quantity_goods: false as boolean,
