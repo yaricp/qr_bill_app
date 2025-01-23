@@ -8,6 +8,7 @@ from pydantic import BaseModel
 
 from .unit import Unit
 from .seller import Seller
+from .product import Product
 from .category import Category
 
 
@@ -81,6 +82,7 @@ class GoodsInDBBase(GoodsBase):
     unit: Unit
     bill_id: UUID
     categories: List[Category]
+    product: Optional[Product] = None
 
     class Config:
         orm_mode = True

@@ -30,10 +30,10 @@ class Category(Model):
         nullable=True
     )
 
-    # goods: Mapped[Set[Goods]] = relationship(
-    #     secondary=association_goods_category,
-    #     back_populates="categories"
-    # )
+    goods: Mapped[Set[Goods]] = relationship(
+        secondary=association_goods_category,
+        back_populates="categories"
+    )
 
     products: Mapped[Set[Product]] = relationship(
         secondary=association_product_category,

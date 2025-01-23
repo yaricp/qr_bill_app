@@ -1,8 +1,10 @@
 from uuid import UUID
-from typing import Optional
+from typing import Optional, List
 from decimal import Decimal
 
 from pydantic import BaseModel
+
+from .product import Product
 
 
 # Shared properties
@@ -25,6 +27,7 @@ class CategoryUpdate(CategoryBase):
 class CategoryInDBBase(CategoryBase):
     id: UUID
     name: str
+    products: List[Product]
 
     class Config:
         orm_mode = True

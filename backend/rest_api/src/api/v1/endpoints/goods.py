@@ -11,7 +11,7 @@ from ..services.goods import (
     update_goods, delete_goods, list_count_group_by_name,
     list_summ_group_by_name, strip_all_names,
     list_uncategorized_goods, save_categorized_goods,
-    update_goods_categories
+    update_goods_categories, create_product_categories_by_goods
 )
 from ..schemas.goods import (
     Goods, GoodsCreate, GoodsUpdate, GoodsCountByName,
@@ -186,4 +186,14 @@ async def summ_by_name_goods_route(
 )
 async def strip_all_names_goods_route(user=Depends(manager)) -> bool:
     result: bool = await strip_all_names()
+    return result
+
+
+@app.get(
+    URLPathsConfig.PREFIX + "/goods/create_product_categories/",
+    tags=['Goods'],
+    response_model=bool
+)
+async def create_product_categories_route(user=Depends(manager)) -> bool:
+    result: bool = await create_product_categories_by_goods()
     return result

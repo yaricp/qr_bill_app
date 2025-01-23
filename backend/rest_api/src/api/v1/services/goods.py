@@ -122,3 +122,9 @@ async def strip_all_names() -> bool:
     goods_command = GoodsCommands()
     result: bool = await goods_command.strip_all_names()
     return result
+
+
+async def create_product_categories_by_goods() -> bool:
+    goods_command = GoodsCommands()
+    result: bool = await goods_command.create_product_categories_by_goods()
+    return result

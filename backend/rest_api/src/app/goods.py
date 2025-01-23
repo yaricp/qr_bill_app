@@ -1,12 +1,10 @@
 from uuid import UUID
 from typing import List
-from datetime import datetime
 from loguru import logger
 from sqlalchemy.sql import func
 from sqlalchemy import desc
 
 from ..infra.database import db_session
-from ..infra.database.models.base import association_goods_category
 from ..infra.database.models import (
     Goods as GoodsORM, Seller as SellerORM,
     Category as CategoryORM
@@ -16,15 +14,8 @@ from ..infra.database.models import (
 from .entities.goods import (
     Goods, GoodsCreate, GoodsUpdate, CategoryGoods
 )
-
-
-class GoodsViews:
-
-    def __init__(self):
-        pass
-
-    def some(self):
-        pass
+from .entities.product import ProductCreate
+from .product import ProductCommands, unification_names
 
 
 class GoodsQueries:
@@ -32,10 +23,11 @@ class GoodsQueries:
     def __init__(self):
         pass
 
-    async def get_all_goods(self, user_id: UUID):
-        return GoodsORM.query.filter_by(user_id=user_id).all()
+    async def get_all_goods(self, user_id: UUID) -> List[Goods]:
+        result = GoodsORM.query.filter_by(user_id=user_id).all()
+        return result
 
-    async def get_goods(self, id: UUID):
+    async def get_goods(self, id: UUID) -> Goods:
         return GoodsORM.query.get(id)
 
     async def list_count_group_by_name(
@@ -113,7 +105,7 @@ class GoodsQueries:
 class GoodsCommands:
 
     def __init__(self):
-        pass
+        self.product_commands = ProductCommands()
 
     async def get_goods_by_fiscal_id(
         self, incoming_item: GoodsCreate
@@ -246,4 +238,18 @@ class GoodsCommands:
                 name=goods.name.strip()
             )
             await self.update_goods(incoming_item=new_goods)
+        return True
+    
+    async def create_product_categories_by_goods(self) -> bool:
+        for goods in GoodsORM.query.all():
+            new_production = ProductCreate(
+                name=unification_names(goods.name)
+            )
+            product_db = await self.product_commands.get_or_create(
+                incoming_item=new_production
+            )
+            # cats = goods.categories.all()
+            for cat in goods.categories:
+                cat.products.add(product_db)
+
         return True

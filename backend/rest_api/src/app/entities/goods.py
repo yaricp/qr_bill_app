@@ -87,7 +87,7 @@ class GoodsInDBBase(GoodsBase):
     vat_amount: Decimal
     price_after_vat: Decimal
     seller: Seller
-    product: Product
+    product: Optional[Product] = None
     unit: Unit
     bill_id: UUID
     categories: List[Category]
