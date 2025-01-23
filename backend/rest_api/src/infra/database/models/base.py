@@ -18,3 +18,14 @@ association_goods_category = Table(
     Column("goods_id", ForeignKey("goods.id")),
     Column("cat_id", ForeignKey("category.id"))
 )
+
+association_product_category = Table(
+    "association_product_category",
+    Model.metadata,
+    Column(
+        "id", UUID, primary_key=True, nullable=False,
+        unique=True, default=uuid4
+    ),
+    Column("product_id", ForeignKey("product.id")),
+    Column("cat_id", ForeignKey("category.id"))
+)

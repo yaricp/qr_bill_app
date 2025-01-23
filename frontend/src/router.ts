@@ -52,6 +52,16 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("./components/list_objects/Categories.vue"),
   },
   {
+    path: "/category_products/",
+    name: "category_products",
+    component: () => import("./components/CategoryProduct.vue"),
+  },
+  {
+    path: "/category_products/:bill_id",
+    name: "category_products_bill_id",
+    component: () => import("./components/CategoryProduct.vue"),
+  },
+  {
     path: "/category_goods/:bill_id",
     name: "category_goods_bill_id",
     component: () => import("./components/CategoryGoods.vue"),

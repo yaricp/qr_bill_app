@@ -6,3 +6,4 @@ from .category import Category
 from .user import User
 from .unit import Unit
 from .login_link import LoginLink
+from .product import Product

@@ -1,44 +1,43 @@
 from uuid import UUID
-from typing import Optional, List
+from typing import Optional
 
 from pydantic import BaseModel
 
-from .product import Product
-
 
 # Shared properties
-class CategoryBase(BaseModel):
+class ProductBase(BaseModel):
     id: Optional[UUID] = None
     name: Optional[str] = None
-    user_id: Optional[UUID] = None
 
 
-class CategoryCreate(BaseModel):
+class ProductCreate(BaseModel):
     name: str
-    user_id: UUID
 
 
 # Properties to receive on item update
-class CategoryUpdate(CategoryBase):
+class ProductUpdate(ProductBase):
     id: UUID
 
 
 # Properties shared by models stored in DB
-class CategoryInDBBase(CategoryBase):
+class ProductInDBBase(ProductBase):
     id: UUID
     name: str
-    products: List[Product]
-    user_id: UUID
 
     class Config:
         orm_mode = True
 
 
 # Properties to return to client
-class Category(CategoryInDBBase):
+class Product(ProductInDBBase):
     pass
 
 
 # Properties properties stored in DB
-class CategoryInDB(CategoryInDBBase):
+class ProductInDB(ProductInDBBase):
     pass
+
+
+class CategoryProduct(BaseModel):
+    product_id: UUID
+    cat_id: UUID

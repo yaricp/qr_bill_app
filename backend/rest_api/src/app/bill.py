@@ -14,9 +14,11 @@ from .entities.unit import Unit, UnitCreate
 from .entities.bill import Bill, BillCreate, BillCreateByURL
 from .entities.goods import Goods, GoodsCreate
 from .entities.seller import Seller, SellerCreate
+from .entities.product import Product, ProductCreate
 from .unit import UnitCommands
 from .seller import SellerCommands
 from .goods import GoodsCommands
+from .product import ProductCommands, unification_names
 from .config import bill_config
 
 
@@ -69,6 +71,7 @@ class BillCommands:
         self.seller_commands = SellerCommands()
         self.goods_commands = GoodsCommands()
         self.unit_commands = UnitCommands()
+        self.product_commands = ProductCommands()
 
     async def get_by_id(self, id: UUID) -> Bill:
         return BillORM.query.get(id)
@@ -155,10 +158,17 @@ class BillCommands:
                 incoming_item=incoming_unit
             )
             logger.info(f"in_goods: {in_goods}")
+            name_goods_product = unification_names(in_goods["name"])
+            income_product = ProductCreate(
+                name=name_goods_product
+            )
+            product_db = await self.product_commands.get_or_create(
+                incoming_item=income_product
+            )
             fiscal_id = int(in_goods["id"]) if in_goods["id"] else None
             incoming_goods = GoodsCreate(
                 fiscal_id=fiscal_id,
-                name=in_goods["name"].strip(),
+                name=name_goods_product,
                 quantity=in_goods["quantity"],
                 unit_price_before_vat=in_goods["unitPriceBeforeVat"],
                 unit_price_after_vat=in_goods["unitPriceAfterVat"],
@@ -171,13 +181,15 @@ class BillCommands:
                 unit_id=unit_db.id,
                 bill_id=bill_db.id,
                 seller_id=seller_db.id,
-                user_id=user_id
+                user_id=user_id,
+                product_id=product_db.id
             )
             logger.info(f"incoming_goods: {incoming_goods}")
             goods_db = await self.goods_commands.get_or_create(
                 incoming_item=incoming_goods
             )
             logger.info(f"goods_db: {goods_db}")
+
         bill_db = await self.get_by_id(id=bill_db.id)
         return bill_db
 

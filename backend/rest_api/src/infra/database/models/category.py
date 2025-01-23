@@ -1,24 +1,23 @@
 from uuid import uuid4
-from typing import List, Set
+from typing import Set
 from sqlalchemy.orm import (
-    relationship, Mapped, DeclarativeBase, mapped_column
+    relationship, Mapped, mapped_column
 )
 from sqlalchemy import (
-    Table, UUID, Column, VARCHAR, ForeignKey
+    UUID, Column, VARCHAR, ForeignKey
 )
 
-from .base import Model, association_goods_category
+from .base import (
+    Model, association_goods_category, association_product_category
+)
 from .user import User
 from .goods import Goods
+from .product import Product
 
 
 class Category(Model):
     """Model of category"""
     __tablename__ = "category"
-
-    # id = Column(
-    #     UUID, primary_key=True
-    # )
 
     id: Mapped[UUID] = mapped_column(
         UUID, primary_key=True, nullable=False, unique=True,
@@ -31,8 +30,13 @@ class Category(Model):
         nullable=True
     )
 
-    goods: Mapped[Set[Goods]] = relationship(
-        secondary=association_goods_category,
+    # goods: Mapped[Set[Goods]] = relationship(
+    #     secondary=association_goods_category,
+    #     back_populates="categories"
+    # )
+
+    products: Mapped[Set[Product]] = relationship(
+        secondary=association_product_category,
         back_populates="categories"
     )
 

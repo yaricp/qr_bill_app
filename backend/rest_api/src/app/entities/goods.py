@@ -8,6 +8,7 @@ from pydantic import BaseModel
 from .unit import Unit
 from .seller import Seller
 from .category import Category
+from .product import Product
 
 
 # Shared properties
@@ -26,6 +27,7 @@ class GoodsBase(BaseModel):
     price_after_vat: Optional[Decimal] = None
     unit_id: Optional[UUID] = None
     bill_id: Optional[UUID] = None
+    product_id: Optional[UUID] = None
 
 
     {
@@ -83,8 +85,9 @@ class GoodsInDBBase(GoodsBase):
     price_before_vat: Decimal
     vat_rate: Decimal
     vat_amount: Decimal
-    price_after_vat:  Decimal
+    price_after_vat: Decimal
     seller: Seller
+    product: Product
     unit: Unit
     bill_id: UUID
     categories: List[Category]
