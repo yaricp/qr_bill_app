@@ -4,6 +4,7 @@ import { authHeaders } from ".";
 import { 
   IProduct, ICategorizedProduct, IUncategorizedProduct
 } from "@/interfaces/product";
+import { IUserProductCategories } from "@/interfaces/user_products";
 
 class ProductDataService {
   getAll(token: string): Promise<any> {
@@ -45,10 +46,10 @@ class ProductDataService {
   }
 
   updateCategory(
-    products_id: string, data: ICategorizedProduct[], token: string
+    data: IUserProductCategories, token: string
   ): Promise<any> {
-    return http.post(
-      `/products/update_category/${products_id}`,
+    return http.put(
+      `/products/update_categories/`,
       data,
       authHeaders(token)
     );

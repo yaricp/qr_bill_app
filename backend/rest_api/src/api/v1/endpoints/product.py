@@ -9,13 +9,15 @@ from ...config import URLPathsConfig
 from ..services.product import (
     get_product, create_product, update_product,
     delete_product, get_all_products,
-    get_uncategorized_product, save_categorized_products
+    get_uncategorized_product, save_categorized_products,
+    update_product_categories
 )
 from ..schemas.product import (
     Product, ProductCreate, ProductUpdate
 )
 from ..schemas.user_product import (
-    UncategorizedUserProduct, CategorizedProduct
+    UncategorizedUserProduct, CategorizedProduct,
+    UpdateUserProductCategories
 )
 
 
@@ -110,5 +112,23 @@ async def save_categorized_goods_route(
     """
     result = await save_categorized_products(
         cat_prod_data=data_in
+    )
+    return result
+
+
+@app.put(
+    URLPathsConfig.PREFIX + "/products/update_categories/",
+    tags=['Products'],
+    response_model=bool
+)
+async def update_product_categories_route(
+    data_in: UpdateUserProductCategories, user=Depends(manager)
+) -> bool:
+    """
+    Assosiate category to several goods.
+    """
+    result = await update_product_categories(
+        user_product_id=data_in.user_product_id,
+        list_cat_id=data_in.list_cat_id
     )
     return result

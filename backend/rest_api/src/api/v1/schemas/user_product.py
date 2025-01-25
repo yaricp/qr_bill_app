@@ -1,9 +1,10 @@
 from uuid import UUID
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import BaseModel
 
 from .product import Product
+from .category import Category
 
 
 class UncategorizedUserProduct(BaseModel):
@@ -12,9 +13,16 @@ class UncategorizedUserProduct(BaseModel):
 
 
 class UserProduct(BaseModel):
+    id: UUID
     product: Product
+    categories: List[Category]
 
 
 class CategorizedProduct(BaseModel):
     user_product_id: UUID
     cat_id: UUID
+
+
+class UpdateUserProductCategories(BaseModel):
+    user_product_id: UUID
+    list_cat_id: List[UUID]

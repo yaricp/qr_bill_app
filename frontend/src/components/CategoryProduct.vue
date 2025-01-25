@@ -101,21 +101,21 @@
         id="flexCheckDefault"
       >
     </div>
-    <div class="col-md-5">
+    <div class="col-md-11">
       {{ prod.name }}
     </div>
-    <div class="col-md-4">
-      <!-- <span 
+    <!-- <div class="col-md-4">
+      <span 
         v-for="(cat_name, index) in prod.categories"
         :key="index"
       > {{ cat_name }}, &nbsp;
-      </span> -->
+      </span>
     </div>
     <div class="col-md-2">
       <router-link
         :to="'/goods_detail/' + prod.id"
       >Details</router-link>
-    </div>
+    </div> -->
   </div>
   <div class="row">
     <div class="col-md-12">
@@ -162,7 +162,6 @@
         full_prod_list: [] as IUncategorizedProduct[],
         prod_list: [] as IUncategorizedProduct[],
         currentCat: {} as ICategory,
-        list_prod_for_save: [] as IProduct[],
         filter_name : "" as string,
         show_all_categories: false as boolean,
         checked_all: false as boolean

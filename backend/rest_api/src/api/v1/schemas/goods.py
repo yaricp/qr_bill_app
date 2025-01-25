@@ -10,6 +10,7 @@ from .unit import Unit
 from .seller import Seller
 from .product import Product
 from .category import Category
+from .user_product import UserProduct
 
 
 # Shared properties
@@ -85,8 +86,7 @@ class GoodsInDBBase(GoodsBase):
     seller: Seller
     unit: Unit
     bill_id: UUID
-    categories: List[Category]
-    product: Optional[Product] = None
+    user_product: Optional[UserProduct] = None
 
     class Config:
         orm_mode = True

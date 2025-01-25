@@ -61,16 +61,16 @@ const routes: Array<RouteRecordRaw> = [
     name: "category_products_bill_id",
     component: () => import("./components/CategoryProduct.vue"),
   },
-  {
-    path: "/category_goods/:bill_id",
-    name: "category_goods_bill_id",
-    component: () => import("./components/CategoryGoods.vue"),
-  },
-  {
-    path: "/category_goods",
-    name: "category_goods",
-    component: () => import("./components/CategoryGoods.vue"),
-  },
+  // {
+  //   path: "/category_goods/:bill_id",
+  //   name: "category_goods_bill_id",
+  //   component: () => import("./components/CategoryGoods.vue"),
+  // },
+  // {
+  //   path: "/category_goods",
+  //   name: "category_goods",
+  //   component: () => import("./components/CategoryGoods.vue"),
+  // },
   {
     path: "/logout",
     name: "logout",

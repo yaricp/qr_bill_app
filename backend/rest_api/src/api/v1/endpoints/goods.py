@@ -73,6 +73,9 @@ async def get_all_goods_route(user=Depends(manager)):
 )
 async def get_goods_route(id: UUID, user=Depends(manager)):
     goods: Goods = await get_goods(id=id)
+    # if not goods:
+    #     # you can also use your own HTTPException
+    #     raise Non
     return goods
 
 

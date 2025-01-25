@@ -12,7 +12,8 @@ from ..infra.database import db_session
 from ..infra.database.models import (
     Bill as BillORM,
     Goods as GoodsORM,
-    Category as CategoryORM
+    Category as CategoryORM,
+    UserProduct as UserProductORM
 )
 
 from .entities.category import (
@@ -55,7 +56,13 @@ class CategoryQueries:
                 result = db_session.query(
                     CategoryORM.name,
                     func.sum(GoodsORM.quantity).label("count")
-                ).join(CategoryORM.goods).join(GoodsORM.bill).filter(
+                ).join(
+                    GoodsORM.bill
+                ).join(
+                    GoodsORM.user_product
+                ).join(
+                    UserProductORM.categories
+                ).filter(
                     CategoryORM.user_id == user_id,
                     GoodsORM.user_id == user_id,
                     BillORM.created >= prev_month_date,
@@ -67,7 +74,13 @@ class CategoryQueries:
                 result = db_session.query(
                     CategoryORM.name,
                     func.sum(GoodsORM.quantity).label("count")
-                ).join(CategoryORM.goods).filter(
+                ).join(
+                    GoodsORM.bill
+                ).join(
+                    GoodsORM.user_product
+                ).join(
+                    UserProductORM.categories
+                ).filter(
                     CategoryORM.user_id == user_id,
                     GoodsORM.user_id == user_id
                 ).group_by(
@@ -86,7 +99,13 @@ class CategoryQueries:
                 result = db_session.query(
                     CategoryORM.name,
                     func.sum(GoodsORM.quantity).label("count")
-                ).join(CategoryORM.goods).filter(
+                ).join(
+                    GoodsORM.bill
+                ).join(
+                    GoodsORM.user_product
+                ).join(
+                    UserProductORM.categories
+                ).filter(
                     CategoryORM.user_id == user_id,
                     GoodsORM.user_id == user_id,
                     BillORM.created >= prev_month_date,
@@ -98,7 +117,13 @@ class CategoryQueries:
                 result = db_session.query(
                     CategoryORM.name,
                     func.sum(GoodsORM.quantity).label("count")
-                ).join(CategoryORM.goods).filter(
+                ).join(
+                    GoodsORM.bill
+                ).join(
+                    GoodsORM.user_product
+                ).join(
+                    UserProductORM.categories
+                ).filter(
                     CategoryORM.user_id == user_id,
                     GoodsORM.user_id == user_id
                 ).group_by(
@@ -125,7 +150,13 @@ class CategoryQueries:
                 result = db_session.query(
                     CategoryORM.name,
                     func.sum(GoodsORM.price_after_vat).label("summ")
-                ).join(CategoryORM.goods).join(GoodsORM.bill).filter(
+                ).join(
+                    GoodsORM.bill
+                ).join(
+                    GoodsORM.user_product
+                ).join(
+                    UserProductORM.categories
+                ).filter(
                     CategoryORM.user_id == user_id,
                     GoodsORM.user_id == user_id,
                     BillORM.created >= prev_month_date,
@@ -137,7 +168,13 @@ class CategoryQueries:
                 result = db_session.query(
                     CategoryORM.name,
                     func.sum(GoodsORM.price_after_vat).label("summ")
-                ).join(CategoryORM.goods).filter(
+                ).join(
+                    GoodsORM.bill
+                ).join(
+                    GoodsORM.user_product
+                ).join(
+                    UserProductORM.categories
+                ).filter(
                     CategoryORM.user_id == user_id,
                     GoodsORM.user_id == user_id,
                 ).group_by(
@@ -156,7 +193,13 @@ class CategoryQueries:
                 result = db_session.query(
                     CategoryORM.name,
                     func.sum(GoodsORM.price_after_vat).label("summ")
-                ).join(CategoryORM.goods).join(GoodsORM.bill).filter(
+                ).join(
+                    GoodsORM.bill
+                ).join(
+                    GoodsORM.user_product
+                ).join(
+                    UserProductORM.categories
+                ).filter(
                     CategoryORM.user_id == user_id,
                     GoodsORM.user_id == user_id,
                     BillORM.created >= prev_month_date,
@@ -168,7 +211,13 @@ class CategoryQueries:
                 result = db_session.query(
                     CategoryORM.name,
                     func.sum(GoodsORM.price_after_vat).label("summ")
-                ).join(CategoryORM.goods).filter(
+                ).join(
+                    GoodsORM.bill
+                ).join(
+                    GoodsORM.user_product
+                ).join(
+                    UserProductORM.categories
+                ).filter(
                     CategoryORM.user_id == user_id,
                     GoodsORM.user_id == user_id,
                 ).group_by(

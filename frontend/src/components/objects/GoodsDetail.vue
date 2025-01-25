@@ -51,7 +51,7 @@
             <button
               class="btn btn-outline-secondary"
               type="button"
-              @click="saveGoodsGategories"
+              @click="updateUserProductCategories"
             >
               {{ $t("objects.goods.btn_save") }}
             </button>
@@ -66,8 +66,10 @@
   import { defineComponent } from "vue";
   import GoodsDataService from "@/services/goods";
   import CategoriesService from "@/services/categories";
-  import { IGoods, IUncategorizedGoods, ICategorizedGoods } from "@/interfaces/goods";
+  import ProductDataService from "@/services/products";
+  import { IGoods, IUncategorizedGoods } from "@/interfaces/goods";
   import { ICategory } from "@/interfaces/categories";
+  import { IUserProductCategories } from "@/interfaces/user_products";
   import { useStore } from '@/store';
   import { checkTokenExpired } from "@/http-common";
   import TableComponent from '@/components/utils/TableComponent.vue';
@@ -140,6 +142,7 @@
             || key == "bill_id"
             || key == "unit_id"
             || key == "categories"
+            || key == "user_product"
           ){
             continue;
           }
@@ -160,42 +163,46 @@
         this.items = items;
         this.itemsReady = true;
       },
-      async saveGoodsGategories() {
-          console.log("saveGoodsGategories");
-          let goods_for_save_list = [] as ICategorizedGoods[];
-          for (let cat of this.goods_cat_list) {
-              if (cat.checked) {
-                  goods_for_save_list.push({
-                      goods_id: this.currentGoods.id,
-                      cat_id: cat.id
-                  })
-              }
+      async updateUserProductCategories() {
+        console.log("saveGoodsGategories");
+        let data_for_update = {
+          user_product_id: this.currentGoods.user_product.id,
+          list_cat_id: [] as String[]
+        } as IUserProductCategories;
+        console.log(
+          "this.currentGoods.user_product.id: ",
+          this.currentGoods.user_product.id
+        )
+        for (let cat of this.goods_cat_list) {
+          if (cat.checked) {
+            data_for_update.list_cat_id.push(cat.id);
           }
-          console.log(
-              "goods_for_save_list: ", goods_for_save_list
+        }
+        console.log("data_for_update: ", data_for_update);
+        try {
+          let response = await ProductDataService.updateCategory(
+            data_for_update, this.authToken
           );
-          console.log("typeof this.currentGoodsID:", typeof this.currentGoodsID);
-          try {
-              let response = await GoodsDataService.updateCategory(
-                this.currentGoodsID, goods_for_save_list, this.authToken
-              );
-              console.log("saveGategorizedGoods response.data", response.data);
-              if (!response.data){
-                alert("Server error!!");
-                return;
-              }
-              this.retrieveGoodsDetail();
-              this.prepareListCategories();
-          } catch(e) {
-              checkTokenExpired(e);
+          console.log(
+            "saveGategorizedGoods response.data",
+            response.data
+          );
+          if (!response.data){
+            alert("Server error!!");
+            return;
           }
+          this.retrieveGoodsDetail();
+          this.prepareListCategories();
+        } catch(e) {
+          checkTokenExpired(e);
+        }
       },
       prepareListCategories() {
         this.goods_cat_list = [];
         for (let cat of this.full_cat_list) {
             let checked_cat = false;
             let current_cat_ids = []; 
-            for (let good_cat of this.currentGoods.categories){
+            for (let good_cat of this.currentGoods.user_product.categories){
               current_cat_ids.push(good_cat.id);
             }
             console.log("current_cat_ids: ", current_cat_ids);

@@ -4,7 +4,7 @@ from decimal import Decimal
 
 from pydantic import BaseModel
 
-from .user_product import UserProduct
+# from .user_product import UserProduct
 
 
 # Shared properties

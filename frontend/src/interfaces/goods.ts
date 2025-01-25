@@ -1,4 +1,4 @@
-import { ICategory } from "./categories";
+import { IUserProduct } from "./user_products";
 import { ISeller } from "./seller";
 import { IUnit } from "./units";
 
@@ -17,7 +17,7 @@ export interface IGoods {
     unit: IUnit;
     bill_id: string;
     seller: ISeller;
-    categories: ICategory[];
+    user_product: IUserProduct;
   }
 
 export interface ICountGoodsByName {

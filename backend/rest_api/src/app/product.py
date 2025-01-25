@@ -167,17 +167,19 @@ class ProductCommands:
         return True
 
     async def update_product_categories(
-        self, product_id: UUID, product_data: List[CategoryProduct]
+        self,
+        user_product_id: UUID,
+        list_cat_id: List[UUID]
     ) -> bool:
-        product = ProductORM.query.get(product_id)
-        list_for_remove = [old_cat for old_cat in product.categories]
+        user_product = UserProductORM.query.get(user_product_id)
+        list_for_remove = [old_cat for old_cat in user_product.categories]
         for old_cat in list_for_remove:
-            product.categories.remove(old_cat)
-        for item in product_data:
-            new_cat = CategoryORM.query.get(item.cat_id)
-            product.categories.add(new_cat)
+            user_product.categories.remove(old_cat)
+        for cat_id in list_cat_id:
+            new_cat = CategoryORM.query.get(cat_id)
+            user_product.categories.add(new_cat)
         try:
-            db_session.add(product)
+            db_session.add(user_product)
             db_session.commit()
         except Exception as err:
             logger.error(f"Error: {err}")

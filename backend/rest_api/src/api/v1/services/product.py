@@ -76,3 +76,15 @@ async def save_categorized_products(
         cat_prod_data=cat_prod_data
     )
     return command_result
+
+
+async def update_product_categories(
+    user_product_id: UUID, list_cat_id: List[UUID]
+) -> bool:
+    prod_command = ProductCommands()
+    logger.info(f"user_product_id: {user_product_id}")
+    logger.info(f"list_cat_id: {list_cat_id}")
+    command_result = await prod_command.update_product_categories(
+        user_product_id=user_product_id, list_cat_id=list_cat_id
+    )
+    return command_result

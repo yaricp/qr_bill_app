@@ -25,7 +25,9 @@ async def get_all_goods(user_id: UUID) -> List[Goods]:
 
 async def get_goods(id: UUID) -> Goods:
     goods_views: GoodsQueries = GoodsQueries()
-    return await goods_views.get_goods(id=id)
+    result = await goods_views.get_goods(id=id)
+    logger.info(f"result: {result}")
+    return result
 
 
 async def list_count_group_by_name(
