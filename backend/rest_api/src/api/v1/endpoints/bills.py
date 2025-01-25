@@ -1,5 +1,5 @@
 from uuid import UUID
-from typing import List
+from typing import List, Optional
 
 from fastapi import Depends
 
@@ -8,12 +8,14 @@ from ...config import URLPathsConfig
 from ..services.bill import (
     get_bill, get_all_bills, parse_link_bill,
     update_bill, delete_bill, scan_qr_picture,
-    create_bill, get_uncategorized_goods_bill
+    create_bill, get_uncategorized_goods_bill,
+    get_uncategorized_product
 )
 from ..schemas.bill import (
     Bill, BillCreateByURL, BillUpdate, BillCreate
 )
 from ..schemas.goods import Goods
+from ..schemas.user_product import UncategorizedUserProduct
 
 
 @app.get(
@@ -114,3 +116,24 @@ async def put_bill_route(
 async def delete_bill_route(id: UUID, user=Depends(manager)) -> Bill:
     bill: Bill = await delete_bill(id=id, user_id=user.id)
     return bill
+
+
+@app.get(
+    URLPathsConfig.PREFIX + "/bills/{id}/uncategorized_products/",
+    tags=['Bills'],
+    response_model=List[UncategorizedUserProduct]
+)
+@app.get(
+    URLPathsConfig.PREFIX + "/bills/{id}/uncategorized_products/{cat_id}",
+    tags=['Bills'],
+    response_model=List[UncategorizedUserProduct]
+)
+async def uncategorized_products_bill_cat_route(
+    id: UUID,
+    cat_id: Optional[UUID] = None,
+    user=Depends(manager)
+) -> List[UncategorizedUserProduct]:
+    product_list: List[UncategorizedUserProduct] = await get_uncategorized_product(
+        id=id, user_id=user.id, cat_id=cat_id
+    )
+    return product_list

@@ -8,11 +8,9 @@ from sqlalchemy import (
 )
 
 from .base import (
-    Model, association_goods_category, association_product_category
+    Model, user_product_category, association_goods_category
 )
 from .user import User
-from .goods import Goods
-from .product import Product
 
 
 class Category(Model):
@@ -30,13 +28,13 @@ class Category(Model):
         nullable=True
     )
 
-    goods: Mapped[Set[Goods]] = relationship(
-        secondary=association_goods_category,
-        back_populates="categories"
-    )
+    # goods: Mapped[Set["Goods"]] = relationship(
+    #     secondary=association_goods_category,
+    #     back_populates="categories"
+    # )
 
-    products: Mapped[Set[Product]] = relationship(
-        secondary=association_product_category,
+    user_products: Mapped[Set["UserProduct"]] = relationship(
+        secondary=user_product_category,
         back_populates="categories"
     )
 

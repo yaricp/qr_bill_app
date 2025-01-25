@@ -41,3 +41,8 @@ class ProductInDB(ProductInDBBase):
 class CategoryProduct(BaseModel):
     product_id: UUID
     cat_id: UUID
+
+
+class UncategorizedProduct(BaseModel):
+    name: str
+    count: int

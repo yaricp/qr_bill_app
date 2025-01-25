@@ -5,16 +5,23 @@ from decimal import Decimal
 from requests import post
 from loguru import logger
 from datetime import datetime
+from sqlalchemy.sql import text
+from sqlalchemy.sql import func
 
 from ..infra.database import db_session
-from ..infra.database.models import Bill as BillORM
-from ..infra.database.models import Goods as GoodsORM
+from ..infra.database.models import (
+    Bill as BillORM,
+    Goods as GoodsORM,
+    Product as ProductORM,
+    Category as CategoryORM
+)
 
 from .entities.unit import Unit, UnitCreate
 from .entities.bill import Bill, BillCreate, BillCreateByURL
 from .entities.goods import Goods, GoodsCreate
 from .entities.seller import Seller, SellerCreate
 from .entities.product import Product, ProductCreate
+from .entities.user_product import UncategorizedUserProduct
 from .unit import UnitCommands
 from .seller import SellerCommands
 from .goods import GoodsCommands
@@ -55,22 +62,76 @@ class BillQueries:
 
     async def get_uncategorized_product(
         self, bill_id: UUID, user_id: UUID, cat_id: UUID | None = None
-    ) -> List[Product]:
+    ) -> List[UncategorizedUserProduct]:
+        logger.info(f"user_id: {user_id}")
+        logger.info(f"bill_id: {bill_id}")
+        logger.info(f"cat_id: {cat_id}")
         result = []
-        bill_goods = GoodsORM.query.filter_by(
-            bill_id=bill_id, user_id=user_id
-        ).all()
-        for u_goods in bill_goods:
-            if cat_id:
-                logger.info(f"u_goods.categories: {u_goods.categories}")
-                if cat_id not in [item.id for item in u_goods.categories]:
-                    result.append(u_goods)
-            else:
-                logger.info(f"u_goods.categories: {u_goods.categories}")
-                if not u_goods.categories:
-                    logger.info(f"added: {u_goods}")
-                    result.append(u_goods)
-        logger.info(f"get_uncategorized_goods result: {result}")
+        sql_queries = {
+            "cat": "SELECT user_product.id, product.name FROM goods "\
+                " LEFT JOIN user_product ON user_product.id = goods.user_product_id "\
+                " LEFT JOIN product ON user_product.product_id = product.id "\
+                " LEFT JOIN user_product_category "\
+                " ON user_product_category.user_product_id = user_product.id "\
+                f" WHERE goods.user_id = '{user_id}' "\
+                f" AND goods.bill_id = '{bill_id}' "\
+                " GROUP BY user_product.id, product.name "\
+                " HAVING SUM(CASE "\
+                f" WHEN user_product_category.cat_id != '{cat_id}' "\
+                " THEN 0 ELSE 1 END) = 0;",
+            "no_cat": "SELECT user_product.id, product.name FROM goods "\
+                " LEFT JOIN user_product ON user_product.id = goods.user_product_id "\
+                " LEFT JOIN product ON user_product.product_id = product.id "\
+                " LEFT JOIN user_product_category "\
+                " ON user_product_category.user_product_id = user_product.id "\
+                f" WHERE goods.user_id = '{user_id}' "\
+                f" AND goods.bill_id = '{bill_id}' "\
+                " GROUP BY user_product.id, product.name "\
+                " HAVING COUNT(user_product_category.id) = 0;"
+            }
+        
+        # result = db_session.query(
+        #     ProductORM.name,
+        #     func.count(CategoryORM.id).label("count")
+        # ).options(lazyload(CategoryORM.products)).join(
+        #     CategoryORM.products, full=True
+        # ).where(
+        #     CategoryORM.user_id == user_id,
+        #     CategoryORM.id == cat_id,
+        #     GoodsORM.user_id == user_id,
+        #     GoodsORM.bill_id == bill_id,
+        # ).group_by(
+        #     ProductORM.name
+        # ).all()
+        # .having(func.count(CategoryORM.id) == 0)
+        # if not cat_id:
+        #     result = db_session.execute(text(
+        #         "SELECT product.name, COUNT(category.id) FROM product"\
+        #         " LEFT OUTER JOIN association_product_category"\
+        #         " ON product.id = association_product_category.product_id"\
+        #         " LEFT OUTER JOIN category ON"\
+        #         " association_product_category.cat_id = category.id"\
+        #         " JOIN goods ON goods.product_id = product.id"\
+        #         " JOIN bill ON goods.bill_id = bill.id"\
+        #         f" WHERE bill.user_id = '{user_id}'"\
+        #         f" AND goods.bill_id = '{bill_id}'"\
+        #         " GROUP BY product.name"\
+        #         " HAVING COUNT(category.id) = 0;"
+        #     ))
+
+        if cat_id:
+            logger.info(f"With cat ID: {cat_id}")
+            result = db_session.execute(
+                text(sql_queries["cat"])
+            )
+        else:
+            logger.info("Without Category")
+            result = db_session.execute(
+                text(sql_queries["no_cat"])
+            )
+
+        logger.info(f"result: {result}")
+
         return result
 
 
@@ -182,8 +243,8 @@ class BillCommands:
             income_product = ProductCreate(
                 name=name_goods_product
             )
-            product_db = await self.product_commands.get_or_create(
-                incoming_item=income_product
+            user_product_db = await self.product_commands.get_or_create_user_product(
+                incoming_item=income_product, user_id=user_id
             )
             fiscal_id = int(in_goods["id"]) if in_goods["id"] else None
             incoming_goods = GoodsCreate(
@@ -202,7 +263,7 @@ class BillCommands:
                 bill_id=bill_db.id,
                 seller_id=seller_db.id,
                 user_id=user_id,
-                product_id=product_db.id
+                user_product_id=user_product_db.id
             )
             logger.info(f"incoming_goods: {incoming_goods}")
             goods_db = await self.goods_commands.get_or_create(

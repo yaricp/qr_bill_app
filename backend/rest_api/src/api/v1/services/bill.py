@@ -7,6 +7,7 @@ from ..schemas.bill import (
     Bill, BillUpdate, BillCreate, BillCreateByURL
 )
 from ..schemas.goods import Goods
+from ..schemas.user_product import UncategorizedUserProduct
 
 
 # -----Views-----
@@ -29,6 +30,16 @@ async def get_uncategorized_goods_bill(
     return await query.get_uncategorized_goods(
         bill_id=id, user_id=user_id, cat_id=cat_id
     )
+
+
+async def get_uncategorized_product(
+     id: UUID, user_id: UUID, cat_id: UUID | None = None
+) -> List[UncategorizedUserProduct]:
+    query: BillQueries = BillQueries()
+    return await query.get_uncategorized_product(
+        bill_id=id, user_id=user_id, cat_id=cat_id
+    )
+
 
 # -------Commands-------
 

@@ -12,7 +12,7 @@ from .bill import Bill
 from .unit import Unit
 from .seller import Seller
 from .user import User
-from .product import Product
+from .user_product import UserProduct
 
 
 class Goods(Model):
@@ -40,10 +40,10 @@ class Goods(Model):
     )
     unit = relationship("Unit")
 
-    product_id = Column(
-        UUID, ForeignKey(Product.id), nullable=True
+    user_product_id = Column(
+        UUID, ForeignKey(UserProduct.id), nullable=True
     )
-    product = relationship("Product")
+    user_product = relationship("UserProduct")
 
     bill_id = Column(
         UUID,
@@ -66,10 +66,10 @@ class Goods(Model):
     )
     seller = relationship("Seller")
 
-    categories: Mapped[Set["Category"]] = relationship(
-        secondary=association_goods_category,
-        back_populates="goods"
-    )
+    # categories: Mapped[Set["Category"]] = relationship(
+    #     secondary=association_goods_category,
+    #     back_populates="goods"
+    # )
 
     def __repr__(self):
         return f"Goods {self.name} with id - <{self.id}>"

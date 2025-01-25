@@ -239,17 +239,29 @@ class GoodsCommands:
             )
             await self.update_goods(incoming_item=new_goods)
         return True
-    
-    async def create_product_categories_by_goods(self) -> bool:
+
+    async def create_user_product_categories_by_goods(self) -> bool:
         for goods in GoodsORM.query.all():
+            logger.info(f"goods: {goods}")
             new_production = ProductCreate(
                 name=unification_names(goods.name)
             )
-            product_db = await self.product_commands.get_or_create(
-                incoming_item=new_production
+            func = self.product_commands.get_or_create_user_product
+            user_product_db = await func(
+                incoming_item=new_production,
+                user_id=goods.user_id
             )
-            # cats = goods.categories.all()
-            for cat in goods.categories:
-                cat.products.add(product_db)
+            logger.info(f"user_product_db: {user_product_db}")
 
+            update_good = GoodsUpdate(
+                id=goods.id,
+                user_product_id=user_product_db.id
+            )
+            await self.update_goods(incoming_item=update_good)
+            logger.info(f"goods.categories: {goods.categories}")
+            for cat in goods.categories:
+                logger.info(f"cat: {cat}")
+                logger.info(f"cat.user_products: {cat.user_products}")
+                cat.user_products.add(user_product_db)
+                db_session.commit()
         return True

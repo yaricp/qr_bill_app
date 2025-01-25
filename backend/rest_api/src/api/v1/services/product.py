@@ -1,10 +1,14 @@
 from uuid import UUID
 from typing import List
+from loguru import logger
 
 from ....app.product import ProductQueries, ProductCommands
 
 from ..schemas.product import (
     Product, ProductCreate, ProductUpdate
+)
+from ..schemas.user_product import (
+    UncategorizedUserProduct, CategorizedProduct
 )
 
 
@@ -24,6 +28,15 @@ async def get_all_products() -> List[Product]:
 async def get_product(id: UUID) -> Product:
     queries: ProductQueries = ProductQueries()
     return await queries.get_product(id=id)
+
+
+async def get_uncategorized_product(
+    user_id: UUID, cat_id: UUID | None = None
+) -> List[UncategorizedUserProduct]:
+    queries: ProductQueries = ProductQueries()
+    return await queries.get_uncategorized_product(
+        user_id=user_id, cat_id=cat_id
+    )
 
 
 # ------Actons(Commands)-------
@@ -51,4 +64,15 @@ async def update_product(
 async def delete_product(id: UUID) -> Product:
     command = ProductCommands()
     command_result = await command.delete_product(id=id)
+    return command_result
+
+
+async def save_categorized_products(
+    cat_prod_data: List[CategorizedProduct]
+) -> bool:
+    prod_command = ProductCommands()
+    logger.info(f"cat_prod_data: {cat_prod_data}")
+    command_result = await prod_command.save_categorized_products(
+        cat_prod_data=cat_prod_data
+    )
     return command_result

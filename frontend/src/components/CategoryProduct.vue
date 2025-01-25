@@ -105,15 +105,15 @@
       {{ prod.name }}
     </div>
     <div class="col-md-4">
-      <span 
+      <!-- <span 
         v-for="(cat_name, index) in prod.categories"
         :key="index"
       > {{ cat_name }}, &nbsp;
-      </span>
+      </span> -->
     </div>
     <div class="col-md-2">
       <router-link
-        :to="'/product_detail/' + prod.id"
+        :to="'/goods_detail/' + prod.id"
       >Details</router-link>
     </div>
   </div>
@@ -195,7 +195,7 @@
             id, this.authToken, cat_id 
           );
           console.log(
-            "retrieveBillUncategorizedGoods result: ",
+            "retrieveBillUncategorizedProducts result: ",
             response.data
           );
           this.fillProductList(response.data);
@@ -209,7 +209,7 @@
             this.authToken, cat_id
           );
           console.log(
-            "retrieveUncategorizedGoodsresult: ",
+            "retrieveUncategorizedProductsresult: ",
             response.data
           );
           this.fillProductList(response.data);
@@ -217,19 +217,15 @@
           checkTokenExpired(e);
         }
       }, 
-      async fillProductList(prod_list: IProduct[]){
+      async fillProductList(inner_prod_list: IProduct[]){
         this.prod_list = [];
         await this.$nextTick();
-        for (let prod of prod_list){
-          let list_cat_names: string[] = prod.categories.map(
-            (prod) => prod
-          );
-            this.prod_list.push({
-                id: prod.id,
-                name: prod.name,
-                checked: false,
-                categories: list_cat_names
-            })
+        for (let prod of inner_prod_list){
+          this.prod_list.push({
+            id: prod.id,
+            name: prod.name,
+            checked: false
+          })
         }
         this.full_prod_list = this.prod_list;
         // await this.$nextTick();
@@ -240,6 +236,7 @@
         try {
           console.log("this.show_all_categories: ", this.show_all_categories);
           if (this.show_all_categories){
+            console.log("this.currentCat.id: ", this.currentCat.id);
             await this.getAllProducts(this.currentCat.id);
           } else {
             await this.getAllProducts();
@@ -254,7 +251,7 @@
         for (let prod of this.prod_list) {
           if (prod.checked && this.currentCat) {
             prod_for_save_list.push({
-              product_id: prod.id,
+              user_product_id: prod.id,
               cat_id: this.currentCat.id
             })
           }

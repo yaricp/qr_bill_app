@@ -4,7 +4,7 @@ from decimal import Decimal
 
 from pydantic import BaseModel
 
-from .product import Product
+from .user_product import UserProduct
 
 
 # Shared properties
@@ -27,7 +27,7 @@ class CategoryUpdate(CategoryBase):
 class CategoryInDBBase(CategoryBase):
     id: UUID
     name: str
-    products: List[Product]
+    # user_products: List[UserProduct]
 
     class Config:
         orm_mode = True

@@ -40,6 +40,7 @@ class BillDataService {
   getUncategorizedProducts(
     id: string, token: string, cat_id?: string
   ): Promise<any> {
+    console.log("cat_id: ", cat_id);
     return http.get(
       `/bills/${id}/uncategorized_products/${cat_id ? cat_id : ""}`,
       authHeaders(token)

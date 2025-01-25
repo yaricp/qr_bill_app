@@ -11,7 +11,8 @@ from ..services.goods import (
     update_goods, delete_goods, list_count_group_by_name,
     list_summ_group_by_name, strip_all_names,
     list_uncategorized_goods, save_categorized_goods,
-    update_goods_categories, create_product_categories_by_goods
+    update_goods_categories,
+    create_user_product_categories_by_goods
 )
 from ..schemas.goods import (
     Goods, GoodsCreate, GoodsUpdate, GoodsCountByName,
@@ -33,23 +34,6 @@ async def create_goods_route(
     item_in.user_id = user.id
     goods = await create_goods(goods_data=item_in)
     return goods
-
-
-@app.post(
-    URLPathsConfig.PREFIX + "/goods/save_categorized/",
-    tags=['Goods'],
-    response_model=bool
-)
-async def save_categorized_goods_route(
-    data_in: List[CategoryGoods], user=Depends(manager)
-) -> bool:
-    """
-    Assosiate category to several goods.
-    """
-    result = await save_categorized_goods(
-        goods_data=data_in
-    )
-    return result
 
 
 @app.post(
@@ -190,10 +174,12 @@ async def strip_all_names_goods_route(user=Depends(manager)) -> bool:
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/goods/create_product_categories/",
+    URLPathsConfig.PREFIX + "/goods/create_user_product_categories/",
     tags=['Goods'],
     response_model=bool
 )
-async def create_product_categories_route(user=Depends(manager)) -> bool:
-    result: bool = await create_product_categories_by_goods()
+async def create_user_product_categories_by_goods_route(
+    user=Depends(manager)
+) -> bool:
+    result: bool = await create_user_product_categories_by_goods()
     return result

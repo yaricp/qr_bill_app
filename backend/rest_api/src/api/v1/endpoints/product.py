@@ -1,5 +1,5 @@
 from uuid import UUID
-from typing import List
+from typing import List, Optional
 from loguru import logger
 
 from fastapi import Depends
@@ -7,11 +7,15 @@ from fastapi import Depends
 from ... import app, manager
 from ...config import URLPathsConfig
 from ..services.product import (
-    get_product, create_product,
-    update_product, delete_product, get_all_products
+    get_product, create_product, update_product,
+    delete_product, get_all_products,
+    get_uncategorized_product, save_categorized_products
 )
 from ..schemas.product import (
     Product, ProductCreate, ProductUpdate
+)
+from ..schemas.user_product import (
+    UncategorizedUserProduct, CategorizedProduct
 )
 
 
@@ -72,3 +76,39 @@ async def update_product_route(
 async def delete_product_route(id: UUID, user=Depends(manager)):
     product: Product = await delete_product(id=id)
     return product
+
+
+@app.get(
+    URLPathsConfig.PREFIX + "/products/uncategorized/",
+    tags=['Products'],
+    response_model=List[UncategorizedUserProduct]
+)
+@app.get(
+    URLPathsConfig.PREFIX + "/products/uncategorized/{cat_id}",
+    tags=['Products'],
+    response_model=List[UncategorizedUserProduct]
+)
+async def get_uncategorized_product_route(
+    cat_id: Optional[UUID] = None, user=Depends(manager)
+) -> List[UncategorizedUserProduct]:
+    product: List[UncategorizedUserProduct] = await get_uncategorized_product(
+        user_id=user.id, cat_id=cat_id
+    )
+    return product
+
+
+@app.post(
+    URLPathsConfig.PREFIX + "/products/save_categorized/",
+    tags=['Products'],
+    response_model=bool
+)
+async def save_categorized_goods_route(
+    data_in: List[CategorizedProduct], user=Depends(manager)
+) -> bool:
+    """
+    Assosiate category to several goods.
+    """
+    result = await save_categorized_products(
+        cat_prod_data=data_in
+    )
+    return result

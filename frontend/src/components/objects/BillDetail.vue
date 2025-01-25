@@ -48,7 +48,7 @@
         currentBill: {} as IBill,
         itemsReady: false as boolean,
         translate_first_column: true as boolean,
-        go_to_object: "category_goods_bill_id" as string,
+        go_to_object: "category_products_bill_id" as string,
         fields: [
           "Field", "Value"
         ],

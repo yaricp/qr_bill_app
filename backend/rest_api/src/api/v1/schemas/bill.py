@@ -5,7 +5,7 @@ from decimal import Decimal
 
 from pydantic import BaseModel
 
-from .goods import Goods
+from .goods import GoodsForList
 from .seller import Seller
 
 
@@ -43,7 +43,7 @@ class BillInDBBase(BillBase):
     value: Decimal
     seller_id: UUID
     seller: Seller
-    goods_list: List[Goods] = []
+    goods_list: List[GoodsForList] = []
 
     class Config:
         orm_mode = True

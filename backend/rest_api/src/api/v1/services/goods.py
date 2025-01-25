@@ -124,7 +124,7 @@ async def strip_all_names() -> bool:
     return result
 
 
-async def create_product_categories_by_goods() -> bool:
+async def create_user_product_categories_by_goods() -> bool:
     goods_command = GoodsCommands()
-    result: bool = await goods_command.create_product_categories_by_goods()
+    result: bool = await goods_command.create_user_product_categories_by_goods()
     return result

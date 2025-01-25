@@ -12,7 +12,7 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/category_goods" class="nav-link">
+            <router-link to="/category_products" class="nav-link">
               {{ $t("menu.cat_goods") }}
             </router-link>
           </li>

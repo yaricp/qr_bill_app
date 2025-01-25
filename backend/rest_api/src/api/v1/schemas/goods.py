@@ -70,6 +70,10 @@ class GoodsUpdate(GoodsBase):
     id: UUID
 
 
+class GoodsForList(BaseModel):
+    name: str
+
+
 # Properties shared by models stored in DB
 class GoodsInDBBase(GoodsBase):
     id: UUID
