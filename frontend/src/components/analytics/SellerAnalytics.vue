@@ -129,18 +129,28 @@ export default defineComponent({
       first_of_by_quantity_goods: 10 as number,
       chartDataCountBillsByName: {
         labels: [ 'January', 'February', 'March' ],
-        datasets: [ { data: [40, 20, 12] } ]
+        datasets: [ { 
+          label: 'Count Bills By Name',
+          data: [40, 20, 12]
+         } ]
       },
       chartDataSummBillsByName: {
         labels: [ 'January', 'February', 'March' ],
-        datasets: [ { data: [40, 20, 12] } ]
+        datasets: [ { 
+          label: 'Summ Bills By Name',
+          data: [40, 20, 12]
+        } ]
       },
       chartDataCountGoodsByName: {
         labels: [ 'January', 'February', 'March' ],
-        datasets: [ { data: [40, 20, 12] } ]
+        datasets: [ { 
+          label: 'Count Goods By Name',
+          data: [40, 20, 12] 
+        } ]
       },
       chartOptions: {
-        responsive: true
+        responsive: true,
+        onClick: this.chartOnClick
       },
       bills_list_by_count: [] as ICountSellerByName[],
       bills_list_by_summ: [] as ISummSellerByName[],
@@ -228,6 +238,33 @@ export default defineComponent({
       this.chartDataCountGoodsByName.labels = count_goods_by_name_labels;
       this.loaded_by_quantity_goods = true;
     },
+    chartOnClick1(evt: any) {
+      let chart = evt.chart
+      const points = chart.getElementsAtEventForMode(
+        evt, 'nearest', {}, true
+      );
+      
+      if (points.length) {
+        const firstPoint = points[0];
+        //var label = myChart.data.labels[firstPoint.index];
+        //var value = myChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
+        let datasetIndex = firstPoint.datasetIndex, index = firstPoint.index;
+        
+        if (firstPoint.element.hidden != true) {
+            chart.hide(datasetIndex, index);
+        } else {
+            chart.show(datasetIndex, index);
+        }
+        // chart.data.datasets[0].data.splice(index, 1);
+        // chart.update();
+        // let meta = chart.getDatasetMeta(datasetIndex).data[index];
+
+        // // toggle visibility of index if exists
+        // if (meta) {
+        //   meta.hidden = !meta.hidden;
+        // }
+      }
+    }
   },
   async mounted() {
     this.fillChartDataCountBillsByNameSeller();
