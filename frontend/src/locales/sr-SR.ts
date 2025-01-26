@@ -6,5 +6,6 @@ export default {
   },
   short_lang: "sr-SR",
   hello: "здраво",
-  yes: "да"
+  yes: "да",
+  for: "for"
 }

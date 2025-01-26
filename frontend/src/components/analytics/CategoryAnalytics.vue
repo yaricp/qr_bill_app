@@ -63,7 +63,7 @@
       <div class="col">
         <p>
           {{ plot_header_by_summ }}&nbsp;
-          <span v-if="showedByMonths">for {{ getCurrentMonthName() }}</span> 
+          <span v-if="showedByMonths">{{ $t("for") }} &nbsp; {{ getCurrentMonthName() }}</span> 
         </p>
       </div>
     </div>
@@ -244,14 +244,9 @@ export default defineComponent({
       await this.fillChartDataSummByName();
     },
     getCurrentMonthName(delta_month?: number){
-      const month = [
-        "January","February","March","April","May",
-        "June","July","August","September","October",
-        "November","December"
-      ];
       if (this.delta_month == 0){
         let d = new Date();
-        return month[d.getMonth()];
+        return this.$t("month." + String(d.getMonth() + 1));
       }  
     }
   },
