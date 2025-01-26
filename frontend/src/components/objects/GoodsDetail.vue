@@ -39,7 +39,7 @@
                   class="form-check-label" 
                   for="flexCheckDefault"
                 >
-                  {{ cat.name }} - {{ cat.checked }}
+                  {{ cat.name }}
                 </label>
 
               </li>
