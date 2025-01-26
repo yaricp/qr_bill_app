@@ -21,7 +21,7 @@
               <option 
                 v-for="locale in $i18n.availableLocales" 
                 :key="`locale-${locale}`" 
-                :value="locale">{{ locale }}
+                :value="locale">{{ $t("lang." + locale) }}
               </option>
             </select>
           </div>

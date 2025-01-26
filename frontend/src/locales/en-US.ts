@@ -1,6 +1,12 @@
 import sellers from "@/services/sellers";
 
 export default {
+  lang: {
+    en: "English",
+    ru: "Русский",
+    sr: "Српски"
+  },
+  short_lang: "en-US",
   hello: "hello",
   yes: "yes",
   install_btn: "Install QRacun",
@@ -124,7 +130,13 @@ export default {
       first_by_count: "First from all by count:",
       btn_update: "Update",
       first_by_summ: "First from all by summ:",
-      options: "Options"
+      options: "Options",
+      plot_count: {
+        label: "Quantities goods by categories"
+      },
+      plot_summ: {
+        label: "Total price goods by categories"
+      }
     },
     goods: {
       header: {
@@ -135,7 +147,13 @@ export default {
       first_by_count: "First from all by count:",
       btn_update: "Update",
       first_by_summ: "First from all by summ:",
-      options: "Options"
+      options: "Options",
+      plot_count: {
+        label: "Number of goods by name of goods"
+      },
+      plot_summ: {
+        label: "Total of sum by name of goods"
+      }
     },
     sellers: {
       header: {
@@ -148,6 +166,15 @@ export default {
       btn_update: "Update",
       first_by_summ: "First from all by summ:",
       first_goods_by_summ: "First from all by count goods:",
+      plot_count: {
+        label: "Number of bills by name of sellers"
+      },
+      plot_summ: {
+        label: "Total sum of bills By name of Sellers"
+      },
+      plot_goods: {
+        label: "Number of goods by name of sellers"
+      }
     }
   },
   lists: {

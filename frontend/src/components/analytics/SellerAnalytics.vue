@@ -4,10 +4,41 @@
       <div class="col">
         <h4>{{ main_header }}</h4>
       </div>
-    </div>
+    </div> 
     <div class="row">
       <div class="col">
         <hr/>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p>{{ plot_header_by_summ_bills }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        {{ $t("analytics.sellers.first_by_summ") }}&nbsp; 
+        <input v-model="first_of_by_summ_bills" size="3">&nbsp;
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          @click="fillChartDataSummBillsByNameSeller"
+        >{{ $t("analytics.sellers.btn_update") }}</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <Bar
+          v-if="loaded_by_summ_bills"
+          id="my-chart-id2"
+          :options="chartOptions"
+          :data="chartDataSummBillsByName"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <hr>
       </div>
     </div>
     <div class="row">
@@ -33,37 +64,6 @@
           id="my-chart-id1"
           :options="chartOptions"
           :data="chartDataCountBillsByName"
-        />
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <hr>
-      </div>
-    </div> 
-    <div class="row">
-      <div class="col">
-        <p>{{ plot_header_by_summ_bills }}</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        {{ $t("analytics.sellers.first_by_summ") }}&nbsp; 
-        <input v-model="first_of_by_summ_bills" size="3">&nbsp;
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          @click="fillChartDataSummBillsByNameSeller"
-        >{{ $t("analytics.sellers.btn_update") }}</button>
-      </div>
-    </div> 
-    <div class="row">
-      <div class="col">
-        <Bar
-          v-if="loaded_by_summ_bills"
-          id="my-chart-id2"
-          :options="chartOptions"
-          :data="chartDataSummBillsByName"
         />
       </div>
     </div>
@@ -128,24 +128,24 @@ export default defineComponent({
       first_of_by_summ_bills: 10 as number,
       first_of_by_quantity_goods: 10 as number,
       chartDataCountBillsByName: {
-        labels: [ 'January', 'February', 'March' ],
+        labels: [""],
         datasets: [ { 
-          label: 'Count Bills By Name',
-          data: [40, 20, 12]
+          label: this.$t("analytics.sellers.plot_count.label"),
+          data: [0]
          } ]
       },
       chartDataSummBillsByName: {
-        labels: [ 'January', 'February', 'March' ],
+        labels: [""],
         datasets: [ { 
-          label: 'Summ Bills By Name',
-          data: [40, 20, 12]
+          label: this.$t("analytics.sellers.plot_summ.label"),
+          data: [0]
         } ]
       },
       chartDataCountGoodsByName: {
-        labels: [ 'January', 'February', 'March' ],
+        labels: [""],
         datasets: [ { 
-          label: 'Count Goods By Name',
-          data: [40, 20, 12] 
+          label: this.$t("analytics.sellers.plot_goods.label"),
+          data: [0] 
         } ]
       },
       chartOptions: {

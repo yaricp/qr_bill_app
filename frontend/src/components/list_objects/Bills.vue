@@ -64,7 +64,9 @@
         let items = [];
         for (let bill of this.bills_list){
           items.push({
-            "Created": bill.created,
+            "Created": new Date(bill.created).toLocaleString(
+              this.$t("short_lang")
+            ),
             "Seller": bill.seller.official_name,
             "Summ": Number(bill.value),
             "Image": bill.image,

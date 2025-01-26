@@ -12,37 +12,6 @@
     </div>
     <div class="row">
       <div class="col">
-        <p>{{ plot_header_by_count }}</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        {{ $t("analytics.goods.first_by_count") }}&nbsp;
-        <input v-model="first_of_by_count" size="3">&nbsp;
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          @click="fillChartDataCountByName"
-        >{{ $t("analytics.goods.btn_update") }}</button>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <Bar
-          v-if="loaded_by_count"
-          id="my-chart-id1"
-          :options="chartOptions"
-          :data="chartDataCountByName"
-        />
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <hr>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
         <p>{{ plot_header_by_summ }}</p>
       </div>
     </div>
@@ -64,6 +33,37 @@
           id="my-chart-id2"
           :options="chartOptions"
           :data="chartDataSummByName"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <hr>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p>{{ plot_header_by_count }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        {{ $t("analytics.goods.first_by_count") }}&nbsp;
+        <input v-model="first_of_by_count" size="3">&nbsp;
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          @click="fillChartDataCountByName"
+        >{{ $t("analytics.goods.btn_update") }}</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <Bar
+          v-if="loaded_by_count"
+          id="my-chart-id1"
+          :options="chartOptions"
+          :data="chartDataCountByName"
         />
       </div>
     </div>
@@ -94,12 +94,18 @@ export default defineComponent({
       first_of_by_count: 10 as number,
       first_of_by_summ: 10 as number,
       chartDataCountByName: {
-        labels: [ 'January', 'February', 'March' ],
-        datasets: [ { data: [40, 20, 12] } ]
+        labels: [''],
+        datasets: [{
+          label: this.$t("analytics.goods.plot_count.label"),
+          data: [40, 20, 12]
+        }]
       },
       chartDataSummByName: {
-        labels: [ 'January', 'February', 'March' ],
-        datasets: [ { data: [40, 20, 12] } ]
+        labels: [''],
+        datasets: [{
+          label: this.$t("analytics.goods.plot_summ.label"),
+          data: [40, 20, 12]
+        }]
       },
       chartOptions: {
         responsive: true

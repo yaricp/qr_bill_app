@@ -1,4 +1,10 @@
 export default {
+  lang: {
+    en: "English",
+    ru: "Русский",
+    sr: "Српски"
+  },
+  short_lang: "ru-RU",
   hello: "привет",
   yes: "да",
   install_btn: "Установить QRacun",
@@ -122,7 +128,13 @@ export default {
       first_by_count: "Показать первые по количеству:",
       btn_update: "Обновить",
       first_by_summ: "Показать первые по сумме:",
-      options: "Опции"
+      options: "Опции",
+      plot_count: {
+        label: "Количество товаров по категориям"
+      },
+      plot_summ: {
+        label: "Общая стоимость товаров по категориям"
+      }
     },
     goods: {
       header: {
@@ -133,7 +145,13 @@ export default {
       first_by_count: "Показать первые по количеству:",
       btn_update: "Обновить",
       first_by_summ: "Показать первые по сумме:",
-      options: "Опции"
+      options: "Опции",
+      plot_count: {
+        label: "Количество купленных товаром по именам"
+      },
+      plot_summ: {
+        label: "Затраты на товары по именам"
+      }
     },
     sellers: {
       header: {
@@ -146,6 +164,15 @@ export default {
       btn_update: "Обновить",
       first_by_summ: "Показать первые по сумме:",
       first_goods_by_summ: "Показать первые по количеству товаров:",
+      plot_count: {
+        label: "Количество счетов по именам продавцов"
+      },
+      plot_summ: {
+        label: "Общая сумма счетов по именам продавцов"
+      },
+      plot_goods: {
+        label: "Количество товаров по именам продавцов"
+      }
     }
   },
   lists: {

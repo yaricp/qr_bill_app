@@ -1,4 +1,10 @@
 export default {
-    hello: "здраво",
-    yes: "да"
-  }
+  lang: {
+    en: "English",
+    ru: "Русский",
+    sr: "Српски"
+  },
+  short_lang: "sr-SR",
+  hello: "здраво",
+  yes: "да"
+}

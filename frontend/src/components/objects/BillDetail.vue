@@ -90,7 +90,11 @@
           }
           let value_obj = Object(this.currentBill)[String(key)];
           let value = value_obj;
-          if (key == "goods_list"){
+          if (key == "created"){
+            value = new Date(value).toLocaleString(
+              this.$t("short_lang")
+            )
+          } else if (key == "goods_list"){
             value = "";
             for (let item of value_obj){
               value += item.name + ", ";
