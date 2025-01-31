@@ -155,7 +155,7 @@ export default defineComponent({
                 this.message = this.$t("scanner.message.sent_to_server");
                 this.html5QrcodeScanner.clear();
                 this.$router.push({ 
-                    name: "category_goods_bill_id",
+                    name: "category_products_bill_id",
                     params: {bill_id: response.data.id}
                 })
             } catch(e) {

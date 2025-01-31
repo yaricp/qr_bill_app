@@ -28,7 +28,7 @@
       </div>
     </div>
     <div class="row" v-if="cat_list">
-      <h3>Categories</h3>
+      <h3>{{ $t("lists.cat.head") }}</h3>
     </div>
     <table id="tableComponent" class="table table-bordered table-striped">
       <thead>

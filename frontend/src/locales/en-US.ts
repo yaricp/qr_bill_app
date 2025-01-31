@@ -1,10 +1,8 @@
-import sellers from "@/services/sellers";
-
 export default {
   lang: {
     en: "English",
     ru: "Русский",
-    sr: "Српски"
+    sr: "Сrnogorski(Srpski)"
   },
   short_lang: "en-US",
   hello: "hello",
@@ -88,7 +86,7 @@ export default {
     id: "User ID in system",
     login: "Login",
     password: "Password",
-    password2: "Repeat pasword",
+    password2: "Repeat password",
     change_lang: "Change language",
     btn_update: "Update Login and/or password",
     btn_create: "Create Login and password",
@@ -104,7 +102,7 @@ export default {
   scanner: {
     head: "QR Scanner",
     strings: {
-      start_scan: "Start Scan123"
+      start_scan: "Start Scan"
     },
     status: {
       1: "Choose camera for scanning",

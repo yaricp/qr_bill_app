@@ -2,7 +2,7 @@ export default {
   lang: {
     en: "English",
     ru: "Русский",
-    sr: "Српски"
+    sr: "Сrnogorski(Srpski)"
   },
   short_lang: "ru-RU",
   hello: "привет",
