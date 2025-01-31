@@ -186,6 +186,7 @@ export default defineComponent({
         // for (let cam of cameras) {
         //     this.test_mess += cam.label + ", ";
         // }
+        
         // for (let cam of cameras) {
         //     console.log("cam.name: ", cam.label);
         //     if (cam.label.includes("rear") || cam.label.includes("back")){
@@ -217,6 +218,10 @@ export default defineComponent({
         this.html5QrcodeScanner = new Html5QrcodeScanner(
             "qr-scanner", config, true
         );
+        console.log("this.html5QrcodeScanner: ", this.html5QrcodeScanner)
+        // this.html5QrcodeScanner.Html5QrcodeScannerStrings.scanButtonStartScanningText = () => {
+        //     return this.$t("scanner.strings.start_scan");
+        // }
         this.html5QrcodeScanner.render(
             this.onScanSuccess, undefined
         );

@@ -89,7 +89,7 @@
           let response = await this.$store.dispatch("auth/login", user);
           console.log("response: ", response);
           if(this.loggedIn){
-            this.$router.push("/qr_scanner");
+            this.$router.push("/main");
           } else {
             if (response == 401){
               this.message = "Wrong login or password!";

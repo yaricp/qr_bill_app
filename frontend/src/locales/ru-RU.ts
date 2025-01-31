@@ -9,6 +9,14 @@ export default {
   yes: "да",
   for: "за",
   install_btn: "Установить QRacun",
+  main: {
+    circle: {
+      header: "Твои покупки по категориям за месяц"
+    },
+    number_month: {
+      header: "Ваши расходы за месяц"
+    }
+  },
   filter: {
     title: "Фильтр:",
     filter_names: {
@@ -93,6 +101,9 @@ export default {
   },
   scanner: {
     head: "QR Сканнер",
+    strings: {
+      start_scan: "Старт сканирования"
+    },
     status: {
       1: "Выберите камеру для сканирования",
       2: "Отсканируйте QR-код на чеке",

@@ -15,6 +15,10 @@ from ..infra.database.models import (
     Product as ProductORM,
     Category as CategoryORM
 )
+from ..utils import (
+    get_last_day_of_month_by_datetime,
+    get_fisrt_day_month_by_delta_month
+)
 
 from .entities.unit import Unit, UnitCreate
 from .entities.bill import Bill, BillCreate, BillCreateByURL
@@ -133,6 +137,28 @@ class BillQueries:
         logger.info(f"result: {result}")
 
         return result
+
+    async def get_month_summ(
+        self, user_id: UUID, delta_month: int
+    ) -> Decimal:
+        prev_month_date = get_fisrt_day_month_by_delta_month(
+            delta_month
+        )
+        logger.info(f"prev_month_date: {prev_month_date}")
+        next_month_date = get_last_day_of_month_by_datetime(
+            prev_month_date
+        )
+        logger.info(f"next_month_date: {next_month_date}")
+        result = db_session.query(
+            func.sum(BillORM.value).label("summ")
+        ).filter(
+            BillORM.user_id == user_id,
+            BillORM.created >= prev_month_date,
+            BillORM.created <= next_month_date
+        ).all()
+        logger.info(f"result: {result}")
+        logger.info(f"result: {result[0].summ}")
+        return Decimal(result[0].summ)
 
 
 class BillCommands:

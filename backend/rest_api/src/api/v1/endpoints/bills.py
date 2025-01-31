@@ -1,4 +1,5 @@
 from uuid import UUID
+from decimal import Decimal
 from typing import List, Optional
 
 from fastapi import Depends
@@ -9,7 +10,7 @@ from ..services.bill import (
     get_bill, get_all_bills, parse_link_bill,
     update_bill, delete_bill, scan_qr_picture,
     create_bill, get_uncategorized_goods_bill,
-    get_uncategorized_product
+    get_uncategorized_product, get_month_summ
 )
 from ..schemas.bill import (
     Bill, BillCreateByURL, BillUpdate, BillCreate
@@ -137,3 +138,18 @@ async def uncategorized_products_bill_cat_route(
         id=id, user_id=user.id, cat_id=cat_id
     )
     return product_list
+
+
+@app.get(
+    URLPathsConfig.PREFIX + "/bills/month_summ/{delta_month}",
+    tags=['Bills'],
+    response_model=Decimal
+)
+async def month_summ_bill_route(
+    delta_month: int = 0,
+    user=Depends(manager)
+) -> Decimal:
+    result: Decimal = await get_month_summ(
+        user_id=user.id, delta_month=delta_month
+    )
+    return result

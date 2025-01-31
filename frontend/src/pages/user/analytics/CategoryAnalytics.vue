@@ -171,7 +171,8 @@ export default defineComponent({
         }]
       },
       chartOptions: {
-        responsive: true
+        responsive: true,
+        maintainAspectRatio: false
       },
       goods_list_by_count: [] as ICountSellerByName[],
       goods_list_by_summ: [] as ISummSellerByName[],

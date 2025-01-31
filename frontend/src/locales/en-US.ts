@@ -11,6 +11,14 @@ export default {
   yes: "yes",
   for: "for",
   install_btn: "Install QRacun",
+  main: {
+    circle: {
+      header: "Your purchases by categories for month"
+    },
+    number_month: {
+      header: "Your expenses for the month"
+    }
+  },
   filter: {
     title: "Filter:",
     filter_names: {
@@ -95,6 +103,9 @@ export default {
   },
   scanner: {
     head: "QR Scanner",
+    strings: {
+      start_scan: "Start Scan123"
+    },
     status: {
       1: "Choose camera for scanning",
       2: "Scan you bill with QR code",

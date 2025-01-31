@@ -4,6 +4,12 @@ import { RouteRecordRaw } from "vue-router";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
+    alias: "/main",
+    name: "main",
+    component: () => import("./pages/user/Main.vue"),
+  },
+  {
+    path: "/qr_scanner",
     alias: "/qr_scanner",
     name: "qr_scanner",
     component: () => import("./components/QRScanner.vue"),
@@ -12,19 +18,19 @@ const routes: Array<RouteRecordRaw> = [
     path: "/goods_analytics",
     alias: "/goods_analytics",
     name: "goods_analytics",
-    component: () => import("./components/analytics/GoodsAnalytics.vue"),
+    component: () => import("./pages/user/analytics/GoodsAnalytics.vue"),
   },
   {
     path: "/seller_analytics",
     alias: "/seller_analytics",
     name: "seller_analytics",
-    component: () => import("./components/analytics/SellerAnalytics.vue"),
+    component: () => import("./pages/user/analytics/SellerAnalytics.vue"),
   },
   {
     path: "/category_analytics/:by_months",
     alias: "/category_analytics",
     name: "category_analytics",
-    component: () => import("./components/analytics/CategoryAnalytics.vue"),
+    component: () => import("./pages/user/analytics/CategoryAnalytics.vue"),
   },
   {
     path: "/bills/",
@@ -61,40 +67,30 @@ const routes: Array<RouteRecordRaw> = [
     name: "category_products_bill_id",
     component: () => import("./components/CategoryProduct.vue"),
   },
-  // {
-  //   path: "/category_goods/:bill_id",
-  //   name: "category_goods_bill_id",
-  //   component: () => import("./components/CategoryGoods.vue"),
-  // },
-  // {
-  //   path: "/category_goods",
-  //   name: "category_goods",
-  //   component: () => import("./components/CategoryGoods.vue"),
-  // },
   {
     path: "/logout",
     name: "logout",
-    component: () => import("./components/user/Logout.vue"),
+    component: () => import("./pages/user/Logout.vue"),
   },
   {
     path: "/login",
     name: "login",
-    component: () => import("./components/user/Login.vue"),
+    component: () => import("./pages/user/Login.vue"),
   },
   {
     path: "/login_by_tg/:link",
     name: "login_by_tg",
-    component: () => import("./components/user/LoginByTG.vue"),
+    component: () => import("./pages/user/LoginByTG.vue"),
   },
   {
     path: "/register",
     name: "register",
-    component: () => import("./components/user/Register.vue"),
+    component: () => import("./pages/user/Register.vue"),
   },
   {
     path: "/profile",
     name: "profile",
-    component: () => import("./components/user/Profile.vue"),
+    component: () => import("./pages/user/Profile.vue"),
   }
 ];
 

@@ -47,6 +47,15 @@ class BillDataService {
     );
   }
 
+  getSummForMonth(
+    delta_month: number, token: string
+  ): Promise<any> {
+    return http.get(
+      `/bills/month_summ/${delta_month}`,
+      authHeaders(token)
+    );
+  }
+
 }
 
 export default new BillDataService();

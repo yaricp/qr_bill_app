@@ -2,7 +2,7 @@
   <div id="app">
     <nav class="navbar navbar-expand-lg bg-light">
       <div class="container-fluid" v-if="loggedIn">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/main">
           QRacun<br>
         </a>
         <div class="navbar-nav">

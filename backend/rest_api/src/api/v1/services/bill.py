@@ -1,4 +1,5 @@
 from uuid import UUID
+from decimal import Decimal
 from typing import List
 
 from ....app.bill import BillCommands, BillQueries
@@ -38,6 +39,15 @@ async def get_uncategorized_product(
     query: BillQueries = BillQueries()
     return await query.get_uncategorized_product(
         bill_id=id, user_id=user_id, cat_id=cat_id
+    )
+
+
+async def get_month_summ(
+    user_id: UUID, delta_month: int
+) -> Decimal:
+    query: BillQueries = BillQueries()
+    return await query.get_month_summ(
+        user_id=user_id, delta_month=delta_month
     )
 
 

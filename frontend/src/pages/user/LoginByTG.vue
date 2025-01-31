@@ -37,7 +37,7 @@
     async created() {
       console.log("this.loggedIn", this.loggedIn);
       if (this.loggedIn) {
-        this.$router.push("/qr_scanner");
+        this.$router.push("/main");
       } else {
         this.loading = true;
         let link = this.$route.params.link
