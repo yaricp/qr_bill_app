@@ -2,12 +2,14 @@
     <div class="container">
       <div class="row">
         <div class="col">
-          {{ $t("main.circle.header") }}
+          <center>{{ $t("main.circle.header") }}</center>
         </div>
       </div>
       <div class="row">
         <div class="col" v-if="loaded">
-          <Pie :data="chartData" :options="chartOptions" />
+          <center>
+            <Pie :data="chartData" :options="chartOptions" />
+          </center>
         </div>
       </div>
     </div>

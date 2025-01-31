@@ -11,7 +11,7 @@ export default {
   install_btn: "Установить QRacun",
   main: {
     circle: {
-      header: "Твои покупки по категориям за месяц"
+      header: "Ваши покупки по категориям за месяц"
     },
     number_month: {
       header: "Ваши расходы за месяц"

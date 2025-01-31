@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <div class="row">
-      {{ $t("main.number_month.header") }}
+      <center>{{ $t("main.number_month.header") }}</center>
     </div>
     <div class="row">
       <div class="col">
-        <h1>{{ summ_month }}</h1>
+        <center><h1>{{ summ_month }}</h1></center>
       </div>
     </div>
   </div>
