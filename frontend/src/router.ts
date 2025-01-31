@@ -35,27 +35,27 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/bills/",
     name: "bills",
-    component: () => import("./components/list_objects/Bills.vue"),
+    component: () => import("./pages/user/lists/Bills.vue"),
   },
   {
     path: "/bill_detail/:id",
     name: "bill_detail",
-    component: () => import("./components/objects/BillDetail.vue"),
+    component: () => import("./pages/user/objects/BillDetail.vue"),
   },
   {
     path: "/goods/",
     name: "goods",
-    component: () => import("./components/list_objects/Goods.vue"),
+    component: () => import("./pages/user/lists/Goods.vue"),
   },
   {
     path: "/goods_detail/:id",
     name: "goods_detail",
-    component: () => import("./components/objects/GoodsDetail.vue"),
+    component: () => import("./pages/user/objects/GoodsDetail.vue"),
   },
   {
     path: "/categories",
     name: "categories",
-    component: () => import("./components/list_objects/Categories.vue"),
+    component: () => import("./pages/user/lists/Categories.vue"),
   },
   {
     path: "/category_products/",

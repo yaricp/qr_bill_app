@@ -37,8 +37,8 @@
   import { useStore } from '@/store';
   import { checkTokenExpired } from "@/http-common";
 
-  import NumberMonthAnalytics from "@/pages/user/analytics/NumberMonthAnalytics.vue";
-  import CircleAnalytics  from "@/pages/user/analytics/CircleAnalytics.vue";
+  import NumberMonthAnalytics from "@/components/analytics/NumberMonthAnalytics.vue";
+  import CircleAnalytics  from "@/components/analytics/CircleAnalytics.vue";
 
   export default defineComponent({
     name: "number-analitics-page",

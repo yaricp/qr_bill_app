@@ -122,7 +122,7 @@
       <div class="row">
         <hr/>
       </div>
-      <div class="row">
+      <!-- <div class="row">
         <div class="col"><strong>{{ $t("profile.email") }}:</strong></div>
         <div class="col">
           <span v-if="email_linked && !email_open_for_edit"> {{ currentUser.email }} </span>
@@ -163,11 +163,11 @@
             {{ $t("profile.btn_relink_email") }}
           </button>
         </div>
-      </div>
+      </div> -->
       <div class="row">
         <hr/>
       </div>
-      <div class="row">
+      <!-- <div class="row">
         <div class="col"><strong>{{ $t("profile.tg_id") }}:</strong></div>
         <div class="col">
           <span v-if="tg_linked && !tg_open_for_edit"> {{ currentUser.tg_id }} </span>
@@ -215,7 +215,7 @@
             {{ $t("profile.btn_relink_tg") }}
           </button>
         </div>
-      </div>
+      </div> -->
     </div>
 </template>
   
