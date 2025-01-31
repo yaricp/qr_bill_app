@@ -45,7 +45,7 @@
         try {
           await this.$store.dispatch("auth/login_by_tg", link);
           console.log("before go to profile");
-          this.$router.push("/qr_scanner");
+          this.$router.push("/main");
         } catch(error) {
           this.loading = false;
           this.message = "Problems with authorizate";

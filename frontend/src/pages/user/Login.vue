@@ -79,7 +79,7 @@
     },
     created() {
       if (this.loggedIn) {
-        this.$router.push("/qr_scanner");
+        this.$router.push("/main");
       }
     },
     methods: {
