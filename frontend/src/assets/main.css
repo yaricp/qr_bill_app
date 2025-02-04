@@ -3,3 +3,12 @@
 :root {
     --bs-tertiary-bg-rgb: 101, 127, 220;
 }
+input[type=checkbox]
+{
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(0.8); /* IE */
+  -moz-transform: scale(0.8); /* FF */
+  -webkit-transform: scale(0.8); /* Safari and Chrome */
+  -o-transform: scale(0.8); /* Opera */
+  padding: 20px;
+}

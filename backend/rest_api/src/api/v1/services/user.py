@@ -66,9 +66,9 @@ def check_user_auth(email_login_tg_link: str | UUID) -> User | None:
 #     return user
 
 
-# async def get_user_by_login_link(link: str) -> User:
-#     users_queries: UserQueries = UserQueries()
-#     return await users_queries.get_user_by_login_link(link)
+def get_user_by_login(login: str) -> User:
+    users_queries: UserQueries = UserQueries()
+    return users_queries.get_user_by_login(login)
 
 
 async def get_all_users() -> List[User]:
@@ -82,8 +82,8 @@ async def get_all_users() -> List[User]:
 
 async def register_new_user(user_data: UserCreate) -> User:
     user_commands: UserCommands = UserCommands()
-    command_result = await user_commands.register_user(
-        user_data=user_data
+    command_result = await user_commands.register_user_by_login(
+        incoming_item=user_data
     )
     return command_result
 
@@ -120,3 +120,8 @@ async def verify_email_tg(link: UUID) -> UUID | None:
     return await user_commands.verify_email_tg(
         link=link
     )
+
+
+async def delete_user(id: UUID) -> User:
+    user_commands: UserCommands = UserCommands()
+    return await user_commands.delete_user(id=id)

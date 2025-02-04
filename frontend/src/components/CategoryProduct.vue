@@ -101,7 +101,7 @@
         id="flexCheckDefault"
       >
     </div>
-    <div class="col-md-11">
+    <div class="col-md-11" @click="prod.checked = !prod.checked">
       {{ prod.name }}
     </div>
     <!-- <div class="col-md-4">

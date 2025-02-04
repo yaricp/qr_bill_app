@@ -1,3 +1,4 @@
+from uuid import UUID
 from hashlib import sha256
 from datetime import timedelta
 from loguru import logger
@@ -15,10 +16,12 @@ from ...config import URLPathsConfig, user_login_config
 
 from ..services.user import (
     update_user,
+    delete_user,
     get_all_users,
     verify_email_tg,
     check_user_auth,
     create_temp_link,
+    get_user_by_login,
     register_new_user,
     create_login_password_user
 )
@@ -31,18 +34,24 @@ from ..schemas.user import (
 @app.post(
     URLPathsConfig.PREFIX + '/auth/register/',
     tags=['Authentication'],
-    response_model=User
+    response_model=dict
 )
 async def register_route(
     create_user_data: UserCreate
-) -> User:
+) -> dict:
     """Endpoint for register user in system"""
     logger.info(
         f'Register user: login="{create_user_data.login}" '
-        f'email="{create_user_data.email}"'
     )
+    user = await get_user_by_login(create_user_data.login)
+
+    if user:
+        return {"message": "Sorry, this login is already in use!"}
+
     user = await register_new_user(create_user_data)
-    return user
+    if user:
+        return {"message": "User registered successfull"}
+    return {"message": "Something wrong with registatrion!"}
 
 
 @app.post(
@@ -269,4 +278,21 @@ async def update_user_profile_route(
     logger.info(f"user_profile: {user_profile}")
     user_profile.id = user.id
     user = await update_user(user_profile)
+    return user
+
+
+@app.delete(
+    URLPathsConfig.PREFIX + "/users/{id}",
+    tags=['Users'],
+    response_model=User
+)
+async def delete_user_profile_route(
+    id: UUID,
+    user=Depends(manager)
+) -> User:
+    """
+    Delete user profile.
+    """
+    logger.info(f"user_id: {id}")
+    user = await delete_user(id)
     return user

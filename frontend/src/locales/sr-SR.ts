@@ -9,6 +9,30 @@ export default {
   yes: "yes",
   for: "za",
   install_btn: "Instaliraj QRacun",
+  agreement: {
+    header: "Licenca i ugovori",
+    register_text: "Za korišćenje ove aplikacije morate prihvatiti",
+    register_link: "Licenca i ugovor"
+  },
+  login: {
+    header: "Stranica za prijavu",
+    login: "Prijava",
+    login_btn: "Prijava",
+    password: "Lozinka",
+    you_can_use: "Možete koristiti ovaj link ",
+    to_login_link: " za generisanje linka za ulazak.",
+    go_to_registration: "Ako nemate nalog, možete napraviti ",
+    registration: "Registracija"
+  },
+  register: {
+    header: "Registracija",
+    login: "Prijava",
+    password: "Lozinka",
+    password2: "Ponovite lozinku",
+    reg_btn: "Registracija",
+    login_text: "Ako već imate nalog - ",
+    login_link: "Stranica za prijavu"
+  },
   main: {
     circle: {
       header: "Vaše kupovine po kategorijama za mjesec"
@@ -103,6 +127,17 @@ export default {
       btn_link_tg: "Poveži Telegram",
       btn_relink_tg: "Ponovo poveži Telegram",
       tg_not_verified: "Nije potvrđen!"
+    },
+    dangerous: {
+      confirm_header: "Da li ste sigurni da želite obrisati svoj nalog?",
+      text1: "Da biste obrisali nalog, unesite svoj identifikator naloga",
+      text2: "Imajte na umu da će nakon brisanja svi vaši zapisi o računima i kupovinama nestati. Oporavak naloga neće biti moguć.",
+      header: "Opasna zona!",
+      btn_open: "Otvori",
+      btn_close: "Zatvori",
+      delete_btn: "Obriši",
+      cancel_btn: "Odrzucić",
+      confirm_btn: "Potvrdi"
     },
     btn_change: "Promijeni",
     btn_close: "Zatvori",

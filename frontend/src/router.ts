@@ -93,9 +93,14 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("./pages/user/Register.vue"),
   },
   {
-    path: "/profile",
+    path: "/profile/",
     name: "profile",
     component: () => import("./pages/user/Profile.vue"),
+  },
+  {
+    path: "/agreement/",
+    name: "agreement",
+    component: () => import("./pages/user/Agreement.vue"),
   }
 ];
 
@@ -108,7 +113,11 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const publicPages = [
-    "/login/", "/login_by_tg/", "/register/", "/verify/"
+    "/login/",
+    "/verify/",
+    "/register/",
+    "/agreement/",
+    "/login_by_tg/"
   ];
   console.log("to.path", to.path)
   let authRequired = !publicPages.includes(to.path);
@@ -118,6 +127,8 @@ router.beforeEach((to, from, next) => {
   // trying to access a restricted page + not logged in
   // redirect to login page
   if (to.path.includes("/login_by_tg/")) {
+    next();
+  } else if (to.path.includes("/agreement/")) {
     next();
   } else if (to.path.includes("/verify/")) {
     next();

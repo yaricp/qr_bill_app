@@ -1,14 +1,37 @@
 <template>
     <div class="col-md-12">
       <div class="card card-container">
+        <div class="row">
+          <div class="col">
+            <strong>{{ $t('change_lang')}}</strong>
+          </div>
+          <div class="col">
+            <div class="locale-changer">
+              <select 
+                v-model="$i18n.locale"
+              >
+                <option 
+                  v-for="locale in $i18n.availableLocales" 
+                  :key="`locale-${locale}`" 
+                  :value="locale">{{ $t("lang." + locale) }}
+                </option>
+              </select>
+            </div>
+        </div>
+      </div>
+        <div class="row">
+          <div class="col">
+            <center><h2>{{ $t("login.header" )}}</h2></center>
+          </div>
+        </div>
         <Form @submit="handleLogin" :validation-schema="schema">
           <div class="form-group">
-            <label for="login">Login</label>
+            <label for="login">{{ $t("login.login" )}}</label>
             <Field name="login" type="text" class="form-control" />
             <ErrorMessage name="login" class="error-feedback" />
           </div>
           <div class="form-group">
-            <label for="password">Password</label>
+            <label for="password">{{ $t("login.password" )}}</label>
             <Field name="password" type="password" class="form-control" />
             <ErrorMessage name="password" class="error-feedback" />
           </div>
@@ -19,7 +42,7 @@
                 v-show="loading"
                 class="spinner-border spinner-border-sm"
               ></span>
-              <span>Login</span>
+              <span>{{ $t("login.login_btn" )}}</span>
             </button>
           </div>
   
@@ -30,18 +53,20 @@
           </div>
         </Form>
       </div>
+      <div class="row"><hr></div>
       <div class="card card-container">
         <div class="row">
           <div class="col">
-            you can use 
+            {{ $t("login.you_can_use" )}}&nbsp;
             <a href="https://t.me/qracun_bot">
               https://t.me/qracun_bot
             </a>
-            bot to generte login link.
+            &nbsp;{{ $t("login.to_login_link" )}}
           </div>
           <div class="col">
-            <router-link to="/register/" class="dropdown-item">
-              {{ $t("menu.analytics.categories") }}
+            {{ $t("login.go_to_registration" )}}
+            <router-link to="/register/">
+              {{ $t("login.registration") }}
             </router-link>
           </div>
         </div>
@@ -75,8 +100,9 @@
         .required("Password is required!"),
       });
       return {
-        loading: false,
-        message: "",
+        lang: "" as string,
+        loading: false as boolean,
+        message: "" as string,
         schema,
       };
     },
@@ -113,7 +139,7 @@
           this.loading = false;
           this.message = "Problems with authorizate";
         }
-      },
+      }
     },
 });
 </script>

@@ -4,11 +4,35 @@ export default {
     ru: "Русский",
     sr: "Сrnogorski(Srpski)"
   },
+  change_lang: "Сменить язык",
   short_lang: "ru-RU",
   hello: "привет",
   yes: "да",
   for: "за",
   install_btn: "Установить QRacun",
+  agreement: {
+    register_text: "Если вы хотите продолжить вам необходимо принять ",
+    register_link: "Соглашение"
+  },
+  login: {
+    header: "Страница входа",
+    login: "Логин",
+    login_btn: "Войти",
+    password: "Пароль",
+    you_can_use: "Вы можете использовать этот бот ",
+    to_login_link: " для генерации ссылки для входа.",
+    go_to_registration: "Если у вас еще нет аккаунта, вы можете пройти ",
+    registration: "Регистрацию"
+  },
+  register: {
+    header: "Регистрация",
+    login: "Логин",
+    password: "Пароль",
+    password2: "Повторите пароль",
+    reg_btn: "Отправить",
+    login_text: "Если у вас уже есть аккаунт вы может войти здесь - ",
+    login_link: "Страница входа"
+  },
   main: {
     circle: {
       header: "Ваши покупки по категориям за месяц"
@@ -103,6 +127,17 @@ export default {
       btn_link_tg: "Привязать Телеграм",
       btn_relink_tg: "Перепривязать Телеграм",
       tg_not_verified: "Не подтвержден!"
+    },
+    dangerous: {
+      confirm_header: "Вы уверены, что хотите удалить свою учетную запись?",
+      text1: "Для удаления учетной записи введите свой идентификатор учетной записи",
+      text2: "Учтите что после удаления все ваши записи о счетах и ​​покупках исчезнут. Восстановить аккаунт будет невозможно.",
+      header: "Опасная зона!",
+      btn_open: "Открыть",
+      btn_close: "Закрыть",
+      delete_btn: "Удалить",
+      cancel_btn: "Сбросить",
+      confirm_btn: "Подтвердить"
     },
     btn_change: "Изменить",
     btn_close: "Закрыть",

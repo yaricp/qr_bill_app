@@ -137,24 +137,26 @@
               @keyup="checkEmail"
             >
           </span> &nbsp;&nbsp;
-          <span 
-            v-if="currentUser.email_verified"
-            style="color: green;"
-            :title="$t('profile.email.verified')"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
-              <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
-            </svg>
-          </span>
-          <span 
-            v-if="!currentUser.email_verified"
-            style="color: red;"
-            :title="$t('profile.email.not_verified')"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
-              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-              <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
-            </svg>
+          <span v-if="email_linked">
+            <span 
+              v-if="currentUser.email_verified"
+              style="color: green;"
+              :title="$t('profile.email.verified')"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+              </svg>
+            </span>
+            <span 
+              v-if="!currentUser.email_verified"
+              style="color: red;"
+              :title="$t('profile.email.not_verified')"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
+              </svg>
+            </span>
           </span>
           <span>
             <button
@@ -220,25 +222,27 @@
             >
           </span>
           &nbsp;&nbsp;
-          <span 
-            v-if="currentUser.tg_verified"
-            style="color: green;"
-            :title="$t('profile.tg.verified')"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
-              <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
-            </svg>
-          </span>
-          <span 
-            v-if="!currentUser.tg_verified"
-            style="color: red;"
-            :title="$t('profile.tg.not_verified')"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
-              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-              <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
-            </svg>
-          </span>
+          <span v-if="tg_linked">
+            <span 
+              v-if="currentUser.tg_verified"
+              style="color: green;"
+              :title="$t('profile.tg.verified')"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+              </svg>
+            </span>
+            <span 
+              v-if="!currentUser.tg_verified"
+              style="color: red;"
+              :title="$t('profile.tg.not_verified')"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
+              </svg>
+            </span>
+          </span>  
           <span>
             <button
               class="btn btn-outline-secondary"
@@ -292,9 +296,12 @@
         <hr/>
       </div>
       <div class="row">
-        <div class="col"> {{ $t("profile.dangerous.header")}}</div>
-        <div class="col">
-          
+        <div class="col"> 
+          <span style="color: red;">
+            {{ $t("profile.dangerous.header")}}
+          </span>
+        </div>
+        <div class="col">     
         </div>
         <div class="col">
           <button
@@ -316,22 +323,23 @@
         </div>
       </div>
       <div class="row" v-if="dangerous_zone_open">
-        <div class="col"> {{ $t("profile.dangerous.text")}}</div>
+        <div class="col"> {{ $t("profile.dangerous.text1")}}</div>
         <div class="col">
-          <input type="text"/>
+          <input type="text" v-model="id_for_deleting"/>
         </div>
-        <div class="col">
-          
+        <div class="col">       
         </div>
       </div>
       <div class="row" v-if="dangerous_zone_open">
-        <div class="col"> {{ $t("profile.dangerous.text")}}</div>
+        <div class="col" > {{ $t("profile.dangerous.text2")}}</div>
         <div class="col">
           <button
             class="btn btn-outline-secondary"
             type="button"
-            @click="deleteAccount"
-          >{{ $t("profile.dangerous.delete")}}</button>
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
+            v-if="id_for_deleting"
+          >{{ $t("profile.dangerous.delete_btn")}}</button>
         </div>
         <div class="col">
         </div>
@@ -340,7 +348,46 @@
         <hr/>
       </div>
     </div>
-    
+  
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">
+            {{ $t("profile.dangerous.confirm_header")}}
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close">
+          </button>
+        </div>
+        <div class="modal-body">
+          {{ id_for_deleting }}
+        </div>
+        <div class="modal-footer">
+          <button 
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+            @click="cancelDelete"
+          >
+            {{ $t("profile.dangerous.cancel_btn")}}
+          </button>
+          <button 
+            type="button"
+            class="btn btn-primary"
+            data-bs-dismiss="modal"
+            @click="deleteAccount"
+          >
+            {{ $t("profile.dangerous.confirm_btn")}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </template>
   
 <script lang="ts">
@@ -378,7 +425,8 @@ export default defineComponent({
       tg_mess: "" as string,
       tg_open_for_edit: false as boolean,
       tg_verify_btn_showed: false as boolean,
-      dangerous_zone_open: false as boolean
+      dangerous_zone_open: false as boolean,
+      id_for_deleting: "" as string
     }
   },
   computed: {
@@ -389,7 +437,7 @@ export default defineComponent({
     },
   },
   methods: {
-    async retrieveUser() {
+    async retrieveUser(){
       console.log("start get User from server");
       try {
         let response = await UserService.getUserProfile(
@@ -401,7 +449,7 @@ export default defineComponent({
         checkTokenExpired(e);
       }
     },
-    prepareButtonsAndLabels() {
+    prepareButtonsAndLabels(){
       let link_email_exists;
       let link_tg_exists;
       if (this.currentUser.login){
@@ -481,7 +529,7 @@ export default defineComponent({
         this.tg_verify_btn_showed = false;
       }
     },
-    async saveUserLoginPassword() {
+    async saveUserLoginPassword(){
       console.log("saveUserLoginPassword");
       if (this.checkLogin() && this.checkPasswords()){
         try {
@@ -503,7 +551,7 @@ export default defineComponent({
         }
       }
     },
-    async saveUserEmail() {
+    async saveUserEmail(){
       console.log("saveUserEmail");
       let user_profile = {
         "email": this.currentUser.email
@@ -520,7 +568,7 @@ export default defineComponent({
         console.log("Error: ", e);
       }
     },
-    async saveUserTgID() {
+    async saveUserTgID(){
       console.log("saveUserTgID");
       let tg_id = 0;
       if (this.currentUser.tg_id){
@@ -576,7 +624,7 @@ export default defineComponent({
       );
 
     },
-    async confirmTG() {
+    async confirmTG(){
       try {
         let request = await AuthService.sendVerifyLinkToTG(
           this.currentUser.tg_id, this.authToken
@@ -587,7 +635,7 @@ export default defineComponent({
         console.log("Error: ", err)
       }
     },
-    async confirmEmail() {
+    async confirmEmail(){
       try {
         let request = await AuthService.sendVerifyLinkToEmail(
           this.currentUser.email, this.authToken
@@ -600,6 +648,22 @@ export default defineComponent({
     },
     async deleteAccount(){
       console.log("Delete Account!");
+      console.log("this.id_for_deleting: ", this.id_for_deleting);
+      try {
+        let response = await UserService.deleteUserProfile(
+          this.id_for_deleting, this.authToken
+        );
+        console.log("response.data: ", response.data);
+        this.$store.dispatch('auth/logout');
+        this.$router.push('/login');
+      } catch(e) {
+        checkTokenExpired(e);
+      }
+
+    },
+    cancelDelete(){
+      this.id_for_deleting = "";
+      this.dangerous_zone_open = false;
     }
   },
   async mounted() {
@@ -609,8 +673,6 @@ export default defineComponent({
     console.log("before retrieve User");
     await this.retrieveUser();
     this.prepareButtonsAndLabels();
-    
-    
   }
 });
 </script>

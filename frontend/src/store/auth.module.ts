@@ -141,17 +141,17 @@ export const AuthModule: Module<State, RootState> = {
       AuthService.logout();
       commit('logout');
     },
-    register({ commit }, user) {
-      return AuthService.register(user).then(
-        response => {
-          commit('registerSuccess');
-          return Promise.resolve(response.data);
-        },
-        error => {
-          commit('registerFailure');
-          return Promise.reject(error);
-        }
-      );
+    async register({ commit }, user) {
+      let response;
+      try {
+        response = await AuthService.register(user);
+        console.log("response: ", response);
+        commit('registerSuccess'); 
+      } catch(err) {
+        console.log("Error: ", err);
+        commit('registerFailure');
+      }
+      return response;
     },
     async change_lang({ commit }, lang) {
       try {

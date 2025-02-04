@@ -1,4 +1,5 @@
 **/versions/
+**/emailer/
 *.py[cod]
 
 # C extensions

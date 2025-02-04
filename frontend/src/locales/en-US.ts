@@ -4,11 +4,36 @@ export default {
     ru: "Русский",
     sr: "Сrnogorski(Srpski)"
   },
+  change_lang: "Change language",
   short_lang: "en-US",
   hello: "hello",
   yes: "yes",
   for: "for",
   install_btn: "Install QRacun",
+  agreement: {
+    header: "License and Agreements",
+    register_text: "For use this application you need accept ",
+    register_link: "License and Agreement"
+  },
+  login: {
+    header: "Login Page",
+    login: "Login",
+    login_btn: "Enter",
+    password: "Password",
+    you_can_use: "You can use this link ",
+    to_login_link: " to generate link to enter.",
+    go_to_registration: "If you don't have account you can make ",
+    registration: "Registration"
+  },
+  register: {
+    header: "Registration",
+    login: "Login",
+    password: "Password",
+    password2: "Repeat password",
+    reg_btn: "Registration",
+    login_text: "If you have account already - ",
+    login_link: "Login Page"
+  },
   main: {
     circle: {
       header: "Your purchases by categories for month"
@@ -103,6 +128,17 @@ export default {
       btn_link_tg: "Link Telegram",
       btn_relink_tg: "Relink Telegram",
       tg_not_verified: "Not verified!"
+    },
+    dangerous: {
+      confirm_header: "Are you sure you want delete your account?",
+      text1: "For deleting your account enter your ID account",
+      text2: "Please note that after deletion all your records of bills and purchases will disappear. It will be impossible to restore the account",
+      header: "Dangerous zone!",
+      btn_open: "Open",
+      btn_close: "Close",
+      delete_btn: "Delete",
+      cancel_btn: "Cancel",
+      confirm_btn: "Confirm"
     },
     btn_change: "Change",
     btn_close: "Close",

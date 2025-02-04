@@ -42,10 +42,7 @@ class AuthService {
   }
 
   register(user: IUserLogin) {
-    return http.post('/register/', {
-      username: user.login,
-      password: user.password
-    });
+    return http.post('/auth/register/', user);
   }
 
   sendVerifyLinkToEmail(

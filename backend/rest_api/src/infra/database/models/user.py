@@ -18,6 +18,7 @@ class User(Model):
     email = Column(VARCHAR(150), nullable=True)
     email_verified = Column(Boolean, default=False)
     phone = Column(VARCHAR(14), nullable=True)
+    phone_verified = Column(Boolean, default=False)
     login = Column(VARCHAR(150), nullable=True)
     tg_name = Column(VARCHAR(150), nullable=True)
     tg_id = Column(INTEGER)

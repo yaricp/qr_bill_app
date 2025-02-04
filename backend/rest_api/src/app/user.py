@@ -68,6 +68,21 @@ class UserCommands:
             logger.info(f"user: {user}")
         return user
 
+    async def register_user_by_login(
+        self, incoming_item: UserCreate
+    ) -> User:
+        user = UserORM.query.filter_by(login=incoming_item.login).first()
+        if user:
+            return user
+        user = UserORM(
+            login=incoming_item.login,
+            password_hash=sha256(incoming_item.password.encode()).hexdigest()
+        )
+        db_session.add(user)
+        db_session.commit()
+        logger.info(f"user: {user}")
+        return user
+
     async def register_user_by_email(
         self, incoming_item: UserCreate
     ) -> User:
@@ -89,7 +104,7 @@ class UserCommands:
         user = UserORM.query.filter_by(tg_id=tg_id).first()
         if user:
             return user
-        user = UserORM(tg_id=tg_id)
+        user = UserORM(tg_id=tg_id, tg_verified=True)
         db_session.add(user)
         db_session.commit()
         logger.info(f"user: {user}")
@@ -111,22 +126,29 @@ class UserCommands:
                         lambda x: x.link_for == "email",
                         found_user.links
                     ))
+                    logger.info(f"found_login_links: {found_login_links}")
                     if len(found_login_links) > 0:
                         found_login_link = found_login_links[0]
+                    logger.info(f"found_login_link: {found_login_link}")
                 if key == "tg_id" and found_user.tg_id != value:
                     found_user.tg_verified = False
                     found_login_links = list(filter(
                         lambda x: x.link_for == "tg",
                         found_user.links
                     ))
+                    logger.info(f"found_login_links: {found_login_links}")
                     if len(found_login_links) > 0:
                         found_login_link = found_login_links[0]
+                    logger.info(f"found_login_link: {found_login_link}")
                 setattr(found_user, key, value)
-        db_session.commit()
         if found_login_link:
-            db_session.delete(found_login_link)
+            result_deleting = db_session.delete(found_login_link)
+            logger.info(f"deleted : {found_login_link}")
+            logger.info(f"result_deleting : {result_deleting}")
         logger.info(f"found_user.lang: {found_user.lang}")
+        db_session.commit()
         db_session.refresh(found_user)
+        logger.info(f"refreshed found_user: {found_user}")
         return found_user
 
     async def create_temp_login_link(
@@ -220,3 +242,10 @@ class UserCommands:
             db_session.commit()
             return found_link.id
         return None
+
+    async def delete_user(self, id: UUID) -> User:
+        user = UserORM.query.get(id)
+        if user:
+            db_session.delete(user)
+            db_session.commit()
+        return user

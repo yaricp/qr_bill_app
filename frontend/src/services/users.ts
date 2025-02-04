@@ -26,6 +26,14 @@ class UserService {
   getAdminBoard(token: string): Promise<any>{
     return http.get('/admin/', authHeaders(token));
   }
+
+  deleteUserProfile(
+    user_id: string,
+    token: string
+  ): Promise<any> {
+    return http.delete(`/users/${user_id}`, authHeaders(token));
+  }
+
 }
 
 export default new UserService();
