@@ -15,7 +15,9 @@ class LoginLink(Model):
         UUID, primary_key=True, nullable=False, unique=True,
         default=uuid4
     )
-    link = Column(VARCHAR(255), nullable=False)
+    # link = Column(VARCHAR(255), nullable=False)
+    link_uuid = Column(UUID, nullable=False)
+    link_for = Column(VARCHAR(5), nullable=True)
     created = Column(TIMESTAMP, nullable=False)
     user_id = Column(
         UUID,
@@ -25,4 +27,4 @@ class LoginLink(Model):
     user = relationship("User")
 
     def __repr__(self):
-        return f"Unit {self.name} with id - <{self.id}>"
+        return f"Unit {self.link_uuid} with id - <{self.id}>"

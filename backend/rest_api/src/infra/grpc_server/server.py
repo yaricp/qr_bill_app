@@ -105,7 +105,7 @@ class RestApiGRPC(grpc_pb2_grpc.RestApiGRPCServicer):
     async def GetLoginURL(
         self, request, context: grpc.aio.ServicerContext
     ) -> LoginURL:
-        url = await self.user_commands.create_temp_login_link_by_tg_id(
+        url = await self.user_commands.create_temp_login_link(
             tg_id=request.tg_user_id
         )
         logger.info(f"url: {url} in method of GRPC SErver")

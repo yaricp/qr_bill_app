@@ -158,7 +158,7 @@ class BillQueries:
         ).all()
         logger.info(f"result: {result}")
         logger.info(f"result: {result[0].summ}")
-        return Decimal(result[0].summ)
+        return Decimal(result[0].summ) if result[0].summ else Decimal(0)
 
 
 class BillCommands:

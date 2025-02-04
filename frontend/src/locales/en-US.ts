@@ -84,20 +84,29 @@ export default {
   profile: {
     main_header: "User Profile",
     id: "User ID in system",
-    login: "Login",
-    password: "Password",
-    password2: "Repeat password",
     change_lang: "Change language",
-    btn_update: "Update Login and/or password",
-    btn_create: "Create Login and password",
-    email: "Email",
-    btn_link_email: "Link Email",
-    btn_relink_email: "Relink Email",
-    tg_id: "Telegram ID",
+    login:{
+      login: "Login",
+      password: "Password",
+      password2: "Repeat password",
+      btn_update: "Update Login and/or password",
+      btn_create: "Create Login and password",
+    },
+    email: {
+      email: "Email",
+      btn_link_email: "Link Email",
+      btn_relink_email: "Relink Email",
+      email_not_verified: "Not verified!"
+    },
+    tg: {
+      tg_id: "Telegram ID",
+      btn_link_tg: "Link Telegram",
+      btn_relink_tg: "Relink Telegram",
+      tg_not_verified: "Not verified!"
+    },
     btn_change: "Change",
     btn_close: "Close",
-    btn_link_tg: "Link Telegram",
-    btn_relink_tg: "Relink Telegram"
+    btn_verify: "Verify"
   },
   scanner: {
     head: "QR Scanner",

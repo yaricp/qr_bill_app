@@ -31,11 +31,21 @@
         </Form>
       </div>
       <div class="card card-container">
-        you can use 
-        <a href="https://t.me/qracun_bot">
-          https://t.me/qracun_bot
-        </a>
-         bot to generte login link. 
+        <div class="row">
+          <div class="col">
+            you can use 
+            <a href="https://t.me/qracun_bot">
+              https://t.me/qracun_bot
+            </a>
+            bot to generte login link.
+          </div>
+          <div class="col">
+            <router-link to="/register/" class="dropdown-item">
+              {{ $t("menu.analytics.categories") }}
+            </router-link>
+          </div>
+        </div>
+         
       </div>
     </div>
 </template>

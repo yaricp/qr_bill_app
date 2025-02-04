@@ -84,20 +84,29 @@ export default {
   profile: {
     main_header: "Korisnički profil",
     id: "Korisnički ID u sistemu",
-    login: "Prijava",
-    password: "Lozinka",
-    password2: "Ponovi lozinku",
     change_lang: "Promijeni jezik",
-    btn_update: "Ažuriraj prijavu i/ili lozinku",
-    btn_create: "Kreiraj prijavu i lozinku",
-    email: "Email",
-    btn_link_email: "Poveži email",
-    btn_relink_email: "Ponovo poveži email",
-    tg_id: "Telegram ID",
+    login: {
+      login: "Prijava",
+      password: "Lozinka",
+      password2: "Ponovi lozinku",
+      btn_update: "Ažuriraj prijavu i/ili lozinku",
+      btn_create: "Kreiraj prijavu i lozinku",
+    },
+    email: {
+      email: "Email",
+      btn_link_email: "Poveži email",
+      btn_relink_email: "Ponovo poveži email",
+      email_not_verified: "Nije potvrđen!"
+    },
+    tg: {
+      tg_id: "Telegram ID",
+      btn_link_tg: "Poveži Telegram",
+      btn_relink_tg: "Ponovo poveži Telegram",
+      tg_not_verified: "Nije potvrđen!"
+    },
     btn_change: "Promijeni",
     btn_close: "Zatvori",
-    btn_link_tg: "Poveži Telegram",
-    btn_relink_tg: "Ponovo poveži Telegram"
+    btn_verify: "Potvrdi"
   },
   scanner: {
     head: "QR skener",

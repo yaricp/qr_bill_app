@@ -45,8 +45,8 @@ class LoginLinkCommands:
         return True
 
     def delete(self, id: UUID):
-        login_link = LoginLinkORM.query.filter_by(
-            id=id
-        ).delete()
-        db_session.commit()
+        login_link = LoginLinkORM.query.get(id)
+        if login_link:
+            db_session.delete(login_link)
+            db_session.commit()
         return login_link

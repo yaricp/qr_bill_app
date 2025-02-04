@@ -1,24 +1,28 @@
-from uuid import UUID
 from hashlib import sha256
 from datetime import timedelta
 from loguru import logger
-from typing import List, MutableSequence
+from typing import List
 
-from fastapi import Depends
+from fastapi import Depends, BackgroundTasks
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi_login.exceptions import InvalidCredentialsException
 
+from ....infra.email.email_client import EmailClient
+from ....infra.telegram.tg_utils import send_verify_link_to_tg
 
 from ... import app, manager
 from ...config import URLPathsConfig, user_login_config
 
 from ..services.user import (
     update_user,
-    check_user_auth,
     get_all_users,
+    verify_email_tg,
+    check_user_auth,
+    create_temp_link,
     register_new_user,
     create_login_password_user
 )
+from ..services.login_link import delete_link
 from ..schemas.user import (
     User, UserCreate, LoginLinkData, UserUpdate
 )
@@ -38,6 +42,106 @@ async def register_route(
         f'email="{create_user_data.email}"'
     )
     user = await register_new_user(create_user_data)
+    return user
+
+
+@app.post(
+    URLPathsConfig.PREFIX + '/auth/verify/',
+    tags=['Authentication']
+)
+async def verify_route(
+    verify_data: LoginLinkData
+) -> User | dict:
+    """Endpoint for verify email or tg"""
+    link = verify_data.link
+    logger.info(f"link: {link}")
+    logger.info(f"type(link): {type(link)}")
+    link_id = await verify_email_tg(link=link)
+
+    user = check_user_auth(email_login_tg_link=link)
+
+    if not user:
+        raise InvalidCredentialsException
+
+    if link_id:
+        delete_link(id=link_id)
+
+    logger.info(f"user: {user}")
+    logger.info(f"type(user): {type(user)}")
+    access_token = manager.create_access_token(
+        data=dict(sub=str(user.tg_id)), expires=timedelta(
+            hours=user_login_config.TOKEN_EXPIRY_TIME_HOURS
+        )
+    )
+    logger.info(f"access_token: {access_token}")
+    return {'access_token': access_token,
+            'token_type': 'bearer', }
+
+
+@app.post(
+    URLPathsConfig.PREFIX + '/auth/link_to_email/',
+    tags=['Authentication'],
+    response_model=User
+)
+async def send_verify_link_to_email_route(
+    data: dict,
+    background_tasks: BackgroundTasks,
+    user=Depends(manager)
+) -> User:
+    """Endpoint for sending verify link to email"""
+    logger.info(
+        f'email={data["email"]}'
+    )
+    str_user_link = await create_temp_link(
+        user_id=user.id, email=data["email"], action="verify"
+    )
+
+    if str_user_link == "User not found":
+        return {"message": "User not found"}
+
+    logger.info(
+        f"str_user_link: {str_user_link}"
+    )
+
+    email_client = EmailClient(
+        email=data["email"],
+        subject="QRacun.me Temporary link for login",
+        template="temp_link_email.html",
+        template_vars={"temp_link": str_user_link}
+    )
+
+    background_tasks.add_task(email_client.send)
+
+    return user
+
+
+@app.post(
+    URLPathsConfig.PREFIX + '/auth/link_to_tg/',
+    tags=['Authentication'],
+    response_model=User
+)
+async def send_verify_link_to_tg_route(
+    data: dict,
+    background_tasks: BackgroundTasks,
+    user=Depends(manager)
+) -> User:
+    """Endpoint for sending verify link to tg"""
+    logger.info(
+        f'tg_id="{data["tg_id"]}"'
+    )
+    str_user_link = await create_temp_link(
+        user_id=user.id, tg_id=data["tg_id"], action="verify"
+    )
+
+    if str_user_link == "User not found":
+        return {"message": "User not found"}
+
+    background_tasks.add_task(
+        send_verify_link_to_tg,
+        tg_id=data["tg_id"],
+        user_link=str_user_link
+    )
+
     return user
 
 
@@ -162,6 +266,7 @@ async def update_user_profile_route(
     """
     Update user profile.
     """
+    logger.info(f"user_profile: {user_profile}")
     user_profile.id = user.id
     user = await update_user(user_profile)
     return user

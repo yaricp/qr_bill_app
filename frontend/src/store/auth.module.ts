@@ -119,6 +119,24 @@ export const AuthModule: Module<State, RootState> = {
         commit('loginFailure');
       }
     },
+    async verify({ commit }, link) {
+      try {
+        let token = await AuthService.verify(link);
+        console.log('token:', token);
+        if (token){
+          console.log("save to localStorage");
+          localStorage.setItem(
+            'token', JSON.stringify(token)
+          );
+          console.log("commit to loginSuccess");
+          commit('loginSuccess', token);
+        }
+      } catch(e) {
+        console.log("err:", e);
+        console.log("commit loginFailure: ", e);
+        commit('loginFailure');
+      }
+    },
     logout({ commit }) {
       AuthService.logout();
       commit('logout');

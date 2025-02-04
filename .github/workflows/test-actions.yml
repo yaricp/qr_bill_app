@@ -51,10 +51,13 @@ jobs:
           FISCAL_SERVICE_API_URI: ${{ vars.FISCAL_SERVICE_API_URI }}
           TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${{ vars.TIME_LIFE_TEMP_LOGIN_LINK_MIN }}
           FRONTEND_APP_LOGIN_LINK_PREFIX: ${{ vars.FRONTEND_APP_LOGIN_LINK_PREFIX }}
+          FRONTEND_APP_VERIFY_LINK_PREFIX: ${{ vars.FRONTEND_APP_VERIFY_LINK_PREFIX }}
           REST_API_HOST: ${{ vars.REST_API_HOST }}
           REST_API_PORT: ${{ vars.REST_API_PORT }}
           REST_API_PREFIX: ${{ vars.REST_API_PREFIX }}
           REST_API_LOGIN_LINK_URI: ${{ vars.REST_API_LOGIN_LINK_URI }}
+          REST_API_TELEGRAM_BOT_TOKEN: ${{ secrets.REST_API_TELEGRAM_BOT_TOKEN }}
+          REST_API_TELEGRAM_ADMIN_CHAT_ID: ${{ vars.REST_API_TELEGRAM_ADMIN_CHAT_ID }}
           DATABASE_DIALECT: ${{ vars.DATABASE_DIALECT }}
           DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
           DATABASE_HOST: ${{ vars.DATABASE_HOST }}
@@ -86,6 +89,12 @@ jobs:
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
           TELEGRAM_WEBAPP_ADDRESS: ${{ vars.TELEGRAM_WEBAPP_ADDRESS }}
           TELEGRAM_QR_PIC_DIR: ${{ vars.TELEGRAM_QR_PIC_DIR }}
+          MASTER_EMAIL: ${{ vars.MASTER_EMAIL }}
+          SMTP_SERVER: ${{ vars.SMTP_SERVER }}
+          SMTP_SERVER_PORT: ${{ vars.SMTP_SERVER_PORT }}
+          SMTP_SERVER_PASSWORD: ${{ secrets.SMTP_SERVER_PASSWORD }}
+          EMAIL_REPLY_TO: ${{ vars.EMAIL_REPLY_TO }}
+          MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
         run: |
           docker compose build api;
           docker compose push api;
@@ -104,10 +113,13 @@ jobs:
           FISCAL_SERVICE_API_URI: ${{ vars.FISCAL_SERVICE_API_URI }}
           TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${{ vars.TIME_LIFE_TEMP_LOGIN_LINK_MIN }}
           FRONTEND_APP_LOGIN_LINK_PREFIX: ${{ vars.FRONTEND_APP_LOGIN_LINK_PREFIX }}
+          FRONTEND_APP_VERIFY_LINK_PREFIX: ${{ vars.FRONTEND_APP_VERIFY_LINK_PREFIX }}
           REST_API_HOST: ${{ vars.REST_API_HOST }}
           REST_API_PORT: ${{ vars.REST_API_PORT }}
           REST_API_PREFIX: ${{ vars.REST_API_PREFIX }}
           REST_API_LOGIN_LINK_URI: ${{ vars.REST_API_LOGIN_LINK_URI }}
+          REST_API_TELEGRAM_BOT_TOKEN: ${{ secrets.REST_API_TELEGRAM_BOT_TOKEN }}
+          REST_API_TELEGRAM_ADMIN_CHAT_ID: ${{ vars.REST_API_TELEGRAM_ADMIN_CHAT_ID }}
           DATABASE_DIALECT: ${{ vars.DATABASE_DIALECT }}
           DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
           DATABASE_HOST: ${{ vars.DATABASE_HOST }}
@@ -139,6 +151,12 @@ jobs:
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
           TELEGRAM_WEBAPP_ADDRESS: ${{ vars.TELEGRAM_WEBAPP_ADDRESS }}
           TELEGRAM_QR_PIC_DIR: ${{ vars.TELEGRAM_QR_PIC_DIR }}
+          MASTER_EMAIL: ${{ vars.MASTER_EMAIL }}
+          SMTP_SERVER: ${{ vars.SMTP_SERVER }}
+          SMTP_SERVER_PORT: ${{ vars.SMTP_SERVER_PORT }}
+          SMTP_SERVER_PASSWORD: ${{ secrets.SMTP_SERVER_PASSWORD }}
+          EMAIL_REPLY_TO: ${{ vars.EMAIL_REPLY_TO }}
+          MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
         run: |
           echo "Testing";
           # docker compose up -d;
@@ -159,10 +177,13 @@ jobs:
           FISCAL_SERVICE_API_URI: ${{ vars.FISCAL_SERVICE_API_URI }}
           TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${{ vars.TIME_LIFE_TEMP_LOGIN_LINK_MIN }}
           FRONTEND_APP_LOGIN_LINK_PREFIX: ${{ vars.FRONTEND_APP_LOGIN_LINK_PREFIX }}
+          FRONTEND_APP_VERIFY_LINK_PREFIX: ${{ vars.FRONTEND_APP_VERIFY_LINK_PREFIX }}
           REST_API_HOST: ${{ vars.REST_API_HOST }}
           REST_API_PORT: ${{ vars.REST_API_PORT }}
           REST_API_PREFIX: ${{ vars.REST_API_PREFIX }}
           REST_API_LOGIN_LINK_URI: ${{ vars.REST_API_LOGIN_LINK_URI }}
+          REST_API_TELEGRAM_BOT_TOKEN: ${{ secrets.REST_API_TELEGRAM_BOT_TOKEN }}
+          REST_API_TELEGRAM_ADMIN_CHAT_ID: ${{ vars.REST_API_TELEGRAM_ADMIN_CHAT_ID }}
           DATABASE_DIALECT: ${{ vars.DATABASE_DIALECT }}
           DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
           DATABASE_HOST: ${{ vars.DATABASE_HOST }}
@@ -194,6 +215,12 @@ jobs:
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
           TELEGRAM_WEBAPP_ADDRESS: ${{ vars.TELEGRAM_WEBAPP_ADDRESS }}
           TELEGRAM_QR_PIC_DIR: ${{ vars.TELEGRAM_QR_PIC_DIR }}
+          MASTER_EMAIL: ${{ vars.MASTER_EMAIL }}
+          SMTP_SERVER: ${{ vars.SMTP_SERVER }}
+          SMTP_SERVER_PORT: ${{ vars.SMTP_SERVER_PORT }}
+          SMTP_SERVER_PASSWORD: ${{ secrets.SMTP_SERVER_PASSWORD }}
+          EMAIL_REPLY_TO: ${{ vars.EMAIL_REPLY_TO }}
+          MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
         run: |
           docker compose build tg;
           docker compose push tg;
@@ -212,10 +239,13 @@ jobs:
           FISCAL_SERVICE_API_URI: ${{ vars.FISCAL_SERVICE_API_URI }}
           TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${{ vars.TIME_LIFE_TEMP_LOGIN_LINK_MIN }}
           FRONTEND_APP_LOGIN_LINK_PREFIX: ${{ vars.FRONTEND_APP_LOGIN_LINK_PREFIX }}
+          FRONTEND_APP_VERIFY_LINK_PREFIX: ${{ vars.FRONTEND_APP_VERIFY_LINK_PREFIX }}
           REST_API_HOST: ${{ vars.REST_API_HOST }}
           REST_API_PORT: ${{ vars.REST_API_PORT }}
           REST_API_PREFIX: ${{ vars.REST_API_PREFIX }}
           REST_API_LOGIN_LINK_URI: ${{ vars.REST_API_LOGIN_LINK_URI }}
+          REST_API_TELEGRAM_BOT_TOKEN: ${{ secrets.REST_API_TELEGRAM_BOT_TOKEN }}
+          REST_API_TELEGRAM_ADMIN_CHAT_ID: ${{ vars.REST_API_TELEGRAM_ADMIN_CHAT_ID }}
           DATABASE_DIALECT: ${{ vars.DATABASE_DIALECT }}
           DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
           DATABASE_HOST: ${{ vars.DATABASE_HOST }}
@@ -253,6 +283,12 @@ jobs:
           VUE_APP_API_STAG: ${{ vars.VUE_APP_API_STAG }}
           VUE_APP_API_DEV: ${{ vars.VUE_APP_API_DEV }}
           TELEGRAM_QR_PIC_DIR: ${{ vars.TELEGRAM_QR_PIC_DIR }}
+          MASTER_EMAIL: ${{ vars.MASTER_EMAIL }}
+          SMTP_SERVER: ${{ vars.SMTP_SERVER }}
+          SMTP_SERVER_PORT: ${{ vars.SMTP_SERVER_PORT }}
+          SMTP_SERVER_PASSWORD: ${{ secrets.SMTP_SERVER_PASSWORD }}
+          EMAIL_REPLY_TO: ${{ vars.EMAIL_REPLY_TO }}
+          MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
         run: |
           docker compose build front;
           docker compose push front;
@@ -306,10 +342,13 @@ jobs:
           FISCAL_SERVICE_API_URI: ${{ vars.FISCAL_SERVICE_API_URI }}
           TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${{ vars.TIME_LIFE_TEMP_LOGIN_LINK_MIN }}
           FRONTEND_APP_LOGIN_LINK_PREFIX: ${{ vars.FRONTEND_APP_LOGIN_LINK_PREFIX }}
+          FRONTEND_APP_VERIFY_LINK_PREFIX: ${{ vars.FRONTEND_APP_VERIFY_LINK_PREFIX }}
           REST_API_HOST: ${{ vars.REST_API_HOST }}
           REST_API_PORT: ${{ vars.REST_API_PORT }}
           REST_API_PREFIX: ${{ vars.REST_API_PREFIX }}
           REST_API_LOGIN_LINK_URI: ${{ vars.REST_API_LOGIN_LINK_URI }}
+          REST_API_TELEGRAM_BOT_TOKEN: ${{ secrets.REST_API_TELEGRAM_BOT_TOKEN }}
+          REST_API_TELEGRAM_ADMIN_CHAT_ID: ${{ vars.REST_API_TELEGRAM_ADMIN_CHAT_ID }}
           DATABASE_DIALECT: ${{ vars.DATABASE_DIALECT }}
           DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
           DATABASE_HOST: ${{ vars.DATABASE_HOST }}
@@ -341,6 +380,12 @@ jobs:
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
           TELEGRAM_WEBAPP_ADDRESS: ${{ vars.TELEGRAM_WEBAPP_ADDRESS }}
           TELEGRAM_QR_PIC_DIR: ${{ vars.TELEGRAM_QR_PIC_DIR }}
+          MASTER_EMAIL: ${{ vars.MASTER_EMAIL }}
+          SMTP_SERVER: ${{ vars.SMTP_SERVER }}
+          SMTP_SERVER_PORT: ${{ vars.SMTP_SERVER_PORT }}
+          SMTP_SERVER_PASSWORD: ${{ secrets.SMTP_SERVER_PASSWORD }}
+          EMAIL_REPLY_TO: ${{ vars.EMAIL_REPLY_TO }}
+          MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
         run: |
           cd /home/yaricp/docker-compose-area/test;
           docker-compose pull api tg front;
@@ -358,10 +403,13 @@ jobs:
           FISCAL_SERVICE_API_URI: ${{ vars.FISCAL_SERVICE_API_URI }}
           TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${{ vars.TIME_LIFE_TEMP_LOGIN_LINK_MIN }}
           FRONTEND_APP_LOGIN_LINK_PREFIX: ${{ vars.FRONTEND_APP_LOGIN_LINK_PREFIX }}
+          FRONTEND_APP_VERIFY_LINK_PREFIX: ${{ vars.FRONTEND_APP_VERIFY_LINK_PREFIX }}
           REST_API_HOST: ${{ vars.REST_API_HOST }}
           REST_API_PORT: ${{ vars.REST_API_PORT }}
           REST_API_PREFIX: ${{ vars.REST_API_PREFIX }}
           REST_API_LOGIN_LINK_URI: ${{ vars.REST_API_LOGIN_LINK_URI }}
+          REST_API_TELEGRAM_BOT_TOKEN: ${{ secrets.REST_API_TELEGRAM_BOT_TOKEN }}
+          REST_API_TELEGRAM_ADMIN_CHAT_ID: ${{ vars.REST_API_TELEGRAM_ADMIN_CHAT_ID }}
           DATABASE_DIALECT: ${{ vars.DATABASE_DIALECT }}
           DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
           DATABASE_HOST: ${{ vars.DATABASE_HOST }}
@@ -393,6 +441,12 @@ jobs:
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
           TELEGRAM_WEBAPP_ADDRESS: ${{ vars.TELEGRAM_WEBAPP_ADDRESS }}
           TELEGRAM_QR_PIC_DIR: ${{ vars.TELEGRAM_QR_PIC_DIR }}
+          MASTER_EMAIL: ${{ vars.MASTER_EMAIL }}
+          SMTP_SERVER: ${{ vars.SMTP_SERVER }}
+          SMTP_SERVER_PORT: ${{ vars.SMTP_SERVER_PORT }}
+          SMTP_SERVER_PASSWORD: ${{ secrets.SMTP_SERVER_PASSWORD }}
+          EMAIL_REPLY_TO: ${{ vars.EMAIL_REPLY_TO }}
+          MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
         run: cd /home/yaricp/docker-compose-area/test && docker-compose down
       - name: Start new images
         env:
@@ -408,10 +462,13 @@ jobs:
           FISCAL_SERVICE_API_URI: ${{ vars.FISCAL_SERVICE_API_URI }}
           TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${{ vars.TIME_LIFE_TEMP_LOGIN_LINK_MIN }}
           FRONTEND_APP_LOGIN_LINK_PREFIX: ${{ vars.FRONTEND_APP_LOGIN_LINK_PREFIX }}
+          FRONTEND_APP_VERIFY_LINK_PREFIX: ${{ vars.FRONTEND_APP_VERIFY_LINK_PREFIX }}
           REST_API_HOST: ${{ vars.REST_API_HOST }}
           REST_API_PORT: ${{ vars.REST_API_PORT }}
           REST_API_PREFIX: ${{ vars.REST_API_PREFIX }}
           REST_API_LOGIN_LINK_URI: ${{ vars.REST_API_LOGIN_LINK_URI }}
+          REST_API_TELEGRAM_BOT_TOKEN: ${{ secrets.REST_API_TELEGRAM_BOT_TOKEN }}
+          REST_API_TELEGRAM_ADMIN_CHAT_ID: ${{ vars.REST_API_TELEGRAM_ADMIN_CHAT_ID }}
           DATABASE_DIALECT: ${{ vars.DATABASE_DIALECT }}
           DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
           DATABASE_HOST: ${{ vars.DATABASE_HOST }}
@@ -443,6 +500,12 @@ jobs:
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
           TELEGRAM_WEBAPP_ADDRESS: ${{ vars.TELEGRAM_WEBAPP_ADDRESS }}
           TELEGRAM_QR_PIC_DIR: ${{ vars.TELEGRAM_QR_PIC_DIR }}
+          MASTER_EMAIL: ${{ vars.MASTER_EMAIL }}
+          SMTP_SERVER: ${{ vars.SMTP_SERVER }}
+          SMTP_SERVER_PORT: ${{ vars.SMTP_SERVER_PORT }}
+          SMTP_SERVER_PASSWORD: ${{ secrets.SMTP_SERVER_PASSWORD }}
+          EMAIL_REPLY_TO: ${{ vars.EMAIL_REPLY_TO }}
+          MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
         run: cd /home/yaricp/docker-compose-area/test && docker-compose up -d
       - name: Sync .env file
         env:
@@ -458,10 +521,13 @@ jobs:
           FISCAL_SERVICE_API_URI: ${{ vars.FISCAL_SERVICE_API_URI }}
           TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${{ vars.TIME_LIFE_TEMP_LOGIN_LINK_MIN }}
           FRONTEND_APP_LOGIN_LINK_PREFIX: ${{ vars.FRONTEND_APP_LOGIN_LINK_PREFIX }}
+          FRONTEND_APP_VERIFY_LINK_PREFIX: ${{ vars.FRONTEND_APP_VERIFY_LINK_PREFIX }}
           REST_API_HOST: ${{ vars.REST_API_HOST }}
           REST_API_PORT: ${{ vars.REST_API_PORT }}
           REST_API_PREFIX: ${{ vars.REST_API_PREFIX }}
           REST_API_LOGIN_LINK_URI: ${{ vars.REST_API_LOGIN_LINK_URI }}
+          REST_API_TELEGRAM_BOT_TOKEN: ${{ secrets.REST_API_TELEGRAM_BOT_TOKEN }}
+          REST_API_TELEGRAM_ADMIN_CHAT_ID: ${{ vars.REST_API_TELEGRAM_ADMIN_CHAT_ID }}
           DATABASE_DIALECT: ${{ vars.DATABASE_DIALECT }}
           DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
           DATABASE_HOST: ${{ vars.DATABASE_HOST }}
@@ -493,6 +559,12 @@ jobs:
           TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
           TELEGRAM_WEBAPP_ADDRESS: ${{ vars.TELEGRAM_WEBAPP_ADDRESS }}
           TELEGRAM_QR_PIC_DIR: ${{ vars.TELEGRAM_QR_PIC_DIR }}
+          MASTER_EMAIL: ${{ vars.MASTER_EMAIL }}
+          SMTP_SERVER: ${{ vars.SMTP_SERVER }}
+          SMTP_SERVER_PORT: ${{ vars.SMTP_SERVER_PORT }}
+          SMTP_SERVER_PASSWORD: ${{ secrets.SMTP_SERVER_PASSWORD }}
+          EMAIL_REPLY_TO: ${{ vars.EMAIL_REPLY_TO }}
+          MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
         run: |
           cd /home/yaricp/docker-compose-area/test;
           mv .env .env_old;

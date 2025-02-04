@@ -1,16 +1,20 @@
 from uuid import UUID
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel
+
+from .login_link import LoginLink
 
 
 # Shared properties
 class UserBase(BaseModel):
     id: Optional[UUID] = None
     email: Optional[str] = None
+    email_verified: Optional[bool] = None
     phone: Optional[str] = None
     login: Optional[str] = None
     tg_name: Optional[str] = None
+    tg_verified: Optional[bool] = None
     tg_id: Optional[int] = None
     lang: Optional[str] = None
     password: Optional[str] = None
@@ -30,6 +34,7 @@ class UserUpdate(UserBase):
 class UserInDBBase(UserBase):
     id: UUID
     lang: str
+    links: Optional[List[LoginLink]] = []
 
     class Config:
         orm_mode = True

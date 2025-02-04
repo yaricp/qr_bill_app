@@ -73,7 +73,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("./pages/user/Logout.vue"),
   },
   {
-    path: "/login",
+    path: "/login/",
     name: "login",
     component: () => import("./pages/user/Login.vue"),
   },
@@ -83,7 +83,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("./pages/user/LoginByTG.vue"),
   },
   {
-    path: "/register",
+    path: "/verify/:link",
+    name: "verify_email_tg",
+    component: () => import("./pages/user/VerifyEmailTG.vue"),
+  },
+  {
+    path: "/register/",
     name: "register",
     component: () => import("./pages/user/Register.vue"),
   },
@@ -103,7 +108,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const publicPages = [
-    '/login', '/login_by_tg/', '/register'
+    "/login/", "/login_by_tg/", "/register/", "/verify/"
   ];
   console.log("to.path", to.path)
   let authRequired = !publicPages.includes(to.path);
@@ -114,9 +119,11 @@ router.beforeEach((to, from, next) => {
   // redirect to login page
   if (to.path.includes("/login_by_tg/")) {
     next();
+  } else if (to.path.includes("/verify/")) {
+    next();
   } else if (authRequired && !tokenStorage) {
     console.log("Redirect to login")
-    next('/login');
+    next("/login/");
   } else {
     next();
   }

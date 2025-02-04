@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { apiUrl, prefixUrl } from '@/env';
-// const apiUrl = 'http://localhost:8080/api/v1';
+import { authHeaders } from ".";
 
 import http from "@/http-common";
 import { IUserLogin } from "@/interfaces/users";
@@ -25,6 +25,18 @@ class AuthService {
     }
   }
 
+  async verify(link: string): Promise<any> {
+    try {
+      console.log("Verify by link: ", link);
+      let response = await axios.post(
+        `${apiUrl}${prefixUrl}/auth/verify/`, {"link": link}
+      );
+      return response.data.access_token;
+    } catch(e) {
+      console.log("Error login", e);
+    }
+  }
+
   logout() {
     localStorage.removeItem('token');
   }
@@ -34,6 +46,20 @@ class AuthService {
       username: user.login,
       password: user.password
     });
+  }
+
+  sendVerifyLinkToEmail(
+    email: string, token: string
+  ): Promise<any> {
+    var data = {"email": email}
+    return http.post('/auth/link_to_email/', data, authHeaders(token));
+  }
+
+  sendVerifyLinkToTG(
+    tg_id: number, token: string
+  ): Promise<any> {
+    var data = {"tg_id": tg_id}
+    return http.post('/auth/link_to_tg/', data, authHeaders(token));
   }
 }
 

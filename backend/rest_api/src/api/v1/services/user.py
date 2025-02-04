@@ -66,14 +66,15 @@ def check_user_auth(email_login_tg_link: str | UUID) -> User | None:
 #     return user
 
 
-async def get_user_by_login_link(link: str) -> User:
-    users_queries: UserQueries = UserQueries()
-    return await users_queries.get_user_by_login_link(link)
+# async def get_user_by_login_link(link: str) -> User:
+#     users_queries: UserQueries = UserQueries()
+#     return await users_queries.get_user_by_login_link(link)
 
 
 async def get_all_users() -> List[User]:
     users_queries: UserQueries = UserQueries()
-    return await users_queries.get_all_users()
+    users = await users_queries.get_all_users()
+    return users
 
 
 # --------Actions (commands) ---------
@@ -100,3 +101,22 @@ async def create_login_password_user(
 async def update_user(user_profile: UserUpdate) -> User:
     user_commands: UserCommands = UserCommands()
     return await user_commands.edit_user(user_profile)
+
+
+async def create_temp_link(
+    user_id: int | None = None,
+    tg_id: int | None = None,
+    email: str | None = None, 
+    action: str = "login"
+) -> str:
+    user_commands: UserCommands = UserCommands()
+    return await user_commands.create_temp_login_link(
+        user_id=user_id, tg_id=tg_id, email=email, action=action
+    )
+
+
+async def verify_email_tg(link: UUID) -> UUID | None:
+    user_commands: UserCommands = UserCommands()
+    return await user_commands.verify_email_tg(
+        link=link
+    )

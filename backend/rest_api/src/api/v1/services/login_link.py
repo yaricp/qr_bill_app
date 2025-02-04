@@ -34,3 +34,12 @@ def countdown_deleting_login_link(id: UUID) -> bool:
     if command_result:
         result = True
     return result
+
+
+def delete_link(id: UUID) -> bool:
+    login_link_commands = LoginLinkCommands()
+    result = False
+    command_result = login_link_commands.delete(id=id)
+    if command_result:
+        result = True
+    return result

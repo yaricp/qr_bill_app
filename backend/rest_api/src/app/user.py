@@ -5,7 +5,7 @@ from datetime import datetime
 from loguru import logger
 
 from ..infra.database import db_session
-from ..infra.database.models import(
+from ..infra.database.models import (
     User as UserORM, LoginLink as LoginLinkORM
 )
 
@@ -25,7 +25,9 @@ class UserQueries:
         pass
 
     def get_user_by_login_link(self, link: str) -> User | None:
-        db_link = LoginLinkORM.query.filter_by(link=link).first()
+        db_link = LoginLinkORM.query.filter_by(
+            link_uuid=link, link_for=""
+        ).first()
         if db_link:
             return db_link.user
         return None
@@ -42,7 +44,7 @@ class UserQueries:
         user = UserORM.query.filter_by(tg_id=tg_id).first()
         return user
 
-    def get_all_users(self):
+    async def get_all_users(self):
         return UserORM.query.all()
 
 
@@ -96,23 +98,66 @@ class UserCommands:
     async def edit_user(
         self, incoming_item: UserUpdate
     ) -> User:
+        found_login_link = None
         found_user = UserORM.query.get(incoming_item.id)
         incoming_item_dict = incoming_item.dict()
+        logger.info(f"incoming_item_dict: {incoming_item_dict}")
+        logger.info(f"found_user: {found_user}")
         for key, value in incoming_item_dict.items():
             if value != None:
+                if key == "email" and found_user.email != value:
+                    found_user.email_verified = False
+                    found_login_links = list(filter(
+                        lambda x: x.link_for == "email",
+                        found_user.links
+                    ))
+                    if len(found_login_links) > 0:
+                        found_login_link = found_login_links[0]
+                if key == "tg_id" and found_user.tg_id != value:
+                    found_user.tg_verified = False
+                    found_login_links = list(filter(
+                        lambda x: x.link_for == "tg",
+                        found_user.links
+                    ))
+                    if len(found_login_links) > 0:
+                        found_login_link = found_login_links[0]
                 setattr(found_user, key, value)
-        logger.info(f"incoming_item_dict: {incoming_item_dict}")
         db_session.commit()
+        if found_login_link:
+            db_session.delete(found_login_link)
         logger.info(f"found_user.lang: {found_user.lang}")
+        db_session.refresh(found_user)
         return found_user
 
-    async def create_temp_login_link_by_tg_id(
-        self, tg_id: int
+    async def create_temp_login_link(
+        self,
+        user_id: int | None = None,
+        tg_id: int | None = None,
+        email: str | None = None,
+        action: str = "login"
     ) -> str:
-        found_user = UserORM.query.filter_by(tg_id=tg_id).first()
+        if user_id:
+            found_user = UserORM.query.get(user_id)
+        else:
+            if tg_id:
+                found_user = UserORM.query.filter_by(tg_id=tg_id).first()
+            if email:
+                found_user = UserORM.query.filter_by(email=email).first()
+
+        if action == "login":
+            link_for = ""
+        elif tg_id:
+            link_for = "tg"
+        elif email:
+            link_for = "email"
+        logger.info(f"found_user: {found_user}")
+        if not found_user:
+            return "User not found"
+
         link = uuid4()
         login_link = LoginLinkORM(
-            link=link,
+            link_uuid=link,
+            link_for=link_for,
             created=datetime.now(),
             user_id=found_user.id
         )
@@ -131,7 +176,47 @@ class UserCommands:
             logger.info(f"response: {response}")
         except Exception as err:
             logger.error(f"Error: {err}")
-        frontend_prefix = login_link_config.FRONTEND_APP_LOGIN_LINK_PREFIX
-        result_link = f"{frontend_prefix}{login_link.link}"
+        if action == "login":
+            frontend_prefix = login_link_config.FRONTEND_APP_LOGIN_LINK_PREFIX
+        else:
+            frontend_prefix = login_link_config.FRONTEND_APP_VERIFY_LINK_PREFIX
+        result_link = f"{frontend_prefix}{login_link.link_uuid}"
         logger.info(f"result_link: {result_link}")
         return result_link
+
+    async def verify_email_tg(self, link: UUID) -> UUID | None:
+        found_link = LoginLinkORM.query.filter_by(
+            link_uuid=link
+        ).first()
+        logger.info(f"found_link: {found_link}")
+        if not found_link:
+            return None
+        delta_time = (
+            datetime.now() - found_link.created
+        ).total_seconds() / 60
+        logger.info(f"delta_time: {delta_time}")
+        if not found_link or delta_time > 5:
+            db_session.delete(found_link)
+            db_session.commit()
+            return None
+        user = found_link.user
+        logger.info(f"found_link.link_for: {found_link.link_for}")
+        if found_link.link_for == "tg":
+            if not user.tg_id:
+                return None
+            elif user.tg_verified:
+                return found_link.id
+            user.tg_verified = True
+            db_session.delete(found_link)
+            db_session.commit()
+            return found_link.id
+        if found_link.link_for == "email":
+            if not user.email:
+                return None
+            elif user.email_verified:
+                return found_link.id
+            user.email_verified = True
+            db_session.delete(found_link)
+            db_session.commit()
+            return found_link.id
+        return None

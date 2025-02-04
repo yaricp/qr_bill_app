@@ -1,22 +1,22 @@
 <template>
     <div class="col-md-12">
       <div class="card card-container">
-        <img
-          id="profile-img"
-          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-          class="profile-img-card"
-        />
         <Form @submit="handleRegister" :validation-schema="schema">
           <div v-if="!successful">
             <div class="form-group">
-              <label for="email">Email</label>
-              <Field name="email" type="email" class="form-control" />
-              <ErrorMessage name="email" class="error-feedback" />
+              <label for="login">login</label>
+              <Field name="login" type="login" class="form-control" />
+              <ErrorMessage name="login" class="error-feedback" />
             </div>
             <div class="form-group">
               <label for="password">Password</label>
               <Field name="password" type="password" class="form-control" />
               <ErrorMessage name="password" class="error-feedback" />
+            </div>
+            <div class="form-group">
+              <label for="password2">Repeat Password</label>
+              <Field name="password2" type="password2" class="form-control" />
+              <ErrorMessage name="password2" class="error-feedback" />
             </div>
   
             <div class="form-group">
@@ -30,7 +30,6 @@
             </div>
           </div>
         </Form>
-  
         <div
           v-if="message"
           class="alert"
@@ -59,14 +58,17 @@ export default defineComponent({
   },
   data() {
     const schema = yup.object().shape({
-      email: yup
+      login: yup
         .string()
-        .required("Email is required!")
-        .email("Email is invalid!")
-        .max(50, "Must be maximum 50 characters!"),
+        .required("Login is required!"),
       password: yup
         .string()
         .required("Password is required!")
+        .min(6, "Must be at least 6 characters!")
+        .max(40, "Must be maximum 40 characters!"),
+      password2: yup
+        .string()
+        .required("Repeat Password is required!")
         .min(6, "Must be at least 6 characters!")
         .max(40, "Must be maximum 40 characters!"),
     });
@@ -77,20 +79,6 @@ export default defineComponent({
       message: "",
       schema,
     };
-  },
-  setup () {
-    const store = useStore();
-  },
-  computed: {
-    loggedIn() {
-      const store = useStore();
-      return store.state.auth.loggedIn;
-    },
-  },
-  mounted() {
-    if (this.loggedIn) {
-      this.$router.push("/profile");
-    }
   },
   methods: {
     handleRegister(user: IUserLogin) {

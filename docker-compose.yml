@@ -38,6 +38,7 @@ services:
       - ./backend/rest_api/alembic:/alembic
       - ./backend/rest_api/alembic/versions:/alembic/versions
       - ./grpc_proto:/grpc_proto
+      - ./email_templates:/src/infra/email/templates
     build:
       context: ./backend/rest_api/
       dockerfile: Dockerfile
@@ -51,6 +52,7 @@ services:
       FISCAL_SERVICE_API_URI: ${FISCAL_SERVICE_API_URI}
       TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${TIME_LIFE_TEMP_LOGIN_LINK_MIN}
       FRONTEND_APP_LOGIN_LINK_PREFIX: ${FRONTEND_APP_LOGIN_LINK_PREFIX}
+      FRONTEND_APP_VERIFY_LINK_PREFIX: ${FRONTEND_APP_VERIFY_LINK_PREFIX}
       REST_API_HOST: ${REST_API_HOST}
       REST_API_PORT: ${REST_API_PORT}
       REST_API_PREFIX: ${REST_API_PREFIX}
@@ -76,6 +78,14 @@ services:
       ALLOW_HEADERS: ${ALLOW_HEADERS}
       ALLOW_CREDENTIALS: ${ALLOW_CREDENTIALS}
       ALLOW_METHODS: ${ALLOW_METHODS}
+      MASTER_EMAIL: ${MASTER_EMAIL}
+      SMTP_SERVER: ${SMTP_SERVER}
+      SMTP_SERVER_PORT: ${SMTP_SERVER_PORT}
+      SMTP_SERVER_PASSWORD: ${SMTP_SERVER_PASSWORD}
+      EMAIL_REPLY_TO: ${EMAIL_REPLY_TO}
+      MAILERSEND_API_KEY: ${MAILERSEND_API_KEY}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      TELEGRAM_ADMIN_CHAT_ID: ${TELEGRAM_ADMIN_CHAT_ID}
     command: /./start.sh
     depends_on:
       - pg
