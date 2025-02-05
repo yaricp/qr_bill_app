@@ -101,6 +101,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/agreement/",
     name: "agreement",
     component: () => import("./pages/user/Agreement.vue"),
+  },
+  {
+    path: "/about/",
+    name: "about",
+    component: () => import("./pages/About.vue"),
   }
 ];
 
@@ -126,7 +131,9 @@ router.beforeEach((to, from, next) => {
 
   // trying to access a restricted page + not logged in
   // redirect to login page
-  if (to.path.includes("/login_by_tg/")) {
+  if (to.path.includes("/about/")) {
+    next();
+  } else if (to.path.includes("/login_by_tg/")) {
     next();
   } else if (to.path.includes("/agreement/")) {
     next();

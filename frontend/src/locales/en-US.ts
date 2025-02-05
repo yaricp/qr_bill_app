@@ -1,18 +1,24 @@
-import agreement_text from "@/locales/agreement/en-US"
+import agreement_text from "@/locales/agreement/en-US";
+import about_text from "@/locales/about/en-US";
 
 export default {
   lang: {
     en: "English",
     ru: "Русский",
-    sr: "Сrnogorski(Srpski)"
+    sr: "Сrnogorski"
   },
+  about: about_text,
   change_lang: "Change language",
   short_lang: "en-US",
   hello: "hello",
   yes: "yes",
   for: "for",
   install_btn: "Install QRacun",
-  attantion: "Attention! The application is at the testing stage and therefore the administration does not bear any responsibility for the safety of your data. By continuing to use this application, you assume all risks associated with the loss or incorrectly processed data.",
+  attantion: `Attention! The application is at the testing stage and 
+            therefore the administration does not bear any responsibility 
+            for the safety of your data. By continuing to use this application, 
+            you assume all risks associated with the loss or incorrectly 
+            processed data.`,
   agreement: {
     header: "Consent to Personal Data Processing",
     register_text: "For use this application you need accept ",
@@ -54,9 +60,10 @@ export default {
     }
   },
   menu: {
+    about: "About",
     scanner: "QR Scanner",
-    cat_goods: "Categorize your goods",
-    cat_month_analytic: "Analytics by Categories for month",
+    cat_goods: "Categorize your expenses",
+    cat_month_analytic: "Break-down by Category for month",
     analytics: {
       head: "Analytics",
       categories: "By Categories",
@@ -146,7 +153,11 @@ export default {
     },
     btn_change: "Change",
     btn_close: "Close",
-    btn_verify: "Verify"
+    btn_verify: "Verify",
+    note1: `Having a linked email and/or Telegram account will allow you to
+            restore access to your account in case of losing your login
+            and/or password. There are no other ways to restore access to your
+            account in the application yet.`
   },
   scanner: {
     head: "QR Scanner",
@@ -167,7 +178,7 @@ export default {
   cat_goods: {
     head: {
       bill: "Uncategorized items for bill with ID",
-      all: "All your uncategorized items"
+      all: "All uncategorized items"
     },
     tip1: "Choose category for items below",
     tip2: "Categories",
@@ -180,7 +191,7 @@ export default {
   analytics: {
     cat: {
       header: {
-        main: "Analytics Goods by categories",
+        main: "Analytics of purchases by categories",
         by_count: "Quantities goods by categories",
         by_summ: "Total price goods by categories",
       },
@@ -199,7 +210,7 @@ export default {
     },
     goods: {
       header: {
-        main: "Analytics Goods",
+        main: "Analytics of Goods",
         by_count: "Quantities goods by names",
         by_summ: "Total price goods by names",
       },

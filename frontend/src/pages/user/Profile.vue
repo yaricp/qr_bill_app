@@ -296,6 +296,12 @@
         <hr/>
       </div>
       <div class="row">
+        <div class="col">{{ $t("profile.note1" )}}</div>
+      </div>
+      <div class="row">
+        <hr/>
+      </div>
+      <div class="row">
         <div class="col"> 
           <span style="color: red;">
             {{ $t("profile.dangerous.header")}}

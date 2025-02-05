@@ -1,11 +1,23 @@
 <template>
   <div id="app">
     <nav class="navbar navbar-expand-lg bg-light">
+      <a class="navbar-brand" href="/main">
+        QRacun<br>
+      </a>
+      <div class="navbar-nav" v-if="!loggedIn">
+        <li class="nav-item">
+          <router-link to="/about/" class="nav-link">
+            {{ $t("menu.about") }}
+          </router-link>
+        </li>
+      </div>
       <div class="container-fluid" v-if="loggedIn">
-        <a class="navbar-brand" href="/main">
-          QRacun<br>
-        </a>
         <div class="navbar-nav">
+          <li class="nav-item">
+            <router-link to="/about/" class="nav-link">
+              {{ $t("menu.about") }}
+            </router-link>
+          </li>
           <li class="nav-item">
             <router-link to="/qr_scanner" class="nav-link">
               {{ $t("menu.scanner") }}

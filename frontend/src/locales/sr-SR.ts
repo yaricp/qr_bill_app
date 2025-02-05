@@ -1,17 +1,22 @@
-import agreement_text from "@/locales/agreement/sr-SR"
+import agreement_text from "@/locales/agreement/sr-SR";
+import about_text from "@/locales/about/sr-SR";
 
 export default {
   lang: {
     en: "English",
     ru: "Русский",
-    sr: "Сrnogorski(Srpski)"
+    sr: "Сrnogorski"
   },
+  about: about_text,
   short_lang: "sr-SR",
   hello: "hello",
   yes: "yes",
   for: "za",
   install_btn: "Instaliraj QRacun",
-  attantion: "Pažnja! Aplikacija je u fazi testiranja i zbog toga administracija ne snosi nikakvu odgovornost za čuvanje vaših podataka. Nastavljajući da koristite ovu aplikaciju, preuzimate sve rizike povezane sa gubitkom ili netačno obrađenim podacima.",
+  attantion: `Pažnja! Aplikacija je u fazi testiranja i zbog toga 
+              administracija ne snosi nikakvu odgovornost za čuvanje vaših 
+              podataka. Nastavljajući da koristite ovu aplikaciju, preuzimate 
+              sve rizike povezane sa gubitkom ili netačno obrađenim podacima.`,
   agreement: {
     header: "Saglasnost za obradu ličnih podataka",
     register_text: "Za korišćenje ove aplikacije morate prihvatiti",
@@ -53,6 +58,7 @@ export default {
     }
   },
   menu: {
+    about: "About",
     scanner: "QR skener",
     cat_goods: "Kategorizuj svoje kupovine",
     cat_month_analytic: "Analitika po kategorijama za mjesec",
@@ -145,7 +151,11 @@ export default {
     },
     btn_change: "Promijeni",
     btn_close: "Zatvori",
-    btn_verify: "Potvrdi"
+    btn_verify: "Potvrdi",
+    note1: `Povezivanje emaila i/ili Telegram naloga omogućiće vam da
+            povratite pristup svom nalogu u slučaju gubitka prijave
+            i/ili lozinke. Trenutno ne postoje drugi načini za
+            vraćanje pristupa nalogu u aplikaciji.`
   },
   scanner: {
     head: "QR skener",

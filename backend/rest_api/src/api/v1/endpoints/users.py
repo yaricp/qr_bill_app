@@ -43,7 +43,7 @@ async def register_route(
     logger.info(
         f'Register user: login="{create_user_data.login}" '
     )
-    user = await get_user_by_login(create_user_data.login)
+    user = get_user_by_login(create_user_data.login)
 
     if user:
         return {"message": "Sorry, this login is already in use!"}
