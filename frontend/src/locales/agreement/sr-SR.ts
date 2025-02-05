@@ -36,7 +36,7 @@ export default {
     title9: "9. Kontakt",
     text9: `Za sva pitanja u vezi sa obradom ličnih podataka, 
             korisnik može da nas kontaktira putem kontakt forme u Aplikaciji 
-            ili putem emaila na qracun@proton.me.`,
+            ili putem emaila na:`,
     title10: "10. Prihvatanje uslova",
     text10: `Instaliranjem i korišćenjem Aplikacije, Korisnik potvrđuje 
             svoju saglasnost sa uslovima ovog Sporazuma.`

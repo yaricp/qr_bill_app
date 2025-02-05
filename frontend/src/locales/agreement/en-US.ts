@@ -36,7 +36,7 @@ export default {
     title9: "9. Contacts",
     text9: `For any questions related to the processing of personal data, 
             the User can contact us via the contact form in the Application 
-            or by email at qracun@proton.me.`,
+            or by email at:`,
     title10: "10. Acceptance of Terms",
     text10: `By installing and using the Application, the User confirms 
             their agreement with the terms of this Agreement.`
