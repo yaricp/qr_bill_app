@@ -49,9 +49,7 @@
                     type="checkbox"
                     v-model="agreement_accepted" 
                     id="flexCheckDefault"
-                  >
-                </div>
-                <div class="col">
+                  > &nbsp;&nbsp;
                   {{ $t("agreement.register_text") }}
                   <router-link to="/agreement/">
                     {{ $t("agreement.register_link") }}
@@ -68,6 +66,7 @@
                 {{ $t("register.reg_btn" )}}
               </button>
             </div>
+            <div class="row"><hr></div>
             <div class="form-group">
               {{ $t("register.login_text") }}
               <router-link to="/login/">

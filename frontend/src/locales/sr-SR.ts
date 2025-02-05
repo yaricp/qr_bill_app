@@ -1,3 +1,5 @@
+import agreement_text from "@/locales/agreement/sr-SR"
+
 export default {
   lang: {
     en: "English",
@@ -9,10 +11,12 @@ export default {
   yes: "yes",
   for: "za",
   install_btn: "Instaliraj QRacun",
+  attantion: "Pažnja! Aplikacija je u fazi testiranja i zbog toga administracija ne snosi nikakvu odgovornost za čuvanje vaših podataka. Nastavljajući da koristite ovu aplikaciju, preuzimate sve rizike povezane sa gubitkom ili netačno obrađenim podacima.",
   agreement: {
-    header: "Licenca i ugovori",
+    header: "Saglasnost za obradu ličnih podataka",
     register_text: "Za korišćenje ove aplikacije morate prihvatiti",
-    register_link: "Licenca i ugovor"
+    register_link: "Saglasnost za obradu ličnih podatakaы",
+    page: agreement_text
   },
   login: {
     header: "Stranica za prijavu",

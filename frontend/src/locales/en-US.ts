@@ -1,3 +1,5 @@
+import agreement_text from "@/locales/agreement/en-US"
+
 export default {
   lang: {
     en: "English",
@@ -10,10 +12,12 @@ export default {
   yes: "yes",
   for: "for",
   install_btn: "Install QRacun",
+  attantion: "Attention! The application is at the testing stage and therefore the administration does not bear any responsibility for the safety of your data. By continuing to use this application, you assume all risks associated with the loss or incorrectly processed data.",
   agreement: {
-    header: "License and Agreements",
+    header: "Consent to Personal Data Processing",
     register_text: "For use this application you need accept ",
-    register_link: "License and Agreement"
+    register_link: "Consent to Personal Data Processing",
+    page: agreement_text
   },
   login: {
     header: "Login Page",

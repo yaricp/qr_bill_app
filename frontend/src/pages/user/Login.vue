@@ -1,5 +1,5 @@
 <template>
-    <div class="col-md-12">
+    <div class="container">
       <div class="card card-container">
         <div class="row">
           <div class="col">
@@ -71,6 +71,10 @@
           </div>
         </div>
          
+      </div>
+      <div class="row"><hr></div>
+      <div class="card card-container">
+        <small style="color: red;">{{ $t("attantion") }}</small>
       </div>
     </div>
 </template>
