@@ -62,7 +62,7 @@ jobs:
           DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
           DATABASE_HOST: ${{ vars.DATABASE_HOST }}
           DATABASE_PORT: ${{ vars.DATABASE_PORT }}
-          DATABASE_USER: ${{ vars.DATABASE_USER }}
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           DATABASE_NAME: ${{ vars.DATABASE_NAME }}
           DATABASE_ECHO: ${{ vars.DATABASE_ECHO }}
@@ -124,7 +124,7 @@ jobs:
           DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
           DATABASE_HOST: ${{ vars.DATABASE_HOST }}
           DATABASE_PORT: ${{ vars.DATABASE_PORT }}
-          DATABASE_USER: ${{ vars.DATABASE_USER }}
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           DATABASE_NAME: ${{ vars.DATABASE_NAME }}
           DATABASE_ECHO: ${{ vars.DATABASE_ECHO }}
@@ -188,7 +188,7 @@ jobs:
           DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
           DATABASE_HOST: ${{ vars.DATABASE_HOST }}
           DATABASE_PORT: ${{ vars.DATABASE_PORT }}
-          DATABASE_USER: ${{ vars.DATABASE_USER }}
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           DATABASE_NAME: ${{ vars.DATABASE_NAME }}
           DATABASE_ECHO: ${{ vars.DATABASE_ECHO }}
@@ -250,7 +250,7 @@ jobs:
           DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
           DATABASE_HOST: ${{ vars.DATABASE_HOST }}
           DATABASE_PORT: ${{ vars.DATABASE_PORT }}
-          DATABASE_USER: ${{ vars.DATABASE_USER }}
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           DATABASE_NAME: ${{ vars.DATABASE_NAME }}
           DATABASE_ECHO: ${{ vars.DATABASE_ECHO }}
@@ -353,7 +353,7 @@ jobs:
           DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
           DATABASE_HOST: ${{ vars.DATABASE_HOST }}
           DATABASE_PORT: ${{ vars.DATABASE_PORT }}
-          DATABASE_USER: ${{ vars.DATABASE_USER }}
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           DATABASE_NAME: ${{ vars.DATABASE_NAME }}
           DATABASE_ECHO: ${{ vars.DATABASE_ECHO }}
@@ -414,7 +414,7 @@ jobs:
           DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
           DATABASE_HOST: ${{ vars.DATABASE_HOST }}
           DATABASE_PORT: ${{ vars.DATABASE_PORT }}
-          DATABASE_USER: ${{ vars.DATABASE_USER }}
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           DATABASE_NAME: ${{ vars.DATABASE_NAME }}
           DATABASE_ECHO: ${{ vars.DATABASE_ECHO }}
@@ -473,7 +473,7 @@ jobs:
           DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
           DATABASE_HOST: ${{ vars.DATABASE_HOST }}
           DATABASE_PORT: ${{ vars.DATABASE_PORT }}
-          DATABASE_USER: ${{ vars.DATABASE_USER }}
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           DATABASE_NAME: ${{ vars.DATABASE_NAME }}
           DATABASE_ECHO: ${{ vars.DATABASE_ECHO }}
@@ -532,7 +532,7 @@ jobs:
           DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
           DATABASE_HOST: ${{ vars.DATABASE_HOST }}
           DATABASE_PORT: ${{ vars.DATABASE_PORT }}
-          DATABASE_USER: ${{ vars.DATABASE_USER }}
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           DATABASE_NAME: ${{ vars.DATABASE_NAME }}
           DATABASE_ECHO: ${{ vars.DATABASE_ECHO }}
