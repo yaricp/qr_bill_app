@@ -193,20 +193,24 @@ class BillCommands:
         logger.info(f"bill: {bill}")
         return bill
 
-    async def get_by_datetime(
-        self, created: datetime, user_id: UUID
+    async def get_by_all(
+        self, created: datetime, value: Decimal, user_id: UUID, seller_id: UUID
     ) -> Bill:
         return BillORM.query.filter_by(
             created=created,
-            user_id=user_id
+            user_id=user_id,
+            value=value,
+            seller_id=seller_id
         ).first()
 
     async def get_or_create(
         self, incoming_item: BillCreate
     ) -> Bill:
-        bill = await self.get_by_datetime(
+        bill = await self.get_by_all(
             created=incoming_item.created,
-            user_id=incoming_item.user_id
+            user_id=incoming_item.user_id,
+            value=incoming_item.value,
+            seller_id=incoming_item.seller_id
         )
         if not bill:
             bill = await self.create_new_bill(

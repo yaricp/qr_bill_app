@@ -24,6 +24,7 @@ class BillCreate(BaseModel):
     created: datetime
     value: Decimal
     seller_id: UUID
+    user_id: UUID
 
 
 class BillCreateByURL(BaseModel):
