@@ -1,19 +1,33 @@
 <template>
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <center>{{ $t("main.circle.header") }}</center>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col" v-if="loaded">
-          <center>
-            <Pie :data="chartData" :options="chartOptions" />
-          </center>
-        </div>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <center>{{ $t("main.circle.header") }}:</center>
       </div>
     </div>
-  </template>
+    <div class="row">
+      <div class="col" v-if="loaded && item_list.length != 0">
+        <center>
+          <Pie :data="chartData" :options="chartOptions" />
+        </center>
+      </div>
+      <div class="col" v-if="loaded && item_list.length == 0">
+        <center>
+          <p style="color:red;">
+            {{ $t("main.data_not_found1") }}<br>
+            <router-link to="/category_products">
+              {{ $t("menu.cat_goods") }}
+            </router-link>
+            {{ $t("main.data_not_found2") }}
+            <router-link to="/categories">
+              {{ $t("menu.lists.categories") }}
+            </router-link>
+          </p>
+        </center>
+      </div>
+    </div>
+  </div>
+</template>
     
   <script lang="ts">
   import { defineComponent } from "vue";

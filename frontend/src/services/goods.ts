@@ -4,8 +4,11 @@ import { authHeaders } from "./";
 import { ICategorizedGoods } from "@/interfaces/goods";
 
 class GoodsDataService {
-  getAll(token: string): Promise<any> {
-    return http.get("/goods/", authHeaders(token));
+  getAll(offset: number, limit: number, token: string): Promise<any> {
+    return http.get(
+      `/goods/?offset=${offset}&limit=${limit}`,
+      authHeaders(token)
+    );
   }
 
   get(id: any, token: string): Promise<any> {

@@ -18,9 +18,13 @@ so its defined in each dependency body.
 # -------Views---------
 
 
-async def get_all_goods(user_id: UUID) -> List[Goods]:
+async def get_all_goods(
+    user_id: UUID, offset: int = 0, limit: int = 0
+) -> List[Goods]:
     goods_views: GoodsQueries = GoodsQueries()
-    return await goods_views.get_all_goods(user_id=user_id)
+    return await goods_views.get_all_goods(
+        user_id=user_id, offset=offset, limit=limit
+    )
 
 
 async def get_goods(id: UUID) -> Goods:

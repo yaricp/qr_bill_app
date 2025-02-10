@@ -50,13 +50,18 @@ export default {
     },
     number_month: {
       header: "Ваши расходы за месяц"
-    }
+    },
+    data_not_found1: `Для того чтобы увидеть статистику покупок 
+                       за этот месяц откатегоризуйте свои покупки здесь:`,
+    data_not_found2: "Если у вас нет категорий, Вы можете создать их здесь:",
+    scan_msg: "Отсканируйте чек(счет)"
   },
   filter: {
     title: "Фильтр:",
     filter_names: {
       Seller: "по названию продавца",
-      Name: " по названию"
+      Name: " по названию",
+      OfficialName: "по полному названию"
     }
   },
   menu: {
@@ -96,7 +101,10 @@ export default {
       Name: "Наименование",
       Actions: "Действия",
       Field: "Поле",
-      Value: "Значение"
+      Value: "Значение",
+      OfficialName: "Полное название",
+      Address: "Адрес",
+      City: "Город"
     },
     first_column: {
       created: "создан",
@@ -258,11 +266,24 @@ export default {
       btn_save: "Сохранить"
     },
     goods: {
-      head: "Список товаров"
+      head: "Список покупок"
     },
     bills: {
-      head: "Список счетов"
+      head: "Список счетов",
+      new: {
+        header: "Новый счет (Покупка)",
+        seller: "Продавец (Магазин)",
+        product: "Продукт (Услуга)",
+        sum: "Сумма",
+        save_btn_text: "Сохранить",
+        cancel_btn_text: "Отменить",
+        open_new_bill_btn_text: "Новый счет (Покупка)"
+      }
+    },
+    sellers: {
+      header: "Продавцы (Магазины)" 
     }
+
   },
   objects: {
     bill: {

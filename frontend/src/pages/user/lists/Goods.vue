@@ -4,7 +4,7 @@
         <h4>{{ $t("lists.goods.head") }}</h4>
         <TableComponent 
           v-if="itemsReady"
-          :data="items" 
+          :items="items" 
           :fields="fields"
           :go_to_object="go_to_object"
           :field_search="field_search"
@@ -27,8 +27,6 @@
     data() {
       return {
         goods_list: [] as IGoods[],
-        full_goods_list: [] as IGoods[],
-        filter_name: "",
         itemsReady: false as boolean,
         go_to_object: "goods_detail" as string,
         field_search: "Name" as string,
@@ -46,15 +44,17 @@
       },
     },
     methods: {
-      async retrieveGoods() {
+      async retrieveGoods(offset: number, limit: number) {
         try {
           let response = await GoodsDataService.getAll(
-            this.authToken
+            offset, limit, this.authToken
           );
-          this.goods_list = response.data;
-          this.full_goods_list = this.goods_list;
-          await this.prepareTableItems();
-          console.log(response.data);
+          console.log("response.data: ", response.data);
+          if (response.data){
+            return response.data;
+          } else {
+            return [];
+          }
         } catch(e) {
           checkTokenExpired(e);
         }
@@ -77,17 +77,17 @@
         this.items = items;
         this.itemsReady = true;
         await this.$nextTick();
-      },
-      async filterByName() {
-        this.goods_list = this.full_goods_list.filter(
-          (item) => { return item.name.includes(this.filter_name)}
-        );
-        console.log("this.goods_list: ", this.goods_list)
-        await this.prepareTableItems();
-      },
+        console.log("After nextTick");
+      }
     },
-    mounted() {
-      this.retrieveGoods();
+    async mounted() {
+      let result = await this.retrieveGoods(0, 10);
+      this.goods_list = result;
+      await this.prepareTableItems();
+      let next_result = await this.retrieveGoods(10, 0);
+      this.goods_list = [...this.goods_list, ...next_result];
+      await this.prepareTableItems();
+      console.log("after all preparing");
     },
   });
   </script>

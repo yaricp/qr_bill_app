@@ -58,6 +58,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("./pages/user/lists/Categories.vue"),
   },
   {
+    path: "/sellers",
+    name: "sellers",
+    component: () => import("./pages/user/lists/Sellers.vue"),
+  },
+  {
     path: "/category_products/",
     name: "category_products",
     component: () => import("./components/CategoryProduct.vue"),

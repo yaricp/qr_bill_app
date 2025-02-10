@@ -22,9 +22,16 @@ class BillBase(BaseModel):
 
 class BillCreate(BaseModel):
     created: datetime
-    value: Decimal
-    seller_id: UUID
+    sum: Decimal
+    seller: str
+    product: str
     user_id: UUID
+
+
+class BillCreateForm(BaseModel):
+    sum: Decimal
+    seller: str
+    product: str
 
 
 class BillCreateByURL(BaseModel):

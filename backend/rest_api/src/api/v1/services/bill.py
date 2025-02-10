@@ -14,9 +14,13 @@ from ..schemas.user_product import UncategorizedUserProduct
 # -----Views-----
 
 
-async def get_all_bills(user_id: UUID) -> List[Bill]:
+async def get_all_bills(
+    user_id: UUID, offset: int = 0, limit: int = 0
+) -> List[Bill]:
     query: BillQueries = BillQueries()
-    return await query.get_all_bills(user_id=user_id)
+    return await query.get_all_bills(
+        user_id=user_id, offset=offset, limit=limit
+    )
 
 
 async def get_bill(id: UUID) -> Bill:
@@ -67,8 +71,8 @@ async def create_bill(
     bill_data: BillCreate
 ) -> Bill:
     bill_commands: BillCommands = BillCommands()
-    return await bill_commands.get_or_create(
-        incoming_item=bill_data
+    return await bill_commands.create_bill_manually(
+        incoming_data=bill_data
     )
 
 

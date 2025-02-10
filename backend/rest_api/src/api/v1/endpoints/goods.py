@@ -58,11 +58,15 @@ async def update_categorized_goods_route(
     tags=['Goods'],
     response_model=List[Goods]
 )
-async def get_all_goods_route(user=Depends(manager)):
+async def get_all_goods_route(
+    offset: int = 0, limit: int = 0, user=Depends(manager)
+) -> List[Goods]:
     logger.info(f"user.id: {user.id}")
-    goodss: MutableSequence[
+    goodss: List[
         Goods
-    ] = await get_all_goods(user_id=user.id)
+    ] = await get_all_goods(
+        user_id=user.id, offset=offset, limit=limit
+    )
     return goodss
 
 
@@ -166,23 +170,23 @@ async def summ_by_name_goods_route(
     return result
 
 
-@app.get(
-    URLPathsConfig.PREFIX + "/goods/strip_all_names/",
-    tags=['Goods'],
-    response_model=bool
-)
-async def strip_all_names_goods_route(user=Depends(manager)) -> bool:
-    result: bool = await strip_all_names()
-    return result
+# @app.get(
+#     URLPathsConfig.PREFIX + "/goods/strip_all_names/",
+#     tags=['Goods'],
+#     response_model=bool
+# )
+# async def strip_all_names_goods_route(user=Depends(manager)) -> bool:
+#     result: bool = await strip_all_names()
+#     return result
 
 
-@app.get(
-    URLPathsConfig.PREFIX + "/goods/create_user_product_categories/",
-    tags=['Goods'],
-    response_model=bool
-)
-async def create_user_product_categories_by_goods_route(
-    user=Depends(manager)
-) -> bool:
-    result: bool = await create_user_product_categories_by_goods()
-    return result
+# @app.get(
+#     URLPathsConfig.PREFIX + "/goods/create_user_product_categories/",
+#     tags=['Goods'],
+#     response_model=bool
+# )
+# async def create_user_product_categories_by_goods_route(
+#     user=Depends(manager)
+# ) -> bool:
+#     result: bool = await create_user_product_categories_by_goods()
+#     return result

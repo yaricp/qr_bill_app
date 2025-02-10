@@ -26,6 +26,9 @@ class UnitQueries:
 
     async def get_unit(self, id: UUID):
         return UnitORM.query.get(id)
+    
+    async def get_by_name(self, name: str):
+        return UnitORM.query.filter_by(name=name).first()
 
 
 class UnitCommands:

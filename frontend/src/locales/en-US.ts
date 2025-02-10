@@ -50,13 +50,18 @@ export default {
     },
     number_month: {
       header: "Your expenses for the month"
-    }
+    },
+    data_not_found1: `Для того чтобы увидеть статистику покупок 
+                       за этот месяц откатегоризуйте свои покупки здесь:`,
+    data_not_found2: "Если у вас нет категорий, Вы можете создать их здесь:",
+    scan_msg: "Scan your bill"
   },
   filter: {
     title: "Filter:",
     filter_names: {
       Seller: "by name of seller",
-      Name: "by name"
+      Name: "by name",
+      OfficialName: "by fullname"
     }
   },
   menu: {
@@ -96,7 +101,10 @@ export default {
       Name: "Name",
       Actions: "Actions",
       Field: "Field",
-      Value: "Value"
+      Value: "Value",
+      OfficialName: "Full Name",
+      Address: "Address",
+      City: "City"
     },
     first_column: {
       created: "created",
@@ -258,10 +266,22 @@ export default {
       btn_save: "Save"
     },
     goods: {
-      head: "Goods List"
+      head: "Purchase List"
     },
     bills: {
-      head: "Bills List"
+      head: "Bills List",
+      new: {
+        header: "New Bill (Purchase)",
+        seller: "Seller (Shop)",
+        product: "Product (Service)",
+        sum: "Sum",
+        save_btn_text: "Save",
+        cancel_btn_text: "Cancel",
+        open_new_bill_btn_text: "New Bill (Purchase)"
+      }
+    },
+    sellers: {
+      header: ""
     }
   },
   objects: {

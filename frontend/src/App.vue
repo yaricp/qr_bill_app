@@ -14,11 +14,6 @@
       <div class="container-fluid" v-if="loggedIn">
         <div class="navbar-nav">
           <li class="nav-item">
-            <router-link to="/about/" class="nav-link">
-              {{ $t("menu.about") }}
-            </router-link>
-          </li>
-          <li class="nav-item">
             <router-link to="/qr_scanner" class="nav-link">
               {{ $t("menu.scanner") }}
             </router-link>
@@ -92,6 +87,11 @@
                   {{ $t("menu.lists.goods") }}
                 </router-link>
               </li>
+              <li>
+                <router-link to="/sellers" class="dropdown-item">
+                  {{ $t("menu.lists.sellers") }}
+                </router-link>
+              </li>
             </ul>
           </li>
           <li class="nav-item dropdown">
@@ -110,6 +110,11 @@
                 </router-link>
               </li>
             </ul>
+          </li>
+          <li class="nav-item">
+            <router-link to="/about/" class="nav-link">
+              {{ $t("menu.about") }}
+            </router-link>
           </li>
         </div>
         </div>

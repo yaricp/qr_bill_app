@@ -40,8 +40,12 @@ async def create_seller_route(
     tags=['Sellers'],
     response_model=List[Seller]
 )
-async def get_all_sellers_route(user=Depends(manager)):
-    sellers: MutableSequence[Seller] = await get_all_sellers()
+async def get_all_sellers_route(
+    offset: int = 0, limit: int = 0, user=Depends(manager)
+) -> List:
+    sellers: List[Seller] = await get_all_sellers(
+        user_id=user.id, offset=offset, limit=limit
+    )
     return sellers
 
 

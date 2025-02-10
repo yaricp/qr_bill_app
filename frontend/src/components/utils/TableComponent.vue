@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="searchBar" v-if="showSearch">
+        <div class="searchBar" v-if="field_search">
             <!-- Filter Search -->
             <div class="input-group mb-5">
                 {{ $t("filter.title") }}&nbsp;
@@ -42,9 +42,7 @@
                             </p>
                             <p v-else >
                                 {{ item[field] }}
-                            </p>
-                            
-                            
+                            </p>  
                         </div>
                         <div v-if="isFieldID(field)">
                             <button
@@ -61,15 +59,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, SetupContext, watch, ref, reactive } from "vue";
 import { orderBy } from 'lodash';
 import { boolean, string } from "yup";
+
+interface Props {
+    items?: Array<Object>;
+    go_to_object?: string;
+    fields?: Array<string>;
+    field_search?: string;
+    translate_first_column?: boolean;
+}
 
 export default defineComponent({
     name: 'table-component-page',
     props: {
         go_to_object: { type: string },
-        data: { type: Array<Object> },
+        items: { type: Array<Object> },
         fields: { type: Array<string> },
         field_search: { type: string },
         translate_first_column: { type: boolean }
@@ -82,6 +88,18 @@ export default defineComponent({
             inner_data: [] as Object[] | undefined,
             inner_fields: [] as string[] | undefined
         }
+    },
+    setup(props: Props, context: SetupContext) {
+        
+        let showSearch = ref(false);
+        let search_name = ref("");
+        let reverseSorted = ref(false);
+        let inner_data: Object[] | undefined = reactive([]);
+        let inner_fields: string[] | undefined = reactive([]);
+
+        watch(() => props.items, (first, second) => {
+            inner_data = first;
+        });
     },
     methods: {
         isImage(item: any){
@@ -102,8 +120,7 @@ export default defineComponent({
             return false;
         },
         sortTable(col: any) {
-            console.log("sortTable");
-            console.log("typeof col:", typeof col);
+            this.search_name = "";
             let direction: "asc" | "desc" | undefined = "asc";
             if (this.reverseSorted) {
                 this.reverseSorted = false;
@@ -113,33 +130,37 @@ export default defineComponent({
                 direction = "desc"
             }
             this.inner_data = orderBy(
-                this.$props.data, col, direction
+                this.items, col, direction
             )
         },
         goToDetail(id: string){
             this.$router.push({
-                name: String(this.$props.go_to_object),
+                name: String(this.go_to_object),
                 params: {id: id}
             });
         },
         filterData(){
-            if (!this.$props.data){
+            if (!this.$props.items){
                 return;
-            }
-            this.inner_data = this.$props.data.filter(
+            };
+            console.log("filterData");
+            this.inner_data = this.$props.items.filter(
                 (item: any) => {return (
                     item[String(this.$props.field_search)].toLowerCase().indexOf(
                         this.search_name.toLowerCase()
                     ) != -1
                 )}
             )
+        },
+        updateInnerData(){
+            this.inner_data = this.$props.items;
         }
     },
     mounted() {
         if (this.$props.field_search){
             this.showSearch = true;
         }
-        this.inner_data = this.$props.data;
-    },
+        this.inner_data = this.$props.items;
+    }
 })
 </script>

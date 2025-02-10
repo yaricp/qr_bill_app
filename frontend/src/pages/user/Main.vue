@@ -25,6 +25,7 @@
                             <path d="M12 9h2V8h-2z"/>
                         </svg>
                     </button>
+                    <p> {{ $t("main.scan_msg") }} </p>
                 </center>
             </div>
         </div>

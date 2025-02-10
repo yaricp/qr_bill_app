@@ -1,5 +1,6 @@
 from uuid import UUID
 from decimal import Decimal
+from datetime import datetime
 from typing import List, Optional
 
 from fastapi import Depends
@@ -13,7 +14,7 @@ from ..services.bill import (
     get_uncategorized_product, get_month_summ
 )
 from ..schemas.bill import (
-    Bill, BillCreateByURL, BillUpdate, BillCreate
+    Bill, BillCreateByURL, BillUpdate, BillCreate, BillCreateForm
 )
 from ..schemas.goods import Goods
 from ..schemas.user_product import UncategorizedUserProduct
@@ -23,8 +24,12 @@ from ..schemas.user_product import UncategorizedUserProduct
     URLPathsConfig.PREFIX + "/bills/",
     tags=['Bills'], response_model=List[Bill]
 )
-async def get_all_bills_route(user=Depends(manager)) -> List[Bill]:
-    bills: List[Bill] = await get_all_bills(user_id=user.id)
+async def get_all_bills_route(
+    offset: int = 0, limit: int = 0, user=Depends(manager)
+) -> List[Bill]:
+    bills: List[Bill] = await get_all_bills(
+        user_id=user.id, offset=offset, limit=limit
+    )
     return bills
 
 
@@ -49,13 +54,19 @@ async def parse_url_bill_route(
     tags=['Bills'], response_model=Bill
 )
 async def create_bill_route(
-    *, item_in: BillCreate, user=Depends(manager)
+    *, item_in: BillCreateForm, user=Depends(manager)
 ) -> Bill:
     """
     Create bill.
     """
-    item_in.user_id = user.id
-    bill = await create_bill(item_in)
+    new_bill_data = BillCreate(
+        seller=item_in.seller,
+        product=item_in.product,
+        sum=item_in.sum,
+        created=datetime.now(),
+        user_id=user.id
+    )
+    bill = await create_bill(new_bill_data)
     return bill
 
 

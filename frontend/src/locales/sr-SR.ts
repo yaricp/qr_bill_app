@@ -48,13 +48,18 @@ export default {
     },
     number_month: {
       header: "Vaši troškovi za mjesec"
-    }
+    },
+    data_not_found1: `Для того чтобы увидеть статистику покупок 
+                       за этот месяц откатегоризуйте свои покупки здесь:`,
+    data_not_found2: "Если у вас нет категорий, Вы можете создать их здесь:",
+    scan_msg: "Skenirajte račun"
   },
   filter: {
     title: "Filter:",
     filter_names: {
       Seller: "po nazivu prodavca",
-      Name: "po nazivu"
+      Name: "po nazivu",
+      OfficialName: "po punom nazivu"
     }
   },
   menu: {
@@ -94,7 +99,10 @@ export default {
       Name: "Naziv",
       Actions: "Akcije",
       Field: "Polje",
-      Value: "Značenje"
+      Value: "Značenje",
+      OfficialName: "Puni naziv",
+      Address: "Adresa",
+      City: "Grad"
     },
     first_column: {
       created: "Kreirano",
@@ -256,10 +264,22 @@ export default {
       btn_save: "Spasi"
     },
     goods: {
-      head: "Lista dobara"
+      head: "Lista kupovina"
     },
     bills: {
-      head: "Lista računa"
+      head: "Lista računa",
+      new: {
+        header: "Novi račun (Kupovina)",
+        seller: "Prodavac (Prodavnica)",
+        product: "Proizvod (Usluga)",
+        sum: "Iznos",
+        save_btn_text: "Sačuvati",
+        cancel_btn_text: "Otkazati",
+        open_new_bill_btn_text: "Novi račun (Kupovina)"
+      }
+    },
+    sellers: {
+      header: "Lista prodavaca (prodavnica)"
     }
   },
   objects: {

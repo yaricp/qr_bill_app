@@ -4,8 +4,10 @@ import { authHeaders } from './'
 import { IBillUrl } from "@/interfaces/bills";
 
 class BillDataService {
-  getAll(token: string): Promise<any> {
-    return http.get("/bills/", authHeaders(token));
+  getAll(offset: number, limit: number, token: string): Promise<any> {
+    return http.get(
+      `/bills/?offset=${offset}&limit=${limit}`, authHeaders(token)
+    );
   }
 
   get(id: any, token: string): Promise<any> {

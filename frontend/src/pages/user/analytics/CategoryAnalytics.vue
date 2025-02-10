@@ -82,7 +82,7 @@
     </div>
     <div class="row">
       <div class="col">
-        <Bar
+        <Pie
           v-if="loaded_by_summ"
           id="my-chart-id2"
           :options="chartOptions"
@@ -118,7 +118,7 @@
     </div>
     <div class="row">
       <div class="col">
-        <Bar
+        <Pie
           v-if="loaded_by_count"
           id="my-chart-id1"
           :options="chartOptions"
@@ -133,16 +133,16 @@
 import { defineComponent } from "vue";
 import CategoryDataService from "@/services/categories";
 import { ICountSellerByName, ISummSellerByName } from "@/interfaces/seller";
-import { Bar } from 'vue-chartjs';
+import { Pie } from 'vue-chartjs';
 import { useStore } from '@/store';
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+import { Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js'
 import { checkTokenExpired } from "@/http-common";
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+ChartJS.register(ArcElement, Tooltip, Legend)
 
 export default defineComponent({
   name: "analitics-page",
-  components: { Bar },
+  components: { Pie },
   data() {
     return {
       main_header: this.$t("analytics.cat.header.main") as string,
@@ -159,20 +159,42 @@ export default defineComponent({
       chartDataCountByName: {
         labels: [''],
         datasets: [{
-          label: this.$t("analytics.cat.plot_count.label"),
+          backgroundColor: [
+            '#41A688',
+            '#E46651',
+            '#00D8FF',
+            '#DD1B16',
+            '#41B494',
+            '#E46662',
+            '#05F9D0',
+            '#DD1A27',
+            '#52C975',
+            '#E46573'
+          ],
           data: [0]
         }]
       },
       chartDataSummByName: {
         labels: [''],
         datasets: [{
-          label: this.$t("analytics.cat.plot_summ.label"),
-          data: [0]
+          backgroundColor: [
+            '#41A688',
+            '#E46651',
+            '#00D8FF',
+            '#DD1B16',
+            '#41B494',
+            '#E46662',
+            '#05F9D0',
+            '#DD1A27',
+            '#52C975',
+            '#E46573'
+          ],
+          data: [0],
+          label: ''
         }]
       },
       chartOptions: {
-        responsive: true,
-        maintainAspectRatio: false
+        responsive: true
       },
       goods_list_by_count: [] as ICountSellerByName[],
       goods_list_by_summ: [] as ISummSellerByName[],

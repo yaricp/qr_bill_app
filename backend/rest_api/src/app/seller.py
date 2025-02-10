@@ -5,9 +5,15 @@ from sqlalchemy.sql import func
 from sqlalchemy import desc
 
 from ..infra.database import db_session
-from ..infra.database.models.seller import Seller as SellerORM
-from ..infra.database.models.bill import Bill as BillORM
-from ..infra.database.models.goods import Goods as GoodsORM
+from ..infra.database.models import (
+    Bill as BillORM,
+    Goods as GoodsORM,
+    Seller as SellerORM
+)
+# from ..infra.database.models.seller import Seller as SellerORM
+# from ..infra.database.models.user_product import UserProduct as UserProductORM
+# from ..infra.database.models.bill import Bill as BillORM
+# from ..infra.database.models.goods import Goods as GoodsORM
 
 from .entities.seller import (
     Seller, SellerCreate, CountBillsByNameSeller,
@@ -29,8 +35,22 @@ class SellerQueries:
     def __init__(self):
         pass
 
-    async def get_all_sellers(self):
-        return SellerORM.query.all()
+    async def get_all_sellers(
+        self, user_id: UUID, offset: int = 0, limit: int = 0
+    ) -> Seller:
+        if offset > 0 and limit > 0:
+            return SellerORM.query.join(BillORM).filter_by(
+                user_id=user_id
+            ).offset(offset).limit(limit).all()
+        elif limit > 0:
+            return SellerORM.query.join(BillORM).filter_by(
+                user_id=user_id
+            ).limit(limit).all()
+        elif offset > 0:
+            return SellerORM.query.join(BillORM).filter_by(
+                user_id=user_id
+            ).offset(offset).all()
+        return SellerORM.query.join(BillORM).filter_by(user_id=user_id).all()
 
     async def get_seller(self, id: UUID):
         return SellerORM.query.get(id)

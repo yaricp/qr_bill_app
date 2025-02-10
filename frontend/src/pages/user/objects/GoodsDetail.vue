@@ -9,7 +9,7 @@
       <div class="col-md-6">
         <TableComponent 
           v-if="itemsReady"
-          :data="items" 
+          :items="items" 
           :fields="fields"
           :go_to_object="go_to_object"
           :translate_first_column="translate_first_column"

@@ -3,6 +3,7 @@ export interface ISeller {
     name: string;
     official_name: string;
     address: string;
+    city: string;
   }
 
 export interface ICountSellerByName {

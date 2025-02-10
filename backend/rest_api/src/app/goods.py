@@ -15,7 +15,8 @@ from .entities.goods import (
     Goods, GoodsCreate, GoodsUpdate, CategoryGoods
 )
 from .entities.product import ProductCreate
-from .product import ProductCommands, unification_names
+from .product import ProductCommands
+from .utils import unification_names
 
 
 class GoodsQueries:
@@ -23,8 +24,26 @@ class GoodsQueries:
     def __init__(self):
         pass
 
-    async def get_all_goods(self, user_id: UUID) -> List[Goods]:
-        result = GoodsORM.query.filter_by(user_id=user_id).all()
+    async def get_all_goods(
+        self,
+        user_id: UUID,
+        offset: int = 0,
+        limit: int = 0
+    ) -> List[Goods]:
+        if limit > 0 and offset > 0:
+            result = GoodsORM.query.filter_by(
+                user_id=user_id
+            ).offset(offset).limit(limit).all()
+        elif limit > 0:
+            result = GoodsORM.query.filter_by(
+                user_id=user_id
+            ).limit(limit).all()
+        elif offset > 0:
+            result = GoodsORM.query.filter_by(
+                user_id=user_id
+            ).offset(offset) .all()
+        else:
+            result = GoodsORM.query.filter_by(user_id=user_id).all()
         return result
 
     async def get_goods(self, id: UUID) -> Goods:

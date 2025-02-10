@@ -11,26 +11,25 @@ from sqlalchemy.sql import func
 from ..infra.database import db_session
 from ..infra.database.models import (
     Bill as BillORM,
-    Goods as GoodsORM,
-    Product as ProductORM,
-    Category as CategoryORM
+    Goods as GoodsORM
 )
 from ..utils import (
     get_last_day_of_month_by_datetime,
     get_fisrt_day_month_by_delta_month
 )
 
-from .entities.unit import Unit, UnitCreate
+from .entities.unit import UnitCreate
 from .entities.bill import Bill, BillCreate, BillCreateByURL
 from .entities.goods import Goods, GoodsCreate
-from .entities.seller import Seller, SellerCreate
-from .entities.product import Product, ProductCreate
+from .entities.seller import SellerCreate
+from .entities.product import ProductCreate
 from .entities.user_product import UncategorizedUserProduct
-from .unit import UnitCommands
+from .unit import UnitCommands, UnitQueries
 from .seller import SellerCommands
 from .goods import GoodsCommands
-from .product import ProductCommands, unification_names
+from .product import ProductCommands
 from .config import bill_config
+from .utils import unification_names
 
 
 class BillQueries:
@@ -38,7 +37,21 @@ class BillQueries:
     def __init__(self):
         pass
 
-    async def get_all_bills(self, user_id: UUID):
+    async def get_all_bills(
+        self, user_id: UUID, offset: int = 0, limit: int = 0
+    ):
+        if offset > 0 and limit > 0:
+            return BillORM.query.filter_by(
+                user_id=user_id
+            ).offset(offset).limit(limit).all()
+        elif limit > 0:
+            return BillORM.query.filter_by(
+                user_id=user_id
+            ).limit(limit).all()
+        elif offset > 0:
+            return BillORM.query.filter_by(
+                user_id=user_id
+            ).offset(offset).all()
         return BillORM.query.filter_by(user_id=user_id).all()
 
     async def get_bill(self, id: UUID):
@@ -178,6 +191,7 @@ class BillCommands:
         self.seller_commands = SellerCommands()
         self.goods_commands = GoodsCommands()
         self.unit_commands = UnitCommands()
+        self.unit_queries = UnitQueries()
         self.product_commands = ProductCommands()
 
     async def get_by_id(self, id: UUID) -> Bill:
@@ -277,6 +291,7 @@ class BillCommands:
                 incoming_item=income_product, user_id=user_id
             )
             fiscal_id = int(in_goods["id"]) if in_goods["id"] else None
+            logger.info(f"Preparing Good for {name_goods_product}")
             incoming_goods = GoodsCreate(
                 fiscal_id=fiscal_id,
                 name=name_goods_product,
@@ -284,7 +299,9 @@ class BillCommands:
                 unit_price_before_vat=in_goods["unitPriceBeforeVat"],
                 unit_price_after_vat=in_goods["unitPriceAfterVat"],
                 rebate=in_goods["rebate"] if in_goods["rebate"] else Decimal(0.0),
-                rebate_reducing=in_goods["rebateReducing"],
+                rebate_reducing=in_goods["rebateReducing"] if in_goods[
+                    "rebateReducing"
+                ] != None else False,
                 price_before_vat=in_goods["priceBeforeVat"],
                 vat_rate=in_goods["vatRate"],
                 vat_amount=in_goods["vatAmount"],
@@ -350,3 +367,60 @@ class BillCommands:
 
     async def get_total_summ(self, user_id: UUID) -> float:
         return 1700.0
+
+    async def create_bill_manually(
+        self, incoming_data: BillCreate
+    ) -> Bill:
+        incoming_seller = SellerCreate(
+            official_name=unification_names(incoming_data.seller.strip())
+        )
+        seller_db = await self.seller_commands.get_or_create(
+            incoming_item=incoming_seller
+        )
+        incoming_bill = BillCreate(
+            created=incoming_data.created,
+            value=incoming_data.sum,
+            payment_method="cash",
+            seller_id=seller_db.id,
+            user_id=incoming_data.user_id
+        )
+        logger.info(f"incoming_bill: {incoming_bill}")
+        bill_db = await self.get_or_create(
+            incoming_item=incoming_bill
+        )
+        logger.info(f"created bill: {bill_db}")
+        name_goods_product = unification_names(
+            incoming_data.product
+        )
+        income_product = ProductCreate(
+            name=name_goods_product
+        )
+        user_product_db = await self.product_commands.get_or_create_user_product(
+            incoming_item=income_product, user_id=incoming_data.user_id
+        )
+        unit_db = await self.unit_queries.get_by_name("kom")
+        incoming_goods = GoodsCreate(
+            name=name_goods_product,
+            quantity=1,
+            unit_price_before_vat=incoming_data.sum,
+            unit_price_after_vat=incoming_data.sum,
+            rebate=Decimal(0.0),
+            rebate_reducing=False,
+            price_before_vat=incoming_data.sum,
+            vat_rate=Decimal(0.0),
+            vat_amount=Decimal(0.0),
+            price_after_vat=incoming_data.sum,
+            unit_id=unit_db.id,
+            bill_id=bill_db.id,
+            seller_id=seller_db.id,
+            user_id=incoming_data.user_id,
+            user_product_id=user_product_db.id
+        )
+        logger.info(f"incoming_goods: {incoming_goods}")
+        goods_db = await self.goods_commands.get_or_create(
+            incoming_item=incoming_goods
+        )
+        logger.info(f"goods_db: {goods_db}")
+
+        bill_db = await self.get_by_id(id=bill_db.id)
+        return bill_db
