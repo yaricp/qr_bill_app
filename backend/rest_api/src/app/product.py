@@ -1,26 +1,28 @@
 from uuid import UUID
 from typing import List
-from datetime import datetime, timedelta
-from sqlalchemy.sql import func
-from sqlalchemy import desc
 from sqlalchemy.sql import text
 from loguru import logger
 
 from ..infra.database import db_session
 from ..infra.database.models import (
-    Product as ProductORM, Category as CategoryORM,
+    Bill as BillORM,
     Goods as GoodsORM,
+    Seller as SellerORM,
+    Product as ProductORM, 
+    Category as CategoryORM,
     UserProduct as UserProductORM
 )
 
 from .entities.product import (
     Product, ProductCreate, ProductUpdate,
-    CategoryProduct
+    ProductPrice
 )
 from .entities.user_product import (
     UserProductCreate, UncategorizedUserProduct,
     CategorizedUserProduct, UserProduct
 )
+
+from .utils import unification_names
 
 
 class ProductQueries:
@@ -75,6 +77,32 @@ class ProductQueries:
 
         logger.info(f"result: {result}")
 
+        return result
+
+    async def get_product_prices(
+        self, product_id: UUID, user_id: UUID
+    ) -> List[ProductPrice]:
+        result = db_session.query(
+            BillORM.created,
+            GoodsORM.unit_price_after_vat.label("price"),
+            SellerORM.official_name.label("seller"),
+            SellerORM.address,
+            GoodsORM.name,
+            GoodsORM.quantity
+        ).join(
+            GoodsORM.user_product
+        ).join(
+            UserProductORM.product
+        ).join(
+            GoodsORM.seller
+        ).join(
+            GoodsORM.bill
+        ).where(
+            ProductORM.id == product_id,
+            BillORM.user_id == user_id,
+            UserProductORM.user_id == user_id
+        ).order_by(BillORM.created).all()
+        # logger.info(f"result: {result}")
         return result
 
 
@@ -183,3 +211,13 @@ class ProductCommands:
 
     async def delete_product(self, id:UUID) -> Product:
         pass
+
+    async def normalize_products_name(self) -> bool:
+        for product in ProductORM.query.all():
+            try:
+                product.name = unification_names(product.name)
+                db_session.commit()
+            except Exception as err:
+                logger.info(f"Error: {err}")
+                return False
+        return True

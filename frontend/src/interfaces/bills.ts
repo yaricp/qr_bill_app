@@ -1,4 +1,5 @@
 import { DateTimeFormatResult } from "vue-i18n";
+
 import { ISeller } from "./seller";
 
 export interface IBill {

@@ -1,5 +1,7 @@
 from uuid import UUID
 from typing import Optional
+from datetime import datetime
+from decimal import Decimal
 
 from pydantic import BaseModel
 
@@ -41,3 +43,9 @@ class ProductInDB(ProductInDBBase):
 class CategoryProduct(BaseModel):
     product_id: UUID
     cat_id: UUID
+
+
+class ProductPrice(BaseModel):
+    price: Decimal
+    created: datetime
+    seller: str

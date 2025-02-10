@@ -1,5 +1,7 @@
 from uuid import UUID
 from typing import Optional
+from decimal import Decimal
+from datetime import datetime
 
 from pydantic import BaseModel
 
@@ -46,3 +48,9 @@ class CategoryProduct(BaseModel):
 class UncategorizedProduct(BaseModel):
     name: str
     count: int
+
+
+class ProductPrice(BaseModel):
+    price: Decimal
+    created: datetime
+    seller: str

@@ -9,14 +9,17 @@ from ...config import URLPathsConfig
 from ..services.goods import (
     get_goods, create_goods, get_all_goods,
     update_goods, delete_goods, list_count_group_by_name,
-    list_summ_group_by_name, strip_all_names,
-    list_uncategorized_goods, save_categorized_goods,
-    update_goods_categories,
-    create_user_product_categories_by_goods
+    list_summ_group_by_name, list_uncategorized_goods,
+    update_goods_categories
 )
+
+# strip_all_names,
+# save_categorized_goods,
+# create_user_product_categories_by_goods
+
 from ..schemas.goods import (
     Goods, GoodsCreate, GoodsUpdate, GoodsCountByName,
-    GoodsSummByName, CategoryGoods
+    GoodsSummByName, CategoryGoods, GoodsPrice
 )
 
 

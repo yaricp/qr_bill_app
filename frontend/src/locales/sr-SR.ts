@@ -71,13 +71,14 @@ export default {
       head: "Analitika",
       categories: "Po kategorijama",
       sellers: "Po prodavcima",
-      goods: "Po proizvodima"
+      goods: "Po proizvodima",
+      product_prices: "Cijene proizvoda"
     },
     lists: {
       head: "Spiskovi",
       categories: "Kategorije",
       bills: "Računi",
-      goods: "Proizvodi",
+      goods: "Kupovine",
       sellers: "Prodavci"
     },
     user: {
@@ -306,6 +307,10 @@ export default {
     10: "Oktobar",
     11: "Novembar",
     12: "Decembar"
+  },
+  product_prices: {
+    header: "Dinamika cijena za proizvode",
+    selection_tip: "Izaberite proizvod"
   }
 }
 

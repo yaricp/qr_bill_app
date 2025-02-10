@@ -55,6 +55,13 @@ class ProductDataService {
     );
   }
 
+  getProductPrices(product_id: string, token: string): Promise<any> {
+    return http.get(
+      `/products/prices/${product_id}`,
+      authHeaders(token)
+    );
+  }
+
 }
 
 export default new ProductDataService();

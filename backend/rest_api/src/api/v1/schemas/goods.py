@@ -1,6 +1,6 @@
 from uuid import UUID
-from typing import List
 from decimal import Decimal
+from datetime import datetime
 
 from typing import Optional
 
@@ -8,8 +8,6 @@ from pydantic import BaseModel
 
 from .unit import Unit
 from .seller import Seller
-from .product import Product
-from .category import Category
 from .user_product import UserProduct
 
 
@@ -115,3 +113,8 @@ class GoodsSummByName(BaseModel):
 class CategoryGoods(BaseModel):
     goods_id: UUID
     cat_id: UUID
+
+
+class GoodsPrice(BaseModel):
+    sum: Decimal
+    created: datetime

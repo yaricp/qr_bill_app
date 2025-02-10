@@ -8,12 +8,12 @@ from ... import app, manager
 from ...config import URLPathsConfig
 from ..services.product import (
     get_product, create_product, update_product,
-    delete_product, get_all_products,
+    delete_product, get_all_products, normalize_products_name,
     get_uncategorized_product, save_categorized_products,
-    update_product_categories
+    update_product_categories, get_product_prices
 )
 from ..schemas.product import (
-    Product, ProductCreate, ProductUpdate
+    Product, ProductCreate, ProductUpdate, ProductPrice
 )
 from ..schemas.user_product import (
     UncategorizedUserProduct, CategorizedProduct,
@@ -131,4 +131,30 @@ async def update_product_categories_route(
         user_product_id=data_in.user_product_id,
         list_cat_id=data_in.list_cat_id
     )
+    return result
+
+
+@app.get(
+    URLPathsConfig.PREFIX + "/products/prices/{product_id}",
+    tags=['Products'],
+    response_model=List[ProductPrice]
+)
+async def product_prices_route(
+    product_id: UUID, user=Depends(manager)
+) -> List[ProductPrice]:
+    result: List[
+        ProductPrice
+    ] = await get_product_prices(
+        product_id=product_id, user_id=user.id
+    )
+    return result
+
+
+@app.get(
+    URLPathsConfig.PREFIX + "/products/normalize/",
+    tags=['Products'],
+    response_model=bool
+)
+async def normalize_products_name_route(user=Depends(manager)) -> bool:
+    result = await normalize_products_name()
     return result

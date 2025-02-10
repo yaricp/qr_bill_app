@@ -65,6 +65,11 @@
                   {{ $t("menu.analytics.sellers") }}
                 </router-link>
               </li>
+              <li>
+                <router-link to="/product_prices" class="dropdown-item">
+                  {{ $t("menu.analytics.product_prices") }}
+                </router-link>
+              </li>
             </ul>
           </li>
           <li class="nav-item dropdown">

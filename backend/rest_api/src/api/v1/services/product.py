@@ -5,7 +5,7 @@ from loguru import logger
 from ....app.product import ProductQueries, ProductCommands
 
 from ..schemas.product import (
-    Product, ProductCreate, ProductUpdate
+    Product, ProductCreate, ProductUpdate, ProductPrice
 )
 from ..schemas.user_product import (
     UncategorizedUserProduct, CategorizedProduct
@@ -37,6 +37,18 @@ async def get_uncategorized_product(
     return await queries.get_uncategorized_product(
         user_id=user_id, cat_id=cat_id
     )
+
+
+async def get_product_prices(
+    product_id: UUID, user_id: UUID
+) -> List[ProductPrice]:
+    product_queries: ProductQueries = ProductQueries()
+    result: List[
+        ProductPrice
+    ] = await product_queries.get_product_prices(
+        product_id=product_id, user_id=user_id
+    )
+    return result
 
 
 # ------Actons(Commands)-------
@@ -87,4 +99,10 @@ async def update_product_categories(
     command_result = await prod_command.update_product_categories(
         user_product_id=user_product_id, list_cat_id=list_cat_id
     )
+    return command_result
+
+
+async def normalize_products_name() -> bool:
+    prod_command = ProductCommands()
+    command_result = await prod_command.normalize_products_name()
     return command_result

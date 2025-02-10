@@ -73,13 +73,14 @@ export default {
       head: "Analytics",
       categories: "By Categories",
       sellers: "By Sellers",
-      goods: "By Goods"
+      goods: "By Goods",
+      product_prices: "Prices to Goods"
     },
     lists: {
       head: "Lists",
       categories: "Categories",
       bills: "Bills",
-      goods: "Goods",
+      goods: "Purchases",
       sellers: "Sellres"
     },
     user: {
@@ -308,5 +309,9 @@ export default {
     10: "October",
     11: "November",
     12: "December"
+  },
+  product_prices: {
+    header: "Price dynamics for products",
+    selection_tip: "select product"
   }
 }

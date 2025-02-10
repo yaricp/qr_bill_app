@@ -73,13 +73,14 @@ export default {
       head: "Аналитика",
       categories: "По категориям",
       sellers: "По продавцам",
-      goods: "По товарам"
+      goods: "По товарам",
+      product_prices: "Цены на продукты"
     },
     lists: {
       head: "Списки",
       categories: "Категории",
       bills: "Счета",
-      goods: "Товары",
+      goods: "Покупки",
       sellers: "Продавцы"
     },
     user: {
@@ -309,5 +310,9 @@ export default {
     10: "Октябрь",
     11: "Ноябрь",
     12: "Декабрь"
+  },
+  product_prices: {
+    header: "Динамика цен для продукты",
+    selection_tip: "Выберите продукт"
   }
 }
