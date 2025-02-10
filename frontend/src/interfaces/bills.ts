@@ -1,8 +1,9 @@
+import { DateTimeFormatResult } from "vue-i18n";
 import { ISeller } from "./seller";
 
 export interface IBill {
     id: null;
-    created: string;
+    created: DateTimeFormatResult;
     value: number;
     image?: string;
     seller: ISeller;

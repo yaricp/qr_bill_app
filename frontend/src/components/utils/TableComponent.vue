@@ -119,7 +119,15 @@ export default defineComponent({
             }
             return false;
         },
+        convertFromRussianDatetime(datetime: string){
+            let time = datetime.split(" ")[1]
+            let day = datetime.split(" ")[0].split(".")[0];
+            let month = datetime.split(" ")[0].split(".")[1];
+            let year = datetime.split(" ")[0].split(".")[2];
+            return `${month}/${day}/${year} ${time}`
+        },
         sortTable(col: any) {
+            console.log("col: ", col)
             this.search_name = "";
             let direction: "asc" | "desc" | undefined = "asc";
             if (this.reverseSorted) {
@@ -129,9 +137,32 @@ export default defineComponent({
                 this.reverseSorted = true;
                 direction = "desc"
             }
-            this.inner_data = orderBy(
-                this.items, col, direction
-            )
+            if (col == "Created") {
+                if (this.inner_data){
+                    this.inner_data.sort(
+                        (a: any, b: any ) => {
+                            let in_a = a.Created;
+                            let in_b = b.Created;
+                            if (this.$i18n.locale == "ru"){
+                                in_a = this.convertFromRussianDatetime(a.Created)
+                                in_b = this.convertFromRussianDatetime(b.Created)
+                            }
+                            if (direction == "desc"){
+                                return Date.parse(in_a) - Date.parse(in_b)
+                            } else {
+                                return Date.parse(in_b) - Date.parse(in_a)
+                            }
+                            
+                        }
+                    );
+                } else {
+                    this.inner_data = [];
+                }
+            } else {
+                this.inner_data = orderBy(
+                    this.items, col, direction
+                )
+            }
         },
         goToDetail(id: string){
             this.$router.push({
