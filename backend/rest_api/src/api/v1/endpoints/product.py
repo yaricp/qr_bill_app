@@ -150,11 +150,11 @@ async def product_prices_route(
     return result
 
 
-@app.get(
-    URLPathsConfig.PREFIX + "/products/normalize/",
-    tags=['Products'],
-    response_model=bool
-)
-async def normalize_products_name_route(user=Depends(manager)) -> bool:
-    result = await normalize_products_name()
-    return result
+# @app.get(
+#     URLPathsConfig.PREFIX + "/products/normalize/",
+#     tags=['Products'],
+#     response_model=bool
+# )
+# async def normalize_products_name_route(user=Depends(manager)) -> bool:
+#     result = await normalize_products_name()
+#     return result
