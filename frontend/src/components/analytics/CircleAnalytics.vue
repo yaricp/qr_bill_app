@@ -29,15 +29,17 @@
   </div>
 </template>
     
-  <script lang="ts">
+<script lang="ts">
+  import { Pie } from "vue-chartjs";
   import { defineComponent } from "vue";
-  import { useStore } from '@/store';
+  import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+
+  import { useStore } from "@/store";
+  import { Colors } from "@/constants";
   import { checkTokenExpired } from "@/http-common";
   import CategoryDataService from "@/services/categories";
   import { ISummCategoryByName } from "@/interfaces/categories";
-  import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-  import { Pie } from "vue-chartjs";
-
+ 
   ChartJS.register(ArcElement, Tooltip, Legend)
 
   export default defineComponent({
@@ -52,18 +54,7 @@
         chartData: {
           labels: [''],
           datasets: [{
-            backgroundColor: [
-              '#41A688',
-              '#E46651',
-              '#00D8FF',
-              '#DD1B16',
-              '#41B494',
-              '#E46662',
-              '#05F9D0',
-              '#DD1A27',
-              '#52C975',
-              '#E46573'
-            ],
+            backgroundColor: Colors,
             data: [0]
           }]
         },
@@ -118,11 +109,11 @@
       this.fillChartDataSummByName();  
     }
   });
-  </script>
+</script>
   
-  <style>
+<style>
   .edit-form {
     max-width: 300px;
     margin: auto;
   }
-  </style>
+</style>

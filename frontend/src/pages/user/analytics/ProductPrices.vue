@@ -51,11 +51,7 @@
   
 <script lang="ts">
 import { defineComponent } from "vue";
-import ProductDataService from "@/services/products";
-import { IProduct, IProductPrice } from "@/interfaces/product";
-import { Line as ChartLine } from 'vue-chartjs';
-import { useStore } from '@/store';
-
+import { Line as ChartLine } from "vue-chartjs";
 import { 
   Chart as ChartJS,
   Title,
@@ -65,8 +61,13 @@ import {
   CategoryScale,
   LinearScale,
   LineElement
- } from 'chart.js'
+ } from "chart.js";
+
+import { useStore } from "@/store";
+import { Colors } from "@/constants";
 import { checkTokenExpired } from "@/http-common";
+import ProductDataService from "@/services/products";
+import { IProduct, IProductPrice } from "@/interfaces/product";
 
 ChartJS.register(
   CategoryScale,
@@ -87,8 +88,8 @@ export default defineComponent({
       products: [] as IProduct[],
       currentProduct: {} as IProduct,
       chartData: {
-        labels: [ '' ],
-        datasets: [ { data: [0], label: "" } ]
+        labels: [ "" ],
+        datasets: [{ backgroundColor: Colors, data: [0], label: "" }]
       },
       chartOptions: {
         responsive: true

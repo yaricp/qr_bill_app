@@ -71,13 +71,15 @@
 </template>
   
 <script lang="ts">
+import { Pie } from "vue-chartjs";
 import { defineComponent } from "vue";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+
+import { useStore } from "@/store";
+import { Colors } from "@/constants";
 import GoodsDataService from "@/services/goods";
-import { ICountGoodsByName, ISummGoodsByName } from "@/interfaces/goods";
-import { Pie } from 'vue-chartjs'
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
-import { useStore } from '@/store';
 import { checkTokenExpired } from "@/http-common";
+import { ICountGoodsByName, ISummGoodsByName } from "@/interfaces/goods";
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -95,41 +97,11 @@ export default defineComponent({
       first_of_by_summ: 10 as number,
       chartDataCountByName: {
         labels: [''],
-        datasets: [{
-          backgroundColor: [
-            '#41A688',
-            '#E46651',
-            '#00D8FF',
-            '#DD1B16',
-            '#41B494',
-            '#E46662',
-            '#05F9D0',
-            '#DD1A27',
-            '#52C975',
-            '#E46573'
-          ],
-          // label: this.$t("analytics.goods.plot_count.label"),
-          data: [40, 20, 12]
-        }]
+        datasets: [{ backgroundColor: Colors, data: [0] }]
       },
       chartDataSummByName: {
         labels: [''],
-        datasets: [{
-          backgroundColor: [
-            '#41A688',
-            '#E46651',
-            '#00D8FF',
-            '#DD1B16',
-            '#41B494',
-            '#E46662',
-            '#05F9D0',
-            '#DD1A27',
-            '#52C975',
-            '#E46573'
-          ],
-          // label: this.$t("analytics.goods.plot_summ.label"),
-          data: [40, 20, 12]
-        }]
+        datasets: [{ backgroundColor: Colors, data: [0] }]
       },
       chartOptions: {
         responsive: true
