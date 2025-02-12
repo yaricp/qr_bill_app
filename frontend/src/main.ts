@@ -7,7 +7,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-// import * as bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
 import './assets/main.css';
 import { FontAwesomeIcon } from './plugins/font-awesome';
 import i18n from './plugins/i18n';
