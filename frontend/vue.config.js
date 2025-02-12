@@ -10,8 +10,7 @@ module.exports = {
   pages: {
     index: {
       entry: "src/main.ts",
-      title: "QRacun.me",
-      favicon: "src/assets/favicon.ico"
+      title: "QRacun.me"
     },
   },
   pwa: {
