@@ -19,4 +19,3 @@ createApp(App)
 .use(i18n)
 .component("font-awesome-icon", FontAwesomeIcon)
 .mount("#app");
-
