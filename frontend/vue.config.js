@@ -7,6 +7,13 @@ module.exports = {
   devServer: {
     port: 8081
   },
+  pages: {
+    index: {
+      entry: "src/main.ts",
+      title: "QRacun.me",
+      favicon: "src/assets/favicon.ico"
+    },
+  },
   pwa: {
     workboxPluginMode: 'GenerateSW',
     manifestOptions: {
