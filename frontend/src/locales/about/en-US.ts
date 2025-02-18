@@ -94,5 +94,6 @@ export default {
     text4: "🔹 Instagram:",
     text5: "🔹 Feedback & discussions:",
     text6: "📩 For any inquiries, feel free to message us in the chat or on social media!",
+    tg_chat: "Telegram-chat"
   }
 };

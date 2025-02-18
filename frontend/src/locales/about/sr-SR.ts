@@ -94,5 +94,6 @@ export default {
     text4: "🔹 Instagram:",
     text5: "🔹 Povratne informacije i diskusije:",
     text6: "📩 Za bilo kakva pitanja, slobodno nam pišite u četu ili na društvenim mrežama!",
+    tg_chat: "Telegram-čet"
   }
 };

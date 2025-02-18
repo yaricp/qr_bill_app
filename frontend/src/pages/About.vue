@@ -188,7 +188,7 @@
                     {{ $t("about.contacts.text5") }}
                     &nbsp;
                     <a href="https://t.me/+JTmkic8XatMxMzI6" target="blank">
-                        Telegram-чат
+                        {{ $t("about.contacts.tg_chat") }}
                     </a>
                 </p>
                 <p>
