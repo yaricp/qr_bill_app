@@ -26,7 +26,7 @@ export default {
         aplikacija se može koristiti anonimno, 
         bez povezivanja sa bankama ili društvenim mrežama.`,
     text6: `✅ Telegram bot – pošaljite fotografije računa 
-        ili linkove iz QR kodova na @qracun_bot i 
+        ili linkove iz QR kodova na qracun_bot i 
         brzo ih dodajte u aplikaciju.`,
     text7: `✅ Podrška za tri jezika – ruski, 
         engleski, crnogorski.`

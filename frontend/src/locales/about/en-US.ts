@@ -26,7 +26,7 @@ export default {
         the app can be used anonymously, 
         without linking to banks or social networks.`,
     text6: `✅ Telegram bot – send receipt photos 
-        or QR code links to @qracun_bot and 
+        or QR code links to qracun_bot and 
         quickly add them to the app.`,
     text7: `✅ Support for three languages – Russian, 
         English, Montenegrin.`

@@ -66,6 +66,10 @@
                 </p>
                 <p>
                     {{ $t("about.capabilities.text6") }}
+                    &nbsp;
+                    <a href="https://t.me/qracun_bot" target="blank">
+                        @qracun_bot
+                    </a>
                 </p>
                 <p>
                     {{ $t("about.capabilities.text7") }}
