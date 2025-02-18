@@ -32,16 +32,20 @@ export default {
         engleski, crnogorski.`
   },
   why: {
-    header: "Zašto qracun.me?",
-    text1: `* Za razliku od bankarskih aplikacija, qracun.me 
+    header: "Osobine programa qracun.me:",
+    text1: `✅ Za razliku od bankarskih aplikacija, qracun.me 
         omogućava praćenje svih troškova, uključujući 
         gotovinske uplate i kupovine u različitim prodavnicama.`,
-    text2: `* To je nezavisno rešenje za one koji žele 
+    text2: `✅ To je nezavisno rešenje za one koji žele 
         svesno upravljati svojim budžetom i analizirati 
         svoje troškove na praktičan način.`,
-    text3: `* Aplikacija je zasnovana na PWA (Progressive Web App) tehnologiji, 
+    text3: `✅ Aplikacija je zasnovana na PWA (Progressive Web App) tehnologiji, 
         što znači da se može instalirati na bilo koji uređaj 
-        koji podržava pretraživače sa PWA funkcionalnošću.`
+        koji podržava pretraživače sa PWA funkcionalnošću.`,
+    text4: "✅ Može se instalirati bez App Store-a ili Google Play-a.",
+    text5: "✅ Zauzima minimalan prostor na uređaju.",
+    text6: `✅ Ažuriranja se objavljuju odmah, 
+        bez čekanja na odobrenje prodavnica aplikacija.`
   },
   pwa: {
     header: "qracun.me je PWA aplikacija, što znači:",
@@ -57,12 +61,12 @@ export default {
         qracun.me ne zahteva registraciju putem bankovnih računa, 
         društvenih mreža ili e-maila. Možete kreirati potpuno 
         anoniman nalog sa jedinstvenim korisničkim imenom i lozinkom.`,
-    text2: `📧 Oporavak naloga (opciono)
+    text2: `📧 Oporavak naloga (opciono):
         Ako želite dodatno osigurati svoj nalog, možete povezati 
         e-mail ili Telegram. Ovo će vam omogućiti da povratite pristup 
         u slučaju gubitka lozinke. Vaši podaci ostaju samo kod vas i 
         ne dele se sa trećim licima.`,
-    text3: `💾 Potpuna kontrola nad podacima
+    text3: `💾 Potpuna kontrola nad podacima:
         U bilo kom trenutku možete obrisati svoj nalog, 
         uključujući sve kupovine, račune i kategorije – 
         bez mogućnosti povratka.`,

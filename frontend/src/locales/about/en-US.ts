@@ -32,16 +32,21 @@ export default {
         English, Montenegrin.`
   },
   why: {
-    header: "Why qracun.me?",
-    text1: `* Unlike banking apps, qracun.me 
+    header: "Features of the qracun.me:",
+    text1: `✅ Unlike banking apps, qracun.me 
         allows tracking all expenses, including 
         cash payments and purchases in different stores.`,
-    text2: `* It is an independent solution for those who want 
+    text2: `✅ It is an independent solution for those who want 
         to consciously manage their budget and analyze 
         their expenses in a convenient format.`,
-    text3: `* The app is based on PWA (Progressive Web App) technology, 
+    text3: `✅ The app is based on PWA (Progressive Web App) technology, 
         which means it can be installed on any device 
-        that supports PWA-enabled browsers.`
+        that supports PWA-enabled browsers.`,
+    text4: "✅ It can be installed without App Store or Google Play.",
+    text5: "✅ It takes up minimal space on your device.",
+    text6: `✅ Updates are released instantly, 
+        without waiting for app store approvals.`
+
   },
   pwa: {
     header: "qracun.me is a PWA app, which means:",
@@ -57,12 +62,12 @@ export default {
         qracun.me does not require registration via bank accounts, 
         social networks, or email. You can create a fully 
         anonymous account with a unique login and password.`,
-    text2: `📧 Access recovery (optional)
+    text2: `📧 Access recovery (optional):
         If you want to secure your account, you can link 
         an email or Telegram. This will allow you to restore access 
         in case of a lost password. Your data remains with you and 
         is not shared with third parties.`,
-    text3: `💾 Full control over data
+    text3: `💾 Full control over data:
         You can delete your account at any time, along with 
         all purchases, receipts, and categories — without 
         the possibility of recovery.`,

@@ -94,11 +94,20 @@
                 <p>
                     {{ $t("about.why.text3") }}
                 </p>
+                <p>
+                    {{ $t("about.why.text4") }}
+                </p>
+                <p>
+                    {{ $t("about.why.text5") }}
+                </p>
+                <p>
+                    {{ $t("about.why.text6") }}
+                </p>
             </div>
             <p></p>
         </div>
       </div>
-      <div class="row">
+      <!-- <div class="row">
         <div class="col">
             <a data-bs-toggle="collapse" href="#collapseExample3" role="button" aria-expanded="false" aria-controls="collapseExample">
                 <b>{{ $t("about.pwa.header") }}</b>
@@ -120,7 +129,7 @@
             </div>
             <p></p>
         </div>
-      </div>
+      </div> -->
       <div class="row">
         <div class="col">
             <a data-bs-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false" aria-controls="collapseExample">
@@ -141,13 +150,13 @@
                     {{ $t("about.security.text4") }}
                 </p>
                 <p>
-                    {{ $t("about.security.text5") }}
+                    &nbsp;&nbsp;&nbsp;&nbsp;{{ $t("about.security.text5") }}
                 </p>
                 <p>
-                    {{ $t("about.security.text6") }}
+                    &nbsp;&nbsp;&nbsp;&nbsp;{{ $t("about.security.text6") }}
                 </p>
                 <p>
-                    {{ $t("about.security.text7") }}
+                    &nbsp;&nbsp;&nbsp;&nbsp;{{ $t("about.security.text7") }}
                 </p>
             </div>
             <p></p>
