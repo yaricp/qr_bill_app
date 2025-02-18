@@ -7,10 +7,11 @@ from fastapi import Depends
 from ... import app, manager
 from ...config import URLPathsConfig
 from ..services.product import (
-    get_product, create_product, update_product,
-    delete_product, get_all_products, normalize_products_name,
+    get_product, create_product,
+    delete_product, get_all_products, update_product,
     get_uncategorized_product, save_categorized_products,
-    update_product_categories, get_product_prices
+    update_product_categories, get_product_prices,
+    get_products_more_one_prices
 )
 from ..schemas.product import (
     Product, ProductCreate, ProductUpdate, ProductPrice
@@ -146,6 +147,20 @@ async def product_prices_route(
         ProductPrice
     ] = await get_product_prices(
         product_id=product_id, user_id=user.id
+    )
+    return result
+
+
+@app.get(
+    URLPathsConfig.PREFIX + "/products/for_prices/",
+    tags=['Products'],
+    response_model=List[Product]
+)
+async def products_for_prices_route(
+    user=Depends(manager)
+) -> List[Product]:
+    result: List[Product] = await get_products_more_one_prices(
+        user_id=user.id
     )
     return result
 

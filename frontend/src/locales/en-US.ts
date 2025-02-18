@@ -313,5 +313,11 @@ export default {
   product_prices: {
     header: "Price dynamics for products",
     selection_tip: "select product"
+  },
+  paginator: {
+    page: "page",
+    prev: "prev.",
+    next: "next",
+    from: "from"
   }
 }

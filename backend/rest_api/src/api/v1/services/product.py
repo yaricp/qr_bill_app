@@ -39,6 +39,18 @@ async def get_uncategorized_product(
     )
 
 
+async def get_products_more_one_prices(
+    user_id: UUID
+) -> List[Product]:
+    product_queries: ProductQueries = ProductQueries()
+    result: List[
+        ProductPrice
+    ] = await product_queries.get_products_more_one_prices(
+        user_id=user_id
+    )
+    return result
+
+
 async def get_product_prices(
     product_id: UUID, user_id: UUID
 ) -> List[ProductPrice]:

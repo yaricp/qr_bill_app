@@ -314,5 +314,11 @@ export default {
   product_prices: {
     header: "Динамика цен для продукты",
     selection_tip: "Выберите продукт"
+  },
+  paginator: {
+    page: "страница",
+    prev: "пред.",
+    next: "след.",
+    from: "из"
   }
 }

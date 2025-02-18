@@ -8,6 +8,7 @@
           :fields="fields"
           :go_to_object="go_to_object"
           :field_search="field_search"
+          :show_paginator="true"
         />
       </div>
     </div>
@@ -39,7 +40,7 @@
     computed: {
       authToken() {
         const store = useStore();
-        console.log("store: ", store);
+        // console.log("store: ", store);
         return store.state.auth.token;
       },
     },
@@ -49,7 +50,7 @@
           let response = await GoodsDataService.getAll(
             offset, limit, this.authToken
           );
-          console.log("response.data: ", response.data);
+          // console.log("response.data: ", response.data);
           if (response.data){
             return response.data;
           } else {
@@ -60,7 +61,7 @@
         }
       },
       async prepareTableItems(){
-        console.log("prepareTableItems");
+        // console.log("prepareTableItems");
         this.itemsReady = false;
         let items = [];
         for (let goods of this.goods_list){
@@ -77,7 +78,7 @@
         this.items = items;
         this.itemsReady = true;
         await this.$nextTick();
-        console.log("After nextTick");
+        // console.log("After nextTick");
       }
     },
     async mounted() {
@@ -87,7 +88,7 @@
       let next_result = await this.retrieveGoods(10, 0);
       this.goods_list = [...this.goods_list, ...next_result];
       await this.prepareTableItems();
-      console.log("after all preparing");
+      // console.log("after all preparing");
     },
   });
   </script>

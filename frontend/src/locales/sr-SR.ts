@@ -311,6 +311,12 @@ export default {
   product_prices: {
     header: "Dinamika cijena za proizvode",
     selection_tip: "Izaberite proizvod"
+  },
+  paginator: {
+    page: "stranica",
+    prev: "preth.",
+    next: "sled.",
+    from: "od"
   }
 }
 

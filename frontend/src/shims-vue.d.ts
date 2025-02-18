@@ -20,7 +20,5 @@ declare module 'vue/types/vue' {
 }
 
 declare module '@j-t-mcc/vue3-chartjs'
-declare module '@owliehq/vue-addtohomescreen' {
-  
-}
+declare module '@owliehq/vue-addtohomescreen'
 declare module 'bootstrap/dist/js/bootstrap.bundle'

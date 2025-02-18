@@ -25,6 +25,7 @@
         :fields="fields"
         :go_to_object="go_to_object"
         :field_search="field_search"
+        :show_paginator="true"
       />
     </div>
   </div>

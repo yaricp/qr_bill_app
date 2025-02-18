@@ -24,6 +24,7 @@
           :items="items" 
           :fields="fields"
           :field_search="field_search"
+          :show_paginator="true"
         />
       </div>
     </div>

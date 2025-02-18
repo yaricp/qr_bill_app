@@ -108,12 +108,13 @@ export default defineComponent({
   methods: {
     async retrieveProducts() {
       try {
-        let response = await ProductDataService.getAll(
+        let response = await ProductDataService.getAllWithMoreOnePrice(
           this.authToken
         );
-        this.products = response.data.sort(
-          (a: any, b: any) => a.name.localeCompare(b.name)
-        );
+        // this.products = response.data.sort(
+        //   (a: any, b: any) => a.name.localeCompare(b.name)
+        // );
+        this.products = response.data;
         console.log("response.data: ", response.data);
       } catch(e) {
         checkTokenExpired(e);

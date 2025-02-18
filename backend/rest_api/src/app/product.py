@@ -1,6 +1,8 @@
 from uuid import UUID
 from typing import List
 from sqlalchemy.sql import text
+from sqlalchemy.sql import func
+from sqlalchemy import desc
 from loguru import logger
 
 from ..infra.database import db_session
@@ -32,6 +34,27 @@ class ProductQueries:
 
     async def get_all_products(self) -> List[Product]:
         return ProductORM.query.all()
+
+    async def get_products_more_one_prices(
+        self, user_id: UUID
+    ) -> List[Product]:
+        result = db_session.query(
+            ProductORM.id,
+            ProductORM.name
+        ).join(
+            GoodsORM.user_product
+        ).join(
+            UserProductORM.product
+        ).where(
+            GoodsORM.user_id == user_id
+        ).group_by(
+            ProductORM.id,
+            ProductORM.name
+        ).order_by(desc(func.count(GoodsORM.id))).having(
+           func.count(GoodsORM.id) > 2
+        ).all()
+        logger.info(f"result: {result}")
+        return result
 
     async def get_user_product(self, id: UUID) -> UserProduct:
         return UserProductORM.query.get(id)
@@ -101,7 +124,9 @@ class ProductQueries:
             ProductORM.id == product_id,
             BillORM.user_id == user_id,
             UserProductORM.user_id == user_id
-        ).order_by(BillORM.created).all()
+        ).order_by(
+            BillORM.created
+        ).all()
         # logger.info(f"result: {result}")
         return result
 

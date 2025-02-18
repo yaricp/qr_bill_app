@@ -62,6 +62,10 @@ class ProductDataService {
     );
   }
 
+  getAllWithMoreOnePrice(token: string): Promise<any> {
+    return http.get("/products/for_prices/", authHeaders(token));
+  }
+
 }
 
 export default new ProductDataService();

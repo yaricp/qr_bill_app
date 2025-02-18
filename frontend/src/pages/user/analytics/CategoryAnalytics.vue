@@ -99,7 +99,7 @@
       <div class="col">
         <p>
           {{ plot_header_by_count }}&nbsp;
-          <span v-if="showedByMonths">for {{ getCurrentMonthName() }}</span> 
+          <span v-if="showedByMonths">{{ $t("for") }} &nbsp; {{ getCurrentMonthName() }}</span> 
         </p>
       </div>
     </div>
