@@ -243,7 +243,7 @@ async def read_users_route(user=Depends(manager)) -> List[User]:
     Retrieve users.
     """
     users = []
-    logger.info(f"user.is_admin: {user.is_admin}")
+    # logger.info(f"user.is_admin: {user.is_admin}")
     if user.is_admin:
         users: List[User] = await get_all_users()
     return users

@@ -39,7 +39,7 @@ def check_user_auth(email_login_tg_link: str | UUID) -> User | None:
         login=str(email_login_tg_link)
     )
     logger.info(f"found by login: {user}")
-    logger.info(f"is_admin: {user.is_admin}")
+    # logger.info(f"is_admin: {user.is_admin}")
     if user:
         return user
     logger.info("Try search user by tg_id")
