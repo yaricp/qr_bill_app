@@ -329,7 +329,7 @@ export default {
     12: "Декабрь"
   },
   product_prices: {
-    header: "Динамика цен для продукты",
+    header: "Динамика цен на продукты",
     selection_tip: "Выберите продукт"
   },
   paginator: {
