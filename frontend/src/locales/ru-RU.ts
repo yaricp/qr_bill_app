@@ -86,7 +86,8 @@ export default {
     user: {
       head: "Пользователь",
       profile: "Профиль",
-      logout: "Выход"
+      logout: "Выход",
+      users: "Пользователи"
     }
   },
   table: {
@@ -105,7 +106,17 @@ export default {
       Value: "Значение",
       OfficialName: "Полное название",
       Address: "Адрес",
-      City: "Город"
+      City: "Город",
+      Id: "Id",
+      Email: "Почта",
+      Email_Verified: "Почта проверена",
+      Phone: "Телефон",
+      Login: "Логин",
+      TG_Name: "Имя в TG",
+      TG_Verified: "Телеграм проверен",
+      TG_ID: "Телеграм ID",
+      Lang: "Язык",
+      Links: "Ссылки",
     },
     first_column: {
       created: "создан",
@@ -283,13 +294,19 @@ export default {
     },
     sellers: {
       header: "Продавцы (Магазины)" 
+    },
+    users: {
+      header: "Список пользователей системы"
     }
-
   },
   objects: {
     bill: {
       head: "Детали счета",
-      btn_cat_goods: "Категоризуй товары этого счета"
+      btn_cat_goods: "Категоризуй товары этого счета",
+      photo: {
+        header: "Фото счета",
+        btn_goto_bill: "Детали счета"
+      }
     },
     goods: {
       head: "Детали позиции в счете",

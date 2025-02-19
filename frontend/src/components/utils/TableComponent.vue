@@ -42,10 +42,9 @@
                         v-for="(field, key) in fields" :key="key"
                     >
                         <div v-if="!isFieldID(field)">
-                            <img 
-                                v-if="isImage(item[field])" 
-                                :src="item[field]"
-                            >
+                            <a :href="'/bill_photo/' + item[field]"
+                                v-if="item[field] && field=='Image'" 
+                            >Photo</a>
                             <p v-else-if="translate_first_column && key == 0">
                                 {{ $t("table.first_column." + item[field]) }}
                             </p>
@@ -214,6 +213,10 @@ export default defineComponent({
                 params: {id: id}
             });
         };
+
+        const getPhotoUrl = (id: string) => {
+            return "bill_photo/"+id;
+        };
         
         const filterData = () => {
             if (!props.items){
@@ -288,7 +291,7 @@ export default defineComponent({
 
         return {
             convertFromRussianDatetime,
-            filterData, goToDetail, sortTable,
+            filterData, goToDetail, sortTable, getPhotoUrl,
             isImage, isFieldID, next, previous, pageCount,
             displayedItems, changePage, pages, itemsPerPage,
             currentPage, reverseSorted, search_name, showPaginator

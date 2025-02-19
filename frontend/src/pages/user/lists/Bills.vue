@@ -154,7 +154,7 @@
             ),
             "Seller": bill.seller.official_name,
             "Summ": Number(bill.value),
-            "Image": bill.image,
+            "Image": bill.image ? bill.id : "",
             "ID": bill.id
           })
         }

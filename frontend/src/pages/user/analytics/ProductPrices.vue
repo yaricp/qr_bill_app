@@ -13,22 +13,18 @@
       <div class="row">
         <div class="col">
           <select 
-          class="form-select"
-          aria-label="Default select example"
-          @change="productSelected"
-          v-model="currentProduct"
-        >
-          <option selected>
-            {{ $t("product_prices.selection_tip") }}
-          </option>
-          <option 
-            v-for="(product, index) in products"
-            :key="index"
-            :value="product"
+            class="form-select"
+            @change="productSelected"
+            v-model="currentProduct"
           >
-            {{ product.name }}
-          </option>
-        </select>
+            <option 
+              v-for="(product, index) in products"
+              :key="index"
+              :value="product"
+            >
+              {{ product.name }}
+            </option>
+          </select>
         </div>
       </div>
       <div class="row">
@@ -85,7 +81,10 @@ export default defineComponent({
   data() {
     return {
       loaded: false,
-      products: [] as IProduct[],
+      products: [{
+        "id": "0",
+        "name": this.$t("product_prices.selection_tip"),
+      }] as IProduct[],
       currentProduct: {} as IProduct,
       chartData: {
         labels: [ "" ],
@@ -111,10 +110,8 @@ export default defineComponent({
         let response = await ProductDataService.getAllWithMoreOnePrice(
           this.authToken
         );
-        // this.products = response.data.sort(
-        //   (a: any, b: any) => a.name.localeCompare(b.name)
-        // );
-        this.products = response.data;
+        //this.products = response.data;
+        this.products = [...this.products, ...response.data];
         console.log("response.data: ", response.data);
       } catch(e) {
         checkTokenExpired(e);
@@ -152,6 +149,7 @@ export default defineComponent({
     }
   },
   async mounted() {
+    this.currentProduct = this.products[0];
     await this.retrieveProducts();
   }
 

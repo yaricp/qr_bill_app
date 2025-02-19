@@ -84,7 +84,8 @@ export default {
     user: {
       head: "Korisnik",
       profile: "Profil",
-      logout: "Odjava"
+      logout: "Odjava",
+      users: "Korisniki"
     }
   },
   table: {
@@ -103,7 +104,17 @@ export default {
       Value: "Značenje",
       OfficialName: "Puni naziv",
       Address: "Adresa",
-      City: "Grad"
+      City: "Grad",
+      Id: "Id",
+      Email: "Email",
+      Email_Verified: "Email Verified",
+      Phone: "Phone",
+      Login: "Login",
+      TG_Name: "TG Name",
+      TG_Verified: "TG Verified",
+      TG_ID: "TG ID",
+      Lang: "Language",
+      Links: "Links",
     },
     first_column: {
       created: "Kreirano",
@@ -281,12 +292,19 @@ export default {
     },
     sellers: {
       header: "Lista prodavaca (prodavnica)"
+    },
+    users: {
+      header: "List of users"
     }
   },
   objects: {
     bill: {
       head: "Detalji računa",
-      btn_cat_goods: "Kategorizujte dobra ovog računa"
+      btn_cat_goods: "Kategorizujte dobra ovog računa",
+      photo: {
+        header: "Foto računa",
+        btn_goto_bill: "Detalji računa"
+      }
     },
     goods: {
       head: "Detalji stavke računa",

@@ -7,6 +7,7 @@ export interface IUserLogin {
 
 export interface IUser {
     id: string;
+    is_admin: boolean;
     email: string;
     email_verified: boolean;
     phone : string;

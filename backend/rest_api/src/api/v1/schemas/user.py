@@ -9,6 +9,7 @@ from .login_link import LoginLink
 # Shared properties
 class UserBase(BaseModel):
     id: Optional[UUID] = None
+    is_admin: Optional[bool] = False
     email: Optional[str] = None
     email_verified: Optional[bool] = None
     phone: Optional[str] = None

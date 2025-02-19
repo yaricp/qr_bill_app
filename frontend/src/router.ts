@@ -9,6 +9,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("./pages/user/Main.vue"),
   },
   {
+    path: "/users/",
+    name: "users",
+    component: () => import("./pages/admin/Users.vue"),
+  },
+  {
     path: "/qr_scanner",
     alias: "/qr_scanner",
     name: "qr_scanner",
@@ -41,6 +46,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/bill_detail/:id",
     name: "bill_detail",
     component: () => import("./pages/user/objects/BillDetail.vue"),
+  },
+  {
+    path: "/bill_photo/:id",
+    name: "bill_photo",
+    component: () => import("./pages/user/objects/BillPhoto.vue"),
   },
   {
     path: "/product_prices/",

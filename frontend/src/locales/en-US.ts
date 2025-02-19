@@ -74,7 +74,7 @@ export default {
       categories: "By Categories",
       sellers: "By Sellers",
       goods: "By Goods",
-      product_prices: "Prices to Goods"
+      product_prices: "Prices to Products"
     },
     lists: {
       head: "Lists",
@@ -86,7 +86,8 @@ export default {
     user: {
       head: "User",
       profile: "Profile",
-      logout: "Logout"
+      logout: "Logout",
+      users: "Users"
     }
   },
   table: {
@@ -94,7 +95,7 @@ export default {
       Created: "Created",
       Seller: "Seller",
       Summ: "Summ",
-      Image: "Image",
+      Image: "Photo",
       ID: "ID",
       Quantity: "Quantity",
       Unit: "Unit",
@@ -105,7 +106,17 @@ export default {
       Value: "Value",
       OfficialName: "Full Name",
       Address: "Address",
-      City: "City"
+      City: "City",
+      Id: "Id",
+      Email: "Email",
+      Email_Verified: "Email Verified",
+      Phone: "Phone",
+      Login: "Login",
+      TG_Name: "TG Name",
+      TG_Verified: "TG Verified",
+      TG_ID: "TG ID",
+      Lang: "Language",
+      Links: "Links",
     },
     first_column: {
       created: "created",
@@ -283,12 +294,19 @@ export default {
     },
     sellers: {
       header: ""
+    },
+    users: {
+      header: "List of users"
     }
   },
   objects: {
     bill: {
       head: "Bill Details",
-      btn_cat_goods: "Categorize goods this bill"
+      btn_cat_goods: "Categorize goods this bill",
+      photo: {
+        header: "Photo of the receipt",
+        btn_goto_bill: "Receipt Details"
+      }
     },
     goods: {
       head: "Bill Item Details",

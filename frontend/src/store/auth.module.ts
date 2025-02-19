@@ -18,6 +18,7 @@ import UserService from '@/services/users';
 // Declare state
 export type State = {
   loggedIn: boolean;
+  isAdmin: boolean;
   token: string;
   lang: string;
 }
@@ -37,9 +38,15 @@ if (local_db_lang){
   lang = JSON.parse(local_db_lang);
 }
 
+let is_admin = false;
+let local_db_is_admin = localStorage.getItem('is_admin');
+if (local_db_is_admin){
+  is_admin = JSON.parse(local_db_is_admin);
+}
+
 export const initialState = token
-  ? { loggedIn: true , token, lang }
-  : { loggedIn: false , token: "", lang };
+  ? { loggedIn: true , token, lang: lang, isAdmin: is_admin }
+  : { loggedIn: false , token: "", lang: lang, isAdmin: false };
 
 const state: State = initialState;
 
@@ -77,9 +84,6 @@ export const AuthModule: Module<State, RootState> = {
         if (response.data && response.data.access_token){
           let token = response.data.access_token;
           console.log("save to localStorage");
-          localStorage.setItem(
-            'token', JSON.stringify(token)
-          );
           console.log("commit to loginSuccess");
           commit('loginSuccess', token);
           response = await UserService.getUserProfile(token);
@@ -87,6 +91,11 @@ export const AuthModule: Module<State, RootState> = {
           let lang = response.data.lang;
           console.log("commit to save lang");
           commit('langCommit', lang);
+          let is_admin = response.data.is_admin;
+          if (is_admin != undefined) {
+            console.log("commit to save is_admin");
+            commit('isAdminCommit', is_admin);
+          }
         } else {
           console.log("commit loginFailure: ");
           commit('loginFailure');
@@ -178,8 +187,17 @@ export const AuthModule: Module<State, RootState> = {
   },
   mutations: {
     loginSuccess(state, token) {
+      localStorage.setItem(
+        'token', JSON.stringify(token)
+      );
       state.loggedIn = true;
       state.token = token;
+    },
+    isAdminCommit(state, is_admin) {
+      localStorage.setItem(
+        'is_admin', JSON.stringify(is_admin)
+      );
+      state.isAdmin = is_admin;
     },
     langCommit(state, lang) {
       console.log("save lang to localStorage");

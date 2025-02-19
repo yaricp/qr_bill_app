@@ -114,6 +114,11 @@
                     {{ $t("menu.user.logout") }}
                   </router-link>
                 </li>
+                <li v-if="isAdmin">
+                  <router-link to="/users" class="dropdown-item">
+                    {{ $t("menu.user.users") }}
+                  </router-link>
+                </li>
               </ul>
             </li>
             <li class="nav-item">
@@ -146,6 +151,10 @@ export default defineComponent({
       loggedIn() {
         const store = useStore();
         return store.state.auth.token ? true: false;
+      },
+      isAdmin() {
+        const store = useStore();
+        return store.state.auth.isAdmin ? true: false;
       },
       lang() {
         const store = useStore();

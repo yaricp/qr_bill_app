@@ -15,6 +15,7 @@ class User(Model):
         UUID, primary_key=True, nullable=False, unique=True,
         default=uuid4
     )
+    is_admin = Column(Boolean, default=False)
     email = Column(VARCHAR(150), nullable=True)
     email_verified = Column(Boolean, default=False)
     phone = Column(VARCHAR(14), nullable=True)
