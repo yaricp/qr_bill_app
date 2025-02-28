@@ -306,6 +306,8 @@ jobs:
           sudo cp ./ubuntu_system/usr_local_bin/* /usr/local/bin/;
       - name: Prepare folders and configs
         run: |
+          mkdir -p /home/yaricp/docker-compose-area/test/backend/rest_api
+          mkdir -p /home/yaricp/docker-compose-area/test/backend/tg_bot
           mkdir -p /home/yaricp/docker-compose-area/test/grafana
           mkdir -p /home/yaricp/docker-compose-area/test/prometheus
       - name: Copy docker files to work folder

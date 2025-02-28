@@ -30,7 +30,7 @@ services:
     image: ${NAME_IMAGE_API}
     container_name: api
     ports:
-      - "192.168.168.1:8080:80"
+      - "192.168.168.10:8080:80"
     volumes:
       - ./backend/rest_api/alembic/versions:/alembic/versions
       - ./grpc_proto:/grpc_proto
