@@ -295,7 +295,7 @@ jobs:
 
   deploy-test-server:
     needs: test-build-images
-    runs-on: sibecodome2
+    runs-on: qracun11
     steps:
       - uses: actions/checkout@v2
         with:
