@@ -364,6 +364,8 @@ class BillCommands:
             url=self.fiscal_service_api_url, headers=headers, data=params
         )
         logger.info(f"result: {result}")
+        logger.info(f"result.__dict__: {result.__dict__}")
+        logger.info(f"result.content: {result.content}")
         result_data = json.loads(result.content)
         logger.info(f"result_data: {result_data}")
         return result_data
