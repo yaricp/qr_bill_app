@@ -585,4 +585,6 @@ jobs:
           echo -e "NAME_IMAGE_API=${{ vars.NAME_IMAGE_API }}:test" >> .env;
           echo -e "NAME_IMAGE_FRONTEND=${{ vars.NAME_IMAGE_FRONTEND }}:test" >> .env;
           echo -e "NAME_IMAGE_TELEGRAM_BOT=${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test" >> .env;
-
+      - name: connect front to ingress network
+        run: |
+          docker network connect ingress_default front
