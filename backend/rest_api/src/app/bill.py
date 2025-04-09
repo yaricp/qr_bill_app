@@ -234,9 +234,12 @@ class BillCommands:
 
     async def parse_link_save_bill(
         self, income_link: BillCreateByURL, user_id: UUID
-    ) -> Bill:
+    ) -> Bill | None:
         if not self.validate_url(income_link.link):
-            raise Exception("Wrong URL")
+            logger.error("Wrong URL")
+            logger.error(f"income_link.link: {income_link.link}")
+            return None
+            # raise Exception("Wrong URL")
         self.params = self.get_params_from_income_url(
             url=income_link.link
         )
