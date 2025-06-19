@@ -331,7 +331,8 @@ class BillCommands:
         result_dict = {}
         for item in parsed_param:
             key_value = item.split("=")
-            result_dict[key_value[0]] = key_value[1]
+            if len(key_value) == 2:
+                result_dict[key_value[0]] = key_value[1]
         result_dict["crtd"] = result_dict[
             "crtd"
         ].replace("%20", " ").replace(
