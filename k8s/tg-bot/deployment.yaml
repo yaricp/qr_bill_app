@@ -21,4 +21,6 @@ spec:
         - name: tg-bot
           image: ${NAME_IMAGE_TELEGRAM_BOT}
           command: ["/./start.sh"]
-          env
+          envFrom:
+            - secretRef:
+                name: qracun-secret
