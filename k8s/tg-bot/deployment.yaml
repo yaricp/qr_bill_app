@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tg-bot
+  labels:
+    app: qracun
+    tier: bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qracun
+      tier: bot
+  template:
+    metadata:
+      labels:
+        app: qracun
+        tier: bot
+    spec:
+      containers:
+        - name: tg-bot
+          image: ${NAME_IMAGE_TELEGRAM_BOT}
+          command: ["/./start.sh"]
+          env

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  labels:
+    app: qracun
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qracun
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: qracun
+        tier: backend
+    spec:
+      containers:
+        - name: api
+          image: ${NAME_IMAGE_API}
+          ports:
+            - containerPort: 80
+          command: ["/./start.sh"]
+          envFrom:
+            - secretRef:
+                name: qracun-secret
