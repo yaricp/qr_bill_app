@@ -299,8 +299,8 @@ jobs:
 
     env:
       NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}
-      NAME_IMAGE_BOT: ${{ vars.NAME_IMAGE_BOT }}
-      NAME_IMAGE_FRONT: ${{ vars.NAME_IMAGE_FRONT }}
+      NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}
+      NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}
 
     steps:
       - name: Checkout code
