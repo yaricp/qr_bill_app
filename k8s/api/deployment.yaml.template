@@ -17,6 +17,8 @@ spec:
         app: qracun
         tier: backend
     spec:
+      imagePullSecrets:
+        - name: ghcr-secret
       containers:
         - name: api
           image: ${NAME_IMAGE_API}

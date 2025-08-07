@@ -17,6 +17,8 @@ spec:
         app: qracun
         tier: frontend
     spec:
+      imagePullSecrets:
+        - name: ghcr-secret
       containers:
         - name: frontend
           image: ${NAME_IMAGE_FRONTEND}

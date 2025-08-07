@@ -17,6 +17,8 @@ spec:
         app: qracun
         tier: bot
     spec:
+      imagePullSecrets:
+        - name: ghcr-secret
       containers:
         - name: tg-bot
           image: ${NAME_IMAGE_TELEGRAM_BOT}
