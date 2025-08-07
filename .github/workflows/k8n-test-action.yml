@@ -297,23 +297,14 @@ jobs:
     runs-on: self-hosted
     needs: build
 
+    env:
+      NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}
+      NAME_IMAGE_BOT: ${{ vars.NAME_IMAGE_BOT }}
+      NAME_IMAGE_FRONT: ${{ vars.NAME_IMAGE_FRONT }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-    #   - name: Download image tarballs
-    #     uses: actions/download-artifact@v3
-    #     with:
-    #       name: docker-images
-
-    #   - name: Enable Minikube Docker
-    #     run: eval $(minikube docker-env) >> $GITHUB_ENV
-
-    #   - name: Load images into Minikube Docker
-    #     run: |
-    #       docker load -i api.tar
-    #       docker load -i bot.tar
-    #       docker load -i front.tar
 
       - name: Render Kubernetes manifests
         run: |
