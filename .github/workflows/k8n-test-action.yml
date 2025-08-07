@@ -315,6 +315,13 @@ jobs:
     #       docker load -i bot.tar
     #       docker load -i front.tar
 
+      - name: Render Kubernetes manifests
+        run: |
+          mkdir -p rendered/api rendered/tg-bot rendered/frontend
+          envsubst < k8s/api/deployment.yaml.template > rendered/api/deployment.yaml
+          envsubst < k8s/tg-bot/deployment.yaml.template > rendered/tg-bot/deployment.yaml
+          envsubst < k8s/frontend/deployment.yaml.template > rendered/frontend/deployment.yaml
+
       - name: Deploy to Kubernetes
         env:
           NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:test
