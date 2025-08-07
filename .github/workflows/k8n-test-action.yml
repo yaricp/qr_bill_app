@@ -314,7 +314,7 @@ jobs:
             --from-literal=POSTGRES_PORT=${{ vars.DATABASE_PORT }} \
             --from-literal=POSTGRES_USER=${{ secrets.DATABASE_USER }} \
             --from-literal=POSTGRES_PASSWORD=${{ secrets.DATABASE_PASSWORD }} \
-            --from-literal=POSTGRES_DB=${{ vars.PDATABASE_NAME }} \
+            --from-literal=POSTGRES_DB=${{ vars.DATABASE_NAME }} \
             --from-literal=TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}
 
       - name: Render Kubernetes manifests
