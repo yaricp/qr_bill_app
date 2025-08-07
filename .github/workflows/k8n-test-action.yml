@@ -306,6 +306,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Create qracun-secret
+        run: |
+          kubectl delete secret qracun-secret --ignore-not-found
+          kubectl create secret generic qracun-secret \
+            --from-literal=POSTGRES_HOST=${{ vars.POSTGRES_HOST }} \
+            --from-literal=POSTGRES_PORT=${{ vars.POSTGRES_PORT }} \
+            --from-literal=POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
+            --from-literal=POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
+            --from-literal=POSTGRES_DB=${{ vars.POSTGRES_DB }} \
+            --from-literal=TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }}
+
       - name: Render Kubernetes manifests
         run: |
           mkdir -p rendered/api rendered/tg-bot rendered/frontend
