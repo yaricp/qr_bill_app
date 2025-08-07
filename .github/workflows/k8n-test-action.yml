@@ -322,6 +322,6 @@ jobs:
           INSTALL_DEV: ${{ vars.INSTALL_DEV }}
         run: |
           kubectl apply -f k8s/postgres/
-          kubectl apply -f k8s/api/
-          kubectl apply -f k8s/tg-bot/
-          kubectl apply -f k8s/frontend/
+          kubectl apply -f rendered/api/
+          kubectl apply -f rendered/tg-bot/
+          kubectl apply -f rendered/frontend/
