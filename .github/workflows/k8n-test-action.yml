@@ -298,9 +298,9 @@ jobs:
     needs: build
 
     env:
-      NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}
-      NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}
-      NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}
+      NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:test
+      NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test
+      NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}:test
 
     steps:
       - name: Checkout code
