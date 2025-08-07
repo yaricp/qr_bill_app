@@ -319,7 +319,7 @@ jobs:
           kubectl create secret docker-registry ghcr-secret \
             --docker-server=ghcr.io \
             --docker-username=${{ github.actor }} \
-            --docker-password=${{ secrets.GHCR_TOKEN }} \
+            --docker-password=${{ secrets.PAT_RUNNER }} \
             --docker-email=yaricp@gmail.com
 
       - name: Deploy to Kubernetes
