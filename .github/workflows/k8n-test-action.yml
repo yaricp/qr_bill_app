@@ -310,12 +310,12 @@ jobs:
         run: |
           kubectl delete secret qracun-secret --ignore-not-found
           kubectl create secret generic qracun-secret \
-            --from-literal=POSTGRES_HOST=${{ vars.POSTGRES_HOST }} \
-            --from-literal=POSTGRES_PORT=${{ vars.POSTGRES_PORT }} \
-            --from-literal=POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
-            --from-literal=POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
-            --from-literal=POSTGRES_DB=${{ vars.POSTGRES_DB }} \
-            --from-literal=TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }}
+            --from-literal=POSTGRES_HOST=${{ vars.DATABASE_HOST }} \
+            --from-literal=POSTGRES_PORT=${{ vars.DATABASE_PORT }} \
+            --from-literal=POSTGRES_USER=${{ secrets.DATABASE_USER }} \
+            --from-literal=POSTGRES_PASSWORD=${{ secrets.DATABASE_PASSWORD }} \
+            --from-literal=POSTGRES_DB=${{ vars.PDATABASE_NAME }} \
+            --from-literal=TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}
 
       - name: Render Kubernetes manifests
         run: |
