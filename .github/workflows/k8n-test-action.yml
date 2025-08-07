@@ -323,14 +323,12 @@ jobs:
             --docker-email=yaricp@gmail.com
 
       - name: Deploy to Kubernetes
-        env:
-          NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:test
-          NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}:test
-          NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test
-          DEBUG: ${{ vars.DEBUG }}
-          INSTALL_DEV: ${{ vars.INSTALL_DEV }}
         run: |
           kubectl apply -f k8s/postgres/
           kubectl apply -f rendered/api/
           kubectl apply -f rendered/tg-bot/
           kubectl apply -f rendered/frontend/
+      
+      - name: Clean up stuck Pods (ImagePullBackOff / ErrImagePull)
+        run: |
+          kubectl get pods --no-headers | awk '$3 == "ImagePullBackOff" || $3 == "ErrImagePull" { print $1 }' | xargs -r kubectl delete pod
