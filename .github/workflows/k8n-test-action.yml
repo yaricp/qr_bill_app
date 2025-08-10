@@ -441,6 +441,7 @@ jobs:
       
       - name: Upload grpc_proto and templates to PVC
         run: |
+          kubectl delete pod tmp-upload --ignore-not-found
           kubectl apply -f k8s/pvc/shared-data-pvc.yaml
           kubectl run tmp-upload --image=busybox --restart=Never -- sh -c "sleep 3600" \
             --overrides='
