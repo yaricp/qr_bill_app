@@ -443,7 +443,7 @@ jobs:
         run: |
           kubectl delete pod tmp-upload --ignore-not-found
           kubectl apply -f k8s/pvc/shared-data-pvc.yaml
-          kubectl run tmp-upload --image=busybox --restart=Never -- sh -c "mkdir -p /mnt/shared/grpc_proto /mnt/shared/templates && sleep 3600" \
+          kubectl run tmp-upload --image=busybox --restart=Never -- sh -c "mkdir -p /mnt/shared/ && sleep 3600" \
           --overrides='
           {
             "spec": {
@@ -457,7 +457,7 @@ jobs:
                 {
                   "name": "busybox",
                   "image": "busybox",
-                  "command": ["sh", "-c", "mkdir -p /mnt/shared/grpc_proto /mnt/shared/templates && sleep 3600"],
+                  "command": ["sh", "-c", "mkdir -p /mnt/shared/ && sleep 3600"],
                   "volumeMounts": [
                     { "name": "shared-data", "mountPath": "/mnt/shared" }
                   ]
@@ -467,8 +467,8 @@ jobs:
           }'
           kubectl wait --for=condition=Ready pod/tmp-upload --timeout=30s
 
-          kubectl cp grpc_proto tmp-upload:/mnt/shared/grpc_proto
-          kubectl cp email_templates tmp-upload:/mnt/shared/email_templates
+          kubectl cp grpc_proto tmp-upload:/mnt/shared/
+          kubectl cp email_templates tmp-upload:/mnt/shared/
           # kubectl delete pod tmp-upload
 
       - name: Deploy to Kubernetes

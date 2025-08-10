@@ -28,6 +28,7 @@ spec:
                 name: qracun-config
             - secretRef:
                 name: qracun-secret
+          volumeMounts:
             - name: shared-data
               mountPath: /grpc_proto         # grpc_proto
               subPath: grpc_proto            # подкаталог в PVC
