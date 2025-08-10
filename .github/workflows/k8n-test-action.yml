@@ -297,10 +297,10 @@ jobs:
     runs-on: self-hosted
     needs: build
 
-    # env:
-    #   NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:test
-    #   NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test
-    #   NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}:test
+    env:
+      NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:test
+      NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test
+      NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}:test
     #   DEBUG: ${{ vars.DEBUG }}
     #   INSTALL_DEV: ${{ vars.INSTALL_DEV }}
     #   SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -400,7 +400,6 @@ jobs:
             --from-literal=SMTP_SERVER='${{ vars.SMTP_SERVER }}' \
             --from-literal=SMTP_SERVER_PORT='${{ vars.SMTP_SERVER_PORT }}' \
             --from-literal=EMAIL_REPLY_TO='${{ vars.EMAIL_REPLY_TO }}' \
-            
 
       - name: Create qracun-secret
         run: |
