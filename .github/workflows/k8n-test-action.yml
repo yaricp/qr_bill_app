@@ -410,6 +410,11 @@ jobs:
             --from-literal=POSTGRES_USER="${{ secrets.DATABASE_USER }}" \
             --from-literal=POSTGRES_PASSWORD="${{ secrets.DATABASE_PASSWORD }}" \
             --from-literal=POSTGRES_DB="${{ vars.DATABASE_NAME }}" \
+            --from-literal=DATABASE_HOST="${{ vars.DATABASE_HOST }}" \
+            --from-literal=DATABASE_PORT="${{ vars.DATABASE_PORT }}" \
+            --from-literal=DATABASE_USER="${{ secrets.DATABASE_USER }}" \
+            --from-literal=DATABASE_PASSWORD="${{ secrets.DATABASE_PASSWORD }}" \
+            --from-literal=DATABASE_NAME="${{ vars.DATABASE_NAME }}" \
             --from-literal=PGADMIN_DEFAULT_PASSWORD='${{ secrets.PGADMIN_DEFAULT_PASSWORD }}' \
             --from-literal=TELEGRAM_BOT_TOKEN="${{ secrets.TELEGRAM_BOT_TOKEN }}" \
             --from-literal=REST_API_TELEGRAM_BOT_TOKEN='${{ secrets.REST_API_TELEGRAM_BOT_TOKEN }}' \
