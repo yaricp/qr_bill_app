@@ -301,7 +301,8 @@ jobs:
       NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:test
       NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test
       NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}:test
-    #   DEBUG: ${{ vars.DEBUG }}
+    
+      #   DEBUG: ${{ vars.DEBUG }}
     #   INSTALL_DEV: ${{ vars.INSTALL_DEV }}
     #   SECRET_KEY: ${{ secrets.SECRET_KEY }}
     #   TOKEN_EXPIRY_TIME_HOURS: ${{ vars.TOKEN_EXPIRY_TIME_HOURS }}
