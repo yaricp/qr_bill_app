@@ -24,5 +24,7 @@ spec:
           image: ${NAME_IMAGE_TELEGRAM_BOT}
           command: ["/./start.sh"]
           envFrom:
+            - configMapRef:
+                name: qracun-config
             - secretRef:
                 name: qracun-secret
