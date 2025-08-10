@@ -443,28 +443,28 @@ jobs:
         run: |
           kubectl delete pod tmp-upload --ignore-not-found
           kubectl apply -f k8s/pvc/shared-data-pvc.yaml
-          kubectl run tmp-upload --image=busybox --restart=Never -- sh -c "sleep 3600" \
-            --overrides='
-            {
-              "spec": {
-                "volumes": [
-                  {
-                    "name": "shared-data",
-                    "persistentVolumeClaim": { "claimName": "shared-data-pvc" }
-                  }
-                ],
-                "containers": [
-                  {
-                    "name": "busybox",
-                    "image": "busybox",
-                    "command": ["mkdir", "-p", "/mnt/shared", "&&", "sh", "-c", "sleep 3600"],
-                    "volumeMounts": [
-                      { "name": "shared-data", "mountPath": "/mnt/shared" }
-                    ]
-                  }
-                ]
-              }
-            }'
+          kubectl run tmp-upload --image=busybox --restart=Never -- sh -c "mkdir -p /mnt/shared/grpc_proto /mnt/shared/templates && sleep 3600" \
+          --overrides='
+          {
+            "spec": {
+              "volumes": [
+                {
+                  "name": "shared-data",
+                  "persistentVolumeClaim": { "claimName": "shared-data-pvc" }
+                }
+              ],
+              "containers": [
+                {
+                  "name": "busybox",
+                  "image": "busybox",
+                  "command": ["sh", "-c", "mkdir -p /mnt/shared/grpc_proto /mnt/shared/templates && sleep 3600"],
+                  "volumeMounts": [
+                    { "name": "shared-data", "mountPath": "/mnt/shared" }
+                  ]
+                }
+              ]
+            }
+          }'
           kubectl wait --for=condition=Ready pod/tmp-upload --timeout=30s
 
           kubectl cp grpc_proto tmp-upload:/mnt/shared/grpc_proto
