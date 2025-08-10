@@ -466,8 +466,8 @@ jobs:
               }
             }'
           kubectl wait --for=condition=Ready pod/tmp-upload --timeout=30s
-          kubectl cp grpc_proto tmp-upload:/grpc_proto
-          kubectl cp templates tmp-upload:/email_templates
+          kubectl cp grpc_proto tmp-upload:/mnt/shared/grpc_proto
+          kubectl cp email_templates tmp-upload:/mnt/shared/email_templates
           kubectl delete pod tmp-upload
 
       - name: Deploy to Kubernetes
