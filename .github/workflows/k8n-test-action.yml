@@ -454,6 +454,7 @@ jobs:
           kubectl apply -f k8s/postgres/
           kubectl apply -f rendered/api/
           kubectl apply -f rendered/tg-bot/
+          kubectl apply -f k8s/pgadmin/
           kubectl apply -f rendered/frontend/
 
       - name: Clean up stuck Pods (ImagePullBackOff / ErrImagePull)
