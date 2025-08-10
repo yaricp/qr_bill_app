@@ -438,13 +438,6 @@ jobs:
             --docker-username=${{ github.actor }} \
             --docker-password=${{ secrets.PAT_RUNNER }} \
             --docker-email=yaricp@gmail.com
-
-      - name: Deploy to Kubernetes
-        run: |
-          kubectl apply -f k8s/postgres/
-          kubectl apply -f rendered/api/
-          kubectl apply -f rendered/tg-bot/
-          kubectl apply -f rendered/frontend/
       
       - name: Upload grpc_proto and templates to PVC
         run: |
@@ -475,6 +468,13 @@ jobs:
           kubectl cp grpc_proto tmp-upload:/mnt/shared/grpc_proto
           kubectl cp templates tmp-upload:/mnt/shared/email_templates
           kubectl delete pod tmp-upload
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f k8s/postgres/
+          kubectl apply -f rendered/api/
+          kubectl apply -f rendered/tg-bot/
+          kubectl apply -f rendered/frontend/
 
       - name: Clean up stuck Pods (ImagePullBackOff / ErrImagePull)
         run: |
