@@ -459,7 +459,7 @@ jobs:
                     "image": "busybox",
                     "command": ["sh", "-c", "sleep 3600"],
                     "volumeMounts": [
-                      { "name": "shared-data", "mountPath": "/mnt/shared" }
+                      { "name": "shared-data", "mountPath": "/tmp/shared" }
                     ]
                   }
                 ]
@@ -467,8 +467,8 @@ jobs:
             }'
           kubectl wait --for=condition=Ready pod/tmp-upload --timeout=30s
 
-          kubectl cp grpc_proto tmp-upload:/mnt/shared/grpc_proto
-          kubectl cp email_templates tmp-upload:/mnt/shared/email_templates
+          kubectl cp grpc_proto tmp-upload:/tmp/shared/grpc_proto
+          kubectl cp email_templates tmp-upload:/tmp/shared/email_templates
           # kubectl delete pod tmp-upload
 
       - name: Deploy to Kubernetes
