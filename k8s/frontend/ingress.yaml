@@ -21,7 +21,6 @@ spec:
     - host: qracun.me
       http:
         paths:
-          # API backend
           - path: /api
             pathType: Prefix
             backend:
@@ -30,7 +29,6 @@ spec:
                 port:
                   number: 80
 
-          # pgAdmin backend
           - path: /pgadmin
             pathType: Prefix
             backend:
@@ -39,7 +37,6 @@ spec:
                 port:
                   number: 80
 
-          # Frontend (Vue + nginx)
           - path: /
             pathType: Prefix
             backend:
