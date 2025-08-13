@@ -21,6 +21,7 @@ spec:
         - name: ghcr-secret
       containers:
         - name: frontend
-          image: ${NAME_IMAGE_FRONTEND}
+          image: ${NAME_IMAGE_FRONTEND} # подставляется при CI/CD
           ports:
             - containerPort: 80
+
