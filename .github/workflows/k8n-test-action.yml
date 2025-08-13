@@ -61,9 +61,9 @@ jobs:
       - name: Build and push rest_api image. 
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         env:
-          NAME_IMAGE_API: $IMAGE_API
-          NAME_IMAGE_FRONTEND: $IMAGE_FRONTEND
-          NAME_IMAGE_TELEGRAM_BOT: $IMAGE_TELEGRAM_BOT
+          # NAME_IMAGE_API: $IMAGE_API
+          # NAME_IMAGE_FRONTEND: $IMAGE_FRONTEND
+          # NAME_IMAGE_TELEGRAM_BOT: $IMAGE_TELEGRAM_BOT
           DEBUG: ${{ vars.DEBUG }}
           INSTALL_DEV: ${{ vars.INSTALL_DEV }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -123,9 +123,9 @@ jobs:
       - name: Run unittests for rest_api. 
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         env:
-          NAME_IMAGE_API: $IMAGE_API
-          NAME_IMAGE_FRONTEND: $IMAGE_FRONTEND
-          NAME_IMAGE_TELEGRAM_BOT: $IMAGE_TELEGRAM_BOT
+          # NAME_IMAGE_API: $IMAGE_API
+          # NAME_IMAGE_FRONTEND: $IMAGE_FRONTEND
+          # NAME_IMAGE_TELEGRAM_BOT: $IMAGE_TELEGRAM_BOT
           DEBUG: ${{ vars.DEBUG }}
           INSTALL_DEV: ${{ vars.INSTALL_DEV }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -187,9 +187,9 @@ jobs:
       - name: Build and push image tg
         if: ${{ (steps.tg_changed.outputs.OUTPUT != '') }}
         env:
-          NAME_IMAGE_API: $IMAGE_API
-          NAME_IMAGE_FRONTEND: $IMAGE_FRONTEND
-          NAME_IMAGE_TELEGRAM_BOT: $IMAGE_TELEGRAM_BOT
+          # NAME_IMAGE_API: $IMAGE_API
+          # NAME_IMAGE_FRONTEND: $IMAGE_FRONTEND
+          # NAME_IMAGE_TELEGRAM_BOT: $IMAGE_TELEGRAM_BOT
           DEBUG: ${{ vars.DEBUG }}
           INSTALL_DEV: ${{ vars.INSTALL_DEV }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -249,9 +249,9 @@ jobs:
       - name: Build and push image front 
         if: ${{ (steps.frontend_changes.outputs.OUTPUT != '') }}
         env:
-          NAME_IMAGE_API: $IMAGE_API
-          NAME_IMAGE_FRONTEND: $IMAGE_FRONTEND
-          NAME_IMAGE_TELEGRAM_BOT: $IMAGE_TELEGRAM_BOT
+          # NAME_IMAGE_API: $IMAGE_API
+          # NAME_IMAGE_FRONTEND: $IMAGE_FRONTEND
+          # NAME_IMAGE_TELEGRAM_BOT: $IMAGE_TELEGRAM_BOT
           DEBUG: ${{ vars.DEBUG }}
           INSTALL_DEV: ${{ vars.INSTALL_DEV }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -320,10 +320,10 @@ jobs:
     runs-on: self-hosted
     needs: build
 
-    env:
-      NAME_IMAGE_API: $IMAGE_API
-      NAME_IMAGE_FRONTEND: $IMAGE_FRONTEND
-      NAME_IMAGE_TELEGRAM_BOT: $IMAGE_TELEGRAM_BOT
+    # env:
+    #   NAME_IMAGE_API: $IMAGE_API
+    #   NAME_IMAGE_FRONTEND: $IMAGE_FRONTEND
+    #   NAME_IMAGE_TELEGRAM_BOT: $IMAGE_TELEGRAM_BOT
               
     steps:
       - name: Checkout code
