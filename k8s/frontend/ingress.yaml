@@ -8,8 +8,10 @@ metadata:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/server-snippet: |
+      # Разрешаем cert-manager HTTP-01 challenge
       location ^~ /.well-known/acme-challenge/ {
-        allow all;
+        default_type "text/plain";
+        root /var/www/cert-manager;
       }
 spec:
   ingressClassName: nginx
