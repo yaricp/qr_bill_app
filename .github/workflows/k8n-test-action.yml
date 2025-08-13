@@ -417,10 +417,13 @@ jobs:
       - name: Deploy to Kubernetes
         run: |
           kubectl apply -f k8s/postgres/
+          kubectl apply -f k8s/pgadmin/
           kubectl apply -f rendered/api/
           kubectl apply -f rendered/tg-bot/
-          kubectl apply -f k8s/pgadmin/
           kubectl apply -f rendered/frontend/
+          kubectl apply -f k8s/api/
+          kubectl apply -f k8s/tg-bot/
+          kubectl apply -f k8s/frontend/
 
       - name: Clean up stuck Pods (ImagePullBackOff / ErrImagePull)
         run: |
