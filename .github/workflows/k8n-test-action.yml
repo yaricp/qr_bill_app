@@ -26,7 +26,7 @@ jobs:
           echo "NAME_IMAGE_API=$IMAGE_API" >> $GITHUB_ENV
           IMAGE_FRONTEND="${NAME_IMAGE_FRONTEND}:$SHORT_SHA"
           echo "NAME_IMAGE_FRONTEND=$IMAGE_FRONTEND" >> $GITHUB_ENV
-          IMAGE_TELEGRAM_BOT="${IMAGE_TELEGRAM_BOT}:$SHORT_SHA"
+          IMAGE_TELEGRAM_BOT="${NAME_IMAGE_TELEGRAM_BOT}:$SHORT_SHA"
           echo "NAME_IMAGE_TELEGRAM_BOT=$IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
