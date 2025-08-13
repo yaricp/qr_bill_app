@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - dev
-
+          
 jobs:
   build:
     name: Build Docker Images
@@ -38,9 +38,9 @@ jobs:
       - name: Build and push rest_api image. 
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         env:
-          NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}
-          NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}
-          NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}
+          NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:${GITHUB_SHA}
+          NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}:${GITHUB_SHA}
+          NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:${GITHUB_SHA}
           DEBUG: ${{ vars.DEBUG }}
           INSTALL_DEV: ${{ vars.INSTALL_DEV }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -100,9 +100,9 @@ jobs:
       - name: Run unittests for rest_api. 
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         env:
-          NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}
-          NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}
-          NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}
+          NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:${GITHUB_SHA}
+          NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}:${GITHUB_SHA}
+          NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:${GITHUB_SHA}
           DEBUG: ${{ vars.DEBUG }}
           INSTALL_DEV: ${{ vars.INSTALL_DEV }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -164,9 +164,9 @@ jobs:
       - name: Build and push image tg
         if: ${{ (steps.tg_changed.outputs.OUTPUT != '') }}
         env:
-          NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}
-          NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}
-          NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}
+          NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:${GITHUB_SHA}
+          NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}:${GITHUB_SHA}
+          NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:${GITHUB_SHA}
           DEBUG: ${{ vars.DEBUG }}
           INSTALL_DEV: ${{ vars.INSTALL_DEV }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -226,9 +226,9 @@ jobs:
       - name: Build and push image front 
         if: ${{ (steps.frontend_changes.outputs.OUTPUT != '') }}
         env:
-          NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:test
-          NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}:test
-          NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test
+          NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:${GITHUB_SHA}
+          NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}:${GITHUB_SHA}
+          NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:${GITHUB_SHA}
           DEBUG: ${{ vars.DEBUG }}
           INSTALL_DEV: ${{ vars.INSTALL_DEV }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -298,10 +298,10 @@ jobs:
     needs: build
 
     env:
-      NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:test
-      NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:test
-      NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}:test
-    
+      NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:${GITHUB_SHA}
+      NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}:${GITHUB_SHA}
+      NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:${GITHUB_SHA}
+          
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
