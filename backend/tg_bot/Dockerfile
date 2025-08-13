@@ -17,7 +17,6 @@ RUN poetry install
 RUN mkdir /bot
 
 WORKDIR /
-
 COPY /app /bot
 COPY /scripts /scripts
 COPY start.sh /

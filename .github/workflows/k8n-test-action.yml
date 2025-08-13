@@ -6,9 +6,9 @@ on:
       - dev
 
 env:
-  NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:${{ github.sha }}
-  NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}:${{ github.sha }}
-  NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:${{ github.sha }}
+  NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}:${{ github.sha.substr(0,8) }}
+  NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}:${{ github.sha.substr(0,8) }}
+  NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}:${{ github.sha.substr(0,8) }}
      
 jobs:
   build:

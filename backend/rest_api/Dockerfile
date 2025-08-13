@@ -25,7 +25,6 @@ COPY /scripts /scripts
 COPY start.sh /
 COPY start_grpc_server.py /
 
-# Changing permissions for correct work inside docker:
 RUN chmod +x /start.sh
 RUN chmod +x /scripts/*
 
