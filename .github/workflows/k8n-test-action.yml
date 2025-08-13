@@ -21,22 +21,13 @@ jobs:
           fetch-depth: 2
       - name: Set image vars
         run: |
-          echo "SHORT_SHA=${GITHUB_SHA::8}" >> $GITHUB_ENV
-          echo "IMAGE_API=${NAME_IMAGE_API}:${GITHUB_SHA::8}" >> $GITHUB_ENV
-          echo "IMAGE_FRONTEND=${NAME_IMAGE_FRONTEND}:${GITHUB_SHA::8}" >> $GITHUB_ENV
-          echo "IMAGE_TELEGRAM_BOT=${NAME_IMAGE_TELEGRAM_BOT}:${GITHUB_SHA::8}" >> $GITHUB_ENV
-        env:
-          NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}
-          NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}
-          NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}
-
-      - name: Show vars
-        run: |
-          echo "SHORT_SHA=$SHORT_SHA"
-          echo "IMAGE_API=$IMAGE_API"
-          echo "IMAGE_FRONTEND=$IMAGE_FRONTEND"
-          echo "IMAGE_TELEGRAM_BOT=$IMAGE_TELEGRAM_BOT"
-
+          SHORT_SHA=${GITHUB_SHA::8}
+          IMAGE_API="${NAME_IMAGE_API}:$SHORT_SHA"
+          echo "NAME_IMAGE_API=$IMAGE_API" >> $GITHUB_ENV
+          IMAGE_FRONTEND="${NAME_IMAGE_FRONTEND}:$SHORT_SHA"
+          echo "NAME_IMAGE_FRONTEND=$IMAGE_FRONTEND" >> $GITHUB_ENV
+          IMAGE_TELEGRAM_BOT="${IMAGE_TELEGRAM_BOT}:$SHORT_SHA"
+          echo "NAME_IMAGE_TELEGRAM_BOT=$IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
