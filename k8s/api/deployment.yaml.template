@@ -24,6 +24,7 @@ spec:
           image: ${NAME_IMAGE_API}
           ports:
             - containerPort: 80
+            - containerPort: 50051
           command: ["/./start.sh"]
           envFrom:
             - configMapRef:
