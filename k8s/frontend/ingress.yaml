@@ -26,6 +26,14 @@ spec:
                 port:
                   number: 80
 
+          - path: /docs
+            pathType: Prefix
+            backend:
+              service:
+                name: api
+                port:
+                  number: 80
+
           - path: /pgadmin
             pathType: Prefix
             backend:
