@@ -434,6 +434,7 @@ jobs:
         run: |
           kubectl apply -f k8s/postgres/
           kubectl apply -f k8s/pgadmin/
+          kubectl apply -f k8s/ingress/
       - name: Deploy API to Kubernetes
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         run: |
