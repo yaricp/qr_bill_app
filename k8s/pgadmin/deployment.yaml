@@ -22,8 +22,8 @@ spec:
               name: qracun-secret
         env:
           - name: PGADMIN_CONFIG_PATH_PREFIX
-            value: /pgadmin
+            value: "/pgadmin"
           - name: PGADMIN_CONFIG_FORCE_SCRIPT_NAME
-            value: /pgadmin
+            value: "/pgadmin"
         ports:
         - containerPort: 80
