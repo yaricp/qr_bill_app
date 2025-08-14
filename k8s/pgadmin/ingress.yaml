@@ -14,7 +14,7 @@ metadata:
     nginx.ingress.kubernetes.io/hsts-preload: "true"
 
     # Переписываем URL, чтобы pgAdmin видел себя в корне
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/rewrite-target: /pgadmin/$2
 spec:
   ingressClassName: nginx
   rules:
