@@ -25,5 +25,7 @@ spec:
             value: "'/pgadmin'"
           - name: PGADMIN_CONFIG_FORCE_SCRIPT_NAME
             value: "'/pgadmin'"
+          - name: PGADMIN_ENABLE_PATH_PREFIX
+            value: "True"
         ports:
         - containerPort: 80
