@@ -39,8 +39,13 @@ spec:
         
         - name: pgbackrest
           image: perconalab/percona-pgbackrest:2.55.0
-          command: ["pgbackrest"]
-          args: ["--stanza=main", "backup"]
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              # создаём stanza, если её ещё нет
+              pgbackrest --stanza=main --pg1-path=/var/lib/postgresql/data stanza-create || true
+              # ждем команд на бэкап (например, через cronjob)
+              tail -f /dev/null
           env:
             - name: PGBACKREST_REPO1_PATH
               value: /backups
