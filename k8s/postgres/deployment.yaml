@@ -39,6 +39,7 @@ spec:
         
         - name: pgbackrest
           image: perconalab/percona-pgbackrest:2.55.0
+          command: ["pgbackrest"]
           args: ["--stanza=main", "backup"]
           env:
             - name: PGBACKREST_REPO1_PATH
