@@ -25,7 +25,6 @@ spec:
                 name: api
                 port:
                   number: 80
-
           - path: /docs
             pathType: Prefix
             backend:
@@ -33,7 +32,6 @@ spec:
                 name: api
                 port:
                   number: 80
-
           - path: /
             pathType: Prefix
             backend:
