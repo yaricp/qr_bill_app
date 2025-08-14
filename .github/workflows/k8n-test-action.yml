@@ -421,6 +421,7 @@ jobs:
             --docker-password=${{ secrets.PAT_RUNNER }} \
             --docker-email=yaricp@gmail.com     
       - name: Upload grpc_proto and templates to PVC
+        if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}} || ${{ (steps.tg_changed.outputs.OUTPUT != '') }}  
         run: |
           kubectl delete pod tmp-upload --ignore-not-found
           kubectl apply -f k8s/pvc/shared-data-pvc.yaml
