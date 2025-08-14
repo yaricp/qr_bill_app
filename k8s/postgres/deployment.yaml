@@ -12,6 +12,13 @@ spec:
       labels:
         app: pg
     spec:
+      initContainers:
+        - name: init-permissions
+          image: busybox
+          command: ["sh", "-c", "chown -R postgres:postgres /var/lib/postgresql/data"]
+          volumeMounts:
+            - name: pg-data
+              mountPath: /var/lib/postgresql/data
       containers:
         - name: postgres
           image: postgres:17.5
