@@ -18,7 +18,7 @@ spec:
     - host: qracun.me
       http:
         paths:
-          - path: /docs
+          - path: /api
             pathType: Prefix
             backend:
               service:
