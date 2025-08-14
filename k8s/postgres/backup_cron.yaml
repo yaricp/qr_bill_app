@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: pgbackrest-backup
+spec:
+  schedule: "0 2 * * *"  # каждый день в 2:00
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: pgbackrest
+              image: pgbackrest/pgbackrest:latest
+              args: ["--stanza=main", "backup"]
+              env:
+                - name: PGBACKREST_REPO1_PATH
+                  value: /backups
+              volumeMounts:
+                - name: pgdata
+                  mountPath: /var/lib/postgresql/data:ro
+                - name: backups
+                  mountPath: /backups
+          restartPolicy: OnFailure
+          volumes:
+            - name: pgdata
+              persistentVolumeClaim:
+                claimName: pg-pvc
+            - name: backups
+              persistentVolumeClaim:
+                claimName: pgbackrest-pvc

@@ -36,7 +36,23 @@ spec:
           volumeMounts:
             - name: pg-data
               mountPath: /var/lib/postgresql/data
+        
+        - name: pgbackrest
+          image: pgbackrest/pgbackrest:latest
+          args: ["--stanza=main", "backup"]
+          env:
+            - name: PGBACKREST_REPO1_PATH
+              value: /backups
+          volumeMounts:
+            - name: pgdata
+              mountPath: /var/lib/postgresql/data:ro
+            - name: backups
+              mountPath: /backups
+
       volumes:
         - name: pg-data
           persistentVolumeClaim:
             claimName: pg-pvc
+        - name: backups
+          persistentVolumeClaim:
+            claimName: pgbackrest-pvc
