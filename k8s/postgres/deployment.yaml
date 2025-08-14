@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: postgres:17.5
+          image: cybertecpostgresql/cybertec-pg-container:pgbackrest-17.5-1
           ports:
             - containerPort: 5432
           env:
@@ -36,33 +36,35 @@ spec:
           volumeMounts:
             - name: pg-data
               mountPath: /var/lib/postgresql/data
-        
-        - name: pgbackrest
-          image: cybertecpostgresql/cybertec-pg-container:pgbackrest-17.5-1
-          args: ["--stanza=main", "backup"]
-          env:
-            - name: PGBACKREST_REPO1_PATH
-              value: /backups
-            - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  name: qracun-secret
-                  key: POSTGRES_USER
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: qracun-secret
-                  key: POSTGRES_PASSWORD
-            - name: POSTGRES_DB
-              valueFrom:
-                secretKeyRef:
-                  name: qracun-secret
-                  key: POSTGRES_DB
-          volumeMounts:
-            - name: pg-data
-              mountPath: /var/lib/postgresql/data:ro
             - name: backups
               mountPath: /backups
+        
+        # - name: pgbackrest
+        #   image: cybertecpostgresql/cybertec-pg-container:pgbackrest-17.5-1
+        #   args: ["--stanza=main", "backup"]
+        #   env:
+        #     - name: PGBACKREST_REPO1_PATH
+        #       value: /backups
+        #     - name: POSTGRES_USER
+        #       valueFrom:
+        #         secretKeyRef:
+        #           name: qracun-secret
+        #           key: POSTGRES_USER
+        #     - name: POSTGRES_PASSWORD
+        #       valueFrom:
+        #         secretKeyRef:
+        #           name: qracun-secret
+        #           key: POSTGRES_PASSWORD
+        #     - name: POSTGRES_DB
+        #       valueFrom:
+        #         secretKeyRef:
+        #           name: qracun-secret
+        #           key: POSTGRES_DB
+        #   volumeMounts:
+        #     - name: pg-data
+        #       mountPath: /var/lib/postgresql/data:ro
+        #     - name: backups
+        #       mountPath: /backups
 
       volumes:
         - name: pg-data
