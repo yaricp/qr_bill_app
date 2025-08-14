@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: cybertecpostgresql/cybertec-pg-container:pgbackrest-17.5-1
+          image: postgres:17.5
           ports:
             - containerPort: 5432
           env:
@@ -36,8 +36,6 @@ spec:
           volumeMounts:
             - name: pg-data
               mountPath: /var/lib/postgresql/data
-            - name: backups
-              mountPath: /backups
         
         # - name: pgbackrest
         #   image: cybertecpostgresql/cybertec-pg-container:pgbackrest-17.5-1
