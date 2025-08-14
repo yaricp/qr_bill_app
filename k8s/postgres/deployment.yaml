@@ -44,7 +44,7 @@ spec:
             - name: PGBACKREST_REPO1_PATH
               value: /backups
           volumeMounts:
-            - name: pgdata
+            - name: pg-data
               mountPath: /var/lib/postgresql/data:ro
             - name: backups
               mountPath: /backups
