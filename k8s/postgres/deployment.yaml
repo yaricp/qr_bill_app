@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: postgres:latest
+          image: postgres:17.5
           ports:
             - containerPort: 5432
           env:
@@ -38,7 +38,7 @@ spec:
               mountPath: /var/lib/postgresql/data
         
         - name: pgbackrest
-          image: pgbackrest/pgbackrest:latest
+          image: cybertecpostgresql/cybertec-pg-container:pgbackrest-17.5-1
           args: ["--stanza=main", "backup"]
           env:
             - name: PGBACKREST_REPO1_PATH
