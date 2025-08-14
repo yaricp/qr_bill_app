@@ -307,15 +307,10 @@ jobs:
           docker compose push front;
 
   deploy:
-    name: Deploy to Minikube via Self-hosted Runner
+    name: Deploy to MicroK8s via Self-hosted Runner
     runs-on: self-hosted
     needs: build
-
-    # env:
-    #   NAME_IMAGE_API: $IMAGE_API
-    #   NAME_IMAGE_FRONTEND: $IMAGE_FRONTEND
-    #   NAME_IMAGE_TELEGRAM_BOT: $IMAGE_TELEGRAM_BOT
-              
+         
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
