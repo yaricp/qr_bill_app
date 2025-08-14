@@ -388,6 +388,16 @@ jobs:
             --from-literal=SMTP_SERVER_PASSWORD='${{ secrets.SMTP_SERVER_PASSWORD }}' \
             --from-literal=MAILERSEND_API_KEY='${{ secrets.MAILERSEND_API_KEY }}'
 
+      - name: Set image vars
+        run: |
+          SHORT_SHA=${GITHUB_SHA::8}
+          IMAGE_API="${NAME_IMAGE_API}:$SHORT_SHA"
+          echo "NAME_IMAGE_API=$IMAGE_API" >> $GITHUB_ENV
+          IMAGE_FRONTEND="${NAME_IMAGE_FRONTEND}:$SHORT_SHA"
+          echo "NAME_IMAGE_FRONTEND=$IMAGE_FRONTEND" >> $GITHUB_ENV
+          IMAGE_TELEGRAM_BOT="${NAME_IMAGE_TELEGRAM_BOT}:$SHORT_SHA"
+          echo "NAME_IMAGE_TELEGRAM_BOT=$IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV
+
       - name: Render Kubernetes manifests
         run: |
           mkdir -p rendered/api rendered/tg-bot rendered/frontend
