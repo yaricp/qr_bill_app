@@ -21,7 +21,7 @@ spec:
     - host: qracun.me
       http:
         paths:
-          - path: /pgadmin(/|$)(.*)
+          - path: /pgadmin
             pathType: ImplementationSpecific
             backend:
               service:
