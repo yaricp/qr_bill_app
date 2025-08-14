@@ -429,7 +429,7 @@ jobs:
           kubectl wait --for=condition=Ready pod/tmp-upload --timeout=30s
           kubectl cp grpc_proto tmp-upload:/mnt/shared/
           kubectl cp email_templates tmp-upload:/mnt/shared/
-          # kubectl delete pod tmp-upload
+          kubectl delete pod tmp-upload
       - name: Deploy infra services to Kubernetes 
         run: |
           kubectl apply -f k8s/postgres/

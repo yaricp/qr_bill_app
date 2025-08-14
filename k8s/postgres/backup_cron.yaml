@@ -3,26 +3,28 @@ kind: CronJob
 metadata:
   name: pgbackrest-backup
 spec:
-  schedule: "0 2 * * *"  # каждый день в 2:00
+  schedule: "0 2 * * *"  # каждый день в 2:00 ночи
   jobTemplate:
     spec:
       template:
         spec:
-          containers:
-            - name: pgbackrest
-              image: pgbackrest/pgbackrest:latest
-              args: ["--stanza=main", "backup"]
-              env:
-                - name: PGBACKREST_REPO1_PATH
-                  value: /backups
-              volumeMounts:
-                - name: pgdata
-                  mountPath: /var/lib/postgresql/data:ro
-                - name: backups
-                  mountPath: /backups
           restartPolicy: OnFailure
+          containers:
+          - name: pgbackrest
+            image: perconalab/percona-pgbackrest:2.55.0
+            envFrom:
+              - secretRef:
+                  name: qracun-secret
+            volumeMounts:
+              - name: pg-data
+                mountPath: /var/lib/postgresql/data:ro
+              - name: backups
+                mountPath: /backups
+            command: ["/bin/sh", "-c"]
+            args:
+              - pgbackrest --stanza=main backup
           volumes:
-            - name: pgdata
+            - name: pg-data
               persistentVolumeClaim:
                 claimName: pg-pvc
             - name: backups
