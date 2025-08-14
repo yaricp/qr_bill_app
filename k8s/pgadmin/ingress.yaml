@@ -14,15 +14,14 @@ metadata:
     nginx.ingress.kubernetes.io/hsts-preload: "true"
 
     # Переписываем URL, чтобы pgAdmin видел себя в корне
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
   rules:
     - host: qracun.me
       http:
         paths:
-          - path: /pgadmin(/(.*))?
+          - path: /pgadmin(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
               service:
