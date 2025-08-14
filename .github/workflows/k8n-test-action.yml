@@ -314,7 +314,23 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
+        with:
+          fetch-depth: 2
+      - name: Check changes in backend/rest_api
+        id: rest_api_changed
+        run: |
+          OUTPUT=$( git diff HEAD\^ HEAD -- backend/rest_api | tail -1) &&
+          echo "::set-output name=OUTPUT::$OUTPUT"
+      - name: Check changes in backend/telegram_bot
+        id: tg_changed
+        run: |
+          OUTPUT=$( git diff HEAD\^ HEAD -- backend/tg_bot | tail -1) &&
+          echo "::set-output name=OUTPUT::$OUTPUT"
+      - name: Check changes in frontend
+        id: frontend_changes
+        run: |
+          OUTPUT=$( git diff HEAD\^ HEAD -- frontend | tail -1) &&
+          echo "::set-output name=OUTPUT::$OUTPUT"
       - name: Create qracun-config ConfigMap
         run: |
           kubectl delete configmap qracun-config --ignore-not-found
@@ -361,7 +377,6 @@ jobs:
             --from-literal=SMTP_SERVER='${{ vars.SMTP_SERVER }}' \
             --from-literal=SMTP_SERVER_PORT='${{ vars.SMTP_SERVER_PORT }}' \
             --from-literal=EMAIL_REPLY_TO='${{ vars.EMAIL_REPLY_TO }}' \
-
       - name: Create qracun-secret
         run: |
           kubectl delete secret qracun-secret --ignore-not-found
@@ -382,7 +397,6 @@ jobs:
             --from-literal=SECRET_KEY='${{ secrets.SECRET_KEY }}' \
             --from-literal=SMTP_SERVER_PASSWORD='${{ secrets.SMTP_SERVER_PASSWORD }}' \
             --from-literal=MAILERSEND_API_KEY='${{ secrets.MAILERSEND_API_KEY }}'
-
       - name: Set image vars
         run: |
           SHORT_SHA=${GITHUB_SHA::8}
@@ -392,14 +406,12 @@ jobs:
           echo "NAME_IMAGE_FRONTEND=$IMAGE_FRONTEND" >> $GITHUB_ENV
           IMAGE_TELEGRAM_BOT="${NAME_IMAGE_TELEGRAM_BOT}:$SHORT_SHA"
           echo "NAME_IMAGE_TELEGRAM_BOT=$IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV
-
       - name: Render Kubernetes manifests
         run: |
           mkdir -p rendered/api rendered/tg-bot rendered/frontend
           envsubst < k8s/api/deployment.yaml.template > rendered/api/deployment.yaml
           envsubst < k8s/tg-bot/deployment.yaml.template > rendered/tg-bot/deployment.yaml
           envsubst < k8s/frontend/deployment.yaml.template > rendered/frontend/deployment.yaml
-
       - name: Create imagePullSecret for GHCR
         run: |
           kubectl delete secret ghcr-secret --ignore-not-found
@@ -407,8 +419,7 @@ jobs:
             --docker-server=ghcr.io \
             --docker-username=${{ github.actor }} \
             --docker-password=${{ secrets.PAT_RUNNER }} \
-            --docker-email=yaricp@gmail.com
-      
+            --docker-email=yaricp@gmail.com     
       - name: Upload grpc_proto and templates to PVC
         run: |
           kubectl delete pod tmp-upload --ignore-not-found
@@ -418,18 +429,25 @@ jobs:
           kubectl cp grpc_proto tmp-upload:/mnt/shared/
           kubectl cp email_templates tmp-upload:/mnt/shared/
           # kubectl delete pod tmp-upload
-
-      - name: Deploy to Kubernetes
+      - name: Deploy infra services to Kubernetes 
         run: |
           kubectl apply -f k8s/postgres/
           kubectl apply -f k8s/pgadmin/
+      - name: Deploy API to Kubernetes
+        if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
+        run: |
           kubectl apply -f rendered/api/
-          kubectl apply -f rendered/tg-bot/
-          kubectl apply -f rendered/frontend/
           kubectl apply -f k8s/api/
+      - name: Deploy TGBOT to Kubernetes
+        if: ${{ (steps.tg_changed.outputs.OUTPUT != '') }}
+        run: |
+          kubectl apply -f rendered/tg-bot/
           kubectl apply -f k8s/tg-bot/
+      - name: Deploy Frontend to Kubernetes
+        if: ${{ (steps.frontend_changes.outputs.OUTPUT != '') }}
+        run: |
+          kubectl apply -f rendered/frontend/
           kubectl apply -f k8s/frontend/
-
       - name: Clean up stuck Pods (ImagePullBackOff / ErrImagePull)
         run: |
           kubectl get pods --no-headers | awk '$3 == "ImagePullBackOff" || $3 == "ErrImagePull" { print $1 }' | xargs -r kubectl delete pod
