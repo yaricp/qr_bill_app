@@ -34,7 +34,7 @@ spec:
                   mkdir -p /backups
                   PGPASSWORD=$POSTGRES_PASSWORD pg_dump -h pg -U $POSTGRES_USER -d $POSTGRES_DB > /backups/dump.sql
               volumeMounts:
-                - name: backup-volume
+                - name: backup-storage
                   mountPath: /backups
           containers:
             - name: logic-dump-git-commit
