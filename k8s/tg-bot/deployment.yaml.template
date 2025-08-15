@@ -29,10 +29,10 @@ spec:
             - secretRef:
                 name: qracun-secret
           volumeMounts:
-            - name: shared-data
+            - name: tmp-shared-data
               mountPath: /grpc_proto         # grpc_proto
               subPath: grpc_proto            # подкаталог в PVC
       volumes:
-        - name: shared-data
+        - name: tmp-shared-data
           persistentVolumeClaim:
-            claimName: shared-data-pvc
+            claimName: tmp-shared-data-pvc

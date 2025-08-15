@@ -9,9 +9,9 @@ spec:
     image: busybox
     command: ["sh", "-c", "sleep 3600"]
     volumeMounts:
-    - name: shared-data
+    - name: tmp-shared-data
       mountPath: /mnt/shared
   volumes:
-  - name: shared-data
+  - name: tmp-shared-data
     persistentVolumeClaim:
-      claimName: shared-data-pvc
+      claimName: tmp-shared-data-pvc
