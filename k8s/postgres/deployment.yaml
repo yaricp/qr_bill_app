@@ -48,20 +48,24 @@ spec:
           args:
             - |
               set -e
+
+              db_connection_str = "-h localhost -U $POSTGRES_USER -d postgres"
               
-              until pg_isready -h localhost  -U $POSTGRES_USER >/dev/null 2>&1; do
+              until pg_isready $db_connection_str >/dev/null 2>&1; do
                   echo "PostgreSQL is unavailable - sleeping"
                   sleep 2
               done
+
+              echo "DB is ready! Continue!"
               
               # Создаем stanza если нужно
-              if ! pgbackrest -h localhost -U $POSTGRES_USER --stanza=main info >/dev/null 2>&1; then
-                pgbackrest -h localhost -U $POSTGRES_USER --stanza=main stanza-create
+              if ! pgbackrest $db_connection_str --stanza=main info >/dev/null 2>&1; then
+                pgbackrest $db_connection_str --stanza=main stanza-create
               fi
               
               # Делаем initial full backup если нужно
-              if ! pgbackrest -h localhost -U $POSTGRES_USER --stanza=main info --output=json | grep -q "backup"; then
-                pgbackrest -h localhost -U $POSTGRES_USER --stanza=main backup --type=full
+              if ! pgbackrest $db_connection_str --stanza=main info --output=json | grep -q "backup"; then
+                pgbackrest $db_connection_str --stanza=main backup --type=full
               fi
               
               # Запускаем архивирование WAL
