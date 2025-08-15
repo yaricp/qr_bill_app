@@ -65,11 +65,7 @@ spec:
             - |
               set -e
               
-              # Ждем готовности PostgreSQL
-              until pg_isready -h localhost -p 5432 -U $POSTGRES_USER; do
-                echo "Waiting for PostgreSQL..."
-                sleep 5
-              done
+              sleep 15
               
               # Создаем stanza если нужно
               if ! pgbackrest --stanza=main info >/dev/null 2>&1; then
