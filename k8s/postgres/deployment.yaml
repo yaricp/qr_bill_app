@@ -49,9 +49,9 @@ spec:
             - |
               set -e
 
-              db_connection_str="--pg1-host=localhost --pg1-user=$POSTGRES_USER --pg1-db=postgres"
+              db_connection_str="--pg1-host=localhost --pg1-user=$POSTGRES_USER "
 
-              echo "trying to connect to -h localhost -U $POSTGRES_USER -d postgres"
+              echo "trying to connect to -h localhost -U '$POSTGRES_USER' -d postgres"
               
               until pg_isready -h localhost -U $POSTGRES_USER -d postgres >/dev/null 2>&1; do
                   echo "PostgreSQL is unavailable - sleeping"
