@@ -22,7 +22,7 @@ spec:
                 mountPath: /backups
             command: ["/bin/sh", "-c"]
             args:
-              - pgbackrest --stanza=main backup
+              - pgbackrest --pg1-host=localhost --pg1-user=$POSTGRES_USER --pg1-db=postgres --stanza=main backup
           volumes:
             - name: pg-data
               persistentVolumeClaim:
