@@ -21,7 +21,4 @@ data:
     log-path=/var/log/pgbackrest
     
     [main]
-    db-path=/var/lib/postgresql/data
-    db-host=postgres
-    db-port=5432
-    db-user=postgres
+    pg1-path=/var/lib/postgresql/data
