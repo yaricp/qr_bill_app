@@ -47,28 +47,25 @@ spec:
           args:
             - |
               set -e
-              CONF=$PGBACKREST_CONFIG
-
-              # создаём конфиг, если его нет
-              if [ ! -f "$CONF" ]; then
-              mkdir -p /var/lib/pgbackrest
-              cat > "$CONF" <<EOF
-              [main]
-              pg1-path=/var/lib/postgresql/data
-
-              [global]
-              repo1-path=/var/lib/pgbackrest
-              log-level-console=info
-              EOF
-              fi
-
-              # создаём stanza, если её нет
+              
+              # Ждем готовности PostgreSQL
+              until pg_isready -h localhost -p 5432 -U $POSTGRES_USER; do
+                echo "Waiting for PostgreSQL..."
+                sleep 5
+              done
+              
+              # Создаем stanza если нужно
               if ! pgbackrest --stanza=main info >/dev/null 2>&1; then
                 pgbackrest --stanza=main stanza-create
               fi
-
-              # ждём команд на бэкап
-              tail -f /dev/null
+              
+              # Делаем initial full backup если нужно
+              if ! pgbackrest --stanza=main info --output=json | grep -q "backup"; then
+                pgbackrest --stanza=main backup --type=full
+              fi
+              
+              # Запускаем архивирование WAL
+              exec tail -f /dev/null
           env:
             - name: PGBACKREST_CONFIG
               value: /var/lib/pgbackrest/pgbackrest.conf
@@ -90,11 +87,18 @@ spec:
                   name: qracun-secret
                   key: POSTGRES_DB
           volumeMounts:
+            - name: pgbackrest-config
+              mountPath: /etc/pgbackrest
+              readOnly: true
             - name: pg-data
               mountPath: /var/lib/postgresql/data
               readOnly: true
             - name: backups
               mountPath: /backups
+            - name: backup-spool
+              mountPath: /var/spool/pgbackrest
+            - name: backup-logs
+              mountPath: /var/log/pgbackrest
 
       volumes:
         - name: pg-data
@@ -103,3 +107,12 @@ spec:
         - name: backups
           persistentVolumeClaim:
             claimName: pgbackrest-pvc
+        - name: pgbackrest-config  
+          configMap:
+            name: pgbackrest-config
+        - name: backup-spool
+          emptyDir:
+            sizeLimit: 1Gi
+        - name: backup-logs
+          emptyDir:
+            sizeLimit: 100Mi
