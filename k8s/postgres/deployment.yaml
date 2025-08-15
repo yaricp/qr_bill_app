@@ -49,9 +49,9 @@ spec:
             - |
               set -e
 
-              db_connection_str="-h localhost -U $POSTGRES_USER -d postgres"
+              db_connection_str="-U $POSTGRES_USER -d postgres"
               
-              until pg_isready $db_connection_str >/dev/null 2>&1; do
+              until pg_isready -h localhost $db_connection_str >/dev/null 2>&1; do
                   echo "PostgreSQL is unavailable - sleeping"
                   sleep 2
               done
