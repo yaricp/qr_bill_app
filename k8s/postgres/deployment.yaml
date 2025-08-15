@@ -21,7 +21,7 @@ spec:
           image: postgres:17.5
           ports:
             - containerPort: 5432
-          command: ["tail", "-f", "/dev/null"]
+          # command: ["tail", "-f", "/dev/null"]
           env:
             - name: POSTGRES_USER
               valueFrom:
