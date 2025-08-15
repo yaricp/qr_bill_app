@@ -41,22 +41,22 @@ spec:
             - name: pg-data
               mountPath: /var/lib/postgresql/data
           # Health checks
-          livenessProbe:
-            exec:
-              command:
-                - pg_isready
-                - -U
-                - $(POSTGRES_USER)
-            initialDelaySeconds: 30
-            periodSeconds: 10
-          readinessProbe:
-            exec:
-              command:
-                - pg_isready
-                - -U
-                - $(POSTGRES_USER)
-            initialDelaySeconds: 5
-            periodSeconds: 5
+          # livenessProbe:
+          #   exec:
+          #     command:
+          #       - pg_isready
+          #       - -U
+          #       - $(POSTGRES_USER)
+          #   initialDelaySeconds: 30
+          #   periodSeconds: 10
+          # readinessProbe:
+          #   exec:
+          #     command:
+          #       - pg_isready
+          #       - -U
+          #       - $(POSTGRES_USER)
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 5
 
         - name: pgbackrest
           image: perconalab/percona-pgbackrest:2.55.0
