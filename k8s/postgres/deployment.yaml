@@ -42,59 +42,60 @@ spec:
             - name: pg-data
               mountPath: /var/lib/postgresql/data
 
-        # - name: pgbackrest
-        #   image: perconalab/percona-pgbackrest:2.55.0
-        #   command: ["/bin/sh", "-c"]
-        #   args:
-        #     - |
-        #       set -e
+        - name: pgbackrest
+          image: perconalab/percona-pgbackrest:2.55.0
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              set -e
               
-        #       sleep 15
+              sleep 15
               
-        #       # Создаем stanza если нужно
-        #       if ! pgbackrest --stanza=main info >/dev/null 2>&1; then
-        #         pgbackrest --stanza=main stanza-create
-        #       fi
+              # Создаем stanza если нужно
+              if ! pgbackrest --stanza=main info >/dev/null 2>&1; then
+                pgbackrest --stanza=main stanza-create
+              fi
               
-        #       # Делаем initial full backup если нужно
-        #       if ! pgbackrest --stanza=main info --output=json | grep -q "backup"; then
-        #         pgbackrest --stanza=main backup --type=full
-        #       fi
+              # Делаем initial full backup если нужно
+              if ! pgbackrest --stanza=main info --output=json | grep -q "backup"; then
+                pgbackrest --stanza=main backup --type=full
+              fi
               
-        #       # Запускаем архивирование WAL
-        #       exec tail -f /dev/null
-        #   env:
-        #     - name: PGBACKREST_CONFIG
-        #       value: /etc/pgbackrest/pgbackrest.conf
-        #     - name: PGBACKREST_REPO1_PATH
-        #       value: /backups
-        #     - name: POSTGRES_USER
-        #       valueFrom:
-        #         secretKeyRef:
-        #           name: qracun-secret
-        #           key: POSTGRES_USER
-        #     - name: POSTGRES_PASSWORD
-        #       valueFrom:
-        #         secretKeyRef:
-        #           name: qracun-secret
-        #           key: POSTGRES_PASSWORD
-        #     - name: POSTGRES_DB
-        #       valueFrom:
-        #         secretKeyRef:
-        #           name: qracun-secret
-        #           key: POSTGRES_DB
-        #   volumeMounts:
-        #     - name: pgbackrest-config
-        #       mountPath: /etc/pgbackrest
-        #       readOnly: true
-        #     - name: pg-data
-        #       mountPath: /var/lib/postgresql/data
-        #     - name: backups
-        #       mountPath: /backups
-        #     - name: backup-spool
-        #       mountPath: /var/spool/pgbackrest
-        #     - name: backup-logs
-        #       mountPath: /var/log/pgbackrest
+              # Запускаем архивирование WAL
+              exec tail -f /dev/null
+          env:
+            - name: PGBACKREST_CONFIG
+              value: /etc/pgbackrest/pgbackrest.conf
+            - name: PGBACKREST_REPO1_PATH
+              value: /backups
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: qracun-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: qracun-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: qracun-secret
+                  key: POSTGRES_DB
+          volumeMounts:
+            - name: pgbackrest-config
+              mountPath: /etc/pgbackrest
+              readOnly: true
+            - name: pg-data
+              mountPath: /var/lib/postgresql/data
+              readOnly: true
+            - name: backups
+              mountPath: /backups
+            - name: backup-spool
+              mountPath: /var/spool/pgbackrest
+            - name: backup-logs
+              mountPath: /var/log/pgbackrest
 
       volumes:
         - name: pg-data
@@ -106,9 +107,9 @@ spec:
         - name: pgbackrest-config  
           configMap:
             name: pgbackrest-config
-        # - name: backup-spool
-        #   emptyDir:
-        #     sizeLimit: 1Gi
-        # - name: backup-logs
-        #   emptyDir:
-        #     sizeLimit: 100Mi
+        - name: backup-spool
+          emptyDir:
+            sizeLimit: 1Gi
+        - name: backup-logs
+          emptyDir:
+            sizeLimit: 100Mi
