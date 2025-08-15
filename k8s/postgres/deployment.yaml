@@ -43,7 +43,7 @@ spec:
               mountPath: /var/lib/postgresql/data
 
         - name: pgbackrest
-          image: perconalab/percona-pgbackrest:2.55.0
+          image: crunchydata/crunchy-pgbackrest:centos8-13.6-4.7.5
           command: ["/bin/sh", "-c"]
           args:
             - |

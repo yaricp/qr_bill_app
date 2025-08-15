@@ -11,7 +11,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: pgbackrest
-            image: perconalab/percona-pgbackrest:2.55.0
+            image: crunchydata/crunchy-pgbackrest:centos8-13.6-4.7.5
             envFrom:
               - secretRef:
                   name: qracun-secret
