@@ -43,7 +43,7 @@ spec:
               mountPath: /var/lib/postgresql/data
 
         - name: pgbackrest
-          image: woblerr/pgbackrest:2.54.2-alpine-v0.34
+          image: pgbackrest/test:u22-base-x86_64-20250718A
           command: ["/bin/sh", "-c"]
           args:
             - |
