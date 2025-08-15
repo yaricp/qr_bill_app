@@ -47,7 +47,7 @@ spec:
           args:
             - |
               set -e
-              CONF="/etc/pgbackrest/pgbackrest.conf"
+              CONF="/var/lib/pgbackrest/pgbackrest.conf"
 
               # создаём конфиг, если его нет
               if [ ! -f "$CONF" ]; then
@@ -70,6 +70,8 @@ spec:
               # ждём команд на бэкап
               tail -f /dev/null
           env:
+            - name: PGBACKREST_CONFIG
+              value: /var/lib/pgbackrest/pgbackrest.conf
             - name: PGBACKREST_REPO1_PATH
               value: /backups
             - name: POSTGRES_USER
