@@ -22,6 +22,4 @@ data:
     
     [main]
     pg1-path=/var/lib/postgresql/data
-    pg1-host=postgres
-    pg1-port=5432
     pg1-user=postgres
