@@ -61,14 +61,14 @@ spec:
               echo "DB is ready! Continue!"
               
               # Создаем stanza если нужно
-              if ! pgbackrest $db_connection_str --stanza=main info >/dev/null 2>&1; then
-                pgbackrest $db_connection_str --stanza=main stanza-create
-              fi
+              #if ! pgbackrest $db_connection_str --stanza=main info >/dev/null 2>&1; then
+              #  pgbackrest $db_connection_str --stanza=main stanza-create
+              #fi
               
               # Делаем initial full backup если нужно
-              if ! pgbackrest $db_connection_str --stanza=main info --output=json | grep -q "backup"; then
-                pgbackrest $db_connection_str --stanza=main backup --type=full
-              fi
+              #if ! pgbackrest $db_connection_str --stanza=main info --output=json | grep -q "backup"; then
+              #  pgbackrest $db_connection_str --stanza=main backup --type=full
+              #fi
               
               # Запускаем архивирование WAL
               exec tail -f /dev/null
