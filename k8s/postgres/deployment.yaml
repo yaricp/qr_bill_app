@@ -81,7 +81,7 @@ spec:
               exec tail -f /dev/null
           env:
             - name: PGBACKREST_CONFIG
-              value: /var/lib/pgbackrest/pgbackrest.conf
+              value: /etc/pgbackrest/pgbackrest.conf
             - name: PGBACKREST_REPO1_PATH
               value: /backups
             - name: POSTGRES_USER
