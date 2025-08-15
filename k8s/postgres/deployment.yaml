@@ -60,7 +60,7 @@ spec:
 
               # echo "DB is ready! Continue!"
 
-              # sleep 30
+              sleep 30
               
               # Создаем stanza если нужно
               # if ! pgbackrest $db_connection_str --stanza=main info >/dev/null 2>&1; then
@@ -78,11 +78,11 @@ spec:
             - name: BACKREST_USER
               value: postgres
             - name: BACKREST_UID
-              value: 999
+              value: "999"
             - name: BACKREST_GROUP
               value: postgres
             - name: BACKREST_GID
-              value: 999
+              value: "999"
             - name: PGBACKREST_CONFIG
               value: /etc/pgbackrest/pgbackrest.conf
             - name: PGBACKREST_REPO1_PATH
