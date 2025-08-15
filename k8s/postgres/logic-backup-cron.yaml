@@ -10,7 +10,7 @@ spec:
         spec:
           initContainers:
             - name: logic-pg-dump
-              image: postgres:17-alpine
+              image: postgres:17.5
               env:
                 - name: POSTGRES_USER
                   valueFrom:
