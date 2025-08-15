@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: postgres-backup
 spec:
-  schedule: "0 3 * * *"  # Каждый день в 03:00
+  schedule: "*/15 * * * *"  # Каждый день в 03:00
   jobTemplate:
     spec:
       template:
@@ -32,7 +32,7 @@ spec:
                 - -c
                 - |
                   mkdir -p /backups
-                  pg_dump -h postgres -U $POSTGRES_USER $POSTGRES_DB > /backups/dump.sql
+                  PGPASSWORD=$POSTGRES_PASSWORD pg_dump -h pg -U $POSTGRES_USER -d $POSTGRES_DB > /backups/dump.sql
               volumeMounts:
                 - name: backup-volume
                   mountPath: /backups
@@ -52,6 +52,8 @@ spec:
                     git init
                     echo "Git repo initialized"
                   fi
+                  git config user.name "Backup Bot"
+                  git config user.email "backup@example.com"
                   git add dump.sql
                   git commit -m "Backup $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
           restartPolicy: OnFailure
