@@ -11,13 +11,14 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: pgbackrest
-            image: perconalab/percona-pgbackrest:2.55.0
+            image: woblerr/pgbackrest:2.54.2-alpine-v0.34
             envFrom:
               - secretRef:
                   name: qracun-secret
             volumeMounts:
               - name: pg-data
-                mountPath: /var/lib/postgresql/data:ro
+                mountPath: /var/lib/postgresql/data
+                readOnly: true
               - name: backups
                 mountPath: /backups
             command: ["/bin/sh", "-c"]
