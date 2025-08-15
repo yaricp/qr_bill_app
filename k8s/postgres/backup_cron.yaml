@@ -1,33 +1,61 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: pgbackrest-backup
+  name: postgres-backup
 spec:
-  schedule: "0 2 * * *"  # каждый день в 2:00 ночи
+  schedule: "0 3 * * *"  # Каждый день в 03:00
   jobTemplate:
     spec:
       template:
         spec:
-          restartPolicy: OnFailure
+          initContainers:
+            - name: logic-pg-dump
+              image: postgres:17-alpine
+              env:
+                - name: POSTGRES_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: qracun-secret
+                      key: POSTGRES_USER
+                - name: POSTGRES_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: qracun-secret
+                      key: POSTGRES_PASSWORD
+                - name: POSTGRES_DB
+                  valueFrom:
+                    secretKeyRef:
+                      name: qracun-secret
+                      key: POSTGRES_DB
+              command:
+                - sh
+                - -c
+                - |
+                  mkdir -p /backups
+                  pg_dump -h postgres -U $POSTGRES_USER $POSTGRES_DB > /backups/dump.sql
+              volumeMounts:
+                - name: backup-volume
+                  mountPath: /backups
           containers:
-          - name: pgbackrest
-            image: crunchydata/crunchy-pgbackrest:centos8-13.6-4.7.5
-            envFrom:
-              - secretRef:
-                  name: qracun-secret
-            volumeMounts:
-              - name: pg-data
-                mountPath: /var/lib/postgresql/data
-                readOnly: true
-              - name: backups
-                mountPath: /backups
-            command: ["/bin/sh", "-c"]
-            args:
-              - pgbackrest --pg1-host=localhost --pg1-user=$POSTGRES_USER --pg1-db=postgres --stanza=main backup
+            - name: logic-dump-git-commit
+              image: alpine/git:latest
+              volumeMounts:
+                - name: backup-storage
+                  mountPath: /backups
+              command:
+                - /bin/bash
+                - -c
+                - |
+                  set -e
+                  cd /backups
+                  if [ ! -d ".git" ]; then
+                    git init
+                    echo "Git repo initialized"
+                  fi
+                  git add dump.sql
+                  git commit -m "Backup $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
+          restartPolicy: OnFailure
           volumes:
-            - name: pg-data
+            - name: backup-storage
               persistentVolumeClaim:
-                claimName: pg-pvc
-            - name: backups
-              persistentVolumeClaim:
-                claimName: pgbackrest-pvc
+                claimName: logic-backups
