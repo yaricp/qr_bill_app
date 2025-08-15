@@ -11,7 +11,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: pgbackrest
-            image: woblerr/pgbackrest:2.54.2-alpine-v0.34
+            image: perconalab/percona-pgbackrest:2.55.0
             envFrom:
               - secretRef:
                   name: qracun-secret

@@ -43,7 +43,7 @@ spec:
               mountPath: /var/lib/postgresql/data
 
         - name: pgbackrest
-          image: woblerr/pgbackrest:2.54.2-alpine-v0.34
+          image: perconalab/percona-pgbackrest:2.55.0
           command: ["/bin/sh", "-c"]
           args:
             - |
@@ -51,24 +51,26 @@ spec:
 
               db_connection_str="--pg1-host=localhost --pg1-user=$POSTGRES_USER "
 
-              echo "trying to connect to -h localhost -U '$POSTGRES_USER' -d postgres"
+              # echo "trying to connect to -h localhost -U '$POSTGRES_USER' -d postgres"
               
-              until pg_isready -h localhost -U $POSTGRES_USER -d postgres >/dev/null 2>&1; do
-                  echo "PostgreSQL is unavailable - sleeping"
-                  sleep 2
-              done
+              # until pg_isready -h localhost -U $POSTGRES_USER -d postgres >/dev/null 2>&1; do
+              #    echo "PostgreSQL is unavailable - sleeping"
+              #    sleep 2
+              # done
 
-              echo "DB is ready! Continue!"
+              # echo "DB is ready! Continue!"
+
+              sleep 30
               
               # Создаем stanza если нужно
-              #if ! pgbackrest $db_connection_str --stanza=main info >/dev/null 2>&1; then
-              #  pgbackrest $db_connection_str --stanza=main stanza-create
-              #fi
+              if ! pgbackrest $db_connection_str --stanza=main info >/dev/null 2>&1; then
+                pgbackrest $db_connection_str --stanza=main stanza-create
+              fi
               
               # Делаем initial full backup если нужно
-              #if ! pgbackrest $db_connection_str --stanza=main info --output=json | grep -q "backup"; then
-              #  pgbackrest $db_connection_str --stanza=main backup --type=full
-              #fi
+              if ! pgbackrest $db_connection_str --stanza=main info --output=json | grep -q "backup"; then
+                pgbackrest $db_connection_str --stanza=main backup --type=full
+              fi
               
               # Запускаем архивирование WAL
               exec tail -f /dev/null
