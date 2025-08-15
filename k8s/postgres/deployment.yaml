@@ -47,11 +47,11 @@ spec:
           args:
             - |
               set -e
-              CONF="/var/lib/pgbackrest/pgbackrest.conf"
+              CONF=$PGBACKREST_CONFIG
 
               # создаём конфиг, если его нет
               if [ ! -f "$CONF" ]; then
-              mkdir -p /etc/pgbackrest
+              mkdir -p /var/lib/pgbackrest
               cat > "$CONF" <<EOF
               [main]
               pg1-path=/var/lib/postgresql/data
