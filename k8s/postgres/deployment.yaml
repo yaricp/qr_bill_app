@@ -44,31 +44,31 @@ spec:
         - name: pgbackrest
           image: perconalab/percona-pgbackrest:2.55.0
           command: ["/bin/sh", "-c"]
-    args:
-      - |
-        set -e
-        CONF="/etc/pgbackrest/pgbackrest.conf"
+          args:
+            - |
+              set -e
+              CONF="/etc/pgbackrest/pgbackrest.conf"
 
-        # создаём конфиг, если его нет
-        if [ ! -f "$CONF" ]; then
-          mkdir -p /etc/pgbackrest
-          cat > "$CONF" <<EOF
-          [main]
-          pg1-path=/var/lib/postgresql/data
+              # создаём конфиг, если его нет
+              if [ ! -f "$CONF" ]; then
+              mkdir -p /etc/pgbackrest
+              cat > "$CONF" <<EOF
+              [main]
+              pg1-path=/var/lib/postgresql/data
 
-          [global]
-          repo1-path=/var/lib/pgbackrest
-          log-level-console=info
-          EOF
-                  fi
+              [global]
+              repo1-path=/var/lib/pgbackrest
+              log-level-console=info
+              EOF
+              fi
 
-                  # создаём stanza, если её нет
-                  if ! pgbackrest --stanza=main info >/dev/null 2>&1; then
-                    pgbackrest --stanza=main stanza-create
-                  fi
+              # создаём stanza, если её нет
+              if ! pgbackrest --stanza=main info >/dev/null 2>&1; then
+                pgbackrest --stanza=main stanza-create
+              fi
 
-                  # ждём команд на бэкап
-                  tail -f /dev/null
+              # ждём команд на бэкап
+              tail -f /dev/null
           env:
             - name: PGBACKREST_REPO1_PATH
               value: /backups
