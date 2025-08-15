@@ -27,10 +27,10 @@ spec:
                     secretKeyRef:
                       name: qracun-secret
                       key: POSTGRES_DB
-              command:
-                - sh
-                - -c
+              command: ["/bin/bash", "-c"]
+              args:
                 - |
+                  set -e
                   mkdir -p /backups
                   PGPASSWORD=$POSTGRES_PASSWORD pg_dump -h pg -U $POSTGRES_USER -d $POSTGRES_DB > /backups/dump.sql
               volumeMounts:
@@ -42,9 +42,8 @@ spec:
               volumeMounts:
                 - name: backup-storage
                   mountPath: /backups
-              command:
-                - /bin/bash
-                - -c
+              command: ["/bin/sh", "-c"]
+              agrs:
                 - |
                   set -e
                   cd /backups
