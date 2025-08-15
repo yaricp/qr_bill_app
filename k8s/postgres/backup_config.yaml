@@ -5,9 +5,9 @@ metadata:
 data:
   pgbackrest.conf: |
     [global]
-    repo-path=/backups
-    repo-retention-full=7
-    repo-retention-diff=4
+    repo1-path=/backups
+    repo1-retention-full=7
+    repo1-retention-diff=4
     
     compress-type=lz4
     compress-level=3
