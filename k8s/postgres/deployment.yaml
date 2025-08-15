@@ -12,10 +12,10 @@ spec:
       labels:
         app: pg
     spec:
-      # securityContext:
-      #   runAsUser: 999   # UID postgres
-      #   runAsGroup: 999  # GID postgres
-      #   fsGroup: 999
+      securityContext:
+        runAsUser: 999   # UID postgres
+        runAsGroup: 999  # GID postgres
+        fsGroup: 999
       containers:
         - name: postgres
           image: postgres:17.5
