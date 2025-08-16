@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: postgres-backup
 spec:
-  schedule: "*/15 * * * *"  # Каждый день в 03:00
+  schedule: "0 * * * *"  # every hour
   jobTemplate:
     spec:
       template:
