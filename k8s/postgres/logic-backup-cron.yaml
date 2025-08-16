@@ -4,6 +4,8 @@ metadata:
   name: postgres-backup
 spec:
   schedule: "0 * * * *"  # every hour
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
   jobTemplate:
     spec:
       template:
