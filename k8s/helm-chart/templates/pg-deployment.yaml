@@ -1,0 +1,47 @@
+{{- if .Values.pg.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pg
+spec:
+  replicas: {{ .Values.pg.replicas }}
+  selector:
+    matchLabels:
+      app: pg
+  template:
+    metadata:
+      labels:
+        app: pg
+    spec:
+      securityContext:
+        runAsUser: {{ .Values.pg.securityContext.runAsUser }}
+        runAsGroup: {{ .Values.pg.securityContext.runAsGroup }}
+        fsGroup: {{ .Values.pg.securityContext.fsGroup }}
+      containers:
+        - name: postgres
+          image: {{ .Values.pg.image }}
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: POSTGRES_DB
+          volumeMounts:
+            - name: main-pg-data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: main-pg-data
+          persistentVolumeClaim:
+            claimName: main-pg-pvc
+        
+{{- end }}

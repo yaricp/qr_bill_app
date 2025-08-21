@@ -22,6 +22,9 @@ COPY /alembic /alembic
 COPY alembic.ini /
 COPY /src /src
 COPY /scripts /scripts
+
+COPY ../grpc_proto /grpc_proto
+
 COPY start.sh /
 COPY start_grpc_server.py /
 

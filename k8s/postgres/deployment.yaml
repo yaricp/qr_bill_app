@@ -40,8 +40,6 @@ spec:
                   key: POSTGRES_DB
           volumeMounts:
             - name: main-pg-data
-              mountPath: /main_pg_data
-            - name: small-pg-data
               mountPath: /var/lib/postgresql/data
 
         # - name: pgbackrest

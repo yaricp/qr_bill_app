@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  labels:
+    app: qracun
+    tier: backend
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: qracun
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: qracun
+        tier: backend
+    spec:
+      imagePullSecrets:
+    {{- range .Values.imagePullSecrets }}
+        - name: {{ .name }}
+    {{- end }}
+      containers:
+        - name: api
+          image: {{ .Values.images.api }}
+          command: ["/./start.sh"]
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.configMaps.name }}
+            - secretRef:
+                name: {{ .Values.secrets.name }}
+          volumeMounts:
+            - name: mail-templates
+              mountPath: /src/infra/email/templates
+      volumes:
+        - name: mail-templates
+          persistentVolumeClaim:
+            claimName: mail-templates-nfs-pvc

@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: main-pg-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.pg.mainPVC.storage }}
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: logic-backups
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.pg.backupPVC.storage }}
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mail-templates-nfs-pv
+spec:
+  capacity:
+    storage: {{ .Values.mailTemplatesNFS.storage }}
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: {{ .Values.mailTemplatesNFS.server }}
+    path: {{ .Values.mailTemplatesNFS.path }}
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mail-templates-nfs-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ .Values.mailTemplatesNFS.storage }}
+  volumeName: mail-templates-nfs-pv

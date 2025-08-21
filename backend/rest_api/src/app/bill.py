@@ -337,7 +337,7 @@ class BillCommands:
             "crtd"
         ].replace("%20", " ").replace(
             "%2B", " "
-        ).replace("%3A", ":")
+        ).replace("%3A", ":").replace("%3a", ":")
         logger.info(f"result_dict: {result_dict}")
         return result_dict
 

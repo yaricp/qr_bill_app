@@ -1,0 +1,14 @@
+{{- if .Values.pg.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: pg
+spec:
+  selector:
+    app: pg
+  type: {{ .Values.pg.service.type }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.pg.service.port }}
+      targetPort: {{ .Values.pg.service.targetPort }}
+{{- end }}
