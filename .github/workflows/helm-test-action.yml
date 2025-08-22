@@ -348,4 +348,5 @@ jobs:
             --docker-password=${{ secrets.PAT_RUNNER }} \
             --docker-email=yaricp@gmail.com 
       - name: Deploy Helm chart
-        run: ./scripts/helm_upgrade.sh
+        run: |
+          helm upgrade qracun-test ./k8s/helm-chart --install -f ./k8s/helm-chart/test-values.yaml -n qracun-test --create-namespace
