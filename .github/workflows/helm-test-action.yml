@@ -237,9 +237,6 @@ jobs:
       - name: Build and push image front 
         if: ${{ (steps.frontend_changes.outputs.OUTPUT != '') }}
         env:
-          # NAME_IMAGE_API: $IMAGE_API
-          # NAME_IMAGE_FRONTEND: $IMAGE_FRONTEND
-          # NAME_IMAGE_TELEGRAM_BOT: $IMAGE_TELEGRAM_BOT
           DEBUG: ${{ vars.DEBUG }}
           INSTALL_DEV: ${{ vars.INSTALL_DEV }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -352,9 +349,7 @@ jobs:
             --docker-email=yaricp@gmail.com 
       - name: Deploy Helm chart
         run: |
-          helm upgrade --install qracun-test ./k8s/helm-chart \
-            -n qracun-test \
-            --create-namespace \
+          helm upgrade --install --create-namespace qracun-test ./k8s/helm-chart -n qracun-test \
             -f ./k8s/helm-chart/test-values.yaml \
             --set images.api=${{ env.NAME_IMAGE_API }} \
             --set images.frontend=${{ env.NAME_IMAGE_FRONTEND }} \
