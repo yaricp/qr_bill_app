@@ -15,6 +15,7 @@ COPY poetry.lock /
 RUN poetry install
 
 RUN mkdir /src
+RUN mkdir /grpc_proto
 
 WORKDIR /
 
