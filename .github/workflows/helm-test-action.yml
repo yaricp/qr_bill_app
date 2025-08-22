@@ -348,4 +348,4 @@ jobs:
             --docker-password=${{ secrets.PAT_RUNNER }} \
             --docker-email=yaricp@gmail.com 
       - name: Deploy Helm chart
-        run: scripts/deploy-helm.sh
+        run: scripts/helm_upgrade.sh
