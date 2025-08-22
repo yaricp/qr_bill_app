@@ -349,4 +349,7 @@ jobs:
             --docker-email=yaricp@gmail.com 
       - name: Deploy Helm chart
         run: |
-          helm upgrade qracun-test ./k8s/helm-chart --install -f ./k8s/helm-chart/test-values.yaml -n qracun-test --create-namespace
+          helm upgrade qracun-test ./k8s/helm-chart --install -f ./k8s/helm-chart/test-values.yaml -n qracun-test --create-namespace \
+          --set images.api=${{ env.NAME_IMAGE_API }} \
+          --set images.frontend=${{ env.NAME_IMAGE_FRONTEND }} \
+          --set images.tg=${{ env.NAME_IMAGE_TELEGRAM_BOT }}
