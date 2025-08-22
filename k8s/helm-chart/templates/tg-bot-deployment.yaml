@@ -23,7 +23,7 @@ spec:
     {{- end }}
       containers:
         - name: tg-bot
-          image: {{ .Values.tgBot.image }}
+          image: {{ .Values.images.tg }}
           command: ["/./start.sh"]
           envFrom:
             - configMapRef:

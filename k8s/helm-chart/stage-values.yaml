@@ -9,7 +9,7 @@ replicaCount: 1
 images:
   api: ""                # здесь будет подставляться из GitHub Actions, например: NAME_IMAGE_API
   frontend: ""           # NAME_IMAGE_FRONTEND
-  telegramBot: ""        # NAME_IMAGE_TELEGRAM_BOT
+  tg: ""        # NAME_IMAGE_TELEGRAM_BOT
 
 # =========================
 # Ingress
@@ -17,9 +17,9 @@ images:
 ingress:
   enabled: true
   className: nginx
-  host: qracun.me
-  tlsSecretName: qracun-tls
-  clusterIssuer: letsencrypt-prod
+  host: stage.qracun.me
+  tlsSecretName: stage-qracun-tls
+  clusterIssuer: letsencrypt-stage
   annotations:
     sslRedirect: "true"
     forceSslRedirect: "true"
@@ -142,6 +142,6 @@ certManager:
 # mailTemplatesNFS
 # ===================
 mailTemplatesNFS:
-  storage: 5Mb
+  storage: 5Mi
   server: 192.168.168.10   # IP вашей виртуалки
   path: /exports/k8s/email_templates
