@@ -27,7 +27,7 @@ spec:
           command: ["/./start.sh"]
           envFrom:
             - configMapRef:
-                name: {{ .Values.configMaps.name }}
+                name: {{ .Values.config.name }}
             - secretRef:
                 name: {{ .Values.secrets.name }}
 

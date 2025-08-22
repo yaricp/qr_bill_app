@@ -20,7 +20,7 @@ spec:
           image: {{ .Values.pgadmin.image.repository }}:{{ .Values.pgadmin.image.tag }}
           envFrom:
             - configMapRef:
-                name: {{ .Values.configMaps.name }}
+                name: {{ .Values.config.name }}
             - secretRef:
                 name: {{ .Values.secrets.name }}
           

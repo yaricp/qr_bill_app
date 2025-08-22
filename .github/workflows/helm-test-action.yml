@@ -362,7 +362,6 @@ jobs:
             --set images.api=${{ env.NAME_IMAGE_API }} \
             --set images.frontend=${{ env.NAME_IMAGE_FRONTEND }} \
             --set images.tg=${{ env.NAME_IMAGE_TELEGRAM_BOT }} \
-            --set images.tg=$IMAGE_TELEGRAM_BOT \
             --set-string config.DEBUG='${{ vars.DEBUG }}' \
             --set-string config.INSTALL_DEV='${{ vars.INSTALL_DEV }}' \
             --set-string config.TOKEN_EXPIRY_TIME_HOURS='${{ vars.TOKEN_EXPIRY_TIME_HOURS }}' \
@@ -394,7 +393,7 @@ jobs:
             --set-string config.ALLOW_CREDENTIALS='${{ vars.ALLOW_CREDENTIALS }}' \
             --set-string config.ALLOW_METHODS='${{ vars.ALLOW_METHODS }}' \
             --set-string config.PGADMIN_DEFAULT_EMAIL='${{ vars.PGADMIN_DEFAULT_EMAIL }}' \
-            --set-string config.TELEGRAM_LANGUAGES='${{ vars.TELEGRAM_LANGUAGES }}' \
+            --set-string config.TELEGRAM_LANGUAGES=${{ vars.TELEGRAM_LANGUAGES }} \
             --set-string config.TELEGRAM_BOT_DEFAULT_LANG='${{ vars.TELEGRAM_BOT_DEFAULT_LANG }}' \
             --set-string config.TELEGRAM_ADMIN_CHAT_ID='${{ vars.TELEGRAM_ADMIN_CHAT_ID }}' \
             --set-string config.TELEGRAM_GRPC_HOST='${{ vars.TELEGRAM_GRPC_HOST }}' \
