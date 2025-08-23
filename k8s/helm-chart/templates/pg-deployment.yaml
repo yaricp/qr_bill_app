@@ -13,10 +13,10 @@ spec:
       labels:
         app: pg
     spec:
-      securityContext:
-        runAsUser: {{ .Values.pg.securityContext.runAsUser }}
-        runAsGroup: {{ .Values.pg.securityContext.runAsGroup }}
-        fsGroup: {{ .Values.pg.securityContext.fsGroup }}
+      # securityContext:
+      #   runAsUser: {{ .Values.pg.securityContext.runAsUser }}
+      #   runAsGroup: {{ .Values.pg.securityContext.runAsGroup }}
+      #   fsGroup: {{ .Values.pg.securityContext.fsGroup }}
       containers:
         - name: postgres
           image: {{ .Values.pg.image }}
