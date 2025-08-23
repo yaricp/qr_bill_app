@@ -138,5 +138,5 @@ certManager:
 # ===================
 mailTemplatesNFS:
   storage: 5Mi
-  server: 192.168.168.10   # IP вашей виртуалки
+  server: 10.1.166.0   # IP вашей виртуалки
   path: /exports/k8s/test_email_templates

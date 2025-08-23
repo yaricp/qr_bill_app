@@ -36,6 +36,7 @@ spec:
   nfs:
     server: {{ .Values.mailTemplatesNFS.server }}
     path: {{ .Values.mailTemplatesNFS.path }}
+  persistentVolumeReclaimPolicy: Retain
 
 ---
 apiVersion: v1
