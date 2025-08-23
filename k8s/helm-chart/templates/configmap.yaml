@@ -4,5 +4,5 @@ metadata:
   name: qracun-config
 data:
 {{- range $key, $value := .Values.config }}
-  {{ $key }}: "{{ $value }}"
+  {{ $key }}: {{ if kindIs "slice" $value }}"{{ toJson $value }}"{{ else }}"{{ $value }}"{{ end }}
 {{- end }}

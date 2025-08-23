@@ -25,9 +25,9 @@ spec:
         - name: tg-bot
           image: {{ .Values.tgBot.image }}
           command: ["/./start.sh"]
-          env:
-            - name: TELEGRAM_LANGUAGES
-              value: '{{ toJson .Values.config.TELEGRAM_LANGUAGES }}'
+          # env:
+          #   - name: TELEGRAM_LANGUAGES
+          #     value: '{{ toJson .Values.config.TELEGRAM_LANGUAGES }}'
           envFrom:
             - configMapRef:
                 name: {{ .Values.config.name }}
