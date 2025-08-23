@@ -33,6 +33,7 @@ spec:
     storage: {{ .Values.mailTemplatesNFS.storage }}
   accessModes:
     - ReadWriteMany
+  storageClassName: microk8s-hostpath
   nfs:
     server: {{ .Values.mailTemplatesNFS.server }}
     path: {{ .Values.mailTemplatesNFS.path }}
@@ -46,6 +47,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
+  storageClassName: microk8s-hostpath
   resources:
     requests:
       storage: {{ .Values.mailTemplatesNFS.storage }}
