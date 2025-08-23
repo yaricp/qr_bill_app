@@ -120,6 +120,11 @@ imagePullSecrets:
 # ==========================
 config:
   name: qracun-config
+  TELEGRAM_LANGUAGES:
+    - en
+    - ru
+  ALLOW_ORIGINS: 
+    - https://test.qracun.me
 
 secrets:
   name: qracun-secret
