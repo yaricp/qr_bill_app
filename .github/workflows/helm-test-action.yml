@@ -394,6 +394,7 @@ jobs:
       
       - name: Deploy Helm chart
         run: |
+          ls -la ./k8s/helm-chart;
           helm upgrade qracun-test ./k8s/helm-chart --install \
           -f ./k8s/helm-chart/test-values.yaml \
           -f ./k8s/helm-chart/conf-secret-test-values.yaml \
