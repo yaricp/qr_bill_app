@@ -397,7 +397,7 @@ jobs:
           --set-string secrets.POSTGRES_HOST=${{ vars.DATABASE_HOST }} \
           --set-string secrets.POSTGRES_PORT=${{ vars.DATABASE_PORT }} \
           --set-string secrets.POSTGRES_USER=${{ secrets.DATABASE_USER }} \
-          --set-string secrets.POSTGRES_PASSWORD=${{ secrets.DATABASE_PASSWORD }} \
+          --set-string secrets.POSTGRES_PASSWORD="${{ secrets.DATABASE_PASSWORD }}" \
           --set-string secrets.POSTGRES_DB=${{ vars.DATABASE_NAME }} \
           --set-string secrets.DATABASE_HOST=${{ vars.DATABASE_HOST }} \
           --set-string secrets.DATABASE_PORT=${{ vars.DATABASE_PORT }} \
