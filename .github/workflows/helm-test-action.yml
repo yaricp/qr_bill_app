@@ -366,7 +366,6 @@ jobs:
           --set-string config.REST_API_PORT=${{ vars.REST_API_PORT }} \
           --set-string config.REST_API_PREFIX=${{ vars.REST_API_PREFIX }} \
           --set-string config.REST_API_LOGIN_LINK_URI=${{ vars.REST_API_LOGIN_LINK_URI }} \
-          --set-string config.REST_API_TELEGRAM_ADMIN_CHAT_ID=${{ vars.REST_API_TELEGRAM_ADMIN_CHAT_ID }} \
           --set-string config.DATABASE_DIALECT=${{ vars.DATABASE_DIALECT }} \
           --set-string config.DATABASE_DRIVER=${{ vars.DATABASE_DRIVER }} \
           --set-string config.DATABASE_ECHO=${{ vars.DATABASE_ECHO }} \
@@ -407,7 +406,6 @@ jobs:
           --set-string secrets.DATABASE_NAME=${{ vars.DATABASE_NAME }} \
           --set-string secrets.PGADMIN_DEFAULT_PASSWORD=${{ secrets.PGADMIN_DEFAULT_PASSWORD }} \
           --set-string secrets.TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} \
-          --set-string secrets.REST_API_TELEGRAM_BOT_TOKEN=${{ secrets.REST_API_TELEGRAM_BOT_TOKEN }} \
           --set-string secrets.SECRET_KEY=${{ secrets.SECRET_KEY }} \
           --set-string secrets.SMTP_SERVER_PASSWORD=${{ secrets.SMTP_SERVER_PASSWORD }} \
           --set-string secrets.MAILERSEND_API_KEY=${{ secrets.MAILERSEND_API_KEY }}
