@@ -22,5 +22,5 @@ spec:
         - name: {{ .name }}
     {{- end }}
       containers:
-        - name: {{ .Values.frontend.image }}
-
+        - name: frontend
+          image: {{ .Values.frontend.image }}
