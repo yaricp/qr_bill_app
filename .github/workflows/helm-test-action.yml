@@ -333,6 +333,7 @@ jobs:
           PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
         run: |
+          echo "${{ env.DATABASE_PASSWORD }}";
           helm upgrade qracun-test ./k8s/helm-chart --install -f ./k8s/helm-chart/test-values.yaml -n qracun-test --create-namespace \
           --set images.api=${{ env.NAME_IMAGE_API }} \
           --set images.frontend=${{ env.NAME_IMAGE_FRONTEND }} \
