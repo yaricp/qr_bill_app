@@ -390,7 +390,7 @@ jobs:
           SMTP_SERVER_PASSWORD: ${{ secrets.SMTP_SERVER_PASSWORD }}
           MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
         run: |
-          envsubst < ./k8s/helm-chart/conf-secret-test.yaml.temp > ./k8s/helm-chart/conf-secret-test-values.yaml
+          envsubst < ./k8s/helm-chart/conf-secret.yaml.temp > ./k8s/helm-chart/conf-secret-test-values.yaml
       
       - name: Deploy Helm chart
         run: |
