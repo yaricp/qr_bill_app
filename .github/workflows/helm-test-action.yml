@@ -398,8 +398,8 @@ jobs:
           -f ./k8s/helm-chart/test-values.yaml \
           -f ./k8s/helm-chart/conf-secret-test-values.yaml \
           -n qracun-test --create-namespace \
-          --set images.api=${{ env.NAME_IMAGE_API }} \
-          --set images.frontend=${{ env.NAME_IMAGE_FRONTEND }} \
-          --set images.tg=${{ env.NAME_IMAGE_TELEGRAM_BOT }}
+          --set api.image=${{ env.NAME_IMAGE_API }} \
+          --set frontend.image=${{ env.NAME_IMAGE_FRONTEND }} \
+          --set tgBot.image=${{ env.NAME_IMAGE_TELEGRAM_BOT }}
           
           

@@ -3,14 +3,6 @@
 # ==========================
 replicaCount: 1
 
-# ==========================
-# Images
-# ==========================
-images:
-  api: ""
-  frontend: ""
-  tg: ""
-
 # =========================
 # Ingress
 # =========================
@@ -64,9 +56,11 @@ api:
 # ==========================
 frontend:
   replicas: 1
+  image: ""
   service:
     type: ClusterIP
     port: 80
+    targetPort: 80
 
 # ==========================
 # Telegram Bot
@@ -104,6 +98,7 @@ backup:
 # PgAdmin
 # =========================
 pgadmin:
+  replicas: 1
   enabled: true
   image:
     repository: dpage/pgadmin4

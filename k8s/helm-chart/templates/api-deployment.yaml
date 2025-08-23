@@ -6,7 +6,7 @@ metadata:
     app: qracun
     tier: backend
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.api.replicas }}
   selector:
     matchLabels:
       app: qracun
@@ -23,7 +23,7 @@ spec:
     {{- end }}
       containers:
         - name: api
-          image: {{ .Values.images.api }}
+          image: {{ .Values.api.image }}
           command: ["/./start.sh"]
           envFrom:
             - configMapRef:
