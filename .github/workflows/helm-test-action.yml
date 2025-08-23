@@ -108,9 +108,9 @@ jobs:
         run: |
           mkdir -p backend/rest_api/grpc_proto;
           cp backend/grpc_proto/*.proto backend/rest_api/grpc_proto/;
+          ls -la backend/rest_api/grpc_proto;
           docker compose build api;
           docker compose push api;
-          rm -rf backend/rest_api/grpc_proto;
       - name: Run unittests for rest_api. 
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         env:
@@ -231,9 +231,9 @@ jobs:
         run: |
           mkdir -p backend/tg_bot/grpc_proto;
           cp backend/grpc_proto/*.proto backend/tg_bot/grpc_proto/;
+          ls -la backend/tg_bot/grpc_proto;
           docker compose build tg;
           docker compose push tg;
-          rm -rf backend/tg_bot/grpc_proto;
       - name: Build and push image front 
         if: ${{ (steps.frontend_changes.outputs.OUTPUT != '') }}
         env:
@@ -394,6 +394,7 @@ jobs:
       
       - name: Deploy Helm chart
         run: |
+          cat ./k8s/helm-chart/conf-secret-test-values.yaml;
           helm upgrade qracun-test ./k8s/helm-chart --install \
           -f ./k8s/helm-chart/test-values.yaml \
           -f ./k8s/helm-chart/conf-secret-test-values.yaml \
