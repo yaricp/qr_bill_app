@@ -309,17 +309,39 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 2
-      
-      - name: Set image vars
+      - name: Check changes in backend/rest_api
+        id: rest_api_changed
+        run: |
+          OUTPUT=$( git diff HEAD\^ HEAD -- backend/rest_api | tail -1) &&
+          echo "::set-output name=OUTPUT::$OUTPUT"
+      - name: Check changes in backend/telegram_bot
+        id: tg_changed
+        run: |
+          OUTPUT=$( git diff HEAD\^ HEAD -- backend/tg_bot | tail -1) &&
+          echo "::set-output name=OUTPUT::$OUTPUT"
+      - name: Check changes in frontend
+        id: frontend_changes
+        run: |
+          OUTPUT=$( git diff HEAD\^ HEAD -- frontend | tail -1) &&
+          echo "::set-output name=OUTPUT::$OUTPUT"
+      - name: Set API image vars
+        if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         run: |
           SHORT_SHA=${GITHUB_SHA::8}
           IMAGE_API="${NAME_IMAGE_API}:$SHORT_SHA"
           echo "NAME_IMAGE_API=$IMAGE_API" >> $GITHUB_ENV
+      - name: Set frontend image vars
+        if: ${{ (steps.frontend_changes.outputs.OUTPUT != '') }}
+        run: |
+          SHORT_SHA=${GITHUB_SHA::8}    
           IMAGE_FRONTEND="${NAME_IMAGE_FRONTEND}:$SHORT_SHA"
           echo "NAME_IMAGE_FRONTEND=$IMAGE_FRONTEND" >> $GITHUB_ENV
+      - name: Set tg-bot image vars
+        if: ${{ (steps.tg_changed.outputs.OUTPUT != '') }}
+        run: |
+          SHORT_SHA=${GITHUB_SHA::8}
           IMAGE_TELEGRAM_BOT="${NAME_IMAGE_TELEGRAM_BOT}:$SHORT_SHA"
           echo "NAME_IMAGE_TELEGRAM_BOT=$IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV
-      
       - name: Create imagePullSecret for GHCR
         run: |
           kubectl delete secret ghcr-secret --ignore-not-found
@@ -328,7 +350,6 @@ jobs:
             --docker-username=${{ github.actor }} \
             --docker-password=${{ secrets.PAT_RUNNER }} \
             --docker-email=yaricp@gmail.com
-      
       - name: Prepare config and secrets for helm
         env:
           DEBUG: ${{ vars.DEBUG }}
@@ -386,7 +407,6 @@ jobs:
           MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
         run: |
           envsubst < ./k8s/helm-chart/conf-secret.yaml.temp > ./k8s/helm-chart/conf-secret-test-values.yaml
-      
       - name: Deploy Helm chart
         run: |
           cat ./k8s/helm-chart/conf-secret-test-values.yaml;
@@ -397,5 +417,3 @@ jobs:
           --set api.image=${{ env.NAME_IMAGE_API }} \
           --set frontend.image=${{ env.NAME_IMAGE_FRONTEND }} \
           --set tgBot.image=${{ env.NAME_IMAGE_TELEGRAM_BOT }}
-          
-          
