@@ -24,6 +24,8 @@ COPY /scripts /scripts
 COPY start.sh /
 COPY ./grpc_proto /grpc_proto
 
+RUN ls -la /grpc_proto
+
 RUN chmod +x /start.sh
 RUN chmod +x /scripts/*
 

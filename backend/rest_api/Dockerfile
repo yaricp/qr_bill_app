@@ -26,6 +26,8 @@ COPY /scripts /scripts
 
 COPY ./grpc_proto /grpc_proto
 
+RUN ls -la /grpc_proto
+
 COPY start.sh /
 COPY start_grpc_server.py /
 
