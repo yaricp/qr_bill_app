@@ -401,6 +401,6 @@ jobs:
           --set api.image=${{ env.NAME_IMAGE_API }} \
           --set frontend.image=${{ env.NAME_IMAGE_FRONTEND }} \
           --set tgBot.image=${{ env.NAME_IMAGE_TELEGRAM_BOT }} \
-          --set config.TELEGRAM_LANGUAGES="${{ vars.TELEGRAM_LANGUAGES }}"
+          --set config.TELEGRAM_LANGUAGES='${{ vars.TELEGRAM_LANGUAGES }}'
           
           
