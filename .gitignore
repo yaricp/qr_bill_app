@@ -1,7 +1,7 @@
 # **/versions/
 **/emailer/
 *.py[cod]
-**secret.yaml
+# **secret.yaml
 
 # C extensions
 *.so

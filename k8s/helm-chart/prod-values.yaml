@@ -123,7 +123,7 @@ imagePullSecrets:
 # ==========================
 # ConfigMaps and Secrets
 # ==========================
-configMaps:
+config:
   name: qracun-config
 
 secrets:

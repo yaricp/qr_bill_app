@@ -121,6 +121,15 @@ imagePullSecrets:
   - name: ghcr-secret
 
 # ==========================
+# ConfigMaps and Secrets
+# ==========================
+config:
+  name: qracun-config
+
+secrets:
+  name: qracun-secret
+  
+# ==========================
 # Cert-Manager / TLS
 # ==========================
 certManager:
