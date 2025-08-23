@@ -150,3 +150,11 @@ mailTemplatesNFS:
   storage: 5Mi
   server: 10.1.166.0   # IP вашей виртуалки
   path: /exports/k8s/test_email_templates
+
+# ==========================
+# ghcr-secret
+# ==========================
+ghcr:
+  username: ""
+  password: ""
+  email: ""

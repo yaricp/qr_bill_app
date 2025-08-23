@@ -342,14 +342,6 @@ jobs:
           SHORT_SHA=${GITHUB_SHA::8}
           IMAGE_TELEGRAM_BOT="${NAME_IMAGE_TELEGRAM_BOT}:$SHORT_SHA"
           echo "NAME_IMAGE_TELEGRAM_BOT=$IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV
-      - name: Create imagePullSecret for GHCR
-        run: |
-          kubectl delete secret ghcr-secret --ignore-not-found
-          kubectl create secret docker-registry ghcr-secret \
-            --docker-server=ghcr.io \
-            --docker-username=${{ github.actor }} \
-            --docker-password=${{ secrets.PAT_RUNNER }} \
-            --docker-email=yaricp@gmail.com
       - name: Prepare config and secrets for helm
         env:
           DEBUG: ${{ vars.DEBUG }}
@@ -414,6 +406,9 @@ jobs:
           -f ./k8s/helm-chart/test-values.yaml \
           -f ./k8s/helm-chart/conf-secret-test-values.yaml \
           -n qracun-test --create-namespace \
+          --set ghcr.username=${{ github.actor }} \
+          --set ghcr.password=${{ secrets.PAT_RUNNER }} \
+          --set ghcr.email=yaricp@gmail.com \
           --set api.image=${{ env.NAME_IMAGE_API }} \
           --set frontend.image=${{ env.NAME_IMAGE_FRONTEND }} \
           --set tgBot.image=${{ env.NAME_IMAGE_TELEGRAM_BOT }}
