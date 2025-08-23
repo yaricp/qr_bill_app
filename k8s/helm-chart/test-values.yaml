@@ -126,10 +126,10 @@ config:
   ALLOW_ORIGINS: 
     - https://test.qracun.me
   ALLOW_HEADERS:
-    - *
+    - "*"
   ALLOW_CREDENTIALS: true
   ALLOW_METHODS:
-    - *
+    - "*"
 
 secrets:
   name: qracun-secret
