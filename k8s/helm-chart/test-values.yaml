@@ -120,6 +120,9 @@ imagePullSecrets:
 # ==========================
 config:
   name: qracun-config
+  TELEGRAM_LANGUAGES:
+    - en
+    - ru
 
 secrets:
   name: qracun-secret

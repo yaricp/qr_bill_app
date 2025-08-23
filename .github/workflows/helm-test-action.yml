@@ -362,7 +362,6 @@ jobs:
           ALLOW_CREDENTIALS: ${{ vars.ALLOW_CREDENTIALS }}
           ALLOW_METHODS: ${{ vars.ALLOW_METHODS }}
           PGADMIN_DEFAULT_EMAIL: ${{ vars.PGADMIN_DEFAULT_EMAIL }}
-          TELEGRAM_LANGUAGES: ${{ vars.TELEGRAM_LANGUAGES }}
           TELEGRAM_BOT_DEFAULT_LANG: ${{ vars.TELEGRAM_BOT_DEFAULT_LANG }}
           TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
           TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
@@ -400,7 +399,6 @@ jobs:
           -n qracun-test --create-namespace \
           --set api.image=${{ env.NAME_IMAGE_API }} \
           --set frontend.image=${{ env.NAME_IMAGE_FRONTEND }} \
-          --set tgBot.image=${{ env.NAME_IMAGE_TELEGRAM_BOT }} \
-          --set config.TELEGRAM_LANGUAGES='${{ vars.TELEGRAM_LANGUAGES }}'
+          --set tgBot.image=${{ env.NAME_IMAGE_TELEGRAM_BOT }}
           
           
