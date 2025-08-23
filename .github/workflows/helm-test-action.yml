@@ -397,16 +397,16 @@ jobs:
           --set-string secrets.POSTGRES_HOST=${{ vars.DATABASE_HOST }} \
           --set-string secrets.POSTGRES_PORT=${{ vars.DATABASE_PORT }} \
           --set-string secrets.POSTGRES_USER=${{ secrets.DATABASE_USER }} \
-          --set-string secrets.POSTGRES_PASSWORD="${{ secrets.DATABASE_PASSWORD }}" \
+          --set-string secrets.POSTGRES_PASSWORD='${{ secrets.DATABASE_PASSWORD }}' \
           --set-string secrets.POSTGRES_DB=${{ vars.DATABASE_NAME }} \
           --set-string secrets.DATABASE_HOST=${{ vars.DATABASE_HOST }} \
           --set-string secrets.DATABASE_PORT=${{ vars.DATABASE_PORT }} \
           --set-string secrets.DATABASE_USER=${{ secrets.DATABASE_USER }} \
-          --set-string secrets.DATABASE_PASSWORD="${{ secrets.DATABASE_PASSWORD }}" \
+          --set-string secrets.DATABASE_PASSWORD='${{ secrets.DATABASE_PASSWORD }}' \
           --set-string secrets.DATABASE_NAME=${{ vars.DATABASE_NAME }} \
-          --set-string secrets.PGADMIN_DEFAULT_PASSWORD="${{ secrets.PGADMIN_DEFAULT_PASSWORD }}" \
+          --set-string secrets.PGADMIN_DEFAULT_PASSWORD='${{ secrets.PGADMIN_DEFAULT_PASSWORD }}' \
           --set-string secrets.TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} \
           --set-string secrets.SECRET_KEY=${{ secrets.SECRET_KEY }} \
-          --set-string secrets.SMTP_SERVER_PASSWORD=${{ secrets.SMTP_SERVER_PASSWORD }} \
+          --set-string secrets.SMTP_SERVER_PASSWORD='${{ secrets.SMTP_SERVER_PASSWORD }}' \
           --set-string secrets.MAILERSEND_API_KEY=${{ secrets.MAILERSEND_API_KEY }}
           
