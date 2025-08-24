@@ -177,6 +177,7 @@ jobs:
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         run: |
           echo "Pushing image to GHCR";
+          echo "SHA: $SHORT_SHA";
           docker tag $NAME_IMAGE_API:$SHORT_SHA $NAME_IMAGE_API:latest
           docker push $NAME_IMAGE_API:$SHORT_SHA
           docker push $NAME_IMAGE_API:latest
