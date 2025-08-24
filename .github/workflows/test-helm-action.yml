@@ -1,0 +1,439 @@
+name: Build and Deploy Qracun using Helm
+
+on:
+  push:
+    branches:
+      - dev
+
+env:
+  BASE_NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}
+  BASE_NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}
+  BASE_NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}
+     
+jobs:
+  build:
+    name: Build Docker Images
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - name: Set image vars
+        run: |
+          SHORT_SHA=${GITHUB_SHA::8};
+          NEW_IMAGE_API="${BASE_NAME_IMAGE_API}:$SHORT_SHA";
+          OLD_IMAGE_API="${BASE_NAME_IMAGE_API}:latest";
+          echo "NEW_NAME_IMAGE_API=$NEW_IMAGE_API" >> $GITHUB_ENV;
+          echo "OLD_NAME_IMAGE_API=$OLD_IMAGE_API" >> $GITHUB_ENV;
+          NEW_IMAGE_FRONTEND="${BASE_NAME_IMAGE_FRONTEND}:$SHORT_SHA";
+          OLD_IMAGE_FRONTEND="${BASE_NAME_IMAGE_FRONTEND}:latest";
+          echo "NEW_NAME_IMAGE_FRONTEND=$NEW_IMAGE_FRONTEND" >> $GITHUB_ENV;
+          echo "OLD_NAME_IMAGE_FRONTEND=$OLD_IMAGE_FRONTEND" >> $GITHUB_ENV;
+          NEW_IMAGE_TELEGRAM_BOT="${BASE_NAME_IMAGE_TELEGRAM_BOT}:$SHORT_SHA";
+          OLD_IMAGE_TELEGRAM_BOT="${BASE_NAME_IMAGE_TELEGRAM_BOT}:latest";
+          echo "NEW_NAME_IMAGE_TELEGRAM_BOT=$NEW_IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV;
+          echo "OLD_NAME_IMAGE_TELEGRAM_BOT=$OLD_IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV;
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.PAT_RUNNER }}
+      - name: Check changes in backend/rest_api
+        id: rest_api_changed
+        run: |
+          OUTPUT=$( git diff HEAD\^ HEAD -- backend/rest_api | tail -1) &&
+          echo "::set-output name=OUTPUT::$OUTPUT"
+      - name: Check changes in backend/telegram_bot
+        id: tg_changed
+        run: |
+          OUTPUT=$( git diff HEAD\^ HEAD -- backend/tg_bot | tail -1) &&
+          echo "::set-output name=OUTPUT::$OUTPUT"
+      - name: Check changes in frontend
+        id: frontend_changes
+        run: |
+          OUTPUT=$( git diff HEAD\^ HEAD -- frontend | tail -1) &&
+          echo "::set-output name=OUTPUT::$OUTPUT"
+      - name: Build and rest_api image. 
+        if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
+        env:
+          NAME_IMAGE_API: ${{ env.NEW_NAME_IMAGE_API }}
+          DEBUG: ${{ vars.DEBUG }}
+          INSTALL_DEV: ${{ vars.INSTALL_DEV }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          TOKEN_EXPIRY_TIME_HOURS: ${{ vars.TOKEN_EXPIRY_TIME_HOURS }}
+          FISCAL_SERVICE_HOSTNAME: ${{ vars.FISCAL_SERVICE_HOSTNAME }}
+          FISCAL_SERVICE_URI: ${{ vars.FISCAL_SERVICE_URI }}
+          FISCAL_SERVICE_API_URI: ${{ vars.FISCAL_SERVICE_API_URI }}
+          TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${{ vars.TIME_LIFE_TEMP_LOGIN_LINK_MIN }}
+          FRONTEND_APP_LOGIN_LINK_PREFIX: ${{ vars.FRONTEND_APP_LOGIN_LINK_PREFIX }}
+          FRONTEND_APP_VERIFY_LINK_PREFIX: ${{ vars.FRONTEND_APP_VERIFY_LINK_PREFIX }}
+          REST_API_HOST: ${{ vars.REST_API_HOST }}
+          REST_API_PORT: ${{ vars.REST_API_PORT }}
+          REST_API_PREFIX: ${{ vars.REST_API_PREFIX }}
+          REST_API_LOGIN_LINK_URI: ${{ vars.REST_API_LOGIN_LINK_URI }}
+          REST_API_TELEGRAM_BOT_TOKEN: ${{ secrets.REST_API_TELEGRAM_BOT_TOKEN }}
+          REST_API_TELEGRAM_ADMIN_CHAT_ID: ${{ vars.REST_API_TELEGRAM_ADMIN_CHAT_ID }}
+          DATABASE_DIALECT: ${{ vars.DATABASE_DIALECT }}
+          DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
+          DATABASE_HOST: ${{ vars.DATABASE_HOST }}
+          DATABASE_PORT: ${{ vars.DATABASE_PORT }}
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          DATABASE_NAME: ${{ vars.DATABASE_NAME }}
+          DATABASE_ECHO: ${{ vars.DATABASE_ECHO }}
+          DATABASE_POOL_RECYCLE: ${{ vars.DATABASE_POOL_RECYCLE }}
+          DATABASE_POOL_PRE_PING: ${{ vars.DATABASE_POOL_PRE_PING }}
+          DATABASE_AUTO_FLUSH: ${{ vars.DATABASE_AUTO_FLUSH }}
+          DATABASE_EXPIRE_ON_COMMIT: ${{ vars.DATABASE_EXPIRE_ON_COMMIT }}
+          UNICORN_HOST: ${{ vars.UNICORN_HOST }}
+          UNICORN_PORT: ${{ vars.UNICORN_PORT }}
+          UNICORN_LOG_LEVEL: ${{ vars.UNICORN_LOG_LEVEL }}
+          UNICORN_RELOAD: ${{ vars.UNICORN_RELOAD }}
+          UNICORN_WORKERS: ${{ vars.UNICORN_WORKERS }}
+          ALLOW_ORIGINS: ${{ vars.ALLOW_ORIGINS }}
+          ALLOW_HEADERS: ${{ vars.ALLOW_HEADERS }}
+          ALLOW_CREDENTIALS: ${{ vars.ALLOW_CREDENTIALS }}
+          ALLOW_METHODS: ${{ vars.ALLOW_METHODS }}
+          PGADMIN_DEFAULT_EMAIL: ${{ vars.PGADMIN_DEFAULT_EMAIL }}
+          PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
+          TELEGRAM_LANGUAGES: ${{ vars.TELEGRAM_LANGUAGES }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_BOT_DEFAULT_LANG: ${{ vars.TELEGRAM_BOT_DEFAULT_LANG }}
+          TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
+          TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
+          TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
+          TELEGRAM_WEBAPP_ADDRESS: ${{ vars.TELEGRAM_WEBAPP_ADDRESS }}
+          TELEGRAM_QR_PIC_DIR: ${{ vars.TELEGRAM_QR_PIC_DIR }}
+          MASTER_EMAIL: ${{ vars.MASTER_EMAIL }}
+          SMTP_SERVER: ${{ vars.SMTP_SERVER }}
+          SMTP_SERVER_PORT: ${{ vars.SMTP_SERVER_PORT }}
+          SMTP_SERVER_PASSWORD: ${{ secrets.SMTP_SERVER_PASSWORD }}
+          EMAIL_REPLY_TO: ${{ vars.EMAIL_REPLY_TO }}
+          MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
+        run: |
+          mkdir -p backend/rest_api/grpc_proto;
+          cp backend/grpc_proto/*.proto backend/rest_api/grpc_proto/;
+          ls -la backend/rest_api/grpc_proto;
+          docker compose build api;
+          # docker compose push api;
+      - name: Run unittests for rest_api. 
+        if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
+        env:
+          DEBUG: ${{ vars.DEBUG }}
+          INSTALL_DEV: ${{ vars.INSTALL_DEV }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          TOKEN_EXPIRY_TIME_HOURS: ${{ vars.TOKEN_EXPIRY_TIME_HOURS }}
+          FISCAL_SERVICE_HOSTNAME: ${{ vars.FISCAL_SERVICE_HOSTNAME }}
+          FISCAL_SERVICE_URI: ${{ vars.FISCAL_SERVICE_URI }}
+          FISCAL_SERVICE_API_URI: ${{ vars.FISCAL_SERVICE_API_URI }}
+          TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${{ vars.TIME_LIFE_TEMP_LOGIN_LINK_MIN }}
+          FRONTEND_APP_LOGIN_LINK_PREFIX: ${{ vars.FRONTEND_APP_LOGIN_LINK_PREFIX }}
+          FRONTEND_APP_VERIFY_LINK_PREFIX: ${{ vars.FRONTEND_APP_VERIFY_LINK_PREFIX }}
+          REST_API_HOST: ${{ vars.REST_API_HOST }}
+          REST_API_PORT: ${{ vars.REST_API_PORT }}
+          REST_API_PREFIX: ${{ vars.REST_API_PREFIX }}
+          REST_API_LOGIN_LINK_URI: ${{ vars.REST_API_LOGIN_LINK_URI }}
+          REST_API_TELEGRAM_BOT_TOKEN: ${{ secrets.REST_API_TELEGRAM_BOT_TOKEN }}
+          REST_API_TELEGRAM_ADMIN_CHAT_ID: ${{ vars.REST_API_TELEGRAM_ADMIN_CHAT_ID }}
+          DATABASE_DIALECT: ${{ vars.DATABASE_DIALECT }}
+          DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
+          DATABASE_HOST: ${{ vars.DATABASE_HOST }}
+          DATABASE_PORT: ${{ vars.DATABASE_PORT }}
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          DATABASE_NAME: ${{ vars.DATABASE_NAME }}
+          DATABASE_ECHO: ${{ vars.DATABASE_ECHO }}
+          DATABASE_POOL_RECYCLE: ${{ vars.DATABASE_POOL_RECYCLE }}
+          DATABASE_POOL_PRE_PING: ${{ vars.DATABASE_POOL_PRE_PING }}
+          DATABASE_AUTO_FLUSH: ${{ vars.DATABASE_AUTO_FLUSH }}
+          DATABASE_EXPIRE_ON_COMMIT: ${{ vars.DATABASE_EXPIRE_ON_COMMIT }}
+          UNICORN_HOST: ${{ vars.UNICORN_HOST }}
+          UNICORN_PORT: ${{ vars.UNICORN_PORT }}
+          UNICORN_LOG_LEVEL: ${{ vars.UNICORN_LOG_LEVEL }}
+          UNICORN_RELOAD: ${{ vars.UNICORN_RELOAD }}
+          UNICORN_WORKERS: ${{ vars.UNICORN_WORKERS }}
+          ALLOW_ORIGINS: ${{ vars.ALLOW_ORIGINS }}
+          ALLOW_HEADERS: ${{ vars.ALLOW_HEADERS }}
+          ALLOW_CREDENTIALS: ${{ vars.ALLOW_CREDENTIALS }}
+          ALLOW_METHODS: ${{ vars.ALLOW_METHODS }}
+          PGADMIN_DEFAULT_EMAIL: ${{ vars.PGADMIN_DEFAULT_EMAIL }}
+          PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
+          TELEGRAM_LANGUAGES: ${{ vars.TELEGRAM_LANGUAGES }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_BOT_DEFAULT_LANG: ${{ vars.TELEGRAM_BOT_DEFAULT_LANG }}
+          TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
+          TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
+          TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
+          TELEGRAM_WEBAPP_ADDRESS: ${{ vars.TELEGRAM_WEBAPP_ADDRESS }}
+          TELEGRAM_QR_PIC_DIR: ${{ vars.TELEGRAM_QR_PIC_DIR }}
+          MASTER_EMAIL: ${{ vars.MASTER_EMAIL }}
+          SMTP_SERVER: ${{ vars.SMTP_SERVER }}
+          SMTP_SERVER_PORT: ${{ vars.SMTP_SERVER_PORT }}
+          SMTP_SERVER_PASSWORD: ${{ secrets.SMTP_SERVER_PASSWORD }}
+          EMAIL_REPLY_TO: ${{ vars.EMAIL_REPLY_TO }}
+          MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
+        run: |
+          echo "Testing";
+          # docker compose up -d;
+          # docker compose exec -T api poetry run pytest tests/api;
+          # docker compose down;
+      - name: Push image api to GHCR if tests passed
+        if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
+        run: |
+          echo "Pushing image to GHCR";
+          echo "SHA: $SHORT_SHA";
+          echo "api new image: $NEW_NAME_IMAGE_API";
+          echo "api old image: $OLD_NAME_IMAGE_API";
+          docker tag $NEW_NAME_IMAGE_API $OLD_NAME_IMAGE_API
+          docker push $NEW_NAME_IMAGE_API
+          docker push $OLD_NAME_IMAGE_API
+      - name: Build and push image tg
+        if: ${{ (steps.tg_changed.outputs.OUTPUT != '') }}
+        env:
+          NAME_IMAGE_TELEGRAM_BOT: ${{ env.NEW_NAME_IMAGE_TELEGRAM_BOT }}
+          DEBUG: ${{ vars.DEBUG }}
+          INSTALL_DEV: ${{ vars.INSTALL_DEV }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          TOKEN_EXPIRY_TIME_HOURS: ${{ vars.TOKEN_EXPIRY_TIME_HOURS }}
+          FISCAL_SERVICE_HOSTNAME: ${{ vars.FISCAL_SERVICE_HOSTNAME }}
+          FISCAL_SERVICE_URI: ${{ vars.FISCAL_SERVICE_URI }}
+          FISCAL_SERVICE_API_URI: ${{ vars.FISCAL_SERVICE_API_URI }}
+          TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${{ vars.TIME_LIFE_TEMP_LOGIN_LINK_MIN }}
+          FRONTEND_APP_LOGIN_LINK_PREFIX: ${{ vars.FRONTEND_APP_LOGIN_LINK_PREFIX }}
+          FRONTEND_APP_VERIFY_LINK_PREFIX: ${{ vars.FRONTEND_APP_VERIFY_LINK_PREFIX }}
+          REST_API_HOST: ${{ vars.REST_API_HOST }}
+          REST_API_PORT: ${{ vars.REST_API_PORT }}
+          REST_API_PREFIX: ${{ vars.REST_API_PREFIX }}
+          REST_API_LOGIN_LINK_URI: ${{ vars.REST_API_LOGIN_LINK_URI }}
+          REST_API_TELEGRAM_BOT_TOKEN: ${{ secrets.REST_API_TELEGRAM_BOT_TOKEN }}
+          REST_API_TELEGRAM_ADMIN_CHAT_ID: ${{ vars.REST_API_TELEGRAM_ADMIN_CHAT_ID }}
+          DATABASE_DIALECT: ${{ vars.DATABASE_DIALECT }}
+          DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
+          DATABASE_HOST: ${{ vars.DATABASE_HOST }}
+          DATABASE_PORT: ${{ vars.DATABASE_PORT }}
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          DATABASE_NAME: ${{ vars.DATABASE_NAME }}
+          DATABASE_ECHO: ${{ vars.DATABASE_ECHO }}
+          DATABASE_POOL_RECYCLE: ${{ vars.DATABASE_POOL_RECYCLE }}
+          DATABASE_POOL_PRE_PING: ${{ vars.DATABASE_POOL_PRE_PING }}
+          DATABASE_AUTO_FLUSH: ${{ vars.DATABASE_AUTO_FLUSH }}
+          DATABASE_EXPIRE_ON_COMMIT: ${{ vars.DATABASE_EXPIRE_ON_COMMIT }}
+          UNICORN_HOST: ${{ vars.UNICORN_HOST }}
+          UNICORN_PORT: ${{ vars.UNICORN_PORT }}
+          UNICORN_LOG_LEVEL: ${{ vars.UNICORN_LOG_LEVEL }}
+          UNICORN_RELOAD: ${{ vars.UNICORN_RELOAD }}
+          UNICORN_WORKERS: ${{ vars.UNICORN_WORKERS }}
+          ALLOW_ORIGINS: ${{ vars.ALLOW_ORIGINS }}
+          ALLOW_HEADERS: ${{ vars.ALLOW_HEADERS }}
+          ALLOW_CREDENTIALS: ${{ vars.ALLOW_CREDENTIALS }}
+          ALLOW_METHODS: ${{ vars.ALLOW_METHODS }}
+          PGADMIN_DEFAULT_EMAIL: ${{ vars.PGADMIN_DEFAULT_EMAIL }}
+          PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
+          TELEGRAM_LANGUAGES: ${{ vars.TELEGRAM_LANGUAGES }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_BOT_DEFAULT_LANG: ${{ vars.TELEGRAM_BOT_DEFAULT_LANG }}
+          TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
+          TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
+          TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
+          TELEGRAM_WEBAPP_ADDRESS: ${{ vars.TELEGRAM_WEBAPP_ADDRESS }}
+          TELEGRAM_QR_PIC_DIR: ${{ vars.TELEGRAM_QR_PIC_DIR }}
+          MASTER_EMAIL: ${{ vars.MASTER_EMAIL }}
+          SMTP_SERVER: ${{ vars.SMTP_SERVER }}
+          SMTP_SERVER_PORT: ${{ vars.SMTP_SERVER_PORT }}
+          SMTP_SERVER_PASSWORD: ${{ secrets.SMTP_SERVER_PASSWORD }}
+          EMAIL_REPLY_TO: ${{ vars.EMAIL_REPLY_TO }}
+          MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
+        run: |
+          mkdir -p backend/tg_bot/grpc_proto;
+          cp backend/grpc_proto/*.proto backend/tg_bot/grpc_proto/;
+          ls -la backend/tg_bot/grpc_proto;
+          docker compose build tg;
+          docker tag $NEW_NAME_IMAGE_TELEGRAM_BOT $OLD_NAME_IMAGE_TELEGRAM_BOT;
+          docker push $NEW_NAME_IMAGE_TELEGRAM_BOT;
+          docker push $OLD_NAME_IMAGE_TELEGRAM_BOT;
+      - name: Build and push image front 
+        if: ${{ (steps.frontend_changes.outputs.OUTPUT != '') }}
+        env:
+          NAME_IMAGE_FRONTEND: ${{ env.NEW_NAME_IMAGE_FRONTEND }}
+          DEBUG: ${{ vars.DEBUG }}
+          INSTALL_DEV: ${{ vars.INSTALL_DEV }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          TOKEN_EXPIRY_TIME_HOURS: ${{ vars.TOKEN_EXPIRY_TIME_HOURS }}
+          FISCAL_SERVICE_HOSTNAME: ${{ vars.FISCAL_SERVICE_HOSTNAME }}
+          FISCAL_SERVICE_URI: ${{ vars.FISCAL_SERVICE_URI }}
+          FISCAL_SERVICE_API_URI: ${{ vars.FISCAL_SERVICE_API_URI }}
+          TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${{ vars.TIME_LIFE_TEMP_LOGIN_LINK_MIN }}
+          FRONTEND_APP_LOGIN_LINK_PREFIX: ${{ vars.FRONTEND_APP_LOGIN_LINK_PREFIX }}
+          FRONTEND_APP_VERIFY_LINK_PREFIX: ${{ vars.FRONTEND_APP_VERIFY_LINK_PREFIX }}
+          REST_API_HOST: ${{ vars.REST_API_HOST }}
+          REST_API_PORT: ${{ vars.REST_API_PORT }}
+          REST_API_PREFIX: ${{ vars.REST_API_PREFIX }}
+          REST_API_LOGIN_LINK_URI: ${{ vars.REST_API_LOGIN_LINK_URI }}
+          REST_API_TELEGRAM_BOT_TOKEN: ${{ secrets.REST_API_TELEGRAM_BOT_TOKEN }}
+          REST_API_TELEGRAM_ADMIN_CHAT_ID: ${{ vars.REST_API_TELEGRAM_ADMIN_CHAT_ID }}
+          DATABASE_DIALECT: ${{ vars.DATABASE_DIALECT }}
+          DATABASE_DRIVER: ${{ vars.DATABASE_DRIVER }}
+          DATABASE_HOST: ${{ vars.DATABASE_HOST }}
+          DATABASE_PORT: ${{ vars.DATABASE_PORT }}
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          DATABASE_NAME: ${{ vars.DATABASE_NAME }}
+          DATABASE_ECHO: ${{ vars.DATABASE_ECHO }}
+          DATABASE_POOL_RECYCLE: ${{ vars.DATABASE_POOL_RECYCLE }}
+          DATABASE_POOL_PRE_PING: ${{ vars.DATABASE_POOL_PRE_PING }}
+          DATABASE_AUTO_FLUSH: ${{ vars.DATABASE_AUTO_FLUSH }}
+          DATABASE_EXPIRE_ON_COMMIT: ${{ vars.DATABASE_EXPIRE_ON_COMMIT }}
+          UNICORN_HOST: ${{ vars.UNICORN_HOST }}
+          UNICORN_PORT: ${{ vars.UNICORN_PORT }}
+          UNICORN_LOG_LEVEL: ${{ vars.UNICORN_LOG_LEVEL }}
+          UNICORN_RELOAD: ${{ vars.UNICORN_RELOAD }}
+          UNICORN_WORKERS: ${{ vars.UNICORN_WORKERS }}
+          ALLOW_ORIGINS: ${{ vars.ALLOW_ORIGINS }}
+          ALLOW_HEADERS: ${{ vars.ALLOW_HEADERS }}
+          ALLOW_CREDENTIALS: ${{ vars.ALLOW_CREDENTIALS }}
+          ALLOW_METHODS: ${{ vars.ALLOW_METHODS }}
+          PGADMIN_DEFAULT_EMAIL: ${{ vars.PGADMIN_DEFAULT_EMAIL }}
+          PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
+          TELEGRAM_LANGUAGES: ${{ vars.TELEGRAM_LANGUAGES }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_BOT_DEFAULT_LANG: ${{ vars.TELEGRAM_BOT_DEFAULT_LANG }}
+          TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
+          TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
+          TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
+          TELEGRAM_WEBAPP_ADDRESS: ${{ vars.TELEGRAM_WEBAPP_ADDRESS }}
+          VUE_APP_ENV: ${{ vars.VUE_APP_ENV }}
+          VUE_APP_THIS_HOST_API: ${{ vars.VUE_APP_THIS_HOST_API }}
+          VUE_APP_PREFIX: ${{ vars.VUE_APP_PREFIX }}
+          VUE_APP_API_PROD: ${{ vars.VUE_APP_API_PROD }}
+          VUE_APP_API_STAG: ${{ vars.VUE_APP_API_STAG }}
+          VUE_APP_API_DEV: ${{ vars.VUE_APP_API_DEV }}
+          TELEGRAM_QR_PIC_DIR: ${{ vars.TELEGRAM_QR_PIC_DIR }}
+          MASTER_EMAIL: ${{ vars.MASTER_EMAIL }}
+          SMTP_SERVER: ${{ vars.SMTP_SERVER }}
+          SMTP_SERVER_PORT: ${{ vars.SMTP_SERVER_PORT }}
+          SMTP_SERVER_PASSWORD: ${{ secrets.SMTP_SERVER_PASSWORD }}
+          EMAIL_REPLY_TO: ${{ vars.EMAIL_REPLY_TO }}
+          MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
+        run: |
+          docker compose build front;
+          docker tag $NEW_NAME_IMAGE_FRONTEND $OLD_NAME_IMAGE_FRONTEND;
+          docker push $NEW_NAME_IMAGE_FRONTEND;
+          docker push $OLD_NAME_IMAGE_FRONTEND
+
+  deploy:
+    name: Deploy to MicroK8s via Self-hosted Runner
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+      - name: Check changes in backend/rest_api
+        id: rest_api_changed
+        run: |
+          OUTPUT=$( git diff HEAD\^ HEAD -- backend/rest_api | tail -1) &&
+          echo "::set-output name=OUTPUT::$OUTPUT"
+      - name: Check changes in backend/telegram_bot
+        id: tg_changed
+        run: |
+          OUTPUT=$( git diff HEAD\^ HEAD -- backend/tg_bot | tail -1) &&
+          echo "::set-output name=OUTPUT::$OUTPUT"
+      - name: Check changes in frontend
+        id: frontend_changes
+        run: |
+          OUTPUT=$( git diff HEAD\^ HEAD -- frontend | tail -1) &&
+          echo "::set-output name=OUTPUT::$OUTPUT"
+      - name: Set image names for helm
+        run: |
+          SHORT_SHA=${GITHUB_SHA::8}
+
+          if [ "${{ steps.rest_api_changed.outputs.OUTPUT }}" != "" ]; then
+            IMAGE_API="${BASE_NAME_IMAGE_API}:$SHORT_SHA";
+          else
+            IMAGE_API=$(kubectl get configmap qracun-config -n qracun-test -o jsonpath='{.data.api_image}');
+            # IMAGE_API="${BASE_NAME_IMAGE_API}:latest";
+          fi
+          echo "NAME_IMAGE_API=$IMAGE_API" >> $GITHUB_ENV;
+
+          if [ "${{ steps.frontend_changed.outputs.OUTPUT }}" != "" ]; then
+            IMAGE_FRONTEND="${BASE_NAME_IMAGE_FRONTEND}:$SHORT_SHA"
+          else
+            IMAGE_FRONTEND=$(kubectl get configmap qracun-config -n qracun-test -o jsonpath='{.data.frontend_image}');
+            # IMAGE_FRONTEND="${BASE_NAME_IMAGE_FRONTEND}:latest";
+          fi
+          echo "NAME_IMAGE_FRONTEND=$IMAGE_FRONTEND" >> $GITHUB_ENV;
+
+          if [ "${{ steps.telegram_bot_changed.outputs.OUTPUT }}" != "" ]; then
+            IMAGE_TELEGRAM_BOT="${BASE_NAME_IMAGE_TELEGRAM_BOT}:$SHORT_SHA"
+          else
+            IMAGE_TELEGRAM_BOT=$(kubectl get configmap qracun-config -n qracun-test -o jsonpath='{.data.tgBot_image}');
+            # IMAGE_TELEGRAM_BOT="${BASE_NAME_IMAGE_TELEGRAM_BOT}:latest";
+          fi
+          echo "NAME_IMAGE_TELEGRAM_BOT=$IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV;
+      - name: Prepare config and secrets for helm
+        env:
+          DEBUG: ${{ vars.DEBUG }}
+          INSTALL_DEV: ${{ vars.INSTALL_DEV }}
+          TOKEN_EXPIRY_TIME_HOURS: ${{ vars.TOKEN_EXPIRY_TIME_HOURS }}
+          FISCAL_SERVICE_HOSTNAME: ${{ vars.FISCAL_SERVICE_HOSTNAME }}
+          FISCAL_SERVICE_URI: ${{ vars.FISCAL_SERVICE_URI }}
+          FISCAL_SERVICE_API_URI: ${{ vars.FISCAL_SERVICE_API_URI }}
+          TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${{ vars.TIME_LIFE_TEMP_LOGIN_LINK_MIN }}
+          FRONTEND_APP_LOGIN_LINK_PREFIX: ${{ vars.FRONTEND_APP_LOGIN_LINK_PREFIX }}
+          FRONTEND_APP_VERIFY_LINK_PREFIX: ${{ vars.FRONTEND_APP_VERIFY_LINK_PREFIX }}
+          REST_API_HOST: ${{ vars.REST_API_HOST }}
+          REST_API_PORT: ${{ vars.REST_API_PORT }}
+          REST_API_PREFIX: ${{ vars.REST_API_PREFIX }}
+          REST_API_LOGIN_LINK_URI: ${{ vars.REST_API_LOGIN_LINK_URI }}
+          REST_API_TELEGRAM_ADMIN_CHAT_ID: ${{ vars.REST_API_TELEGRAM_ADMIN_CHAT_ID }}
+          UNICORN_HOST: ${{ vars.UNICORN_HOST }}
+          UNICORN_PORT: ${{ vars.UNICORN_PORT }}
+          UNICORN_LOG_LEVEL: ${{ vars.UNICORN_LOG_LEVEL }}
+          UNICORN_RELOAD: ${{ vars.UNICORN_RELOAD }}
+          UNICORN_WORKERS: ${{ vars.UNICORN_WORKERS }}
+          PGADMIN_DEFAULT_EMAIL: ${{ vars.PGADMIN_DEFAULT_EMAIL }}
+          TELEGRAM_BOT_DEFAULT_LANG: ${{ vars.TELEGRAM_BOT_DEFAULT_LANG }}
+          TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
+          TELEGRAM_GRPC_HOST: ${{ vars.TELEGRAM_GRPC_HOST }}
+          TELEGRAM_GRPC_PORT: ${{ vars.TELEGRAM_GRPC_PORT }}
+          TELEGRAM_WEBAPP_ADDRESS: ${{ vars.TELEGRAM_WEBAPP_ADDRESS }}
+          TELEGRAM_QR_PIC_DIR: ${{ vars.TELEGRAM_QR_PIC_DIR }}
+          MASTER_EMAIL: ${{ vars.MASTER_EMAIL }}
+          SMTP_SERVER: ${{ vars.SMTP_SERVER }}
+          SMTP_SERVER_PORT: ${{ vars.SMTP_SERVER_PORT }}
+          EMAIL_REPLY_TO: ${{ vars.EMAIL_REPLY_TO }}
+          POSTGRES_HOST: ${{ vars.DATABASE_HOST }}
+          POSTGRES_PORT: ${{ vars.DATABASE_PORT }}
+          POSTGRES_USER: ${{ secrets.DATABASE_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          POSTGRES_DB: ${{ vars.DATABASE_NAME }}
+          DATABASE_HOST: ${{ vars.DATABASE_HOST }}
+          DATABASE_PORT: ${{ vars.DATABASE_PORT }}
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          DATABASE_NAME: ${{ vars.DATABASE_NAME }}
+          PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          REST_API_TELEGRAM_BOT_TOKEN: ${{ secrets.REST_API_TELEGRAM_BOT_TOKEN }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          SMTP_SERVER_PASSWORD: ${{ secrets.SMTP_SERVER_PASSWORD }}
+          MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
+        run: |
+          envsubst < ./k8s/helm-chart/conf-secret.yaml.temp > ./k8s/helm-chart/conf-secret-test-values.yaml
+      - name: Deploy Helm chart
+        run: |
+          cat ./k8s/helm-chart/conf-secret-test-values.yaml;
+          helm upgrade qracun-test ./k8s/helm-chart --install \
+          -f ./k8s/helm-chart/test-values.yaml \
+          -f ./k8s/helm-chart/conf-secret-test-values.yaml \
+          -n qracun-test --create-namespace \
+          --set ghcr.username=${{ github.actor }} \
+          --set ghcr.password=${{ secrets.PAT_RUNNER }} \
+          --set ghcr.email=yaricp@gmail.com \
+          --set api.image=${{ env.NAME_IMAGE_API }} \
+          --set frontend.image=${{ env.NAME_IMAGE_FRONTEND }} \
+          --set tgBot.image=${{ env.NAME_IMAGE_TELEGRAM_BOT }}
