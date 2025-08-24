@@ -1,0 +1,40 @@
+grafana:
+  enabled: true
+  adminUser: admin
+  adminPassword: admin
+  service:
+    type: ClusterIP
+  ingress:
+    enabled: false
+
+loki:
+  enabled: true
+  persistence:
+    enabled: true
+    size: 5Gi
+  config:
+    table_manager:
+      retention_deletes_enabled: true
+      retention_period: 168h
+
+promtail:
+  enabled: true
+  config:
+    clients:
+      - url: http://loki:3100/loki/api/v1/push  # адрес Loki сервиса внутри кластера
+    positions:
+      filename: /tmp/positions.yaml  # файл для хранения позиции чтения логов
+    scrape_configs:
+      - job_name: kubernetes-pods
+        kubernetes_sd_configs:
+          - role: pod
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_namespace]
+            target_label: namespace
+          - source_labels: [__meta_kubernetes_pod_name]
+            target_label: pod
+          - source_labels: [__meta_kubernetes_pod_label_app]
+            target_label: app
+          - action: replace
+            source_labels: [__meta_kubernetes_pod_container_name]
+            target_label: container

@@ -418,10 +418,19 @@ jobs:
           helm upgrade qracun-test ./k8s/helm-chart --install \
           -f ./k8s/helm-chart/test-values.yaml \
           -f ./k8s/helm-chart/conf-secret-test-values.yaml \
-          -n qracun-test --create-namespace \
+          -n $NAMESPACE --create-namespace \
           --set ghcr.username=${{ github.actor }} \
           --set ghcr.password=${{ secrets.PAT_RUNNER }} \
           --set ghcr.email=yaricp@gmail.com \
           --set api.image=${{ env.NAME_IMAGE_API }} \
           --set frontend.image=${{ env.NAME_IMAGE_FRONTEND }} \
           --set tgBot.image=${{ env.NAME_IMAGE_TELEGRAM_BOT }}
+      - name: Helm logging dependency update
+        run: |
+          helm dependency update k8s/helm-chart/infrastructure/logging
+      - name: Deploy Logging Stack
+        run: |
+          helm upgrade --install logging \
+            k8s/helm-chart/infrastructure/logging \
+            -n $NAMESPACE --create-namespace \
+            -f k8s/helm-chart/infrastructure/logging/values.yaml
