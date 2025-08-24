@@ -359,16 +359,16 @@ jobs:
           echo "NAME_IMAGE_API=$IMAGE_API" >> $GITHUB_ENV;
 
           if [ "${{ steps.frontend_changed.outputs.OUTPUT }}" != "" ]; then
-            IMAGE_FRONTEND="${NAME_IMAGE_FRONTEND}:$SHORT_SHA"
+            IMAGE_FRONTEND="${BASE_NAME_IMAGE_FRONTEND}:$SHORT_SHA"
           else
-            IMAGE_FRONTEND="${NAME_IMAGE_FRONTEND}:latest";
+            IMAGE_FRONTEND="${BASE_NAME_IMAGE_FRONTEND}:latest";
           fi
           echo "NAME_IMAGE_FRONTEND=$IMAGE_FRONTEND" >> $GITHUB_ENV;
 
           if [ "${{ steps.telegram_bot_changed.outputs.OUTPUT }}" != "" ]; then
-            IMAGE_TELEGRAM_BOT="${NAME_IMAGE_TELEGRAM_BOT}:$SHORT_SHA"
+            IMAGE_TELEGRAM_BOT="${BASE_NAME_IMAGE_TELEGRAM_BOT}:$SHORT_SHA"
           else
-            IMAGE_TELEGRAM_BOT="${NAME_IMAGE_TELEGRAM_BOT}:latest";
+            IMAGE_TELEGRAM_BOT="${BASE_NAME_IMAGE_TELEGRAM_BOT}:latest";
           fi
           echo "NAME_IMAGE_TELEGRAM_BOT=$IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV;
       - name: Prepare config and secrets for helm
