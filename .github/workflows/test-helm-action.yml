@@ -183,13 +183,7 @@ jobs:
       - name: Push image api to GHCR if tests passed
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         run: |
-          echo "Pushing image to GHCR";
-          echo "SHA: $SHORT_SHA";
-          echo "api new image: $NEW_NAME_IMAGE_API";
-          echo "api old image: $OLD_NAME_IMAGE_API";
-          docker tag $NEW_NAME_IMAGE_API $OLD_NAME_IMAGE_API
-          docker push $NEW_NAME_IMAGE_API
-          docker push $OLD_NAME_IMAGE_API
+          docker compose push api;
       - name: Build and push image tg
         if: ${{ (steps.tg_changed.outputs.OUTPUT != '') }}
         env:
@@ -252,9 +246,7 @@ jobs:
           cp backend/grpc_proto/*.proto backend/tg_bot/grpc_proto/;
           ls -la backend/tg_bot/grpc_proto;
           docker compose build tg;
-          docker tag $NEW_NAME_IMAGE_TELEGRAM_BOT $OLD_NAME_IMAGE_TELEGRAM_BOT;
-          docker push $NEW_NAME_IMAGE_TELEGRAM_BOT;
-          docker push $OLD_NAME_IMAGE_TELEGRAM_BOT;
+          docker compose push tg;
       - name: Build and push image front 
         if: ${{ (steps.frontend_changes.outputs.OUTPUT != '') }}
         env:
@@ -320,9 +312,7 @@ jobs:
           MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
         run: |
           docker compose build front;
-          docker tag $NEW_NAME_IMAGE_FRONTEND $OLD_NAME_IMAGE_FRONTEND;
-          docker push $NEW_NAME_IMAGE_FRONTEND;
-          docker push $OLD_NAME_IMAGE_FRONTEND
+          docker compose push front;
 
   deploy:
     name: Deploy to MicroK8s via Self-hosted Runner
