@@ -6,6 +6,7 @@ on:
       - dev
 
 env:
+  NAMESPACE: qracun-test
   BASE_NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}
   BASE_NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}
   BASE_NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}
@@ -332,6 +333,14 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 2
+      - name: Set default image names for helm
+        run: |
+          IMAGE_API=$(kubectl get configmap qracun-config -n qracun-test -o jsonpath='{.data.api_image}');
+          echo "NAME_IMAGE_API=$IMAGE_API" >> $GITHUB_ENV;
+          IMAGE_FRONTEND=$(kubectl get configmap qracun-config -n qracun-test -o jsonpath='{.data.frontend_image}');
+          echo "NAME_IMAGE_FRONTEND=$IMAGE_FRONTEND" >> $GITHUB_ENV;
+          IMAGE_TELEGRAM_BOT=$(kubectl get configmap qracun-config -n qracun-test -o jsonpath='{.data.tgBot_image}');
+          echo "NAME_IMAGE_TELEGRAM_BOT=$IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV; 
       - name: Check changes in backend/rest_api
         id: rest_api_changed
         run: |
@@ -346,34 +355,25 @@ jobs:
         id: frontend_changes
         run: |
           OUTPUT=$( git diff HEAD\^ HEAD -- frontend | tail -1) &&
-          echo "::set-output name=OUTPUT::$OUTPUT"
-      - name: Set image names for helm
+          echo "::set-output name=OUTPUT::$OUTPUT"   
+      - name: Set API image names for helm if changes detected
+        if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         run: |
           SHORT_SHA=${GITHUB_SHA::8}
-
-          if [ "${{ steps.rest_api_changed.outputs.OUTPUT }}" != "" ]; then
-            IMAGE_API="${BASE_NAME_IMAGE_API}:$SHORT_SHA";
-          else
-            IMAGE_API=$(kubectl get configmap qracun-config -n qracun-test -o jsonpath='{.data.api_image}');
-            # IMAGE_API="${BASE_NAME_IMAGE_API}:latest";
-          fi
+          IMAGE_API="${BASE_NAME_IMAGE_API}:$SHORT_SHA";
           echo "NAME_IMAGE_API=$IMAGE_API" >> $GITHUB_ENV;
-
-          if [ "${{ steps.frontend_changed.outputs.OUTPUT }}" != "" ]; then
-            IMAGE_FRONTEND="${BASE_NAME_IMAGE_FRONTEND}:$SHORT_SHA"
-          else
-            IMAGE_FRONTEND=$(kubectl get configmap qracun-config -n qracun-test -o jsonpath='{.data.frontend_image}');
-            # IMAGE_FRONTEND="${BASE_NAME_IMAGE_FRONTEND}:latest";
-          fi
-          echo "NAME_IMAGE_FRONTEND=$IMAGE_FRONTEND" >> $GITHUB_ENV;
-
-          if [ "${{ steps.telegram_bot_changed.outputs.OUTPUT }}" != "" ]; then
-            IMAGE_TELEGRAM_BOT="${BASE_NAME_IMAGE_TELEGRAM_BOT}:$SHORT_SHA"
-          else
-            IMAGE_TELEGRAM_BOT=$(kubectl get configmap qracun-config -n qracun-test -o jsonpath='{.data.tgBot_image}');
-            # IMAGE_TELEGRAM_BOT="${BASE_NAME_IMAGE_TELEGRAM_BOT}:latest";
-          fi
+      - name: Set Telegram Bot image names for helm if changes detected
+        if: ${{ (steps.tg_changed.outputs.OUTPUT != '')}}
+        run: |
+          SHORT_SHA=${GITHUB_SHA::8}
+          IMAGE_TELEGRAM_BOT="${BASE_NAME_IMAGE_TELEGRAM_BOT}:$SHORT_SHA";
           echo "NAME_IMAGE_TELEGRAM_BOT=$IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV;
+      - name: Set Frontend image names for helm if changes detected
+        if: ${{ (steps.frontend_changes.outputs.OUTPUT != '')}}
+        run: |
+          SHORT_SHA=${GITHUB_SHA::8}
+          IMAGE_FRONTEND="${BASE_NAME_IMAGE_FRONTEND}:$SHORT_SHA";
+          echo "NAME_IMAGE_FRONTEND=$IMAGE_FRONTEND" >> $GITHUB_ENV;
       - name: Prepare config and secrets for helm
         env:
           DEBUG: ${{ vars.DEBUG }}
