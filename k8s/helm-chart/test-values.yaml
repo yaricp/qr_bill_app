@@ -158,6 +158,14 @@ mailTemplatesNFS:
   server: 10.1.166.0   # IP вашей виртуалки
   path: /exports/k8s/test_email_templates
 
+# ====================
+# logicBackupNFS
+# ===================
+logicBackupNFS:
+  storage: 3Gi
+  server: 10.1.166.0   # IP вашей виртуалки
+  path: /exports/k8s/test_logic_backups
+
 # ==========================
 # ghcr-secret
 # ==========================

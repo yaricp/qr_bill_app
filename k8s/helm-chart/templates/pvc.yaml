@@ -12,19 +12,6 @@ spec:
 
 ---
 apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: logic-backups
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: microk8s-hostpath
-  resources:
-    requests:
-      storage: {{ .Values.pg.backupPVC.storage }}
-
----
-apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: mail-templates-nfs-pv
