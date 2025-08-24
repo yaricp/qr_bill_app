@@ -58,6 +58,7 @@ jobs:
       - name: Build and rest_api image. 
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         env:
+          NAME_IMAGE_API: ${{ env.NEW_NAME_IMAGE_API }}
           DEBUG: ${{ vars.DEBUG }}
           INSTALL_DEV: ${{ vars.INSTALL_DEV }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -191,6 +192,7 @@ jobs:
       - name: Build and push image tg
         if: ${{ (steps.tg_changed.outputs.OUTPUT != '') }}
         env:
+          NAME_IMAGE_TELEGRAM_BOT: ${{ env.NEW_NAME_IMAGE_TELEGRAM_BOT }}
           DEBUG: ${{ vars.DEBUG }}
           INSTALL_DEV: ${{ vars.INSTALL_DEV }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -255,6 +257,7 @@ jobs:
       - name: Build and push image front 
         if: ${{ (steps.frontend_changes.outputs.OUTPUT != '') }}
         env:
+          NAME_IMAGE_FRONTEND: ${{ env.NEW_NAME_IMAGE_FRONTEND }}
           DEBUG: ${{ vars.DEBUG }}
           INSTALL_DEV: ${{ vars.INSTALL_DEV }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
