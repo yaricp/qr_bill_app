@@ -7,6 +7,7 @@ on:
 
 env:
   NAMESPACE: qracun-test
+  MAIN_CONF_NAME: qracun-config
   BASE_NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}
   BASE_NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}
   BASE_NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}
@@ -23,18 +24,13 @@ jobs:
       - name: Set image vars
         run: |
           SHORT_SHA=${GITHUB_SHA::8};
+          echo "SHORT_SHA=$SHORT_SHA";
           NEW_IMAGE_API="${BASE_NAME_IMAGE_API}:$SHORT_SHA";
-          OLD_IMAGE_API="${BASE_NAME_IMAGE_API}:latest";
           echo "NEW_NAME_IMAGE_API=$NEW_IMAGE_API" >> $GITHUB_ENV;
-          echo "OLD_NAME_IMAGE_API=$OLD_IMAGE_API" >> $GITHUB_ENV;
           NEW_IMAGE_FRONTEND="${BASE_NAME_IMAGE_FRONTEND}:$SHORT_SHA";
-          OLD_IMAGE_FRONTEND="${BASE_NAME_IMAGE_FRONTEND}:latest";
           echo "NEW_NAME_IMAGE_FRONTEND=$NEW_IMAGE_FRONTEND" >> $GITHUB_ENV;
-          echo "OLD_NAME_IMAGE_FRONTEND=$OLD_IMAGE_FRONTEND" >> $GITHUB_ENV;
           NEW_IMAGE_TELEGRAM_BOT="${BASE_NAME_IMAGE_TELEGRAM_BOT}:$SHORT_SHA";
-          OLD_IMAGE_TELEGRAM_BOT="${BASE_NAME_IMAGE_TELEGRAM_BOT}:latest";
           echo "NEW_NAME_IMAGE_TELEGRAM_BOT=$NEW_IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV;
-          echo "OLD_NAME_IMAGE_TELEGRAM_BOT=$OLD_IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV;
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
@@ -182,6 +178,8 @@ jobs:
           # docker compose down;
       - name: Push image api to GHCR if tests passed
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
+        env:
+          NAME_IMAGE_API: ${{ env.NEW_NAME_IMAGE_API }}
         run: |
           docker compose push api;
       - name: Build and push image tg
@@ -325,11 +323,11 @@ jobs:
           fetch-depth: 2
       - name: Set default image names for helm
         run: |
-          IMAGE_API=$(kubectl get configmap qracun-config -n qracun-test -o jsonpath='{.data.api_image}');
+          IMAGE_API=$(kubectl get configmap $MAIN_CONF_NAME -n $NAMESPACE -o jsonpath='{.data.api_image}');
           echo "NAME_IMAGE_API=$IMAGE_API" >> $GITHUB_ENV;
-          IMAGE_FRONTEND=$(kubectl get configmap qracun-config -n qracun-test -o jsonpath='{.data.frontend_image}');
+          IMAGE_FRONTEND=$(kubectl get configmap $MAIN_CONF_NAME -n $NAMESPACE -o jsonpath='{.data.frontend_image}');
           echo "NAME_IMAGE_FRONTEND=$IMAGE_FRONTEND" >> $GITHUB_ENV;
-          IMAGE_TELEGRAM_BOT=$(kubectl get configmap qracun-config -n qracun-test -o jsonpath='{.data.tgBot_image}');
+          IMAGE_TELEGRAM_BOT=$(kubectl get configmap $MAIN_CONF_NAME -n $NAMESPACE -o jsonpath='{.data.tgBot_image}');
           echo "NAME_IMAGE_TELEGRAM_BOT=$IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV; 
       - name: Check changes in backend/rest_api
         id: rest_api_changed
