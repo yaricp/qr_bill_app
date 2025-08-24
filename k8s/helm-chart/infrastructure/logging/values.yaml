@@ -4,6 +4,7 @@ grafana:
   adminPassword: admin
   service:
     type: ClusterIP
+    nodePort: 3001
   ingress:
     enabled: false
 
