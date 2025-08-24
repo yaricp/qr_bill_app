@@ -430,7 +430,9 @@ jobs:
           helm dependency update k8s/helm-chart/infrastructure/logging
       - name: Deploy Logging Stack
         run: |
-          helm upgrade --install logging \
-            k8s/helm-chart/infrastructure/logging \
-            -n ${{ env.NAMESPACE }} --create-namespace \
-            -f k8s/helm-chart/infrastructure/logging/values.yaml
+          echo "namespace=$NAMESPACE";
+          helm upgrade logging \
+          ./k8s/helm-chart/infrastructure/logging \
+          -n ${{ env.NAMESPACE }} --install \
+          -f k8s/helm-chart/infrastructure/logging/values.yaml \
+          --create-namespace;
