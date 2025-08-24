@@ -1,11 +1,7 @@
-import os
-# import logging
 from loguru import logger
 
-from config import tg_bot_config
 
-
-def get_logger(name_module):
+def get_logger(name_module: str):
     """_summary_
 
     Args:
