@@ -6,12 +6,16 @@ grafana:
     type: ClusterIP
   ingress:
     enabled: false
+  podSecurityPolicy:
+    enabled: false 
 
 loki:
   enabled: true
   persistence:
     enabled: true
     size: 5Gi
+  podSecurityPolicy:
+    enabled: false 
   config:
     table_manager:
       retention_deletes_enabled: true
@@ -19,6 +23,8 @@ loki:
 
 promtail:
   enabled: true
+  podSecurityPolicy:
+    enabled: false 
   config:
     clients:
       - url: http://loki:3100/loki/api/v1/push  # адрес Loki сервиса внутри кластера
