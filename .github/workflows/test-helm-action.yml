@@ -434,5 +434,5 @@ jobs:
           helm upgrade logging \
           ./k8s/helm-chart/infrastructure/logging \
           -n ${{ env.NAMESPACE }} --install \
-          -f k8s/helm-chart/infrastructure/logging/values.yaml \
+          -f ./k8s/helm-chart/infrastructure/logging/values.yaml \
           --create-namespace;
