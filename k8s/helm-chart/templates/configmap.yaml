@@ -3,6 +3,9 @@ kind: ConfigMap
 metadata:
   name: qracun-config
 data:
+  api_image: {{ .Values.api.image | quote }}
+  frontend_image: {{ .Values.frontend.image | quote }}
+  tgBot_image: {{ .Values.tgBot.image | quote }}
 {{- range $key, $value := .Values.config }}
 {{- if kindIs "slice" $value }}
   {{ $key }}: {{ toJson $value | quote }}

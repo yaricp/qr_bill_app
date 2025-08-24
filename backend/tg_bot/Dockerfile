@@ -30,3 +30,4 @@ RUN chmod +x /start.sh
 RUN chmod +x /scripts/*
 
 ENTRYPOINT [ "/bin/bash", "-l", "-c" ]
+
