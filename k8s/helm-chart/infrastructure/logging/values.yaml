@@ -3,21 +3,11 @@ grafana:
   adminUser: admin
   adminPassword: admin
   service:
-    type: ClusterIP
+    type: NodePort
+    port: 3000
     nodePort: 3001
   ingress:
     enabled: false
-
-# loki:
-#   enabled: true
-#   persistence:
-#     enabled: true
-#     size: 5Gi
-#   config: |
-#     auth_enabled: false
-#     table_manager:
-#       retention_deletes_enabled: true
-#       retention_period: 168h
 
 loki:
   enabled: true
