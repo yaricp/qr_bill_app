@@ -49,7 +49,7 @@ jobs:
         run: |
           OUTPUT=$( git diff HEAD\^ HEAD -- frontend | tail -1) &&
           echo "::set-output name=OUTPUT::$OUTPUT"
-      - name: Build and push rest_api image. 
+      - name: Build and rest_api image. 
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         env:
           DEBUG: ${{ vars.DEBUG }}
@@ -110,7 +110,7 @@ jobs:
           cp backend/grpc_proto/*.proto backend/rest_api/grpc_proto/;
           ls -la backend/rest_api/grpc_proto;
           docker compose build api;
-          docker compose push api;
+          # docker compose push api;
       - name: Run unittests for rest_api. 
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         env:
@@ -172,6 +172,13 @@ jobs:
           # docker compose up -d;
           # docker compose exec -T api poetry run pytest tests/api;
           # docker compose down;
+      - name: Push image api to GHCR if tests passed
+        if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
+        run: |
+          echo "Pushing image to GHCR";
+          docker tag $NAME_IMAGE_API:$SHORT_SHA $NAME_IMAGE_API:latest
+          docker push $NAME_IMAGE_API:$SHORT_SHA
+          docker push $NAME_IMAGE_API:latest
       - name: Build and push image tg
         if: ${{ (steps.tg_changed.outputs.OUTPUT != '') }}
         env:
@@ -233,7 +240,10 @@ jobs:
           cp backend/grpc_proto/*.proto backend/tg_bot/grpc_proto/;
           ls -la backend/tg_bot/grpc_proto;
           docker compose build tg;
-          docker compose push tg;
+          docker tag $NAME_IMAGE_TELEGRAM_BOT:$SHORT_SHA $NAME_IMAGE_TELEGRAM_BOT:latest
+          docker push $NAME_IMAGE_TELEGRAM_BOT:$SHORT_SHA
+          docker push $NAME_IMAGE_TELEGRAM_BOT:latest
+          # docker compose push tg;
       - name: Build and push image front 
         if: ${{ (steps.frontend_changes.outputs.OUTPUT != '') }}
         env:
@@ -298,13 +308,24 @@ jobs:
           MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
         run: |
           docker compose build front;
-          docker compose push front;
+          docker tag $NAME_IMAGE_FRONTEND:$SHORT_SHA $NAME_IMAGE_FRONTEND:latest
+          docker push $NAME_IMAGE_FRONTEND:$SHORT_SHA
+          docker push $NAME_IMAGE_FRONTEND:latest
+          # docker compose push front;
 
   deploy:
     name: Deploy to MicroK8s via Self-hosted Runner
     runs-on: self-hosted
     needs: build
     steps:
+      - name: Set all images to latest tag
+        run: |
+          IMAGE_API="${NAME_IMAGE_API}:latest"
+          echo "NAME_IMAGE_API=$IMAGE_API" >> $GITHUB_ENV
+          IMAGE_FRONTEND="${NAME_IMAGE_FRONTEND}:latest"
+          echo "NAME_IMAGE_FRONTEND=$IMAGE_FRONTEND" >> $GITHUB_ENV
+          IMAGE_TELEGRAM_BOT="${NAME_IMAGE_TELEGRAM_BOT}:latest"
+          echo "NAME_IMAGE_TELEGRAM_BOT=$IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV
       - name: Checkout code
         uses: actions/checkout@v3
         with:
