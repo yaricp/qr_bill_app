@@ -7,7 +7,10 @@ grafana:
   ingress:
     enabled: false
   podSecurityPolicy:
-    enabled: false 
+    enabled: false
+  securityContext:
+    runAsUser: 472
+    fsGroup: 472
 
 loki:
   enabled: true
@@ -15,7 +18,10 @@ loki:
     enabled: true
     size: 5Gi
   podSecurityPolicy:
-    enabled: false 
+    enabled: false
+  securityContext:
+    runAsUser: 10001
+    fsGroup: 10001
   config:
     table_manager:
       retention_deletes_enabled: true
@@ -24,7 +30,10 @@ loki:
 promtail:
   enabled: true
   podSecurityPolicy:
-    enabled: false 
+    enabled: false
+  securityContext:
+    runAsUser: 0
+    fsGroup: 0
   config:
     clients:
       - url: http://loki:3100/loki/api/v1/push  # адрес Loki сервиса внутри кластера
