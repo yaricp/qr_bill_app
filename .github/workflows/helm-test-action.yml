@@ -6,9 +6,9 @@ on:
       - dev
 
 env:
-  NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}
-  NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}
-  NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}
+  BASE_NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}
+  BASE_NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}
+  BASE_NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}
      
 jobs:
   build:
@@ -21,14 +21,19 @@ jobs:
           fetch-depth: 2
       - name: Set image vars
         run: |
-          SHORT_SHA=${GITHUB_SHA::8}
-          IMAGE_API="${NAME_IMAGE_API}:$SHORT_SHA"
-          echo "NAME_IMAGE_API=$IMAGE_API" >> $GITHUB_ENV
-          IMAGE_FRONTEND="${NAME_IMAGE_FRONTEND}:$SHORT_SHA"
-          echo "NAME_IMAGE_FRONTEND=$IMAGE_FRONTEND" >> $GITHUB_ENV
-          IMAGE_TELEGRAM_BOT="${NAME_IMAGE_TELEGRAM_BOT}:$SHORT_SHA"
-          echo "NAME_IMAGE_TELEGRAM_BOT=$IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV
-          echo "$(env)";
+          SHORT_SHA=${GITHUB_SHA::8};
+          NEW_IMAGE_API="${BASE_NAME_IMAGE_API}:$SHORT_SHA";
+          OLD_IMAGE_API="${BASE_NAME_IMAGE_API}:latest";
+          echo "NEW_NAME_IMAGE_API=$NEW_IMAGE_API" >> $GITHUB_ENV;
+          echo "OLD_NAME_IMAGE_API=$OLD_IMAGE_API" >> $GITHUB_ENV;
+          NEW_IMAGE_FRONTEND="${BASE_NAME_IMAGE_FRONTEND}:$SHORT_SHA";
+          OLD_IMAGE_FRONTEND="${BASE_NAME_IMAGE_FRONTEND}:latest";
+          echo "NEW_NAME_IMAGE_FRONTEND=$NEW_IMAGE_FRONTEND" >> $GITHUB_ENV;
+          echo "OLD_NAME_IMAGE_FRONTEND=$OLD_IMAGE_FRONTEND" >> $GITHUB_ENV;
+          NEW_IMAGE_TELEGRAM_BOT="${BASE_NAME_IMAGE_TELEGRAM_BOT}:$SHORT_SHA";
+          OLD_IMAGE_TELEGRAM_BOT="${BASE_NAME_IMAGE_TELEGRAM_BOT}:latest";
+          echo "NEW_NAME_IMAGE_TELEGRAM_BOT=$NEW_IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV;
+          echo "OLD_NAME_IMAGE_TELEGRAM_BOT=$OLD_IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV;
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
@@ -178,9 +183,11 @@ jobs:
         run: |
           echo "Pushing image to GHCR";
           echo "SHA: $SHORT_SHA";
-          docker tag $NAME_IMAGE_API:$SHORT_SHA $NAME_IMAGE_API:latest
-          docker push $NAME_IMAGE_API:$SHORT_SHA
-          docker push $NAME_IMAGE_API:latest
+          echo "api new image: $NEW_NAME_IMAGE_API";
+          echo "api old image: $OLD_NAME_IMAGE_API";
+          docker tag $NEW_NAME_IMAGE_API $OLD_NAME_IMAGE_API
+          docker push $NEW_NAME_IMAGE_API
+          docker push $OLD_NAME_IMAGE_API
       - name: Build and push image tg
         if: ${{ (steps.tg_changed.outputs.OUTPUT != '') }}
         env:
@@ -242,10 +249,9 @@ jobs:
           cp backend/grpc_proto/*.proto backend/tg_bot/grpc_proto/;
           ls -la backend/tg_bot/grpc_proto;
           docker compose build tg;
-          docker tag $NAME_IMAGE_TELEGRAM_BOT:$SHORT_SHA $NAME_IMAGE_TELEGRAM_BOT:latest
-          docker push $NAME_IMAGE_TELEGRAM_BOT:$SHORT_SHA
-          docker push $NAME_IMAGE_TELEGRAM_BOT:latest
-          # docker compose push tg;
+          docker tag $NEW_NAME_IMAGE_TELEGRAM_BOT $OLD_NAME_IMAGE_TELEGRAM_BOT;
+          docker push $NEW_NAME_IMAGE_TELEGRAM_BOT;
+          docker push $OLD_NAME_IMAGE_TELEGRAM_BOT;
       - name: Build and push image front 
         if: ${{ (steps.frontend_changes.outputs.OUTPUT != '') }}
         env:
@@ -310,24 +316,15 @@ jobs:
           MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
         run: |
           docker compose build front;
-          docker tag $NAME_IMAGE_FRONTEND:$SHORT_SHA $NAME_IMAGE_FRONTEND:latest
-          docker push $NAME_IMAGE_FRONTEND:$SHORT_SHA
-          docker push $NAME_IMAGE_FRONTEND:latest
-          # docker compose push front;
+          docker tag $NEW_NAME_IMAGE_FRONTEND $OLD_NAME_IMAGE_FRONTEND;
+          docker push $NEW_NAME_IMAGE_FRONTEND;
+          docker push $OLD_NAME_IMAGE_FRONTEND
 
   deploy:
     name: Deploy to MicroK8s via Self-hosted Runner
     runs-on: self-hosted
     needs: build
     steps:
-      - name: Set all images to latest tag
-        run: |
-          IMAGE_API="${NAME_IMAGE_API}:latest"
-          echo "NAME_IMAGE_API=$IMAGE_API" >> $GITHUB_ENV
-          IMAGE_FRONTEND="${NAME_IMAGE_FRONTEND}:latest"
-          echo "NAME_IMAGE_FRONTEND=$IMAGE_FRONTEND" >> $GITHUB_ENV
-          IMAGE_TELEGRAM_BOT="${NAME_IMAGE_TELEGRAM_BOT}:latest"
-          echo "NAME_IMAGE_TELEGRAM_BOT=$IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV
       - name: Checkout code
         uses: actions/checkout@v3
         with:
@@ -347,24 +344,30 @@ jobs:
         run: |
           OUTPUT=$( git diff HEAD\^ HEAD -- frontend | tail -1) &&
           echo "::set-output name=OUTPUT::$OUTPUT"
-      - name: Set API image vars
-        if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
+      - name: Set image names for helm
         run: |
           SHORT_SHA=${GITHUB_SHA::8}
-          IMAGE_API="${NAME_IMAGE_API}:$SHORT_SHA"
-          echo "NAME_IMAGE_API=$IMAGE_API" >> $GITHUB_ENV
-      - name: Set frontend image vars
-        if: ${{ (steps.frontend_changes.outputs.OUTPUT != '') }}
-        run: |
-          SHORT_SHA=${GITHUB_SHA::8}    
-          IMAGE_FRONTEND="${NAME_IMAGE_FRONTEND}:$SHORT_SHA"
-          echo "NAME_IMAGE_FRONTEND=$IMAGE_FRONTEND" >> $GITHUB_ENV
-      - name: Set tg-bot image vars
-        if: ${{ (steps.tg_changed.outputs.OUTPUT != '') }}
-        run: |
-          SHORT_SHA=${GITHUB_SHA::8}
-          IMAGE_TELEGRAM_BOT="${NAME_IMAGE_TELEGRAM_BOT}:$SHORT_SHA"
-          echo "NAME_IMAGE_TELEGRAM_BOT=$IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV
+
+          if [ "${{ steps.rest_api_changed.outputs.OUTPUT }}" != "" ]; then
+            IMAGE_API="${BASE_NAME_IMAGE_API}:$SHORT_SHA";
+          else
+            IMAGE_API="${BASE_NAME_IMAGE_API}:latest";
+          fi
+          echo "NAME_IMAGE_API=$IMAGE_API" >> $GITHUB_ENV;
+
+          if [ "${{ steps.frontend_changed.outputs.OUTPUT }}" != "" ]; then
+            IMAGE_FRONTEND="${NAME_IMAGE_FRONTEND}:$SHORT_SHA"
+          else
+            IMAGE_FRONTEND="${NAME_IMAGE_FRONTEND}:latest";
+          fi
+          echo "NAME_IMAGE_FRONTEND=$IMAGE_FRONTEND" >> $GITHUB_ENV;
+
+          if [ "${{ steps.telegram_bot_changed.outputs.OUTPUT }}" != "" ]; then
+            IMAGE_TELEGRAM_BOT="${NAME_IMAGE_TELEGRAM_BOT}:$SHORT_SHA"
+          else
+            IMAGE_TELEGRAM_BOT="${NAME_IMAGE_TELEGRAM_BOT}:latest";
+          fi
+          echo "NAME_IMAGE_TELEGRAM_BOT=$IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV;
       - name: Prepare config and secrets for helm
         env:
           DEBUG: ${{ vars.DEBUG }}
