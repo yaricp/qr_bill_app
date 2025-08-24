@@ -412,13 +412,13 @@ jobs:
           MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
         run: |
           envsubst < ./k8s/helm-chart/conf-secret.yaml.temp > ./k8s/helm-chart/conf-secret-test-values.yaml
-      - name: Deploy Helm chart
+      - name: Deploy Main App Helm chart
         run: |
           cat ./k8s/helm-chart/conf-secret-test-values.yaml;
           helm upgrade qracun-test ./k8s/helm-chart --install \
           -f ./k8s/helm-chart/test-values.yaml \
           -f ./k8s/helm-chart/conf-secret-test-values.yaml \
-          -n $NAMESPACE --create-namespace \
+          -n ${{ env.NAMESPACE }} --create-namespace \
           --set ghcr.username=${{ github.actor }} \
           --set ghcr.password=${{ secrets.PAT_RUNNER }} \
           --set ghcr.email=yaricp@gmail.com \
@@ -432,5 +432,5 @@ jobs:
         run: |
           helm upgrade --install logging \
             k8s/helm-chart/infrastructure/logging \
-            -n $NAMESPACE --create-namespace \
+            -n ${{ env.NAMESPACE }} --create-namespace \
             -f k8s/helm-chart/infrastructure/logging/values.yaml
