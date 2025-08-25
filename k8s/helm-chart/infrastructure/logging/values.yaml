@@ -27,6 +27,16 @@ loki:
 
 promtail:
   enabled: true
+  extraArgs:
+    - -config.expand-env=true
+  extraVolumes:
+    - name: custom-config
+      configMap:
+        name: promtail-custom-config
+  extraVolumeMounts:
+    - name: custom-config
+      mountPath: /etc/promtail
+      readOnly: true
   config:
     clients:
       - url: http://logging-loki:3100/loki/api/v1/push  # адрес Loki сервиса внутри кластера
