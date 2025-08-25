@@ -335,9 +335,17 @@ class BillCommands:
                 result_dict[key_value[0]] = key_value[1]
         result_dict["crtd"] = result_dict[
             "crtd"
-        ].replace("%20", " ").replace(
+        ].replace(
+            "%20", " "
+        ).replace(
             "%2B", " "
-        ).replace("%3A", ":").replace("%3a", ":")
+        ).replace(
+            "%2b", " "
+        ).replace(
+            "%3A", ":"
+        ).replace(
+            "%3a", ":"
+        )
         logger.info(f"result_dict: {result_dict}")
         return result_dict
 
