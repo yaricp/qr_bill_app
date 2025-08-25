@@ -26,69 +26,93 @@ loki:
     replicas: 1
 
 
+# promtail:
+#   enabled: true
+#   podSecurityPolicy:
+#     enabled: false
+  
+#   config:
+#     server:
+#       log_level: info
+#       log_format: logfmt
+#       http_listen_port: 3101
+    
+#     clients:
+#       - url: http://logging-loki:3100/loki/api/v1/push
+    
+#     positions:
+#       filename: /run/promtail/positions.yaml
+    
+#     scrape_configs:
+#       - job_name: kubernetes-pods-qracun-test
+#         pipeline_stages:
+#           - cri: {}
+#         kubernetes_sd_configs:
+#           - role: pod
+#             namespaces:
+#               names:
+#                 - qracun-test
+#         relabel_configs:
+#           # Фильтр только по нужному namespace
+#           - source_labels: 
+#               - __meta_kubernetes_namespace
+#             action: keep
+#             regex: qracun-test
+          
+#           # Основные метки
+#           - source_labels: 
+#               - __meta_kubernetes_namespace
+#             target_label: namespace
+#           - source_labels: 
+#               - __meta_kubernetes_pod_name
+#             target_label: pod
+#           - source_labels: 
+#               - __meta_kubernetes_pod_container_name
+#             target_label: container
+#           - source_labels: 
+#               - __meta_kubernetes_pod_label_app
+#             target_label: app
+#           - source_labels: 
+#               - __meta_kubernetes_pod_label_tier
+#             target_label: tier
+#           - source_labels: 
+#               - __meta_kubernetes_pod_node_name
+#             target_label: node_name
+          
+#           # Путь к лог файлам
+#           - replacement: /var/log/pods/*$1/*.log
+#             separator: /
+#             source_labels:
+#               - __meta_kubernetes_pod_uid
+#               - __meta_kubernetes_pod_container_name
+#             target_label: __path__
+    
+#     # Пустые секции для избежания ошибок
+#     limits_config: {}
+    
+#     tracing:
+#       enabled: false
+
 promtail:
   enabled: true
   podSecurityPolicy:
     enabled: false
   
-  config:
-    server:
-      log_level: info
-      log_format: logfmt
-      http_listen_port: 3101
-    
-    clients:
-      - url: http://logging-loki:3100/loki/api/v1/push
-    
-    positions:
-      filename: /run/promtail/positions.yaml
-    
-    scrape_configs:
-      - job_name: kubernetes-pods-qracun-test
-        pipeline_stages:
-          - cri: {}
-        kubernetes_sd_configs:
-          - role: pod
-            namespaces:
-              names:
-                - qracun-test
-        relabel_configs:
-          # Фильтр только по нужному namespace
-          - source_labels: 
-              - __meta_kubernetes_namespace
-            action: keep
-            regex: qracun-test
-          
-          # Основные метки
-          - source_labels: 
-              - __meta_kubernetes_namespace
-            target_label: namespace
-          - source_labels: 
-              - __meta_kubernetes_pod_name
-            target_label: pod
-          - source_labels: 
-              - __meta_kubernetes_pod_container_name
-            target_label: container
-          - source_labels: 
-              - __meta_kubernetes_pod_label_app
-            target_label: app
-          - source_labels: 
-              - __meta_kubernetes_pod_label_tier
-            target_label: tier
-          - source_labels: 
-              - __meta_kubernetes_pod_node_name
-            target_label: node_name
-          
-          # Путь к лог файлам
-          - replacement: /var/log/pods/*$1/*.log
-            separator: /
-            source_labels:
-              - __meta_kubernetes_pod_uid
-              - __meta_kubernetes_pod_container_name
-            target_label: __path__
-    
-    # Пустые секции для избежания ошибок
-    limits_config: {}
-    
-    tracing:
-      enabled: false
+  # Убираем дефолтную конфигурацию полностью
+  defaultVolumes: []
+  defaultVolumeMounts: []
+  
+  # Монтируем НАШ ConfigMap
+  extraVolumes:
+    - name: custom-config
+      configMap:
+        name: logging-promtail-custom
+  
+  extraVolumeMounts:
+    - name: custom-config
+      mountPath: /etc/promtail
+      readOnly: true
+  
+  # Переопределяем команду
+  extraArgs:
+    - -config.file=/etc/promtail/promtail.yaml
