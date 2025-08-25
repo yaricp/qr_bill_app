@@ -25,87 +25,70 @@ loki:
   singleBinary:
     replicas: 1
 
+
 promtail:
   enabled: true
   podSecurityPolicy:
     enabled: false
   
-  # КРИТИЧНО: Отключаем дефолтный ConfigMap
-  configmap:
-    enabled: false
-  
-  # Создаем собственный ConfigMap с полной конфигурацией
   config:
-    # НЕ используйте структурированный формат, используйте строку
-    file: |
-      server:
-        log_level: info
-        log_format: logfmt
-        http_listen_port: 3101
-      
-      clients:
-        - url: http://logging-loki:3100/loki/api/v1/push
-      
-      positions:
-        filename: /run/promtail/positions.yaml
-      
-      scrape_configs:
-        - job_name: kubernetes-pods-qracun-test-only
-          pipeline_stages:
-            - cri: {}
-          kubernetes_sd_configs:
-            - role: pod
-              namespaces:
-                names:
-                  - qracun-test
-          relabel_configs:
-            # ВАЖНО: Фильтр по namespace
-            - source_labels: [__meta_kubernetes_namespace]
-              action: keep
-              regex: qracun-test
-            
-            # Метки
-            - source_labels: [__meta_kubernetes_namespace]
-              target_label: namespace
-            - source_labels: [__meta_kubernetes_pod_name]
-              target_label: pod
-            - source_labels: [__meta_kubernetes_pod_container_name]
-              target_label: container
-            - source_labels: [__meta_kubernetes_pod_label_app]
-              target_label: app
-            - source_labels: [__meta_kubernetes_pod_label_tier]  # ← ДОБАВИЛ tier
-              target_label: tier
-            - source_labels: [__meta_kubernetes_pod_node_name]
-              target_label: node_name
-            
-            # Job name
-            - replacement: $1/$2
-              separator: ;
-              source_labels: [namespace, app]
-              target_label: job
-            
-            # Путь к логам
-            - replacement: /var/log/pods/*$1/*.log
-              separator: /
-              source_labels:
-                - __meta_kubernetes_pod_uid
-                - __meta_kubernetes_pod_container_name
-              target_label: __path__
-      
-      tracing:
-        enabled: false
-      - job_name: kubernetes-pods
+    server:
+      log_level: info
+      log_format: logfmt
+      http_listen_port: 3101
+    
+    clients:
+      - url: http://logging-loki:3100/loki/api/v1/push
+    
+    positions:
+      filename: /run/promtail/positions.yaml
+    
+    scrape_configs:
+      - job_name: kubernetes-pods-qracun-test
+        pipeline_stages:
+          - cri: {}
         kubernetes_sd_configs:
           - role: pod
+            namespaces:
+              names:
+                - qracun-test
         relabel_configs:
-          - source_labels: [__meta_kubernetes_namespace]
+          # Фильтр только по нужному namespace
+          - source_labels: 
+              - __meta_kubernetes_namespace
+            action: keep
+            regex: qracun-test
+          
+          # Основные метки
+          - source_labels: 
+              - __meta_kubernetes_namespace
             target_label: namespace
-          - source_labels: [__meta_kubernetes_pod_name]
+          - source_labels: 
+              - __meta_kubernetes_pod_name
             target_label: pod
-          - source_labels: [__meta_kubernetes_pod_label_app]
-            target_label: app
-          - source_labels: [__meta_kubernetes_pod_label_tier]
-            target_label: tier
-          - action: replace
-            source_labels: [__meta_kubernetes_pod_container_name]
+          - source_labels: 
+              - __meta_kubernetes_pod_container_name
             target_label: container
+          - source_labels: 
+              - __meta_kubernetes_pod_label_app
+            target_label: app
+          - source_labels: 
+              - __meta_kubernetes_pod_label_tier
+            target_label: tier
+          - source_labels: 
+              - __meta_kubernetes_pod_node_name
+            target_label: node_name
+          
+          # Путь к лог файлам
+          - replacement: /var/log/pods/*$1/*.log
+            separator: /
+            source_labels:
+              - __meta_kubernetes_pod_uid
+              - __meta_kubernetes_pod_container_name
+            target_label: __path__
+    
+    # Пустые секции для избежания ошибок
+    limits_config: {}
+    
+    tracing:
+      enabled: false
