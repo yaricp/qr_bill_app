@@ -29,7 +29,7 @@ promtail:
   enabled: true
   config:
     clients:
-      - url: http://loki:3100/loki/api/v1/push  # адрес Loki сервиса внутри кластера
+      - url: http://logging-loki:3100/loki/api/v1/push  # адрес Loki сервиса внутри кластера
     positions:
       filename: /run/promtail/positions.yaml  # файл для хранения позиции чтения логов
     scrape_configs:
