@@ -27,11 +27,25 @@ loki:
 
 promtail:
   enabled: true
+
+  # ServiceAccount и RBAC
+  serviceAccount:
+    create: true
+    name: promtail
+  rbac:
+    create: true
+    clusterRole:
+      rules:
+        - apiGroups: [""]
+          resources: ["pods", "namespaces"]
+          verbs: ["get", "list", "watch"]
+
+  # Путь для хранения позиций
   config:
     clients:
-      - url: http://loki:3100/loki/api/v1/push  # адрес Loki сервиса внутри кластера
+      - url: http://loki:3100/loki/api/v1/push
     positions:
-      filename: /tmp/positions.yaml  # файл для хранения позиции чтения логов
+      filename: /run/promtail/positions.yaml
     scrape_configs:
       - job_name: kubernetes-pods
         kubernetes_sd_configs:
@@ -46,3 +60,25 @@ promtail:
           - action: replace
             source_labels: [__meta_kubernetes_pod_container_name]
             target_label: container
+        # Фильтруем только нужный namespace
+        pipeline_stages:
+          - match:
+              selector: '{namespace="qracun-test"}'
+              stages:
+                - json:
+                    expressions:
+                      log: log
+
+  # Монтируем логи и positions.yaml
+  extraVolumeMounts:
+    - name: varlog
+      mountPath: /var/log/pods
+      readOnly: true
+    - name: promtail-positions
+      mountPath: /run/promtail
+  extraVolumes:
+    - name: varlog
+      hostPath:
+        path: /var/log/pods
+    - name: promtail-positions
+      emptyDir: {}
