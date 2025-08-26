@@ -445,8 +445,8 @@ jobs:
           --create-namespace;
       - name: Install/Upgrade Grafana Dashboards
         run: |
-          helm dependency update k8s/helm-chart/infrastructure/grafana;
-          helm upgrade grafana infrastructure/grafana \
+          helm dependency update ./k8s/helm-chart/infrastructure/grafana;
+          helm upgrade grafana ./k8s/helm-chart/infrastructure/grafana \
           -n ${{ env.NAMESPACE }} --install \
           -f ./k8s/helm-chart/infrastructure/grafana/values.yaml \
           --create-namespace;
