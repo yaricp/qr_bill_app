@@ -1,6 +1,6 @@
 prometheus:
   prometheusSpec:
-    serviceMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: true
     serviceMonitorSelector:
       matchLabels:
         app: qracun
