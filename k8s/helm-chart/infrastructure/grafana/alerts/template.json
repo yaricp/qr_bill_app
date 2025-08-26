@@ -1,0 +1,14 @@
+{{- /* Example displaying the summary and description annotations of each alert in the notification. */ -}}
+{{- /* Edit the template name and template content as needed. */ -}}
+{{ define "qracun.error.tg" -}}
+{{ len .Alerts }} alert(s)
+{{ range .Alerts -}}
+  App: {{ .Labels.app }}
+  Datetime: {{ .StartsAt }}
+  Pod: {{ .Labels.pod }}
+  Description: {{.Annotations.description}}
+  Dashboard: {{ .DashboardURL }}
+  AlertPanel: {{ .PanelURL }}
+  Panel: {{ .Annotations.URLPanel }}
+{{ end -}}
+{{ end -}}

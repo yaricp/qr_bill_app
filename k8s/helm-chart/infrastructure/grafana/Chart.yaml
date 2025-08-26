@@ -1,0 +1,10 @@
+apiVersion: v2
+name: grafana-stack
+description: Grafana for observability
+type: application
+version: 0.1.0
+appVersion: "1.0"
+dependencies:
+  - name: grafana
+    version: 9.0.0
+    repository: https://grafana.github.io/helm-charts

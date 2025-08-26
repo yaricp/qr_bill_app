@@ -428,11 +428,25 @@ jobs:
       - name: Helm logging dependency update
         run: |
           helm dependency update k8s/helm-chart/infrastructure/logging
-      - name: Deploy Logging Stack
+      - name: Install/Upgrade Logging chart
         run: |
           echo "namespace=$NAMESPACE";
           helm upgrade logging \
           ./k8s/helm-chart/infrastructure/logging \
           -n ${{ env.NAMESPACE }} --install \
           -f ./k8s/helm-chart/infrastructure/logging/values.yaml \
+          --create-namespace;
+      - name: Install/Upgrade Metrics chart (Prometheus)
+        run: |
+          helm upgrade metrics \
+          prometheus-community/kube-prometheus-stack \
+          -n ${{ env.NAMESPACE }} --install \
+          -f ./k8s/helm-chart/infrastructure/metrics/values.yaml \
+          --create-namespace;
+      - name: Install/Upgrade Grafana Dashboards
+        run: |
+          helm dependency update k8s/helm-chart/infrastructure/grafana;
+          helm upgrade grafana infrastructure/grafana \
+          -n ${{ env.NAMESPACE }} --install \
+          -f ./k8s/helm-chart/infrastructure/grafana/values.yaml \
           --create-namespace;
