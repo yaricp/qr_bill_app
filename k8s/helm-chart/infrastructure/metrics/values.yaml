@@ -1,5 +1,8 @@
 prometheus:
   prometheusSpec:
+    service:
+      type: NodePort
+      nodePort: 30900
     serviceMonitorSelectorNilUsesHelmValues: true
 
 grafana:
