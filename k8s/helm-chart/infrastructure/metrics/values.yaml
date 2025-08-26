@@ -1,12 +1,6 @@
 prometheus:
   prometheusSpec:
     serviceMonitorSelectorNilUsesHelmValues: true
-    serviceMonitorSelector:
-      matchLabels:
-        app: qracun
-    ruleSelector:
-      matchLabels:
-        role: alert-rules
 
 grafana:
   enabled: false  # Grafana уже общая, не создаём свою
