@@ -455,5 +455,5 @@ jobs:
           helm upgrade --install postgres-exporter \
           prometheus-community/prometheus-postgres-exporter \
           -n qracun-test \
-          -f ./infrastructure/metrics/postgres-exporter/values.yaml \
+          -f ./k8s/helm-chart/infrastructure/metrics/postgres-exporter/values.yaml \
           --create-namespace
