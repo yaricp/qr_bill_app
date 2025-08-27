@@ -463,6 +463,6 @@ jobs:
           --set-string config.datasource.host=${{ vars.DATABASE_HOST }} \
           --set-string config.datasource.port=${{ vars.DATABASE_PORT }} \
           --set-string config.datasource.database=${{ vars.DATABASE_NAME }} \
-          --set-string config.datasource.user=${DATABASE_USER} \
-          --set-string config.datasource.password=${DATABASE_PASSWORD} \
+          --set config.datasource.user=${DATABASE_USER} \
+          --set config.datasource.password=${DATABASE_PASSWORD} \
           --set-string config.datasource.sslmode=disable
