@@ -11,20 +11,7 @@ service:
   port: 9187
   labels:
     release: metrics
-
-env:
-  datasource:
-    host: ""
-    userSecret:
-      name: export-postgres-creds
-      key: username
-    passwordSecret:
-      name: export-postgres-creds
-      key: password
-    port: ""
-    database: ""
-    sslmode: disable
-
+ 
 serviceMonitor:
   enabled: true
   namespace: qracun-test
