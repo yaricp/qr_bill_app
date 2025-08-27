@@ -451,6 +451,9 @@ jobs:
           -f ./k8s/helm-chart/infrastructure/grafana/values.yaml \
           --create-namespace;
       - name: Install/Upgrade Postgres Exporter
+        env:
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
         run: |
           helm upgrade --install postgres-exporter \
           prometheus-community/prometheus-postgres-exporter \
@@ -460,6 +463,6 @@ jobs:
           --set-string config.datasource.host=${{ vars.DATABASE_HOST }} \
           --set-string config.datasource.port=${{ vars.DATABASE_PORT }} \
           --set-string config.datasource.database=${{ vars.DATABASE_NAME }} \
-          --set-string config.datasource.user=${{ secrets.DATABASE_USER }} \
-          --set-string config.datasource.password=${{ secrets.DATABASE_PASSWORD }} \
+          --set-string config.datasource.user="${DATABASE_USER}" \
+          --set-string config.datasource.password="${DATABASE_PASSWORD}" \
           --set-string config.datasource.sslmode=disable
