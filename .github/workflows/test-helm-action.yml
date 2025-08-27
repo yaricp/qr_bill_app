@@ -464,7 +464,7 @@ jobs:
           -f ./k8s/helm-chart/infrastructure/metrics/postgres-exporter/values.yaml \
           --create-namespace \
           --set config.datasource.host="${POSTGRES_HOST}" \
-          --set config.datasource.port="${POSTGRES_PORT}" \
+          --set config.datasource.port="\"${POSTGRES_PORT}\"" \
           --set config.datasource.user="${POSTGRES_USER}" \
           --set config.datasource.password="${POSTGRES_PASSWORD}" \
           --set config.datasource.database="${POSTGRES_DB}"
