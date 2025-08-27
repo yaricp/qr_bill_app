@@ -452,7 +452,7 @@ jobs:
           --create-namespace;
       - name: Install/Upgrade Postgres Exporter
         env:
-          POSTGRES_DSN: postgresql://${{ secrets.PG_USER }}:${{ secrets.PG_PASSWORD }}@${{ secrets.PG_HOST }}:5432/${{ secrets.PG_DB }}?sslmode=disable
+          POSTGRES_DSN: postgresql://${{ secrets.DATABASE_USER }}:${{ secrets.DATABASE_PASSWORD }}@${{ vars.DATABASE_HOST }}:${{ vars.DATABASE_PORT }}/${{ vars.DATABASE_NAME }}?sslmode=disable
         run: |
           helm upgrade --install postgres-exporter \
           prometheus-community/prometheus-postgres-exporter \
