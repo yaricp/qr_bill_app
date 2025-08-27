@@ -455,9 +455,6 @@ jobs:
           DATABASE_USER: ${{ secrets.DATABASE_USER }}
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
         run: |
-          echo "DATABASE_USER: ${DATABASE_USER}"
-          echo "DATABASE_PASSWORD: ${DATABASE_PASSWORD}"
-          echo "DATABASE_HOST: ${{ vars.DATABASE_HOST }}"
           kubectl create secret generic postgres-creds \
           --from-literal=user='${{ secrets.DATABASE_USER }}' \
           --from-literal=password='${{ secrets.DATABASE_PASSWORD }}' \
