@@ -14,11 +14,15 @@ service:
 
 env:
   datasource:
-    host: ""  # будет переопределено через --set
-    user: ""  # будет переопределено через --set
-    password: ""  # будет переопределено через --set
-    port: "5432"
-    database: ""  # будет переопределено через --set
+    host: ""
+    userSecret:
+      name: export-postgres-creds
+      key: username
+    passwordSecret:
+      name: export-postgres-creds
+      key: password
+    port: ""
+    database: ""
     sslmode: disable
 
 serviceMonitor:
