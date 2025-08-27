@@ -454,6 +454,7 @@ jobs:
         env:
           POSTGRES_DSN: postgresql://${{ secrets.DATABASE_USER }}:${{ secrets.DATABASE_PASSWORD }}@${{ vars.DATABASE_HOST }}:${{ vars.DATABASE_PORT }}/${{ vars.DATABASE_NAME }}?sslmode=disable
         run: |
+          echo "Postgres DSN: $POSTGRES_DSN";
           kubectl create secret generic postgres-exporter-dsn \
             --from-literal=dsn="${POSTGRES_DSN}" \
             -n qracun-test \
