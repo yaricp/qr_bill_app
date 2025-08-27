@@ -457,9 +457,9 @@ jobs:
           -n qracun-test \
           -f ./k8s/helm-chart/infrastructure/metrics/postgres-exporter/values.yaml \
           --create-namespace \
-          --set config.datasource.host="${{ vars.DATABASE_HOST }}" \
-          --set config.datasource.port="${{ vars.DATABASE_PORT }}" \
-          --set config.datasource.database="${{ vars.DATABASE_NAME }}" \
-          --set config.datasource.user="${{ secrets.DATABASE_USER }}" \
-          --set config.datasource.password="${{ vars.DATABASE_PASSWORD }}" \
-          --set config.datasource.sslmode="disable"
+          --set-string config.datasource.host="${{ vars.DATABASE_HOST }}" \
+          --set-string config.datasource.port="${{ vars.DATABASE_PORT }}" \
+          --set-string config.datasource.database="${{ vars.DATABASE_NAME }}" \
+          --set-string config.datasource.user="${{ secrets.DATABASE_USER }}" \
+          --set-string config.datasource.password="${{ vars.DATABASE_PASSWORD }}" \
+          --set-string config.datasource.sslmode="disable"
