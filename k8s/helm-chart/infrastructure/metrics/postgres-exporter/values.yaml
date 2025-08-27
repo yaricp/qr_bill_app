@@ -12,7 +12,7 @@ service:
   labels:
     release: metrics
  
-env:
+config:
   datasource:
     host: ""
     user: ""
