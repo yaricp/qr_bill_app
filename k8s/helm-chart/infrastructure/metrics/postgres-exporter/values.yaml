@@ -11,7 +11,7 @@ service:
   port: 9187
   labels:
     release: metrics
-    
+
 env:
   datasource:
     DATA_SOURCE_NAME: ""
@@ -20,6 +20,7 @@ serviceMonitor:
   enabled: true
   namespace: qracun-test
   interval: 15s
-  selector:
-    matchLabels:
-      release: metrics
+  labels:
+    release: metrics  # Имя вашего helm release для kube-prometheus-stack
+  additionalLabels:
+    app: postgres-exporter
