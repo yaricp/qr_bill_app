@@ -12,7 +12,8 @@ service:
   labels:
     release: metrics
  
-datasource:
+env:
+  datasource:
     host: ""
     user: ""
     pass: ""
