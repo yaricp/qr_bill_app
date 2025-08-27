@@ -12,14 +12,10 @@ service:
   labels:
     release: metrics
  
-config:
-  datasource:
-    host: ""
-    user: ""
-    pass: ""
-    port: ""
-    database: ""
-    sslmode: disable
+env:
+  DATA_SOURCE_URI: ""
+  DATA_SOURCE_USER: ""
+  DATA_SOURCE_PASS: ""
 
 serviceMonitor:
   enabled: true
