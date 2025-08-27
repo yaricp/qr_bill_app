@@ -450,19 +450,16 @@ jobs:
           -n ${{ env.NAMESPACE }} --install \
           -f ./k8s/helm-chart/infrastructure/grafana/values.yaml \
           --create-namespace;
-      - name: Create Postgres DSN Secret
-        env:
-          POSTGRES_DSN: postgresql://${{ secrets.DATABASE_USER }}:${{ secrets.DATABASE_PASSWORD }}@${{ vars.DATABASE_HOST }}:${{ vars.DATABASE_PORT }}/${{ vars.DATABASE_NAME }}?sslmode=disable
-        run: |
-          echo "env:
-            datasource:
-              DATA_SOURCE_NAME: $POSTGRES_DSN" > ./pgexporter-values.yaml
-          cat ./pgexporter-values.yaml;
       - name: Install/Upgrade Postgres Exporter
         run: |
           helm upgrade --install postgres-exporter \
           prometheus-community/prometheus-postgres-exporter \
           -n qracun-test \
           -f ./k8s/helm-chart/infrastructure/metrics/postgres-exporter/values.yaml \
-          -f ./pgexporter-values.yaml \
-          --create-namespace
+          --create-namespace \
+          --set env.datasource.host=${{ vars.DATABASE_HOST }} \
+          --set env.datasource.port=${{ vars.DATABASE_PORT }} \
+          --set env.datasource.user=${{ secrets.DATABASE_USER }} \
+          --set env.datasource.pass=${{ secrets.DATABASE_PASSWORD }} \
+          --set env.datasource.database=${{ vars.DATABASE_NAME }} \
+          --set env.datasource.sslmode=disable

@@ -12,6 +12,14 @@ service:
   labels:
     release: metrics
  
+datasource:
+    host: ""
+    user: ""
+    pass: ""
+    port: ""
+    database: ""
+    sslmode: disable
+
 serviceMonitor:
   enabled: true
   namespace: qracun-test
