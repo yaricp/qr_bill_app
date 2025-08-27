@@ -458,6 +458,11 @@ jobs:
           echo "DATABASE_USER: ${DATABASE_USER}"
           echo "DATABASE_PASSWORD: ${DATABASE_PASSWORD}"
           echo "DATABASE_HOST: ${{ vars.DATABASE_HOST }}"
+          kubectl create secret generic postgres-creds \
+          --from-literal=user='${{ secrets.DATABASE_USER }}' \
+          --from-literal=password='${{ secrets.DATABASE_PASSWORD }}' \
+          -n qracun-test \
+          --dry-run=client -o yaml | kubectl apply -f -
           helm upgrade --install postgres-exporter \
           prometheus-community/prometheus-postgres-exporter \
           -n qracun-test \
@@ -466,6 +471,8 @@ jobs:
           --set-string config.datasource.host=${{ vars.DATABASE_HOST }} \
           --set-string config.datasource.port=${{ vars.DATABASE_PORT }} \
           --set-string config.datasource.database=${{ vars.DATABASE_NAME }} \
-          --set config.datasource.user=${DATABASE_USER} \
-          --set config.datasource.password=${DATABASE_PASSWORD} \
+          --set-string config.datasource.userSecret.name=postgres-creds \
+          --set-string config.datasource.userSecret.key=user \
+          --set-string config.datasource.passwordSecret.name=postgres-creds \
+          --set-string config.datasource.passwordSecret.key=password \
           --set-string config.datasource.sslmode=disable
