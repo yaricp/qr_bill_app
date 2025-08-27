@@ -14,7 +14,12 @@ service:
 
 env:
   datasource:
-    DATA_SOURCE_NAME: ""
+    host: ""  # будет переопределено через --set
+    user: ""  # будет переопределено через --set
+    password: ""  # будет переопределено через --set
+    port: "5432"
+    database: ""  # будет переопределено через --set
+    sslmode: disable
 
 serviceMonitor:
   enabled: true
