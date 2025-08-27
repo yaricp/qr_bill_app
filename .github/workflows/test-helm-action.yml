@@ -451,9 +451,12 @@ jobs:
           -f ./k8s/helm-chart/infrastructure/grafana/values.yaml \
           --create-namespace;
       - name: Install/Upgrade Postgres Exporter
+        env:
+          POSTGRES_DSN: postgresql://${{ secrets.PG_USER }}:${{ secrets.PG_PASSWORD }}@${{ secrets.PG_HOST }}:5432/${{ secrets.PG_DB }}?sslmode=disable
         run: |
           helm upgrade --install postgres-exporter \
           prometheus-community/prometheus-postgres-exporter \
           -n qracun-test \
           -f ./k8s/helm-chart/infrastructure/metrics/postgres-exporter/values.yaml \
-          --create-namespace
+          --create-namespace \
+          --set env.datasource.DATA_SOURCE_NAME="${POSTGRES_DSN}"
