@@ -455,6 +455,9 @@ jobs:
           DATABASE_USER: ${{ secrets.DATABASE_USER }}
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
         run: |
+          echo "DATABASE_USER: ${DATABASE_USER}"
+          echo "DATABASE_PASSWORD: ${DATABASE_PASSWORD}"
+          echo "DATABASE_HOST: ${{ vars.DATABASE_HOST }}"
           helm upgrade --install postgres-exporter \
           prometheus-community/prometheus-postgres-exporter \
           -n qracun-test \
