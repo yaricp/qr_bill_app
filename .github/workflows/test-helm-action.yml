@@ -452,11 +452,13 @@ jobs:
           --create-namespace;
       - name: Install/Upgrade Postgres Exporter
         run: |
+          kubectl create secret generic postgres-exporter-dsn \
+          --from-literal=dsn="postgresql://${{ secrets.DATABASE_USER }}:${{ secrets.DATABASE_PASSWORD }}@${{ vars.DATABASE_HOST }}:${{ vars.DATABASE_PORT }}/${{ vars.DATABASE_NAME }}?sslmode=disable" \
+          -n qracun-test;
           helm upgrade --install postgres-exporter \
           prometheus-community/prometheus-postgres-exporter \
           -n qracun-test \
           -f ./k8s/helm-chart/infrastructure/metrics/postgres-exporter/values.yaml \
           --create-namespace \
-          --set env.DATA_SOURCE_URI="postgresql://${{ vars.DATABASE_HOST }}:${{ vars.DATABASE_PORT }}/${{ vars.DATABASE_NAME }}?sslmode=disable" \
-          --set env.DATA_SOURCE_USER="${{ secrets.DATABASE_USER }}" \
-          --set env.DATA_SOURCE_PASS="${{ secrets.DATABASE_PASSWORD }}"
+          --set config.datasourceSecret.name="postgres-exporter-dsn" \
+          --set config.datasourceSecret.key="dsn";
