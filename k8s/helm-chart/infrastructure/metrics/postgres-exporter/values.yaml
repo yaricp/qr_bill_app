@@ -7,6 +7,7 @@ image:
 
 service:
   type: ClusterIP
+  name: http
   port: 9187
   labels:
     app.kubernetes.io/instance: postgres-exporter
@@ -22,4 +23,5 @@ serviceMonitor:
   interval: 15s
   selector:
     matchLabels:
-      app: postgres-exporter
+      app.kubernetes.io/instance: postgres-exporter
+      app.kubernetes.io/name: prometheus-postgres-exporter
