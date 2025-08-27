@@ -8,6 +8,8 @@ image:
 service:
   type: ClusterIP
   port: 9187
+  labels:
+    app: postgres-exporter
 
 env:
   datasource:
