@@ -450,3 +450,10 @@ jobs:
           -n ${{ env.NAMESPACE }} --install \
           -f ./k8s/helm-chart/infrastructure/grafana/values.yaml \
           --create-namespace;
+      - name: Install/Upgrade Postgres Exporter
+        run: |
+          helm upgrade --install postgres-exporter \
+          prometheus-community/prometheus-postgres-exporter \
+          -n qracun-test \
+          -f ./infrastructure/metrics/postgres-exporter/values.yaml \
+          --create-namespace
