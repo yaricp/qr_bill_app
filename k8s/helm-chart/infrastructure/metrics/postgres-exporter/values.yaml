@@ -13,7 +13,8 @@ service:
     release: metrics
 
 env:
-  DATA_SOURCE_NAME: ""
+  datasource:
+    DATA_SOURCE_NAME: ""
 
 serviceMonitor:
   enabled: true
