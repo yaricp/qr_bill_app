@@ -454,7 +454,8 @@ jobs:
         run: |
           kubectl create secret generic postgres-exporter-dsn \
           --from-literal=dsn="postgresql://${{ secrets.DATABASE_USER }}:${{ secrets.DATABASE_PASSWORD }}@${{ vars.DATABASE_HOST }}:${{ vars.DATABASE_PORT }}/${{ vars.DATABASE_NAME }}?sslmode=disable" \
-          -n qracun-test;
+          -n qracun-test \
+          --dry-run=client -o yaml | kubectl replace -f -
           helm upgrade --install postgres-exporter \
           prometheus-community/prometheus-postgres-exporter \
           -n qracun-test \
