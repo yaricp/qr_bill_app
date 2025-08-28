@@ -31,7 +31,8 @@ additionalServiceMonitors:
     namespace: ""
     selector:
       matchLabels:
-        app: qracun-api
+        app: qracun
+        tier: backend
     endpoints:
       - port: http
         path: /metrics
