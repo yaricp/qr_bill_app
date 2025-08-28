@@ -14,7 +14,7 @@ spec:
     - name: http
       port: {{ .Values.api.service.ports.http.port }}
       targetPort: {{ .Values.api.service.ports.http.targetPort }}
-      {{- if eq .Values.api.service.ports.http.type "nodePort" }}
+      {{- if eq .Values.api.service.type "NodePort" }}
       nodePort: {{ .Values.api.service.ports.http.nodePort }}
       {{- end }}
     - name: grpc

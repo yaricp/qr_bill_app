@@ -40,7 +40,7 @@ api:
   replicas: 1
   image: ""
   service:
-    type: ClusterIP
+    type: NodePort
     ports:
       http: 
         port: 80
