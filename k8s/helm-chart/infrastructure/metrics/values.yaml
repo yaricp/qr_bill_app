@@ -4,16 +4,25 @@ prometheus:
     nodePort: 30900
   prometheusSpec:
     serviceMonitorSelectorNilUsesHelmValues: true
-    additionalServiceMonitors:
-      - name: qracun-api
-        selector:
-          matchLabels:
-            app: qracun
-            tier: backend
-        endpoints:
-          - port: http
-            path: /metrics
-            interval: 15s
+    additionalScrapeConfigs:
+      - job_name: 'qracun-api'
+        kubernetes_sd_configs:
+          - role: endpoints
+            namespaces:
+              names:
+                - ""  # или ваш namespace
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_service_label_app]
+            action: keep
+            regex: qracun
+          - source_labels: [__meta_kubernetes_service_label_tier]
+            action: keep
+            regex: backend
+          - source_labels: [__meta_kubernetes_endpoint_port_name]
+            action: keep
+            regex: http
+        scrape_interval: 15s
+        metrics_path: /metrics
 
 grafana:
   enabled: false  # Grafana уже общая, не создаём свою
