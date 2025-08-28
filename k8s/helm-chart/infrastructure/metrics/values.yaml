@@ -25,3 +25,14 @@ alertmanager:
             smarthost: 'smtp.example.com:587'
             auth_username: 'alertmanager@example.com'
             auth_password: 'yourpassword'
+
+additionalServiceMonitors:
+  - name: qracun-api
+    namespace: default
+    selector:
+      matchLabels:
+        app: qracun-api
+    endpoints:
+      - port: http
+        path: /metrics
+        interval: 15s

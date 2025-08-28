@@ -6,6 +6,10 @@ spec:
   selector:
     app: qracun
     tier: backend
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s
   ports:
     - name: http
       port: {{ .Values.api.service.ports.http.port }}

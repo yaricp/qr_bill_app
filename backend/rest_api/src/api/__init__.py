@@ -3,8 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi_login import LoginManager
 from fastapi.routing import APIRoute
 
-# from ..infra.database.connection import DATABASE_URL
-# from ..infra.database.metadata import metadata
+from .middleware.prometheus_metrics import prometheus_middleware
 
 from .config import (
     cors_config, URLPathsConfig, security_config 
@@ -22,6 +21,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.middleware("http")(prometheus_middleware)
 
 print(f"SECRET_KEY: {security_config.SECRET_KEY}")
 
@@ -34,5 +34,5 @@ manager = LoginManager(
 
 from .v1.endpoints import (
     bills, sellers, users, categories, units, login_links,
-    goods, product
+    goods, product, metrics
 )
