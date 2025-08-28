@@ -6,7 +6,6 @@ prometheus:
     serviceMonitorSelectorNilUsesHelmValues: true
     additionalServiceMonitors:
       - name: qracun-api
-        namespace: ""
         selector:
           matchLabels:
             app: qracun
