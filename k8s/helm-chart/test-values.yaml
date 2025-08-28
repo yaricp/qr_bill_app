@@ -45,7 +45,7 @@ api:
       http: 
         port: 80
         targetPort: 80
-        nodePort: 5553
+        nodePort: 30080
       grpc:
         port: 50031
         targetPort: 
