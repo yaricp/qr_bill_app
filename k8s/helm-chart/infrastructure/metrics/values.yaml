@@ -4,6 +4,17 @@ prometheus:
     nodePort: 30900
   prometheusSpec:
     serviceMonitorSelectorNilUsesHelmValues: true
+    additionalServiceMonitors:
+      - name: qracun-api
+        namespace: ""
+        selector:
+          matchLabels:
+            app: qracun
+            tier: backend
+        endpoints:
+          - port: http
+            path: /metrics
+            interval: 15s
 
 grafana:
   enabled: false  # Grafana уже общая, не создаём свою
@@ -26,14 +37,4 @@ alertmanager:
             auth_username: 'alertmanager@example.com'
             auth_password: 'yourpassword'
 
-additionalServiceMonitors:
-  - name: qracun-api
-    namespace: ""
-    selector:
-      matchLabels:
-        app: qracun
-        tier: backend
-    endpoints:
-      - port: http
-        path: /metrics
-        interval: 15s
+
