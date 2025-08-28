@@ -442,8 +442,8 @@ jobs:
           prometheus-community/kube-prometheus-stack \
           -n ${{ env.NAMESPACE }} --install \
           -f ./k8s/helm-chart/infrastructure/metrics/values.yaml \
-          --create-namespace \
-          --set-string prometheus.prometheusSpec.additionalServiceMonitors[0].namespace=${{ env.NAMESPACE }};
+          --create-namespace;
+          # --set-string prometheus.prometheusSpec.additionalServiceMonitors[0].namespace=${{ env.NAMESPACE }};
       - name: Install/Upgrade Grafana Dashboards
         run: |
           helm dependency update ./k8s/helm-chart/infrastructure/grafana;
