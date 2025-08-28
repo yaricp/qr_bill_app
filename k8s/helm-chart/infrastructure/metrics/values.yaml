@@ -28,7 +28,7 @@ alertmanager:
 
 additionalServiceMonitors:
   - name: qracun-api
-    namespace: default
+    namespace: ""
     selector:
       matchLabels:
         app: qracun-api
