@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi_login import LoginManager
 from fastapi.routing import APIRoute
 
-from .middleware.prometheus_metrics import prometheus_middleware
+from .v1.middleware.prometheus_metrics import prometheus_middleware
 
 from .config import (
     cors_config, URLPathsConfig, security_config 
