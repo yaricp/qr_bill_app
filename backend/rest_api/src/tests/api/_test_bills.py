@@ -87,10 +87,10 @@ def test_get_bill_by_id(test_client, auth_headers, db_session):
 def test_update_bill(test_client, auth_headers, db_session):
     """Тест обновления счета"""
     bill_id, _ = create_test_data(db_session)  # Добавляем тестовые данные
-    
+
     update_data = {"value": "300.99"}
     response = test_client.put(f"/api/v1/bills/{bill_id}", json=update_data, headers=auth_headers)
-    
+
     assert response.status_code == 200
     assert response.json()["value"] == update_data["value"]
 
