@@ -115,7 +115,12 @@ jobs:
           ls -la backend/rest_api/grpc_proto;
           docker compose build api;
           # docker compose push api;
-      - name: Run the smoke tests
+      - name: Run the Smoke Tests
+        if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
+        env:
+          NAME_IMAGE_API: ${{ env.NEW_NAME_IMAGE_API }}
+          DEBUG: ${{ vars.DEBUG }}
+          TEST_MODE: True
         run: |
           echo "Smoke Testing";
           docker compose up -d;
@@ -417,13 +422,13 @@ jobs:
           SMTP_SERVER_PASSWORD: ${{ secrets.SMTP_SERVER_PASSWORD }}
           MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
         run: |
-          envsubst < ./k8s/helm-chart/conf-secret.yaml.temp > ./k8s/helm-chart/conf-secret-test-values.yaml
+          envsubst < ./deployment/helm-chart/conf-secret.yaml.temp > ./deployment/helm-chart/conf-secret-test-values.yaml
       - name: Deploy Main App Helm chart
         run: |
-          cat ./k8s/helm-chart/conf-secret-test-values.yaml;
-          helm upgrade qracun-test ./k8s/helm-chart --install \
-          -f ./k8s/helm-chart/test-values.yaml \
-          -f ./k8s/helm-chart/conf-secret-test-values.yaml \
+          cat ./deployment/helm-chart/conf-secret-test-values.yaml;
+          helm upgrade qracun-test ./deployment/helm-chart --install \
+          -f ./deployment/helm-chart/test-values.yaml \
+          -f ./deployment/helm-chart/conf-secret-test-values.yaml \
           -n ${{ env.NAMESPACE }} --create-namespace \
           --set ghcr.username=${{ github.actor }} \
           --set ghcr.password=${{ secrets.PAT_RUNNER }} \
@@ -433,29 +438,29 @@ jobs:
           --set tgBot.image=${{ env.NAME_IMAGE_TELEGRAM_BOT }}
       - name: Helm logging dependency update
         run: |
-          helm dependency update k8s/helm-chart/infrastructure/logging
+          helm dependency update ./deployment/helm-chart/infrastructure/logging
       - name: Install/Upgrade Logging chart
         run: |
           echo "namespace=$NAMESPACE";
           helm upgrade logging \
-          ./k8s/helm-chart/infrastructure/logging \
+          ./deployment/helm-chart/infrastructure/logging \
           -n ${{ env.NAMESPACE }} --install \
-          -f ./k8s/helm-chart/infrastructure/logging/values.yaml \
+          -f ./deployment/helm-chart/infrastructure/logging/values.yaml \
           --create-namespace;
       - name: Install/Upgrade Metrics chart (Prometheus)
         run: |
           helm upgrade metrics \
           prometheus-community/kube-prometheus-stack \
           -n ${{ env.NAMESPACE }} --install \
-          -f ./k8s/helm-chart/infrastructure/metrics/values.yaml \
+          -f ./deployment/helm-chart/infrastructure/metrics/values.yaml \
           --create-namespace;
           # --set-string prometheus.prometheusSpec.additionalScrapeConfigs[0].kubernetes_sd_configs[0].namespaces[0].names[0]=${{ env.NAMESPACE }};
       - name: Install/Upgrade Grafana Dashboards
         run: |
-          helm dependency update ./k8s/helm-chart/infrastructure/grafana;
-          helm upgrade grafana ./k8s/helm-chart/infrastructure/grafana \
+          helm dependency update ./deployment/helm-chart/infrastructure/grafana;
+          helm upgrade grafana ./deployment/helm-chart/infrastructure/grafana \
           -n ${{ env.NAMESPACE }} --install \
-          -f ./k8s/helm-chart/infrastructure/grafana/values.yaml \
+          -f ./deployment/helm-chart/infrastructure/grafana/values.yaml \
           --create-namespace;
       - name: Install/Upgrade Postgres Exporter
         env:
@@ -470,7 +475,7 @@ jobs:
           helm upgrade --install postgres-exporter \
           prometheus-community/prometheus-postgres-exporter \
           -n qracun-test \
-          -f ./k8s/helm-chart/infrastructure/metrics/postgres-exporter/values.yaml \
+          -f ./deployment/helm-chart/infrastructure/metrics/postgres-exporter/values.yaml \
           --create-namespace \
           --set-string config.datasource.host=${{ vars.DATABASE_HOST }} \
           --set-string config.datasource.port=${{ vars.DATABASE_PORT }} \
