@@ -119,12 +119,11 @@ jobs:
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         env:
           NAME_IMAGE_API: ${{ env.NEW_NAME_IMAGE_API }}
-          DEBUG: ${{ vars.DEBUG }}
           TEST_MODE: True
         run: |
           echo "Smoke Testing";
           docker compose up -d;
-          docker compose exec -T api poetry run pytest /src/tests/api/smoke_tests;
+          docker compose run --rm -T api poetry run pytest /src/tests/api/smoke_tests;
           docker compose down;
       - name: Run unittests for rest_api. 
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
