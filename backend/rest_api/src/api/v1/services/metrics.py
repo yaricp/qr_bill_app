@@ -1,0 +1,1 @@
+from ....infra.metrics import metrics_app

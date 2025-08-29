@@ -3,7 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi_login import LoginManager
 from fastapi.routing import APIRoute
 
-from .v1.middleware.prometheus_metrics import prometheus_middleware
+from .middleware.prometheus_metrics import prometheus_middleware
+from .v1.services.metrics import metrics_app
 
 from .config import (
     cors_config, URLPathsConfig, security_config 
@@ -36,3 +37,5 @@ from .v1.endpoints import (
     bills, sellers, users, categories, units, login_links,
     goods, product, metrics
 )
+
+app.mount("/metrics", metrics_app)

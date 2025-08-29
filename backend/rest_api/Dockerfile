@@ -29,9 +29,11 @@ COPY ./grpc_proto /grpc_proto
 RUN ls -la /grpc_proto
 
 COPY start.sh /
+COPY start_tests.sh /
 COPY start_grpc_server.py /
 
 RUN chmod +x /start.sh
+RUN chmod +x /start_tests.sh
 RUN chmod +x /scripts/*
 
 ENTRYPOINT [ "/bin/bash", "-l", "-c" ]

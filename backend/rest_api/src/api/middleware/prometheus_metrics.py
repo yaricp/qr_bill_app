@@ -1,19 +1,11 @@
 import time
 from fastapi import Request
-from prometheus_client import Counter, Histogram
 
-
-# Define Prometheus metrics
-REQUEST_COUNT = Counter(
-    "qracun_api_requests_total",
-    "Total HTTP requests",
-    ["method", "endpoint", "status_code"]
-)
-
-REQUEST_LATENCY = Histogram(
-    "qracun_api_request_duration_seconds",
-    "HTTP request latency in seconds",
-    ["method", "endpoint"]
+from .metrics.http import (
+    HTTP_4XX_ERRORS,
+    HTTP_5XX_ERRORS,
+    REQUEST_COUNT,
+    REQUEST_LATENCY
 )
 
 
@@ -30,5 +22,10 @@ async def prometheus_middleware(request: Request, call_next):
     REQUEST_LATENCY.labels(
         request.method, request.url.path
     ).observe(duration)
+    
+    if 400 <= response.status_code < 500:
+        HTTP_4XX_ERRORS.labels(request.method, request.url.path).inc()
+    elif 500 <= response.status_code < 600:
+        HTTP_5XX_ERRORS.labels(request.method, request.url.path).inc()
 
     return response

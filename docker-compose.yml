@@ -44,6 +44,7 @@ services:
       dockerfile: Dockerfile
     environment:
       DEBUG: ${DEBUG}
+      TEST_MODE: ${TEST_MODE:-False}
       INSTALL_DEV: ${INSTALL_DEV}
       SECRET_KEY: ${SECRET_KEY}
       TOKEN_EXPIRY_TIME_HOURS: ${TOKEN_EXPIRY_TIME_HOURS}
