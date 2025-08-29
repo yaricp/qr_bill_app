@@ -1,5 +1,5 @@
 # импортируем все метрики из модулей приложения
-from api.metrics.http import *
+# from api.metrics.http import *
 from app.metrics.operations import *
 from infra.database.metrics.db_metrics import *
 from infra.grpc_server.metrics.grpc_metrics import *

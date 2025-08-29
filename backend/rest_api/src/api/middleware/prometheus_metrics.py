@@ -1,7 +1,7 @@
 import time
 from fastapi import Request
 
-from .metrics.http import (
+from ..metrics.http import (
     HTTP_4XX_ERRORS,
     HTTP_5XX_ERRORS,
     REQUEST_COUNT,
