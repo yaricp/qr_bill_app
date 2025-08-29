@@ -1,0 +1,66 @@
+from prometheus_client import Counter, Histogram
+
+
+BILLS_PROCESSED = Counter(
+    "qracun_bills_processed_total",
+    "Total number of checks processed",
+    ["status"]   # success | failure
+)
+
+BILLS_VALIDATED = Counter(
+    "qracun_bills_validated_total",
+    "Total number of checks processed",
+    ["status"]   # success | failure
+)
+
+BILLS_CREATED = Counter(
+    "qracun_bills_created_total",
+    "Total number of checks processed",
+    ["status"]   # success | failure
+)
+
+
+EXTERNAL_API_CALLS = Counter(
+    "qracun_external_api_requests_total",
+    "Total number of external API requests",
+    ["api_name", "status"]  # status: success | failure | timeout
+)
+
+
+EXTERNAL_API_LATENCY = Histogram(
+    "qracun_external_api_request_duration_seconds",
+    "Latency of external API requests in seconds",
+    ["api_name"]
+)
+
+BILL_PROCESSING_TIME = Histogram(
+    "qracun_bill_processing_duration_seconds",
+    "End-to-end time of bill processing",
+    ["status"],  # success | failure
+    buckets=[0.1, 0.5, 1, 2, 5, 10, 30]
+)
+
+
+def metric_bill_processing_time(status: str, duration: float) -> None:
+    BILL_PROCESSING_TIME.labels(status=status).observe(duration)
+
+
+def metric_processed_bill(status: str) -> None:
+    BILLS_PROCESSED.labels(status=status).inc()
+
+
+def metric_validated_bill(status: str) -> None:
+    BILLS_VALIDATED.labels(status=status).inc()
+
+
+def metric_call_external_api(
+    api_name: str, status: str, delay: float
+) -> None:
+    EXTERNAL_API_CALLS.labels(
+        api_name=api_name, status=status
+    ).inc()
+    EXTERNAL_API_LATENCY.labels(api_name=api_name).observe(delay)
+
+
+def metric_created_bill(status: str) -> None:
+    BILLS_CREATED.labels(status=status).inc()

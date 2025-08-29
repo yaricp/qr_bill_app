@@ -1,4 +1,5 @@
 import json
+import time
 from uuid import UUID
 from typing import List
 from decimal import Decimal
@@ -30,6 +31,13 @@ from .goods import GoodsCommands
 from .product import ProductCommands
 from .config import bill_config
 from .utils import unification_names
+from .metrics.operations import (
+    metric_created_bill,
+    metric_processed_bill,
+    metric_validated_bill,
+    metric_call_external_api,
+    metric_bill_processing_time
+)
 
 
 class BillQueries:
@@ -202,8 +210,14 @@ class BillCommands:
     ) -> Bill:
         incoming_item_dict = incoming_item.dict()
         bill = BillORM(**incoming_item_dict)
-        db_session.add(bill)
-        db_session.commit()
+        try:
+            db_session.add(bill)
+            db_session.commit()
+        except Exception as e:
+            logger.error(f"Exception: {e}")
+            metric_created_bill("failure")
+            raise e
+        metric_created_bill("success")
         logger.info(f"bill: {bill}")
         return bill
 
@@ -235,15 +249,27 @@ class BillCommands:
     async def parse_link_save_bill(
         self, income_link: BillCreateByURL, user_id: UUID
     ) -> Bill | None:
+        start_time = time.time()
         if not self.validate_url(income_link.link):
             logger.error("Wrong URL")
             logger.error(f"income_link.link: {income_link.link}")
+            delay = time.time() - start_time
+            metric_bill_processing_time(
+                status="failure", duration=delay
+            )
             return None
             # raise Exception("Wrong URL")
         self.params = self.get_params_from_income_url(
             url=income_link.link
         )
         data_bill = await self.get_data_from_fiscal_api(**self.params)
+        if not data_bill:
+            logger.error("No data from fiscal API")
+            delay = time.time() - start_time
+            metric_bill_processing_time(
+                status="failure", duration=delay
+            )
+            return None
         logger.info(f"items: {data_bill.items()}")
         bill_seller = data_bill["seller"]
         income_goods_items = data_bill["items"]
@@ -276,6 +302,13 @@ class BillCommands:
         bill_db = await self.get_or_create(
             incoming_item=incoming_bill
         )
+        if not bill_db:
+            delay = time.time() - start_time
+            metric_bill_processing_time(
+                status="failure", duration=delay
+            )
+            return None
+        logger.info(f"created bill: {bill_db}")
         for in_goods in income_goods_items:
             incoming_unit = UnitCreate(
                 name=in_goods["unit"].strip().replace(
@@ -322,6 +355,11 @@ class BillCommands:
             logger.info(f"goods_db: {goods_db}")
 
         bill_db = await self.get_by_id(id=bill_db.id)
+        delay = time.time() - start_time
+        metric_bill_processing_time(
+            status="success", duration=delay
+        )
+        logger.info(f"Processed bill in {delay} seconds")
         return bill_db
 
     def get_params_from_income_url(self, url: str) -> dict:
@@ -354,10 +392,12 @@ class BillCommands:
             logger.info(f"pattern: {pattern}")
             logger.info(f"income_link: {income_link}")
             if income_link.find(pattern) == -1:
+                metric_validated_bill("failure")
                 return False
+        metric_validated_bill("success")
         return True
 
-    async def get_data_from_fiscal_api(self, **kwargs) -> dict:
+    async def get_data_from_fiscal_api(self, **kwargs) -> dict | None:
         params = {
             "iic": kwargs["iic"],
             "tin": kwargs["tin"],
@@ -369,14 +409,32 @@ class BillCommands:
             "Origin": self.origin_fiscal_service
         }
         logger.info(f"headers: {headers}")
-        result = post(
-            url=self.fiscal_service_api_url, headers=headers, data=params
-        )
+        start_time = time.time()
+        try:
+            result = post(
+                url=self.fiscal_service_api_url, headers=headers, data=params
+            )
+        except Exception as e:
+            metric_processed_bill("failure")
+            logger.error(f"Exception: {e}")
+            return None
+        
+        delay = time.time() - start_time
         logger.info(f"result: {result}")
+        metric_call_external_api(
+            api_name="fiscal_service",
+            status=result.status_code,
+            delay=delay
+        )
+        if result.status_code != 200:
+            logger.error(f"Bad status code: {result.status_code}")
+            metric_processed_bill("failure")
+            return None
         logger.info(f"result.__dict__: {result.__dict__}")
         logger.info(f"result.content: {result.content}")
         result_data = json.loads(result.content)
         logger.info(f"result_data: {result_data}")
+        metric_processed_bill("success")
         return result_data
 
     async def get_total_summ(self, user_id: UUID) -> float:
