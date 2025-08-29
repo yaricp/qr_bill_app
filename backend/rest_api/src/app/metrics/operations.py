@@ -37,7 +37,7 @@ BILL_PROCESSING_TIME = Histogram(
     "qracun_bill_processing_duration_seconds",
     "End-to-end time of bill processing",
     ["status"],  # success | failure
-    buckets=[0.1, 0.5, 1, 2, 5, 10, 30]
+    buckets=[1, 1.5, 2, 2.5, 3, 3.5, 4, 5, 10, 30]
 )
 
 
