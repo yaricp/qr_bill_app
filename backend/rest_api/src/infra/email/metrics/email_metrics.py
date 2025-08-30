@@ -1,5 +1,6 @@
-from prometheus_client import Counter, Histogram
 import time
+from prometheus_client import Counter, Histogram
+from loguru import logger
 
 
 EMAIL_SENT = Counter(
@@ -20,11 +21,14 @@ def metric_email_client(func):
         try:
             result = func(*args, **kwargs)
             EMAIL_SENT.labels(status="success").inc()
+            logger.info("Added metrics success")
             return result
         except Exception as e:
             EMAIL_SENT.labels(status="failure").inc()
+            logger.error("Added metrics failure")
             raise e
         finally:
             duration = time.time() - start_time
             EMAIL_LATENCY.observe(duration)
+            logger.info("Added metrics duration")
     return wrapper

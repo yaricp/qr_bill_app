@@ -1,5 +1,7 @@
-from prometheus_client import Counter, Histogram
 import time
+from loguru import logger
+from prometheus_client import Counter, Histogram
+
 
 TELEGRAM_SENT = Counter(
     "qracun_telegram_messages_total",
@@ -21,12 +23,15 @@ def metric_telegram_send(func):
         try:
             result = func(*args, **kwargs)
             TELEGRAM_SENT.labels(status="success").inc()
+            logger.info("Added metrics success")
             return result
         except Exception as e:
             TELEGRAM_SENT.labels(status="failure").inc()
+            logger.info("Added metrics failure")
             raise e
         finally:
             duration = time.time() - start_time
             TELEGRAM_LATENCY.observe(duration)
+            logger.info("Added metrics duration: {}", duration)
 
     return wrapper
