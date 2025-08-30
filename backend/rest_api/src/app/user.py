@@ -33,19 +33,23 @@ class UserQueries:
             link_uuid=link, link_for=""
         ).first()
         if db_link:
+            metric_user_track_action("get_user_by_login_link")
             return db_link.user
         return None
 
     def get_user_by_email(self, email: str) -> User:
         user = UserORM.query.filter_by(email=email).first()
+        metric_user_track_action("get_user_by_email")
         return user
 
     def get_user_by_login(self, login: str) -> User:
         user = UserORM.query.filter_by(login=login).first()
+        metric_user_track_action("get_user_by_login")
         return user
 
     def get_user_by_tg_id(self, tg_id: int) -> User:
         user = UserORM.query.filter_by(tg_id=tg_id).first()
+        metric_user_track_action("get_user_by_tg_id")
         return user
 
     async def get_all_users(self):
