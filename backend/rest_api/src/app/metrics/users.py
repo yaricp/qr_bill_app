@@ -1,3 +1,4 @@
+from loguru import logger
 from prometheus_client import Counter, Histogram
 
 
@@ -17,13 +18,14 @@ USER_ACTION_DURATION = Histogram(
 
 def metric_user_track_action(action_type: str):
     """
-    Увеличивает счетчик действия.
+    Increments the counter for a specific user action.
     """
     USER_ACTIONS.labels(action_type=action_type).inc()
+    logger.debug(f"User action tracked: {action_type}")
 
 
 def metric_user_track_action_duration(action_type: str, duration: float):
     """
-    Фиксирует длительность выполнения действия.
+    Fixed: Records the duration of a specific user action.
     """
     USER_ACTION_DURATION.labels(action_type=action_type).observe(duration)
