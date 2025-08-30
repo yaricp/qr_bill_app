@@ -19,19 +19,20 @@ def metric_telegram_send(func):
     """Decorator to measure telegram send metrics"""
 
     def wrapper(*args, **kwargs):
+        logger.info("Args: {}, Kwargs: {}", args, kwargs)
         start_time = time.time()
         try:
             result = func(*args, **kwargs)
             TELEGRAM_SENT.labels(status="success").inc()
-            logger.info("Added metrics success")
+            logger.info("Added Telegram Client metrics success")
             return result
         except Exception as e:
             TELEGRAM_SENT.labels(status="failure").inc()
-            logger.info("Added metrics failure")
+            logger.info("Added Telegram Client metrics failure")
             raise e
         finally:
             duration = time.time() - start_time
             TELEGRAM_LATENCY.observe(duration)
-            logger.info("Added metrics duration: {}", duration)
+            logger.info("Added Telegram Client metrics duration: {}", duration)
 
     return wrapper
