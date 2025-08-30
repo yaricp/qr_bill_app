@@ -62,7 +62,7 @@ def send_mess_to_client(
                     f'Error {e} while sending file {filepath} to client {user_id}'
                 )
                 raise e
-        logger.info(f"sending message")
+        logger.info("sending message")
         return tb.send_message(user_id, message)
     except Exception as e:
         logger.error(
