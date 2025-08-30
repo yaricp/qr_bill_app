@@ -12,7 +12,9 @@ from ....infra.email.email_client import EmailClient
 from ....infra.telegram.tg_utils import send_verify_link_to_tg
 
 from ... import app, manager
-from ...config import URLPathsConfig, user_login_config
+from ...config import (
+    URLPathsConfig, user_login_config, app_config
+)
 
 from ..services.user import (
     update_user,
@@ -114,7 +116,7 @@ async def send_verify_link_to_email_route(
 
     email_client = EmailClient(
         email=data["email"],
-        subject="QRacun.me Temporary link for login",
+        subject=f"{app_config.APP_NAME} Temporary link for login",
         template="temp_link_email.html",
         template_vars={"temp_link": str_user_link}
     )

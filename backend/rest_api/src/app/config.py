@@ -20,6 +20,11 @@ class RestApiConfig(BaseSettings):
     REST_API_LOGIN_LINK_URI: str
 
 
+class MetricsConfig(BaseSettings):
+    METRICS_PREFIX: str = "my_app"
+
+
 bill_config: BillConfig = BillConfig()
 login_link_config: LoginLinkConfig = LoginLinkConfig()
 rest_api_config: RestApiConfig = RestApiConfig()
+metric_config: MetricsConfig = MetricsConfig()

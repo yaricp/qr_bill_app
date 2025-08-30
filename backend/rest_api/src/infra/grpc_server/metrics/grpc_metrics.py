@@ -2,6 +2,10 @@ import time
 import grpc
 from prometheus_client import Counter, Histogram
 
+from ..config import metric_config
+
+prefix = metric_config.METRICS_PREFIX
+
 
 GRPC_SERVER_STARTED = Counter(
     "grpc_server_started_total",

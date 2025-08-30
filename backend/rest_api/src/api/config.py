@@ -42,16 +42,8 @@ class CORSConfig(BaseSettings):
     ALLOW_METHODS: List[str]
 
 
-# class UvicornConfig(BaseSettings):
-#     HOST: str = '0.0.0.0'
-#     PORT: int = 8000
-#     LOG_LEVEL: str = 'info'
-#     RELOAD: bool = True
-
-
-# class LinksConfig(BaseSettings):
-#     HTTP_PROTOCOL: str
-#     DOMAIN: str
+class MetricsConfig(BaseSettings):
+    METRICS_PREFIX: str = "my_app"
 
 
 class SecurityConfig(BaseSettings):
@@ -62,6 +54,12 @@ class UserLoginConfig(BaseSettings):
     TOKEN_EXPIRY_TIME_HOURS: int
 
 
+class AppConfig(BaseSettings):
+    APP_NAME: str = "My Application"
+
+
 cors_config: CORSConfig = CORSConfig()
 security_config: SecurityConfig = SecurityConfig()
 user_login_config: UserLoginConfig = UserLoginConfig()
+metric_config: MetricsConfig = MetricsConfig()
+app_config: AppConfig = AppConfig()

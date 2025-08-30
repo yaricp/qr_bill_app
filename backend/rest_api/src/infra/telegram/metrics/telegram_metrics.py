@@ -2,15 +2,19 @@ import time
 from loguru import logger
 from prometheus_client import Counter, Histogram
 
+from ..config import metric_config
+
+prefix = metric_config.METRICS_PREFIX
+
 
 TELEGRAM_SENT = Counter(
-    "qracun_telegram_messages_total",
+    f"{prefix}_telegram_messages_total",
     "Total number of telegram messages sent",
     ["status"]  # success | failure
 )
 
 TELEGRAM_LATENCY = Histogram(
-    "qracun_telegram_send_duration_seconds",
+    f"{prefix}_telegram_send_duration_seconds",
     "Time spent sending telegram messages in seconds"
 )
 

@@ -3,18 +3,18 @@ kind: Deployment
 metadata:
   name: api
   labels:
-    app: qracun
+    app: ${APP_NAME_LABEL}
     tier: backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: qracun
+      app: ${APP_NAME_LABEL}
       tier: backend
   template:
     metadata:
       labels:
-        app: qracun
+        app: ${APP_NAME_LABEL}
         tier: backend
     spec:
       imagePullSecrets:
@@ -28,9 +28,9 @@ spec:
           command: ["/./start.sh"]
           envFrom:
             - configMapRef:
-                name: qracun-config
+                name: ${APP_NAME_LABEL}-config
             - secretRef:
-                name: qracun-secret
+                name: ${APP_NAME_LABEL}-secret
           volumeMounts:
             - name: tmp-shared-data
               mountPath: /grpc_proto         # grpc_proto

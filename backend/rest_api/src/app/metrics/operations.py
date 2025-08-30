@@ -1,40 +1,45 @@
 from prometheus_client import Counter, Histogram
 
+from ..config import metric_config
+
+
+prefix = metric_config.METRICS_PREFIX
+
 
 BILLS_PROCESSED = Counter(
-    "qracun_bills_processed_total",
+    f"{prefix}_bills_processed_total",
     "Total number of checks processed",
     ["status"]   # success | failure
 )
 
 BILLS_VALIDATED = Counter(
-    "qracun_bills_validated_total",
+    f"{prefix}_bills_validated_total",
     "Total number of checks processed",
     ["status"]   # success | failure
 )
 
 BILLS_CREATED = Counter(
-    "qracun_bills_created_total",
+    f"{prefix}_bills_created_total",
     "Total number of checks processed",
     ["status"]   # success | failure
 )
 
 
 EXTERNAL_API_CALLS = Counter(
-    "qracun_external_api_requests_total",
+    f"{prefix}_external_api_requests_total",
     "Total number of external API requests",
     ["api_name", "status"]  # status: success | failure | timeout
 )
 
 
 EXTERNAL_API_LATENCY = Histogram(
-    "qracun_external_api_request_duration_seconds",
+    f"{prefix}_external_api_request_duration_seconds",
     "Latency of external API requests in seconds",
     ["api_name"]
 )
 
 BILL_PROCESSING_TIME = Histogram(
-    "qracun_bill_processing_duration_seconds",
+    f"{prefix}_bill_processing_duration_seconds",
     "End-to-end time of bill processing",
     ["status"],  # success | failure
     buckets=[1, 1.5, 2, 2.5, 3, 3.5, 4, 5, 10, 30]

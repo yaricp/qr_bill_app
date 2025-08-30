@@ -2,7 +2,7 @@ import os
 from mailersend import emails
 from loguru import logger
 
-from .config import smtp_server_config
+from .config import smtp_server_config, app_config
 from .template import Template
 from .metrics.email_metrics import metric_email_client
 
@@ -77,7 +77,7 @@ class EmailClient:
             mail_body = {}
 
             mail_from = {
-                "name": "QRacun",
+                "name": app_config.APP_NAME,
                 "email": self.sender_email
             }
             recipients = [

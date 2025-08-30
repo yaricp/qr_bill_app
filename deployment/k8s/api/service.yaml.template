@@ -4,7 +4,7 @@ metadata:
   name: api
 spec:
   selector:
-    app: qracun
+    app: ${APP_NAME_LABEL}
     tier: backend
   ports:
     - name: http

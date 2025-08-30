@@ -41,6 +41,8 @@ services:
     environment:
       DEBUG: ${DEBUG}
       INSTALL_DEV: ${INSTALL_DEV}
+      APP_NAME: ${APP_NAME}
+      METRICS_PREFIX: ${METRICS_PREFIX}
       SECRET_KEY: ${SECRET_KEY}
       TOKEN_EXPIRY_TIME_HOURS: ${TOKEN_EXPIRY_TIME_HOURS}
       FISCAL_SERVICE_HOSTNAME: ${FISCAL_SERVICE_HOSTNAME}
@@ -103,7 +105,7 @@ services:
     command: /./start.sh
     volumes:
       - ./grpc_proto:/grpc_proto
-      - /qracun_pictures:/qracun_pictures
+      - ${TELEGRAM_QR_PIC_DIR}:${TELEGRAM_QR_PIC_DIR}
     depends_on:
       - api
     build:

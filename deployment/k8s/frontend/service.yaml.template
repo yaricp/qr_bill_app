@@ -3,11 +3,11 @@ kind: Service
 metadata:
   name: frontend
   labels:
-    app: qracun
+    app: ${APP_NAME_LABEL}
     tier: frontend
 spec:
   selector:
-    app: qracun
+    app: ${APP_NAME_LABEL}
     tier: frontend
   ports:
     - port: 80

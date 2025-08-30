@@ -26,17 +26,17 @@ spec:
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: qracun-secret
+                  name: ${APP_NAME_LABEL}-secret
                   key: POSTGRES_USER
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: qracun-secret
+                  name: ${APP_NAME_LABEL}-secret
                   key: POSTGRES_PASSWORD
             - name: POSTGRES_DB
               valueFrom:
                 secretKeyRef:
-                  name: qracun-secret
+                  name: ${APP_NAME_LABEL}-secret
                   key: POSTGRES_DB
           volumeMounts:
             - name: main-pg-data
@@ -90,17 +90,17 @@ spec:
         #     - name: POSTGRES_USER
         #       valueFrom:
         #         secretKeyRef:
-        #           name: qracun-secret
+        #           name: ${APP_NAME_LABEL}-secret
         #           key: POSTGRES_USER
         #     - name: POSTGRES_PASSWORD
         #       valueFrom:
         #         secretKeyRef:
-        #           name: qracun-secret
+        #           name: ${APP_NAME_LABEL}-secret
         #           key: POSTGRES_PASSWORD
         #     - name: POSTGRES_DB
         #       valueFrom:
         #         secretKeyRef:
-        #           name: qracun-secret
+        #           name: ${APP_NAME_LABEL}-secret
         #           key: POSTGRES_DB
         #   volumeMounts:
         #     - name: pgbackrest-config

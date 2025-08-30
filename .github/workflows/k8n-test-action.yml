@@ -9,6 +9,9 @@ env:
   NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}
   NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}
   NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}
+  APP_NAME_LABEL: ${{ vars.APP_NAME_LABEL }}
+  APP_NAMESPACE: ${{ vars.APP_NAMESPACE }}
+  APP_NAME: ${{ vars.APP_NAME }}
      
 jobs:
   build:
@@ -336,6 +339,9 @@ jobs:
           kubectl delete configmap qracun-config --ignore-not-found
           kubectl create configmap qracun-config \
             --from-literal=DEBUG='${{ vars.DEBUG }}' \
+            --from-literal=APP_NAME='${{ vars.APP_NAME }}' \
+            --from-literal=APP_NAMESPACE='${{ vars.APP_NAMESPACE }}' \
+            --from-literal=APP_NAME_LABEL='${{ vars.APP_NAME_LABEL }}' \
             --from-literal=INSTALL_DEV='${{ vars.INSTALL_DEV }}' \
             --from-literal=TOKEN_EXPIRY_TIME_HOURS='${{ vars.TOKEN_EXPIRY_TIME_HOURS }}' \
             --from-literal=FISCAL_SERVICE_HOSTNAME='${{ vars.FISCAL_SERVICE_HOSTNAME }}' \
@@ -409,9 +415,25 @@ jobs:
       - name: Render Kubernetes manifests
         run: |
           mkdir -p rendered/api rendered/tg-bot rendered/frontend
+          mkdir -p rendered/ingress rendered/postgres rendered/pgadmin
+          echo "render templates for api"
           envsubst < k8s/api/deployment.yaml.template > rendered/api/deployment.yaml
+          envsubst < k8s/api/service.yaml.template > rendered/api/service.yaml
+          echo "render templates for ingress"
+          envsubst < k8s/ingress/ingress.yaml.template > rendered/ingress/ingress.yaml
+          envsubst < k8s/ingress/cluster-issuer.yaml.template > rendered/ingress/cluster-issuer.yaml
+          echo "render templates for tg-bot"
           envsubst < k8s/tg-bot/deployment.yaml.template > rendered/tg-bot/deployment.yaml
+          envsubst < k8s/tg-bot/service.yaml.template > rendered/tg-bot/service.yaml
+          echo "render templates for frontend"
           envsubst < k8s/frontend/deployment.yaml.template > rendered/frontend/deployment.yaml
+          envsubst < k8s/frontend/service.yaml.template > rendered/frontend/service.yaml
+          echo "render templates for postgres"
+          envsubst < k8s/postgres/deployment.yaml.template > rendered/postgres/deployment.yaml
+          envsubst < k8s/postgres/logic-backup-cron.yaml.template > rendered/postgres/logic-backup-cron.yaml
+          echo "render templates for pgadmin"
+          envsubst < k8s/pgadmin/deployment.yaml.template > rendered/pgadmin
+
       - name: Create imagePullSecret for GHCR
         run: |
           kubectl delete secret ghcr-secret --ignore-not-found
@@ -420,36 +442,38 @@ jobs:
             --docker-username=${{ github.actor }} \
             --docker-password=${{ secrets.PAT_RUNNER }} \
             --docker-email=yaricp@gmail.com     
-      - name: Upload grpc_proto and templates to PVC
-        if: ${{ (steps.rest_api_changed.outputs.OUTPUT != null && steps.rest_api_changed.outputs.OUTPUT != '') || (steps.tg_changed.outputs.OUTPUT != null && steps.tg_changed.outputs.OUTPUT != '') }}
-        run: |
-          kubectl delete pod tmp-upload --ignore-not-found
-          kubectl apply -f k8s/pvc/shared-data-pvc.yaml
-          kubectl apply -f k8s/tmp/tmp-upload.yaml
-          kubectl wait --for=condition=Ready pod/tmp-upload --timeout=30s
-          kubectl cp grpc_proto tmp-upload:/mnt/shared/
-          kubectl cp email_templates tmp-upload:/mnt/shared/
-          kubectl delete pod tmp-upload
+      # - name: Upload grpc_proto and templates to PVC
+      #   if: ${{ (steps.rest_api_changed.outputs.OUTPUT != null && steps.rest_api_changed.outputs.OUTPUT != '') || (steps.tg_changed.outputs.OUTPUT != null && steps.tg_changed.outputs.OUTPUT != '') }}
+      #   run: |
+      #     kubectl delete pod tmp-upload --ignore-not-found
+      #     kubectl apply -f k8s/pvc/shared-data-pvc.yaml
+      #     kubectl apply -f k8s/tmp/tmp-upload.yaml
+      #     kubectl wait --for=condition=Ready pod/tmp-upload --timeout=30s
+      #     kubectl cp grpc_proto tmp-upload:/mnt/shared/
+      #     kubectl cp email_templates tmp-upload:/mnt/shared/
+      #     kubectl delete pod tmp-upload
       - name: Deploy infra services to Kubernetes 
         run: |
+          kubectl apply -f k8s/rendered/postgres/
           kubectl apply -f k8s/postgres/
+          kubectl apply -f k8s/rendered/pgadmin/
           kubectl apply -f k8s/pgadmin/
-          kubectl apply -f k8s/ingress/
+          kubectl apply -f k8s/rendered/ingress/
       - name: Deploy API to Kubernetes
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         run: |
           kubectl apply -f rendered/api/
-          kubectl apply -f k8s/api/
+          # kubectl apply -f k8s/api/
       - name: Deploy TGBOT to Kubernetes
         if: ${{ (steps.tg_changed.outputs.OUTPUT != '') }}
         run: |
           kubectl apply -f rendered/tg-bot/
-          kubectl apply -f k8s/tg-bot/
+          # kubectl apply -f k8s/tg-bot/
       - name: Deploy Frontend to Kubernetes
         if: ${{ (steps.frontend_changes.outputs.OUTPUT != '') }}
         run: |
           kubectl apply -f rendered/frontend/
-          kubectl apply -f k8s/frontend/
+          # kubectl apply -f k8s/frontend/
       - name: Clean up stuck Pods (ImagePullBackOff / ErrImagePull)
         run: |
           kubectl get pods --no-headers | awk '$3 == "ImagePullBackOff" || $3 == "ErrImagePull" { print $1 }' | xargs -r kubectl delete pod

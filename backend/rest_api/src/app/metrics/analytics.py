@@ -2,15 +2,19 @@ import time
 from loguru import logger
 from prometheus_client import Counter, Histogram
 
+from ..config import metric_config
+
+
+prefix = metric_config.METRICS_PREFIX
 
 ANALYTICS_REPORTS = Counter(
-    "qracun_analytics_reports_total",
+    f"{prefix}_analytics_reports_total",
     "Total number of analytics reports processed",
     ["status", "report_type"]  # добавлен label report_type
 )
 
 ANALYTICS_LATENCY = Histogram(
-    "qracun_analytics_report_duration_seconds",
+    f"{prefix}_analytics_report_duration_seconds",
     "Time spent generating analytics report in seconds",
     ["report_type"],  # label для типа отчёта
     buckets=[0.5, 1, 2, 5, 10, 30, 60]

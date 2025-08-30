@@ -2,15 +2,19 @@ import time
 from prometheus_client import Counter, Histogram
 from loguru import logger
 
+from ..config import metric_config
+
+
+prefix = metric_config.METRICS_PREFIX
 
 EMAIL_SENT = Counter(
-    "qracun_email_sent_total",
+    f"{prefix}_email_sent_total",
     "Total number of emails sent",
     ["status"]  # success | failure
 )
 
 EMAIL_LATENCY = Histogram(
-    "qracun_email_send_duration_seconds",
+    f"{prefix}_email_send_duration_seconds",
     "Time spent sending emails in seconds"
 )
 

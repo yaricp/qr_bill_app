@@ -3,7 +3,7 @@ name: Build and Deploy Qracun using Helm
 on:
   push:
     branches:
-      - dev
+      - dev123
 
 env:
   NAMESPACE: qracun-test

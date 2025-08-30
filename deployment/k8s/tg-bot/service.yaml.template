@@ -4,7 +4,7 @@ metadata:
   name: tg-bot
 spec:
   selector:
-    app: qracun
+    app: ${APP_NAME_LABEL}
     tier: bot
   ports:
     - port: 80

@@ -3,18 +3,18 @@ kind: Deployment
 metadata:
   name: frontend
   labels:
-    app: qracun
+    app: ${APP_NAME_LABEL}
     tier: frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: qracun
+      app: ${APP_NAME_LABEL}
       tier: frontend
   template:
     metadata:
       labels:
-        app: qracun
+        app: ${APP_NAME_LABEL}
         tier: frontend
     spec:
       imagePullSecrets:
