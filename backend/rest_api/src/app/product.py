@@ -25,7 +25,7 @@ from .entities.user_product import (
 )
 
 from .utils import unification_names
-from .metrics.analytics import metric_analytics
+from .metrics.analytics import metric_analytics_async
 
 
 class ProductQueries:
@@ -36,6 +36,7 @@ class ProductQueries:
     async def get_all_products(self) -> List[Product]:
         return ProductORM.query.all()
 
+    @metric_analytics_async
     async def get_products_more_one_prices(
         self, user_id: UUID
     ) -> List[Product]:

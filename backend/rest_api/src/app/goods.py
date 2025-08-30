@@ -17,7 +17,7 @@ from .entities.goods import (
 from .entities.product import ProductCreate
 from .product import ProductCommands
 from .utils import unification_names
-from .metrics.analytics import metric_analytics
+from .metrics.analytics import metric_analytics_async
 
 
 class GoodsQueries:
@@ -88,7 +88,7 @@ class GoodsQueries:
         logger.info(f"result[:5] = {result[:5]}")
         return result
 
-    @metric_analytics
+    @metric_analytics_async
     async def goods_by_name_group_by_sellers(
         self, name: str, user_id: UUID
     ) -> list:
