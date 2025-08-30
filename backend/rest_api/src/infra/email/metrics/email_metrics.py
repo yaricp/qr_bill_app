@@ -17,6 +17,8 @@ EMAIL_LATENCY = Histogram(
 
 def metric_email_client(func):
     def wrapper(*args, **kwargs):
+        logger.info("start Email Client metrics")
+        logger.info(f"args: {args}, kwargs: {kwargs}")
         start_time = time.time()
         try:
             result = func(*args, **kwargs)
