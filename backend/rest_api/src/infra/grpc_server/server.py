@@ -125,12 +125,17 @@ async def serve():
     )
     server.add_insecure_port(rest_api_grpc.address)
     await server.start()
-    logger.info(f"Server started, listening on {rest_api_grpc.address}")
+    logger.info(
+        f"Server started, listening on {rest_api_grpc.address}"
+    )
     await server.wait_for_termination()
 
 
 if __name__ == "__main__":
     logger.info("before start GRPC server")
     start_http_server(90)
+    logger.info(
+        "started Prometheus GRPC metrics server at port 90"
+    )
     asyncio.run(serve())
     logger.info("after stop GRPC server")

@@ -47,12 +47,13 @@ api:
         targetPort: 80
         nodePort: 30080
       grpc:
-        port: 50031
-        targetPort: 
-        nodePort: 55531
+        port: 50051
+        targetPort: 50051
+        nodePort: 50051
       metrics:
         port: 90
         targetPort: 90
+        nodePort: 50090
         
 
 # ==========================
