@@ -4,6 +4,7 @@ from concurrent import futures
 from loguru import logger
 
 import grpc
+from prometheus_client import start_http_server
 
 from . import grpc_pb2_grpc
 from .grpc_pb2 import (
@@ -17,6 +18,7 @@ from ...app.entities.user import UserUpdate
 from ...app.entities.bill import BillCreateByURL
 
 from .config import grpc_server_config
+from .metrics.grpc_metrics import PrometheusInterceptor
 
 
 class RestApiGRPC(grpc_pb2_grpc.RestApiGRPCServicer):
@@ -115,7 +117,8 @@ class RestApiGRPC(grpc_pb2_grpc.RestApiGRPCServicer):
 async def serve():
     rest_api_grpc = RestApiGRPC()
     server = grpc.aio.server(
-        futures.ThreadPoolExecutor(max_workers=10)
+        futures.ThreadPoolExecutor(max_workers=10),
+        interceptors=[PrometheusInterceptor()]
     )
     grpc_pb2_grpc.add_RestApiGRPCServicer_to_server(
         rest_api_grpc, server
@@ -128,5 +131,6 @@ async def serve():
 
 if __name__ == "__main__":
     logger.info("before start GRPC server")
+    start_http_server(90)
     asyncio.run(serve())
     logger.info("after stop GRPC server")

@@ -50,6 +50,10 @@ api:
         port: 50031
         targetPort: 
         nodePort: 55531
+      metrics:
+        port: 90
+        targetPort: 90
+        
 
 # ==========================
 # Frontend

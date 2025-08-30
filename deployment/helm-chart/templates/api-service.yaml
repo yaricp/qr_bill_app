@@ -23,4 +23,8 @@ spec:
     - name: grpc
       port: {{ .Values.api.service.ports.grpc.port }}
       targetPort: {{ .Values.api.service.ports.grpc.targetPort}}
+    - name: metrics
+      port: {{ .Values.api.service.ports.metrics.port }}
+      targetPort: {{ .Values.api.service.ports.metrics.targetPort}}
+
   type: {{ .Values.api.service.type }}

@@ -24,6 +24,25 @@ prometheus:
         scrape_interval: 15s
         metrics_path: /metrics
 
+      - job_name: 'qracun-metrics'
+        kubernetes_sd_configs:
+          - role: endpoints
+            namespaces:
+              names:
+                - qracun-test
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_service_label_app]
+            action: keep
+            regex: qracun
+          - source_labels: [__meta_kubernetes_service_label_tier]
+            action: keep
+            regex: backend
+          - source_labels: [__meta_kubernetes_endpoint_port_name]
+            action: keep
+            regex: metrics  # новый порт "metrics"
+        scrape_interval: 15s
+        metrics_path: /metrics
+
 grafana:
   enabled: false  # Grafana уже общая, не создаём свою
 

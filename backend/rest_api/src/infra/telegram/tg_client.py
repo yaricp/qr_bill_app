@@ -31,9 +31,7 @@ def send_mess_to_admin(message: str) -> bool:
 
 
 def send_mess_to_client(
-    user_id: int,
-    message: str,
-    filepath: str = ""
+    user_id: int, message: str, filepath: str = ""
 ) -> int:
     """
     Sends message to reg telegram bot.
