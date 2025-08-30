@@ -1,6 +1,7 @@
 from prometheus_client import Counter, Histogram
 import time
 
+
 EMAIL_SENT = Counter(
     "qracun_email_sent_total",
     "Total number of emails sent",

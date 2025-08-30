@@ -106,8 +106,7 @@ class EmailClient:
 
         except Exception as e:
             self.logger.error(f'error: {e}')
-            # raise Exception(e)
-            return False
+            raise e
         self.logger.info(f'Succesful sent: {self.email}')
         return True
 
