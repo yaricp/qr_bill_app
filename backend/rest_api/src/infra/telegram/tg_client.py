@@ -4,11 +4,13 @@ from telebot import types
 from loguru import logger
 
 from .config import telegram_config
+from .metrics.telegram_metrics import metric_telegram_send
 
 
 token = telegram_config.TELEGRAM_BOT_TOKEN
 
 
+@metric_telegram_send
 def send_mess_to_admin(message: str) -> bool:
     """
     Sends message to telegram chat.
@@ -27,9 +29,11 @@ def send_mess_to_admin(message: str) -> bool:
         logger.warning(
             f'Error {e} while sending notification {message}'
         )
+        raise e
     return True
 
 
+@metric_telegram_send
 def send_mess_to_client(
     user_id: int, message: str, filepath: str = ""
 ) -> int:
@@ -57,15 +61,17 @@ def send_mess_to_client(
                 logger.error(
                     f'Error {e} while sending file {filepath} to client {user_id}'
                 )
+                raise e
         logger.info(f"sending message")
         return tb.send_message(user_id, message)
     except Exception as e:
         logger.error(
             f'Error {e} while sending {message} to client {user_id}'
         )
-    return 0
+        raise e
 
 
+@metric_telegram_send
 def delete_message(message_id: int) -> bool:
     tb = telebot.TeleBot(token)
     try:
@@ -73,7 +79,7 @@ def delete_message(message_id: int) -> bool:
         return True
     except Exception as err:
         logger.error(f"Error: {err}")
-        return False
+        raise err
 
 
 if __name__ == '__main__':

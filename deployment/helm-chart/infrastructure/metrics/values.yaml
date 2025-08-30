@@ -24,7 +24,7 @@ prometheus:
         scrape_interval: 15s
         metrics_path: /metrics
 
-      - job_name: 'qracun-metrics'
+      - job_name: 'qracun-grpc'
         kubernetes_sd_configs:
           - role: endpoints
             namespaces:

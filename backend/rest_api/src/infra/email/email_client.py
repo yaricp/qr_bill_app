@@ -4,6 +4,7 @@ from loguru import logger
 
 from .config import smtp_server_config
 from .template import Template
+from .metrics.email_metrics import metric_email_client
 
 
 class EmailClient:
@@ -63,6 +64,7 @@ class EmailClient:
             self.logger.error("Problem with email template")
             raise Exception("Problem with email template")
 
+    @metric_email_client
     def send(self):
         """
         Sends a message with object parameters
