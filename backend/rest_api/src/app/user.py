@@ -11,6 +11,10 @@ from ..infra.database.models import (
 
 from .entities.user import User, UserCreate, UserUpdate
 from .config import login_link_config, rest_api_config
+from .metrics.users import (
+    metric_user_track_action,
+    metric_user_track_action_duration
+)
 
 
 class UserViews:
@@ -66,6 +70,7 @@ class UserCommands:
             db_session.commit()
             db_session.refresh(user)
             logger.info(f"user: {user}")
+            metric_user_track_action("create_login_password_user")
         return user
 
     async def register_user_by_login(
@@ -81,6 +86,7 @@ class UserCommands:
         db_session.add(user)
         db_session.commit()
         logger.info(f"user: {user}")
+        metric_user_track_action("register_user_by_login")
         return user
 
     async def register_user_by_email(
@@ -98,6 +104,7 @@ class UserCommands:
         db_session.add(user)
         db_session.commit()
         logger.info(f"user: {user}")
+        metric_user_track_action("register_user_by_email")
         return user
 
     async def register_user_by_tg_id(self, tg_id: str) -> User:
@@ -108,6 +115,7 @@ class UserCommands:
         db_session.add(user)
         db_session.commit()
         logger.info(f"user: {user}")
+        metric_user_track_action("register_user_by_tg_id")
         return user
 
     async def edit_user(
@@ -231,6 +239,7 @@ class UserCommands:
             user.tg_verified = True
             db_session.delete(found_link)
             db_session.commit()
+            metric_user_track_action("verify_user_by_tg")
             return found_link.id
         if found_link.link_for == "email":
             if not user.email:
@@ -240,6 +249,7 @@ class UserCommands:
             user.email_verified = True
             db_session.delete(found_link)
             db_session.commit()
+            metric_user_track_action("verify_user_by_email")
             return found_link.id
         return None
 
@@ -248,4 +258,5 @@ class UserCommands:
         if user:
             db_session.delete(user)
             db_session.commit()
+            metric_user_track_action("delete_user")
         return user
