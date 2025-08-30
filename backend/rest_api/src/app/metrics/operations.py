@@ -64,3 +64,7 @@ def metric_call_external_api(
 
 def metric_created_bill(status: str) -> None:
     BILLS_CREATED.labels(status=status).inc()
+
+
+def metric_processed_analitics_total() -> None:
+    pass

@@ -25,6 +25,7 @@ from .entities.user_product import (
 )
 
 from .utils import unification_names
+from .metrics.analytics import metric_analytics
 
 
 class ProductQueries:

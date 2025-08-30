@@ -19,6 +19,7 @@ from ..infra.database.models import (
 from .entities.category import (
     Category, CategoryCreate, CategoryUpdate
 )
+from .metrics.analytics import metric_analytics
 
 
 class CategoryQueries:
@@ -37,6 +38,7 @@ class CategoryQueries:
             user_id=user_id
         ).first()
 
+    @metric_analytics
     async def count_goods_by_name(
         self, first_of: int, user_id: UUID, delta_month: int = -1
     ):
@@ -132,6 +134,7 @@ class CategoryQueries:
 
         return result
 
+    @metric_analytics
     async def summ_goods_by_name(
         self, first_of: int, user_id: UUID, delta_month: int = -1
     ):

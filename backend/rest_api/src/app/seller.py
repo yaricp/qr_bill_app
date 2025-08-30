@@ -19,6 +19,7 @@ from .entities.seller import (
     Seller, SellerCreate, CountBillsByNameSeller,
     CountGoodsByNameSeller, SummBillsByNameSeller
 )
+from .metrics.analytics import metric_analytics
 
 
 class SellerViews:
@@ -55,6 +56,7 @@ class SellerQueries:
     async def get_seller(self, id: UUID):
         return SellerORM.query.get(id)
 
+    @metric_analytics
     async def get_sellers_order_by_count_goods(
         self, first_of: int, user_id: UUID
     ) -> List[CountGoodsByNameSeller]:
@@ -78,6 +80,7 @@ class SellerQueries:
             ).order_by(desc("count")).all()
         return result
 
+    @metric_analytics
     async def get_sellers_order_by_count_bills(
         self, first_of: int, user_id: UUID
     ) -> List[CountBillsByNameSeller]:
@@ -102,6 +105,7 @@ class SellerQueries:
             ).order_by(desc("count")).all()
         return result
 
+    @metric_analytics
     async def get_sellers_order_by_summ_bills(
         self, first_of: int, user_id: UUID
     ) -> List[SummBillsByNameSeller]:
