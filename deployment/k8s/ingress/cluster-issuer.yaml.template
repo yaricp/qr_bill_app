@@ -5,7 +5,7 @@ metadata:
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-    email: qracun@proton.me
+    email: qr_bill_app@proton.me
     privateKeySecretRef:
       name: letsencrypt-prod
     solvers:

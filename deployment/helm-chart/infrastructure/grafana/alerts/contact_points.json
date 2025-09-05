@@ -1,7 +1,7 @@
 apiVersion: 1
 contactPoints:
     - orgId: 1
-      name: Test-Qracun-TG-Alert
+      name: Test-qr_bill_app-TG-Alert
       receivers:
         - uid: cew39339f38cgb
           type: telegram
@@ -10,7 +10,7 @@ contactPoints:
             chatid: "251241715"
             disable_notification: false
             disable_web_page_preview: false
-            message: '{{ template "qracun.error.tg" . }}'
+            message: '{{ template "qr_bill_app.error.tg" . }}'
             parse_mode: Markdown
             protect_content: false
           disableResolveMessage: false

@@ -1,6 +1,6 @@
 {{- /* Example displaying the summary and description annotations of each alert in the notification. */ -}}
 {{- /* Edit the template name and template content as needed. */ -}}
-{{ define "qracun.error.tg" -}}
+{{ define "qr_bill_app.error.tg" -}}
 {{ len .Alerts }} alert(s)
 {{ range .Alerts -}}
   App: {{ .Labels.app }}

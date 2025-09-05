@@ -1,5 +1,5 @@
 apiVersion: v2
-name: qracun
-description: Helm chart for qracun.me stack
+name: qr_bill_app
+description: Helm chart for qr_bill_app.me stack
 version: 0.1.0
 appVersion: "1.0.0"

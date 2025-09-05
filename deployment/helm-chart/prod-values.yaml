@@ -17,8 +17,8 @@ images:
 ingress:
   enabled: true
   className: nginx
-  host: qracun.me
-  tlsSecretName: prod-qracun-tls
+  host: qr_bill_app.me
+  tlsSecretName: prod-qr_bill_app-tls
   clusterIssuer: letsencrypt-prod
   annotations:
     sslRedirect: "true"
@@ -124,20 +124,20 @@ imagePullSecrets:
 # ConfigMaps and Secrets
 # ==========================
 config:
-  name: qracun-config
+  name: qr_bill_app-config
   TELEGRAM_LANGUAGES:
     - en
     - ru
 
 secrets:
-  name: qracun-secret
+  name: qr_bill_app-secret
 
 # ==========================
 # Cert-Manager / TLS
 # ==========================
 certManager:
   clusterIssuerName: letsencrypt-prod
-  email: qracun@proton.me
+  email: qr_bill_app@proton.me
   http01:
     sslRedirect: false
 

@@ -9,8 +9,8 @@ replicaCount: 1
 ingress:
   enabled: true
   className: nginx
-  host: test.qracun.me
-  tlsSecretName: test-qracun-tls
+  host: test.qr_bill_app.me
+  tlsSecretName: test-qr_bill_app-tls
   clusterIssuer: letsencrypt-test
   annotations:
     sslRedirect: "true"
@@ -124,12 +124,12 @@ imagePullSecrets:
 # ConfigMaps and Secrets
 # ==========================
 config:
-  name: qracun-config
+  name: qr_bill_app-config
   TELEGRAM_LANGUAGES:
     - en
     - ru
   ALLOW_ORIGINS: 
-    - https://test.qracun.me
+    - https://test.qr_bill_app.me
   ALLOW_HEADERS:
     - "*"
   ALLOW_CREDENTIALS: true
@@ -144,14 +144,14 @@ config:
   DATABASE_EXPIRE_ON_COMMIT: false
 
 secrets:
-  name: qracun-secret
+  name: qr_bill_app-secret
   
 # ==========================
 # Cert-Manager / TLS
 # ==========================
 certManager:
   clusterIssuerName: letsencrypt-test
-  email: qracun@proton.me
+  email: qr_bill_app@proton.me
   http01:
     sslRedirect: false
 

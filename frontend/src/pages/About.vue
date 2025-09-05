@@ -67,8 +67,8 @@
                 <p>
                     {{ $t("about.capabilities.text6") }}
                     &nbsp;
-                    <a href="https://t.me/qracun_bot" target="blank">
-                        @qracun_bot
+                    <a href="https://t.me/qr_bill_app_bot" target="blank">
+                        @qr_bill_app_bot
                     </a>
                 </p>
                 <p>
@@ -175,22 +175,22 @@
                 <p>
                     {{ $t("about.contacts.text2") }}
                     &nbsp;
-                    <a href="https://t.me/qracun_me_news" target="blank">
-                        @qracun_me_news
+                    <a href="https://t.me/qr_bill_app_me_news" target="blank">
+                        @qr_bill_app_me_news
                     </a>
                 </p>
                 <p>
                     {{ $t("about.contacts.text3") }}
                     &nbsp;
-                    <a href="https://www.threads.net/@qracun.me" target="blank">
-                        qracun.me
+                    <a href="https://www.threads.net/@qr_bill_app.me" target="blank">
+                        qr_bill_app.me
                     </a>
                 </p>
                 <p>
                     {{ $t("about.contacts.text4") }}
                     &nbsp;
-                    <a href="https://www.instagram.com/qracun.me/" target="blank">
-                        qracun.me
+                    <a href="https://www.instagram.com/qr_bill_app.me/" target="blank">
+                        qr_bill_app.me
                     </a>
                 </p>
                 <p>

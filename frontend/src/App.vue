@@ -2,7 +2,7 @@
   <div id="app">
     <nav class="navbar navbar-expand-lg bg-light">
       <a class="navbar-brand" href="/main">
-        QRacun<br>
+        qr_bill_app<br>
       </a>
       <div class="navbar-nav" v-if="!loggedIn">
         <li class="nav-item">

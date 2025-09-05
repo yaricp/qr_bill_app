@@ -3,11 +3,11 @@ kind: Service
 metadata:
   name: frontend
   labels:
-    app: qracun
+    app: qr_bill_app
     tier: frontend
 spec:
   selector:
-    app: qracun
+    app: qr_bill_app
     tier: frontend
   ports:
     - port: {{ .Values.frontend.service.port }}

@@ -1,5 +1,5 @@
 export default {
-  header: "About the QRacun Application",
+  header: "About the qr_bill_app Application",
   text1: `This application is designed for collecting data on purchases 
         made by the user within the territory of Montenegro.`,
   text2: `The user can scan a QR code on receipts or invoices 
@@ -11,7 +11,7 @@ export default {
   text5: `Once all the receipt data is saved, the user can 
         view various analytics on their purchases.`,
   capabilities: {
-    header: "Features of qracun.me",
+    header: "Features of qr_bill_app.me",
     text1: `✅ Receipt and invoice scanning – simply 
         point your camera at a QR code, and the app 
         will automatically save all the data.`,
@@ -26,14 +26,14 @@ export default {
         the app can be used anonymously, 
         without linking to banks or social networks.`,
     text6: `✅ Telegram bot – send receipt photos 
-        or QR code links to qracun_bot and 
+        or QR code links to qr_bill_app_bot and 
         quickly add them to the app.`,
     text7: `✅ Support for three languages – Russian, 
         English, Montenegrin.`
   },
   why: {
-    header: "Features of the qracun.me:",
-    text1: `✅ Unlike banking apps, qracun.me 
+    header: "Features of the qr_bill_app.me:",
+    text1: `✅ Unlike banking apps, qr_bill_app.me 
         allows tracking all expenses, including 
         cash payments and purchases in different stores.`,
     text2: `✅ It is an independent solution for those who want 
@@ -49,7 +49,7 @@ export default {
 
   },
   pwa: {
-    header: "qracun.me is a PWA app, which means:",
+    header: "qr_bill_app.me is a PWA app, which means:",
     text1: "✅ It can be installed without App Store or Google Play.",
     text2: "✅ It takes up minimal space on your device.",
     text3: "✅ Works on any device with a browser.",
@@ -59,7 +59,7 @@ export default {
   security: {
     header: "Security and Privacy",
     text1: `🔒 Default anonymity:
-        qracun.me does not require registration via bank accounts, 
+        qr_bill_app.me does not require registration via bank accounts, 
         social networks, or email. You can create a fully 
         anonymous account with a unique login and password.`,
     text2: `📧 Access recovery (optional):
@@ -78,21 +78,21 @@ export default {
   },
   attention: {
     header: "Attention! The app is under development",
-    text1: `❗ qracun.me is a project that is still evolving. 
+    text1: `❗ qr_bill_app.me is a project that is still evolving. 
         Errors, service interruptions, or data loss 
         may occur during its use. The administration does not 
         guarantee the security of the entered information.`,
     text2: `📌 The app is provided "as is" 
         (AS IS) — without guarantees of data security, stability, 
         or support. Use the service at your own risk.`,
-    text3: `We strive to make qracun.me convenient and reliable, 
+    text3: `We strive to make qr_bill_app.me convenient and reliable, 
         but since the project is funded by voluntary 
         donations, its stability and development speed 
         depend on user support.`
   },
   contacts: {
     header: "Contacts",
-    text1: `Stay updated with qracun.me news and updates! 
+    text1: `Stay updated with qr_bill_app.me news and updates! 
         Follow us on social media and ask questions in our chat.`,
     text2: "🔹 News channel:",
     text3: "🔹 Threads:",

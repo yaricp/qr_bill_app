@@ -11,7 +11,7 @@ export default {
   text5: `Nakon što su svi podaci iz računa sačuvani, korisnik može 
             pregledati različite analize svojih kupovina.`,
   capabilities: {
-    header: "Mogućnosti qracun.me",
+    header: "Mogućnosti qr_bill_app.me",
     text1: `✅ Skeniranje računa i faktura – samo 
         usmerite kameru na QR kod i aplikacija 
         će automatski sačuvati sve podatke.`,
@@ -26,14 +26,14 @@ export default {
         aplikacija se može koristiti anonimno, 
         bez povezivanja sa bankama ili društvenim mrežama.`,
     text6: `✅ Telegram bot – pošaljite fotografije računa 
-        ili linkove iz QR kodova na qracun_bot i 
+        ili linkove iz QR kodova na qr_bill_app_bot i 
         brzo ih dodajte u aplikaciju.`,
     text7: `✅ Podrška za tri jezika – ruski, 
         engleski, crnogorski.`
   },
   why: {
-    header: "Osobine programa qracun.me:",
-    text1: `✅ Za razliku od bankarskih aplikacija, qracun.me 
+    header: "Osobine programa qr_bill_app.me:",
+    text1: `✅ Za razliku od bankarskih aplikacija, qr_bill_app.me 
         omogućava praćenje svih troškova, uključujući 
         gotovinske uplate i kupovine u različitim prodavnicama.`,
     text2: `✅ To je nezavisno rešenje za one koji žele 
@@ -48,7 +48,7 @@ export default {
         bez čekanja na odobrenje prodavnica aplikacija.`
   },
   pwa: {
-    header: "qracun.me je PWA aplikacija, što znači:",
+    header: "qr_bill_app.me je PWA aplikacija, što znači:",
     text1: "✅ Može se instalirati bez App Store-a ili Google Play-a.",
     text2: "✅ Zauzima minimalan prostor na uređaju.",
     text3: "✅ Radi na bilo kom uređaju sa pretraživačem.",
@@ -58,7 +58,7 @@ export default {
   security: {
     header: "Sigurnost i privatnost",
     text1: `🔒 Podrazumevana anonimnost:
-        qracun.me ne zahteva registraciju putem bankovnih računa, 
+        qr_bill_app.me ne zahteva registraciju putem bankovnih računa, 
         društvenih mreža ili e-maila. Možete kreirati potpuno 
         anoniman nalog sa jedinstvenim korisničkim imenom i lozinkom.`,
     text2: `📧 Oporavak naloga (opciono):
@@ -77,21 +77,21 @@ export default {
   },
   attention: {
     header: "Pažnja! Aplikacija je u fazi razvoja",
-    text1: `❗ qracun.me je projekat koji je još uvek u razvoju. 
+    text1: `❗ qr_bill_app.me je projekat koji je još uvek u razvoju. 
         Mogući su problemi, prekidi u radu servisa ili gubitak podataka. 
         Administracija ne garantuje sigurnost unetih informacija.`,
     text2: `📌 Aplikacija se pruža "takva kakva jeste" 
         (AS IS) – bez garancija u vezi sa sigurnošću podataka, 
         stabilnošću ili podrškom. Korišćenje aplikacije je 
         na sopstvenu odgovornost.`,
-    text3: `Trudimo se da qracun.me učinimo praktičnim i pouzdanim, 
+    text3: `Trudimo se da qr_bill_app.me učinimo praktičnim i pouzdanim, 
         ali pošto se projekat razvija zahvaljujući dobrovoljnim 
         donacijama, njegova stabilnost i brzina unapređenja 
         zavise od podrške korisnika.`
   },
   contacts: {
     header: "Kontakt",
-    text1: `Budite u toku sa vijestima i ažuriranjima qracun.me! 
+    text1: `Budite u toku sa vijestima i ažuriranjima qr_bill_app.me! 
         Pratite nas na društvenim mrežama i postavljajte pitanja u našem četu.`,
     text2: "🔹 Kanal sa vijestima:",
     text3: "🔹 Threads:",
