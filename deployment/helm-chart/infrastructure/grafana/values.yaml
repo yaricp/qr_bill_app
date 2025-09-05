@@ -1,0 +1,30 @@
+grafana:
+  enabled: true
+  adminUser: admin
+  adminPassword: admin
+  service:
+    type: NodePort
+    port: 3000
+    nodePort: 30832
+  ingress:
+    enabled: false
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Loki
+        type: loki
+        access: proxy
+        url: http://logging-loki:3100
+        isDefault: false
+      - name: Prometheus
+        type: prometheus
+        access: proxy
+        url: http://prometheus-operated:9090
+        isDefault: true
+
+sidecar:
+  dashboards:
+    enabled: true
+    label: grafana_dashboard

@@ -1,0 +1,24 @@
+apiVersion: 1
+contactPoints:
+    - orgId: 1
+      name: Test-qr_bill_app-TG-Alert
+      receivers:
+        - uid: cew39339f38cgb
+          type: telegram
+          settings:
+            bottoken: 8290903516:AAFfFhLDWF0l4xfVjYs8_KhszlBgw6L7iUs
+            chatid: "251241715"
+            disable_notification: false
+            disable_web_page_preview: false
+            message: '{{ template "qr_bill_app.error.tg" . }}'
+            parse_mode: Markdown
+            protect_content: false
+          disableResolveMessage: false
+    - orgId: 1
+      name: email receiver
+      receivers:
+        - uid: ""
+          type: email
+          settings:
+            addresses: <example@email.com>
+          disableResolveMessage: false

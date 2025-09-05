@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  labels:
+    app: ${APP_NAME_LABEL}
+    tier: frontend
+spec:
+  selector:
+    app: ${APP_NAME_LABEL}
+    tier: frontend
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP

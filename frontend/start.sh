@@ -1,0 +1,4 @@
+#!/usr/bash
+
+echo "start!"
+

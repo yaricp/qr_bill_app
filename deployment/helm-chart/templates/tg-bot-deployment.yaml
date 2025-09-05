@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tg-bot
+  labels:
+    app: qr_bill_app
+    tier: bot
+spec:
+  replicas: {{ .Values.tgBot.replicas }}
+  selector:
+    matchLabels:
+      app: qr_bill_app
+      tier: bot
+  template:
+    metadata:
+      labels:
+        app: qr_bill_app
+        tier: bot
+    spec:
+      imagePullSecrets:
+    {{- range .Values.imagePullSecrets }}
+        - name: {{ .name }}
+    {{- end }}
+      containers:
+        - name: tg-bot
+          image: {{ .Values.tgBot.image }}
+          command: ["/./start.sh"]
+          # env:
+          #   - name: TELEGRAM_LANGUAGES
+          #     value: '{{ toJson .Values.config.TELEGRAM_LANGUAGES }}'
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.config.name }}
+            - secretRef:
+                name: {{ .Values.secrets.name }}
+
+

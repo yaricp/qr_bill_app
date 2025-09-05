@@ -1,0 +1,64 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: postgres-backup
+spec:
+  schedule: "0 * * * *"  # every hour
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          initContainers:
+            - name: logic-pg-dump
+              image: postgres:17.5
+              env:
+                - name: POSTGRES_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${APP_NAME_LABEL}-secret
+                      key: POSTGRES_USER
+                - name: POSTGRES_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${APP_NAME_LABEL}-secret
+                      key: POSTGRES_PASSWORD
+                - name: POSTGRES_DB
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${APP_NAME_LABEL}-secret
+                      key: POSTGRES_DB
+              command: ["/bin/bash", "-c"]
+              args:
+                - |
+                  set -e
+                  mkdir -p /backups
+                  PGPASSWORD=$POSTGRES_PASSWORD pg_dump -h pg -U $POSTGRES_USER -d $POSTGRES_DB > /backups/dump.sql
+              volumeMounts:
+                - name: backup-storage
+                  mountPath: /backups
+          containers:
+            - name: logic-dump-git-commit
+              image: alpine/git:latest
+              volumeMounts:
+                - name: backup-storage
+                  mountPath: /backups
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  set -e
+                  cd /backups
+                  if [ ! -d ".git" ]; then
+                    git init
+                    echo "Git repo initialized"
+                  fi
+                  git config user.name "Backup Bot"
+                  git config user.email "backup@example.com"
+                  git add dump.sql
+                  git commit -m "Backup $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
+          restartPolicy: OnFailure
+          volumes:
+            - name: backup-storage
+              persistentVolumeClaim:
+                claimName: logic-backups

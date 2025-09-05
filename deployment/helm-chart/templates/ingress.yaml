@@ -1,0 +1,45 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: qr_bill_app-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "{{ .Values.ingress.clusterIssuer }}"
+    nginx.ingress.kubernetes.io/ssl-redirect: "{{ .Values.ingress.annotations.sslRedirect }}"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "{{ .Values.ingress.annotations.forceSslRedirect }}"
+    nginx.ingress.kubernetes.io/hsts: "{{ .Values.ingress.annotations.hsts }}"
+    nginx.ingress.kubernetes.io/hsts-max-age: "{{ .Values.ingress.annotations.hstsMaxAge }}"
+    nginx.ingress.kubernetes.io/hsts-include-subdomains: "{{ .Values.ingress.annotations.hstsIncludeSubdomains }}"
+    nginx.ingress.kubernetes.io/hsts-preload: "{{ .Values.ingress.annotations.hstsPreload }}"
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          - path: {{ .Values.ingress.paths.api.path }}
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.ingress.paths.api.serviceName }}
+                port:
+                  number: {{ .Values.ingress.paths.api.servicePort }}
+          - path: {{ .Values.ingress.paths.docs.path }}
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.ingress.paths.docs.serviceName }}
+                port:
+                  number: {{ .Values.ingress.paths.docs.servicePort }}
+          - path: {{ .Values.ingress.paths.frontend.path }}
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.ingress.paths.frontend.serviceName }}
+                port:
+                  number: {{ .Values.ingress.paths.frontend.servicePort }}
+  tls:
+    - hosts:
+        - {{ .Values.ingress.host }}
+      secretName: {{ .Values.ingress.tlsSecretName }}
+{{- end }}

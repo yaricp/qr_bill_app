@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tmp-shared-data-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce # в Minikube обычно RWX не поддерживается
+  resources:
+    requests:
+      storage: 1Gi

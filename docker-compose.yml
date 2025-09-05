@@ -1,20 +1,24 @@
 # version: "3.9"
 
+
 services:
   pg:
     restart: always
+    # image: postgis/postgis:latest
     image: postgres:latest
+    container_name: pg
     volumes:
       - pgdata:/var/lib/postgresql/data/
     environment:
-      POSTGRES_HOST: ${POSTGRES_HOST}
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: ${DATABASE_HOST}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
 
   pgadmin4:
     image: dpage/pgadmin4:latest
     restart: always
+    container_name: pgadmin
     ports:
       - "5050:80"
     environment:
@@ -26,49 +30,120 @@ services:
   api:
     restart: always
     image: ${NAME_IMAGE_API}
+    container_name: api
     ports:
       - "8080:80"
+    volumes:
+      - ./backend/rest_api/src:/src
+      - ./backend/rest_api/alembic:/alembic
+      - ./backend/rest_api/alembic/versions:/alembic/versions
+      - ./grpc_proto:/grpc_proto
+      - ./email_templates:/src/infra/email/templates
     build:
       context: ./backend/rest_api/
       dockerfile: Dockerfile
-    env_file:
-      - .env
+    environment:
+      DEBUG: ${DEBUG}
+      TEST_MODE: ${TEST_MODE:-False}
+      INSTALL_DEV: ${INSTALL_DEV}
+      SECRET_KEY: ${SECRET_KEY}
+      TOKEN_EXPIRY_TIME_HOURS: ${TOKEN_EXPIRY_TIME_HOURS}
+      FISCAL_SERVICE_HOSTNAME: ${FISCAL_SERVICE_HOSTNAME}
+      FISCAL_SERVICE_URI: ${FISCAL_SERVICE_URI}
+      FISCAL_SERVICE_API_URI: ${FISCAL_SERVICE_API_URI}
+      TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${TIME_LIFE_TEMP_LOGIN_LINK_MIN}
+      FRONTEND_APP_LOGIN_LINK_PREFIX: ${FRONTEND_APP_LOGIN_LINK_PREFIX}
+      FRONTEND_APP_VERIFY_LINK_PREFIX: ${FRONTEND_APP_VERIFY_LINK_PREFIX}
+      REST_API_HOST: ${REST_API_HOST}
+      REST_API_PORT: ${REST_API_PORT}
+      REST_API_PREFIX: ${REST_API_PREFIX}
+      REST_API_LOGIN_LINK_URI: ${REST_API_LOGIN_LINK_URI}
+      DATABASE_DIALECT: ${DATABASE_DIALECT}
+      DATABASE_DRIVER: ${DATABASE_DRIVER}
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_ECHO: ${DATABASE_ECHO}
+      DATABASE_POOL_RECYCLE: ${DATABASE_POOL_RECYCLE}
+      DATABASE_POOL_PRE_PING: ${DATABASE_POOL_PRE_PING}
+      DATABASE_AUTO_FLUSH: ${DATABASE_AUTO_FLUSH}
+      DATABASE_EXPIRE_ON_COMMIT: ${DATABASE_EXPIRE_ON_COMMIT}
+      UNICORN_HOST: ${UNICORN_HOST}
+      UNICORN_PORT: ${UNICORN_PORT}
+      UNICORN_LOG_LEVEL: ${UNICORN_LOG_LEVEL}
+      UNICORN_RELOAD: ${UNICORN_RELOAD}
+      UNICORN_WORKERS: ${UNICORN_WORKERS}
+      ALLOW_ORIGINS: ${ALLOW_ORIGINS}
+      ALLOW_HEADERS: ${ALLOW_HEADERS}
+      ALLOW_CREDENTIALS: ${ALLOW_CREDENTIALS}
+      ALLOW_METHODS: ${ALLOW_METHODS}
+      MASTER_EMAIL: ${MASTER_EMAIL}
+      SMTP_SERVER: ${SMTP_SERVER}
+      SMTP_SERVER_PORT: ${SMTP_SERVER_PORT}
+      SMTP_SERVER_PASSWORD: ${SMTP_SERVER_PASSWORD}
+      EMAIL_REPLY_TO: ${EMAIL_REPLY_TO}
+      MAILERSEND_API_KEY: ${MAILERSEND_API_KEY}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      TELEGRAM_ADMIN_CHAT_ID: ${TELEGRAM_ADMIN_CHAT_ID}
     command: /./start.sh
     depends_on:
       - pg
 
+  tg:
+    restart: always
+    image: ${NAME_IMAGE_TELEGRAM_BOT}
+    container_name: tg
+    environment:
+      TELEGRAM_LANGUAGES: ${TELEGRAM_LANGUAGES}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      TELEGRAM_BOT_DEFAULT_LANG: ${TELEGRAM_BOT_DEFAULT_LANG}
+      TELEGRAM_ADMIN_CHAT_ID: ${TELEGRAM_ADMIN_CHAT_ID}
+      TELEGRAM_GRPC_HOST: ${TELEGRAM_GRPC_HOST}
+      TELEGRAM_GRPC_PORT: ${TELEGRAM_GRPC_PORT}
+      TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${TIME_LIFE_TEMP_LOGIN_LINK_MIN}
+      TELEGRAM_WEBAPP_ADDRESS: ${TELEGRAM_WEBAPP_ADDRESS}
+      TELEGRAM_QR_PIC_DIR: ${TELEGRAM_QR_PIC_DIR}
+    command: /./start.sh
+    volumes:
+      - ./backend/tg_bot/app:/bot
+      - ./grpc_proto:/grpc_proto
+    depends_on:
+      - api
+    build:
+      context: ./backend/tg_bot
 
-  # - redis
 
-  # tg:
-  #   restart: always
-  #   image: ${NAME_IMAGE_TELEGRAM_BOT}
-  #   container_name: tg
-  #   # volumes:
-  #   #  - ./backend/telegram_bot/logs:/app/logs
-  #   environment:
-  #     REST_API_URI: "http://api/api/v1/"
-  #     REST_API_TICKET: "tickets/"
-  #     REST_API_DEVICE: "devices/"
-  #     REST_API_SETTING: "settings/"
-  #     REST_API_TYPESOURCE: "sourcetypes/"
-  #     REST_API_SOURCE: "sources/"
-  #     REST_API_SOURCE_BY_TYPESOURCE: "sources/by_typesource/"
-  #     REST_API_IPFSUSER: "ipfsusers/"
-  #     REST_API_IPFSUSER_BY_CUSTOMER: "ipfsusers/by_customer/"
-  #     REST_API_TYPEPACKAGE: "packagetypes/"
-  #     REST_API_MONTAGE: "montages/"
-  #     REST_API_VIDEOMANAGER: "video-manager"
-  #     REST_API_AUTHENTICATION_URL: "auth/login"
-  #     REST_API_USER: ${API_LOGIN}
-  #     REST_API_PASSWORD: ${API_PASSWORD}
-  #     REST_API_CUSTOMER: "customer"
-  #     REST_API_TIMEOUT: 5
-  #   depends_on:
-  #     - api
-  #     - montage
-  #   build:
-  #     context: ./backend/tg_bot
+    # volumes:
+    #  - ./backend/telegram_bot/logs:/app/logs
+
+  front:
+    restart: always
+    image: ${NAME_IMAGE_FRONTEND}
+    container_name: front
+    build:
+      context: ./frontend
+      args:
+        VUE_APP_ENV: ${VUE_APP_ENV}
+        VUE_APP_THIS_HOST_API: ${VUE_APP_THIS_HOST_API}
+        VUE_APP_PREFIX: ${VUE_APP_PREFIX}
+        VUE_APP_API_PROD: ${VUE_APP_API_PROD}
+        VUE_APP_API_STAG: ${VUE_APP_API_STAG}
+        VUE_APP_API_DEV: ${VUE_APP_API_DEV}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./frontend/nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - api
+
+volumes:
+  pgdata: {}
+
+
+
 
   # redis:
   #   image: bitnami/redis:latest
@@ -128,8 +203,3 @@ services:
   #   depends_on:
   #     - montage
   #     - prom
-
-volumes:
-  pgdata: {}
-  # prometheus_data: {}
-  # grafana_data: {}

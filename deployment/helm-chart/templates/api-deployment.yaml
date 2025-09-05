@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  labels:
+    app: qr_bill_app
+    tier: backend
+spec:
+  replicas: {{ .Values.api.replicas }}
+  selector:
+    matchLabels:
+      app: qr_bill_app
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: qr_bill_app
+        tier: backend
+    spec:
+      imagePullSecrets:
+    {{- range .Values.imagePullSecrets }}
+        - name: {{ .name }}
+    {{- end }}
+      containers:
+        - name: api
+          image: {{ .Values.api.image }}
+          command: ["/./start.sh"]
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.config.name }}
+            - secretRef:
+                name: {{ .Values.secrets.name }}
+          volumeMounts:
+            - name: mail-templates
+              mountPath: /src/infra/email/templates
+      volumes:
+        - name: mail-templates
+          persistentVolumeClaim:
+            claimName: mail-templates-nfs-pvc

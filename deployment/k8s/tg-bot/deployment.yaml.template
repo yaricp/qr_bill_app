@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tg-bot
+  labels:
+    app: ${APP_NAME_LABEL}
+    tier: bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ${APP_NAME_LABEL}
+      tier: bot
+  template:
+    metadata:
+      labels:
+        app: ${APP_NAME_LABEL}
+        tier: bot
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: tg-bot
+          image: ${NAME_IMAGE_TELEGRAM_BOT}
+          command: ["/./start.sh"]
+          envFrom:
+            - configMapRef:
+                name: ${APP_NAME_LABEL}-config
+            - secretRef:
+                name: ${APP_NAME_LABEL}-secret
+          volumeMounts:
+            - name: tmp-shared-data
+              mountPath: /grpc_proto         # grpc_proto
+              subPath: grpc_proto            # подкаталог в PVC
+      volumes:
+        - name: tmp-shared-data
+          persistentVolumeClaim:
+            claimName: tmp-shared-data-pvc

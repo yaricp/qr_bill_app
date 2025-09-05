@@ -1,0 +1,158 @@
+# ==========================
+# General settings
+# ==========================
+replicaCount: 1
+
+# ==========================
+# Images
+# ==========================
+images:
+  api: ""                # здесь будет подставляться из GitHub Actions, например: NAME_IMAGE_API
+  frontend: ""           # NAME_IMAGE_FRONTEND
+  tg: ""        # NAME_IMAGE_TELEGRAM_BOT
+
+# =========================
+# Ingress
+# =========================
+ingress:
+  enabled: true
+  className: nginx
+  host: qr_bill_app.me
+  tlsSecretName: prod-qr_bill_app-tls
+  clusterIssuer: letsencrypt-prod
+  annotations:
+    sslRedirect: "true"
+    forceSslRedirect: "true"
+    hsts: "true"
+    hstsMaxAge: "31536000"
+    hstsIncludeSubdomains: "true"
+    hstsPreload: "true"
+  paths:
+    api:
+      serviceName: api
+      servicePort: 80
+      path: /api
+    docs:
+      serviceName: api
+      servicePort: 80
+      path: /docs
+    frontend:
+      serviceName: frontend
+      servicePort: 80
+      path: /
+
+# ==========================
+# API
+# ==========================
+api:
+  replicas: 1
+  image: ""
+  service:
+    type: ClusterIP
+    ports:
+      http: 
+        port: 80
+        targetPort: 80
+        nodePort: 5555
+      grpc:
+        port: 50051
+        targetPort: 
+        nodePort: 55551
+
+# ==========================
+# Frontend
+# ==========================
+frontend:
+  replicas: 1
+  service:
+    type: ClusterIP
+    port: 80
+
+# ==========================
+# Telegram Bot
+# ==========================
+tgBot:
+  replicas: 1
+  image: ""
+
+# ========================
+# PostgresDB
+# ========================
+pg:
+  enabled: true
+  image: "postgres:17.5"
+  replicas: 1
+  service:
+    type: ClusterIP
+    port: 5432
+    targetPort: 5432
+  securityContext:
+    runAsUser: 999
+    runAsGroup: 999
+    fsGroup: 999
+  mainPVC:
+    storage: 15Gi
+  backupPVC:
+    storage: 5Gi
+
+backup:
+  schedule: "0 * * * *"
+  gitUser: "Backup Bot"
+  gitEmail: "backup@example.com"
+
+# =========================
+# PgAdmin
+# =========================
+pgadmin:
+  enabled: true
+  image:
+    repository: dpage/pgadmin4
+    tag: latest
+  service:
+    type: NodePort
+    port: 80
+    targetPort: 80
+    nodePort: 30881
+
+# ==========================
+# ImagePullSecrets
+# ==========================
+imagePullSecrets:
+  - name: ghcr-secret
+
+# ==========================
+# ConfigMaps and Secrets
+# ==========================
+config:
+  name: qr_bill_app-config
+  TELEGRAM_LANGUAGES:
+    - en
+    - ru
+
+secrets:
+  name: qr_bill_app-secret
+
+# ==========================
+# Cert-Manager / TLS
+# ==========================
+certManager:
+  clusterIssuerName: letsencrypt-prod
+  email: qr_bill_app@proton.me
+  http01:
+    sslRedirect: false
+
+# ====================
+# mailTemplatesNFS
+# ===================
+mailTemplatesNFS:
+  storage: 5Mi
+  server: 192.168.168.10   # IP вашей виртуалки
+  path: /exports/k8s/email_templates
+
+# ==========================
+# ghcr-secret
+# ==========================
+ghcr:
+  username: ""
+  password: ""
+  email: ""

@@ -1,0 +1,135 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Requests per minute",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(count_over_time({namespace=\"$namespace\", pod=~\"$pod\", app=~\"$app\"} |= \"HTTP/1.1\" [1m]))"
+        }
+      ],
+      "gridPos": {"x":0,"y":0,"w":12,"h":8}
+    },
+    {
+      "type": "timeseries",
+      "title": "Requests by status",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (status) (count_over_time({namespace=\"$namespace\", pod=~\"$pod\", app=~\"$app\"} |= \"HTTP/1.1\" | pattern \"<level>:     <ip> - \"<method> <path> <proto>\" <status> <rest>\" [1m]))"
+        }
+      ],
+      "gridPos": {"x":12,"y":0,"w":12,"h":8}
+    },
+    {
+      "type": "table",
+      "title": "Top endpoints (5m)",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "topk(10, count_over_time({namespace=\"$namespace\", pod=~\"$pod\", app=~\"$app\"} |= \"HTTP/1.1\" | pattern \"<level>:     <ip> - \"<method> <path> <proto>\" <status> <rest>\" [5m])) by (path))"
+        }
+      ],
+      "gridPos": {"x":0,"y":8,"w":12,"h":8}
+    },
+    {
+      "type": "timeseries",
+      "title": "Top endpoints by 5xx",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "topk(5, count_over_time({namespace=\"$namespace\", pod=~\"$pod\", app=~\"$app\"} |= \"HTTP/1.1\" | pattern \"<level>:     <ip> - \"<method> <path> <proto>\" <status> <rest>\" [5m])) by (path, status) | status=~\"5..\")"
+        }
+      ],
+      "gridPos": {"x":12,"y":8,"w":12,"h":8}
+    },
+    {
+      "type": "timeseries",
+      "title": "Error logs per minute",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "count_over_time({namespace=\"$namespace\", pod=~\"$pod\", app=~\"$app\"} |= \"ERROR\" [1m])"
+        }
+      ],
+      "gridPos": {"x":0,"y":16,"w":12,"h":8}
+    },
+    {
+      "type": "timeseries",
+      "title": "Alembic migration failures",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "count_over_time({namespace=\"$namespace\", pod=~\"$pod\", app=~\"$app\"} |= \"Can't locate revision identified\" [5m])"
+        }
+      ],
+      "gridPos": {"x":12,"y":16,"w":12,"h":8}
+    },
+    {
+      "type": "timeseries",
+      "title": "SQLAlchemy warnings",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "count_over_time({namespace=\"$namespace\", pod=~\"$pod\", app=~\"$app\"} |= \"SAWarning\" [5m])"
+        }
+      ],
+      "gridPos": {"x":0,"y":24,"w":12,"h":8}
+    },
+    {
+      "type": "timeseries",
+      "title": "Pydantic v2 warnings",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "count_over_time({namespace=\"$namespace\", pod=~\"$pod\", app=~\"$app\"} |= \"Pydantic V2\" [5m])"
+        }
+      ],
+      "gridPos": {"x":12,"y":24,"w":12,"h":8}
+    },
+    {
+      "type": "table",
+      "title": "Top IPs (5m)",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "topk(10, count_over_time({namespace=\"$namespace\", pod=~\"$pod\", app=~\"$app\"} |= \"HTTP/1.1\" | pattern \"<level>:     <ip> - \"<method> <path> <proto>\" <status> <rest>\" [5m])) by (ip))"
+        }
+      ],
+      "gridPos": {"x":0,"y":32,"w":12,"h":8}
+    },
+    {
+      "type": "logs",
+      "title": "Last errors (live)",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{namespace=\"$namespace\", pod=~\"$pod\", app=~\"$app\"} |= \"ERROR\" or |= \"Traceback\""
+        }
+      ],
+      "gridPos": {"x":12,"y":32,"w":12,"h":8}
+    }
+  ],
+  "schemaVersion": 36,
+  "style": "dark",
+  "tags": ["loki","fastapi"],
+  "templating": {
+    "list": [
+      {"name":"namespace","type":"query","datasource":"Loki","refresh":1,"query":"label_values(namespace)","current":{"text":"default","value":"default"}},
+      {"name":"pod","type":"query","datasource":"Loki","refresh":1,"query":"label_values(pod)","current":{"text":".*","value":".*"}},
+      {"name":"app","type":"query","datasource":"Loki","refresh":1,"query":"label_values(app)","current":{"text":"fastapi","value":"fastapi"}}
+    ]
+  },
+  "title": "FastAPI App Dashboard (Loki)",
+  "uid": "fastapi-loki-dashboard",
+  "version": 1
+}

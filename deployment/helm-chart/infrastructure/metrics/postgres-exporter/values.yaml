@@ -1,0 +1,27 @@
+replicaCount: 1
+
+image:
+  repository: prometheuscommunity/postgres-exporter
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  name: http
+  port: 9187
+  labels:
+    release: metrics
+ 
+env:
+  DATA_SOURCE_URI: ""
+  DATA_SOURCE_USER: ""
+  DATA_SOURCE_PASS: ""
+
+serviceMonitor:
+  enabled: true
+  namespace: qr_bill_app-test
+  interval: 15s
+  labels:
+    release: metrics  # Имя вашего helm release для kube-prometheus-stack
+  additionalLabels:
+    app: postgres-exporter

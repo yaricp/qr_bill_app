@@ -1,0 +1,41 @@
+{
+  "id": null,
+  "title": "qr_bill_app Pods Overview",
+  "tags": ["kubernetes", "qr_bill_app"],
+  "timezone": "browser",
+  "schemaVersion": 37,
+  "version": 1,
+  "refresh": "30s",
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "CPU usage (per pod)",
+      "targets": [
+        {
+          "expr": "sum by(pod) (rate(container_cpu_usage_seconds_total{namespace=\"qr_bill_app-test\", container!=\"\"}[5m]))",
+          "legendFormat": "{{pod}}"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Memory usage (per pod)",
+      "targets": [
+        {
+          "expr": "sum by(pod) (container_memory_working_set_bytes{namespace=\"qr_bill_app-test\", container!=\"\"})",
+          "legendFormat": "{{pod}}"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Container Restarts (per pod)",
+      "targets": [
+        {
+          "expr": "sum by(pod) (increase(kube_pod_container_status_restarts_total{namespace=\"qr_bill_app-test\"}[1h]))",
+          "legendFormat": "{{pod}}"
+        }
+      ]
+    }
+  ]
+}

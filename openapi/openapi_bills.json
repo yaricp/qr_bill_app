@@ -1,0 +1,1309 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "FastAPI",
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/api/v1/bills/": {
+            "get": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Get All Bills Route",
+                "operationId": "get_all_bills_route_api_v1_bills__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/Bill"
+                                    },
+                                    "type": "array",
+                                    "title": "Response Get All Bills Route Api V1 Bills  Get"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Create Bill Route",
+                "description": "Create bill.",
+                "operationId": "create_bill_route_api_v1_bills__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BillCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Bill"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/bills/parse_url/": {
+            "post": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Parse Url Bill Route",
+                "description": "Parse url link of bill.",
+                "operationId": "parse_url_bill_route_api_v1_bills_parse_url__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BillCreateByURL"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Bill"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/bills/{id}": {
+            "get": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Get Bill Route",
+                "operationId": "get_bill_route_api_v1_bills__id__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Bill"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Put Bill Route",
+                "operationId": "put_bill_route_api_v1_bills__id__put",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BillUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Bill"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Delete Bill Route",
+                "operationId": "delete_bill_route_api_v1_bills__id__delete",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Bill"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/bills/{id}/uncategorized_goods/{cat_id}": {
+            "get": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Uncategorized Goods Bill Cat Route",
+                "operationId": "uncategorized_goods_bill_cat_route_api_v1_bills__id__uncategorized_goods__cat_id__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    },
+                    {
+                        "name": "cat_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Cat Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Goods"
+                                    },
+                                    "title": "Response Uncategorized Goods Bill Cat Route Api V1 Bills  Id  Uncategorized Goods  Cat Id  Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/bills/{id}/uncategorized_goods/": {
+            "get": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Uncategorized Goods Bill Route",
+                "operationId": "uncategorized_goods_bill_route_api_v1_bills__id__uncategorized_goods__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Goods"
+                                    },
+                                    "title": "Response Uncategorized Goods Bill Route Api V1 Bills  Id  Uncategorized Goods  Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/bills/{id}/uncategorized_products/{cat_id}": {
+            "get": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Uncategorized Products Bill Cat Route",
+                "operationId": "uncategorized_products_bill_cat_route_api_v1_bills__id__uncategorized_products__cat_id__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    },
+                    {
+                        "name": "cat_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "title": "Cat Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UncategorizedUserProduct"
+                                    },
+                                    "title": "Response Uncategorized Products Bill Cat Route Api V1 Bills  Id  Uncategorized Products  Cat Id  Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/bills/{id}/uncategorized_products/": {
+            "get": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Uncategorized Products Bill Cat Route",
+                "operationId": "uncategorized_products_bill_cat_route_api_v1_bills__id__uncategorized_products__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    },
+                    {
+                        "name": "cat_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "title": "Cat Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UncategorizedUserProduct"
+                                    },
+                                    "title": "Response Uncategorized Products Bill Cat Route Api V1 Bills  Id  Uncategorized Products  Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/bills/month_summ/{delta_month}": {
+            "get": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Month Summ Bill Route",
+                "operationId": "month_summ_bill_route_api_v1_bills_month_summ__delta_month__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "delta_month",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "title": "Delta Month"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "title": "Response Month Summ Bill Route Api V1 Bills Month Summ  Delta Month  Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Bill": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "created": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Created"
+                    },
+                    "value": {
+                        "type": "string",
+                        "title": "Value"
+                    },
+                    "image": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Image"
+                    },
+                    "payment_method": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Payment Method"
+                    },
+                    "seller_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Seller Id"
+                    },
+                    "user_id": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "User Id"
+                    },
+                    "seller": {
+                        "$ref": "#/components/schemas/Seller"
+                    },
+                    "goods_list": {
+                        "items": {
+                            "$ref": "#/components/schemas/GoodsForList"
+                        },
+                        "type": "array",
+                        "title": "Goods List",
+                        "default": []
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "created",
+                    "value",
+                    "seller_id",
+                    "seller"
+                ],
+                "title": "Bill"
+            },
+            "BillCreate": {
+                "properties": {
+                    "created": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Created"
+                    },
+                    "value": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Value"
+                    },
+                    "seller_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Seller Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "created",
+                    "value",
+                    "seller_id"
+                ],
+                "title": "BillCreate"
+            },
+            "BillCreateByURL": {
+                "properties": {
+                    "link": {
+                        "type": "string",
+                        "title": "Link"
+                    },
+                    "image": {
+                        "type": "string",
+                        "title": "Image"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "link",
+                    "image"
+                ],
+                "title": "BillCreateByURL"
+            },
+            "BillUpdate": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "created": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Created"
+                    },
+                    "value": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Value"
+                    },
+                    "image": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Image"
+                    },
+                    "payment_method": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Payment Method"
+                    },
+                    "seller_id": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Seller Id"
+                    },
+                    "user_id": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "User Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id"
+                ],
+                "title": "BillUpdate"
+            },
+            "Body_login_route_api_v1_auth_login__post": {
+                "properties": {
+                    "grant_type": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "pattern": "password"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Grant Type"
+                    },
+                    "username": {
+                        "type": "string",
+                        "title": "Username"
+                    },
+                    "password": {
+                        "type": "string",
+                        "title": "Password"
+                    },
+                    "scope": {
+                        "type": "string",
+                        "title": "Scope",
+                        "default": ""
+                    },
+                    "client_id": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Client Id"
+                    },
+                    "client_secret": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Client Secret"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "username",
+                    "password"
+                ],
+                "title": "Body_login_route_api_v1_auth_login__post"
+            },
+            "Goods": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "quantity": {
+                        "type": "string",
+                        "title": "Quantity"
+                    },
+                    "unit_price_before_vat": {
+                        "type": "string",
+                        "title": "Unit Price Before Vat"
+                    },
+                    "unit_price_after_vat": {
+                        "type": "string",
+                        "title": "Unit Price After Vat"
+                    },
+                    "rebate": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Rebate",
+                        "default": "0"
+                    },
+                    "rebate_reducing": {
+                        "anyOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Rebate Reducing"
+                    },
+                    "price_before_vat": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Price Before Vat"
+                    },
+                    "vat_rate": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Vat Rate"
+                    },
+                    "vat_amount": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Vat Amount"
+                    },
+                    "price_after_vat": {
+                        "type": "string",
+                        "title": "Price After Vat"
+                    },
+                    "unit_id": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Unit Id"
+                    },
+                    "bill_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Bill Id"
+                    },
+                    "seller": {
+                        "$ref": "#/components/schemas/Seller"
+                    },
+                    "unit": {
+                        "$ref": "#/components/schemas/Unit"
+                    },
+                    "user_product": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/UserProduct"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "name",
+                    "quantity",
+                    "unit_price_before_vat",
+                    "unit_price_after_vat",
+                    "price_after_vat",
+                    "bill_id",
+                    "seller",
+                    "unit"
+                ],
+                "title": "Goods"
+            },
+            "GoodsCreate": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "quantity": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Quantity"
+                    },
+                    "unit_price_before_vat": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Unit Price Before Vat"
+                    },
+                    "unit_price_after_vat": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Unit Price After Vat"
+                    },
+                    "rebate": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Rebate"
+                    },
+                    "rebate_reducing": {
+                        "type": "boolean",
+                        "title": "Rebate Reducing"
+                    },
+                    "price_before_vat": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Price Before Vat"
+                    },
+                    "vat_rate": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Vat Rate"
+                    },
+                    "vat_amount": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Vat Amount"
+                    },
+                    "price_after_vat": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Price After Vat"
+                    },
+                    "unit_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Unit Id"
+                    },
+                    "bill_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Bill Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name",
+                    "quantity",
+                    "unit_price_before_vat",
+                    "unit_price_after_vat",
+                    "rebate",
+                    "rebate_reducing",
+                    "price_before_vat",
+                    "vat_rate",
+                    "vat_amount",
+                    "price_after_vat",
+                    "unit_id",
+                    "bill_id"
+                ],
+                "title": "GoodsCreate"
+            },
+            "GoodsUpdate": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Name"
+                    },
+                    "quantity": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Quantity"
+                    },
+                    "unit_price_before_vat": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Unit Price Before Vat"
+                    },
+                    "unit_price_after_vat": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Unit Price After Vat"
+                    },
+                    "rebate": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Rebate",
+                        "default": "0"
+                    },
+                    "rebate_reducing": {
+                        "anyOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Rebate Reducing"
+                    },
+                    "price_before_vat": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Price Before Vat"
+                    },
+                    "vat_rate": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Vat Rate"
+                    },
+                    "vat_amount": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Vat Amount"
+                    },
+                    "price_after_vat": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Price After Vat"
+                    },
+                    "unit_id": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Unit Id"
+                    },
+                    "bill_id": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Bill Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id"
+                ],
+                "title": "GoodsUpdate"
+            },
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            }
+        },
+        "securitySchemes": {
+            "LoginManager": {
+                "type": "oauth2",
+                "flows": {
+                    "password": {
+                        "scopes": {},
+                        "tokenUrl": "/api/v1/auth/login"
+                    }
+                }
+            }
+        }
+    }
+}

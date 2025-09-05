@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: ${APP_NAME_LABEL}
+    tier: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ${APP_NAME_LABEL}
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: ${APP_NAME_LABEL}
+        tier: frontend
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: frontend
+          image: ${NAME_IMAGE_FRONTEND} # подставляется при CI/CD
+          ports:
+            - containerPort: 80
+

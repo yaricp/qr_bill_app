@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: logic-backups-nfs-pv
+spec:
+  capacity:
+    storage: {{ .Values.logicBackupNFS.storage }}
+  accessModes:
+    - ReadWriteMany
+  storageClassName: microk8s-hostpath
+  nfs:
+    server: {{ .Values.logicBackupNFS.server }}
+    path: {{ .Values.logicBackupNFS.path }}
+  persistentVolumeReclaimPolicy: Retain
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: logic-backups-nfs-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: microk8s-hostpath
+  resources:
+    requests:
+      storage: {{ .Values.logicBackupNFS.storage }}
+  volumeName: logic-backups-nfs-pv

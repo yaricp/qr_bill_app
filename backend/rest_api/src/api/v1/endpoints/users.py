@@ -1,0 +1,303 @@
+from uuid import UUID
+from hashlib import sha256
+from datetime import timedelta
+from loguru import logger
+from typing import List
+
+from fastapi import Depends, BackgroundTasks
+from fastapi.security import OAuth2PasswordRequestForm
+from fastapi_login.exceptions import InvalidCredentialsException
+
+from ....infra.email.email_client import EmailClient
+from ....infra.telegram.tg_utils import send_verify_link_to_tg
+
+from ... import app, manager
+from ...config import (
+    URLPathsConfig, user_login_config, app_config
+)
+
+from ..services.user import (
+    update_user,
+    delete_user,
+    get_all_users,
+    verify_email_tg,
+    check_user_auth,
+    create_temp_link,
+    get_user_by_login,
+    register_new_user,
+    create_login_password_user
+)
+from ..services.login_link import delete_link
+from ..schemas.user import (
+    User, UserCreate, LoginLinkData, UserUpdate
+)
+
+
+@app.post(
+    URLPathsConfig.PREFIX + '/auth/register/',
+    tags=['Authentication'],
+    response_model=dict
+)
+async def register_route(
+    create_user_data: UserCreate
+) -> dict:
+    """Endpoint for register user in system"""
+    logger.info(
+        f'Register user: login="{create_user_data.login}" '
+    )
+    user = get_user_by_login(create_user_data.login)
+
+    if user:
+        return {"message": "Sorry, this login is already in use!"}
+
+    user = await register_new_user(create_user_data)
+    if user:
+        return {"message": "User registered successfull"}
+    return {"message": "Something wrong with registatrion!"}
+
+
+@app.post(
+    URLPathsConfig.PREFIX + '/auth/verify/',
+    tags=['Authentication']
+)
+async def verify_route(
+    verify_data: LoginLinkData
+) -> User | dict:
+    """Endpoint for verify email or tg"""
+    link = verify_data.link
+    logger.info(f"link: {link}")
+    logger.info(f"type(link): {type(link)}")
+    link_id = await verify_email_tg(link=link)
+
+    user = check_user_auth(email_login_tg_link=link)
+
+    if not user:
+        raise InvalidCredentialsException
+
+    if link_id:
+        delete_link(id=link_id)
+
+    logger.info(f"user: {user}")
+    logger.info(f"type(user): {type(user)}")
+    access_token = manager.create_access_token(
+        data=dict(sub=str(user.tg_id)), expires=timedelta(
+            hours=user_login_config.TOKEN_EXPIRY_TIME_HOURS
+        )
+    )
+    logger.info(f"access_token: {access_token}")
+    return {'access_token': access_token,
+            'token_type': 'bearer', }
+
+
+@app.post(
+    URLPathsConfig.PREFIX + '/auth/link_to_email/',
+    tags=['Authentication'],
+    response_model=User
+)
+async def send_verify_link_to_email_route(
+    data: dict,
+    background_tasks: BackgroundTasks,
+    user=Depends(manager)
+) -> User:
+    """Endpoint for sending verify link to email"""
+    logger.info(
+        f'email={data["email"]}'
+    )
+    str_user_link = await create_temp_link(
+        user_id=user.id, email=data["email"], action="verify"
+    )
+
+    if str_user_link == "User not found":
+        return {"message": "User not found"}
+
+    logger.info(
+        f"str_user_link: {str_user_link}"
+    )
+
+    email_client = EmailClient(
+        email=data["email"],
+        subject=f"{app_config.APP_NAME} Temporary link for login",
+        template="temp_link_email.html",
+        template_vars={"temp_link": str_user_link}
+    )
+
+    background_tasks.add_task(email_client.send)
+
+    return user
+
+
+@app.post(
+    URLPathsConfig.PREFIX + '/auth/link_to_tg/',
+    tags=['Authentication'],
+    response_model=User
+)
+async def send_verify_link_to_tg_route(
+    data: dict,
+    background_tasks: BackgroundTasks,
+    user=Depends(manager)
+) -> User:
+    """Endpoint for sending verify link to tg"""
+    logger.info(
+        f'tg_id="{data["tg_id"]}"'
+    )
+    str_user_link = await create_temp_link(
+        user_id=user.id, tg_id=data["tg_id"], action="verify"
+    )
+
+    if str_user_link == "User not found":
+        return {"message": "User not found"}
+
+    background_tasks.add_task(
+        send_verify_link_to_tg,
+        tg_id=data["tg_id"],
+        user_link=str_user_link
+    )
+
+    return user
+
+
+@app.post(
+    URLPathsConfig.PREFIX + '/auth/login/',
+    tags=['Authentication']
+)
+async def login_route(
+    data: OAuth2PasswordRequestForm = Depends()
+) -> dict:
+    """Endpoint for login user"""
+    login = data.username
+    password = data.password
+    logger.info(f"name: {login}")
+    logger.info(f"password: {password}")
+    logger.info(f"pass encoded: {sha256(password.encode()).hexdigest()}")
+
+    user = check_user_auth(email_login_tg_link=login)
+
+    logger.info(f"found user: {user}")
+
+    if not user:
+        # you can also use your own HTTPException
+        raise InvalidCredentialsException
+    elif sha256(password.encode()).hexdigest() != user.password_hash:
+        raise InvalidCredentialsException
+
+    access_token = manager.create_access_token(
+        data=dict(sub=login), expires=timedelta(
+            hours=user_login_config.TOKEN_EXPIRY_TIME_HOURS
+        )
+    )
+
+    return {'access_token': access_token,
+            'token_type': 'bearer', }
+
+
+@app.post(
+    URLPathsConfig.PREFIX + '/auth/login_by_tg/',
+    tags=['Authentication']
+)
+async def login_by_tg_route(data: LoginLinkData) -> dict:
+    """Endpoint for login user"""
+    link = data.link
+    logger.info(f"link: {link}")
+    logger.info(f"type(link): {type(link)}")
+
+    user = check_user_auth(email_login_tg_link=link)
+
+    if not user:
+        # you can also use your own HTTPException
+        raise InvalidCredentialsException
+
+    logger.info(f"user.tg_id: {user.tg_id}")
+    access_token = manager.create_access_token(
+        data=dict(sub=str(user.tg_id)), expires=timedelta(
+            hours=user_login_config.TOKEN_EXPIRY_TIME_HOURS
+        )
+    )
+    logger.info(f"access_token: {access_token}")
+    return {'access_token': access_token,
+            'token_type': 'bearer', }
+
+
+@app.post(
+    URLPathsConfig.PREFIX + '/users/',
+    tags=['Users'],
+    response_model=User
+)
+async def create_login_password_route(
+    create_user_data: UserCreate, user=Depends(manager)
+) -> User:
+    """Create login and password for existed user"""
+    logger.info(
+        f'Register user: login="{create_user_data.login}" '
+    )
+    user = await create_login_password_user(
+        user_id=user.id, user_data=create_user_data
+    )
+    return user
+
+
+@app.get(
+    URLPathsConfig.PREFIX + "/users/",
+    tags=['Users'],
+    response_model=List[User]
+)
+async def read_users_route(user=Depends(manager)) -> List[User]:
+    """
+    Retrieve users.
+    """
+    users = []
+    # logger.info(f"user.is_admin: {user.is_admin}")
+    if user.is_admin:
+        users: List[User] = await get_all_users()
+    return users
+
+
+@app.get(
+    URLPathsConfig.PREFIX + "/user/",
+    tags=['Users'],
+    response_model=User
+)
+async def read_user_profile_route(
+    user=Depends(manager)
+) -> User:
+    """
+    Retrieve user profile.
+    """
+    logger.info(f"user.password_hash: {user.password_hash}")
+    if user.password_hash:
+        user.password = "*****"
+    return user
+
+
+@app.put(
+    URLPathsConfig.PREFIX + "/user/",
+    tags=['Users'],
+    response_model=User
+)
+async def update_user_profile_route(
+    user_profile: UserUpdate,
+    user=Depends(manager)
+) -> User:
+    """
+    Update user profile.
+    """
+    logger.info(f"user_profile: {user_profile}")
+    user_profile.id = user.id
+    user = await update_user(user_profile)
+    return user
+
+
+@app.delete(
+    URLPathsConfig.PREFIX + "/users/{id}",
+    tags=['Users'],
+    response_model=User
+)
+async def delete_user_profile_route(
+    id: UUID,
+    user=Depends(manager)
+) -> User:
+    """
+    Delete user profile.
+    """
+    logger.info(f"user_id: {id}")
+    user = await delete_user(id)
+    return user

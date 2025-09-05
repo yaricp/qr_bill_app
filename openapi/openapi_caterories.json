@@ -1,0 +1,4672 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "FastAPI",
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/api/v1/bills/": {
+            "get": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Get All Bills Route",
+                "operationId": "get_all_bills_route_api_v1_bills__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/Bill"
+                                    },
+                                    "type": "array",
+                                    "title": "Response Get All Bills Route Api V1 Bills  Get"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Create Bill Route",
+                "description": "Create bill.",
+                "operationId": "create_bill_route_api_v1_bills__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BillCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Bill"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/bills/parse_url/": {
+            "post": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Parse Url Bill Route",
+                "description": "Parse url link of bill.",
+                "operationId": "parse_url_bill_route_api_v1_bills_parse_url__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BillCreateByURL"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Bill"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/bills/{id}": {
+            "get": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Get Bill Route",
+                "operationId": "get_bill_route_api_v1_bills__id__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Bill"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Put Bill Route",
+                "operationId": "put_bill_route_api_v1_bills__id__put",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BillUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Bill"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Delete Bill Route",
+                "operationId": "delete_bill_route_api_v1_bills__id__delete",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Bill"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/bills/{id}/uncategorized_goods/{cat_id}": {
+            "get": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Uncategorized Goods Bill Cat Route",
+                "operationId": "uncategorized_goods_bill_cat_route_api_v1_bills__id__uncategorized_goods__cat_id__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    },
+                    {
+                        "name": "cat_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Cat Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Goods"
+                                    },
+                                    "title": "Response Uncategorized Goods Bill Cat Route Api V1 Bills  Id  Uncategorized Goods  Cat Id  Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/bills/{id}/uncategorized_goods/": {
+            "get": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Uncategorized Goods Bill Route",
+                "operationId": "uncategorized_goods_bill_route_api_v1_bills__id__uncategorized_goods__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Goods"
+                                    },
+                                    "title": "Response Uncategorized Goods Bill Route Api V1 Bills  Id  Uncategorized Goods  Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/bills/{id}/uncategorized_products/{cat_id}": {
+            "get": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Uncategorized Products Bill Cat Route",
+                "operationId": "uncategorized_products_bill_cat_route_api_v1_bills__id__uncategorized_products__cat_id__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    },
+                    {
+                        "name": "cat_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "title": "Cat Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UncategorizedUserProduct"
+                                    },
+                                    "title": "Response Uncategorized Products Bill Cat Route Api V1 Bills  Id  Uncategorized Products  Cat Id  Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/bills/{id}/uncategorized_products/": {
+            "get": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Uncategorized Products Bill Cat Route",
+                "operationId": "uncategorized_products_bill_cat_route_api_v1_bills__id__uncategorized_products__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    },
+                    {
+                        "name": "cat_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "title": "Cat Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UncategorizedUserProduct"
+                                    },
+                                    "title": "Response Uncategorized Products Bill Cat Route Api V1 Bills  Id  Uncategorized Products  Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/bills/month_summ/{delta_month}": {
+            "get": {
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Month Summ Bill Route",
+                "operationId": "month_summ_bill_route_api_v1_bills_month_summ__delta_month__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "delta_month",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "title": "Delta Month"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "title": "Response Month Summ Bill Route Api V1 Bills Month Summ  Delta Month  Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/sellers/": {
+            "get": {
+                "tags": [
+                    "Sellers"
+                ],
+                "summary": "Get All Sellers Route",
+                "operationId": "get_all_sellers_route_api_v1_sellers__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/Seller"
+                                    },
+                                    "type": "array",
+                                    "title": "Response Get All Sellers Route Api V1 Sellers  Get"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Sellers"
+                ],
+                "summary": "Create Seller Route",
+                "description": "Create new seller.",
+                "operationId": "create_seller_route_api_v1_sellers__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SellerCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Seller"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/sellers/{id}": {
+            "get": {
+                "tags": [
+                    "Sellers"
+                ],
+                "summary": "Get Seller Route",
+                "operationId": "get_seller_route_api_v1_sellers__id__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Seller"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Sellers"
+                ],
+                "summary": "Update Seller Route",
+                "operationId": "update_seller_route_api_v1_sellers__id__put",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SellerUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Seller"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Sellers"
+                ],
+                "summary": "Delete Seller Route",
+                "operationId": "delete_seller_route_api_v1_sellers__id__delete",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Seller"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/sellers/count_bills_by_name/": {
+            "get": {
+                "tags": [
+                    "Sellers"
+                ],
+                "summary": "Count Bills By Name Seller Route",
+                "operationId": "count_bills_by_name_seller_route_api_v1_sellers_count_bills_by_name__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "first_of",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "title": "First Of"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CountBillsByNameSeller"
+                                    },
+                                    "title": "Response Count Bills By Name Seller Route Api V1 Sellers Count Bills By Name  Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/sellers/summ_bills_by_name/": {
+            "get": {
+                "tags": [
+                    "Sellers"
+                ],
+                "summary": "Summ Bills By Name Seller Route",
+                "operationId": "summ_bills_by_name_seller_route_api_v1_sellers_summ_bills_by_name__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "first_of",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "title": "First Of"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SummBillsByNameSeller"
+                                    },
+                                    "title": "Response Summ Bills By Name Seller Route Api V1 Sellers Summ Bills By Name  Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/sellers/count_goods_by_name/": {
+            "get": {
+                "tags": [
+                    "Sellers"
+                ],
+                "summary": "Count Goods Order By Seller Route",
+                "operationId": "count_goods_order_by_seller_route_api_v1_sellers_count_goods_by_name__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "first_of",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "title": "First Of"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CountGoodsByNameSeller"
+                                    },
+                                    "title": "Response Count Goods Order By Seller Route Api V1 Sellers Count Goods By Name  Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/register/": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Register Route",
+                "description": "Endpoint for register user in system",
+                "operationId": "register_route_api_v1_auth_register__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "title": "Response Register Route Api V1 Auth Register  Post"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/verify/": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Verify Route",
+                "description": "Endpoint for verify email or tg",
+                "operationId": "verify_route_api_v1_auth_verify__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginLinkData"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        {
+                                            "type": "object"
+                                        }
+                                    ],
+                                    "title": "Response Verify Route Api V1 Auth Verify  Post"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/link_to_email/": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Send Verify Link To Email Route",
+                "description": "Endpoint for sending verify link to email",
+                "operationId": "send_verify_link_to_email_route_api_v1_auth_link_to_email__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "title": "Data"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/auth/link_to_tg/": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Send Verify Link To Tg Route",
+                "description": "Endpoint for sending verify link to tg",
+                "operationId": "send_verify_link_to_tg_route_api_v1_auth_link_to_tg__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "title": "Data"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/auth/login/": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login Route",
+                "description": "Endpoint for login user",
+                "operationId": "login_route_api_v1_auth_login__post",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_login_route_api_v1_auth_login__post"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "title": "Response Login Route Api V1 Auth Login  Post"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/login_by_tg/": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login By Tg Route",
+                "description": "Endpoint for login user",
+                "operationId": "login_by_tg_route_api_v1_auth_login_by_tg__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginLinkData"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "title": "Response Login By Tg Route Api V1 Auth Login By Tg  Post"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/users/": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Read Users Route",
+                "description": "Retrieve users.",
+                "operationId": "read_users_route_api_v1_users__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    },
+                                    "type": "array",
+                                    "title": "Response Read Users Route Api V1 Users  Get"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create Login Password Route",
+                "description": "Create login and password for existed user",
+                "operationId": "create_login_password_route_api_v1_users__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user/": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Read User Profile Route",
+                "description": "Retrieve user profile.",
+                "operationId": "read_user_profile_route_api_v1_user__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update User Profile Route",
+                "description": "Update user profile.",
+                "operationId": "update_user_profile_route_api_v1_user__put",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserUpdate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/users/{id}": {
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete User Profile Route",
+                "description": "Delete user profile.",
+                "operationId": "delete_user_profile_route_api_v1_users__id__delete",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/categories/": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get All Categories Route",
+                "operationId": "get_all_categories_route_api_v1_categories__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/Category"
+                                    },
+                                    "type": "array",
+                                    "title": "Response Get All Categories Route Api V1 Categories  Get"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Create Category Route",
+                "description": "Create new category.",
+                "operationId": "create_category_route_api_v1_categories__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CategoryCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Category"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/categories/{id}": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get Category Route",
+                "operationId": "get_category_route_api_v1_categories__id__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Category"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Put Category Route",
+                "operationId": "put_category_route_api_v1_categories__id__put",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CategoryUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Category"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Delete Category Route",
+                "operationId": "delete_category_route_api_v1_categories__id__delete",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Category"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/categories/count_goods_by_name/": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Count Goods By Name Route",
+                "operationId": "count_goods_by_name_route_api_v1_categories_count_goods_by_name__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "first_of",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "title": "First Of"
+                        }
+                    },
+                    {
+                        "name": "delta_month",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1,
+                            "title": "Delta Month"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CategoryCountByName"
+                                    },
+                                    "title": "Response Count Goods By Name Route Api V1 Categories Count Goods By Name  Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/categories/summ_goods_by_name/": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Summ Goods By Name Route",
+                "operationId": "summ_goods_by_name_route_api_v1_categories_summ_goods_by_name__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "first_of",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "title": "First Of"
+                        }
+                    },
+                    {
+                        "name": "delta_month",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1,
+                            "title": "Delta Month"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CategorySummByName"
+                                    },
+                                    "title": "Response Summ Goods By Name Route Api V1 Categories Summ Goods By Name  Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/units/": {
+            "get": {
+                "tags": [
+                    "Units"
+                ],
+                "summary": "Get All Units Route",
+                "operationId": "get_all_units_route_api_v1_units__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/Unit"
+                                    },
+                                    "type": "array",
+                                    "title": "Response Get All Units Route Api V1 Units  Get"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Units"
+                ],
+                "summary": "Create Unit Route",
+                "description": "Create new unit.",
+                "operationId": "create_unit_route_api_v1_units__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UnitCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unit"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/units/{id}": {
+            "get": {
+                "tags": [
+                    "Units"
+                ],
+                "summary": "Get Unit Route",
+                "operationId": "get_unit_route_api_v1_units__id__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unit"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Units"
+                ],
+                "summary": "Put Unit Route",
+                "operationId": "put_unit_route_api_v1_units__id__put",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UnitUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unit"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Units"
+                ],
+                "summary": "Delete Unit Route",
+                "operationId": "delete_unit_route_api_v1_units__id__delete",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unit"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/login_links/countdown/{id}": {
+            "get": {
+                "tags": [
+                    "Login links"
+                ],
+                "summary": "Login Links Countdown Route",
+                "operationId": "login_links_countdown_route_api_v1_login_links_countdown__id__get",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "title": "Response Login Links Countdown Route Api V1 Login Links Countdown  Id  Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/goods/": {
+            "get": {
+                "tags": [
+                    "Goods"
+                ],
+                "summary": "Get All Goods Route",
+                "operationId": "get_all_goods_route_api_v1_goods__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/Goods"
+                                    },
+                                    "type": "array",
+                                    "title": "Response Get All Goods Route Api V1 Goods  Get"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Goods"
+                ],
+                "summary": "Create Goods Route",
+                "description": "Create new goods.",
+                "operationId": "create_goods_route_api_v1_goods__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GoodsCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Goods"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/goods/update_category/{goods_id}": {
+            "post": {
+                "tags": [
+                    "Goods"
+                ],
+                "summary": "Update Categorized Goods Route",
+                "description": "Update categories for one good.",
+                "operationId": "update_categorized_goods_route_api_v1_goods_update_category__goods_id__post",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "goods_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Goods Id"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/CategoryGoods"
+                                },
+                                "title": "Data In"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "boolean",
+                                    "title": "Response Update Categorized Goods Route Api V1 Goods Update Category  Goods Id  Post"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/goods/{id}": {
+            "get": {
+                "tags": [
+                    "Goods"
+                ],
+                "summary": "Get Goods Route",
+                "operationId": "get_goods_route_api_v1_goods__id__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Goods"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Goods"
+                ],
+                "summary": "Put Goods Route",
+                "operationId": "put_goods_route_api_v1_goods__id__put",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GoodsUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Goods"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Goods"
+                ],
+                "summary": "Delete Goods Route",
+                "operationId": "delete_goods_route_api_v1_goods__id__delete",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Goods"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/goods/uncategorized/{cat_id}": {
+            "get": {
+                "tags": [
+                    "Goods"
+                ],
+                "summary": "Uncategorized Goods Cat Route",
+                "operationId": "uncategorized_goods_cat_route_api_v1_goods_uncategorized__cat_id__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "cat_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Cat Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Goods"
+                                    },
+                                    "title": "Response Uncategorized Goods Cat Route Api V1 Goods Uncategorized  Cat Id  Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/goods/uncategorized/": {
+            "get": {
+                "tags": [
+                    "Goods"
+                ],
+                "summary": "Uncategorized Goods Route",
+                "operationId": "uncategorized_goods_route_api_v1_goods_uncategorized__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/Goods"
+                                    },
+                                    "type": "array",
+                                    "title": "Response Uncategorized Goods Route Api V1 Goods Uncategorized  Get"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/goods/count_by_name/": {
+            "get": {
+                "tags": [
+                    "Goods"
+                ],
+                "summary": "Count By Name Goods Route",
+                "operationId": "count_by_name_goods_route_api_v1_goods_count_by_name__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "first_of",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "title": "First Of"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/GoodsCountByName"
+                                    },
+                                    "title": "Response Count By Name Goods Route Api V1 Goods Count By Name  Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/goods/summ_by_name/": {
+            "get": {
+                "tags": [
+                    "Goods"
+                ],
+                "summary": "Summ By Name Goods Route",
+                "operationId": "summ_by_name_goods_route_api_v1_goods_summ_by_name__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "first_of",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "title": "First Of"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/GoodsSummByName"
+                                    },
+                                    "title": "Response Summ By Name Goods Route Api V1 Goods Summ By Name  Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/goods/strip_all_names/": {
+            "get": {
+                "tags": [
+                    "Goods"
+                ],
+                "summary": "Strip All Names Goods Route",
+                "operationId": "strip_all_names_goods_route_api_v1_goods_strip_all_names__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "boolean",
+                                    "title": "Response Strip All Names Goods Route Api V1 Goods Strip All Names  Get"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/goods/create_user_product_categories/": {
+            "get": {
+                "tags": [
+                    "Goods"
+                ],
+                "summary": "Create User Product Categories By Goods Route",
+                "operationId": "create_user_product_categories_by_goods_route_api_v1_goods_create_user_product_categories__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "boolean",
+                                    "title": "Response Create User Product Categories By Goods Route Api V1 Goods Create User Product Categories  Get"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/products/": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get All Products Route",
+                "operationId": "get_all_products_route_api_v1_products__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/Product"
+                                    },
+                                    "type": "array",
+                                    "title": "Response Get All Products Route Api V1 Products  Get"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Create Product Route",
+                "description": "Create new product.",
+                "operationId": "create_product_route_api_v1_products__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/products/{id}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get Product Route",
+                "operationId": "get_product_route_api_v1_products__id__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Update Product Route",
+                "operationId": "update_product_route_api_v1_products__id__put",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Delete Product Route",
+                "operationId": "delete_product_route_api_v1_products__id__delete",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/products/uncategorized/{cat_id}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get Uncategorized Product Route",
+                "operationId": "get_uncategorized_product_route_api_v1_products_uncategorized__cat_id__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "cat_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "title": "Cat Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UncategorizedUserProduct"
+                                    },
+                                    "title": "Response Get Uncategorized Product Route Api V1 Products Uncategorized  Cat Id  Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/products/uncategorized/": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get Uncategorized Product Route",
+                "operationId": "get_uncategorized_product_route_api_v1_products_uncategorized__get",
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "cat_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "title": "Cat Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UncategorizedUserProduct"
+                                    },
+                                    "title": "Response Get Uncategorized Product Route Api V1 Products Uncategorized  Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/products/save_categorized/": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Save Categorized Goods Route",
+                "description": "Assosiate category to several goods.",
+                "operationId": "save_categorized_goods_route_api_v1_products_save_categorized__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "items": {
+                                    "$ref": "#/components/schemas/CategorizedProduct"
+                                },
+                                "type": "array",
+                                "title": "Data In"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "boolean",
+                                    "title": "Response Save Categorized Goods Route Api V1 Products Save Categorized  Post"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/products/update_categories/": {
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Update Product Categories Route",
+                "description": "Assosiate category to several goods.",
+                "operationId": "update_product_categories_route_api_v1_products_update_categories__put",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateUserProductCategories"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "boolean",
+                                    "title": "Response Update Product Categories Route Api V1 Products Update Categories  Put"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "LoginManager": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Bill": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "created": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Created"
+                    },
+                    "value": {
+                        "type": "string",
+                        "title": "Value"
+                    },
+                    "image": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Image"
+                    },
+                    "payment_method": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Payment Method"
+                    },
+                    "seller_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Seller Id"
+                    },
+                    "user_id": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "User Id"
+                    },
+                    "seller": {
+                        "$ref": "#/components/schemas/Seller"
+                    },
+                    "goods_list": {
+                        "items": {
+                            "$ref": "#/components/schemas/GoodsForList"
+                        },
+                        "type": "array",
+                        "title": "Goods List",
+                        "default": []
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "created",
+                    "value",
+                    "seller_id",
+                    "seller"
+                ],
+                "title": "Bill"
+            },
+            "BillCreate": {
+                "properties": {
+                    "created": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Created"
+                    },
+                    "value": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Value"
+                    },
+                    "seller_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Seller Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "created",
+                    "value",
+                    "seller_id"
+                ],
+                "title": "BillCreate"
+            },
+            "BillCreateByURL": {
+                "properties": {
+                    "link": {
+                        "type": "string",
+                        "title": "Link"
+                    },
+                    "image": {
+                        "type": "string",
+                        "title": "Image"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "link",
+                    "image"
+                ],
+                "title": "BillCreateByURL"
+            },
+            "BillUpdate": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "created": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Created"
+                    },
+                    "value": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Value"
+                    },
+                    "image": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Image"
+                    },
+                    "payment_method": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Payment Method"
+                    },
+                    "seller_id": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Seller Id"
+                    },
+                    "user_id": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "User Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id"
+                ],
+                "title": "BillUpdate"
+            },
+            "Body_login_route_api_v1_auth_login__post": {
+                "properties": {
+                    "grant_type": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "pattern": "password"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Grant Type"
+                    },
+                    "username": {
+                        "type": "string",
+                        "title": "Username"
+                    },
+                    "password": {
+                        "type": "string",
+                        "title": "Password"
+                    },
+                    "scope": {
+                        "type": "string",
+                        "title": "Scope",
+                        "default": ""
+                    },
+                    "client_id": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Client Id"
+                    },
+                    "client_secret": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Client Secret"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "username",
+                    "password"
+                ],
+                "title": "Body_login_route_api_v1_auth_login__post"
+            },
+            "CategorizedProduct": {
+                "properties": {
+                    "user_product_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "User Product Id"
+                    },
+                    "cat_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Cat Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "user_product_id",
+                    "cat_id"
+                ],
+                "title": "CategorizedProduct"
+            },
+            "Category": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "user_id": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "User Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "title": "Category"
+            },
+            "CategoryCountByName": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "count": {
+                        "type": "string",
+                        "title": "Count"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name",
+                    "count"
+                ],
+                "title": "CategoryCountByName"
+            },
+            "CategoryCreate": {
+                "properties": {
+                    "id": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Id"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "user_id": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "User Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name"
+                ],
+                "title": "CategoryCreate"
+            },
+            "CategoryGoods": {
+                "properties": {
+                    "goods_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Goods Id"
+                    },
+                    "cat_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Cat Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "goods_id",
+                    "cat_id"
+                ],
+                "title": "CategoryGoods"
+            },
+            "CategorySummByName": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "summ": {
+                        "type": "string",
+                        "title": "Summ"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name",
+                    "summ"
+                ],
+                "title": "CategorySummByName"
+            },
+            "CategoryUpdate": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Name"
+                    },
+                    "user_id": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "User Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id"
+                ],
+                "title": "CategoryUpdate"
+            },
+            "CountBillsByNameSeller": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "count": {
+                        "type": "integer",
+                        "title": "Count"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name",
+                    "count"
+                ],
+                "title": "CountBillsByNameSeller"
+            },
+            "CountGoodsByNameSeller": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "count": {
+                        "type": "string",
+                        "title": "Count"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name",
+                    "count"
+                ],
+                "title": "CountGoodsByNameSeller"
+            },
+            "Goods": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "quantity": {
+                        "type": "string",
+                        "title": "Quantity"
+                    },
+                    "unit_price_before_vat": {
+                        "type": "string",
+                        "title": "Unit Price Before Vat"
+                    },
+                    "unit_price_after_vat": {
+                        "type": "string",
+                        "title": "Unit Price After Vat"
+                    },
+                    "rebate": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Rebate",
+                        "default": "0"
+                    },
+                    "rebate_reducing": {
+                        "anyOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Rebate Reducing"
+                    },
+                    "price_before_vat": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Price Before Vat"
+                    },
+                    "vat_rate": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Vat Rate"
+                    },
+                    "vat_amount": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Vat Amount"
+                    },
+                    "price_after_vat": {
+                        "type": "string",
+                        "title": "Price After Vat"
+                    },
+                    "unit_id": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Unit Id"
+                    },
+                    "bill_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Bill Id"
+                    },
+                    "seller": {
+                        "$ref": "#/components/schemas/Seller"
+                    },
+                    "unit": {
+                        "$ref": "#/components/schemas/Unit"
+                    },
+                    "user_product": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/UserProduct"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "name",
+                    "quantity",
+                    "unit_price_before_vat",
+                    "unit_price_after_vat",
+                    "price_after_vat",
+                    "bill_id",
+                    "seller",
+                    "unit"
+                ],
+                "title": "Goods"
+            },
+            "GoodsCountByName": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "count": {
+                        "type": "string",
+                        "title": "Count"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name",
+                    "count"
+                ],
+                "title": "GoodsCountByName"
+            },
+            "GoodsCreate": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "quantity": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Quantity"
+                    },
+                    "unit_price_before_vat": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Unit Price Before Vat"
+                    },
+                    "unit_price_after_vat": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Unit Price After Vat"
+                    },
+                    "rebate": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Rebate"
+                    },
+                    "rebate_reducing": {
+                        "type": "boolean",
+                        "title": "Rebate Reducing"
+                    },
+                    "price_before_vat": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Price Before Vat"
+                    },
+                    "vat_rate": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Vat Rate"
+                    },
+                    "vat_amount": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Vat Amount"
+                    },
+                    "price_after_vat": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Price After Vat"
+                    },
+                    "unit_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Unit Id"
+                    },
+                    "bill_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Bill Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name",
+                    "quantity",
+                    "unit_price_before_vat",
+                    "unit_price_after_vat",
+                    "rebate",
+                    "rebate_reducing",
+                    "price_before_vat",
+                    "vat_rate",
+                    "vat_amount",
+                    "price_after_vat",
+                    "unit_id",
+                    "bill_id"
+                ],
+                "title": "GoodsCreate"
+            },
+            "GoodsForList": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name"
+                ],
+                "title": "GoodsForList"
+            },
+            "GoodsSummByName": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "summ": {
+                        "type": "string",
+                        "title": "Summ"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name",
+                    "summ"
+                ],
+                "title": "GoodsSummByName"
+            },
+            "GoodsUpdate": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Name"
+                    },
+                    "quantity": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Quantity"
+                    },
+                    "unit_price_before_vat": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Unit Price Before Vat"
+                    },
+                    "unit_price_after_vat": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Unit Price After Vat"
+                    },
+                    "rebate": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Rebate",
+                        "default": "0"
+                    },
+                    "rebate_reducing": {
+                        "anyOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Rebate Reducing"
+                    },
+                    "price_before_vat": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Price Before Vat"
+                    },
+                    "vat_rate": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Vat Rate"
+                    },
+                    "vat_amount": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Vat Amount"
+                    },
+                    "price_after_vat": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Price After Vat"
+                    },
+                    "unit_id": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Unit Id"
+                    },
+                    "bill_id": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Bill Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id"
+                ],
+                "title": "GoodsUpdate"
+            },
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "LoginLink": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "link_for": {
+                        "type": "string",
+                        "title": "Link For"
+                    },
+                    "created": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Created"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "link_for",
+                    "created"
+                ],
+                "title": "LoginLink"
+            },
+            "LoginLinkData": {
+                "properties": {
+                    "link": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Link"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "link"
+                ],
+                "title": "LoginLinkData"
+            },
+            "Product": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "title": "Product"
+            },
+            "ProductCreate": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name"
+                ],
+                "title": "ProductCreate"
+            },
+            "ProductUpdate": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Name"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id"
+                ],
+                "title": "ProductUpdate"
+            },
+            "Seller": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "official_name": {
+                        "type": "string",
+                        "title": "Official Name"
+                    },
+                    "address": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Address"
+                    },
+                    "city": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "City"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "name",
+                    "official_name"
+                ],
+                "title": "Seller"
+            },
+            "SellerCreate": {
+                "properties": {
+                    "official_name": {
+                        "type": "string",
+                        "title": "Official Name"
+                    },
+                    "address": {
+                        "type": "string",
+                        "title": "Address"
+                    },
+                    "city": {
+                        "type": "string",
+                        "title": "City"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "official_name",
+                    "address",
+                    "city"
+                ],
+                "title": "SellerCreate"
+            },
+            "SellerUpdate": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Name"
+                    },
+                    "official_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Official Name"
+                    },
+                    "address": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Address"
+                    },
+                    "city": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "City"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id"
+                ],
+                "title": "SellerUpdate"
+            },
+            "SummBillsByNameSeller": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "summ": {
+                        "type": "string",
+                        "title": "Summ"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name",
+                    "summ"
+                ],
+                "title": "SummBillsByNameSeller"
+            },
+            "UncategorizedUserProduct": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "title": "UncategorizedUserProduct"
+            },
+            "Unit": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "title": "Unit"
+            },
+            "UnitCreate": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name"
+                ],
+                "title": "UnitCreate"
+            },
+            "UnitUpdate": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Name"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id"
+                ],
+                "title": "UnitUpdate"
+            },
+            "UpdateUserProductCategories": {
+                "properties": {
+                    "user_product_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "User Product Id"
+                    },
+                    "list_cat_id": {
+                        "items": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "type": "array",
+                        "title": "List Cat Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "user_product_id",
+                    "list_cat_id"
+                ],
+                "title": "UpdateUserProductCategories"
+            },
+            "User": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "email": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Email"
+                    },
+                    "email_verified": {
+                        "anyOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Email Verified"
+                    },
+                    "phone": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Phone"
+                    },
+                    "login": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Login"
+                    },
+                    "tg_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Tg Name"
+                    },
+                    "tg_verified": {
+                        "anyOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Tg Verified"
+                    },
+                    "tg_id": {
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Tg Id"
+                    },
+                    "lang": {
+                        "type": "string",
+                        "title": "Lang"
+                    },
+                    "password": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Password"
+                    },
+                    "links": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "$ref": "#/components/schemas/LoginLink"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Links",
+                        "default": []
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "lang"
+                ],
+                "title": "User"
+            },
+            "UserCreate": {
+                "properties": {
+                    "login": {
+                        "type": "string",
+                        "title": "Login"
+                    },
+                    "password": {
+                        "type": "string",
+                        "title": "Password"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "login",
+                    "password"
+                ],
+                "title": "UserCreate"
+            },
+            "UserProduct": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "product": {
+                        "$ref": "#/components/schemas/Product"
+                    },
+                    "categories": {
+                        "items": {
+                            "$ref": "#/components/schemas/Category"
+                        },
+                        "type": "array",
+                        "title": "Categories"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "product",
+                    "categories"
+                ],
+                "title": "UserProduct"
+            },
+            "UserUpdate": {
+                "properties": {
+                    "id": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Id"
+                    },
+                    "email": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Email"
+                    },
+                    "email_verified": {
+                        "anyOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Email Verified"
+                    },
+                    "phone": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Phone"
+                    },
+                    "login": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Login"
+                    },
+                    "tg_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Tg Name"
+                    },
+                    "tg_verified": {
+                        "anyOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Tg Verified"
+                    },
+                    "tg_id": {
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Tg Id"
+                    },
+                    "lang": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Lang"
+                    },
+                    "password": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Password"
+                    }
+                },
+                "type": "object",
+                "title": "UserUpdate"
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            }
+        },
+        "securitySchemes": {
+            "LoginManager": {
+                "type": "oauth2",
+                "flows": {
+                    "password": {
+                        "scopes": {},
+                        "tokenUrl": "/api/v1/auth/login"
+                    }
+                }
+            }
+        }
+    }
+}

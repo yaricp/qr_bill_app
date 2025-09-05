@@ -1,0 +1,137 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pg
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pg
+  template:
+    metadata:
+      labels:
+        app: pg
+    spec:
+      securityContext:
+        runAsUser: 999   # UID postgres
+        runAsGroup: 999  # GID postgres
+        fsGroup: 999
+      containers:
+        - name: postgres
+          image: postgres:17.5
+          ports:
+            - containerPort: 5432
+          # command: ["tail", "-f", "/dev/null"]
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ${APP_NAME_LABEL}-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ${APP_NAME_LABEL}-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: ${APP_NAME_LABEL}-secret
+                  key: POSTGRES_DB
+          volumeMounts:
+            - name: main-pg-data
+              mountPath: /var/lib/postgresql/data
+
+        # - name: pgbackrest
+        #   image: woblerr/pgbackrest:2.54.2-alpine-v0.34
+        #   command: ["/bin/sh", "-c"]
+        #   args:
+        #     - |
+        #       set -e
+
+        #       db_connection_str="--pg1-host=localhost --pg1-user=$POSTGRES_USER "
+
+        #       # echo "trying to connect to -h localhost -U '$POSTGRES_USER' -d postgres"
+              
+        #       # until pg_isready -h localhost -U $POSTGRES_USER -d postgres >/dev/null 2>&1; do
+        #       #    echo "PostgreSQL is unavailable - sleeping"
+        #       #    sleep 2
+        #       # done
+
+        #       # echo "DB is ready! Continue!"
+
+        #       sleep 30
+              
+        #       # Создаем stanza если нужно
+        #       # if ! pgbackrest $db_connection_str --stanza=main info >/dev/null 2>&1; then
+        #       #  pgbackrest $db_connection_str --stanza=main stanza-create
+        #       #fi
+              
+        #       # Делаем initial full backup если нужно
+        #       #if ! pgbackrest $db_connection_str --stanza=main info --output=json | grep -q "backup"; then
+        #       #  pgbackrest $db_connection_str --stanza=main backup --type=full
+        #       #fi
+              
+        #       # Запускаем архивирование WAL
+        #       exec tail -f /dev/null
+        #   env:
+        #     - name: BACKREST_USER
+        #       value: postgres
+        #     - name: BACKREST_UID
+        #       value: "999"
+        #     - name: BACKREST_GROUP
+        #       value: postgres
+        #     - name: BACKREST_GID
+        #       value: "999"
+        #     - name: PGBACKREST_CONFIG
+        #       value: /etc/pgbackrest/pgbackrest.conf
+        #     - name: PGBACKREST_REPO1_PATH
+        #       value: /backups
+        #     - name: POSTGRES_USER
+        #       valueFrom:
+        #         secretKeyRef:
+        #           name: ${APP_NAME_LABEL}-secret
+        #           key: POSTGRES_USER
+        #     - name: POSTGRES_PASSWORD
+        #       valueFrom:
+        #         secretKeyRef:
+        #           name: ${APP_NAME_LABEL}-secret
+        #           key: POSTGRES_PASSWORD
+        #     - name: POSTGRES_DB
+        #       valueFrom:
+        #         secretKeyRef:
+        #           name: ${APP_NAME_LABEL}-secret
+        #           key: POSTGRES_DB
+        #   volumeMounts:
+        #     - name: pgbackrest-config
+        #       mountPath: /etc/pgbackrest
+        #       readOnly: true
+        #     - name: pg-data
+        #       mountPath: /var/lib/postgresql/data
+        #       readOnly: true
+        #     - name: backups
+        #       mountPath: /backups
+        #     - name: backup-spool
+        #       mountPath: /var/spool/pgbackrest
+        #     - name: backup-logs
+        #       mountPath: /var/log/pgbackrest
+
+      volumes:
+        - name: main-pg-data
+          persistentVolumeClaim:
+            claimName: main-pg-pvc
+        - name: small-pg-data
+          persistentVolumeClaim:
+            claimName: pg-pvc
+        - name: backups
+          persistentVolumeClaim:
+            claimName: pgbackrest-pvc
+        - name: pgbackrest-config  
+          configMap:
+            name: pgbackrest-config
+        - name: backup-spool
+          emptyDir:
+            sizeLimit: 1Gi
+        - name: backup-logs
+          emptyDir:
+            sizeLimit: 100Mi

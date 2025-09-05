@@ -1,0 +1,67 @@
+prometheus:
+  service:
+    type: NodePort
+    nodePort: 30900
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: true
+    additionalScrapeConfigs:
+      - job_name: 'qr_bill_app-api'
+        kubernetes_sd_configs:
+          - role: endpoints
+            namespaces:
+              names:
+                - qr_bill_app-test
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_service_label_app]
+            action: keep
+            regex: qr_bill_app
+          - source_labels: [__meta_kubernetes_service_label_tier]
+            action: keep
+            regex: backend
+          - source_labels: [__meta_kubernetes_endpoint_port_name]
+            action: keep
+            regex: http
+        scrape_interval: 15s
+        metrics_path: /metrics
+
+      - job_name: 'qr_bill_app-grpc'
+        kubernetes_sd_configs:
+          - role: endpoints
+            namespaces:
+              names:
+                - qr_bill_app-test
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_service_label_app]
+            action: keep
+            regex: qr_bill_app
+          - source_labels: [__meta_kubernetes_service_label_tier]
+            action: keep
+            regex: backend
+          - source_labels: [__meta_kubernetes_endpoint_port_name]
+            action: keep
+            regex: metrics  # новый порт "metrics"
+        scrape_interval: 15s
+        metrics_path: /metrics
+
+grafana:
+  enabled: false  # Grafana уже общая, не создаём свою
+
+alertmanager:
+  service:
+    type: NodePort
+    nodePort: 30093
+  config:
+    global:
+      resolve_timeout: 5m
+    route:
+      receiver: 'default'
+    receivers:
+      - name: 'default'
+        email_configs:
+          - to: 'you@example.com'
+            from: 'alertmanager@example.com'
+            smarthost: 'smtp.example.com:587'
+            auth_username: 'alertmanager@example.com'
+            auth_password: 'yourpassword'
+
+

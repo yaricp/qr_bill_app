@@ -3,11 +3,14 @@ import sys
 from logging.config import fileConfig
 
 from alembic import context
+# from geoalchemy2 import alembic_helpers
 from sqlalchemy import create_engine
 
 sys.path.append(os.getcwd()[:-8])
+print("python path: ", os.getcwd())
 
-from database.models import Model
+from src.infra.database.connection import DATABASE_URL
+from src.infra.database.models import Model
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -42,12 +45,17 @@ def run_migrations_offline():
     script output.
 
     """
-    url = os.environ.get('DATABASE_URL')
+
+    # include_object=alembic_helpers.include_object,
+    # process_revision_directives=alembic_helpers.writer,
+    # render_item=alembic_helpers.render_item,
+
+    url = DATABASE_URL
     context.configure(
         url=url,
         target_metadata=target_metadata,
         literal_binds=True,
-        dialect_opts={"paramstyle": "named"},
+        dialect_opts={"paramstyle": "named"}
     )
 
     with context.begin_transaction():
@@ -61,7 +69,7 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    connectable = create_engine(os.environ.get('DATABASE_URL'))
+    connectable = create_engine(DATABASE_URL)
 
     with connectable.connect() as connection:
         context.configure(
