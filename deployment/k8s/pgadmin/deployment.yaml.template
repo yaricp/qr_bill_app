@@ -17,9 +17,9 @@ spec:
         image: dpage/pgadmin4:latest
         envFrom:
           - configMapRef:
-              name: qracun-config
+              name: qr_bill_app-config
           - secretRef:
-              name: qracun-secret
+              name: qr_bill_app-secret
         env:
           - name: SCRIPT_NAME
             value: /pgadmin

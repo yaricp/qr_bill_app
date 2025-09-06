@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: qracun-config
+  name: qr_bill_app-config
 data:
   api_image: {{ .Values.api.image | quote }}
   frontend_image: {{ .Values.frontend.image | quote }}

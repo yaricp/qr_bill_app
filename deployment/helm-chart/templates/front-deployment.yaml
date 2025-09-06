@@ -3,18 +3,18 @@ kind: Deployment
 metadata:
   name: frontend
   labels:
-    app: qracun
+    app: qr_bill_app
     tier: frontend
 spec:
   replicas: {{ .Values.frontend.replicas }}
   selector:
     matchLabels:
-      app: qracun
+      app: qr_bill_app
       tier: frontend
   template:
     metadata:
       labels:
-        app: qracun
+        app: qr_bill_app
         tier: frontend
     spec:
       imagePullSecrets:

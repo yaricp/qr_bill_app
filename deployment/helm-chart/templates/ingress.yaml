@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: qracun-ingress
+  name: qr_bill_app-ingress
   annotations:
     cert-manager.io/cluster-issuer: "{{ .Values.ingress.clusterIssuer }}"
     nginx.ingress.kubernetes.io/ssl-redirect: "{{ .Values.ingress.annotations.sslRedirect }}"

@@ -122,15 +122,3 @@ async def delete_goods(id: UUID, user_id: UUID) -> Goods:
         id=id, user_id=user_id
     )
     return command_result
-
-
-# async def strip_all_names() -> bool:
-#     goods_command = GoodsCommands()
-#     result: bool = await goods_command.strip_all_names()
-#     return result
-
-
-# async def create_user_product_categories_by_goods() -> bool:
-#     goods_command = GoodsCommands()
-#     result: bool = await goods_command.create_user_product_categories_by_goods()
-#     return result

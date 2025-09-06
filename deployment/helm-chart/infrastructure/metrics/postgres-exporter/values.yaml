@@ -19,7 +19,7 @@ env:
 
 serviceMonitor:
   enabled: true
-  namespace: qracun-test
+  namespace: qr_bill_app-test
   interval: 15s
   labels:
     release: metrics  # Имя вашего helm release для kube-prometheus-stack

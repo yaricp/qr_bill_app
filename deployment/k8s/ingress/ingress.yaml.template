@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: qracun-ingress
+  name: qr_bill_app-ingress
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
@@ -15,7 +15,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: qracun.me
+    - host: qr_bill_app.me
       http:
         paths:
           - path: /api
@@ -41,5 +41,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - qracun.me
-      secretName: qracun-tls
+        - qr_bill_app.me
+      secretName: qr_bill_app-tls

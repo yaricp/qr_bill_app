@@ -249,7 +249,7 @@ class GoodsCommands:
         db_session.commit()
         return found_goods
 
-    async def delete_goods(self, user_id: UUID):
+    async def delete_goods(self, id: UUID, user_id: UUID):
         pass
 
     async def strip_all_names(self) -> bool:

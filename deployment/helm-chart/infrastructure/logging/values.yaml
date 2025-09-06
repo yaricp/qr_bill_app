@@ -33,20 +33,20 @@ promtail:
       filename: /run/promtail/positions.yaml
     
     scrape_configs:
-      - job_name: kubernetes-pods-qracun-test
+      - job_name: kubernetes-pods-qr_bill_app-test
         pipeline_stages:
           - cri: {}
         kubernetes_sd_configs:
           - role: pod
             namespaces:
               names:
-                - qracun-test
+                - qr_bill_app-test
         relabel_configs:
           # Фильтр только по нужному namespace
           - source_labels: 
               - __meta_kubernetes_namespace
             action: keep
-            regex: qracun-test
+            regex: qr_bill_app-test
           
           # Основные метки
           - source_labels: 

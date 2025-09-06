@@ -3,18 +3,18 @@ kind: Deployment
 metadata:
   name: tg-bot
   labels:
-    app: qracun
+    app: qr_bill_app
     tier: bot
 spec:
   replicas: {{ .Values.tgBot.replicas }}
   selector:
     matchLabels:
-      app: qracun
+      app: qr_bill_app
       tier: bot
   template:
     metadata:
       labels:
-        app: qracun
+        app: qr_bill_app
         tier: bot
     spec:
       imagePullSecrets:

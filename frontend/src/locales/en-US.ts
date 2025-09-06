@@ -13,7 +13,7 @@ export default {
   hello: "hello",
   yes: "yes",
   for: "for",
-  install_btn: "Install QRacun",
+  install_btn: "Install qr_bill_app",
   attantion: `Attention! The application is at the testing stage and 
             therefore the administration does not bear any responsibility 
             for the safety of your data. By continuing to use this application, 

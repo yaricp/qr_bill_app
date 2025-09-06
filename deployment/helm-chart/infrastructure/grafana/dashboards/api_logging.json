@@ -956,14 +956,14 @@
   "tags": [
     "loki",
     "fastapi",
-    "qracun"
+    "qr_bill_app"
   ],
   "templating": {
     "list": [
       {
         "current": {
-          "text": "qracun-test",
-          "value": "qracun-test"
+          "text": "qr_bill_app-test",
+          "value": "qr_bill_app-test"
         },
         "datasource": {
           "type": "loki",
@@ -995,8 +995,8 @@
       },
       {
         "current": {
-          "text": "qracun",
-          "value": "qracun"
+          "text": "qr_bill_app",
+          "value": "qr_bill_app"
         },
         "datasource": {
           "type": "loki",
@@ -1041,7 +1041,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Qracun FastAPI App Dashboard (Loki)",
+  "title": "qr_bill_app FastAPI App Dashboard (Loki)",
   "uid": "fastapi-loki-dashboard",
   "version": 27
 }

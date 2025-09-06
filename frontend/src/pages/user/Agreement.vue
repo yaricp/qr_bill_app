@@ -104,7 +104,7 @@
     <div class="row">
         <div class="col">
             {{ $t("agreement.page.text9") }}&nbsp;
-            qracun@proton.me
+            qr_bill_app@proton.me
         </div>
     </div>
     <div class="row">

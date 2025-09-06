@@ -7,7 +7,7 @@ from .middleware.prometheus_metrics import prometheus_middleware
 from .v1.services.metrics import metrics_app
 
 from .config import (
-    cors_config, URLPathsConfig, security_config 
+    cors_config, URLPathsConfig, security_config
 )
 
 
@@ -33,7 +33,7 @@ manager = LoginManager(
     token_url=URLPathsConfig.PREFIX + '/auth/login'
 )
 
-from .v1.endpoints import (
+from .v1.endpoints import (  # noqa: F401, F402, E402
     bills, sellers, users, categories, units, login_links,
     goods, product, metrics
 )

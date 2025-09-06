@@ -2,11 +2,11 @@ apiVersion: 1
 groups:
     - orgId: 1
       name: first
-      folder: test-qracun-alerts
+      folder: test-qr_bill_app-alerts
       interval: 1m
       rules:
         - uid: bew38gwwbwc1sf
-          title: qracunErrorAlert
+          title: qr_bill_appErrorAlert
           condition: C
           data:
             - refId: A
@@ -17,7 +17,7 @@ groups:
               datasourceUid: aew2i5vpkne9sf
               model:
                 editorMode: code
-                expr: count_over_time({namespace="qracun-test", app="qracun", container="api"} |= "ERROR" [5m])
+                expr: count_over_time({namespace="qr_bill_app-test", app="qr_bill_app", container="api"} |= "ERROR" [5m])
                 instant: true
                 intervalMs: 1000
                 maxDataPoints: 43200
@@ -83,5 +83,5 @@ groups:
           annotations:
             __dashboardUid__: fastapi-loki-dashboard
             __panelId__: "10"
-            URLPanel: http://192.168.168.10:30832/d/fastapi-loki-dashboard/qracun-fastapi-app-dashboard-loki?from=2025-08-25T22:12:20.000Z&orgId=1&to=2025-08-25T23:18:00.016Z&timezone=browser&var-namespace=qracun-test&var-pod=.%2A&var-app=qracun&var-container=api&refresh=1m&viewPanel=panel-10
+            URLPanel: http://192.168.168.10:30832/d/fastapi-loki-dashboard/qr_bill_app-fastapi-app-dashboard-loki?from=2025-08-25T22:12:20.000Z&orgId=1&to=2025-08-25T23:18:00.016Z&timezone=browser&var-namespace=qr_bill_app-test&var-pod=.%2A&var-app=qr_bill_app&var-container=api&refresh=1m&viewPanel=panel-10
           isPaused: false

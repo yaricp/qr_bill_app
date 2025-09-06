@@ -3,18 +3,18 @@ kind: Deployment
 metadata:
   name: api
   labels:
-    app: qracun
+    app: qr_bill_app
     tier: backend
 spec:
   replicas: {{ .Values.api.replicas }}
   selector:
     matchLabels:
-      app: qracun
+      app: qr_bill_app
       tier: backend
   template:
     metadata:
       labels:
-        app: qracun
+        app: qr_bill_app
         tier: backend
     spec:
       imagePullSecrets:

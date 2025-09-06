@@ -5,16 +5,16 @@ prometheus:
   prometheusSpec:
     serviceMonitorSelectorNilUsesHelmValues: true
     additionalScrapeConfigs:
-      - job_name: 'qracun-api'
+      - job_name: 'qr_bill_app-api'
         kubernetes_sd_configs:
           - role: endpoints
             namespaces:
               names:
-                - qracun-test
+                - qr_bill_app-test
         relabel_configs:
           - source_labels: [__meta_kubernetes_service_label_app]
             action: keep
-            regex: qracun
+            regex: qr_bill_app
           - source_labels: [__meta_kubernetes_service_label_tier]
             action: keep
             regex: backend
@@ -24,16 +24,16 @@ prometheus:
         scrape_interval: 15s
         metrics_path: /metrics
 
-      - job_name: 'qracun-grpc'
+      - job_name: 'qr_bill_app-grpc'
         kubernetes_sd_configs:
           - role: endpoints
             namespaces:
               names:
-                - qracun-test
+                - qr_bill_app-test
         relabel_configs:
           - source_labels: [__meta_kubernetes_service_label_app]
             action: keep
-            regex: qracun
+            regex: qr_bill_app
           - source_labels: [__meta_kubernetes_service_label_tier]
             action: keep
             regex: backend

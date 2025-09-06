@@ -1,4 +1,4 @@
-name: Build and Deploy Qracun using Helm
+name: Build and Deploy qr_bill_app using Helm
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
       - dev123
 
 env:
-  NAMESPACE: qracun-test
-  MAIN_CONF_NAME: qracun-config
+  NAMESPACE: qr_bill_app-test
+  MAIN_CONF_NAME: qr_bill_app-config
   BASE_NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}
   BASE_NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}
   BASE_NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}
@@ -424,7 +424,7 @@ jobs:
       - name: Deploy Main App Helm chart
         run: |
           cat ./deployment/helm-chart/conf-secret-test-values.yaml;
-          helm upgrade qracun-test ./deployment/helm-chart --install \
+          helm upgrade qr_bill_app-test ./deployment/helm-chart --install \
           -f ./deployment/helm-chart/test-values.yaml \
           -f ./deployment/helm-chart/conf-secret-test-values.yaml \
           -n ${{ env.NAMESPACE }} --create-namespace \
@@ -468,11 +468,11 @@ jobs:
           kubectl create secret generic postgres-creds \
           --from-literal=user='${{ secrets.DATABASE_USER }}' \
           --from-literal=password='${{ secrets.DATABASE_PASSWORD }}' \
-          -n qracun-test \
+          -n qr_bill_app-test \
           --dry-run=client -o yaml | kubectl apply -f -
           helm upgrade --install postgres-exporter \
           prometheus-community/prometheus-postgres-exporter \
-          -n qracun-test \
+          -n qr_bill_app-test \
           -f ./deployment/helm-chart/infrastructure/metrics/postgres-exporter/values.yaml \
           --create-namespace \
           --set-string config.datasource.host=${{ vars.DATABASE_HOST }} \

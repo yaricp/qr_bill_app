@@ -12,15 +12,6 @@ class LoginLinkBase(BaseModel):
     created: Optional[datetime] = None
 
 
-# class LoginLinkCreate(BaseModel):
-#     name: str
-
-
-# # Properties to receive on item update
-# class LoginLinkUpdate(LoginLinkBase):
-#     id: UUID
-
-
 # Properties shared by models stored in DB
 class LoginLinkInDBBase(LoginLinkBase):
     id: UUID

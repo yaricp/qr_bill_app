@@ -12,7 +12,7 @@ export default {
   hello: "hello",
   yes: "yes",
   for: "za",
-  install_btn: "Instaliraj QRacun",
+  install_btn: "Instaliraj qr_bill_app",
   attantion: `Pažnja! Aplikacija je u fazi testiranja i zbog toga 
               administracija ne snosi nikakvu odgovornost za čuvanje vaših 
               podataka. Nastavljajući da koristite ovu aplikaciju, preuzimate 

@@ -2,10 +2,10 @@ import time
 from prometheus_client import Counter, Histogram
 from loguru import logger
 
-from ..config import metric_config
+from ..config import metrics_config
 
 
-prefix = metric_config.METRICS_PREFIX
+prefix = metrics_config.METRICS_PREFIX
 
 EMAIL_SENT = Counter(
     f"{prefix}_email_sent_total",

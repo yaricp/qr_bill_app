@@ -58,8 +58,8 @@
         <div class="row">
           <div class="col">
             {{ $t("login.you_can_use" )}}&nbsp;
-            <a href="https://t.me/qracun_bot">
-              https://t.me/qracun_bot
+            <a href="https://t.me/qr_bill_app_bot">
+              https://t.me/qr_bill_app_bot
             </a>
             &nbsp;{{ $t("login.to_login_link" )}}
           </div>
