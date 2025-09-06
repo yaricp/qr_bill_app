@@ -1,7 +1,6 @@
 from uuid import UUID
 from hashlib import sha256
 from datetime import timedelta
-from loguru import logger
 from typing import List
 
 from fastapi import Depends, BackgroundTasks
@@ -34,17 +33,14 @@ from ..schemas.user import (
 
 
 @app.post(
-    URLPathsConfig.PREFIX + '/auth/register/',
-    tags=['Authentication'],
+    URLPathsConfig.PREFIX + "/auth/register/",
+    tags=["Authentication"],
     response_model=dict
 )
 async def register_route(
     create_user_data: UserCreate
 ) -> dict:
     """Endpoint for register user in system"""
-    logger.info(
-        f'Register user: login="{create_user_data.login}" '
-    )
     user = get_user_by_login(create_user_data.login)
 
     if user:
@@ -57,16 +53,14 @@ async def register_route(
 
 
 @app.post(
-    URLPathsConfig.PREFIX + '/auth/verify/',
-    tags=['Authentication']
+    URLPathsConfig.PREFIX + "/auth/verify/",
+    tags=["Authentication"]
 )
 async def verify_route(
     verify_data: LoginLinkData
 ) -> User | dict:
-    """Endpoint for verify email or tg"""
+    """ Endpoint for verify email or tg """
     link = verify_data.link
-    logger.info(f"link: {link}")
-    logger.info(f"type(link): {type(link)}")
     link_id = await verify_email_tg(link=link)
 
     user = check_user_auth(email_login_tg_link=link)
@@ -77,42 +71,32 @@ async def verify_route(
     if link_id:
         delete_link(id=link_id)
 
-    logger.info(f"user: {user}")
-    logger.info(f"type(user): {type(user)}")
     access_token = manager.create_access_token(
         data=dict(sub=str(user.tg_id)), expires=timedelta(
             hours=user_login_config.TOKEN_EXPIRY_TIME_HOURS
         )
     )
-    logger.info(f"access_token: {access_token}")
-    return {'access_token': access_token,
-            'token_type': 'bearer', }
+    return {"access_token": access_token,
+            "token_type": "bearer", }
 
 
 @app.post(
-    URLPathsConfig.PREFIX + '/auth/link_to_email/',
-    tags=['Authentication'],
+    URLPathsConfig.PREFIX + "/auth/link_to_email/",
+    tags=["Authentication"],
     response_model=User
 )
 async def send_verify_link_to_email_route(
     data: dict,
     background_tasks: BackgroundTasks,
     user=Depends(manager)
-) -> User:
-    """Endpoint for sending verify link to email"""
-    logger.info(
-        f'email={data["email"]}'
-    )
+) -> dict | User:
+    """ Endpoint for sending verify link to email """
     str_user_link = await create_temp_link(
         user_id=user.id, email=data["email"], action="verify"
     )
 
     if str_user_link == "User not found":
         return {"message": "User not found"}
-
-    logger.info(
-        f"str_user_link: {str_user_link}"
-    )
 
     email_client = EmailClient(
         email=data["email"],
@@ -127,19 +111,16 @@ async def send_verify_link_to_email_route(
 
 
 @app.post(
-    URLPathsConfig.PREFIX + '/auth/link_to_tg/',
-    tags=['Authentication'],
+    URLPathsConfig.PREFIX + "/auth/link_to_tg/",
+    tags=["Authentication"],
     response_model=User
 )
 async def send_verify_link_to_tg_route(
     data: dict,
     background_tasks: BackgroundTasks,
     user=Depends(manager)
-) -> User:
-    """Endpoint for sending verify link to tg"""
-    logger.info(
-        f'tg_id="{data["tg_id"]}"'
-    )
+) -> User | dict:
+    """ Endpoint for sending verify link to tg """
     str_user_link = await create_temp_link(
         user_id=user.id, tg_id=data["tg_id"], action="verify"
     )
@@ -157,22 +138,16 @@ async def send_verify_link_to_tg_route(
 
 
 @app.post(
-    URLPathsConfig.PREFIX + '/auth/login/',
-    tags=['Authentication']
+    URLPathsConfig.PREFIX + "/auth/login/",
+    tags=["Authentication"]
 )
 async def login_route(
     data: OAuth2PasswordRequestForm = Depends()
 ) -> dict:
-    """Endpoint for login user"""
+    """ Endpoint for login user """
     login = data.username
     password = data.password
-    logger.info(f"name: {login}")
-    logger.info(f"password: {password}")
-    logger.info(f"pass encoded: {sha256(password.encode()).hexdigest()}")
-
     user = check_user_auth(email_login_tg_link=login)
-
-    logger.info(f"found user: {user}")
 
     if not user:
         # you can also use your own HTTPException
@@ -186,91 +161,76 @@ async def login_route(
         )
     )
 
-    return {'access_token': access_token,
-            'token_type': 'bearer', }
+    return {"access_token": access_token,
+            "token_type": "bearer", }
 
 
 @app.post(
-    URLPathsConfig.PREFIX + '/auth/login_by_tg/',
-    tags=['Authentication']
+    URLPathsConfig.PREFIX + "/auth/login_by_tg/",
+    tags=["Authentication"]
 )
 async def login_by_tg_route(data: LoginLinkData) -> dict:
-    """Endpoint for login user"""
+    """ Endpoint for login user """
     link = data.link
-    logger.info(f"link: {link}")
-    logger.info(f"type(link): {type(link)}")
-
     user = check_user_auth(email_login_tg_link=link)
 
     if not user:
         # you can also use your own HTTPException
         raise InvalidCredentialsException
 
-    logger.info(f"user.tg_id: {user.tg_id}")
     access_token = manager.create_access_token(
         data=dict(sub=str(user.tg_id)), expires=timedelta(
             hours=user_login_config.TOKEN_EXPIRY_TIME_HOURS
         )
     )
-    logger.info(f"access_token: {access_token}")
-    return {'access_token': access_token,
-            'token_type': 'bearer', }
+    return {"access_token": access_token,
+            "token_type": "bearer", }
 
 
 @app.post(
-    URLPathsConfig.PREFIX + '/users/',
-    tags=['Users'],
+    URLPathsConfig.PREFIX + "/users/",
+    tags=["Users"],
     response_model=User
 )
 async def create_login_password_route(
     create_user_data: UserCreate, user=Depends(manager)
 ) -> User:
-    """Create login and password for existed user"""
-    logger.info(
-        f'Register user: login="{create_user_data.login}" '
-    )
-    user = await create_login_password_user(
+    """ Enpoint for creating login and password for existed user """
+    return await create_login_password_user(
         user_id=user.id, user_data=create_user_data
     )
-    return user
 
 
 @app.get(
     URLPathsConfig.PREFIX + "/users/",
-    tags=['Users'],
+    tags=["Users"],
     response_model=List[User]
 )
 async def read_users_route(user=Depends(manager)) -> List[User]:
-    """
-    Retrieve users.
-    """
-    users = []
-    # logger.info(f"user.is_admin: {user.is_admin}")
+    """ Endpoint for retrieving users """
+    users: List[User] = []
     if user.is_admin:
-        users: List[User] = await get_all_users()
+        users = await get_all_users()
     return users
 
 
 @app.get(
     URLPathsConfig.PREFIX + "/user/",
-    tags=['Users'],
+    tags=["Users"],
     response_model=User
 )
 async def read_user_profile_route(
     user=Depends(manager)
 ) -> User:
-    """
-    Retrieve user profile.
-    """
-    logger.info(f"user.password_hash: {user.password_hash}")
+    """ Endpoint to retrieve a user profile """
     if user.password_hash:
-        user.password = "*****"
+        user.password = "******"
     return user
 
 
 @app.put(
     URLPathsConfig.PREFIX + "/user/",
-    tags=['Users'],
+    tags=["Users"],
     response_model=User
 )
 async def update_user_profile_route(
@@ -278,26 +238,20 @@ async def update_user_profile_route(
     user=Depends(manager)
 ) -> User:
     """
-    Update user profile.
+    Endpoint to update a user profile
     """
-    logger.info(f"user_profile: {user_profile}")
     user_profile.id = user.id
-    user = await update_user(user_profile)
-    return user
+    return await update_user(user_profile)
 
 
 @app.delete(
     URLPathsConfig.PREFIX + "/users/{id}",
-    tags=['Users'],
+    tags=["Users"],
     response_model=User
 )
 async def delete_user_profile_route(
     id: UUID,
     user=Depends(manager)
 ) -> User:
-    """
-    Delete user profile.
-    """
-    logger.info(f"user_id: {id}")
-    user = await delete_user(id)
-    return user
+    """ Endpoint to delete a user profile """
+    return await delete_user(id)

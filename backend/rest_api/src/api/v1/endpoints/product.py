@@ -1,8 +1,7 @@
 from uuid import UUID
 from typing import List, Optional
-from loguru import logger
 
-from fastapi import Depends
+from fastapi import Depends, HTTPException
 
 from ... import app, manager
 from ...config import URLPathsConfig
@@ -24,152 +23,144 @@ from ..schemas.user_product import (
 
 @app.post(
     URLPathsConfig.PREFIX + "/products/",
-    tags=['Products'],
+    tags=["Products"],
     response_model=Product
 )
 async def create_product_route(
     item_in: ProductCreate, user=Depends(manager)
 ) -> Product:
-    """
-    Create new product.
-    """
-    product = await create_product(item_in)
-    return product
+    """ Creates a new product """
+    return await create_product(item_in)
 
 
 @app.get(
     URLPathsConfig.PREFIX + "/products/",
-    tags=['Products'],
+    tags=["Products"],
     response_model=List[Product]
 )
-async def get_all_products_route(user=Depends(manager)):
-    products: List[Product] = await get_all_products()
-    return products
+async def get_all_products_route(user=Depends(manager)) -> List[Product]:
+    """ Shows list of products """
+    return await get_all_products()
 
 
 @app.get(
     URLPathsConfig.PREFIX + "/products/{id}",
-    tags=['Products'],
+    tags=["Products"],
     response_model=Product
 )
-async def get_product_route(id: UUID, user=Depends(manager)):
+async def get_product_route(id: UUID, user=Depends(manager)) -> Product:
+    """ Shows product info """
     product: Product = await get_product(id=id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
     return product
 
 
 @app.put(
     URLPathsConfig.PREFIX + "/products/{id}",
-    tags=['Products'],
+    tags=["Products"],
     response_model=Product
 )
 async def update_product_route(
     id: UUID, item_in: ProductUpdate, user=Depends(manager)
-):
+) -> Product:
+    """ Updates product info """
     product: Product = await update_product(
         id=id, product_data=item_in
     )
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
     return product
 
 
 @app.delete(
     URLPathsConfig.PREFIX + "/products/{id}",
-    tags=['Products'],
+    tags=["Products"],
     response_model=Product
 )
-async def delete_product_route(id: UUID, user=Depends(manager)):
+async def delete_product_route(id: UUID, user=Depends(manager)) -> Product:
+    """ Deletes product """
     product: Product = await delete_product(id=id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
     return product
 
 
 @app.get(
     URLPathsConfig.PREFIX + "/products/uncategorized/",
-    tags=['Products'],
+    tags=["Products"],
     response_model=List[UncategorizedUserProduct]
 )
 @app.get(
     URLPathsConfig.PREFIX + "/products/uncategorized/{cat_id}",
-    tags=['Products'],
+    tags=["Products"],
     response_model=List[UncategorizedUserProduct]
 )
 async def get_uncategorized_product_route(
     cat_id: Optional[UUID] = None, user=Depends(manager)
 ) -> List[UncategorizedUserProduct]:
-    product: List[UncategorizedUserProduct] = await get_uncategorized_product(
+    """ Shows products not assigned to category """
+    return await get_uncategorized_product(
         user_id=user.id, cat_id=cat_id
     )
-    return product
 
 
 @app.post(
     URLPathsConfig.PREFIX + "/products/save_categorized/",
-    tags=['Products'],
+    tags=["Products"],
     response_model=bool
 )
 async def save_categorized_goods_route(
     data_in: List[CategorizedProduct], user=Depends(manager)
 ) -> bool:
     """
-    Assosiate category to several goods.
+    Assigns category to several goods.
     """
-    result = await save_categorized_products(
+    return await save_categorized_products(
         cat_prod_data=data_in
     )
-    return result
 
 
 @app.put(
     URLPathsConfig.PREFIX + "/products/update_categories/",
-    tags=['Products'],
+    tags=["Products"],
     response_model=bool
 )
 async def update_product_categories_route(
     data_in: UpdateUserProductCategories, user=Depends(manager)
 ) -> bool:
     """
-    Assosiate category to several goods.
+    Assosiates category to several goods.
     """
-    result = await update_product_categories(
+    return await update_product_categories(
         user_product_id=data_in.user_product_id,
         list_cat_id=data_in.list_cat_id
     )
-    return result
 
 
 @app.get(
     URLPathsConfig.PREFIX + "/products/prices/{product_id}",
-    tags=['Products'],
+    tags=["Products"],
     response_model=List[ProductPrice]
 )
 async def product_prices_route(
     product_id: UUID, user=Depends(manager)
 ) -> List[ProductPrice]:
-    result: List[
-        ProductPrice
-    ] = await get_product_prices(
+    """ Gets price of a product """
+    return await get_product_prices(
         product_id=product_id, user_id=user.id
     )
-    return result
 
 
 @app.get(
     URLPathsConfig.PREFIX + "/products/for_prices/",
-    tags=['Products'],
+    tags=["Products"],
     response_model=List[Product]
 )
 async def products_for_prices_route(
     user=Depends(manager)
 ) -> List[Product]:
-    result: List[Product] = await get_products_more_one_prices(
+    """ Gets products that have more than one price """
+    return await get_products_more_one_prices(
         user_id=user.id
     )
-    return result
-
-
-# @app.get(
-#     URLPathsConfig.PREFIX + "/products/normalize/",
-#     tags=['Products'],
-#     response_model=bool
-# )
-# async def normalize_products_name_route(user=Depends(manager)) -> bool:
-#     result = await normalize_products_name()
-#     return result

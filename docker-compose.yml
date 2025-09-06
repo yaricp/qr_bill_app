@@ -5,10 +5,10 @@ services:
   pg:
     restart: always
     # image: postgis/postgis:latest
-    image: postgres:latest
+    image: postgres:17
     container_name: pg
     volumes:
-      - pgdata:/var/lib/postgresql/data/
+      - qr_bill_pgdata:/var/lib/postgresql/data/
     environment:
       POSTGRES_HOST: ${DATABASE_HOST}
       POSTGRES_USER: ${DATABASE_USER}
@@ -140,66 +140,4 @@ services:
       - api
 
 volumes:
-  pgdata: {}
-
-
-
-
-  # redis:
-  #   image: bitnami/redis:latest
-  #   restart: always
-  #   environment:
-  #     ALLOW_EMPTY_PASSWORD: "true"
-
-  # cadvisor:
-  #   restart: always
-  #   image: gcr.io/cadvisor/cadvisor
-  #   container_name: cadvisor
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #   ports:
-  #     - 8088:8080
-
-  # hostm:
-  #   image: quay.io/prometheus/node-exporter:latest
-  #   container_name: hostm
-  #   command:
-  #     - '--path.rootfs=/host'
-  #   # network_mode: host
-  #   pid: host
-  #   restart: unless-stopped
-  #   expose:
-  #     - 9100
-  #   volumes:
-  #     - '/:/host:ro,rslave'
-
-  # prom:
-  #   restart: always
-  #   image: prom/prometheus
-  #   container_name: prom
-  #   volumes:
-  #     - ./prometheus:/etc/prometheus
-  #     - prometheus_data:/prometheus
-  #     - /tmp:/tmp
-  #   expose:
-  #     - 9090
-  #   ports:
-  #     - 9090:9090
-  #   depends_on:
-  #     - montage
-
-  # grafana:
-  #   restart: always
-  #   image: grafana/grafana-enterprise
-  #   container_name: grafana
-  #   volumes:
-  #     - grafana_data:/var/lib/grafana
-  #     - ./grafana:/etc/grafana
-  #     - /tmp:/tmp
-  #   expose:
-  #     - 3000
-  #   ports:
-  #     - 3000:3000
-  #   depends_on:
-  #     - montage
-  #     - prom
+  qr_bill_pgdata: {}

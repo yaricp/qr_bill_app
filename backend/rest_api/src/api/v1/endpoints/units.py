@@ -1,7 +1,7 @@
 from uuid import UUID
-from typing import List, MutableSequence
+from typing import List
 
-from fastapi import Depends
+from fastapi import Depends, HTTPException
 
 from ... import app, manager
 from ...config import URLPathsConfig
@@ -22,11 +22,8 @@ from ..schemas.unit import (
 async def create_unit_route(
     item_in: UnitCreate, user=Depends(manager)
 ) -> str:
-    """
-    Create new unit.
-    """
-    unit = await create_unit(unit_data=item_in)
-    return unit
+    """ Creates a new unit """
+    return await create_unit(unit_data=item_in)
 
 
 @app.get(
@@ -34,9 +31,9 @@ async def create_unit_route(
     tags=['Units'],
     response_model=List[Unit]
 )
-async def get_all_units_route(user=Depends(manager)):
-    units: List[Unit] = await get_all_units()
-    return units
+async def get_all_units_route(user=Depends(manager)) -> List[Unit]:
+    """ Gets list of units """
+    return await get_all_units()
 
 
 @app.get(
@@ -44,8 +41,11 @@ async def get_all_units_route(user=Depends(manager)):
     tags=['Units'],
     response_model=Unit
 )
-async def get_unit_route(id: UUID, user=Depends(manager)):
+async def get_unit_route(id: UUID, user=Depends(manager)) -> Unit:
+    """ Gets a unit """
     unit: Unit = await get_unit(id=id)
+    if not unit:
+        raise HTTPException(status_code=404, detail="Unit not found")
     return unit
 
 
@@ -56,9 +56,12 @@ async def get_unit_route(id: UUID, user=Depends(manager)):
 )
 async def put_unit_route(
     id: UUID, item_in: UnitUpdate, user=Depends(manager)
-):
+) -> Unit:
+    """ Updates a unit """
     item_in.id = id
     unit: Unit = await update_unit(unit_data=item_in)
+    if not unit:
+        raise HTTPException(status_code=404, detail="Unit not found")
     return unit
 
 
@@ -67,6 +70,9 @@ async def put_unit_route(
     tags=['Units'],
     response_model=Unit
 )
-async def delete_unit_route(id: UUID, user=Depends(manager)):
-    result: Unit = await delete_unit(id=id)
-    return result
+async def delete_unit_route(id: UUID, user=Depends(manager)) -> Unit:
+    """ Deletes a unit """
+    unit: Unit = await delete_unit(id=id)
+    if not unit:
+        raise HTTPException(status_code=404, detail="Unit not found")
+    return unit

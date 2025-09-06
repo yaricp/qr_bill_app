@@ -28,28 +28,6 @@ class GoodsBase(BaseModel):
     bill_id: Optional[UUID] = None
 
 
-    {
-        'id': 4598966187,
-        'name': 'Kroasan ljesnik 90g  ',
-        'code': '2000004068257',
-        'unit': 'KOM',
-        'quantity': 1.0,
-        'unitPriceBeforeVat': 0.9511,
-        'unitPriceAfterVat': 0.85,
-        'rebate': 26.14,
-        'rebateReducing': False,
-        'priceBeforeVat': 0.7025,
-        'vatRate': 21,
-        'vatAmount': 0.1475,
-        'priceAfterVat': 0.85,
-        'exemptFromVat': None,
-        'voucherSold': None,
-        'vd': None,
-        'vsn': None,
-        'investment': False
-    }
-
-
 class GoodsCreate(BaseModel):
     name: str
     quantity: Decimal

@@ -22,7 +22,7 @@ async def prometheus_middleware(request: Request, call_next):
     REQUEST_LATENCY.labels(
         request.method, request.url.path
     ).observe(duration)
-    
+
     if 400 <= response.status_code < 500:
         HTTP_4XX_ERRORS.labels(request.method, request.url.path).inc()
     elif 500 <= response.status_code < 600:

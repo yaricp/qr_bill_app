@@ -1,10 +1,8 @@
 from uuid import UUID
-from typing import Optional, List
+from typing import Optional
 from decimal import Decimal
 
 from pydantic import BaseModel
-
-# from .user_product import UserProduct
 
 
 # Shared properties

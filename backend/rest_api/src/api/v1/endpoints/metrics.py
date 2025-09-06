@@ -4,7 +4,7 @@ from fastapi.responses import Response
 from ... import app
 
 
-@app.get("/metrics", tags=['Bills'])
+@app.get("/metrics", tags=["Bills"])
 def metrics():
     """
     Endpoint, which is used by Prometheus to scrape the metrics.
