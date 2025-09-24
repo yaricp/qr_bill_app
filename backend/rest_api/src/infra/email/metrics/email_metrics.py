@@ -1,21 +1,20 @@
 import time
-from prometheus_client import Counter, Histogram
+
 from loguru import logger
+from prometheus_client import Counter, Histogram
 
 from ..config import metrics_config
-
 
 prefix = metrics_config.METRICS_PREFIX
 
 EMAIL_SENT = Counter(
     f"{prefix}_email_sent_total",
     "Total number of emails sent",
-    ["status"]  # success | failure
+    ["status"],  # success | failure
 )
 
 EMAIL_LATENCY = Histogram(
-    f"{prefix}_email_send_duration_seconds",
-    "Time spent sending emails in seconds"
+    f"{prefix}_email_send_duration_seconds", "Time spent sending emails in seconds"
 )
 
 
@@ -37,4 +36,5 @@ def metric_email_client(func):
             duration = time.time() - start_time
             EMAIL_LATENCY.observe(duration)
             logger.info("Added Email Client metrics duration")
+
     return wrapper

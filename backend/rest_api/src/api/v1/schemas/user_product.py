@@ -1,10 +1,10 @@
-from uuid import UUID
 from typing import List
+from uuid import UUID
 
 from pydantic import BaseModel
 
-from .product import Product
 from .category import Category
+from .product import Product
 
 
 class UncategorizedUserProduct(BaseModel):

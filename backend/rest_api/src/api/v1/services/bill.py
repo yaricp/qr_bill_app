@@ -1,26 +1,18 @@
-from uuid import UUID
 from decimal import Decimal
 from typing import List
+from uuid import UUID
 
 from ....app.bill import BillCommands, BillQueries
-
-from ..schemas.bill import (
-    Bill, BillUpdate, BillCreate, BillCreateByURL
-)
+from ..schemas.bill import Bill, BillCreate, BillCreateByURL, BillUpdate
 from ..schemas.goods import Goods
 from ..schemas.user_product import UncategorizedUserProduct
-
 
 # -----Views-----
 
 
-async def get_all_bills(
-    user_id: UUID, offset: int = 0, limit: int = 0
-) -> List[Bill]:
+async def get_all_bills(user_id: UUID, offset: int = 0, limit: int = 0) -> List[Bill]:
     query: BillQueries = BillQueries()
-    return await query.get_all_bills(
-        user_id=user_id, offset=offset, limit=limit
-    )
+    return await query.get_all_bills(user_id=user_id, offset=offset, limit=limit)
 
 
 async def get_bill(id: UUID) -> Bill:
@@ -38,7 +30,7 @@ async def get_uncategorized_goods_bill(
 
 
 async def get_uncategorized_product(
-     id: UUID, user_id: UUID, cat_id: UUID | None = None
+    id: UUID, user_id: UUID, cat_id: UUID | None = None
 ) -> List[UncategorizedUserProduct]:
     query: BillQueries = BillQueries()
     return await query.get_uncategorized_product(
@@ -46,43 +38,31 @@ async def get_uncategorized_product(
     )
 
 
-async def get_month_summ(
-    user_id: UUID, delta_month: int
-) -> Decimal:
+async def get_month_summ(user_id: UUID, delta_month: int) -> Decimal:
     query: BillQueries = BillQueries()
-    return await query.get_month_summ(
-        user_id=user_id, delta_month=delta_month
-    )
+    return await query.get_month_summ(user_id=user_id, delta_month=delta_month)
 
 
 # -------Commands-------
 
 
-async def parse_link_bill(
-    link_image_data: BillCreateByURL, user_id: UUID
-) -> Bill:
+async def parse_link_bill(link_image_data: BillCreateByURL, user_id: UUID) -> Bill:
     bill_commands: BillCommands = BillCommands()
     return await bill_commands.parse_link_save_bill(
         income_link=link_image_data, user_id=user_id
     )
 
 
-async def create_bill(
-    bill_data: BillCreate
-) -> Bill:
+async def create_bill(bill_data: BillCreate) -> Bill:
     bill_commands: BillCommands = BillCommands()
-    return await bill_commands.create_bill_manually(
-        incoming_data=bill_data
-    )
+    return await bill_commands.create_bill_manually(incoming_data=bill_data)
 
 
 async def scan_qr_picture(file_path_picture: str):
     pass
 
 
-async def update_bill(
-    id: UUID, bill_data: BillUpdate
-) -> Bill:
+async def update_bill(id: UUID, bill_data: BillUpdate) -> Bill:
     return None
 
 

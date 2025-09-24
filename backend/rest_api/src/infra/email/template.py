@@ -1,5 +1,5 @@
-from loguru import logger
 from jinja2 import Environment, PackageLoader, select_autoescape
+from loguru import logger
 
 
 class Template:
@@ -23,8 +23,8 @@ class Template:
         """
         self.logger = logger
         self.env = Environment(
-            loader=PackageLoader('src.infra.email'),
-            autoescape=select_autoescape(['html', 'xml'])
+            loader=PackageLoader("src.infra.email"),
+            autoescape=select_autoescape(["html", "xml"]),
         )
         self.template = template
         self.template_vars = template_vars
@@ -38,15 +38,15 @@ class Template:
             Processed template in string format
         """
 
-        processed_template = ''
+        processed_template = ""
         try:
             template = self.env.get_template(self.template)
             processed_template = template.render(**self.template_vars)
-            self.logger.info(f'Template {self.template} generate successful')
+            self.logger.info(f"Template {self.template} generate successful")
         except Exception:
-            self.logger.exception('Error while loading template', exc_info=True)
+            self.logger.exception("Error while loading template", exc_info=True)
 
         return processed_template
 
     def __repr__(self):
-        return f'<Template obj {self.template}>'
+        return f"<Template obj {self.template}>"

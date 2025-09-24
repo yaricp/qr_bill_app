@@ -1,13 +1,10 @@
 from aiogram import Router
-
 from aiogram.filters import Command
-from aiogram.types import Message, FSInputFile
-
-from utils import get_logger
+from aiogram.types import FSInputFile, Message
 from handlers import router
-from services import get_user_lang, get_user_current_house
+from services import get_user_current_house, get_user_lang
+from utils import get_logger
 from views import short_picture_answer_view
-
 
 logger = get_logger(__name__)
 
@@ -22,6 +19,4 @@ async def cmd_show_picture_handler(message: Message):
     picture = FSInputFile(house_db.picture)
     user_lang = get_user_lang(user_id)
     await message.reply_photo(picture)
-    await message.answer(
-        short_picture_answer_view(lang=user_lang), parse_mode="HTML"
-    )
+    await message.answer(short_picture_answer_view(lang=user_lang), parse_mode="HTML")

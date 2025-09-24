@@ -1,11 +1,11 @@
 import sys
+
 import telebot
-from telebot import types
 from loguru import logger
+from telebot import types
 
 from .config import telegram_config
 from .metrics.telegram_metrics import metric_telegram_send
-
 
 token = telegram_config.TELEGRAM_BOT_TOKEN
 
@@ -26,17 +26,13 @@ def send_mess_to_admin(message: str) -> bool:
         tb = telebot.TeleBot(token)
         tb.send_message(admin_chat_id, message)
     except Exception as e:
-        logger.warning(
-            f'Error {e} while sending notification {message}'
-        )
+        logger.warning(f"Error {e} while sending notification {message}")
         raise e
     return True
 
 
 @metric_telegram_send
-def send_mess_to_client(
-    user_id: int, message: str, filepath: str = ""
-) -> int:
+def send_mess_to_client(user_id: int, message: str, filepath: str = "") -> int:
     """
     Sends message to reg telegram bot.
 
@@ -53,21 +49,19 @@ def send_mess_to_client(
             try:
                 logger.info("Sending file")
                 return tb.send_document(
-                    chat_id=user_id, 
+                    chat_id=user_id,
                     document=open(filepath, "rb"),
                     caption="Готово!",
                 )
             except Exception as e:
                 logger.error(
-                    f'Error {e} while sending file {filepath} to client {user_id}'
+                    f"Error {e} while sending file {filepath} to client {user_id}"
                 )
                 raise e
         logger.info("sending message")
         return tb.send_message(user_id, message)
     except Exception as e:
-        logger.error(
-            f'Error {e} while sending {message} to client {user_id}'
-        )
+        logger.error(f"Error {e} while sending {message} to client {user_id}")
         raise e
 
 
@@ -82,6 +76,6 @@ def delete_message(message_id: int) -> bool:
         raise err
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     msg = sys.argv[1]
     send_mess_to_admin(msg)

@@ -1,12 +1,12 @@
 import time
 from datetime import datetime
 from uuid import UUID
+
 from loguru import logger
 
 from ..app.config import login_link_config
 from ..infra.database import db_session
 from ..infra.database.models import LoginLink as LoginLinkORM
-
 
 # class UnitQueries:
 
@@ -33,9 +33,7 @@ class LoginLinkCommands:
         db_login_link = LoginLinkORM.query.get(id)
         if db_login_link:
             current_delta = int(
-                (
-                    datetime.now() - db_login_link.created
-                ).total_seconds()
+                (datetime.now() - db_login_link.created).total_seconds()
             )
             if current_delta < delta_conf:
                 logger.info("sleep again but just 1 min")

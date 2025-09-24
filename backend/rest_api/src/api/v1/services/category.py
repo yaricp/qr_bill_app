@@ -1,15 +1,9 @@
-from uuid import UUID
 from typing import List
+from uuid import UUID
 
-from ....app.category import (
-    CategoryQueries, CategoryCommands
-)
-
-from ..schemas.category import (
-    Category, CategoryCreate, CategoryUpdate,
-    CategoryCountByName, CategorySummByName
-)
-
+from ....app.category import CategoryCommands, CategoryQueries
+from ..schemas.category import (Category, CategoryCountByName, CategoryCreate,
+                                CategorySummByName, CategoryUpdate)
 
 """
 Can not use Bootstrap object in dependencies,
@@ -26,9 +20,7 @@ async def get_all_categories(user_id: UUID) -> List[Category]:
 
 async def get_category(id: UUID, user_id: UUID) -> Category:
     cat_query = CategoryQueries()
-    return await cat_query.get_category(
-        id=id, user_id=user_id
-    )
+    return await cat_query.get_category(id=id, user_id=user_id)
 
 
 async def count_goods_by_name_categories(
@@ -54,17 +46,13 @@ async def summ_goods_by_name_categories(
 
 async def create_category(category_data: CategoryCreate) -> Category:
     cat_command = CategoryCommands()
-    command_result = await cat_command.create_category(
-        category_data
-    )
+    command_result = await cat_command.create_category(category_data)
     return command_result
 
 
 async def update_category(category_data: CategoryUpdate) -> Category:
     cat_command = CategoryCommands()
-    command_result = await cat_command.update_category(
-        incoming_item=category_data
-    )
+    command_result = await cat_command.update_category(incoming_item=category_data)
     return command_result
 
 

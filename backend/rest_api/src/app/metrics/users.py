@@ -3,21 +3,18 @@ from prometheus_client import Counter, Histogram
 
 from ..config import metric_config
 
-
 prefix = metric_config.METRICS_PREFIX
 
 
 # login, scan_receipt, open_analytics, change_language
 USER_ACTIONS = Counter(
-    f"{prefix}_user_actions_total",
-    "Total number of user actions",
-    ["action_type"]
+    f"{prefix}_user_actions_total", "Total number of user actions", ["action_type"]
 )
 
 USER_ACTION_DURATION = Histogram(
     f"{prefix}_user_action_duration_seconds",
     "Time spent on user actions in seconds",
-    ["action_type"]
+    ["action_type"],
 )
 
 

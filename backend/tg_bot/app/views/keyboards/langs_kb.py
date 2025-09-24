@@ -1,11 +1,7 @@
-from loguru import logger
-from aiogram.types import (
-    InlineKeyboardMarkup,
-    InlineKeyboardButton
-)
-
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from callback_data_schemas import LangsData
 from config import tg_bot_config
+from loguru import logger
 
 
 def get_inline_kb_langs() -> InlineKeyboardMarkup:
@@ -20,12 +16,8 @@ def get_inline_kb_langs() -> InlineKeyboardMarkup:
     btn_list = []
     for item in tg_bot_config.TELEGRAM_LANGUAGES:
         inline_btn = InlineKeyboardButton(
-            text=item, callback_data=LangsData(
-                value=item
-            ).pack()
+            text=item, callback_data=LangsData(value=item).pack()
         )
         btn_list.append(inline_btn)
-    inline_kb_langs = InlineKeyboardMarkup(
-        inline_keyboard=[btn_list]
-    )
+    inline_kb_langs = InlineKeyboardMarkup(inline_keyboard=[btn_list])
     return inline_kb_langs

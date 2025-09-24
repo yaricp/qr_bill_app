@@ -1,6 +1,7 @@
-from uuid import UUID
-from loguru import logger
 from datetime import datetime, timedelta
+from uuid import UUID
+
+from loguru import logger
 
 
 def is_valid_uuid(uuid_to_test, version=4):
@@ -42,12 +43,12 @@ def get_fisrt_day_month_by_delta_month(delta_month: int) -> datetime:
     logger.info(f"current_year: {current_year}")
     current_month = datetime.now().month
     logger.info(f"current_month: {current_month}")
-    result_year = current_year - (
-        1 if (current_month - abs(delta_month)) <= 0 else 0
-    )
+    result_year = current_year - (1 if (current_month - abs(delta_month)) <= 0 else 0)
     logger.info(f"result_year: {result_year}")
-    result_month = current_month - abs(delta_month) if (
+    result_month = (
         current_month - abs(delta_month)
-    ) > 0 else 12 - abs(current_month - abs(delta_month))
+        if (current_month - abs(delta_month)) > 0
+        else 12 - abs(current_month - abs(delta_month))
+    )
     logger.info(f"result_month: {result_month}")
     return datetime(result_year, result_month, 1)

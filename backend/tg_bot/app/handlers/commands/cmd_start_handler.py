@@ -2,12 +2,10 @@ from asyncio import sleep
 
 from aiogram.filters import Command
 from aiogram.types import Message
-
-from utils import get_logger
 from handlers import router
 from services import get_or_create_user, get_user_lang
+from utils import get_logger
 from views import start_view
-
 
 logger = get_logger(__name__)
 
@@ -23,8 +21,5 @@ async def cmd_start_handler(message: Message):
         name = message.from_user.username
     await get_or_create_user(tg_user_id)
     user_lang = await get_user_lang(tg_user_id)
-    await message.answer(
-        start_view(name, lang=user_lang),
-        parse_mode="HTML"
-    )
+    await message.answer(start_view(name, lang=user_lang), parse_mode="HTML")
     await message.delete()

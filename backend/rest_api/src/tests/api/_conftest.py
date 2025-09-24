@@ -1,29 +1,23 @@
 import os
 import sys
 import uuid
-import pytest
 from hashlib import sha256
+
+import pytest
 from loguru import logger
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-
 
 print(f"path:  {os.getcwd()}")
 sys.path.append("..")
 
 
 from fastapi.testclient import TestClient
-
-from src.api import app     # Import your FastAPI app
+from src.api import app  # Import your FastAPI app
 from src.infra.database.connection import DATABASE_URL
-from src.infra.database.models import (
-    Model as Base,
-    Seller,
-    User
-)      # Import the necessary models
-
-
-
+from src.infra.database.models import \
+    Model as Base  # Import the necessary models
+from src.infra.database.models import Seller, User
 
 # Setup a test database (in-memory SQLite or a test-specific database)
 SQLALCHEMY_DATABASE_URL = DATABASE_URL  # In-memory SQLite for testing
@@ -52,7 +46,9 @@ def db_session():
 @pytest.fixture(scope="function")
 def test_client(db_session):
     # Create test client that uses the app and DB session
-    app.dependency_overrides[SessionLocal] = lambda: db_session  # Override the DB dependency
+    app.dependency_overrides[SessionLocal] = (
+        lambda: db_session
+    )  # Override the DB dependency
     client = TestClient(app)
     return client
 
@@ -67,15 +63,15 @@ def create_sellers(db_session):
             "name": "Seller One",
             "official_name": "Official Seller One",
             "address": "123 Test St",
-            "city": "Test City"
+            "city": "Test City",
         },
         {
             "id": uuid.uuid4(),
             "name": "Seller Two",
             "official_name": "Official Seller Two",
             "address": "456 Test Ave",
-            "city": "Test City"
-        }
+            "city": "Test City",
+        },
     ]
 
     # Add sellers to the database session
@@ -100,10 +96,7 @@ def cleanup(db_session):
 @pytest.fixture(scope="function")
 def oauth2_token(test_client):
 
-    reg_data = {
-        "login": "test_user",
-        "password": "test"
-    }
+    reg_data = {"login": "test_user", "password": "test"}
     reg_url = "/api/v1/auth/register"
 
     response = test_client.post(reg_url, json=reg_data)
@@ -117,9 +110,9 @@ def oauth2_token(test_client):
     # Replace these with the actual credentials required for login
     login_payload = {
         "username": "test_user",  # Replace with valid test credentials
-        "password": "test"  # Replace with valid test credentials
+        "password": "test",  # Replace with valid test credentials
     }
-    
+
     # Make a POST request to the login endpoint to obtain a token
     response = test_client.post(login_url, data=login_payload)
 
@@ -135,6 +128,4 @@ def oauth2_token(test_client):
 @pytest.fixture(scope="function")
 def auth_headers(oauth2_token):
     # Prepare the authorization header using the OAuth2 token
-    return {
-        "Authorization": f"Bearer {oauth2_token}"
-    }
+    return {"Authorization": f"Bearer {oauth2_token}"}

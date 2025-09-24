@@ -1,43 +1,34 @@
 import json
 import time
-from uuid import UUID
-from typing import List
-from decimal import Decimal
-from requests import post
-from loguru import logger
 from datetime import datetime
-from sqlalchemy.sql import text
-from sqlalchemy.sql import func
+from decimal import Decimal
+from typing import List
+from uuid import UUID
+
+from loguru import logger
+from requests import post
+from sqlalchemy.sql import func, text
 
 from ..infra.database import db_session
-from ..infra.database.models import (
-    Bill as BillORM,
-    Goods as GoodsORM
-)
-from ..utils import (
-    get_last_day_of_month_by_datetime,
-    get_fisrt_day_month_by_delta_month
-)
-
-from .entities.unit import UnitCreate
+from ..infra.database.models import Bill as BillORM
+from ..infra.database.models import Goods as GoodsORM
+from ..utils import (get_fisrt_day_month_by_delta_month,
+                     get_last_day_of_month_by_datetime)
+from .config import bill_config
 from .entities.bill import Bill, BillCreate, BillCreateByURL
 from .entities.goods import Goods, GoodsCreate
-from .entities.seller import SellerCreate
 from .entities.product import ProductCreate
+from .entities.seller import SellerCreate
+from .entities.unit import UnitCreate
 from .entities.user_product import UncategorizedUserProduct
-from .unit import UnitCommands, UnitQueries
-from .seller import SellerCommands
 from .goods import GoodsCommands
+from .metrics.operations import (metric_bill_processing_time,
+                                 metric_call_external_api, metric_created_bill,
+                                 metric_processed_bill, metric_validated_bill)
 from .product import ProductCommands
-from .config import bill_config
+from .seller import SellerCommands
+from .unit import UnitCommands, UnitQueries
 from .utils import unification_names
-from .metrics.operations import (
-    metric_created_bill,
-    metric_processed_bill,
-    metric_validated_bill,
-    metric_call_external_api,
-    metric_bill_processing_time
-)
 
 
 class BillQueries:
@@ -45,21 +36,18 @@ class BillQueries:
     def __init__(self):
         pass
 
-    async def get_all_bills(
-        self, user_id: UUID, offset: int = 0, limit: int = 0
-    ):
+    async def get_all_bills(self, user_id: UUID, offset: int = 0, limit: int = 0):
         if offset > 0 and limit > 0:
-            return BillORM.query.filter_by(
-                user_id=user_id
-            ).offset(offset).limit(limit).all()
+            return (
+                BillORM.query.filter_by(user_id=user_id)
+                .offset(offset)
+                .limit(limit)
+                .all()
+            )
         elif limit > 0:
-            return BillORM.query.filter_by(
-                user_id=user_id
-            ).limit(limit).all()
+            return BillORM.query.filter_by(user_id=user_id).limit(limit).all()
         elif offset > 0:
-            return BillORM.query.filter_by(
-                user_id=user_id
-            ).offset(offset).all()
+            return BillORM.query.filter_by(user_id=user_id).offset(offset).all()
         return BillORM.query.filter_by(user_id=user_id).all()
 
     async def get_bill(self, id: UUID):
@@ -69,9 +57,7 @@ class BillQueries:
         self, bill_id: UUID, user_id: UUID, cat_id: UUID | None = None
     ) -> List[Goods]:
         result = []
-        bill_goods = GoodsORM.query.filter_by(
-            bill_id=bill_id, user_id=user_id
-        ).all()
+        bill_goods = GoodsORM.query.filter_by(bill_id=bill_id, user_id=user_id).all()
         for u_goods in bill_goods:
             if cat_id:
                 logger.info(f"u_goods.categories: {u_goods.categories}")
@@ -93,28 +79,28 @@ class BillQueries:
         logger.info(f"cat_id: {cat_id}")
         result = []
         sql_queries = {
-            "cat": "SELECT user_product.id, product.name FROM goods "\
-                " LEFT JOIN user_product ON user_product.id = goods.user_product_id "\
-                " LEFT JOIN product ON user_product.product_id = product.id "\
-                " LEFT JOIN user_product_category "\
-                " ON user_product_category.user_product_id = user_product.id "\
-                f" WHERE goods.user_id = '{user_id}' "\
-                f" AND goods.bill_id = '{bill_id}' "\
-                " GROUP BY user_product.id, product.name "\
-                " HAVING SUM(CASE "\
-                f" WHEN user_product_category.cat_id != '{cat_id}' "\
-                " THEN 0 ELSE 1 END) = 0;",
-            "no_cat": "SELECT user_product.id, product.name FROM goods "\
-                " LEFT JOIN user_product ON user_product.id = goods.user_product_id "\
-                " LEFT JOIN product ON user_product.product_id = product.id "\
-                " LEFT JOIN user_product_category "\
-                " ON user_product_category.user_product_id = user_product.id "\
-                f" WHERE goods.user_id = '{user_id}' "\
-                f" AND goods.bill_id = '{bill_id}' "\
-                " GROUP BY user_product.id, product.name "\
-                " HAVING COUNT(user_product_category.id) = 0;"
-            }
-        
+            "cat": "SELECT user_product.id, product.name FROM goods "
+            " LEFT JOIN user_product ON user_product.id = goods.user_product_id "
+            " LEFT JOIN product ON user_product.product_id = product.id "
+            " LEFT JOIN user_product_category "
+            " ON user_product_category.user_product_id = user_product.id "
+            f" WHERE goods.user_id = '{user_id}' "
+            f" AND goods.bill_id = '{bill_id}' "
+            " GROUP BY user_product.id, product.name "
+            " HAVING SUM(CASE "
+            f" WHEN user_product_category.cat_id != '{cat_id}' "
+            " THEN 0 ELSE 1 END) = 0;",
+            "no_cat": "SELECT user_product.id, product.name FROM goods "
+            " LEFT JOIN user_product ON user_product.id = goods.user_product_id "
+            " LEFT JOIN product ON user_product.product_id = product.id "
+            " LEFT JOIN user_product_category "
+            " ON user_product_category.user_product_id = user_product.id "
+            f" WHERE goods.user_id = '{user_id}' "
+            f" AND goods.bill_id = '{bill_id}' "
+            " GROUP BY user_product.id, product.name "
+            " HAVING COUNT(user_product_category.id) = 0;",
+        }
+
         # result = db_session.query(
         #     ProductORM.name,
         #     func.count(CategoryORM.id).label("count")
@@ -146,37 +132,29 @@ class BillQueries:
 
         if cat_id:
             logger.info(f"With cat ID: {cat_id}")
-            result = db_session.execute(
-                text(sql_queries["cat"])
-            )
+            result = db_session.execute(text(sql_queries["cat"]))
         else:
             logger.info("Without Category")
-            result = db_session.execute(
-                text(sql_queries["no_cat"])
-            )
+            result = db_session.execute(text(sql_queries["no_cat"]))
 
         logger.info(f"result: {result}")
 
         return result
 
-    async def get_month_summ(
-        self, user_id: UUID, delta_month: int
-    ) -> Decimal:
-        prev_month_date = get_fisrt_day_month_by_delta_month(
-            delta_month
-        )
+    async def get_month_summ(self, user_id: UUID, delta_month: int) -> Decimal:
+        prev_month_date = get_fisrt_day_month_by_delta_month(delta_month)
         logger.info(f"prev_month_date: {prev_month_date}")
-        next_month_date = get_last_day_of_month_by_datetime(
-            prev_month_date
-        )
+        next_month_date = get_last_day_of_month_by_datetime(prev_month_date)
         logger.info(f"next_month_date: {next_month_date}")
-        result = db_session.query(
-            func.sum(BillORM.value).label("summ")
-        ).filter(
-            BillORM.user_id == user_id,
-            BillORM.created >= prev_month_date,
-            BillORM.created <= next_month_date
-        ).all()
+        result = (
+            db_session.query(func.sum(BillORM.value).label("summ"))
+            .filter(
+                BillORM.user_id == user_id,
+                BillORM.created >= prev_month_date,
+                BillORM.created <= next_month_date,
+            )
+            .all()
+        )
         logger.info(f"result: {result}")
         logger.info(f"result: {result[0].summ}")
         return Decimal(result[0].summ) if result[0].summ else Decimal(0)
@@ -186,9 +164,7 @@ class BillCommands:
 
     def __init__(self):
         self.params = {}
-        self.url_patterns = [
-            "?", "#", "mapr.tax.gov.me", "ic", "verify?"
-        ]
+        self.url_patterns = ["?", "#", "mapr.tax.gov.me", "ic", "verify?"]
         self.referer_fiscal_service_url = (
             f"{bill_config.FISCAL_SERVICE_HOSTNAME}{bill_config.FISCAL_SERVICE_URI}"
         )
@@ -205,9 +181,7 @@ class BillCommands:
     async def get_by_id(self, id: UUID) -> Bill:
         return BillORM.query.get(id)
 
-    async def create_new_bill(
-        self, incoming_item: BillCreate
-    ) -> Bill:
+    async def create_new_bill(self, incoming_item: BillCreate) -> Bill:
         incoming_item_dict = incoming_item.dict()
         bill = BillORM(**incoming_item_dict)
         try:
@@ -225,25 +199,18 @@ class BillCommands:
         self, created: datetime, value: Decimal, user_id: UUID, seller_id: UUID
     ) -> Bill:
         return BillORM.query.filter_by(
-            created=created,
-            user_id=user_id,
-            value=value,
-            seller_id=seller_id
+            created=created, user_id=user_id, value=value, seller_id=seller_id
         ).first()
 
-    async def get_or_create(
-        self, incoming_item: BillCreate
-    ) -> Bill:
+    async def get_or_create(self, incoming_item: BillCreate) -> Bill:
         bill = await self.get_by_all(
             created=incoming_item.created,
             user_id=incoming_item.user_id,
             value=incoming_item.value,
-            seller_id=incoming_item.seller_id
+            seller_id=incoming_item.seller_id,
         )
         if not bill:
-            bill = await self.create_new_bill(
-                incoming_item=incoming_item
-            )
+            bill = await self.create_new_bill(incoming_item=incoming_item)
         return bill
 
     async def parse_link_save_bill(
@@ -254,21 +221,15 @@ class BillCommands:
             logger.error("Wrong URL")
             logger.error(f"income_link.link: {income_link.link}")
             delay = time.time() - start_time
-            metric_bill_processing_time(
-                status="failure", duration=delay
-            )
+            metric_bill_processing_time(status="failure", duration=delay)
             return None
             # raise Exception("Wrong URL")
-        self.params = self.get_params_from_income_url(
-            url=income_link.link
-        )
+        self.params = self.get_params_from_income_url(url=income_link.link)
         data_bill = await self.get_data_from_fiscal_api(**self.params)
         if not data_bill:
             logger.error("No data from fiscal API")
             delay = time.time() - start_time
-            metric_bill_processing_time(
-                status="failure", duration=delay
-            )
+            metric_bill_processing_time(status="failure", duration=delay)
             return None
         logger.info(f"items: {data_bill.items()}")
         bill_seller = data_bill["seller"]
@@ -296,33 +257,25 @@ class BillCommands:
             payment_method=data_bill["paymentMethod"][0]["type"].strip(),
             seller_id=seller_db.id,
             user_id=user_id,
-            image=income_link.image
+            image=income_link.image,
         )
         logger.info(f"incoming_bill: {incoming_bill}")
-        bill_db = await self.get_or_create(
-            incoming_item=incoming_bill
-        )
+        bill_db = await self.get_or_create(incoming_item=incoming_bill)
         if not bill_db:
             delay = time.time() - start_time
-            metric_bill_processing_time(
-                status="failure", duration=delay
-            )
+            metric_bill_processing_time(status="failure", duration=delay)
             return None
         logger.info(f"created bill: {bill_db}")
         for in_goods in income_goods_items:
             incoming_unit = UnitCreate(
-                name=in_goods["unit"].strip().replace(
-                    ".", ""
-                ).lower()
+                name=in_goods["unit"].strip().replace(".", "").lower()
             )
             unit_db = await self.unit_commands.get_or_create(
                 incoming_item=incoming_unit
             )
             logger.info(f"in_goods: {in_goods}")
             name_goods_product = unification_names(in_goods["name"])
-            income_product = ProductCreate(
-                name=name_goods_product
-            )
+            income_product = ProductCreate(name=name_goods_product)
             user_product_db = await self.product_commands.get_or_create_user_product(
                 incoming_item=income_product, user_id=user_id
             )
@@ -335,9 +288,11 @@ class BillCommands:
                 unit_price_before_vat=in_goods["unitPriceBeforeVat"],
                 unit_price_after_vat=in_goods["unitPriceAfterVat"],
                 rebate=in_goods["rebate"] if in_goods["rebate"] else Decimal(0.0),
-                rebate_reducing=in_goods["rebateReducing"] if in_goods[
-                    "rebateReducing"
-                ] != None else False,
+                rebate_reducing=(
+                    in_goods["rebateReducing"]
+                    if in_goods["rebateReducing"] != None
+                    else False
+                ),
                 price_before_vat=in_goods["priceBeforeVat"],
                 vat_rate=in_goods["vatRate"],
                 vat_amount=in_goods["vatAmount"],
@@ -346,7 +301,7 @@ class BillCommands:
                 bill_id=bill_db.id,
                 seller_id=seller_db.id,
                 user_id=user_id,
-                user_product_id=user_product_db.id
+                user_product_id=user_product_db.id,
             )
             logger.info(f"incoming_goods: {incoming_goods}")
             goods_db = await self.goods_commands.get_or_create(
@@ -356,9 +311,7 @@ class BillCommands:
 
         bill_db = await self.get_by_id(id=bill_db.id)
         delay = time.time() - start_time
-        metric_bill_processing_time(
-            status="success", duration=delay
-        )
+        metric_bill_processing_time(status="success", duration=delay)
         logger.info(f"Processed bill in {delay} seconds")
         return bill_db
 
@@ -371,18 +324,13 @@ class BillCommands:
             key_value = item.split("=")
             if len(key_value) == 2:
                 result_dict[key_value[0]] = key_value[1]
-        result_dict["crtd"] = result_dict[
-            "crtd"
-        ].replace(
-            "%20", " "
-        ).replace(
-            "%2B", " "
-        ).replace(
-            "%2b", " "
-        ).replace(
-            "%3A", ":"
-        ).replace(
-            "%3a", ":"
+        result_dict["crtd"] = (
+            result_dict["crtd"]
+            .replace("%20", " ")
+            .replace("%2B", " ")
+            .replace("%2b", " ")
+            .replace("%3A", ":")
+            .replace("%3a", ":")
         )
         logger.info(f"result_dict: {result_dict}")
         return result_dict
@@ -401,30 +349,26 @@ class BillCommands:
         params = {
             "iic": kwargs["iic"],
             "tin": kwargs["tin"],
-            "dateTimeCreated": kwargs["crtd"]
+            "dateTimeCreated": kwargs["crtd"],
         }
         logger.info(f"params: {params}")
         headers = {
             "Referer": self.referer_fiscal_service_url,
-            "Origin": self.origin_fiscal_service
+            "Origin": self.origin_fiscal_service,
         }
         logger.info(f"headers: {headers}")
         start_time = time.time()
         try:
-            result = post(
-                url=self.fiscal_service_api_url, headers=headers, data=params
-            )
+            result = post(url=self.fiscal_service_api_url, headers=headers, data=params)
         except Exception as e:
             metric_processed_bill("failure")
             logger.error(f"Exception: {e}")
             return None
-        
+
         delay = time.time() - start_time
         logger.info(f"result: {result}")
         metric_call_external_api(
-            api_name="fiscal_service",
-            status=result.status_code,
-            delay=delay
+            api_name="fiscal_service", status=result.status_code, delay=delay
         )
         if result.status_code != 200:
             logger.error(f"Bad status code: {result.status_code}")
@@ -440,9 +384,7 @@ class BillCommands:
     async def get_total_summ(self, user_id: UUID) -> float:
         return 1700.0
 
-    async def create_bill_manually(
-        self, incoming_data: BillCreate
-    ) -> Bill:
+    async def create_bill_manually(self, incoming_data: BillCreate) -> Bill:
         incoming_seller = SellerCreate(
             official_name=unification_names(incoming_data.seller.strip())
         )
@@ -454,19 +396,13 @@ class BillCommands:
             value=incoming_data.sum,
             payment_method="cash",
             seller_id=seller_db.id,
-            user_id=incoming_data.user_id
+            user_id=incoming_data.user_id,
         )
         logger.info(f"incoming_bill: {incoming_bill}")
-        bill_db = await self.get_or_create(
-            incoming_item=incoming_bill
-        )
+        bill_db = await self.get_or_create(incoming_item=incoming_bill)
         logger.info(f"created bill: {bill_db}")
-        name_goods_product = unification_names(
-            incoming_data.product
-        )
-        income_product = ProductCreate(
-            name=name_goods_product
-        )
+        name_goods_product = unification_names(incoming_data.product)
+        income_product = ProductCreate(name=name_goods_product)
         user_product_db = await self.product_commands.get_or_create_user_product(
             incoming_item=income_product, user_id=incoming_data.user_id
         )
@@ -486,12 +422,10 @@ class BillCommands:
             bill_id=bill_db.id,
             seller_id=seller_db.id,
             user_id=incoming_data.user_id,
-            user_product_id=user_product_db.id
+            user_product_id=user_product_db.id,
         )
         logger.info(f"incoming_goods: {incoming_goods}")
-        goods_db = await self.goods_commands.get_or_create(
-            incoming_item=incoming_goods
-        )
+        goods_db = await self.goods_commands.get_or_create(incoming_item=incoming_goods)
         logger.info(f"goods_db: {goods_db}")
 
         bill_db = await self.get_by_id(id=bill_db.id)

@@ -1,9 +1,7 @@
 from config import tg_bot_config
 
 
-def error_lang_view(
-    lang: str = tg_bot_config.TELEGRAM_BOT_DEFAULT_LANG
-) -> str:
+def error_lang_view(lang: str = tg_bot_config.TELEGRAM_BOT_DEFAULT_LANG) -> str:
     """_summary_
 
     Args:
@@ -14,6 +12,6 @@ def error_lang_view(
     """
     dict_text = {
         "ru": "Укажите /lang ru или /lang en",
-        "en": "Write /lang ru or /lang en"
+        "en": "Write /lang ru or /lang en",
     }
     return dict_text[lang]

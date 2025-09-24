@@ -1,11 +1,9 @@
-from aiogram.types import Message, Location, ReplyKeyboardRemove
 from aiogram import F
-
+from aiogram.types import Location, Message, ReplyKeyboardRemove
 from handlers import router
-from services import save_geoposition, get_user_lang
-from views import ask_altitude_view
+from services import get_user_lang, save_geoposition
 from utils import get_logger
-
+from views import ask_altitude_view
 
 logger = get_logger(__name__)
 
@@ -26,7 +24,7 @@ async def get_tg_location_handler(
     house_db = save_geoposition(user_id=user_id, coordinates=float_coordinates)
     user_lang = get_user_lang(user_id)
     await message.reply(
-        ask_altitude_view(lang=user_lang), 
+        ask_altitude_view(lang=user_lang),
         parse_mode="HTML",
-        reply_markup=ReplyKeyboardRemove()
+        reply_markup=ReplyKeyboardRemove(),
     )

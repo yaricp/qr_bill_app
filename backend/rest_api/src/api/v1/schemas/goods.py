@@ -1,13 +1,12 @@
-from uuid import UUID
-from decimal import Decimal
 from datetime import datetime
-
+from decimal import Decimal
 from typing import Optional
+from uuid import UUID
 
 from pydantic import BaseModel
 
-from .unit import Unit
 from .seller import Seller
+from .unit import Unit
 from .user_product import UserProduct
 
 
@@ -38,7 +37,7 @@ class GoodsCreate(BaseModel):
     price_before_vat: Decimal
     vat_rate: Decimal
     vat_amount: Decimal
-    price_after_vat:  Decimal
+    price_after_vat: Decimal
     unit_id: UUID
     bill_id: UUID
 
@@ -58,7 +57,7 @@ class GoodsInDBBase(GoodsBase):
     quantity: Decimal
     unit_price_before_vat: Decimal
     unit_price_after_vat: Decimal
-    price_after_vat:  Decimal
+    price_after_vat: Decimal
     seller: Seller
     unit: Unit
     bill_id: UUID

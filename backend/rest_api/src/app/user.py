@@ -1,20 +1,17 @@
-from requests import get
-from uuid import UUID, uuid4
-from hashlib import sha256
 from datetime import datetime
+from hashlib import sha256
+from uuid import UUID, uuid4
+
 from loguru import logger
+from requests import get
 
 from ..infra.database import db_session
-from ..infra.database.models import (
-    User as UserORM, LoginLink as LoginLinkORM
-)
-
-from .entities.user import User, UserCreate, UserUpdate
+from ..infra.database.models import LoginLink as LoginLinkORM
+from ..infra.database.models import User as UserORM
 from .config import login_link_config, rest_api_config
-from .metrics.users import (
-    metric_user_track_action,
-    metric_user_track_action_duration
-)
+from .entities.user import User, UserCreate, UserUpdate
+from .metrics.users import (metric_user_track_action,
+                            metric_user_track_action_duration)
 
 
 class UserViews:
@@ -29,9 +26,7 @@ class UserQueries:
         pass
 
     def get_user_by_login_link(self, link: str) -> User | None:
-        db_link = LoginLinkORM.query.filter_by(
-            link_uuid=link, link_for=""
-        ).first()
+        db_link = LoginLinkORM.query.filter_by(link_uuid=link, link_for="").first()
         if db_link:
             metric_user_track_action("get_user_by_login_link")
             return db_link.user
@@ -66,9 +61,7 @@ class UserCommands:
     ) -> User:
         user = UserORM.query.get(user_id)
         if user:
-            password_hash = sha256(
-                user_data.password.encode()
-            ).hexdigest()
+            password_hash = sha256(user_data.password.encode()).hexdigest()
             user.login = user_data.login
             user.password_hash = password_hash
             db_session.commit()
@@ -77,15 +70,13 @@ class UserCommands:
             metric_user_track_action("create_login_password_user")
         return user
 
-    async def register_user_by_login(
-        self, incoming_item: UserCreate
-    ) -> User:
+    async def register_user_by_login(self, incoming_item: UserCreate) -> User:
         user = UserORM.query.filter_by(login=incoming_item.login).first()
         if user:
             return user
         user = UserORM(
             login=incoming_item.login,
-            password_hash=sha256(incoming_item.password.encode()).hexdigest()
+            password_hash=sha256(incoming_item.password.encode()).hexdigest(),
         )
         db_session.add(user)
         db_session.commit()
@@ -93,17 +84,13 @@ class UserCommands:
         metric_user_track_action("register_user_by_login")
         return user
 
-    async def register_user_by_email(
-        self, incoming_item: UserCreate
-    ) -> User:
-        user = UserORM.query.filter_by(
-            email=incoming_item.email
-        ).first()
+    async def register_user_by_email(self, incoming_item: UserCreate) -> User:
+        user = UserORM.query.filter_by(email=incoming_item.email).first()
         if user:
             return user
         user = UserORM(
             email=incoming_item.email,
-            password_hash=sha256(incoming_item.password.encode()).hexdigest()
+            password_hash=sha256(incoming_item.password.encode()).hexdigest(),
         )
         db_session.add(user)
         db_session.commit()
@@ -122,9 +109,7 @@ class UserCommands:
         metric_user_track_action("register_user_by_tg_id")
         return user
 
-    async def edit_user(
-        self, incoming_item: UserUpdate
-    ) -> User:
+    async def edit_user(self, incoming_item: UserUpdate) -> User:
         found_login_link = None
         found_user = UserORM.query.get(incoming_item.id)
         incoming_item_dict = incoming_item.dict()
@@ -134,20 +119,18 @@ class UserCommands:
             if value != None:
                 if key == "email" and found_user.email != value:
                     found_user.email_verified = False
-                    found_login_links = list(filter(
-                        lambda x: x.link_for == "email",
-                        found_user.links
-                    ))
+                    found_login_links = list(
+                        filter(lambda x: x.link_for == "email", found_user.links)
+                    )
                     logger.info(f"found_login_links: {found_login_links}")
                     if len(found_login_links) > 0:
                         found_login_link = found_login_links[0]
                     logger.info(f"found_login_link: {found_login_link}")
                 if key == "tg_id" and found_user.tg_id != value:
                     found_user.tg_verified = False
-                    found_login_links = list(filter(
-                        lambda x: x.link_for == "tg",
-                        found_user.links
-                    ))
+                    found_login_links = list(
+                        filter(lambda x: x.link_for == "tg", found_user.links)
+                    )
                     logger.info(f"found_login_links: {found_login_links}")
                     if len(found_login_links) > 0:
                         found_login_link = found_login_links[0]
@@ -168,7 +151,7 @@ class UserCommands:
         user_id: int | None = None,
         tg_id: int | None = None,
         email: str | None = None,
-        action: str = "login"
+        action: str = "login",
     ) -> str:
         if user_id:
             found_user = UserORM.query.get(user_id)
@@ -193,7 +176,7 @@ class UserCommands:
             link_uuid=link,
             link_for=link_for,
             created=datetime.now(),
-            user_id=found_user.id
+            user_id=found_user.id,
         )
         db_session.add(login_link)
         db_session.commit()
@@ -203,8 +186,10 @@ class UserCommands:
             api_port = rest_api_config.REST_API_PORT
             api_prefix = rest_api_config.REST_API_PREFIX
             link_countdown_uri = rest_api_config.REST_API_LOGIN_LINK_URI
-            full_url_countdown = f"{api_host}:{api_port}{api_prefix}"\
-                                f"{link_countdown_uri}{login_link.id}"
+            full_url_countdown = (
+                f"{api_host}:{api_port}{api_prefix}"
+                f"{link_countdown_uri}{login_link.id}"
+            )
             logger.info(f"full_url_countdown: {full_url_countdown}")
             response = get(full_url_countdown)
             logger.info(f"response: {response}")
@@ -219,15 +204,11 @@ class UserCommands:
         return result_link
 
     async def verify_email_tg(self, link: UUID) -> UUID | None:
-        found_link = LoginLinkORM.query.filter_by(
-            link_uuid=link
-        ).first()
+        found_link = LoginLinkORM.query.filter_by(link_uuid=link).first()
         logger.info(f"found_link: {found_link}")
         if not found_link:
             return None
-        delta_time = (
-            datetime.now() - found_link.created
-        ).total_seconds() / 60
+        delta_time = (datetime.now() - found_link.created).total_seconds() / 60
         logger.info(f"delta_time: {delta_time}")
         if not found_link or delta_time > 5:
             db_session.delete(found_link)

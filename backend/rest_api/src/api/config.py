@@ -1,28 +1,28 @@
 from dataclasses import dataclass
 from enum import Enum
+from typing import List, Tuple
 
 from pydantic_settings import BaseSettings
-from typing import List, Tuple
 
 
 @dataclass(frozen=True)
 class PathsConfig:
-    TEMPLATES: str = 'templates/'
-    STATIC: str = 'static/'
+    TEMPLATES: str = "templates/"
+    STATIC: str = "static/"
 
 
 @dataclass(frozen=True)
 class URLPathsConfig:
-    PREFIX: str = '/api/v1'
-    STATIC: str = '/static'
-    DOCS: str = '/docs'
+    PREFIX: str = "/api/v1"
+    STATIC: str = "/static"
+    DOCS: str = "/docs"
 
 
 @dataclass(frozen=True)
 class URLNamesConfig:
-    PREFIX: str = '/api/v1/'
-    HOMEPAGE: str = 'homepage'
-    STATIC: str = 'static'
+    PREFIX: str = "/api/v1/"
+    HOMEPAGE: str = "homepage"
+    STATIC: str = "static"
 
 
 @dataclass(frozen=True)

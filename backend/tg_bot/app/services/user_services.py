@@ -1,5 +1,5 @@
-from utils import get_logger
 from grpc_client import GPRCClient
+from utils import get_logger
 
 from .config import login_link_conf
 

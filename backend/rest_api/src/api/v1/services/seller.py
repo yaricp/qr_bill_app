@@ -1,14 +1,10 @@
-from uuid import UUID
 from typing import List
+from uuid import UUID
 
-from ....app.seller import SellerQueries, SellerCommands
-
-from ..schemas.seller import (
-    Seller, SellerCreate, SellerUpdate,
-    CountGoodsByNameSeller, CountBillsByNameSeller,
-    SummBillsByNameSeller
-)
-
+from ....app.seller import SellerCommands, SellerQueries
+from ..schemas.seller import (CountBillsByNameSeller, CountGoodsByNameSeller,
+                              Seller, SellerCreate, SellerUpdate,
+                              SummBillsByNameSeller)
 
 """
 Can not use Bootstrap object in dependencies,
@@ -22,9 +18,7 @@ async def get_all_sellers(
     user_id: UUID, offset: int = 0, limit: int = 0
 ) -> List[Seller]:
     queries: SellerQueries = SellerQueries()
-    return await queries.get_all_sellers(
-        user_id=user_id, offset=offset, limit=limit
-    )
+    return await queries.get_all_sellers(user_id=user_id, offset=offset, limit=limit)
 
 
 async def get_seller(id: UUID) -> Seller:
@@ -36,10 +30,10 @@ async def list_count_goods_group_by_name_seller(
     first_of: int, user_id: UUID
 ) -> List[CountGoodsByNameSeller]:
     queries: SellerQueries = SellerQueries()
-    result: List[
-        CountGoodsByNameSeller
-    ] = await queries.get_sellers_order_by_count_goods(
-        first_of=first_of, user_id=user_id
+    result: List[CountGoodsByNameSeller] = (
+        await queries.get_sellers_order_by_count_goods(
+            first_of=first_of, user_id=user_id
+        )
     )
     return result
 
@@ -48,10 +42,10 @@ async def list_count_bills_group_by_name_seller(
     first_of: int, user_id: UUID
 ) -> List[CountBillsByNameSeller]:
     queries: SellerQueries = SellerQueries()
-    result: List[
-        CountBillsByNameSeller
-    ] = await queries.get_sellers_order_by_count_bills(
-        first_of=first_of, user_id=user_id
+    result: List[CountBillsByNameSeller] = (
+        await queries.get_sellers_order_by_count_bills(
+            first_of=first_of, user_id=user_id
+        )
     )
     return result
 
@@ -60,9 +54,7 @@ async def list_summ_bills_group_by_name_seller(
     first_of: int, user_id: UUID
 ) -> List[SummBillsByNameSeller]:
     queries: SellerQueries = SellerQueries()
-    result: List[
-        SummBillsByNameSeller
-    ] = await queries.get_sellers_order_by_summ_bills(
+    result: List[SummBillsByNameSeller] = await queries.get_sellers_order_by_summ_bills(
         first_of=first_of, user_id=user_id
     )
     return result
@@ -71,22 +63,16 @@ async def list_summ_bills_group_by_name_seller(
 # ------Actons(Commands)-------
 
 
-async def create_seller(
-    seller_data: SellerCreate
-) -> Seller:
+async def create_seller(seller_data: SellerCreate) -> Seller:
     command = SellerCommands()
     command_result = await command.create_seller(seller_data)
     return command_result
 
 
-async def update_seller(
-    id: UUID, seller_data: SellerUpdate
-) -> Seller:
+async def update_seller(id: UUID, seller_data: SellerUpdate) -> Seller:
 
     command = SellerCommands()
-    command_result = await command.update_seller(
-        seller_data
-    )
+    command_result = await command.update_seller(seller_data)
     return command_result
 
 

@@ -1,8 +1,8 @@
 from uuid import UUID
+
 from loguru import logger
 
 from ....app.login_link import LoginLinkCommands
-
 
 """
 Can not use Bootstrap object in dependencies,

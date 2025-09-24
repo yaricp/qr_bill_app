@@ -1,14 +1,10 @@
-from loguru import logger
-from aiogram.types import (
-    InlineKeyboardMarkup,
-    InlineKeyboardButton
-)
-
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from config import tg_bot_config
+from loguru import logger
 
 
 def get_inline_kb_yes_no(
-    lang: str = tg_bot_config.TELEGRAM_BOT_DEFAULT_LANG
+    lang: str = tg_bot_config.TELEGRAM_BOT_DEFAULT_LANG,
 ) -> InlineKeyboardMarkup:
     """_summary_
 
@@ -25,9 +21,7 @@ def get_inline_kb_yes_no(
     inline_btn_yes = InlineKeyboardButton(
         text=dict_text["yes"][lang], callback_data="yes"
     )
-    inline_btn_no = InlineKeyboardButton(
-        text=dict_text["no"][lang], callback_data="no"
-    )
+    inline_btn_no = InlineKeyboardButton(text=dict_text["no"][lang], callback_data="no")
 
     inline_kb_yes_no = InlineKeyboardMarkup(
         inline_keyboard=[[inline_btn_yes, inline_btn_no]]

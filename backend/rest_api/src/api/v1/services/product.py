@@ -1,16 +1,12 @@
-from uuid import UUID
 from typing import List
+from uuid import UUID
+
 from loguru import logger
 
-from ....app.product import ProductQueries, ProductCommands
-
-from ..schemas.product import (
-    Product, ProductCreate, ProductUpdate, ProductPrice
-)
-from ..schemas.user_product import (
-    UncategorizedUserProduct, CategorizedProduct
-)
-
+from ....app.product import ProductCommands, ProductQueries
+from ..schemas.product import (Product, ProductCreate, ProductPrice,
+                               ProductUpdate)
+from ..schemas.user_product import CategorizedProduct, UncategorizedUserProduct
 
 """
 Can not use Bootstrap object in dependencies,
@@ -34,30 +30,20 @@ async def get_uncategorized_product(
     user_id: UUID, cat_id: UUID | None = None
 ) -> List[UncategorizedUserProduct]:
     queries: ProductQueries = ProductQueries()
-    return await queries.get_uncategorized_product(
-        user_id=user_id, cat_id=cat_id
-    )
+    return await queries.get_uncategorized_product(user_id=user_id, cat_id=cat_id)
 
 
-async def get_products_more_one_prices(
-    user_id: UUID
-) -> List[Product]:
+async def get_products_more_one_prices(user_id: UUID) -> List[Product]:
     product_queries: ProductQueries = ProductQueries()
-    result: List[
-        ProductPrice
-    ] = await product_queries.get_products_more_one_prices(
+    result: List[ProductPrice] = await product_queries.get_products_more_one_prices(
         user_id=user_id
     )
     return result
 
 
-async def get_product_prices(
-    product_id: UUID, user_id: UUID
-) -> List[ProductPrice]:
+async def get_product_prices(product_id: UUID, user_id: UUID) -> List[ProductPrice]:
     product_queries: ProductQueries = ProductQueries()
-    result: List[
-        ProductPrice
-    ] = await product_queries.get_product_prices(
+    result: List[ProductPrice] = await product_queries.get_product_prices(
         product_id=product_id, user_id=user_id
     )
     return result
@@ -66,22 +52,16 @@ async def get_product_prices(
 # ------Actons(Commands)-------
 
 
-async def create_product(
-    product_data: ProductCreate
-) -> Product:
+async def create_product(product_data: ProductCreate) -> Product:
     command = ProductCommands()
     command_result = await command.create_product(product_data)
     return command_result
 
 
-async def update_product(
-    id: UUID, product_data: ProductUpdate
-) -> Product:
+async def update_product(id: UUID, product_data: ProductUpdate) -> Product:
 
     command = ProductCommands()
-    command_result = await command.update_product(
-        product_data
-    )
+    command_result = await command.update_product(product_data)
     return command_result
 
 
@@ -91,9 +71,7 @@ async def delete_product(id: UUID) -> Product:
     return command_result
 
 
-async def save_categorized_products(
-    cat_prod_data: List[CategorizedProduct]
-) -> bool:
+async def save_categorized_products(cat_prod_data: List[CategorizedProduct]) -> bool:
     prod_command = ProductCommands()
     logger.info(f"cat_prod_data: {cat_prod_data}")
     command_result = await prod_command.save_categorized_products(

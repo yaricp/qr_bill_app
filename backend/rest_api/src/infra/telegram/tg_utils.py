@@ -1,6 +1,8 @@
 import time
+
 from loguru import logger
-from .tg_client import send_mess_to_client, delete_message
+
+from .tg_client import delete_message, send_mess_to_client
 
 
 def send_verify_link_to_tg(tg_id: int, user_link: str) -> bool:

@@ -1,9 +1,8 @@
 import os
+
 import cv2
 from pyzbar.pyzbar import decode
-
 from utils import get_logger
-
 
 logger = get_logger(__name__)
 
@@ -65,7 +64,7 @@ def adjust_and_decode(gray):
 #     summ = None
 #     raw = False
 #     if image:
-#         date_time, summ, raw = recognize_image(user) 
+#         date_time, summ, raw = recognize_image(user)
 #     if video:
 #         date_time, summ, raw = recognize_video()
 #     return date_time, summ, raw
@@ -76,7 +75,7 @@ def parse_qr_code(list_decoded):
     for rec in list_decoded:
         logger.info(f"TYPE_CODE: {rec.type}")
         type_data = rec.type
-        if type_data == 'QRCODE':
+        if type_data == "QRCODE":
             url = rec.data.decode("utf-8")
             logger.info(f"url: {url}")
     return url

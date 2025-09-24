@@ -1,4 +1,5 @@
 import time
+
 from loguru import logger
 from prometheus_client import Counter, Histogram
 
@@ -10,12 +11,12 @@ prefix = metric_config.METRICS_PREFIX
 TELEGRAM_SENT = Counter(
     f"{prefix}_telegram_messages_total",
     "Total number of telegram messages sent",
-    ["status"]  # success | failure
+    ["status"],  # success | failure
 )
 
 TELEGRAM_LATENCY = Histogram(
     f"{prefix}_telegram_send_duration_seconds",
-    "Time spent sending telegram messages in seconds"
+    "Time spent sending telegram messages in seconds",
 )
 
 

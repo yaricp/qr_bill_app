@@ -1,18 +1,16 @@
 from uuid import uuid4
 
-from sqlalchemy import UUID, Column, VARCHAR
+from sqlalchemy import UUID, VARCHAR, Column
 
 from .base import Model
 
 
 class Unit(Model):
     """Model of category"""
+
     __tablename__ = "unit"
 
-    id = Column(
-        UUID, primary_key=True, nullable=False, unique=True,
-        default=uuid4
-    )
+    id = Column(UUID, primary_key=True, nullable=False, unique=True, default=uuid4)
     name = Column(VARCHAR(150), nullable=True)
     # has_folder = Column(BOOLEAN, default=False)
 

@@ -1,12 +1,8 @@
-from uuid import UUID
 from typing import List
+from uuid import UUID
 
-from ....app.unit import UnitQueries, UnitCommands
-
-from ..schemas.unit import (
-    Unit, UnitCreate, UnitUpdate
-)
-
+from ....app.unit import UnitCommands, UnitQueries
+from ..schemas.unit import Unit, UnitCreate, UnitUpdate
 
 """
 Can not use Bootstrap object in dependencies,
@@ -29,23 +25,15 @@ async def get_unit(id: UUID) -> Unit:
 # --------Actions (commands) ---------
 
 
-async def create_unit(
-    unit_data: UnitCreate
-) -> Unit:
+async def create_unit(unit_data: UnitCreate) -> Unit:
     unit_command = UnitCommands()
-    command_result = await unit_command.create_unit(
-        **unit_data.model_dump()
-    )
+    command_result = await unit_command.create_unit(**unit_data.model_dump())
     return command_result
 
 
-async def update_unit(
-    unit_data: UnitUpdate
-) -> Unit:
+async def update_unit(unit_data: UnitUpdate) -> Unit:
     unit_command = UnitCommands()
-    command_result = await unit_command.update_unit(
-        **unit_data.model_dump()
-    )
+    command_result = await unit_command.update_unit(**unit_data.model_dump())
     return command_result
 
 

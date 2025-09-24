@@ -1,1 +1,1 @@
-from ....infra.metrics import metrics_app
+from ....infra.metrics import metrics_app  # noqa F401

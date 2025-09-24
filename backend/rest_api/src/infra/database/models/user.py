@@ -1,20 +1,18 @@
-from uuid import uuid4
 from hashlib import sha256
+from uuid import uuid4
 
+from sqlalchemy import INTEGER, UUID, VARCHAR, Boolean, Column
 from sqlalchemy.orm import relationship
-from sqlalchemy import INTEGER, Column, VARCHAR, UUID, Boolean
 
 from .base import Model
 
 
 class User(Model):
     """Model of user object in DB"""
+
     __tablename__ = "users"
 
-    id = Column(
-        UUID, primary_key=True, nullable=False, unique=True,
-        default=uuid4
-    )
+    id = Column(UUID, primary_key=True, nullable=False, unique=True, default=uuid4)
     is_admin = Column(Boolean, default=False)
     email = Column(VARCHAR(150), nullable=True)
     email_verified = Column(Boolean, default=False)
