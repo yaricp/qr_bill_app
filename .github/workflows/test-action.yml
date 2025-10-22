@@ -59,6 +59,7 @@ jobs:
           ALLOW_HEADERS: ${{ vars.ALLOW_HEADERS }}
           ALLOW_CREDENTIALS: ${{ vars.ALLOW_CREDENTIALS }}
           ALLOW_METHODS: ${{ vars.ALLOW_METHODS }}
+          TOKEN_EXPIRY_TIME_HOURS: ${{ vars.TOKEN_EXPIRY_TIME_HOURS }}
         run: |
           docker compose up -d;
       - name: Run the Smoke Tests
