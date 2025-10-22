@@ -46,6 +46,11 @@ jobs:
           cp backend/grpc_proto/*.proto backend/rest_api/grpc_proto/;
           ls -la backend/rest_api/grpc_proto;
           docker compose build api;
+      - name: start all docker containers for testing
+        env:
+          TEST_MODE: True
+        run: |
+          docker compose up -d;
       - name: Run the Smoke Tests
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         env:
@@ -53,7 +58,7 @@ jobs:
           NAME_IMAGE_API: ${{ env.BASE_NAME_IMAGE_API }}
         run: |
           echo "Smoke Testing";
-          docker compose run --rm -T api poetry run pytest /src/tests/api/smoke_tests;
+          docker compose exec -T api poetry run pytest /src/tests/api/smoke_tests;
       - name: Run unittests for rest_api. 
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         env:
@@ -61,7 +66,7 @@ jobs:
           NAME_IMAGE_API: ${{ env.BASE_NAME_IMAGE_API }}
         run: |
           echo "Start Unit Tests";
-          docker compose run --rm -T api bash -c scripts/./start_unit_tests.sh
+          docker compose exec -T api bash -c scripts/./start_unit_tests.sh
       - name: Build and push image tg
         if: ${{ (steps.tg_changed.outputs.OUTPUT != '') }}
         env:
