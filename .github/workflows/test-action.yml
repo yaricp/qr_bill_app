@@ -45,7 +45,12 @@ jobs:
           mkdir -p backend/rest_api/grpc_proto;
           cp backend/grpc_proto/*.proto backend/rest_api/grpc_proto/;
           ls -la backend/rest_api/grpc_proto;
+          mkdir -p backend/tg_bot/grpc_proto;
+          cp backend/grpc_proto/*.proto backend/tg_bot/grpc_proto/;
+          ls -la backend/tg_bot/grpc_proto;
           docker compose build api;
+          docker compose build tg;
+          docker compose build frontend;
       - name: start all docker containers for testing
         env:
           TEST_MODE: True
