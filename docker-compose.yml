@@ -119,7 +119,7 @@ services:
     # volumes:
     #  - ./backend/telegram_bot/logs:/app/logs
 
-  front:
+  frontend:
     restart: always
     image: ${NAME_IMAGE_FRONTEND}
     container_name: front
