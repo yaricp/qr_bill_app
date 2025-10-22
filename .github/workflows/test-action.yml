@@ -67,6 +67,7 @@ jobs:
           ALLOW_METHODS: ${{ vars.ALLOW_METHODS }}
         run: |
           echo "Smoke Testing";
+          docker compose exec -T api env;
           docker compose exec -T api bash -c scripts/./start_smoke_test.sh;
       - name: Run unittests for rest_api. 
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
