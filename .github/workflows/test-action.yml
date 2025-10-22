@@ -61,6 +61,10 @@ jobs:
         env:
           TEST_MODE: True
           NAME_IMAGE_API: ${{ env.BASE_NAME_IMAGE_API }}
+          ALLOW_ORIGINS: ${{ vars.ALLOW_ORIGINS }}
+          ALLOW_HEADERS: ${{ vars.ALLOW_HEADERS }}
+          ALLOW_CREDENTIALS: ${{ vars.ALLOW_CREDENTIALS }}
+          ALLOW_METHODS: ${{ vars.ALLOW_METHODS }}
         run: |
           echo "Smoke Testing";
           docker compose exec -T api bash -c scripts/./start_smoke_test.sh;
@@ -69,6 +73,10 @@ jobs:
         env:
           TEST_MODE: True
           NAME_IMAGE_API: ${{ env.BASE_NAME_IMAGE_API }}
+          ALLOW_ORIGINS: ${{ vars.ALLOW_ORIGINS }}
+          ALLOW_HEADERS: ${{ vars.ALLOW_HEADERS }}
+          ALLOW_CREDENTIALS: ${{ vars.ALLOW_CREDENTIALS }}
+          ALLOW_METHODS: ${{ vars.ALLOW_METHODS }}
         run: |
           echo "Start Unit Tests";
           docker compose exec -T api bash -c scripts/./start_unit_tests.sh;
