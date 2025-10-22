@@ -13,3 +13,4 @@ if test "$TEST_MODE" = "true" || test "$TEST_MODE" = "True"
     echo "This is not test mode"
 fi
 
+
