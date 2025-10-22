@@ -3,10 +3,10 @@ from uuid import UUID
 
 from fastapi import Depends, HTTPException
 
-from ... import app, manager
-from ...config import URLPathsConfig
-from ..schemas.unit import Unit, UnitCreate, UnitUpdate
-from ..services.unit import (create_unit, delete_unit, get_all_units, get_unit,
+from src.api import app, manager
+from src.api.config import URLPathsConfig
+from src.api.v1.schemas.unit import Unit, UnitCreate, UnitUpdate
+from src.api.v1.services.unit import (create_unit, delete_unit, get_all_units, get_unit,
                              update_unit)
 
 

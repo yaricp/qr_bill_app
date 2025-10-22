@@ -5,13 +5,13 @@ from loguru import logger
 from sqlalchemy import desc
 from sqlalchemy.sql import func, text
 
-from ..infra.database import db_session
-from ..infra.database.models import Bill as BillORM
-from ..infra.database.models import Category as CategoryORM
-from ..infra.database.models import Goods as GoodsORM
-from ..infra.database.models import Product as ProductORM
-from ..infra.database.models import Seller as SellerORM
-from ..infra.database.models import UserProduct as UserProductORM
+from src.infra.database import db_session
+from src.infra.database.models import Bill as BillORM
+from src.infra.database.models import Category as CategoryORM
+from src.infra.database.models import Goods as GoodsORM
+from src.infra.database.models import Product as ProductORM
+from src.infra.database.models import Seller as SellerORM
+from src.infra.database.models import UserProduct as UserProductORM
 from .entities.product import (Product, ProductCreate, ProductPrice,
                                ProductUpdate)
 from .entities.user_product import (CategorizedUserProduct,

@@ -9,10 +9,10 @@ from loguru import logger
 from requests import post
 from sqlalchemy.sql import func, text
 
-from ..infra.database import db_session
-from ..infra.database.models import Bill as BillORM
-from ..infra.database.models import Goods as GoodsORM
-from ..utils import (get_fisrt_day_month_by_delta_month,
+from src.infra.database import db_session
+from src.infra.database.models import Bill as BillORM
+from src.infra.database.models import Goods as GoodsORM
+from src.utils import (get_fisrt_day_month_by_delta_month,
                      get_last_day_of_month_by_datetime)
 from .config import bill_config
 from .entities.bill import Bill, BillCreate, BillCreateByURL
@@ -381,7 +381,7 @@ class BillCommands:
         metric_processed_bill("success")
         return result_data
 
-    async def get_total_summ(self, user_id: UUID) -> float:
+    def get_total_summ(self, user_id: UUID) -> float:
         return 1700.0
 
     async def create_bill_manually(self, incoming_data: BillCreate) -> Bill:

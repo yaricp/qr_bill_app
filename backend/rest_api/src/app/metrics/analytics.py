@@ -3,7 +3,7 @@ import time
 from loguru import logger
 from prometheus_client import Counter, Histogram
 
-from ..config import metric_config
+from src.app.config import metric_config
 
 prefix = metric_config.METRICS_PREFIX
 

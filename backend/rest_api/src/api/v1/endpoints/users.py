@@ -7,13 +7,13 @@ from fastapi import BackgroundTasks, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi_login.exceptions import InvalidCredentialsException
 
-from ....infra.email.email_client import EmailClient
-from ....infra.telegram.tg_utils import send_verify_link_to_tg
-from ... import app, manager
-from ...config import URLPathsConfig, app_config, user_login_config
-from ..schemas.user import LoginLinkData, User, UserCreate, UserUpdate
-from ..services.login_link import delete_link
-from ..services.user import (check_user_auth, create_login_password_user,
+from src.infra.email.email_client import EmailClient
+from src.infra.telegram.tg_utils import send_verify_link_to_tg
+from src.api import app, manager
+from src.api.config import URLPathsConfig, app_config, user_login_config
+from src.api.v1.schemas.user import LoginLinkData, User, UserCreate, UserUpdate
+from src.api.v1.services.login_link import delete_link
+from src.api.v1.services.user import (check_user_auth, create_login_password_user,
                              create_temp_link, delete_user, get_all_users,
                              get_user_by_login, register_new_user, update_user,
                              verify_email_tg)

@@ -1,7 +1,7 @@
 from fastapi.responses import Response
 from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 
-from ... import app
+from src.api import app
 
 
 @app.get("/metrics", tags=["Bills"])

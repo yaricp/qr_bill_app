@@ -1,8 +1,8 @@
 from typing import List
 from uuid import UUID
 
-from ....app.seller import SellerCommands, SellerQueries
-from ..schemas.seller import (CountBillsByNameSeller, CountGoodsByNameSeller,
+from src.app.seller import SellerCommands, SellerQueries
+from src.api.v1.schemas.seller import (CountBillsByNameSeller, CountGoodsByNameSeller,
                               Seller, SellerCreate, SellerUpdate,
                               SummBillsByNameSeller)
 

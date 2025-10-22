@@ -3,8 +3,8 @@ from uuid import UUID
 
 from loguru import logger
 
-from ....app.goods import GoodsCommands, GoodsQueries
-from ..schemas.goods import (CategoryGoods, Goods, GoodsCountByName,
+from src.app.goods import GoodsCommands, GoodsQueries
+from src.api.v1.schemas.goods import (CategoryGoods, Goods, GoodsCountByName,
                              GoodsCreate, GoodsSummByName, GoodsUpdate)
 
 """

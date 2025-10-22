@@ -5,10 +5,10 @@ from loguru import logger
 from sqlalchemy import desc
 from sqlalchemy.sql import func
 
-from ..infra.database import db_session
-from ..infra.database.models import Category as CategoryORM
-from ..infra.database.models import Goods as GoodsORM
-from ..infra.database.models import Seller as SellerORM
+from src.infra.database import db_session
+from src.infra.database.models import Category as CategoryORM
+from src.infra.database.models import Goods as GoodsORM
+from src.infra.database.models import Seller as SellerORM
 from .entities.goods import CategoryGoods, Goods, GoodsCreate, GoodsUpdate
 from .entities.product import ProductCreate
 from .metrics.analytics import metric_analytics_async

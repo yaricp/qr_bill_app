@@ -5,9 +5,9 @@ from uuid import UUID, uuid4
 from loguru import logger
 from requests import get
 
-from ..infra.database import db_session
-from ..infra.database.models import LoginLink as LoginLinkORM
-from ..infra.database.models import User as UserORM
+from src.infra.database import db_session
+from src.infra.database.models import LoginLink as LoginLinkORM
+from src.infra.database.models import User as UserORM
 from .config import login_link_config, rest_api_config
 from .entities.user import User, UserCreate, UserUpdate
 from .metrics.users import (metric_user_track_action,

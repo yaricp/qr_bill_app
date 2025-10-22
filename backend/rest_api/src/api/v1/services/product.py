@@ -3,10 +3,10 @@ from uuid import UUID
 
 from loguru import logger
 
-from ....app.product import ProductCommands, ProductQueries
-from ..schemas.product import (Product, ProductCreate, ProductPrice,
+from src.app.product import ProductCommands, ProductQueries
+from src.api.v1.schemas.product import (Product, ProductCreate, ProductPrice,
                                ProductUpdate)
-from ..schemas.user_product import CategorizedProduct, UncategorizedUserProduct
+from src.api.v1.schemas.user_product import CategorizedProduct, UncategorizedUserProduct
 
 """
 Can not use Bootstrap object in dependencies,

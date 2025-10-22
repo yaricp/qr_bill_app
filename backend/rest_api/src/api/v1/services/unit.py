@@ -1,8 +1,8 @@
 from typing import List
 from uuid import UUID
 
-from ....app.unit import UnitCommands, UnitQueries
-from ..schemas.unit import Unit, UnitCreate, UnitUpdate
+from src.app.unit import UnitCommands, UnitQueries
+from src.api.v1.schemas.unit import Unit, UnitCreate, UnitUpdate
 
 """
 Can not use Bootstrap object in dependencies,

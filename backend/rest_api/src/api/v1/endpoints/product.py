@@ -3,14 +3,14 @@ from uuid import UUID
 
 from fastapi import Depends, HTTPException
 
-from ... import app, manager
-from ...config import URLPathsConfig
-from ..schemas.product import (Product, ProductCreate, ProductPrice,
+from src.api import app, manager
+from src.api.config import URLPathsConfig
+from src.api.v1.schemas.product import (Product, ProductCreate, ProductPrice,
                                ProductUpdate)
-from ..schemas.user_product import (CategorizedProduct,
+from src.api.v1.schemas.user_product import (CategorizedProduct,
                                     UncategorizedUserProduct,
                                     UpdateUserProductCategories)
-from ..services.product import (create_product, delete_product,
+from src.api.v1.services.product import (create_product, delete_product,
                                 get_all_products, get_product,
                                 get_product_prices,
                                 get_products_more_one_prices,

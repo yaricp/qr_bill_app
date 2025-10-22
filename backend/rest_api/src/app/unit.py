@@ -2,8 +2,8 @@ from uuid import UUID
 
 from loguru import logger
 
-from ..infra.database import db_session
-from ..infra.database.models import Unit as UnitORM
+from src.infra.database import db_session
+from src.infra.database.models import Unit as UnitORM
 from .entities.unit import Unit, UnitCreate
 
 

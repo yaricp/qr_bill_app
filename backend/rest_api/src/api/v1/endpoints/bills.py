@@ -5,13 +5,13 @@ from uuid import UUID
 
 from fastapi import Depends, HTTPException
 
-from ... import app, manager
-from ...config import URLPathsConfig
-from ..schemas.bill import (Bill, BillCreate, BillCreateByURL, BillCreateForm,
+from src.api import app, manager
+from src.api.config import URLPathsConfig
+from src.api.v1.schemas.bill import (Bill, BillCreate, BillCreateByURL, BillCreateForm,
                             BillUpdate)
-from ..schemas.goods import Goods
-from ..schemas.user_product import UncategorizedUserProduct
-from ..services.bill import (create_bill, delete_bill, get_all_bills, get_bill,
+from src.api.v1.schemas.goods import Goods
+from src.api.v1.schemas.user_product import UncategorizedUserProduct
+from src.api.v1.services.bill import (create_bill, delete_bill, get_all_bills, get_bill,
                              get_month_summ, get_uncategorized_goods_bill,
                              get_uncategorized_product, parse_link_bill,
                              update_bill)

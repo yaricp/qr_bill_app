@@ -4,9 +4,9 @@ from uuid import UUID
 
 from loguru import logger
 
-from ..app.config import login_link_config
-from ..infra.database import db_session
-from ..infra.database.models import LoginLink as LoginLinkORM
+from src.app.config import login_link_config
+from src.infra.database import db_session
+from src.infra.database.models import LoginLink as LoginLinkORM
 
 # class UnitQueries:
 

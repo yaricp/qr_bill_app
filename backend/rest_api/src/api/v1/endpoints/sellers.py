@@ -3,12 +3,12 @@ from uuid import UUID
 
 from fastapi import Depends, HTTPException
 
-from ... import app, manager
-from ...config import URLPathsConfig
-from ..schemas.seller import (CountBillsByNameSeller, CountGoodsByNameSeller,
+from src.api import app, manager
+from src.api.config import URLPathsConfig
+from src.api.v1.schemas.seller import (CountBillsByNameSeller, CountGoodsByNameSeller,
                               Seller, SellerCreate, SellerUpdate,
                               SummBillsByNameSeller)
-from ..services.seller import (create_seller, delete_seller, get_all_sellers,
+from src.api.v1.services.seller import (create_seller, delete_seller, get_all_sellers,
                                get_seller,
                                list_count_bills_group_by_name_seller,
                                list_count_goods_group_by_name_seller,

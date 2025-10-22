@@ -4,11 +4,11 @@ from uuid import UUID
 from fastapi import Depends, HTTPException
 from loguru import logger
 
-from ... import app, manager
-from ...config import URLPathsConfig
-from ..schemas.goods import (CategoryGoods, Goods, GoodsCountByName,
+from src.api import app, manager
+from src.api.config import URLPathsConfig
+from src.api.v1.schemas.goods import (CategoryGoods, Goods, GoodsCountByName,
                              GoodsCreate, GoodsSummByName, GoodsUpdate)
-from ..services.goods import (create_goods, delete_goods, get_all_goods,
+from src.api.v1.services.goods import (create_goods, delete_goods, get_all_goods,
                               get_goods, list_count_group_by_name,
                               list_summ_group_by_name,
                               list_uncategorized_goods, update_goods,

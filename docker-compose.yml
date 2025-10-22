@@ -39,6 +39,7 @@ services:
       - ./backend/rest_api/alembic/versions:/alembic/versions
       - ./grpc_proto:/grpc_proto
       - ./email_templates:/src/infra/email/templates
+      - ./backend/rest_api/scripts:/scripts
     build:
       context: ./backend/rest_api/
       dockerfile: Dockerfile

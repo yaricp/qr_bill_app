@@ -1,8 +1,8 @@
 from fastapi import BackgroundTasks
 
-from ... import app
-from ...config import URLPathsConfig
-from ..services.login_link import countdown_deleting_login_link
+from src.api import app
+from src.api.config import URLPathsConfig
+from src.api.v1.services.login_link import countdown_deleting_login_link
 
 
 @app.get(

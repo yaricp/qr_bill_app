@@ -3,11 +3,11 @@ from uuid import UUID
 
 from fastapi import Depends, HTTPException
 
-from ... import app, manager
-from ...config import URLPathsConfig
-from ..schemas.category import (Category, CategoryCountByName, CategoryCreate,
+from src.api import app, manager
+from src.api.config import URLPathsConfig
+from src.api.v1.schemas.category import (Category, CategoryCountByName, CategoryCreate,
                                 CategorySummByName, CategoryUpdate)
-from ..services.category import (count_goods_by_name_categories,
+from src.api.v1.services.category import (count_goods_by_name_categories,
                                  create_category, delete_category,
                                  get_all_categories, get_category,
                                  summ_goods_by_name_categories,

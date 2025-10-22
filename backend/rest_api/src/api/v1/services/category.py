@@ -1,8 +1,8 @@
 from typing import List
 from uuid import UUID
 
-from ....app.category import CategoryCommands, CategoryQueries
-from ..schemas.category import (Category, CategoryCountByName, CategoryCreate,
+from src.app.category import CategoryCommands, CategoryQueries
+from src.api.v1.schemas.category import (Category, CategoryCountByName, CategoryCreate,
                                 CategorySummByName, CategoryUpdate)
 
 """

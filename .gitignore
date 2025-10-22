@@ -1,3 +1,5 @@
+.env
+.vscode
 # **/versions/
 **/emailer/
 *.py[cod]
