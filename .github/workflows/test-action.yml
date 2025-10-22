@@ -1,4 +1,4 @@
-name: Build and Deploy qr_bill_app using Helm
+name: Build and make test qr_bill_app
 
 on:
   push:

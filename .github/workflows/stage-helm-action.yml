@@ -1,4 +1,4 @@
-name: Build and Deploy Qracun using Helm
+name: Build and Deploy to stage server qr_bill_app using Helm
 
 on:
   push:

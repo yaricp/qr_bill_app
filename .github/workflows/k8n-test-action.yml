@@ -1,4 +1,4 @@
-name: Build and Deploy Qracun
+name: Build and Deploy qr_bill_app
 
 on:
   push:
