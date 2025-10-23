@@ -79,6 +79,11 @@ jobs:
           REST_API_HOST: ${{ vars.REST_API_HOST }}
           REST_API_PORT: ${{ vars.REST_API_PORT }}
           REST_API_PREFIX: ${{ vars.REST_API_PREFIX }}
+          MASTER_EMAIL: ${{ vars.MASTER_EMAIL }}
+          SMTP_SERVER: ${{ vars.SMTP_SERVER }}
+          SMTP_SERVER_PORT: ${{ vars.SMTP_SERVER_PORT }}
+          SMTP_SERVER_PASSWORD: ${{ secrets.SMTP_SERVER_PASSWORD }}
+          EMAIL_REPLY_TO: ${{ vars.EMAIL_REPLY_TO }}
           REST_API_LOGIN_LINK_URI: ${{ vars.REST_API_LOGIN_LINK_URI }}
           TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${{ vars.TIME_LIFE_TEMP_LOGIN_LINK_MIN }}
         run: |
