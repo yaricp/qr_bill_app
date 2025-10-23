@@ -73,6 +73,13 @@ jobs:
           DATABASE_AUTO_FLUSH: ${{ vars.DATABASE_AUTO_FLUSH }}
           DATABASE_EXPIRE_ON_COMMIT: ${{ vars.DATABASE_EXPIRE_ON_COMMIT }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          REST_API_APP_NAME: ${{ vars.REST_API_APP_NAME }}
+          REST_API_STATIC: ${{ vars.REST_API_STATIC }}
+          REST_API_DOCS: ${{ vars.REST_API_DOCS }}
+          REST_API_HOST: ${{ vars.REST_API_HOST }}
+          REST_API_PORT: ${{ vars.REST_API_PORT }}
+          REST_API_PREFIX: ${{ vars.REST_API_PREFIX }}
+          REST_API_LOGIN_LINK_URI: ${{ vars.REST_API_LOGIN_LINK_URI }}
         run: |
           docker compose up -d;
       - name: Run the Smoke Tests

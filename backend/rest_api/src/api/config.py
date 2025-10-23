@@ -5,34 +5,14 @@ from typing import List, Tuple
 from pydantic_settings import BaseSettings
 
 
-@dataclass(frozen=True)
-class PathsConfig:
-    TEMPLATES: str = "templates/"
-    STATIC: str = "static/"
+# @dataclass(frozen=True)
+# class RouterConfig:
+#     PREFIX: str
+#     TAGS: Tuple[str]
 
-
-@dataclass(frozen=True)
-class URLPathsConfig:
-    PREFIX: str = "/api/v1"
-    STATIC: str = "/static"
-    DOCS: str = "/docs"
-
-
-@dataclass(frozen=True)
-class URLNamesConfig:
-    PREFIX: str = "/api/v1/"
-    HOMEPAGE: str = "homepage"
-    STATIC: str = "static"
-
-
-@dataclass(frozen=True)
-class RouterConfig:
-    PREFIX: str
-    TAGS: Tuple[str]
-
-    @classmethod
-    def tags_list(cls) -> List[str | Enum]:
-        return [tag for tag in cls.TAGS]
+#     @classmethod
+#     def tags_list(cls) -> List[str | Enum]:
+#         return [tag for tag in cls.TAGS]
 
 
 class CORSConfig(BaseSettings):
@@ -55,7 +35,13 @@ class UserLoginConfig(BaseSettings):
 
 
 class AppConfig(BaseSettings):
-    APP_NAME: str = "My Application"
+    REST_API_APP_NAME: str = "My Application"
+    REST_API_STATIC: str = "/static"
+    REST_API_DOCS: str = "/docs"
+    REST_API_HOST: str
+    REST_API_PORT: str
+    REST_API_PREFIX: str
+    REST_API_LOGIN_LINK_URI: str
 
 
 cors_config: CORSConfig = CORSConfig()

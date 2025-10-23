@@ -6,7 +6,7 @@ from uuid import UUID
 from fastapi import Depends, HTTPException
 
 from src.api import app, manager
-from src.api.config import URLPathsConfig
+from src.api.config import app_config
 from src.api.v1.schemas.bill import (Bill, BillCreate, BillCreateByURL, BillCreateForm,
                             BillUpdate)
 from src.api.v1.schemas.goods import Goods
@@ -17,7 +17,7 @@ from src.api.v1.services.bill import (create_bill, delete_bill, get_all_bills, g
                              update_bill)
 
 
-@app.get(URLPathsConfig.PREFIX + "/bills/", tags=["Bills"], response_model=List[Bill])
+@app.get(app_config.REST_API_PREFIX + "/bills/", tags=["Bills"], response_model=List[Bill])
 async def get_all_bills_route(
     offset: int = 0, limit: int = 0, user=Depends(manager)
 ) -> List[Bill]:
@@ -27,7 +27,7 @@ async def get_all_bills_route(
 
 
 @app.post(
-    URLPathsConfig.PREFIX + "/bills/parse_url/", tags=["Bills"], response_model=Bill
+    app_config.REST_API_PREFIX + "/bills/parse_url/", tags=["Bills"], response_model=Bill
 )
 async def parse_url_bill_route(item_in: BillCreateByURL, user=Depends(manager)) -> Bill:
     """Parses the URL of a bill."""
@@ -35,7 +35,7 @@ async def parse_url_bill_route(item_in: BillCreateByURL, user=Depends(manager)) 
     return bill
 
 
-@app.post(URLPathsConfig.PREFIX + "/bills/", tags=["Bills"], response_model=Bill)
+@app.post(app_config.REST_API_PREFIX + "/bills/", tags=["Bills"], response_model=Bill)
 async def create_bill_route(*, item_in: BillCreateForm, user=Depends(manager)) -> Bill:
     """Creates a bill."""
     new_bill_data = BillCreate(
@@ -49,7 +49,7 @@ async def create_bill_route(*, item_in: BillCreateForm, user=Depends(manager)) -
     return bill
 
 
-@app.get(URLPathsConfig.PREFIX + "/bills/{id}", tags=["Bills"], response_model=Bill)
+@app.get(app_config.REST_API_PREFIX + "/bills/{id}", tags=["Bills"], response_model=Bill)
 async def get_bill_route(id: UUID, user=Depends(manager)) -> Bill:
     """Shows bill info."""
     bill: Bill = await get_bill(id=id)
@@ -59,7 +59,7 @@ async def get_bill_route(id: UUID, user=Depends(manager)) -> Bill:
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/bills/{id}/uncategorized_goods/{cat_id}",
+    app_config.REST_API_PREFIX + "/bills/{id}/uncategorized_goods/{cat_id}",
     tags=["Bills"],
     response_model=List[Goods],
 )
@@ -74,7 +74,7 @@ async def uncategorized_goods_bill_cat_route(
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/bills/{id}/uncategorized_goods/",
+    app_config.REST_API_PREFIX + "/bills/{id}/uncategorized_goods/",
     tags=["Bills"],
     response_model=List[Goods],
 )
@@ -86,7 +86,7 @@ async def uncategorized_goods_bill_route(
     return goods_list
 
 
-@app.put(URLPathsConfig.PREFIX + "/bills/{id}", tags=["Bills"], response_model=Bill)
+@app.put(app_config.REST_API_PREFIX + "/bills/{id}", tags=["Bills"], response_model=Bill)
 async def put_bill_route(id: UUID, item_in: BillUpdate, user=Depends(manager)) -> Bill:
     """Updates the bill"""
     item_in.user_id = user.id
@@ -96,7 +96,7 @@ async def put_bill_route(id: UUID, item_in: BillUpdate, user=Depends(manager)) -
     return bill
 
 
-@app.delete(URLPathsConfig.PREFIX + "/bills/{id}", tags=["Bills"], response_model=Bill)
+@app.delete(app_config.REST_API_PREFIX + "/bills/{id}", tags=["Bills"], response_model=Bill)
 async def delete_bill_route(id: UUID, user=Depends(manager)) -> Bill:
     """Deletes the bill"""
     bill: Bill = await delete_bill(id=id, user_id=user.id)
@@ -106,12 +106,12 @@ async def delete_bill_route(id: UUID, user=Depends(manager)) -> Bill:
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/bills/{id}/uncategorized_products/",
+    app_config.REST_API_PREFIX + "/bills/{id}/uncategorized_products/",
     tags=["Bills"],
     response_model=List[UncategorizedUserProduct],
 )
 @app.get(
-    URLPathsConfig.PREFIX + "/bills/{id}/uncategorized_products/{cat_id}",
+    app_config.REST_API_PREFIX + "/bills/{id}/uncategorized_products/{cat_id}",
     tags=["Bills"],
     response_model=List[UncategorizedUserProduct],
 )
@@ -128,7 +128,7 @@ async def uncategorized_products_bill_cat_route(
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/bills/month_summ/{delta_month}",
+    app_config.REST_API_PREFIX + "/bills/month_summ/{delta_month}",
     tags=["Bills"],
     response_model=Decimal,
 )

@@ -5,7 +5,7 @@ from fastapi import Depends, HTTPException
 from loguru import logger
 
 from src.api import app, manager
-from src.api.config import URLPathsConfig
+from src.api.config import app_config
 from src.api.v1.schemas.goods import (CategoryGoods, Goods, GoodsCountByName,
                              GoodsCreate, GoodsSummByName, GoodsUpdate)
 from src.api.v1.services.goods import (create_goods, delete_goods, get_all_goods,
@@ -15,7 +15,7 @@ from src.api.v1.services.goods import (create_goods, delete_goods, get_all_goods
                               update_goods_categories)
 
 
-@app.post(URLPathsConfig.PREFIX + "/goods/", tags=["Goods"], response_model=Goods)
+@app.post(app_config.REST_API_PREFIX + "/goods/", tags=["Goods"], response_model=Goods)
 async def create_goods_route(item_in: GoodsCreate, user=Depends(manager)) -> Goods:
     """Creates a new goods"""
     item_in.user_id = user.id
@@ -24,7 +24,7 @@ async def create_goods_route(item_in: GoodsCreate, user=Depends(manager)) -> Goo
 
 
 @app.post(
-    URLPathsConfig.PREFIX + "/goods/update_category/{goods_id}",
+    app_config.REST_API_PREFIX + "/goods/update_category/{goods_id}",
     tags=["Goods"],
     response_model=bool,
 )
@@ -36,7 +36,7 @@ async def update_categorized_goods_route(
     return result
 
 
-@app.get(URLPathsConfig.PREFIX + "/goods/", tags=["Goods"], response_model=List[Goods])
+@app.get(app_config.REST_API_PREFIX + "/goods/", tags=["Goods"], response_model=List[Goods])
 async def get_all_goods_route(
     offset: int = 0, limit: int = 0, user=Depends(manager)
 ) -> List[Goods]:
@@ -48,7 +48,7 @@ async def get_all_goods_route(
     return goodss
 
 
-@app.get(URLPathsConfig.PREFIX + "/goods/{id}", tags=["Goods"], response_model=Goods)
+@app.get(app_config.REST_API_PREFIX + "/goods/{id}", tags=["Goods"], response_model=Goods)
 async def get_goods_route(id: UUID, user=Depends(manager)) -> Goods:
     """Shows goods info"""
     goods: Goods = await get_goods(id=id)
@@ -57,7 +57,7 @@ async def get_goods_route(id: UUID, user=Depends(manager)) -> Goods:
     return goods
 
 
-@app.put(URLPathsConfig.PREFIX + "/goods/{id}", tags=["Goods"], response_model=Goods)
+@app.put(app_config.REST_API_PREFIX + "/goods/{id}", tags=["Goods"], response_model=Goods)
 async def put_goods_route(
     id: UUID, item_in: GoodsUpdate, user=Depends(manager)
 ) -> Goods:
@@ -70,7 +70,7 @@ async def put_goods_route(
     return goods
 
 
-@app.delete(URLPathsConfig.PREFIX + "/goods/{id}", tags=["Goods"], response_model=Goods)
+@app.delete(app_config.REST_API_PREFIX + "/goods/{id}", tags=["Goods"], response_model=Goods)
 async def delete_goods_route(id: UUID, user=Depends(manager)) -> Goods:
     """Deletes goods"""
     goods: Goods = await delete_goods(id=id, user_id=user.id)
@@ -80,7 +80,7 @@ async def delete_goods_route(id: UUID, user=Depends(manager)) -> Goods:
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/goods/uncategorized/{cat_id}",
+    app_config.REST_API_PREFIX + "/goods/uncategorized/{cat_id}",
     tags=["Goods"],
     response_model=List[Goods],
 )
@@ -93,7 +93,7 @@ async def uncategorized_goods_cat_route(
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/goods/uncategorized/",
+    app_config.REST_API_PREFIX + "/goods/uncategorized/",
     tags=["Goods"],
     response_model=List[Goods],
 )
@@ -104,7 +104,7 @@ async def uncategorized_goods_route(user=Depends(manager)) -> List[Goods]:
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/goods/count_by_name/",
+    app_config.REST_API_PREFIX + "/goods/count_by_name/",
     tags=["Goods"],
     response_model=List[GoodsCountByName],
 )
@@ -120,7 +120,7 @@ async def count_by_name_goods_route(
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/goods/summ_by_name/",
+    app_config.REST_API_PREFIX + "/goods/summ_by_name/",
     tags=["Goods"],
     response_model=List[GoodsSummByName],
 )

@@ -4,7 +4,7 @@ from uuid import UUID
 from fastapi import Depends, HTTPException
 
 from src.api import app, manager
-from src.api.config import URLPathsConfig
+from src.api.config import app_config
 from src.api.v1.schemas.product import (Product, ProductCreate, ProductPrice,
                                ProductUpdate)
 from src.api.v1.schemas.user_product import (CategorizedProduct,
@@ -20,7 +20,7 @@ from src.api.v1.services.product import (create_product, delete_product,
 
 
 @app.post(
-    URLPathsConfig.PREFIX + "/products/", tags=["Products"], response_model=Product
+    app_config.REST_API_PREFIX + "/products/", tags=["Products"], response_model=Product
 )
 async def create_product_route(
     item_in: ProductCreate, user=Depends(manager)
@@ -30,7 +30,7 @@ async def create_product_route(
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/products/",
+    app_config.REST_API_PREFIX + "/products/",
     tags=["Products"],
     response_model=List[Product],
 )
@@ -40,7 +40,7 @@ async def get_all_products_route(user=Depends(manager)) -> List[Product]:
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/products/{id}", tags=["Products"], response_model=Product
+    app_config.REST_API_PREFIX + "/products/{id}", tags=["Products"], response_model=Product
 )
 async def get_product_route(id: UUID, user=Depends(manager)) -> Product:
     """Shows product info"""
@@ -51,7 +51,7 @@ async def get_product_route(id: UUID, user=Depends(manager)) -> Product:
 
 
 @app.put(
-    URLPathsConfig.PREFIX + "/products/{id}", tags=["Products"], response_model=Product
+    app_config.REST_API_PREFIX + "/products/{id}", tags=["Products"], response_model=Product
 )
 async def update_product_route(
     id: UUID, item_in: ProductUpdate, user=Depends(manager)
@@ -64,7 +64,7 @@ async def update_product_route(
 
 
 @app.delete(
-    URLPathsConfig.PREFIX + "/products/{id}", tags=["Products"], response_model=Product
+    app_config.REST_API_PREFIX + "/products/{id}", tags=["Products"], response_model=Product
 )
 async def delete_product_route(id: UUID, user=Depends(manager)) -> Product:
     """Deletes product"""
@@ -75,12 +75,12 @@ async def delete_product_route(id: UUID, user=Depends(manager)) -> Product:
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/products/uncategorized/",
+    app_config.REST_API_PREFIX + "/products/uncategorized/",
     tags=["Products"],
     response_model=List[UncategorizedUserProduct],
 )
 @app.get(
-    URLPathsConfig.PREFIX + "/products/uncategorized/{cat_id}",
+    app_config.REST_API_PREFIX + "/products/uncategorized/{cat_id}",
     tags=["Products"],
     response_model=List[UncategorizedUserProduct],
 )
@@ -92,7 +92,7 @@ async def get_uncategorized_product_route(
 
 
 @app.post(
-    URLPathsConfig.PREFIX + "/products/save_categorized/",
+    app_config.REST_API_PREFIX + "/products/save_categorized/",
     tags=["Products"],
     response_model=bool,
 )
@@ -106,7 +106,7 @@ async def save_categorized_goods_route(
 
 
 @app.put(
-    URLPathsConfig.PREFIX + "/products/update_categories/",
+    app_config.REST_API_PREFIX + "/products/update_categories/",
     tags=["Products"],
     response_model=bool,
 )
@@ -122,7 +122,7 @@ async def update_product_categories_route(
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/products/prices/{product_id}",
+    app_config.REST_API_PREFIX + "/products/prices/{product_id}",
     tags=["Products"],
     response_model=List[ProductPrice],
 )
@@ -134,7 +134,7 @@ async def product_prices_route(
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/products/for_prices/",
+    app_config.REST_API_PREFIX + "/products/for_prices/",
     tags=["Products"],
     response_model=List[Product],
 )

@@ -4,7 +4,7 @@ from uuid import UUID
 from fastapi import Depends, HTTPException
 
 from src.api import app, manager
-from src.api.config import URLPathsConfig
+from src.api.config import app_config
 from src.api.v1.schemas.category import (Category, CategoryCountByName, CategoryCreate,
                                 CategorySummByName, CategoryUpdate)
 from src.api.v1.services.category import (count_goods_by_name_categories,
@@ -15,7 +15,7 @@ from src.api.v1.services.category import (count_goods_by_name_categories,
 
 
 @app.post(
-    URLPathsConfig.PREFIX + "/categories/", tags=["Categories"], response_model=Category
+    app_config.REST_API_PREFIX + "/categories/", tags=["Categories"], response_model=Category
 )
 async def create_category_route(
     item_in: CategoryCreate, user=Depends(manager)
@@ -27,7 +27,7 @@ async def create_category_route(
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/categories/",
+    app_config.REST_API_PREFIX + "/categories/",
     tags=["Categories"],
     response_model=List[Category],
 )
@@ -38,7 +38,7 @@ async def get_all_categories_route(user=Depends(manager)) -> List[Category]:
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/categories/{id}",
+    app_config.REST_API_PREFIX + "/categories/{id}",
     tags=["Categories"],
     response_model=Category,
 )
@@ -51,7 +51,7 @@ async def get_category_route(id: UUID, user=Depends(manager)) -> Category:
 
 
 @app.put(
-    URLPathsConfig.PREFIX + "/categories/{id}",
+    app_config.REST_API_PREFIX + "/categories/{id}",
     tags=["Categories"],
     response_model=Category,
 )
@@ -68,7 +68,7 @@ async def put_category_route(
 
 
 @app.delete(
-    URLPathsConfig.PREFIX + "/categories/{id}",
+    app_config.REST_API_PREFIX + "/categories/{id}",
     tags=["Categories"],
     response_model=Category,
 )
@@ -81,7 +81,7 @@ async def delete_category_route(id: UUID, user=Depends(manager)) -> Category:
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/categories/count_goods_by_name/",
+    app_config.REST_API_PREFIX + "/categories/count_goods_by_name/",
     tags=["Categories"],
     response_model=List[CategoryCountByName],
 )
@@ -96,7 +96,7 @@ async def count_goods_by_name_route(
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/categories/summ_goods_by_name/",
+    app_config.REST_API_PREFIX + "/categories/summ_goods_by_name/",
     tags=["Categories"],
     response_model=List[CategorySummByName],
 )

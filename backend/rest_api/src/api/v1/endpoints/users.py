@@ -10,7 +10,7 @@ from fastapi_login.exceptions import InvalidCredentialsException
 from src.infra.email.email_client import EmailClient
 from src.infra.telegram.tg_utils import send_verify_link_to_tg
 from src.api import app, manager
-from src.api.config import URLPathsConfig, app_config, user_login_config
+from src.api.config import app_config, app_config, user_login_config
 from src.api.v1.schemas.user import LoginLinkData, User, UserCreate, UserUpdate
 from src.api.v1.services.login_link import delete_link
 from src.api.v1.services.user import (check_user_auth, create_login_password_user,
@@ -20,7 +20,7 @@ from src.api.v1.services.user import (check_user_auth, create_login_password_use
 
 
 @app.post(
-    URLPathsConfig.PREFIX + "/auth/register/",
+    app_config.REST_API_PREFIX + "/auth/register/",
     tags=["Authentication"],
     response_model=dict,
 )
@@ -37,7 +37,7 @@ async def register_route(create_user_data: UserCreate) -> dict:
     return {"message": "Something wrong with registatrion!"}
 
 
-@app.post(URLPathsConfig.PREFIX + "/auth/verify/", tags=["Authentication"])
+@app.post(app_config.REST_API_PREFIX + "/auth/verify/", tags=["Authentication"])
 async def verify_route(verify_data: LoginLinkData) -> User | dict:
     """Endpoint for verify email or tg"""
     link = verify_data.link
@@ -62,7 +62,7 @@ async def verify_route(verify_data: LoginLinkData) -> User | dict:
 
 
 @app.post(
-    URLPathsConfig.PREFIX + "/auth/link_to_email/",
+    app_config.REST_API_PREFIX + "/auth/link_to_email/",
     tags=["Authentication"],
     response_model=User,
 )
@@ -79,7 +79,7 @@ async def send_verify_link_to_email_route(
 
     email_client = EmailClient(
         email=data["email"],
-        subject=f"{app_config.APP_NAME} Temporary link for login",
+        subject=f"{app_config.REST_API_APP_NAME} Temporary link for login",
         template="temp_link_email.html",
         template_vars={"temp_link": str_user_link},
     )
@@ -90,7 +90,7 @@ async def send_verify_link_to_email_route(
 
 
 @app.post(
-    URLPathsConfig.PREFIX + "/auth/link_to_tg/",
+    app_config.REST_API_PREFIX + "/auth/link_to_tg/",
     tags=["Authentication"],
     response_model=User,
 )
@@ -112,7 +112,7 @@ async def send_verify_link_to_tg_route(
     return user
 
 
-@app.post(URLPathsConfig.PREFIX + "/auth/login/", tags=["Authentication"])
+@app.post(app_config.REST_API_PREFIX + "/auth/login/", tags=["Authentication"])
 async def login_route(data: OAuth2PasswordRequestForm = Depends()) -> dict:
     """Endpoint for login user"""
     login = data.username
@@ -136,7 +136,7 @@ async def login_route(data: OAuth2PasswordRequestForm = Depends()) -> dict:
     }
 
 
-@app.post(URLPathsConfig.PREFIX + "/auth/login_by_tg/", tags=["Authentication"])
+@app.post(app_config.REST_API_PREFIX + "/auth/login_by_tg/", tags=["Authentication"])
 async def login_by_tg_route(data: LoginLinkData) -> dict:
     """Endpoint for login user"""
     link = data.link
@@ -156,7 +156,7 @@ async def login_by_tg_route(data: LoginLinkData) -> dict:
     }
 
 
-@app.post(URLPathsConfig.PREFIX + "/users/", tags=["Users"], response_model=User)
+@app.post(app_config.REST_API_PREFIX + "/users/", tags=["Users"], response_model=User)
 async def create_login_password_route(
     create_user_data: UserCreate, user=Depends(manager)
 ) -> User:
@@ -164,7 +164,7 @@ async def create_login_password_route(
     return await create_login_password_user(user_id=user.id, user_data=create_user_data)
 
 
-@app.get(URLPathsConfig.PREFIX + "/users/", tags=["Users"], response_model=List[User])
+@app.get(app_config.REST_API_PREFIX + "/users/", tags=["Users"], response_model=List[User])
 async def read_users_route(user=Depends(manager)) -> List[User]:
     """Endpoint for retrieving users"""
     users: List[User] = []
@@ -173,7 +173,7 @@ async def read_users_route(user=Depends(manager)) -> List[User]:
     return users
 
 
-@app.get(URLPathsConfig.PREFIX + "/user/", tags=["Users"], response_model=User)
+@app.get(app_config.REST_API_PREFIX + "/user/", tags=["Users"], response_model=User)
 async def read_user_profile_route(user=Depends(manager)) -> User:
     """Endpoint to retrieve a user profile"""
     if user.password_hash:
@@ -181,7 +181,7 @@ async def read_user_profile_route(user=Depends(manager)) -> User:
     return user
 
 
-@app.put(URLPathsConfig.PREFIX + "/user/", tags=["Users"], response_model=User)
+@app.put(app_config.REST_API_PREFIX + "/user/", tags=["Users"], response_model=User)
 async def update_user_profile_route(
     user_profile: UserUpdate, user=Depends(manager)
 ) -> User:
@@ -192,7 +192,7 @@ async def update_user_profile_route(
     return await update_user(user_profile)
 
 
-@app.delete(URLPathsConfig.PREFIX + "/users/{id}", tags=["Users"], response_model=User)
+@app.delete(app_config.REST_API_PREFIX + "/users/{id}", tags=["Users"], response_model=User)
 async def delete_user_profile_route(id: UUID, user=Depends(manager)) -> User:
     """Endpoint to delete a user profile"""
     return await delete_user(id)

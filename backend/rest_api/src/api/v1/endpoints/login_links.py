@@ -1,12 +1,12 @@
 from fastapi import BackgroundTasks
 
 from src.api import app
-from src.api.config import URLPathsConfig
+from src.api.config import app_config
 from src.api.v1.services.login_link import countdown_deleting_login_link
 
 
 @app.get(
-    URLPathsConfig.PREFIX + "/login_links/countdown/{id}",
+    app_config.REST_API_PREFIX + "/login_links/countdown/{id}",
     tags=["Login links"],
     response_model=dict,
 )
