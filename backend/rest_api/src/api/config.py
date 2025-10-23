@@ -5,16 +5,6 @@ from typing import List, Tuple
 from pydantic_settings import BaseSettings
 
 
-# @dataclass(frozen=True)
-# class RouterConfig:
-#     PREFIX: str
-#     TAGS: Tuple[str]
-
-#     @classmethod
-#     def tags_list(cls) -> List[str | Enum]:
-#         return [tag for tag in cls.TAGS]
-
-
 class CORSConfig(BaseSettings):
     ALLOW_ORIGINS: List[str]
     ALLOW_HEADERS: List[str]
@@ -31,7 +21,7 @@ class SecurityConfig(BaseSettings):
 
 
 class UserLoginConfig(BaseSettings):
-    TOKEN_EXPIRY_TIME_HOURS: int
+    TOKEN_EXPIRY_TIME_HOURS: int = 1
 
 
 class AppConfig(BaseSettings):

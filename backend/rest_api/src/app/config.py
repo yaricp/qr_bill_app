@@ -10,7 +10,7 @@ class BillConfig(BaseSettings):
 class LoginLinkConfig(BaseSettings):
     FRONTEND_APP_LOGIN_LINK_PREFIX: str
     FRONTEND_APP_VERIFY_LINK_PREFIX: str
-    TIME_LIFE_TEMP_LOGIN_LINK_MIN: int
+    TIME_LIFE_TEMP_LOGIN_LINK_MIN: int = 60
 
 
 class RestApiConfig(BaseSettings):
