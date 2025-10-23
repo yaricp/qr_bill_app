@@ -80,6 +80,7 @@ jobs:
           REST_API_PORT: ${{ vars.REST_API_PORT }}
           REST_API_PREFIX: ${{ vars.REST_API_PREFIX }}
           REST_API_LOGIN_LINK_URI: ${{ vars.REST_API_LOGIN_LINK_URI }}
+          TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${{ vars.TIME_LIFE_TEMP_LOGIN_LINK_MIN }}
         run: |
           docker compose up -d;
       - name: Run the Smoke Tests
