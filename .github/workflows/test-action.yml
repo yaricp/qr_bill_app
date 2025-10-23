@@ -61,6 +61,7 @@ jobs:
           ALLOW_METHODS: ${{ vars.ALLOW_METHODS }}
           TOKEN_EXPIRY_TIME_HOURS: ${{ vars.TOKEN_EXPIRY_TIME_HOURS }}
           DATABASE_HOST: ${{ vars.DATABASE_HOST }}
+          DATABASE_NAME: ${{ vars.DATABASE_NAME }}
           DATABASE_USER: ${{ vars.DATABASE_USER }}
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           DATABASE_PORT: ${{ vars.DATABASE_PORT }}
