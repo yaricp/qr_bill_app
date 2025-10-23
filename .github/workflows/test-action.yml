@@ -60,6 +60,16 @@ jobs:
           ALLOW_CREDENTIALS: ${{ vars.ALLOW_CREDENTIALS }}
           ALLOW_METHODS: ${{ vars.ALLOW_METHODS }}
           TOKEN_EXPIRY_TIME_HOURS: ${{ vars.TOKEN_EXPIRY_TIME_HOURS }}
+          DATABASE_HOST: ${{ vars.DATABASE_HOST }}
+          DATABASE_USER: ${{ vars.DATABASE_USER }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          DATABASE_PORT: ${{ vars.DATABASE_PORT }}
+          DATABASE_ECHO: ${{ vars.DATABASE_ECHO }}
+          DATABASE_POOL_RECYCLE: ${{ vars.DATABASE_POOL_RECYCLE }}
+          DATABASE_POOL_PRE_PING: ${{ vars.DATABASE_POOL_PRE_PING }}
+          DATABASE_AUTO_FLUSH: ${{ vars.DATABASE_AUTO_FLUSH }}
+          DATABASE_EXPIRE_ON_COMMIT: ${{ vars.DATABASE_EXPIRE_ON_COMMIT }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: |
           docker compose up -d;
       - name: Run the Smoke Tests
