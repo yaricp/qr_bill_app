@@ -1,5 +1,9 @@
 #!/bin/sh
 
+echo "remove old GRPC files"
+rm -f /src/infra/grpc_server/grpc_pb2.py
+rm -f /src/infra/grpc_server/grpc_pb2_grpc.py
+
 echo "Prepare GRPC server"
 
 bash /scripts/prepare_grpc_proto.sh

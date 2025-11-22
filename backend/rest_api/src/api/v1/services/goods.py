@@ -2,10 +2,10 @@ from typing import List
 from uuid import UUID
 
 from loguru import logger
-
-from src.app.goods import GoodsCommands, GoodsQueries
 from src.api.v1.schemas.goods import (CategoryGoods, Goods, GoodsCountByName,
-                             GoodsCreate, GoodsSummByName, GoodsUpdate)
+                                      GoodsCreate, GoodsSummByName,
+                                      GoodsUpdate)
+from src.app.goods import GoodsCommands, GoodsQueries
 
 """
 Can not use Bootstrap object in dependencies,

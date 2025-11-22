@@ -6,17 +6,18 @@ from uuid import UUID
 from fastapi import BackgroundTasks, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi_login.exceptions import InvalidCredentialsException
-
-from src.infra.email.email_client import EmailClient
-from src.infra.telegram.tg_utils import send_verify_link_to_tg
 from src.api import app, manager
-from src.api.config import app_config, app_config, user_login_config
+from src.api.config import app_config, user_login_config
 from src.api.v1.schemas.user import LoginLinkData, User, UserCreate, UserUpdate
 from src.api.v1.services.login_link import delete_link
-from src.api.v1.services.user import (check_user_auth, create_login_password_user,
-                             create_temp_link, delete_user, get_all_users,
-                             get_user_by_login, register_new_user, update_user,
-                             verify_email_tg)
+from src.api.v1.services.user import (check_user_auth,
+                                      create_login_password_user,
+                                      create_temp_link, delete_user,
+                                      get_all_users, get_user_by_login,
+                                      register_new_user, update_user,
+                                      verify_email_tg)
+from src.infra.email.email_client import EmailClient
+from src.infra.telegram.tg_utils import send_verify_link_to_tg
 
 
 @app.post(
@@ -164,7 +165,9 @@ async def create_login_password_route(
     return await create_login_password_user(user_id=user.id, user_data=create_user_data)
 
 
-@app.get(app_config.REST_API_PREFIX + "/users/", tags=["Users"], response_model=List[User])
+@app.get(
+    app_config.REST_API_PREFIX + "/users/", tags=["Users"], response_model=List[User]
+)
 async def read_users_route(user=Depends(manager)) -> List[User]:
     """Endpoint for retrieving users"""
     users: List[User] = []
@@ -192,7 +195,9 @@ async def update_user_profile_route(
     return await update_user(user_profile)
 
 
-@app.delete(app_config.REST_API_PREFIX + "/users/{id}", tags=["Users"], response_model=User)
+@app.delete(
+    app_config.REST_API_PREFIX + "/users/{id}", tags=["Users"], response_model=User
+)
 async def delete_user_profile_route(id: UUID, user=Depends(manager)) -> User:
     """Endpoint to delete a user profile"""
     return await delete_user(id)

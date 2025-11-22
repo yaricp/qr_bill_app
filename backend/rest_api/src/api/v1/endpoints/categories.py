@@ -2,20 +2,22 @@ from typing import List
 from uuid import UUID
 
 from fastapi import Depends, HTTPException
-
 from src.api import app, manager
 from src.api.config import app_config
-from src.api.v1.schemas.category import (Category, CategoryCountByName, CategoryCreate,
-                                CategorySummByName, CategoryUpdate)
+from src.api.v1.schemas.category import (Category, CategoryCountByName,
+                                         CategoryCreate, CategorySummByName,
+                                         CategoryUpdate)
 from src.api.v1.services.category import (count_goods_by_name_categories,
-                                 create_category, delete_category,
-                                 get_all_categories, get_category,
-                                 summ_goods_by_name_categories,
-                                 update_category)
+                                          create_category, delete_category,
+                                          get_all_categories, get_category,
+                                          summ_goods_by_name_categories,
+                                          update_category)
 
 
 @app.post(
-    app_config.REST_API_PREFIX + "/categories/", tags=["Categories"], response_model=Category
+    app_config.REST_API_PREFIX + "/categories/",
+    tags=["Categories"],
+    response_model=Category,
 )
 async def create_category_route(
     item_in: CategoryCreate, user=Depends(manager)

@@ -1,9 +1,10 @@
 from typing import List
 from uuid import UUID
 
+from src.api.v1.schemas.category import (Category, CategoryCountByName,
+                                         CategoryCreate, CategorySummByName,
+                                         CategoryUpdate)
 from src.app.category import CategoryCommands, CategoryQueries
-from src.api.v1.schemas.category import (Category, CategoryCountByName, CategoryCreate,
-                                CategorySummByName, CategoryUpdate)
 
 """
 Can not use Bootstrap object in dependencies,

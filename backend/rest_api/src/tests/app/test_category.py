@@ -1,7 +1,8 @@
-import pytest
-from unittest.mock import AsyncMock, patch, MagicMock
+from unittest.mock import AsyncMock, MagicMock, patch
 from uuid import uuid4
-from src.app.category import CategoryQueries, CategoryCommands
+
+import pytest
+from src.app.category import CategoryCommands, CategoryQueries
 from src.app.entities.category import CategoryCreate, CategoryUpdate
 
 
@@ -55,15 +56,23 @@ async def test_get_category(user_id, mock_category):
 async def test_count_goods_by_name_A1(user_id=uuid4()):
     """first_of > 0, delta_month != 1"""
     mock_result = [("cat1", 10)]
-    with patch("src.app.category.db_session.query") as query_mock, \
-         patch("src.app.category.get_fisrt_day_month_by_delta_month", return_value="2025-10-01"), \
-         patch("src.app.category.get_last_day_of_month_by_datetime", return_value="2025-10-31"):
+    with patch("src.app.category.db_session.query") as query_mock, patch(
+        "src.app.category.get_fisrt_day_month_by_delta_month", return_value="2025-10-01"
+    ), patch(
+        "src.app.category.get_last_day_of_month_by_datetime", return_value="2025-10-31"
+    ):
 
-        chain = query_mock.return_value.join.return_value.join.return_value.join.return_value
-        chain.filter.return_value.group_by.return_value.order_by.return_value.limit.return_value = mock_result
+        chain = (
+            query_mock.return_value.join.return_value.join.return_value.join.return_value
+        )
+        chain.filter.return_value.group_by.return_value.order_by.return_value.limit.return_value = (
+            mock_result
+        )
 
         cq = CategoryQueries()
-        result = await cq.count_goods_by_name(first_of=5, user_id=user_id, delta_month=-1)
+        result = await cq.count_goods_by_name(
+            first_of=5, user_id=user_id, delta_month=-1
+        )
         assert result == mock_result
 
 
@@ -73,11 +82,17 @@ async def test_count_goods_by_name_A2(user_id=uuid4()):
     mock_result = [("cat2", 20)]
     with patch("src.app.category.db_session.query") as query_mock:
 
-        chain = query_mock.return_value.join.return_value.join.return_value.join.return_value
-        chain.filter.return_value.group_by.return_value.order_by.return_value.limit.return_value = mock_result
+        chain = (
+            query_mock.return_value.join.return_value.join.return_value.join.return_value
+        )
+        chain.filter.return_value.group_by.return_value.order_by.return_value.limit.return_value = (
+            mock_result
+        )
 
         cq = CategoryQueries()
-        result = await cq.count_goods_by_name(first_of=3, user_id=user_id, delta_month=1)
+        result = await cq.count_goods_by_name(
+            first_of=3, user_id=user_id, delta_month=1
+        )
         assert result == mock_result
 
 
@@ -85,15 +100,23 @@ async def test_count_goods_by_name_A2(user_id=uuid4()):
 async def test_count_goods_by_name_B1(user_id=uuid4()):
     """first_of=None, delta_month != 1"""
     mock_result = [("cat3", 30)]
-    with patch("src.app.category.db_session.query") as query_mock, \
-         patch("src.app.category.get_fisrt_day_month_by_delta_month", return_value="2025-09-01"), \
-         patch("src.app.category.get_last_day_of_month_by_datetime", return_value="2025-09-30"):
+    with patch("src.app.category.db_session.query") as query_mock, patch(
+        "src.app.category.get_fisrt_day_month_by_delta_month", return_value="2025-09-01"
+    ), patch(
+        "src.app.category.get_last_day_of_month_by_datetime", return_value="2025-09-30"
+    ):
 
-        chain = query_mock.return_value.join.return_value.join.return_value.join.return_value
-        chain.filter.return_value.group_by.return_value.order_by.return_value.all.return_value = mock_result
+        chain = (
+            query_mock.return_value.join.return_value.join.return_value.join.return_value
+        )
+        chain.filter.return_value.group_by.return_value.order_by.return_value.all.return_value = (
+            mock_result
+        )
 
         cq = CategoryQueries()
-        result = await cq.count_goods_by_name(first_of=None, user_id=user_id, delta_month=-1)
+        result = await cq.count_goods_by_name(
+            first_of=None, user_id=user_id, delta_month=-1
+        )
         assert result == mock_result
 
 
@@ -103,11 +126,17 @@ async def test_count_goods_by_name_B2(user_id=uuid4()):
     mock_result = [("cat4", 40)]
     with patch("src.app.category.db_session.query") as query_mock:
 
-        chain = query_mock.return_value.join.return_value.join.return_value.join.return_value
-        chain.filter.return_value.group_by.return_value.order_by.return_value.all.return_value = mock_result
+        chain = (
+            query_mock.return_value.join.return_value.join.return_value.join.return_value
+        )
+        chain.filter.return_value.group_by.return_value.order_by.return_value.all.return_value = (
+            mock_result
+        )
 
         cq = CategoryQueries()
-        result = await cq.count_goods_by_name(first_of=None, user_id=user_id, delta_month=1)
+        result = await cq.count_goods_by_name(
+            first_of=None, user_id=user_id, delta_month=1
+        )
         assert result == mock_result
 
 
@@ -115,15 +144,23 @@ async def test_count_goods_by_name_B2(user_id=uuid4()):
 async def test_summ_goods_by_name_A1(user_id=uuid4()):
     """first_of > 0, delta_month != 1"""
     mock_result = [("cat1", 10)]
-    with patch("src.app.category.db_session.query") as query_mock, \
-         patch("src.app.category.get_fisrt_day_month_by_delta_month", return_value="2025-10-01"), \
-         patch("src.app.category.get_last_day_of_month_by_datetime", return_value="2025-10-31"):
-        
-        chain = query_mock.return_value.join.return_value.join.return_value.join.return_value
-        chain.filter.return_value.group_by.return_value.order_by.return_value.limit.return_value = mock_result
+    with patch("src.app.category.db_session.query") as query_mock, patch(
+        "src.app.category.get_fisrt_day_month_by_delta_month", return_value="2025-10-01"
+    ), patch(
+        "src.app.category.get_last_day_of_month_by_datetime", return_value="2025-10-31"
+    ):
+
+        chain = (
+            query_mock.return_value.join.return_value.join.return_value.join.return_value
+        )
+        chain.filter.return_value.group_by.return_value.order_by.return_value.limit.return_value = (
+            mock_result
+        )
 
         cq = CategoryQueries()
-        result = await cq.summ_goods_by_name(first_of=5, user_id=user_id, delta_month=-1)
+        result = await cq.summ_goods_by_name(
+            first_of=5, user_id=user_id, delta_month=-1
+        )
         assert result == mock_result
 
 
@@ -132,8 +169,12 @@ async def test_summ_goods_by_name_A2(user_id=uuid4()):
     """first_of > 0, delta_month == 1"""
     mock_result = [("cat2", 20)]
     with patch("src.app.category.db_session.query") as query_mock:
-        chain = query_mock.return_value.join.return_value.join.return_value.join.return_value
-        chain.filter.return_value.group_by.return_value.order_by.return_value.limit.return_value = mock_result
+        chain = (
+            query_mock.return_value.join.return_value.join.return_value.join.return_value
+        )
+        chain.filter.return_value.group_by.return_value.order_by.return_value.limit.return_value = (
+            mock_result
+        )
 
         cq = CategoryQueries()
         result = await cq.summ_goods_by_name(first_of=3, user_id=user_id, delta_month=1)
@@ -144,15 +185,23 @@ async def test_summ_goods_by_name_A2(user_id=uuid4()):
 async def test_summ_goods_by_name_B1(user_id=uuid4()):
     """first_of=None, delta_month != 1"""
     mock_result = [("cat3", 30)]
-    with patch("src.app.category.db_session.query") as query_mock, \
-         patch("src.app.category.get_fisrt_day_month_by_delta_month", return_value="2025-09-01"), \
-         patch("src.app.category.get_last_day_of_month_by_datetime", return_value="2025-09-30"):
+    with patch("src.app.category.db_session.query") as query_mock, patch(
+        "src.app.category.get_fisrt_day_month_by_delta_month", return_value="2025-09-01"
+    ), patch(
+        "src.app.category.get_last_day_of_month_by_datetime", return_value="2025-09-30"
+    ):
 
-        chain = query_mock.return_value.join.return_value.join.return_value.join.return_value
-        chain.filter.return_value.group_by.return_value.order_by.return_value.all.return_value = mock_result
+        chain = (
+            query_mock.return_value.join.return_value.join.return_value.join.return_value
+        )
+        chain.filter.return_value.group_by.return_value.order_by.return_value.all.return_value = (
+            mock_result
+        )
 
         cq = CategoryQueries()
-        result = await cq.summ_goods_by_name(first_of=None, user_id=user_id, delta_month=-1)
+        result = await cq.summ_goods_by_name(
+            first_of=None, user_id=user_id, delta_month=-1
+        )
         assert result == mock_result
 
 
@@ -162,11 +211,17 @@ async def test_summ_goods_by_name_B2(user_id=uuid4()):
     mock_result = [("cat4", 40)]
     with patch("src.app.category.db_session.query") as query_mock:
 
-        chain = query_mock.return_value.join.return_value.join.return_value.join.return_value
-        chain.filter.return_value.group_by.return_value.order_by.return_value.all.return_value = mock_result
+        chain = (
+            query_mock.return_value.join.return_value.join.return_value.join.return_value
+        )
+        chain.filter.return_value.group_by.return_value.order_by.return_value.all.return_value = (
+            mock_result
+        )
 
         cq = CategoryQueries()
-        result = await cq.summ_goods_by_name(first_of=None, user_id=user_id, delta_month=1)
+        result = await cq.summ_goods_by_name(
+            first_of=None, user_id=user_id, delta_month=1
+        )
         assert result == mock_result
 
 
@@ -176,9 +231,9 @@ async def test_summ_goods_by_name_B2(user_id=uuid4()):
 @pytest.mark.asyncio
 async def test_create_category(category_create):
     mock_cat = MagicMock()
-    with patch("src.app.category.db_session.add") as add_mock, \
-         patch("src.app.category.db_session.commit") as commit_mock, \
-         patch("src.app.category.CategoryORM", return_value=mock_cat):
+    with patch("src.app.category.db_session.add") as add_mock, patch(
+        "src.app.category.db_session.commit"
+    ) as commit_mock, patch("src.app.category.CategoryORM", return_value=mock_cat):
 
         cc = CategoryCommands()
         result = await cc.create_category(incoming_item=category_create)
@@ -230,9 +285,9 @@ async def test_update_category(category_update, mock_category):
 
 @pytest.mark.asyncio
 async def test_delete_category(mock_category):
-    with patch("src.app.category.CategoryORM.query") as query_mock, \
-         patch("src.app.category.db_session.delete") as delete_mock, \
-         patch("src.app.category.db_session.commit") as commit_mock:
+    with patch("src.app.category.CategoryORM.query") as query_mock, patch(
+        "src.app.category.db_session.delete"
+    ) as delete_mock, patch("src.app.category.db_session.commit") as commit_mock:
         query_mock.filter_by.return_value.first.return_value = mock_category
         cc = CategoryCommands()
         result = await cc.delete_category(id=uuid4())

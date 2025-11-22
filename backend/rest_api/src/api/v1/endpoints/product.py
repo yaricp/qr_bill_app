@@ -2,21 +2,21 @@ from typing import List, Optional
 from uuid import UUID
 
 from fastapi import Depends, HTTPException
-
 from src.api import app, manager
 from src.api.config import app_config
 from src.api.v1.schemas.product import (Product, ProductCreate, ProductPrice,
-                               ProductUpdate)
+                                        ProductUpdate)
 from src.api.v1.schemas.user_product import (CategorizedProduct,
-                                    UncategorizedUserProduct,
-                                    UpdateUserProductCategories)
+                                             UncategorizedUserProduct,
+                                             UpdateUserProductCategories)
 from src.api.v1.services.product import (create_product, delete_product,
-                                get_all_products, get_product,
-                                get_product_prices,
-                                get_products_more_one_prices,
-                                get_uncategorized_product,
-                                save_categorized_products, update_product,
-                                update_product_categories)
+                                         get_all_products, get_product,
+                                         get_product_prices,
+                                         get_products_more_one_prices,
+                                         get_uncategorized_product,
+                                         save_categorized_products,
+                                         update_product,
+                                         update_product_categories)
 
 
 @app.post(
@@ -40,7 +40,9 @@ async def get_all_products_route(user=Depends(manager)) -> List[Product]:
 
 
 @app.get(
-    app_config.REST_API_PREFIX + "/products/{id}", tags=["Products"], response_model=Product
+    app_config.REST_API_PREFIX + "/products/{id}",
+    tags=["Products"],
+    response_model=Product,
 )
 async def get_product_route(id: UUID, user=Depends(manager)) -> Product:
     """Shows product info"""
@@ -51,7 +53,9 @@ async def get_product_route(id: UUID, user=Depends(manager)) -> Product:
 
 
 @app.put(
-    app_config.REST_API_PREFIX + "/products/{id}", tags=["Products"], response_model=Product
+    app_config.REST_API_PREFIX + "/products/{id}",
+    tags=["Products"],
+    response_model=Product,
 )
 async def update_product_route(
     id: UUID, item_in: ProductUpdate, user=Depends(manager)
@@ -64,7 +68,9 @@ async def update_product_route(
 
 
 @app.delete(
-    app_config.REST_API_PREFIX + "/products/{id}", tags=["Products"], response_model=Product
+    app_config.REST_API_PREFIX + "/products/{id}",
+    tags=["Products"],
+    response_model=Product,
 )
 async def delete_product_route(id: UUID, user=Depends(manager)) -> Product:
     """Deletes product"""

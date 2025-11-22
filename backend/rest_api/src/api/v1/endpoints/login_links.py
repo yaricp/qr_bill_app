@@ -1,5 +1,4 @@
 from fastapi import BackgroundTasks
-
 from src.api import app
 from src.api.config import app_config
 from src.api.v1.services.login_link import countdown_deleting_login_link

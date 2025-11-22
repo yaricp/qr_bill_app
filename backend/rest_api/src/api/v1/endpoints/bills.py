@@ -4,20 +4,22 @@ from typing import List, Optional
 from uuid import UUID
 
 from fastapi import Depends, HTTPException
-
 from src.api import app, manager
 from src.api.config import app_config
-from src.api.v1.schemas.bill import (Bill, BillCreate, BillCreateByURL, BillCreateForm,
-                            BillUpdate)
+from src.api.v1.schemas.bill import (Bill, BillCreate, BillCreateByURL,
+                                     BillCreateForm, BillUpdate)
 from src.api.v1.schemas.goods import Goods
 from src.api.v1.schemas.user_product import UncategorizedUserProduct
-from src.api.v1.services.bill import (create_bill, delete_bill, get_all_bills, get_bill,
-                             get_month_summ, get_uncategorized_goods_bill,
-                             get_uncategorized_product, parse_link_bill,
-                             update_bill)
+from src.api.v1.services.bill import (create_bill, delete_bill, get_all_bills,
+                                      get_bill, get_month_summ,
+                                      get_uncategorized_goods_bill,
+                                      get_uncategorized_product,
+                                      parse_link_bill, update_bill)
 
 
-@app.get(app_config.REST_API_PREFIX + "/bills/", tags=["Bills"], response_model=List[Bill])
+@app.get(
+    app_config.REST_API_PREFIX + "/bills/", tags=["Bills"], response_model=List[Bill]
+)
 async def get_all_bills_route(
     offset: int = 0, limit: int = 0, user=Depends(manager)
 ) -> List[Bill]:
@@ -27,7 +29,9 @@ async def get_all_bills_route(
 
 
 @app.post(
-    app_config.REST_API_PREFIX + "/bills/parse_url/", tags=["Bills"], response_model=Bill
+    app_config.REST_API_PREFIX + "/bills/parse_url/",
+    tags=["Bills"],
+    response_model=Bill,
 )
 async def parse_url_bill_route(item_in: BillCreateByURL, user=Depends(manager)) -> Bill:
     """Parses the URL of a bill."""
@@ -49,7 +53,9 @@ async def create_bill_route(*, item_in: BillCreateForm, user=Depends(manager)) -
     return bill
 
 
-@app.get(app_config.REST_API_PREFIX + "/bills/{id}", tags=["Bills"], response_model=Bill)
+@app.get(
+    app_config.REST_API_PREFIX + "/bills/{id}", tags=["Bills"], response_model=Bill
+)
 async def get_bill_route(id: UUID, user=Depends(manager)) -> Bill:
     """Shows bill info."""
     bill: Bill = await get_bill(id=id)
@@ -86,7 +92,9 @@ async def uncategorized_goods_bill_route(
     return goods_list
 
 
-@app.put(app_config.REST_API_PREFIX + "/bills/{id}", tags=["Bills"], response_model=Bill)
+@app.put(
+    app_config.REST_API_PREFIX + "/bills/{id}", tags=["Bills"], response_model=Bill
+)
 async def put_bill_route(id: UUID, item_in: BillUpdate, user=Depends(manager)) -> Bill:
     """Updates the bill"""
     item_in.user_id = user.id
@@ -96,7 +104,9 @@ async def put_bill_route(id: UUID, item_in: BillUpdate, user=Depends(manager)) -
     return bill
 
 
-@app.delete(app_config.REST_API_PREFIX + "/bills/{id}", tags=["Bills"], response_model=Bill)
+@app.delete(
+    app_config.REST_API_PREFIX + "/bills/{id}", tags=["Bills"], response_model=Bill
+)
 async def delete_bill_route(id: UUID, user=Depends(manager)) -> Bill:
     """Deletes the bill"""
     bill: Bill = await delete_bill(id=id, user_id=user.id)

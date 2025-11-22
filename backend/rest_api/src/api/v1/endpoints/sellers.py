@@ -2,28 +2,32 @@ from typing import List
 from uuid import UUID
 
 from fastapi import Depends, HTTPException
-
 from src.api import app, manager
 from src.api.config import app_config
-from src.api.v1.schemas.seller import (CountBillsByNameSeller, CountGoodsByNameSeller,
-                              Seller, SellerCreate, SellerUpdate,
-                              SummBillsByNameSeller)
-from src.api.v1.services.seller import (create_seller, delete_seller, get_all_sellers,
-                               get_seller,
-                               list_count_bills_group_by_name_seller,
-                               list_count_goods_group_by_name_seller,
-                               list_summ_bills_group_by_name_seller,
-                               update_seller)
+from src.api.v1.schemas.seller import (CountBillsByNameSeller,
+                                       CountGoodsByNameSeller, Seller,
+                                       SellerCreate, SellerUpdate,
+                                       SummBillsByNameSeller)
+from src.api.v1.services.seller import (create_seller, delete_seller,
+                                        get_all_sellers, get_seller,
+                                        list_count_bills_group_by_name_seller,
+                                        list_count_goods_group_by_name_seller,
+                                        list_summ_bills_group_by_name_seller,
+                                        update_seller)
 
 
-@app.post(app_config.REST_API_PREFIX + "/sellers/", tags=["Sellers"], response_model=Seller)
+@app.post(
+    app_config.REST_API_PREFIX + "/sellers/", tags=["Sellers"], response_model=Seller
+)
 async def create_seller_route(item_in: SellerCreate, user=Depends(manager)) -> Seller:
     """Create new seller"""
     return await create_seller(item_in)
 
 
 @app.get(
-    app_config.REST_API_PREFIX + "/sellers/", tags=["Sellers"], response_model=List[Seller]
+    app_config.REST_API_PREFIX + "/sellers/",
+    tags=["Sellers"],
+    response_model=List[Seller],
 )
 async def get_all_sellers_route(
     offset: int = 0, limit: int = 0, user=Depends(manager)
@@ -33,7 +37,9 @@ async def get_all_sellers_route(
 
 
 @app.get(
-    app_config.REST_API_PREFIX + "/sellers/{id}", tags=["Sellers"], response_model=Seller
+    app_config.REST_API_PREFIX + "/sellers/{id}",
+    tags=["Sellers"],
+    response_model=Seller,
 )
 async def get_seller_route(id: UUID, user=Depends(manager)):
     """Gets seller info"""
@@ -44,7 +50,9 @@ async def get_seller_route(id: UUID, user=Depends(manager)):
 
 
 @app.put(
-    app_config.REST_API_PREFIX + "/sellers/{id}", tags=["Sellers"], response_model=Seller
+    app_config.REST_API_PREFIX + "/sellers/{id}",
+    tags=["Sellers"],
+    response_model=Seller,
 )
 async def update_seller_route(id: UUID, item_in: SellerUpdate, user=Depends(manager)):
     """Updates seller info"""
@@ -55,7 +63,9 @@ async def update_seller_route(id: UUID, item_in: SellerUpdate, user=Depends(mana
 
 
 @app.delete(
-    app_config.REST_API_PREFIX + "/sellers/{id}", tags=["Sellers"], response_model=Seller
+    app_config.REST_API_PREFIX + "/sellers/{id}",
+    tags=["Sellers"],
+    response_model=Seller,
 )
 async def delete_seller_route(id: UUID, user=Depends(manager)):
     """Deletes seller"""

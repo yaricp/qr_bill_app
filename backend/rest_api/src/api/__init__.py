@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.routing import APIRoute
 from fastapi_login import LoginManager
-
 from src.api.config import app_config, cors_config, security_config
 from src.api.middleware.prometheus_metrics import prometheus_middleware
 from src.api.v1.services.metrics import metrics_app
@@ -29,7 +28,7 @@ manager = LoginManager(
 )
 
 from src.api.v1.endpoints import goods  # noqa: F401, F402, E402
-from src.api.v1.endpoints import (bills, categories, login_links, metrics, product,
-                           sellers, units, users)
+from src.api.v1.endpoints import (bills, categories, login_links, metrics,
+                                  product, sellers, units, users)
 
 app.mount("/metrics", metrics_app)

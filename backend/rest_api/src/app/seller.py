@@ -4,11 +4,11 @@ from uuid import UUID
 from loguru import logger
 from sqlalchemy import desc
 from sqlalchemy.sql import func
-
 from src.infra.database import db_session
 from src.infra.database.models import Bill as BillORM
 from src.infra.database.models import Goods as GoodsORM
 from src.infra.database.models import Seller as SellerORM
+
 from .entities.seller import (CountBillsByNameSeller, CountGoodsByNameSeller,
                               Seller, SellerCreate, SummBillsByNameSeller)
 from .metrics.analytics import metric_analytics_async

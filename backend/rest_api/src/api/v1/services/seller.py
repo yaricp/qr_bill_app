@@ -1,10 +1,11 @@
 from typing import List
 from uuid import UUID
 
+from src.api.v1.schemas.seller import (CountBillsByNameSeller,
+                                       CountGoodsByNameSeller, Seller,
+                                       SellerCreate, SellerUpdate,
+                                       SummBillsByNameSeller)
 from src.app.seller import SellerCommands, SellerQueries
-from src.api.v1.schemas.seller import (CountBillsByNameSeller, CountGoodsByNameSeller,
-                              Seller, SellerCreate, SellerUpdate,
-                              SummBillsByNameSeller)
 
 """
 Can not use Bootstrap object in dependencies,

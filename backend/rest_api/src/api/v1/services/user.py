@@ -2,10 +2,9 @@ from typing import List
 from uuid import UUID
 
 from loguru import logger
-
-from src.app.user import UserCommands, UserQueries
 from src.api import manager
 from src.api.v1.schemas.user import User, UserCreate, UserUpdate
+from src.app.user import UserCommands, UserQueries
 
 """
 Can not use Bootstrap object in dependencies,

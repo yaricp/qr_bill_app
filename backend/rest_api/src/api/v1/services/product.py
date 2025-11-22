@@ -2,11 +2,11 @@ from typing import List
 from uuid import UUID
 
 from loguru import logger
-
-from src.app.product import ProductCommands, ProductQueries
 from src.api.v1.schemas.product import (Product, ProductCreate, ProductPrice,
-                               ProductUpdate)
-from src.api.v1.schemas.user_product import CategorizedProduct, UncategorizedUserProduct
+                                        ProductUpdate)
+from src.api.v1.schemas.user_product import (CategorizedProduct,
+                                             UncategorizedUserProduct)
+from src.app.product import ProductCommands, ProductQueries
 
 """
 Can not use Bootstrap object in dependencies,

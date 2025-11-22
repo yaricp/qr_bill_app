@@ -1,7 +1,6 @@
 from uuid import UUID
 
 from loguru import logger
-
 from src.app.login_link import LoginLinkCommands
 
 """

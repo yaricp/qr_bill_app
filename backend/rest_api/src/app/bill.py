@@ -8,12 +8,12 @@ from uuid import UUID
 from loguru import logger
 from requests import post
 from sqlalchemy.sql import func, text
-
 from src.infra.database import db_session
 from src.infra.database.models import Bill as BillORM
 from src.infra.database.models import Goods as GoodsORM
 from src.utils import (get_fisrt_day_month_by_delta_month,
-                     get_last_day_of_month_by_datetime)
+                       get_last_day_of_month_by_datetime)
+
 from .config import bill_config
 from .entities.bill import Bill, BillCreate, BillCreateByURL
 from .entities.goods import Goods, GoodsCreate

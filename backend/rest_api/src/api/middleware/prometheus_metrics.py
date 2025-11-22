@@ -1,9 +1,8 @@
 import time
 
 from fastapi import Request
-
-from src.api.metrics.http import (HTTP_4XX_ERRORS, HTTP_5XX_ERRORS, REQUEST_COUNT,
-                            REQUEST_LATENCY)
+from src.api.metrics.http import (HTTP_4XX_ERRORS, HTTP_5XX_ERRORS,
+                                  REQUEST_COUNT, REQUEST_LATENCY)
 
 
 async def prometheus_middleware(request: Request, call_next):

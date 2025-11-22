@@ -2,10 +2,11 @@ from decimal import Decimal
 from typing import List
 from uuid import UUID
 
-from src.app.bill import BillCommands, BillQueries
-from src.api.v1.schemas.bill import Bill, BillCreate, BillCreateByURL, BillUpdate
+from src.api.v1.schemas.bill import (Bill, BillCreate, BillCreateByURL,
+                                     BillUpdate)
 from src.api.v1.schemas.goods import Goods
 from src.api.v1.schemas.user_product import UncategorizedUserProduct
+from src.app.bill import BillCommands, BillQueries
 
 # -----Views-----
 

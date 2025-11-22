@@ -3,7 +3,6 @@ from datetime import datetime
 from uuid import UUID
 
 from loguru import logger
-
 from src.app.config import login_link_config
 from src.infra.database import db_session
 from src.infra.database.models import LoginLink as LoginLinkORM
