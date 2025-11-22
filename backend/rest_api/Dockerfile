@@ -37,4 +37,3 @@ RUN chmod +x /start_tests.sh
 RUN chmod +x /scripts/*
 
 ENTRYPOINT [ "/bin/bash", "-l", "-c" ]
-
