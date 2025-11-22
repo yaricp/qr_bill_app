@@ -98,4 +98,4 @@ jobs:
         run: |
           echo "Start Unit Tests";
           docker compose exec -T api env;
-          docker compose exec -T api bash -c /scripts/./start_smoke_test.sh;
+          docker compose exec -T api bash -c /scripts/./start_unit_tests.sh;
