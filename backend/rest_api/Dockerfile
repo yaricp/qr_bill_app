@@ -38,4 +38,3 @@ RUN chmod +x /scripts/*
 
 ENTRYPOINT [ "/bin/bash", "-l", "-c" ]
 
-

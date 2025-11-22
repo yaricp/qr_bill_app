@@ -5,50 +5,101 @@ import pytest
 from src.app.goods import CategoryORM, GoodsCommands, GoodsORM, GoodsQueries
 
 
-@pytest.mark.asyncio
-async def test_get_all_goods_variants():
-    user_id = uuid4()
-    mock_goods = [MagicMock(), MagicMock()]
+class TestGoodsQueries:
 
-    # 1. limit > 0 and offset > 0
-    with patch.object(
-        GoodsORM.query.filter_by(user_id=user_id), "offset"
-    ) as offset_mock:
-        offset_chain = offset_mock.return_value.limit.return_value
-        offset_chain.all.return_value = mock_goods
-        gq = GoodsQueries()
-        result = await gq.get_all_goods(user_id=user_id, offset=1, limit=2)
-        assert result == mock_goods
+    @pytest.mark.asyncio
+    async def test_get_all_goods_no_pagination(self):
+        """Тест без offset и limit"""
+        user_id = uuid4()
+        expected_goods = [MagicMock(), MagicMock()]
+        
+        query_mock = MagicMock()
+        filter_by_mock = MagicMock()
+        filter_by_mock.all.return_value = expected_goods
+        query_mock.filter_by.return_value = filter_by_mock
+        
+        with patch.object(GoodsORM, "query", query_mock):
+            gq = GoodsQueries()
+            result = await gq.get_all_goods(user_id)
 
-    # 2. limit > 0 and offset = 0
-    with patch.object(GoodsORM.query.filter_by(user_id=user_id), "limit") as limit_mock:
-        limit_mock.return_value.all.return_value = mock_goods
-        result = await gq.get_all_goods(user_id=user_id, offset=0, limit=1)
-        assert result == mock_goods
+            query_mock.filter_by.assert_called_once_with(user_id=user_id)
+            filter_by_mock.all.assert_called_once()
+            assert result == expected_goods
 
-    # 3. limit = 0 and offset > 0
-    with patch.object(
-        GoodsORM.query.filter_by(user_id=user_id), "offset"
-    ) as offset_mock2:
-        offset_mock2.return_value.all.return_value = mock_goods
-        result = await gq.get_all_goods(user_id=user_id, offset=1, limit=0)
-        assert result == mock_goods
+    @pytest.mark.asyncio
+    async def test_get_all_goods_with_limit_only(self):
+        """Тест только с limit"""
+        user_id = uuid4()
+        limit = 10
+        expected_goods = [MagicMock() for _ in range(limit)]
+        
+        query_mock = MagicMock()
+        filter_by_mock = MagicMock()
+        limit_mock = MagicMock()
+        limit_mock.all.return_value = expected_goods
+        filter_by_mock.limit.return_value = limit_mock
+        query_mock.filter_by.return_value = filter_by_mock
+        
+        with patch.object(GoodsORM, "query", query_mock):
+            gq = GoodsQueries()
+            result = await gq.get_all_goods(user_id, limit=limit)
+            
+            query_mock.filter_by.assert_called_once_with(user_id=user_id)
+            filter_by_mock.limit.assert_called_once_with(limit)
+            limit_mock.all.assert_called_once()
+            assert result == expected_goods
 
-    # 4. limit = 0 and offset = 0
-    with patch.object(GoodsORM.query.filter_by(user_id=user_id), "all") as all_mock:
-        all_mock.return_value = mock_goods
-        result = await gq.get_all_goods(user_id=user_id, offset=0, limit=0)
-        assert result == mock_goods
+    @pytest.mark.asyncio
+    async def test_get_all_goods_with_offset_only(self):
+        """Тест только с offset"""
+        user_id = uuid4()
+        offset = 5
+        expected_goods = [MagicMock(), MagicMock()]
+        
+        query_mock = MagicMock()
+        filter_by_mock = MagicMock()
+        offset_mock = MagicMock()
+        offset_mock.all.return_value = expected_goods
+        filter_by_mock.offset.return_value = offset_mock
+        query_mock.filter_by.return_value = filter_by_mock
+        
+        with patch.object(GoodsORM, "query", query_mock):
+            gq = GoodsQueries()
+            result = await gq.get_all_goods(user_id, offset=offset)
+            
+            query_mock.filter_by.assert_called_once_with(user_id=user_id)
+            filter_by_mock.offset.assert_called_once_with(offset)
+            offset_mock.all.assert_called_once()
+            assert result == expected_goods
 
+    @pytest.mark.asyncio
+    async def test_get_all_goods_with_limit_and_offset(self):
+        """Тест с offset и limit"""
+        user_id = uuid4()
+        offset = 10
+        limit = 5
+        expected_goods = [MagicMock() for _ in range(limit)]
 
-@pytest.mark.asyncio
-async def test_get_goods():
-    goods_id = uuid4()
-    goods_mock = MagicMock()
-    with patch.object(GoodsORM.query, "get", return_value=goods_mock):
-        gq = GoodsQueries()
-        result = await gq.get_goods(goods_id)
-        assert result == goods_mock
+        query_mock = MagicMock()
+        filter_by_mock = MagicMock()
+        offset_mock = MagicMock()
+        limit_mock = MagicMock()
+        limit_mock.all.return_value = expected_goods
+        offset_mock.limit.return_value = limit_mock
+        filter_by_mock.offset.return_value = offset_mock
+        query_mock.filter_by.return_value = filter_by_mock
+
+        with patch.object(GoodsORM, "query", query_mock):
+            gq = GoodsQueries()
+            result = await gq.get_all_goods(
+                user_id, offset=offset, limit=limit
+            )
+
+            query_mock.filter_by.assert_called_once_with(user_id=user_id)
+            filter_by_mock.offset.assert_called_once_with(offset)
+            offset_mock.limit.assert_called_once_with(limit)
+            limit_mock.all.assert_called_once()
+            assert result == expected_goods
 
 
 @pytest.mark.asyncio
@@ -58,12 +109,6 @@ async def test_list_count_group_by_name_variants():
 
     # first_of > 0 -> limit
     with patch("src.app.goods.db_session.query") as query_mock:
-        chain = (
-            query_mock.return_value.where.return_value.group_by.return_value.order_by.return_value.limit.return_value
-        )
-        chain = chain
-        chain = MagicMock()
-        chain = mock_result
         gq = GoodsQueries()
         with patch("src.app.goods.db_session.query") as q:
             q.return_value.where.return_value.group_by.return_value.order_by.return_value.limit.return_value = (
@@ -122,20 +167,36 @@ async def test_goods_by_name_group_by_sellers():
 async def test_list_uncategorized_goods():
     user_id = uuid4()
     cat_id = uuid4()
+
     goods1 = MagicMock(categories=[])
     goods2 = MagicMock(categories=[MagicMock(id=cat_id)])
-    with patch.object(
-        GoodsORM.query,
-        "filter_by",
-        return_value=MagicMock(all=lambda: [goods1, goods2]),
-    ):
+    goods3 = MagicMock(categories=[MagicMock(id=uuid4())])
+
+    query_mock = MagicMock()
+    filter_by_mock = MagicMock()
+    filter_by_mock.all.return_value = [goods1, goods2, goods3]
+    query_mock.filter_by.return_value = filter_by_mock
+
+    with patch.object(GoodsORM, "query", query_mock):
         gq = GoodsQueries()
-        # cat_id is None
+
         result = await gq.list_uncategorized_goods(user_id=user_id)
-        assert goods1 in result and goods2 not in result
-        # cat_id provided
-        result2 = await gq.list_uncategorized_goods(user_id=user_id, cat_id=cat_id)
-        assert goods1 in result2 and goods2 not in result2
+
+        query_mock.filter_by.assert_called_with(user_id=user_id)
+        assert goods1 in result
+        assert goods2 not in result
+        assert goods3 not in result
+        assert len(result) == 1
+
+        result2 = await gq.list_uncategorized_goods(
+            user_id=user_id, cat_id=cat_id
+        )
+
+        assert query_mock.filter_by.call_count == 2
+        assert goods1 in result2
+        assert goods2 not in result2
+        assert goods3 in result2
+        assert len(result2) == 2
 
 
 @pytest.mark.asyncio
