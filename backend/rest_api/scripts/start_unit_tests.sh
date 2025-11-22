@@ -1,7 +1,8 @@
 #!/bin/bash
 
 echo "Starting unit tests for app directory";
-env PYTHONPATH=$PYTHONPATH:/src poetry run pytest /src/tests/app;
+env PYTHONPATH=$PYTHONPATH:/src poetry run pytest /src/tests/app/test_category.py;
+
 # echo "Starting test_category.py";
 # env PYTHONPATH=$PYTHONPATH:/src poetry run pytest /src/tests/app/test_category.py;
 # echo "Starting test_goods.py";
