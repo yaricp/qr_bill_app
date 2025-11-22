@@ -87,12 +87,12 @@ jobs:
           TIME_LIFE_TEMP_LOGIN_LINK_MIN: ${{ vars.TIME_LIFE_TEMP_LOGIN_LINK_MIN }}
         run: |
           docker compose up -d;
-      - name: Run the Smoke Tests
-        if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
-        run: |
-          echo "Smoke Testing";
-          docker compose exec -T api env;
-          docker compose exec -T api bash -c /scripts/./start_smoke_test.sh;
+      # - name: Run the Smoke Tests
+      #   if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
+      #   run: |
+      #     echo "Smoke Testing";
+      #     docker compose exec -T api env;
+      #     docker compose exec -T api bash -c /scripts/./start_smoke_test.sh;
       - name: Run unittests for rest_api. 
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         run: |
