@@ -97,7 +97,5 @@ jobs:
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         run: |
           echo "Start Unit Tests";
+          docker compose exec -T api env;
           docker compose exec -T api bash -c /scripts/./start_smoke_test.sh;
-          # docker compose exec -T api bash -c start.sh;
-          # docker compose exec -T api env PYTHONPATH=$PYTHONPATH:/src poetry run pytest /src/tests/app;
-          # docker compose exec -T api bash -c scripts/./start_unit_tests.sh;
