@@ -13,11 +13,6 @@ from .entities.seller import (CountBillsByNameSeller, CountGoodsByNameSeller,
                               Seller, SellerCreate, SummBillsByNameSeller)
 from .metrics.analytics import metric_analytics_async
 
-# from ..infra.database.models.seller import Seller as SellerORM
-# from ..infra.database.models.user_product import UserProduct as UserProductORM
-# from ..infra.database.models.bill import Bill as BillORM
-# from ..infra.database.models.goods import Goods as GoodsORM
-
 
 class SellerViews:
 

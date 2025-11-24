@@ -161,10 +161,12 @@ class GoodsCommands:
     async def get_or_create(self, incoming_item: GoodsCreate) -> Goods:
         if incoming_item.fiscal_id:
             goods = await self.get_goods_by_fiscal_id(incoming_item=incoming_item)
+            logger.info(f"goods found by fiscal_id : {goods}")
         else:
             goods = await self.get_goods_by_name_quantity_summ(
                 incoming_item=incoming_item
             )
+            logger.info(f"goods found by name_quantity_summ : {goods}")
 
         if goods:
             return goods

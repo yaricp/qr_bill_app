@@ -3,6 +3,15 @@ from uuid import uuid4
 
 import pytest
 from src.app.goods import CategoryORM, GoodsCommands, GoodsORM, GoodsQueries
+from src.app.entities.goods import GoodsCreate
+
+
+async def fake_mock_result(incoming_item=None):
+    return MagicMock(id=uuid4())
+
+
+async def fake_mock_none(incoming_item=None):
+    return None
 
 
 class TestGoodsQueries:
@@ -103,6 +112,115 @@ class TestGoodsQueries:
 
 
 @pytest.mark.asyncio
+@patch('src.app.goods.logger')
+async def test_get_goods_by_fiscal_id_found(mock_logger):
+    """
+
+    """
+
+    incoming_item = MagicMock()
+    service_instance = GoodsCommands()
+    mock_found_goods = MagicMock() 
+    mock_query_filter = MagicMock()
+    mock_query_filter.first.return_value = mock_found_goods
+    mock_query = MagicMock()
+    mock_query.filter.return_value = mock_query_filter
+
+    with patch.object(GoodsORM, "query", mock_query):
+        result = await service_instance.get_goods_by_fiscal_id(incoming_item)
+        assert result is mock_found_goods 
+        mock_query.filter.assert_called_once()
+        mock_query_filter.first.assert_called_once()
+        mock_logger.info.assert_called_with(f"goods: {mock_found_goods}")
+
+    mock_query_filter_empty = MagicMock()
+    mock_query_filter_empty.first.return_value = None
+    mock_query_empty = MagicMock()
+    mock_query_empty.filter.return_value = mock_query_filter_empty
+
+    with patch.object(GoodsORM, "query", mock_query_empty):
+        result = await service_instance.get_goods_by_fiscal_id(incoming_item)
+        assert result is None
+        mock_query_empty.filter.assert_called_once()
+        mock_query_filter_empty.first.assert_called_once()
+        mock_logger.info.assert_called_with("goods: None")
+
+
+@pytest.mark.asyncio
+@patch('src.app.goods.logger')
+async def test_get_goods_by_name_quantity_summ(mock_logger):
+    """
+
+    """
+
+    incoming_item = MagicMock()
+    service_instance = GoodsCommands()
+    mock_found_goods = MagicMock() 
+    mock_query_filter = MagicMock()
+    mock_query_filter.first.return_value = mock_found_goods
+    mock_query = MagicMock()
+    mock_query.filter.return_value = mock_query_filter
+
+    with patch.object(GoodsORM, "query", mock_query):
+        result = await service_instance.get_goods_by_name_quantity_summ(incoming_item)
+        assert result is mock_found_goods 
+        mock_query.filter.assert_called_once()
+        mock_query_filter.first.assert_called_once()
+        mock_logger.info.assert_called_with(f"goods: {mock_found_goods}")
+
+    mock_query_filter_empty = MagicMock()
+    mock_query_filter_empty.first.return_value = None
+    mock_query_empty = MagicMock()
+    mock_query_empty.filter.return_value = mock_query_filter_empty
+
+    with patch.object(GoodsORM, "query", mock_query_empty):
+        result = await service_instance.get_goods_by_name_quantity_summ(incoming_item)
+        assert result is None
+        mock_query_empty.filter.assert_called_once()
+        mock_query_filter_empty.first.assert_called_once()
+        mock_logger.info.assert_called_with("goods: None")
+
+
+@pytest.mark.asyncio
+@patch('src.app.goods.logger')
+async def test_get_by_name_bill_id_with_empty_fiscal_id(mock_logger):
+    """
+
+    """
+
+    incoming_item = MagicMock()
+    service_instance = GoodsCommands()
+    mock_found_goods = MagicMock() 
+    mock_query_filter = MagicMock()
+    mock_query_filter.first.return_value = mock_found_goods
+    mock_query = MagicMock()
+    mock_query.filter.return_value = mock_query_filter
+
+    with patch.object(GoodsORM, "query", mock_query):
+        result = await service_instance.get_by_name_bill_id_with_empty_fiscal_id(
+            incoming_item
+        )
+        assert result is mock_found_goods 
+        mock_query.filter.assert_called_once()
+        mock_query_filter.first.assert_called_once()
+        mock_logger.info.assert_called_with(f"goods: {mock_found_goods}")
+
+    mock_query_filter_empty = MagicMock()
+    mock_query_filter_empty.first.return_value = None
+    mock_query_empty = MagicMock()
+    mock_query_empty.filter.return_value = mock_query_filter_empty
+
+    with patch.object(GoodsORM, "query", mock_query_empty):
+        result = await service_instance.get_by_name_bill_id_with_empty_fiscal_id(
+            incoming_item
+        )
+        assert result is None
+        mock_query_empty.filter.assert_called_once()
+        mock_query_filter_empty.first.assert_called_once()
+        mock_logger.info.assert_called_with("goods: None")
+
+
+@pytest.mark.asyncio
 async def test_list_count_group_by_name_variants():
     user_id = uuid4()
     mock_result = [("item1", 5)]
@@ -200,99 +318,284 @@ async def test_list_uncategorized_goods():
 
 
 @pytest.mark.asyncio
-async def test_get_or_create_goods_commands_branches():
+@patch('src.app.goods.logger')
+async def test_get_or_create_goods_commands_branches(mock_logger):
     gcmd = GoodsCommands()
-    incoming_item = MagicMock(fiscal_id="123")
-    goods_mock = MagicMock()
+    incoming_item = MagicMock(fiscal_id=123)
+
     # branch 1: fiscal_id exists
-    gcmd.get_goods_by_fiscal_id = lambda x: goods_mock
-    result = await gcmd.get_or_create(incoming_item)
-    assert result == goods_mock
+    gcmd.get_goods_by_fiscal_id = fake_mock_result
+    result1 = await gcmd.get_or_create(incoming_item)
+    assert result1
+    mock_logger.info.assert_called_with(f"goods found by fiscal_id : {result1}")
 
     # branch 2: no fiscal_id, found by name/quantity/summ
     incoming_item.fiscal_id = None
-    gcmd.get_goods_by_fiscal_id = lambda x: None
-    gcmd.get_goods_by_name_quantity_summ = lambda x: goods_mock
-    gcmd.get_by_name_bill_id_with_empty_fiscal_id = lambda x: None
-    gcmd.create_goods = lambda x: MagicMock()
-    result = await gcmd.get_or_create(incoming_item)
-    assert result == goods_mock
+    gcmd.get_goods_by_name_quantity_summ = fake_mock_result
+    result2 = await gcmd.get_or_create(incoming_item)
+    assert result2
+    mock_logger.info.assert_called_with(
+        f"goods found by name_quantity_summ : {result2}"
+    )
 
-    # branch 3: not found, create new
-    gcmd.get_goods_by_fiscal_id = lambda x: None
-    gcmd.get_goods_by_name_quantity_summ = lambda x: None
-    gcmd.get_by_name_bill_id_with_empty_fiscal_id = lambda x: None
-    new_goods = MagicMock()
-    gcmd.create_goods = lambda x: new_goods
-    result = await gcmd.get_or_create(incoming_item)
-    assert result == new_goods
+    # branch 3: found by name_bill_id_with_empty_fiscal_id, update
+    gcmd.get_goods_by_fiscal_id = fake_mock_none
+    gcmd.get_goods_by_name_quantity_summ = fake_mock_none
+    gcmd.get_by_name_bill_id_with_empty_fiscal_id = fake_mock_result
+    gcmd.update_goods = fake_mock_result
+    incoming_item = MagicMock(fiscal_id=123)
+    result3 = await gcmd.get_or_create(incoming_item)
+    assert result3
+    mock_logger.info.assert_called_with(f"updated : {result3}")
+
+    # branch 4: not found, create new
+    gcmd.get_goods_by_fiscal_id = fake_mock_none
+    gcmd.get_goods_by_name_quantity_summ = fake_mock_none
+    gcmd.get_by_name_bill_id_with_empty_fiscal_id = fake_mock_none
+    gcmd.create_goods = fake_mock_result
+    incoming_item.fiscal_id = None
+    result4 = await gcmd.get_or_create(incoming_item)
+    assert result4
+    mock_logger.info.assert_called_with(f"Create a new goods : {incoming_item}!")
 
 
 @pytest.mark.asyncio
-async def test_create_update_goods_commands():
+async def test_create_goods_commands():
     gcmd = GoodsCommands()
+    test_data = {"name": "Banana", "price": 100}
     incoming_item = MagicMock()
-    with patch("src.app.goods.db_session.add") as add_mock, patch(
-        "src.app.goods.db_session.commit"
-    ) as commit_mock:
-        # create_goods
+    incoming_item.dict.return_value = test_data
+    created_goods_mock = MagicMock()
+    with patch("src.app.goods.GoodsORM") as MockGoodsORMClass, \
+         patch("src.app.goods.db_session.add") as add_mock, \
+         patch("src.app.goods.db_session.commit") as commit_mock:
+
+        MockGoodsORMClass.return_value = created_goods_mock
+
         result = await gcmd.create_goods(incoming_item)
-        add_mock.assert_called()
-        commit_mock.assert_called()
-        # update_goods
+
+        MockGoodsORMClass.assert_called_once_with(**test_data)
+        add_mock.assert_called_once_with(created_goods_mock)
+        commit_mock.assert_called_once()
+        assert result == created_goods_mock
+
+
+@pytest.mark.asyncio
+async def test_update_goods_commands():
+    gcmd = GoodsCommands()
+    test_data = {"name": "Banana", "price": 100}
+    incoming_item = MagicMock()
+    incoming_item.dict.return_value = test_data
+    goods_query_mock = MagicMock()
+    goods_query_mock.get.return_value = MagicMock()
+    with patch.object(GoodsORM, "query", goods_query_mock), \
+         patch("src.app.goods.db_session.commit") as commit_mock:
+
+        result = await gcmd.update_goods(incoming_item)
+
+        goods_query_mock.get.assert_called_once_with(incoming_item.id)
+        commit_mock.assert_called_once()
+        assert result == goods_query_mock.get.return_value
+
+
+class TestUpdateGoodsCategories:
+
+    @pytest.mark.asyncio
+    async def test_update_goods_categories_success(self):
+        """Тест успешного обновления категорий товара"""
+        gcmd = GoodsCommands()
+        goods_id = uuid4()
+        cat_id = uuid4()
+
+        old_cat = MagicMock()
         goods_mock = MagicMock()
-        with patch.object(GoodsORM.query, "get", return_value=goods_mock):
-            result2 = await gcmd.update_goods(incoming_item)
-            assert goods_mock == result2
+
+        categories_mock = MagicMock(spec=set)
+        categories_mock.__iter__ = MagicMock(return_value=iter([old_cat]))
+        goods_mock.categories = categories_mock
+        new_cat_mock = MagicMock()
+
+        goods_query_mock = MagicMock()
+        goods_query_mock.get.return_value = goods_mock
+
+        category_query_mock = MagicMock()
+        category_query_mock.get.return_value = new_cat_mock
+
+        with patch.object(GoodsORM, "query", goods_query_mock), \
+             patch.object(CategoryORM, "query", category_query_mock), \
+             patch("src.app.goods.db_session.add") as mock_add, \
+             patch("src.app.goods.db_session.commit") as mock_commit:
+
+            result = await gcmd.update_goods_categories(
+                goods_id=goods_id, 
+                goods_data=[MagicMock(cat_id=cat_id)]
+            )
+
+            assert result is True
+            goods_query_mock.get.assert_called_once_with(goods_id)
+            category_query_mock.get.assert_called_once_with(cat_id)
+            categories_mock.remove.assert_called_once_with(old_cat)
+            categories_mock.add.assert_called_once_with(new_cat_mock)
+            mock_add.assert_called_once_with(goods_mock)
+            mock_commit.assert_called_once()
+
+    @pytest.mark.asyncio
+    async def test_update_goods_categories_fail_on_commit(self):
+        """Тест: ошибка при сохранении в БД"""
+        gcmd = GoodsCommands()
+        goods_id = uuid4()
+        cat_id = uuid4()
+
+        categories_mock = MagicMock(spec=set)
+        categories_mock.__iter__ = MagicMock(return_value=iter([]))
+        
+        goods_mock = MagicMock()
+        goods_mock.categories = categories_mock
+        cat_mock = MagicMock()
+
+        goods_query_mock = MagicMock()
+        goods_query_mock.get.return_value = goods_mock
+
+        category_query_mock = MagicMock()
+        category_query_mock.get.return_value = cat_mock
+
+        with patch.object(GoodsORM, "query", goods_query_mock), \
+             patch.object(CategoryORM, "query", category_query_mock), \
+             patch("src.app.goods.db_session.add") as mock_add, \
+             patch("src.app.goods.db_session.commit", side_effect=Exception("DB Error")):
+
+            result = await gcmd.update_goods_categories(
+                goods_id=goods_id, 
+                goods_data=[MagicMock(cat_id=cat_id)]
+            )
+
+            assert result is False
+            mock_add.assert_called_once_with(goods_mock)
+
+    @pytest.mark.asyncio
+    async def test_update_goods_categories_multiple_categories(self):
+        """Тест: обновление нескольких категорий"""
+        gcmd = GoodsCommands()
+        goods_id = uuid4()
+        cat_id1 = uuid4()
+        cat_id2 = uuid4()
+
+        old_cat1 = MagicMock()
+        old_cat2 = MagicMock()
+
+        categories_mock = MagicMock(spec=set)
+        categories_mock.__iter__ = MagicMock(
+            return_value=iter([old_cat1, old_cat2])
+        )
+
+        goods_mock = MagicMock()
+        goods_mock.categories = categories_mock
+
+        new_cat1_mock = MagicMock()
+        new_cat2_mock = MagicMock()
+
+        goods_query_mock = MagicMock()
+        goods_query_mock.get.return_value = goods_mock
+
+        category_query_mock = MagicMock()
+        category_query_mock.get.side_effect = [new_cat1_mock, new_cat2_mock]
+
+        with patch.object(GoodsORM, "query", goods_query_mock), \
+             patch.object(CategoryORM, "query", category_query_mock), \
+             patch("src.app.goods.db_session.add") as mock_add, \
+             patch("src.app.goods.db_session.commit") as mock_commit:
+
+            result = await gcmd.update_goods_categories(
+                goods_id=goods_id,
+                goods_data=[
+                    MagicMock(cat_id=cat_id1),
+                    MagicMock(cat_id=cat_id2)
+                ]
+            )
+
+            assert result is True
+            assert categories_mock.remove.call_count == 2
+            categories_mock.remove.assert_any_call(old_cat1)
+            categories_mock.remove.assert_any_call(old_cat2)
+            assert categories_mock.add.call_count == 2
+            categories_mock.add.assert_any_call(new_cat1_mock)
+            categories_mock.add.assert_any_call(new_cat2_mock)
+            mock_add.assert_called_once_with(goods_mock)
+            mock_commit.assert_called_once()
+
+    @pytest.mark.asyncio
+    async def test_update_goods_categories_empty_categories(self):
+        """Тест: удаление всех категорий (пустой список)"""
+        gcmd = GoodsCommands()
+        goods_id = uuid4()
+        old_cat = MagicMock()
+
+        categories_mock = MagicMock(spec=set)
+        categories_mock.__iter__ = MagicMock(return_value=iter([old_cat]))
+        goods_mock = MagicMock()
+        goods_mock.categories = categories_mock
+        goods_query_mock = MagicMock()
+        goods_query_mock.get.return_value = goods_mock
+
+        with patch.object(GoodsORM, "query", goods_query_mock), \
+             patch("src.app.goods.db_session.add") as mock_add, \
+             patch("src.app.goods.db_session.commit") as mock_commit:
+
+            result = await gcmd.update_goods_categories(
+                goods_id=goods_id,
+                goods_data=[]  # Пустой список - удаляем все категории
+            )
+
+            assert result is True
+            categories_mock.remove.assert_called_once_with(old_cat)
+            categories_mock.add.assert_not_called()
+            mock_add.assert_called_once_with(goods_mock)
+            mock_commit.assert_called_once()
 
 
 @pytest.mark.asyncio
-async def test_update_goods_categories_success_and_fail():
+async def test_save_categorized_goods_success():
     gcmd = GoodsCommands()
-    goods_mock = MagicMock(categories=set())
-    cat_mock = MagicMock()
-    with patch.object(GoodsORM.query, "get", return_value=goods_mock), patch.object(
-        CategoryORM, "query", MagicMock(get=lambda x: cat_mock)
-    ), patch("src.app.goods.db_session.add"), patch("src.app.goods.db_session.commit"):
-        result = await gcmd.update_goods_categories(
-            goods_id=uuid4(), goods_data=[MagicMock(cat_id=uuid4())]
-        )
-        assert result is True
 
-    with patch.object(GoodsORM.query, "get", return_value=goods_mock), patch.object(
-        CategoryORM, "query", MagicMock(get=lambda x: cat_mock)
-    ), patch("src.app.goods.db_session.add", side_effect=Exception), patch(
-        "src.app.goods.db_session.commit", side_effect=Exception
-    ):
-        result2 = await gcmd.update_goods_categories(
-            goods_id=uuid4(), goods_data=[MagicMock(cat_id=uuid4())]
-        )
-        assert result2 is False
+    goods_id = uuid4()
+    cat_id = uuid4()
+    data = [MagicMock(goods_id=goods_id, cat_id=cat_id)]
 
+    mock_goods = MagicMock()
+    mock_goods.categories = MagicMock() # Чтобы отследить .add()
 
-@pytest.mark.asyncio
-async def test_save_categorized_goods_success_and_fail():
-    gcmd = GoodsCommands()
-    goods_mock = MagicMock(categories=set())
-    cat_mock = MagicMock()
-    data = [MagicMock(goods_id=uuid4(), cat_id=uuid4())]
+    mock_cat = MagicMock()
 
-    with patch.object(GoodsORM.query, "get", return_value=goods_mock), patch.object(
-        CategoryORM, "query", MagicMock(get=lambda x: cat_mock)
-    ), patch("src.app.goods.db_session.commit"):
+    query_mock = MagicMock()
+
+    def get_side_effect(uid):
+        if uid == goods_id:
+            return mock_goods
+        if uid == cat_id:
+            return mock_cat
+        return None
+
+    query_mock.get.side_effect = get_side_effect
+
+    with patch.object(GoodsORM, "query", query_mock), \
+         patch.object(CategoryORM, "query", query_mock), \
+         patch("src.app.goods.db_session.commit") as mock_commit:
+
         result = await gcmd.save_categorized_goods(data)
+
         assert result is True
 
-    with patch.object(GoodsORM.query, "get", side_effect=Exception):
-        result2 = await gcmd.save_categorized_goods(data)
-        assert result2 is False
+        mock_goods.categories.add.assert_called_with(mock_cat)
+        mock_commit.assert_called_once()
 
 
 @pytest.mark.asyncio
 async def test_strip_all_names_calls_update_goods():
     gcmd = GoodsCommands()
     goods_list = [MagicMock(id=uuid4(), name="  item  ")]
-    with patch.object(GoodsORM.query, "all", return_value=goods_list), patch.object(
+    with patch.object(
+        GoodsORM.query, "all", return_value=goods_list
+    ), patch.object(
         GoodsCommands, "update_goods", return_value=MagicMock()
     ):
         result = await gcmd.strip_all_names()
