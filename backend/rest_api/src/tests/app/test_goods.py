@@ -3,7 +3,7 @@ from uuid import uuid4
 
 import pytest
 from src.app.goods import CategoryORM, GoodsCommands, GoodsORM, GoodsQueries
-from src.app.entities.goods import GoodsCreate
+# from src.app.entities.goods import GoodsCreate
 
 
 async def fake_mock_result(incoming_item=None):

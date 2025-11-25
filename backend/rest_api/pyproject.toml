@@ -27,6 +27,8 @@ jinja2 = "^3.1.5"
 pytelegrambotapi = "^4.26.0"
 mailersend = "^0.5.8"
 prometheus-client = "^0.22.1"
+fastapi-cache2 = "^0.2.2"
+redis = "^7.1.0"
 
 
 [tool.poetry.group.test.dependencies]

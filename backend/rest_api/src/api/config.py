@@ -34,8 +34,16 @@ class AppConfig(BaseSettings):
     REST_API_LOGIN_LINK_URI: str
 
 
+class RedisConfig(BaseSettings):
+    REDIS_HOST: str
+    REDIS_PORT: int
+    REDIS_DB: int
+    REDIS_PASSWORD: str | None = None
+
+
 cors_config: CORSConfig = CORSConfig()
 security_config: SecurityConfig = SecurityConfig()
 user_login_config: UserLoginConfig = UserLoginConfig()
 metric_config: MetricsConfig = MetricsConfig()
 app_config: AppConfig = AppConfig()
+redis_config: RedisConfig = RedisConfig()
