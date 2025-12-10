@@ -113,4 +113,3 @@ docker run -p 80:80 qr-bill-frontend
 ## License
 
 The frontend is part of the QR Bill App and is distributed under the MIT License.
-

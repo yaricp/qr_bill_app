@@ -16,7 +16,7 @@ sed 's/import grpc_pb2/from . import grpc_pb2/g' /src/infra/grpc_server/grpc_pb2
 
 echo "Migrations"
 
-poetry run alembic revision --autogenerate -m 'init'
+# poetry run alembic revision --autogenerate -m 'init'
 poetry run alembic upgrade head
 
 echo "Start GRPC Server"

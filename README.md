@@ -1,59 +1,31 @@
 # QR Bill App
 
-**QR Bill App** is a personal project and a fully functional example of an expense tracking application built from scratch. It demonstrates a practical implementation of modern web technologies, backend development, and data analytics in a compact and user-friendly interface.
+This project is a full-stack application for generating and managing bills with QR codes. It consists of a FastAPI backend, a web-based frontend, and all the necessary configurations for deployment.
 
-## Project Idea
+## Table of Contents
 
-The main goal of **QR Bill App** is to provide a simple, secure, and efficient way to track expenses using QR codes from bills and receipts. It is designed as a personal finance tool that helps users categorize and analyze their spending habits while keeping all data private.
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Backend](/files/Projects/qr_bill_app/backend/README.md)
+- [Frontend](/files/Projects/qr_bill_app/frontend/README.md)
+- [Deployment](/files/Projects/qr_bill_app/deployment/README.md)
 
-Key principles of the project:  
-- **Privacy-first:** No mandatory registration, optional account recovery, no third-party data sharing.  
-- **Automation:** Automatic categorization of recurring items to reduce manual input.  
-- **Insightful Analytics:** Charts and statistics for expenses, quantities, price changes, and vendor analysis.  
-- **Cross-platform:** Works as a Progressive Web App and integrates with a Telegram bot for convenient data input.  
+## Project Structure
 
-## Features
+The project is organized into the following directories:
 
-- Scan QR codes on receipts and bills for instant data entry.  
-- Create and manage categories, vendors, and purchases.  
-- Automatic categorization of previously entered items.  
-- Analytics and reports:  
-  - Expenses by category, vendor, and product  
-  - Quantity tracking (units, kg, kWh, etc.)  
-  - Price change trends for selected items  
-- Lists with sorting and filtering: receipts, purchases, vendors, and categories.  
-- Telegram bot integration for submitting receipts via images or QR codes.  
-- Multi-language support (English, Russian, local language).  
-- Fully anonymous use, with optional account linking for data recovery.  
-
-## Tech Stack
-
-- **Frontend:** Vue.js + Nginx (PWA support)  
-- **Backend:** FastAPI (Python)  
-- **Database:** PostgreSQL  
-- **Communication:** gRPC between Telegram bot and API  
-- **Containerization:** Docker (for all services)  
-- **Deployment:** Can be deployed locally, in Docker Compose, or Kubernetes  
-- **Other:** Telegram Bot for easy receipt input  
-
-## Purpose
-
-This project serves as a **demonstration of full-stack application development** including:  
-- Backend and API design  
-- Frontend UI/UX implementation  
-- Database modeling and analytics  
-- Secure handling of sensitive data  
-- Integration with third-party messaging services (Telegram)  
-- Containerized deployment and task automation  
-
-It is intended as a showcase for developers, employers, or anyone interested in seeing a real-life example of a personal finance application built from scratch.
+- **backend:** Contains the FastAPI application, including the API, database models, and business logic.
+- **frontend:** Contains the web-based frontend, built with a modern JavaScript framework.
+- **deployment:** Contains Docker files and other configurations for deploying the application.
+- **scripts:** Contains various scripts for managing the project, such as database migrations and tests.
+- **email_templates:** Contains templates for emails sent by the application.
+- **openapi:** Contains the OpenAPI specification for the backend API.
+- **ubuntu_system:** Contains system-level configurations for the Ubuntu server.
 
 ## Getting Started
 
-1. Clone the repository:  
-   ```bash
-   git clone https://github.com/yourusername/qr_bill_app.git
-   ```
-2. Install dependencies and configure environment variables (see `.env.example`).  
-3. Run with Docker Compose or deploy to Kubernetes for full functionality.
+To get started with the project, you'll need to have Docker and Docker Compose installed. Then, you can run the following command to start the application:
 
+`docker-compose up -d`
+
+This will start the backend, frontend, and all the necessary services. You can then access the frontend at `http://localhost:3000` and the backend at `http://localhost:8000`.
