@@ -5,6 +5,11 @@
 *.py[cod]
 # **secret.yaml
 
+backend/rest_api/src/infra/grpc_server/grpc_pb2_grpc.py
+backend/rest_api/src/infra/grpc_server/grpc_pb2_grpc.py.orig
+backend/tg_bot/app/grpc_client/grpc_pb2_grpc.py
+backend/tg_bot/app/grpc_client/grpc_pb2_grpc.py.orig
+
 # C extensions
 *.so
 src/*.txt

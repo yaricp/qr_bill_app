@@ -73,7 +73,7 @@ Contains `.proto` files and generated Python stubs for inter-service communicati
 
 Clone the repository and set up your environment:
 ```bash
-git clone https://github.com/yourusername/qr_bill_app.git
+git clone https://github.com/yaricp/qr_bill_app.git
 cd qr_bill_app/backend
 ```
 
@@ -98,9 +98,3 @@ Run tests from the root of the corresponding folder:
 ```bash
 pytest
 ```
-
----
-
-## 📄 License
-
-All backend components are part of the **QR Bill App** project and are distributed under the **MIT License**.
