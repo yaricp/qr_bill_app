@@ -1,21 +1,31 @@
-# QR Bill Application
+# QR Bill App
 
-This repository contains the full-stack QR Bill application, comprising a backend (FastAPI REST API and Telegram Bot), a frontend (Vue.js), and comprehensive deployment configurations.
+This project is a full-stack application for generating and managing bills with QR codes. It consists of a FastAPI backend, a web-based frontend, and all the necessary configurations for deployment.
+
+## Table of Contents
+
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Backend](/files/Projects/qr_bill_app/backend/README.md)
+- [Frontend](/files/Projects/qr_bill_app/frontend/README.md)
+- [Deployment](/files/Projects/qr_bill_app/deployment/README.md)
 
 ## Project Structure
 
-- [**backend/**](/files/Projects/qr_bill_app/backend/README.md): Contains all backend services, including the REST API and the Telegram bot.
-- [**deployment/**](/files/Projects/qr_bill_app/deployment/README.md): Houses all deployment-related configurations for Docker, Helm, and Kubernetes.
-- [**email_templates/**](/files/Projects/qr_bill_app/email_templates/README.md): Stores HTML templates used for sending emails.
-- [**frontend/**](/files/Projects/qr_bill_app/frontend/README.md): Contains the user-facing web application developed with Vue.js.
-- [**openapi/**](/files/Projects/qr_bill_app/openapi/README.md): Defines the OpenAPI (Swagger) specifications for the REST API.
-- [**scripts/**](/files/Projects/qr_bill_app/scripts/README.md): Various utility scripts for development, testing, and other operations.
-- [**ubuntu_system/**](/files/Projects/qr_bill_app/ubuntu_system/README.md): Contains system-level configurations specifically for Ubuntu environments.
+The project is organized into the following directories:
+
+- **backend:** Contains the FastAPI application, including the API, database models, and business logic.
+- **frontend:** Contains the web-based frontend, built with a modern JavaScript framework.
+- **deployment:** Contains Docker files and other configurations for deploying the application.
+- **scripts:** Contains various scripts for managing the project, such as database migrations and tests.
+- **email_templates:** Contains templates for emails sent by the application.
+- **openapi:** Contains the OpenAPI specification for the backend API.
+- **ubuntu_system:** Contains system-level configurations for the Ubuntu server.
 
 ## Getting Started
 
-Detailed instructions for setting up and running the application can be found in the respective component READMEs.
+To get started with the project, you'll need to have Docker and Docker Compose installed. Then, you can run the following command to start the application:
 
-## Contributing
+`docker-compose up -d`
 
-Please refer to the contributing guidelines for how to contribute to this project.
+This will start the backend, frontend, and all the necessary services. You can then access the frontend at `http://localhost:3000` and the backend at `http://localhost:8000`.
