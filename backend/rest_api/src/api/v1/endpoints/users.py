@@ -2,10 +2,12 @@ from datetime import timedelta
 from hashlib import sha256
 from typing import List
 from uuid import UUID
+from loguru import logger
 
 from fastapi import BackgroundTasks, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi_login.exceptions import InvalidCredentialsException
+from fastapi_cache.decorator import cache
 from src.api import app, manager
 from src.api.config import app_config, user_login_config
 from src.api.v1.schemas.user import LoginLinkData, User, UserCreate, UserUpdate
@@ -168,13 +170,15 @@ async def create_login_password_route(
 @app.get(
     app_config.REST_API_PREFIX + "/users/", tags=["Users"], response_model=List[User]
 )
+@cache(expire=60)
 async def read_users_route(user=Depends(manager)) -> List[User]:
     """Endpoint for retrieving users"""
     users: List[User] = []
     if user.is_admin:
+        logger.info("Admin access - get all users")
         users = await get_all_users()
     return users
-
+ 
 
 @app.get(app_config.REST_API_PREFIX + "/user/", tags=["Users"], response_model=User)
 async def read_user_profile_route(user=Depends(manager)) -> User:

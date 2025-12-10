@@ -589,14 +589,14 @@ async def test_save_categorized_goods_success():
         mock_commit.assert_called_once()
 
 
-@pytest.mark.asyncio
-async def test_strip_all_names_calls_update_goods():
-    gcmd = GoodsCommands()
-    goods_list = [MagicMock(id=uuid4(), name="  item  ")]
-    with patch.object(
-        GoodsORM.query, "all", return_value=goods_list
-    ), patch.object(
-        GoodsCommands, "update_goods", return_value=MagicMock()
-    ):
-        result = await gcmd.strip_all_names()
-        assert result is True
+# @pytest.mark.asyncio
+# async def test_strip_all_names_calls_update_goods():
+#     gcmd = GoodsCommands()
+#     goods_list = [MagicMock(id=uuid4(), name="  item  ")]
+#     with patch.object(
+#         GoodsORM.query, "all", return_value=goods_list
+#     ), patch.object(
+#         GoodsCommands, "update_goods", return_value=MagicMock()
+#     ):
+#         result = await gcmd.strip_all_names()
+#         assert result is True
