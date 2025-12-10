@@ -6,9 +6,9 @@ This project is a full-stack application for generating and managing bills with 
 
 - [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
-- [Backend](/files/Projects/qr_bill_app/backend/README.md)
-- [Frontend](/files/Projects/qr_bill_app/frontend/README.md)
-- [Deployment](/files/Projects/qr_bill_app/deployment/README.md)
+- [Backend](backend/README.md)
+- [Frontend](frontend/README.md)
+- [Deployment](deployment/README.md)
 
 ## Project Structure
 
