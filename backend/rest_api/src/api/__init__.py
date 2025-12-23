@@ -1,3 +1,4 @@
+# import httpx
 from collections.abc import AsyncIterator
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -8,12 +9,10 @@ from fastapi.routing import APIRoute
 from fastapi_login import LoginManager
 
 from fastapi_cache import FastAPICache
-from fastapi_cache.backends.redis  import RedisBackend
+from fastapi_cache.backends.redis import RedisBackend
 from redis import asyncio as aioredis
 
-from src.api.config import (
-    app_config, cors_config, security_config, cache_config
-)
+from src.api.config import app_config, cors_config, security_config, cache_config
 from src.api.redis import redis_client, QRRedisBackend
 from src.api.middleware.prometheus_metrics import prometheus_middleware
 from src.api.v1.services.metrics import metrics_app
@@ -21,11 +20,14 @@ from src.api.v1.services.metrics import metrics_app
 
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
-    FastAPICache.init(
-        RedisBackend(redis_client),
-        prefix=cache_config.prefix
-    )
+    FastAPICache.init(RedisBackend(redis_client), prefix=cache_config.prefix)
+    # app.state.http_client = httpx.AsyncClient(
+    #     timeout=30.0,
+    #     limits=httpx.Limits(max_keepalive_connections=5, max_connections=10)
+    # )
     yield
+
+    # await app.state.http_client.aclose()
 
 
 app = FastAPI(lifespan=lifespan)
@@ -51,7 +53,15 @@ manager = LoginManager(
 )
 
 from src.api.v1.endpoints import goods  # noqa: F401, F402, E402
-from src.api.v1.endpoints import (bills, categories, login_links, metrics,
-                                  product, sellers, units, users)
+from src.api.v1.endpoints import (
+    bills,
+    categories,
+    login_links,
+    metrics,
+    product,
+    sellers,
+    units,
+    users,
+)  # noqa: F401, F402, E402
 
 app.mount("/metrics", metrics_app)

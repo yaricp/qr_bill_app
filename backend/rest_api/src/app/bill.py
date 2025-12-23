@@ -1,5 +1,6 @@
 import json
 import time
+import httpx
 from datetime import datetime
 from decimal import Decimal
 from typing import List
@@ -11,8 +12,10 @@ from sqlalchemy.sql import func, text
 from src.infra.database import db_session
 from src.infra.database.models import Bill as BillORM
 from src.infra.database.models import Goods as GoodsORM
-from src.utils import (get_fisrt_day_month_by_delta_month,
-                       get_last_day_of_month_by_datetime)
+from src.utils import (
+    get_fisrt_day_month_by_delta_month,
+    get_last_day_of_month_by_datetime,
+)
 
 from .config import bill_config
 from .entities.bill import Bill, BillCreate, BillCreateByURL
@@ -22,9 +25,13 @@ from .entities.seller import SellerCreate
 from .entities.unit import UnitCreate
 from .entities.user_product import UncategorizedUserProduct
 from .goods import GoodsCommands
-from .metrics.operations import (metric_bill_processing_time,
-                                 metric_call_external_api, metric_created_bill,
-                                 metric_processed_bill, metric_validated_bill)
+from .metrics.operations import (
+    metric_bill_processing_time,
+    metric_call_external_api,
+    metric_created_bill,
+    metric_processed_bill,
+    metric_validated_bill,
+)
 from .product import ProductCommands
 from .seller import SellerCommands
 from .unit import UnitCommands, UnitQueries
@@ -163,6 +170,12 @@ class BillQueries:
 class BillCommands:
 
     def __init__(self):
+        """
+        Docstring for __init__
+        :param self: Description
+        :param http_client: Description
+        :type http_client: httpx.AsyncClient
+        """
         self.params = {}
         self.url_patterns = ["?", "#", "mapr.tax.gov.me", "ic", "verify?"]
         self.referer_fiscal_service_url = (
@@ -359,7 +372,15 @@ class BillCommands:
         logger.info(f"headers: {headers}")
         start_time = time.time()
         try:
-            result = post(url=self.fiscal_service_api_url, headers=headers, data=params)
+            # result = post(url=self.fiscal_service_api_url,
+            # headers=headers, data=params)
+            async with httpx.AsyncClient() as client:
+                result = await client.post(
+                    self.fiscal_service_api_url,
+                    headers=headers,
+                    data=params,
+                    timeout=10.0,
+                )
         except Exception as e:
             metric_processed_bill("failure")
             logger.error(f"Exception: {e}")

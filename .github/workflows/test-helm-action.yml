@@ -3,7 +3,7 @@ name: Build and Deploy qr_bill_app using Helm
 on:
   push:
     branches:
-      - dev123
+      - dev
 
 env:
   NAMESPACE: qr_bill_app-test
@@ -11,7 +11,7 @@ env:
   BASE_NAME_IMAGE_API: ${{ vars.NAME_IMAGE_API }}
   BASE_NAME_IMAGE_FRONTEND: ${{ vars.NAME_IMAGE_FRONTEND }}
   BASE_NAME_IMAGE_TELEGRAM_BOT: ${{ vars.NAME_IMAGE_TELEGRAM_BOT }}
-     
+
 jobs:
   build:
     name: Build Docker Images
@@ -52,7 +52,7 @@ jobs:
         run: |
           OUTPUT=$( git diff HEAD\^ HEAD -- frontend | tail -1) &&
           echo "::set-output name=OUTPUT::$OUTPUT"
-      - name: Build and rest_api image. 
+      - name: Build and rest_api image.
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         env:
           NAME_IMAGE_API: ${{ env.NEW_NAME_IMAGE_API }}
@@ -124,7 +124,7 @@ jobs:
           echo "Smoke Testing";
           docker compose run --rm -T api poetry run pytest /src/tests/api/smoke_tests;
           # docker compose down;
-      - name: Run unittests for rest_api. 
+      - name: Run unittests for rest_api.
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         env:
           DEBUG: ${{ vars.DEBUG }}
@@ -254,7 +254,7 @@ jobs:
           ls -la backend/tg_bot/grpc_proto;
           docker compose build tg;
           docker compose push tg;
-      - name: Build and push image front 
+      - name: Build and push image front
         if: ${{ (steps.frontend_changes.outputs.OUTPUT != '') }}
         env:
           NAME_IMAGE_FRONTEND: ${{ env.NEW_NAME_IMAGE_FRONTEND }}
@@ -337,7 +337,7 @@ jobs:
           IMAGE_FRONTEND=$(kubectl get configmap $MAIN_CONF_NAME -n $NAMESPACE -o jsonpath='{.data.frontend_image}');
           echo "NAME_IMAGE_FRONTEND=$IMAGE_FRONTEND" >> $GITHUB_ENV;
           IMAGE_TELEGRAM_BOT=$(kubectl get configmap $MAIN_CONF_NAME -n $NAMESPACE -o jsonpath='{.data.tgBot_image}');
-          echo "NAME_IMAGE_TELEGRAM_BOT=$IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV; 
+          echo "NAME_IMAGE_TELEGRAM_BOT=$IMAGE_TELEGRAM_BOT" >> $GITHUB_ENV;
       - name: Check changes in backend/rest_api
         id: rest_api_changed
         run: |
@@ -352,7 +352,7 @@ jobs:
         id: frontend_changes
         run: |
           OUTPUT=$( git diff HEAD\^ HEAD -- frontend | tail -1) &&
-          echo "::set-output name=OUTPUT::$OUTPUT"   
+          echo "::set-output name=OUTPUT::$OUTPUT"
       - name: Set API image names for helm if changes detected
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         run: |
