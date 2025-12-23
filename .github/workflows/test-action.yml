@@ -3,7 +3,7 @@ name: Build and make test qr_bill_app
 on:
   push:
     branches:
-      - dev
+      - dev123
 
 env:
   NAMESPACE: qr_bill_app-test
@@ -11,12 +11,11 @@ env:
   BASE_NAME_IMAGE_API: ${{ vars.TEST_NAME_IMAGE_API }}
   BASE_NAME_IMAGE_FRONTEND: ${{ vars.TEST_NAME_IMAGE_FRONTEND }}
   BASE_NAME_IMAGE_TELEGRAM_BOT: ${{ vars.TEST_NAME_IMAGE_TELEGRAM_BOT }}
-     
+
 jobs:
   build:
     name: Build Docker Images
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
         with:
@@ -36,7 +35,7 @@ jobs:
         run: |
           OUTPUT=$( git diff HEAD\^ HEAD -- frontend | tail -1) &&
           echo "::set-output name=OUTPUT::$OUTPUT"
-      - name: Build all images. 
+      - name: Build all images.
         env:
           TEST_MODE: True
           NAME_IMAGE_API: ${{ env.BASE_NAME_IMAGE_API }}
@@ -93,7 +92,7 @@ jobs:
       #     echo "Smoke Testing";
       #     docker compose exec -T api env;
       #     docker compose exec -T api bash -c /scripts/./start_smoke_test.sh;
-      - name: Run unittests for rest_api. 
+      - name: Run unittests for rest_api.
         if: ${{ (steps.rest_api_changed.outputs.OUTPUT != '')}}
         run: |
           echo "Start Unit Tests";
