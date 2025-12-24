@@ -482,3 +482,4 @@ jobs:
           --set-string config.datasource.passwordSecret.name=postgres-creds \
           --set-string config.datasource.passwordSecret.key=password \
           --set-string config.datasource.sslmode=disable
+
