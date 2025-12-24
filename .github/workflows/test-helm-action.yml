@@ -3,7 +3,7 @@ name: Build and Deploy qr_bill_app using Helm
 on:
   push:
     branches:
-      - dev
+      - dev123
 
 env:
   NAMESPACE: qr_bill_app-test
